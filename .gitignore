@@ -1,0 +1,9 @@
+﻿.venv/
+__pycache__/
+*.pyc
+.env
+logs/*.txt
+logs/*.log
+eval_outputs/
+sandbox_runs/
+snapshots/
