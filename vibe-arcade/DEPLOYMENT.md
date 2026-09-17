@@ -1,29 +1,22 @@
-# Vibe Arcade — one-time Vercel connection
+# Vibe Arcade deployment
 
-The code is already on `main`. This is the only manual infrastructure step currently blocking public testing.
+## Production
 
-## Vercel import
-1. Vercel → Add New → Project.
-2. Import GitHub repository `andysong111/auto-lab`.
-3. Project Name: `vibe-arcade` (or the closest available name).
-4. Root Directory: `vibe-arcade`.
-5. Framework Preset: `Other` / auto-detected static project.
-6. Do not add environment variables.
-7. Deploy.
+- Project: `vibe-arcade`
+- Root directory: `vibe-arcade`
+- Production URL: https://vibe-arcade-dun.vercel.app
+- Environment variables: none required for MVP
+- Vercel Authentication: off for production
 
-## Expected routes
-- `/`
-- `/games/dont-press/`
-- `/games/perfect-timing/`
-- `/games/reaction-rush/`
-- `/api/event` (POST only)
+## Verified on 2026-09-17
 
-## Post-deploy verification
-- Open all four public pages on desktop and mobile.
-- Start and finish each game once.
-- Search Vercel runtime logs for `[VIBE_EVENT]`.
-- Confirm `page_view`, `game_open`, `game_start`, and `game_finish` events arrive.
-- Replace provisional sitemap hostname if Vercel assigns a different production hostname.
+- `/` -> 200
+- `/games/dont-press/` -> 200
+- `/games/perfect-timing/` -> 200
+- `/games/reaction-rush/` -> 200
+- `/api/event` receives first-party analytics events and returns 204
+- Verified event classes: `page_view`, `game_open`, `game_start`, `game_finish`, `replay`, `next_game`
 
-## No additional setup yet
-Do not connect Supabase, payments, creator accounts, ad networks, or a paid domain before the first traffic/engagement test justifies them.
+## Current rule
+
+Do not add creator accounts, payments, revenue share, or a large game catalog until real traffic and engagement satisfy `GOALS.md` validation gates.
