@@ -1,0 +1,41 @@
+name: Vibe Arcade CI
+
+on:
+  push:
+    paths:
+      - 'vibe-arcade/**'
+      - '.github/workflows/vibe-arcade-ci.yml'
+  pull_request:
+    paths:
+      - 'vibe-arcade/**'
+      - '.github/workflows/vibe-arcade-ci.yml'
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate JavaScript
+        run: |
+          node --check vibe-arcade/analytics.js
+          node --check vibe-arcade/api/event.js
+      - name: Validate config
+        run: python -m json.tool vibe-arcade/vercel.json > /dev/null
+      - name: Start static server
+        run: |
+          python -m http.server 8765 --directory vibe-arcade >/tmp/vibe-http.log 2>&1 &
+          echo $! > /tmp/vibe-http.pid
+          sleep 1
+      - name: Smoke routes
+        run: |
+          curl --fail http://127.0.0.1:8765/ | grep 'VIBE ARCADE'
+          curl --fail http://127.0.0.1:8765/games/dont-press/ | grep "Don't Press"
+          curl --fail http://127.0.0.1:8765/games/perfect-timing/ | grep 'Perfect Timing'
+          curl --fail http://127.0.0.1:8765/games/reaction-rush/ | grep 'Reaction Rush'
+      - name: Validate source-of-truth
+        run: |
+          test -s vibe-arcade/GOALS.md
+          grep 'Kill rule' vibe-arcade/GOALS.md
