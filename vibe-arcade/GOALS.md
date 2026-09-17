@@ -3,6 +3,11 @@
 ## Mission
 Build a low-maintenance global web-game business where AI rapidly creates small browser games, real player data selects winners, and only winners receive more development and distribution.
 
+## Current phase
+**Phase 1: public traffic + engagement validation**
+
+Production: https://vibe-arcade-dun.vercel.app
+
 ## Phase 1 question
 Can we bring real players to small AI-built web games at low cost and get meaningful play/retention signals?
 
@@ -32,6 +37,20 @@ Every change must improve one of: acquisition, activation, engagement, retention
 1. Don't Press — curiosity / inhibition
 2. Perfect Timing — mastery / replay
 3. Reaction Rush — reflex / score chase
+
+## Measurement
+Track at minimum:
+- page_view
+- game_open
+- game_start
+- game_finish
+- replay
+- share
+- next_game
+- UTM source / medium / campaign
+- referrer and anonymous session ID
+
+Initial events are stored in Vercel runtime logs through `/api/event`; add a durable analytics store only when real traffic volume makes it worthwhile.
 
 ## Development loop
 Idea → build → automated sanity check → deploy → traffic → measure → KEEP / MODIFY / KILL.
