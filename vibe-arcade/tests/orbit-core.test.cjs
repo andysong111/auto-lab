@@ -1,0 +1,12 @@
+const {test}=require('node:test');const assert=require('node:assert/strict');const R=require('../games/orbit-sprint/core.js');
+test('seeded courses are reproducible',()=>assert.deepEqual(R.create(123456),R.create(123456)));
+test('different seeds produce different courses',()=>assert.notDeepEqual(R.create(1).rows,R.create(2).rows));
+test('a completed no-input run can be replayed exactly',()=>{const s=R.create(123456);while(s.alive)R.step(s);const out=R.replay(123456,[],s.tick);assert.equal(out.score,s.score);assert.equal(out.ticks,s.tick);});
+test('rejects unfinished and invalid run durations',()=>{for(const ticks of [0,-1,5401,1.2,NaN])assert.throws(()=>R.replay(1,[],ticks));assert.throws(()=>R.replay(1,[],10));});
+test('rejects duplicated, out of order, excessive and unknown inputs',()=>{for(const inputs of [[[1,'left'],[1,'right']],[[3,'left'],[2,'right']],[[-1,'left']],[[1,'hack']],new Array(1801).fill([1,'left'])])assert.throws(()=>R.replay(1,inputs,300));});
+test('jump clears a low barrier, but not a pillar',()=>{for(const kind of ['barrier','pillar']){const s=R.create(1);s.rows=[{at:1,lane:1,coin:0,kind}];R.step(s,'jump');assert.equal(s.alive,kind==='barrier');}});
+test('dash consumes energy and permits obstacle crossing',()=>{const s=R.create(1);s.energy=5;s.rows=[{at:1,lane:1,coin:0,kind:'pillar'}];R.step(s,'dash');assert.ok(s.alive);assert.equal(s.energy,0);assert.ok(s.dashUntil>1);});
+test('uncharged dash cannot bypass obstacles',()=>{const s=R.create(1);s.rows=[{at:1,lane:1,coin:0,kind:'pillar'}];R.step(s,'dash');assert.equal(s.alive,false);});
+test('server simulation matches recorded automated controls',()=>{const seed=321,s=R.create(seed),inputs=[];while(s.alive){let a;const row=s.rows[s.row];if(row&&row.at-s.tick===18){if(s.lane===row.lane)a=s.lane===0?'right':'left';}if(a)inputs.push([s.tick,a]);R.step(s,a);}const result=R.replay(seed,inputs,s.tick);assert.equal(result.score,s.score);assert.ok(result.score<50000);assert.ok(result.won);});
+test('input cannot move outside the three lanes',()=>{const s=R.create(1);for(let i=0;i<100;i++)R.step(s,'left');assert.equal(s.lane,0);});
+test('terminal states cannot gain points by replaying more ticks',()=>{const s=R.create(1);while(s.alive)R.step(s);const score=s.score,ticks=s.tick;for(let i=0;i<20;i++)R.step(s,'dash');assert.equal(s.score,score);assert.equal(s.tick,ticks);assert.throws(()=>R.replay(1,[],ticks+1));});
