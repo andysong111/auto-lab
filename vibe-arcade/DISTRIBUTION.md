@@ -1,4 +1,4 @@
-# Vibe Arcade — Distribution Experiment v1
+# LoopJolt — Distribution Experiment v1
 
 ## Goal
 Get the first real external players without paid acquisition, then compare game-level engagement before adding more platform features.
