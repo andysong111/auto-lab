@@ -1,4 +1,4 @@
-# Vibe Arcade — Source of Truth
+# LoopJolt — Source of Truth
 
 ## Mission
 Build a low-maintenance global web-game business where AI rapidly creates small browser games, real player data selects winners, and only winners receive more development and distribution.
