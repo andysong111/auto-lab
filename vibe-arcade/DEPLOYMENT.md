@@ -1,4 +1,4 @@
-# Vibe Arcade deployment
+# LoopJolt deployment
 
 ## Production
 
