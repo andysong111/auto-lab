@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Odd One Out — LoopJolt Lab</title><link rel="stylesheet" href="/styles.css">
+<style>
+.oddgrid{display:grid;gap:8px;width:min(580px,90vw);aspect-ratio:1}
+.dot{border:0;border-radius:16px;background:#8f8cff;min-width:0;min-height:0;transition:.12s transform}
+.dot:active{transform:scale(.9)}
+</style></head>
+<body><div class="game-shell">
+<div class="game-top"><a class="brand" href="/lab/">← LOOPJOLT LAB</a><span class="pill">Visual speed</span></div>
+<main class="game-card">
+<h1>Odd One Out</h1><p class="muted">Find the tile that is slightly different. It gets harder every round.</p>
+<div class="stat-row"><div class="stat"><span>Round</span><b id="round">1</b></div><div class="stat"><span>Time</span><b id="time">30.0</b></div><div class="stat"><span>PB</span><b id="best">—</b></div></div>
+<div class="oddgrid" id="grid"></div><div class="result" id="result"></div>
+<div class="actions"><button class="primary" id="start">Start</button></div>
+</main></div>
+<script src="/analytics.js"></script><script src="/game-utils.js"></script>
+<script>
+const A=window.VibeAnalytics,L=window.LoopJolt,grid=document.querySelector('#grid'),roundEl=document.querySelector('#round'),time=document.querySelector('#time'),bestEl=document.querySelector('#best'),result=document.querySelector('#result'),start=document.querySelector('#start');
+let running=false,round=1,endAt=0,timer=null,odd=0;
+const pb=Number(localStorage.getItem('loopjolt_best_odd_one')||0);bestEl.textContent=pb||'—';
+function build(){
+ const n=Math.min(7,3+Math.floor((round-1)/3)),total=n*n;
+ grid.style.gridTemplateColumns='repeat('+n+',1fr)';grid.innerHTML='';odd=Math.floor(Math.random()*total);
+ const baseHue=210+Math.floor(Math.random()*90),delta=Math.max(4,20-round*.8);
+ for(let i=0;i<total;i++){const b=document.createElement('button');b.className='dot';const hue=baseHue+(i===odd?delta:0);b.style.background='hsl('+hue+' 78% 66%)';b.dataset.i=i;b.addEventListener('click',tap);grid.appendChild(b)}
+ roundEl.textContent=round;
+}
+function tap(e){if(!running)return;if(+e.currentTarget.dataset.i===odd){round++;L.sound('hit');L.haptic(8);build()}else{endAt-=1200;L.sound('bad');L.haptic(22);grid.classList.add('shake');setTimeout(()=>grid.classList.remove('shake'),300)}}
+function finish(){if(!running)return;running=false;clearInterval(timer);grid.innerHTML='';const cleared=round-1,pb=L.localBest('odd_one',cleared,'max');bestEl.textContent=pb;result.textContent='Cleared '+cleared+' rounds';start.textContent='Play again';A.track('game_finish',{game:'odd-one-out',rounds:cleared})}
+function play(){round=1;running=true;result.textContent='';endAt=performance.now()+30000;start.textContent='Restart';A.track(start.dataset.played?'replay':'game_start',{game:'odd-one-out'});start.dataset.played='1';build();clearInterval(timer);timer=setInterval(()=>{const left=(endAt-performance.now())/1000;time.textContent=Math.max(0,left).toFixed(1);if(left<=0)finish()},50)}
+start.addEventListener('click',play);A.track('game_open',{game:'odd-one-out'});
+</script></body></html>

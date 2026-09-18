@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Color Trap — LoopJolt Lab</title><link rel="stylesheet" href="/styles.css">
+<style>
+  .word{font-weight:950;font-size:clamp(3rem,16vw,7rem);letter-spacing:-.06em;margin:20px 0 24px;min-height:1.05em}
+  .choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:min(560px,92vw)}
+  .choice{min-height:72px;border:1px solid #3b3b52;background:#151520;color:#fff;border-radius:18px;font-weight:900;font-size:1.1rem}
+</style></head>
+<body><div class="game-shell">
+<div class="game-top"><a class="brand" href="/lab/">← LOOPJOLT LAB</a><span class="pill">Cognitive speed</span></div>
+<main class="game-card">
+<h1>Color Trap</h1><p class="muted">Tap the INK color, not the word. 30 seconds.</p>
+<div class="stat-row"><div class="stat"><span>Time</span><b id="time">30.0</b></div><div class="stat"><span>Score</span><b id="score">0</b></div><div class="stat"><span>Streak</span><b id="streak">0</b></div></div>
+<div class="word" id="word">READY</div>
+<div class="choices" id="choices"></div>
+<div class="result" id="result"></div>
+<div class="actions"><button class="primary" id="start">Start</button></div>
+</main></div>
+<script src="/analytics.js"></script><script src="/game-utils.js"></script>
+<script>
+const A=window.VibeAnalytics,L=window.LoopJolt;
+const palette=[
+ {name:'RED',hex:'#ff4b5f'},{name:'BLUE',hex:'#5b8cff'},{name:'GREEN',hex:'#55e0a3'},{name:'YELLOW',hex:'#ffd35a'}
+];
+const word=document.querySelector('#word'),choices=document.querySelector('#choices'),time=document.querySelector('#time'),scoreEl=document.querySelector('#score'),streakEl=document.querySelector('#streak'),result=document.querySelector('#result'),start=document.querySelector('#start');
+let running=false,endAt=0,timer=null,score=0,streak=0,maxStreak=0,correct=null;
+function next(){
+ const ink=palette[Math.floor(Math.random()*palette.length)];
+ let text=palette[Math.floor(Math.random()*palette.length)];
+ if(Math.random()<.75){while(text===ink)text=palette[Math.floor(Math.random()*palette.length)]}
+ correct=ink.name;word.textContent=text.name;word.style.color=ink.hex;
+ const shuffled=[...palette].sort(()=>Math.random()-.5);
+ choices.innerHTML='';
+ shuffled.forEach(c=>{const b=document.createElement('button');b.className='choice';b.textContent=c.name;b.dataset.name=c.name;b.addEventListener('click',answer);choices.appendChild(b)});
+}
+function answer(e){
+ if(!running)return;
+ if(e.currentTarget.dataset.name===correct){score++;streak++;maxStreak=Math.max(maxStreak,streak);L.sound('hit');L.haptic(8);if(streak%8===0)L.toast(streak+' streak')}
+ else{score=Math.max(0,score-1);streak=0;endAt-=700;L.sound('bad');L.haptic(20)}
+ scoreEl.textContent=score;streakEl.textContent=streak;next();
+}
+function finish(){if(!running)return;running=false;clearInterval(timer);choices.innerHTML='';word.textContent='DONE';word.style.color='#fff';const pb=L.localBest('color_trap',score,'max');result.textContent=score+' correct · best streak '+maxStreak+' · PB '+pb;start.textContent='Play again';A.track('game_finish',{game:'color-trap',score,max_streak:maxStreak})}
+function play(){running=true;score=0;streak=0;maxStreak=0;scoreEl.textContent='0';streakEl.textContent='0';result.textContent='';endAt=performance.now()+30000;start.textContent='Restart';A.track(start.dataset.played?'replay':'game_start',{game:'color-trap'});start.dataset.played='1';next();clearInterval(timer);timer=setInterval(()=>{const left=(endAt-performance.now())/1000;time.textContent=Math.max(0,left).toFixed(1);if(left<=0)finish()},50)}
+start.addEventListener('click',play);A.track('game_open',{game:'color-trap'});
+</script></body></html>

@@ -28,11 +28,8 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           import re, subprocess, tempfile
-          files = [
-              Path('vibe-arcade/games/dont-press/index.html'),
-              Path('vibe-arcade/games/perfect-timing/index.html'),
-              Path('vibe-arcade/games/reaction-rush/index.html'),
-          ]
+          files = sorted(Path('vibe-arcade/games').glob('*/index.html'))
+          assert files, 'No games found'
           for path in files:
               text = path.read_text()
               scripts = re.findall(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', text, flags=re.S|re.I)
@@ -40,7 +37,10 @@ jobs:
                   tmp = Path(tempfile.gettempdir()) / f'{path.parent.name}-{i}.js'
                   tmp.write_text(script)
                   subprocess.run(['node','--check',str(tmp)], check=True)
+          print('validated', len(files), 'game pages')
           PY
+      - name: Validate marketing scripts
+        run: bash -n vibe-arcade/marketing/render-social.sh
       - name: Validate config
         run: python -m json.tool vibe-arcade/vercel.json > /dev/null
       - name: Start static server
@@ -54,8 +54,14 @@ jobs:
           curl --fail http://127.0.0.1:8765/games/dont-press/ | grep "Don't Press"
           curl --fail http://127.0.0.1:8765/games/perfect-timing/ | grep 'Perfect Timing'
           curl --fail http://127.0.0.1:8765/games/reaction-rush/ | grep 'Reaction Rush'
+          curl --fail http://127.0.0.1:8765/lab/ | grep 'Unlisted prototypes'
+          curl --fail http://127.0.0.1:8765/games/color-trap/ | grep 'noindex,nofollow'
+          curl --fail http://127.0.0.1:8765/games/memory-grid/ | grep 'noindex,nofollow'
+          curl --fail http://127.0.0.1:8765/games/odd-one-out/ | grep 'noindex,nofollow'
           curl --fail http://127.0.0.1:8765/game-utils.js | grep 'LoopJolt'
       - name: Validate source-of-truth
         run: |
           test -s vibe-arcade/GOALS.md
+          test -s vibe-arcade/EXPERIMENTS.md
           grep 'Kill rule' vibe-arcade/GOALS.md
+          grep 'Prebuilt batch B' vibe-arcade/EXPERIMENTS.md
