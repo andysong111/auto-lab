@@ -30,6 +30,11 @@ Every deliberate external post uses a distinct source + campaign so its sessions
 ### Reaction Rush
 **Hook:** You get 30 seconds. How many targets can you hit before time runs out?
 
+## Experiment versioning
+- `quality-v2` deployed to production on 2026-09-18 after the first Threads seed traffic.
+- Every new event now includes a `build` field so pre-v2 and v2 behavior can be separated.
+- Do not compare the two initial pre-v2 sessions against later v2 engagement as if they were the same product.
+
 ## First decision metrics
 Compare per external session:
 1. landing -> game start rate
