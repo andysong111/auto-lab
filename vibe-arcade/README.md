@@ -1,4 +1,4 @@
-# Vibe Arcade MVP
+# LoopJolt MVP
 
 A zero-login, mobile-first browser arcade for validating whether small AI-built games can earn organic/low-cost play traffic.
 
