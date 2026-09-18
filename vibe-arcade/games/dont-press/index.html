@@ -1,1 +1,108 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Don't Press — LoopJolt</title><meta name="description" content="Can you resist pressing the red button for 30 seconds?"><link rel="stylesheet" href="/styles.css"></head><body><div class="game-shell"><div class="game-top"><a class="brand" href="/">← LOOPJOLT</a><span class="pill">Curiosity test</span></div><main class="game-card"><h1>Don't Press</h1><p class="muted" id="subtitle">Survive 30 seconds without touching the red button.</p><div class="stat-row"><div class="stat"><span>Time</span><b id="time">30.0</b></div><div class="stat"><span>Status</span><b id="status">READY</b></div></div><div class="arena" id="arena"><button class="danger-button" id="danger" style="left:35%;top:42%">DO NOT PRESS</button></div><div class="result" id="result"></div><div class="actions"><button class="primary" id="start">Start</button><button class="secondary" id="share">Share</button><a class="secondary" href="/games/perfect-timing/" id="next">Next game →</a></div></main></div><script src="/analytics.js"></script><script>const A=window.VibeAnalytics,arena=document.querySelector('#arena'),btn=document.querySelector('#danger'),start=document.querySelector('#start'),time=document.querySelector('#time'),status=document.querySelector('#status'),result=document.querySelector('#result');let running=false,t=30,interval,moves=0;const lines=['PRESS ME','JUST ONCE','NOTHING BAD HAPPENS','YOU ARE CURIOUS','LAST CHANCE','DO NOT PRESS'];function move(){const maxX=arena.clientWidth-btn.offsetWidth-12,maxY=arena.clientHeight-btn.offsetHeight-12;btn.style.left=Math.max(8,Math.random()*maxX)+'px';btn.style.top=Math.max(8,Math.random()*maxY)+'px';btn.textContent=lines[Math.floor(Math.random()*lines.length)];moves++}function finish(won){running=false;clearInterval(interval);status.textContent=won?'WIN':'FAILED';result.textContent=won?'You resisted. That is rarer than it should be.':'You pressed it. Of course you did.';start.textContent='Play again';A.track('game_finish',{game:'dont-press',won,moves,seconds:won?30:+(30-t).toFixed(1)})}function play(){clearInterval(interval);running=true;t=30;moves=0;result.textContent='';status.textContent='HOLD';start.textContent='Restart';move();A.track(start.dataset.played?'replay':'game_start',{game:'dont-press'});start.dataset.played='1';interval=setInterval(()=>{t-=.1;time.textContent=Math.max(0,t).toFixed(1);if(Math.random()<.09)move();if(t<=0)finish(true)},100)}start.onclick=play;btn.onclick=()=>{if(running)finish(false)};document.querySelector('#share').onclick=async()=>{A.track('share',{game:'dont-press'});const data={title:'Don\'t Press',text:'Can you survive 30 seconds without pressing it?',url:location.href};if(navigator.share)await navigator.share(data).catch(()=>{});else navigator.clipboard?.writeText(location.href)};document.querySelector('#next').onclick=()=>A.track('next_game',{from:'dont-press',to:'perfect-timing'});A.track('game_open',{game:'dont-press'});</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Don't Press — LoopJolt</title>
+  <meta name="description" content="Can you resist pressing the red button for 30 seconds?">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="game-shell">
+    <div class="game-top">
+      <a class="brand" href="/">← LOOPJOLT</a>
+      <span class="pill">Curiosity test · v2</span>
+    </div>
+    <main class="game-card">
+      <h1>Don't Press</h1>
+      <p class="muted" id="subtitle">One button. Thirty seconds. Your curiosity is the enemy.</p>
+      <div class="stat-row">
+        <div class="stat"><span>Time</span><b id="time">30.0</b></div>
+        <div class="stat"><span>Status</span><b id="status">READY</b></div>
+        <div class="stat"><span>Best</span><b id="best">—</b></div>
+      </div>
+      <div class="meter" aria-label="Temptation meter"><span id="temptationFill"></span></div>
+      <div class="arena" id="arena">
+        <button class="danger-button" id="danger" style="left:35%;top:42%">DO NOT PRESS</button>
+      </div>
+      <div class="combo" id="temptationText">Temptation: 0%</div>
+      <div class="result" id="result"></div>
+      <div class="actions">
+        <button class="primary" id="start">Start challenge</button>
+        <button class="secondary" id="share">Share</button>
+        <a class="secondary" href="/games/perfect-timing/" id="next">Next game →</a>
+      </div>
+    </main>
+  </div>
+  <script src="/analytics.js"></script>
+  <script src="/game-utils.js"></script>
+  <script>
+    const A=window.VibeAnalytics,L=window.LoopJolt;
+    const arena=document.querySelector('#arena'),btn=document.querySelector('#danger'),start=document.querySelector('#start');
+    const time=document.querySelector('#time'),status=document.querySelector('#status'),result=document.querySelector('#result');
+    const bestEl=document.querySelector('#best'),fill=document.querySelector('#temptationFill'),temptationText=document.querySelector('#temptationText');
+    let running=false,t=30,interval=null,moves=0,temptation=0,lastMove=0;
+    const lines=['PRESS ME','JUST ONCE','NOTHING BAD HAPPENS','YOU KNOW YOU WANT TO','LAST CHANCE','DO NOT PRESS','FREE POINTS?','I DARE YOU'];
+    const best=Number(localStorage.getItem('loopjolt_best_dont_press')||0);
+    bestEl.textContent=best?best.toFixed(1)+'s':'—';
+
+    function move(){
+      const maxX=Math.max(8,arena.clientWidth-btn.offsetWidth-14),maxY=Math.max(8,arena.clientHeight-btn.offsetHeight-14);
+      btn.style.left=Math.max(8,Math.random()*maxX)+'px';
+      btn.style.top=Math.max(8,Math.random()*maxY)+'px';
+      btn.textContent=lines[Math.floor(Math.random()*lines.length)];
+      const scale=1+Math.min(.18,moves*.008);btn.style.transform='scale('+scale.toFixed(2)+')';
+      moves++;
+      temptation=Math.min(100,temptation+4+Math.random()*7);
+      fill.style.width=temptation+'%';temptationText.textContent='Temptation: '+Math.round(temptation)+'%';
+      L.sound('tap');
+    }
+
+    function finish(won){
+      if(!running)return;
+      running=false;clearInterval(interval);
+      const survived=Math.min(30,30-t);
+      const newBest=L.localBest('dont_press',survived,'max');
+      bestEl.textContent=newBest.toFixed(1)+'s';
+      status.textContent=won?'WIN':'FAILED';
+      start.textContent='Play again';
+      btn.style.transform='scale(1)';
+      if(won){
+        result.textContent='You resisted for the full 30 seconds. Respect.';
+        arena.classList.add('flash-good');L.sound('perfect');L.haptic([25,30,25]);L.burstElement(btn,26);
+        setTimeout(()=>arena.classList.remove('flash-good'),420);
+      }else{
+        result.textContent='Curiosity won at '+survived.toFixed(1)+' seconds.';
+        arena.classList.add('shake','flash-bad');L.sound('bad');L.haptic(45);
+        setTimeout(()=>arena.classList.remove('shake','flash-bad'),420);
+      }
+      A.track('game_finish',{game:'dont-press',won,moves,temptation:Math.round(temptation),seconds:+survived.toFixed(1)});
+    }
+
+    function play(){
+      clearInterval(interval);running=true;t=30;moves=0;temptation=0;lastMove=performance.now();
+      result.textContent='';status.textContent='HOLD';start.textContent='Restart';
+      fill.style.width='0%';temptationText.textContent='Temptation: 0%';time.textContent='30.0';
+      move();
+      A.track(start.dataset.played?'replay':'game_start',{game:'dont-press'});start.dataset.played='1';
+      interval=setInterval(()=>{
+        t-=.1;time.textContent=Math.max(0,t).toFixed(1);
+        const now=performance.now();
+        const moveEvery=t<10?430:t<20?620:820;
+        if(now-lastMove>moveEvery){move();lastMove=now}
+        if(t<=0)finish(true);
+      },100);
+    }
+
+    start.addEventListener('click',play);
+    btn.addEventListener('click',()=>running&&finish(false));
+    document.querySelector('#share').addEventListener('click',async()=>{
+      A.track('share',{game:'dont-press'});
+      const data={title:"Don't Press",text:'Can you survive 30 seconds without pressing it?',url:location.href};
+      if(navigator.share)await navigator.share(data).catch(()=>{});else L.toast('Copy this page URL to share');
+    });
+    document.querySelector('#next').addEventListener('click',()=>A.track('next_game',{from:'dont-press',to:'perfect-timing'}));
+    A.track('game_open',{game:'dont-press'});
+  </script>
+</body>
+</html>

@@ -1,1 +1,109 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Reaction Rush — LoopJolt</title><meta name="description" content="Thirty seconds. Hit as many targets as you can."><link rel="stylesheet" href="/styles.css"></head><body><div class="game-shell"><div class="game-top"><a class="brand" href="/">← LOOPJOLT</a><span class="pill">Reflex game</span></div><main class="game-card"><h1>Reaction Rush</h1><p class="muted">30 seconds. Hit every target you can.</p><div class="stat-row"><div class="stat"><span>Time</span><b id="time">30.0</b></div><div class="stat"><span>Score</span><b id="score">0</b></div><div class="stat"><span>Avg</span><b id="avg">—</b></div></div><div class="arena" id="arena"><button class="target" id="target" hidden>HIT</button></div><div class="result" id="result"></div><div class="actions"><button class="primary" id="start">Start</button><button class="secondary" id="share">Share</button><a class="secondary" href="/games/dont-press/" id="next">Next game →</a></div></main></div><script src="/analytics.js"></script><script>const A=window.VibeAnalytics,arena=document.querySelector('#arena'),target=document.querySelector('#target'),start=document.querySelector('#start'),time=document.querySelector('#time'),scoreEl=document.querySelector('#score'),avgEl=document.querySelector('#avg'),result=document.querySelector('#result');let running=false,endAt=0,timer,score=0,lastSpawn=0,times=[];function place(){const x=Math.random()*(arena.clientWidth-target.offsetWidth-16)+8,y=Math.random()*(arena.clientHeight-target.offsetHeight-16)+8;target.style.left=x+'px';target.style.top=y+'px';lastSpawn=performance.now()}function finish(){running=false;clearInterval(timer);target.hidden=true;const avg=times.length?times.reduce((a,b)=>a+b,0)/times.length:0;avgEl.textContent=avg?Math.round(avg)+'ms':'—';result.textContent=`${score} hits · ${avg?Math.round(avg):'—'}ms average reaction`;start.textContent='Play again';A.track('game_finish',{game:'reaction-rush',score,avg_ms:Math.round(avg)})}function play(){clearInterval(timer);running=true;score=0;times=[];scoreEl.textContent='0';avgEl.textContent='—';result.textContent='';endAt=performance.now()+30000;target.hidden=false;place();start.textContent='Restart';A.track(start.dataset.played?'replay':'game_start',{game:'reaction-rush'});start.dataset.played='1';timer=setInterval(()=>{const left=(endAt-performance.now())/1000;time.textContent=Math.max(0,left).toFixed(1);if(left<=0)finish()},50)}target.onclick=()=>{if(!running)return;times.push(performance.now()-lastSpawn);score++;scoreEl.textContent=score;place()};start.onclick=play;document.querySelector('#share').onclick=async()=>{A.track('share',{game:'reaction-rush'});if(navigator.share)await navigator.share({title:'Reaction Rush',text:'Beat my reaction score.',url:location.href}).catch(()=>{});else navigator.clipboard?.writeText(location.href)};document.querySelector('#next').onclick=()=>A.track('next_game',{from:'reaction-rush',to:'dont-press'});A.track('game_open',{game:'reaction-rush'});</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Reaction Rush — LoopJolt</title>
+  <meta name="description" content="Thirty seconds. Hit as many targets as you can.">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="game-shell">
+    <div class="game-top">
+      <a class="brand" href="/">← LOOPJOLT</a>
+      <span class="pill">Reflex game · v2</span>
+    </div>
+    <main class="game-card">
+      <h1>Reaction Rush</h1>
+      <p class="muted">30 seconds. Targets shrink as your streak climbs. Misses cost 0.5s.</p>
+      <div class="stat-row">
+        <div class="stat"><span>Time</span><b id="time">30.0</b></div>
+        <div class="stat"><span>Hits</span><b id="score">0</b></div>
+        <div class="stat"><span>PB</span><b id="best">—</b></div>
+      </div>
+      <div class="arena" id="arena">
+        <button class="target" id="target" hidden>HIT</button>
+      </div>
+      <div class="combo" id="combo">Streak 0 · Avg —</div>
+      <div class="result" id="result"></div>
+      <div class="actions">
+        <button class="primary" id="start">Start rush</button>
+        <button class="secondary" id="share">Share</button>
+        <a class="secondary" href="/games/dont-press/" id="next">Next game →</a>
+      </div>
+    </main>
+  </div>
+  <script src="/analytics.js"></script>
+  <script src="/game-utils.js"></script>
+  <script>
+    const A=window.VibeAnalytics,L=window.LoopJolt;
+    const arena=document.querySelector('#arena'),target=document.querySelector('#target'),start=document.querySelector('#start');
+    const time=document.querySelector('#time'),scoreEl=document.querySelector('#score'),bestEl=document.querySelector('#best');
+    const comboEl=document.querySelector('#combo'),result=document.querySelector('#result');
+    let running=false,endAt=0,timer=null,hits=0,misses=0,streak=0,maxStreak=0,lastSpawn=0,times=[];
+    const storedBest=Number(localStorage.getItem('loopjolt_best_reaction_rush')||0);
+    bestEl.textContent=storedBest?storedBest:'—';
+
+    function average(){
+      return times.length?times.reduce((a,b)=>a+b,0)/times.length:0;
+    }
+    function updateCombo(){
+      const avg=average();
+      comboEl.textContent='Streak '+streak+(maxStreak>=5?' · Best streak '+maxStreak:'')+' · Avg '+(avg?Math.round(avg)+'ms':'—');
+    }
+    function place(){
+      const size=Math.max(42,68-Math.floor(hits/6)*4);
+      target.style.width=size+'px';target.style.height=size+'px';
+      const maxX=Math.max(10,arena.clientWidth-size-18),maxY=Math.max(10,arena.clientHeight-size-18);
+      target.style.left=(8+Math.random()*maxX)+'px';target.style.top=(8+Math.random()*maxY)+'px';
+      target.hidden=false;target.classList.remove('score-pop');void target.offsetWidth;target.classList.add('score-pop');
+      lastSpawn=performance.now();
+    }
+    function flash(cls){
+      arena.classList.remove('flash-good','flash-bad');void arena.offsetWidth;arena.classList.add(cls);
+      setTimeout(()=>arena.classList.remove(cls),260);
+    }
+    function finish(){
+      if(!running)return;
+      running=false;clearInterval(timer);target.hidden=true;
+      const avg=average(),pb=L.localBest('reaction_rush',hits,'max');
+      bestEl.textContent=pb;
+      result.textContent=hits+' hits · '+misses+' misses · '+(avg?Math.round(avg):'—')+'ms avg · streak '+maxStreak;
+      start.textContent='Play again';
+      if(hits>=35){L.sound('perfect');L.burstElement(start,28)}else L.sound('good');
+      A.track('game_finish',{game:'reaction-rush',score:hits,misses,max_streak:maxStreak,avg_ms:Math.round(avg)});
+    }
+    function play(){
+      clearInterval(timer);running=true;hits=0;misses=0;streak=0;maxStreak=0;times=[];
+      scoreEl.textContent='0';result.textContent='';time.textContent='30.0';endAt=performance.now()+30000;
+      start.textContent='Restart';updateCombo();place();
+      A.track(start.dataset.played?'replay':'game_start',{game:'reaction-rush'});start.dataset.played='1';
+      timer=setInterval(()=>{
+        const left=(endAt-performance.now())/1000;time.textContent=Math.max(0,left).toFixed(1);
+        if(left<=0)finish();
+      },50);
+    }
+
+    target.addEventListener('pointerdown',e=>{
+      e.stopPropagation();if(!running)return;
+      const reaction=performance.now()-lastSpawn;times.push(reaction);hits++;streak++;maxStreak=Math.max(maxStreak,streak);
+      scoreEl.textContent=hits;scoreEl.classList.remove('score-pop');void scoreEl.offsetWidth;scoreEl.classList.add('score-pop');
+      L.sound('hit');L.haptic(10);
+      if(streak>0&&streak%10===0){L.toast(streak+' hit streak');L.burstElement(target,14)}
+      flash('flash-good');updateCombo();place();
+    });
+    arena.addEventListener('pointerdown',()=>{
+      if(!running)return;
+      misses++;streak=0;endAt-=500;L.sound('bad');L.haptic(20);flash('flash-bad');updateCombo();
+    });
+    start.addEventListener('click',play);
+    document.querySelector('#share').addEventListener('click',async()=>{
+      A.track('share',{game:'reaction-rush'});
+      if(navigator.share)await navigator.share({title:'Reaction Rush',text:'Beat my reaction score.',url:location.href}).catch(()=>{});
+      else L.toast('Copy this page URL to share');
+    });
+    document.querySelector('#next').addEventListener('click',()=>A.track('next_game',{from:'reaction-rush',to:'dont-press'}));
+    A.track('game_open',{game:'reaction-rush'});
+  </script>
+</body>
+</html>

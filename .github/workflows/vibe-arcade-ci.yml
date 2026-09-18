@@ -1,4 +1,4 @@
-name: Vibe Arcade CI
+name: LoopJolt CI
 
 on:
   push:
@@ -18,23 +18,43 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Validate JavaScript
+      - name: Validate standalone JavaScript
         run: |
           node --check vibe-arcade/analytics.js
+          node --check vibe-arcade/game-utils.js
           node --check vibe-arcade/api/event.js
+      - name: Validate inline game scripts
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re, subprocess, tempfile
+          files = [
+              Path('vibe-arcade/games/dont-press/index.html'),
+              Path('vibe-arcade/games/perfect-timing/index.html'),
+              Path('vibe-arcade/games/reaction-rush/index.html'),
+          ]
+          for path in files:
+              text = path.read_text()
+              scripts = re.findall(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', text, flags=re.S|re.I)
+              for i, script in enumerate(scripts):
+                  tmp = Path(tempfile.gettempdir()) / f'{path.parent.name}-{i}.js'
+                  tmp.write_text(script)
+                  subprocess.run(['node','--check',str(tmp)], check=True)
+          PY
       - name: Validate config
         run: python -m json.tool vibe-arcade/vercel.json > /dev/null
       - name: Start static server
         run: |
-          python -m http.server 8765 --directory vibe-arcade >/tmp/vibe-http.log 2>&1 &
-          echo $! > /tmp/vibe-http.pid
+          python -m http.server 8765 --directory vibe-arcade >/tmp/loopjolt-http.log 2>&1 &
+          echo $! > /tmp/loopjolt-http.pid
           sleep 1
       - name: Smoke routes
         run: |
-          curl --fail http://127.0.0.1:8765/ | grep 'VIBE ARCADE'
+          curl --fail http://127.0.0.1:8765/ | grep 'LOOPJOLT'
           curl --fail http://127.0.0.1:8765/games/dont-press/ | grep "Don't Press"
           curl --fail http://127.0.0.1:8765/games/perfect-timing/ | grep 'Perfect Timing'
           curl --fail http://127.0.0.1:8765/games/reaction-rush/ | grep 'Reaction Rush'
+          curl --fail http://127.0.0.1:8765/game-utils.js | grep 'LoopJolt'
       - name: Validate source-of-truth
         run: |
           test -s vibe-arcade/GOALS.md
