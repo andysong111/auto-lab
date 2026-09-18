@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Memory Grid — LoopJolt Lab</title><link rel="stylesheet" href="/styles.css">
+<style>
+.grid9{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:min(520px,88vw);aspect-ratio:1}
+.cell{border:1px solid #35354c;border-radius:18px;background:#151520;transition:.14s transform,.14s background}
+.cell.on{background:#f7f7fb;box-shadow:0 0 34px rgba(255,255,255,.18);transform:scale(.96)}
+.cell.good{background:#73f6b5}.cell.bad{background:#ff5268}
+</style></head>
+<body><div class="game-shell">
+<div class="game-top"><a class="brand" href="/lab/">← LOOPJOLT LAB</a><span class="pill">Memory</span></div>
+<main class="game-card">
+<h1>Memory Grid</h1><p class="muted">Watch the sequence. Repeat it. Each round adds one tile.</p>
+<div class="stat-row"><div class="stat"><span>Level</span><b id="level">1</b></div><div class="stat"><span>PB</span><b id="best">—</b></div></div>
+<div class="grid9" id="grid"></div><div class="result" id="result"></div>
+<div class="actions"><button class="primary" id="start">Start</button></div>
+</main></div>
+<script src="/analytics.js"></script><script src="/game-utils.js"></script>
+<script>
+const A=window.VibeAnalytics,L=window.LoopJolt,grid=document.querySelector('#grid'),levelEl=document.querySelector('#level'),bestEl=document.querySelector('#best'),result=document.querySelector('#result'),start=document.querySelector('#start');
+let level=1,seq=[],input=[],accept=false,alive=false;
+for(let i=0;i<9;i++){const b=document.createElement('button');b.className='cell';b.dataset.i=i;b.setAttribute('aria-label','grid tile '+(i+1));b.addEventListener('click',tap);grid.appendChild(b)}
+const cells=[...grid.children],pb=Number(localStorage.getItem('loopjolt_best_memory_grid')||0);bestEl.textContent=pb||'—';
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function showSeq(){accept=false;input=[];result.textContent='Watch';await sleep(400);for(const idx of seq){cells[idx].classList.add('on');L.sound('tap');await sleep(Math.max(220,520-level*22));cells[idx].classList.remove('on');await sleep(120)}result.textContent='Your turn';accept=true}
+async function nextLevel(){seq.push(Math.floor(Math.random()*9));levelEl.textContent=level;await showSeq()}
+function tap(e){if(!accept||!alive)return;const idx=+e.currentTarget.dataset.i,inputPos=input.length;input.push(idx);if(idx!==seq[inputPos]){e.currentTarget.classList.add('bad');L.sound('bad');L.haptic(30);finish(false);return}e.currentTarget.classList.add('good');setTimeout(()=>e.currentTarget.classList.remove('good'),160);L.sound('hit');if(input.length===seq.length){accept=false;level++;setTimeout(nextLevel,550)}}
+function finish(won){alive=false;accept=false;const reached=Math.max(1,level);const best=L.localBest('memory_grid',reached,'max');bestEl.textContent=best;result.textContent='You reached level '+reached;start.textContent='Play again';A.track('game_finish',{game:'memory-grid',level:reached})}
+function play(){level=1;seq=[];input=[];alive=true;result.textContent='';start.textContent='Restart';A.track(start.dataset.played?'replay':'game_start',{game:'memory-grid'});start.dataset.played='1';nextLevel()}
+start.addEventListener('click',play);A.track('game_open',{game:'memory-grid'});
+</script></body></html>
