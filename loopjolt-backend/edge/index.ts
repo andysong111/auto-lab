@@ -1,0 +1,65 @@
+// Deployed as Supabase Edge Function `loopjolt-community`.
+// verify_jwt=false is intentional: Google OIDC JWTs are verified before EVERY write.
+import { createRemoteJWKSet, jwtVerify } from 'npm:jose@6.1.0';
+import '../../vibe-arcade/games/orbit-sprint/core.js';
+const rules=(globalThis as any).OrbitRules;
+const JWKS=createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'));
+const ORIGIN='https://vibe-arcade-dun.vercel.app';
+const CODES=new Set('AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW MV'.split(' '));
+async function rpc(action:string,subject:string|null=null,payload:unknown={}){
+ const key=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');const base=Deno.env.get('SUPABASE_URL');
+ if(!key||!base)throw new Error('backend_unavailable');
+ const response=await fetch(base+'/rest/v1/rpc/loopjolt_gateway',{method:'POST',headers:{apikey:key,Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify({p_action:action,p_subject:subject,p_payload:payload}),signal:AbortSignal.timeout(8000)});
+ const data=await response.json();if(!response.ok)throw new Error(data.message||'database_error');return data;
+}
+let cached:any=null,cacheAt=0;
+async function config(){if(!cached||Date.now()-cacheAt>30000){cached=await rpc('config');cacheAt=Date.now();}return cached;}
+Deno.serve(async(req:Request)=>{
+ const origin=req.headers.get('Origin');
+ const headers={'Content-Type':'application/json','Cache-Control':'no-store','Vary':'Origin','Access-Control-Allow-Origin':ORIGIN,'Access-Control-Allow-Headers':'authorization, content-type','Access-Control-Allow-Methods':'GET, POST, OPTIONS','X-Content-Type-Options':'nosniff'};
+ const reply=(body:unknown,status=200)=>new Response(JSON.stringify(body),{status,headers});
+ if(origin&&origin!==ORIGIN)return reply({error:'origin_not_allowed'},403);
+ if(req.method==='OPTIONS')return new Response(null,{status:204,headers});
+ const url=new URL(req.url),action=url.searchParams.get('action')||'config';
+ try{
+  if(req.method==='GET'){
+   if(action==='config')return reply(await config());
+   if(action==='board')return reply(await rpc('board',null,{scope:url.searchParams.get('scope')||'world',period:url.searchParams.get('period')||'week',country:url.searchParams.get('country')||''}));
+   return reply({error:'not_found'},404);
+  }
+  if(req.method!=='POST')return reply({error:'method_not_allowed'},405);
+  if(origin!==ORIGIN)return reply({error:'origin_required'},403);
+  const bearer=req.headers.get('Authorization')||'';
+  if(!bearer.startsWith('Bearer ')||bearer.length>8500)return reply({error:'authentication_required'},401);
+  const cfg=await config();if(!cfg.loginReady)return reply({error:'login_not_configured'},503);
+  let claims:any;
+  try{({payload:claims}=await jwtVerify(bearer.slice(7),JWKS,{issuer:['https://accounts.google.com','accounts.google.com'],audience:cfg.clientId,algorithms:['RS256'],clockTolerance:5}));}
+  catch{return reply({error:'invalid_or_expired_login'},401);}
+  if(typeof claims.sub!=='string'||!claims.sub||!Number.isFinite(claims.exp))return reply({error:'invalid_login'},401);
+  const subject=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('loopjolt:google:'+claims.sub)))).map(v=>v.toString(16).padStart(2,'0')).join('');
+  const text=await req.text();if(new TextEncoder().encode(text).length>65536)return reply({error:'payload_too_large'},413);
+  const body=text?JSON.parse(text):{};if(!body||typeof body!=='object'||Array.isArray(body))return reply({error:'invalid_payload'},400);
+  if(action==='profile')return reply({profile:await rpc('profile',subject)});
+  if(action==='save_profile'){
+   const country=String(body.country||'').toUpperCase();if(country&&!CODES.has(country))return reply({error:'invalid_country'},400);
+   return reply({profile:await rpc('save_profile',subject,{handle:body.handle,country,consent:body.consent===true,age16:body.age16===true})});
+  }
+  if(action==='delete_profile')return reply(await rpc('delete_profile',subject,{confirmation:body.confirmation}));
+  if(action==='start')return reply(await rpc('start',subject));
+  if(action==='finish'){
+   if(typeof body.runId!=='string'||!/^[0-9a-f-]{36}$/i.test(body.runId))return reply({error:'invalid_run'},400);
+   const run=await rpc('run',subject,{runId:body.runId});
+   if(run.version!==rules.VERSION)return reply({error:'version_mismatch'},409);
+   if(Date.parse(run.expires_at)<Date.now())return reply({error:'run_expired'},410);
+   let verified;try{verified=rules.replay(Number(run.seed),body.actions,body.ticks);}catch{return reply({error:'invalid_game_replay'},400);}
+   return reply(await rpc('finish',subject,{runId:body.runId,...verified}));
+  }
+  return reply({error:'not_found'},404);
+ }catch(e){
+  const raw=e instanceof Error?e.message:'';
+  const known=['invalid_board','authentication_required','account_blocked','invalid_handle','consent_required','invalid_country','country_locked_30_days','profile_required','confirmation_required','login_not_configured','rate_limited','run_not_found','run_expired','impossible_elapsed_time'];
+  const message=known.find(v=>raw.includes(v))||(raw.includes('loopjolt_handle_unique')?'handle_taken':'request_failed');
+  console.error('[LOOPJOLT_API]',action,message);
+  return reply({error:message},message==='rate_limited'?429:message==='handle_taken'?409:400);
+ }
+});
