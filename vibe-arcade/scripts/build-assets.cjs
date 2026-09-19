@@ -1,0 +1,9 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+require('./build-flags.cjs');
+const root=path.resolve(__dirname,'..'),pkg=path.join(root,'node_modules','phaser');
+const meta=JSON.parse(fs.readFileSync(path.join(pkg,'package.json'),'utf8'));assert.equal(meta.version,'3.90.0');
+const out=path.join(root,'vendor');fs.mkdirSync(out,{recursive:true});
+fs.copyFileSync(path.join(pkg,'dist','phaser.min.js'),path.join(out,'phaser-3.90.0.min.js'));
+if(fs.existsSync(path.join(pkg,'LICENSE.md')))fs.copyFileSync(path.join(pkg,'LICENSE.md'),path.join(out,'PHASER-LICENSE.md'));
+console.log('Built local Phaser 3.90.0 runtime.');

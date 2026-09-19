@@ -1,0 +1,48 @@
+name: LoopJolt Challenger Games
+on:
+  pull_request:
+    paths:
+      - 'vibe-arcade/challengers/**'
+      - 'vibe-arcade/tests/challengers-*'
+      - 'vibe-arcade/package*.json'
+      - 'vibe-arcade/scripts/build-assets.cjs'
+      - 'loopjolt-backend/**'
+      - '.github/workflows/loopjolt-challengers-ci.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'vibe-arcade/challengers/**'
+      - 'vibe-arcade/tests/challengers-*'
+      - 'vibe-arcade/package*.json'
+      - 'vibe-arcade/scripts/build-assets.cjs'
+      - 'loopjolt-backend/**'
+      - '.github/workflows/loopjolt-challengers-ci.yml'
+permissions:
+  contents: read
+jobs:
+  challenger-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install and build pinned browser assets
+        working-directory: vibe-arcade
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm run build
+          test -s vendor/phaser-3.90.0.min.js
+      - name: Syntax and deterministic rules
+        run: |
+          node --check vibe-arcade/challengers/core.js
+          node --check vibe-arcade/challengers/game.js
+          node --test vibe-arcade/tests/challengers-core.test.cjs
+          node --test loopjolt-backend/tests/challengers-verify.test.cjs
+      - name: Install Chromium
+        run: |
+          npm install --prefix "$RUNNER_TEMP/loopjolt-browser" playwright@1.55.0 --no-audit --no-fund
+          "$RUNNER_TEMP/loopjolt-browser/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Desktop and mobile Phaser smoke
+        run: NODE_PATH="$RUNNER_TEMP/loopjolt-browser/node_modules" node vibe-arcade/tests/challengers-browser.cjs
