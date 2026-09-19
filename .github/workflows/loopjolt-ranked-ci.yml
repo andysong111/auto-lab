@@ -8,11 +8,9 @@ on:
   push:
     branches: [main]
     paths:
-      - 'vibe-arcade/games/orbit-sprint/**'
-      - 'vibe-arcade/community/**'
-      - 'vibe-arcade/league/**'
-      - 'vibe-arcade/tests/**'
+      - 'vibe-arcade/**'
       - 'loopjolt-backend/**'
+      - '.github/workflows/loopjolt-ranked-ci.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -36,7 +34,9 @@ jobs:
       - name: Desktop and mobile smoke (mocked API, no external scores)
         run: NODE_PATH="$RUNNER_TEMP/loopjolt-browser/node_modules" node vibe-arcade/tests/browser-smoke.cjs
       - name: World League responsive navigation and data-state checks
-        run: NODE_PATH="$RUNNER_TEMP/loopjolt-browser/node_modules" node vibe-arcade/tests/league-browser.cjs
+        run: |
+          NODE_PATH="$RUNNER_TEMP/loopjolt-browser/node_modules" node vibe-arcade/tests/league-browser.cjs
+          NODE_PATH="$RUNNER_TEMP/loopjolt-browser/node_modules" node vibe-arcade/tests/league-nav-browser.cjs
       - name: Save visual QA captures
         if: always()
         uses: actions/upload-artifact@v4
