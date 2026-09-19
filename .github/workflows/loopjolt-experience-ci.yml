@@ -1,0 +1,24 @@
+name: LoopJolt game experience
+on:
+  pull_request:
+    paths:
+      - 'vibe-arcade/**'
+      - '.github/workflows/loopjolt-experience-ci.yml'
+permissions:
+  contents: read
+jobs:
+  experience:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Prepare tracked-source snapshot for offline QA
+        run: |
+          git archive --format=zip --output=experience-source.zip HEAD vibe-arcade/ loopjolt-backend/ .github/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: experience-source
+          path: experience-source.zip
+          retention-days: 1
