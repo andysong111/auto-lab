@@ -10,5 +10,5 @@ test('gyro rejects impossible turn inputs',()=>{assert.throws(()=>R.replay('gyro
 test('pins rejects duplicate ticks and unknown actions',()=>{assert.throws(()=>R.replay('core-pins',1,[[3,'throw'],[3,'throw']],100));assert.throws(()=>R.replay('core-pins',1,[[2,'drop']],100));});
 test('merge rejects invalid columns and out-of-order inputs',()=>{assert.throws(()=>R.replay('nova-merge',1,[[1,'drop',7]],100));assert.throws(()=>R.replay('nova-merge',1,[[4,'drop',0],[2,'drop',1]],100));});
 test('unfinished runs never verify',()=>{for(const g of Object.keys(R.CONFIG))assert.throws(()=>R.replay(g,1,[],10));});
-test('extra actions after terminal state never verify',()=>{const out=simulate('core-pins',null);assert.throws(()=>R.replay('core-pins',123456,[[out.s.tick-1,'throw']],out.s.tick));});
+test('actions at or beyond terminal tick never verify',()=>{const out=simulate('core-pins',null);assert.throws(()=>R.replay('core-pins',123456,[[out.s.tick,'throw']],out.s.tick));});
 test('score returned by verifier is always server-computed and bounded',()=>{for(const g of Object.keys(R.CONFIG)){const out=simulate(g,null,9);assert.equal(out.replay.score,out.s.score);assert(out.replay.score>=0&&out.replay.score<=50000);}});
