@@ -11,4 +11,10 @@ for(const [label,viewport] of [['desktop',{width:1280,height:1000}],['mobile',{w
  if(game==='nova-merge'){await page.keyboard.press('4');await page.waitForTimeout(180);await page.keyboard.press('4');}
  await page.waitForTimeout(350);assert((await page.locator('#status').innerText()).includes('Practice run'));assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);assert.deepEqual(errors,[]);console.log(label,game,'PASS');await context.close();
 }
+
+ // A delayed account/config response must not rewind or relabel a practice run already in progress.
+ {const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});const page=await context.newPage(),errors=[];
+ page.on('pageerror',e=>errors.push(e.message));await page.route('**/api/event',r=>r.fulfill({status:204,body:''}));
+ await page.route('**/functions/v1/loopjolt-community*',async r=>{await new Promise(x=>setTimeout(x,700));return r.fulfill({contentType:'application/json',body:JSON.stringify({seed:125904,loginReady:true,rankedGames:[]})});});
+ await page.goto('http://127.0.0.1:8765/challengers/play.html?game=gyro-drop',{waitUntil:'domcontentloaded'});await page.waitForSelector('#phaser-game canvas');await page.locator('#primary').click();await page.waitForTimeout(950);assert((await page.locator('#status').innerText()).includes('Practice run'));assert.deepEqual(errors,[]);await context.close();}
 }finally{if(browser)await browser.close();server.kill();}})().catch(e=>{console.error(e);process.exitCode=1;});
