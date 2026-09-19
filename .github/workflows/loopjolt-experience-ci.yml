@@ -1,24 +1,37 @@
 name: LoopJolt game experience
 on:
   pull_request:
-    paths:
-      - 'vibe-arcade/**'
-      - '.github/workflows/loopjolt-experience-ci.yml'
+    paths: ['vibe-arcade/**','.github/workflows/loopjolt-experience-ci.yml']
+  push:
+    branches: [main]
+    paths: ['vibe-arcade/**','.github/workflows/loopjolt-experience-ci.yml']
 permissions:
   contents: read
 jobs:
   experience:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Prepare tracked-source snapshot for offline QA
-        run: |
-          git archive --format=zip --output=experience-source.zip HEAD vibe-arcade/ loopjolt-backend/ .github/
-      - uses: actions/upload-artifact@v4
+      - uses: actions/setup-node@v4
         with:
-          name: experience-source
-          path: experience-source.zip
-          retention-days: 1
+          node-version: '22'
+      - name: Syntax and unchanged canonical rules
+        run: |
+          node --check vibe-arcade/experience/session-ui.js
+          node --test vibe-arcade/tests/orbit-core.test.cjs vibe-arcade/tests/arcade3-core.test.cjs vibe-arcade/tests/arcade3-clock.test.cjs
+          cd vibe-arcade && npm ci --ignore-scripts --no-audit --no-fund && npm run build
+      - name: Browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/experience" playwright@1.55.0 --no-audit --no-fund
+          "$RUNNER_TEMP/experience/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Game entry, replay and honest save states
+        run: NODE_PATH="$RUNNER_TEMP/experience/node_modules" node vibe-arcade/tests/experience-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: experience-visual-qa
+          path: experience-qa/
+          retention-days: 7
