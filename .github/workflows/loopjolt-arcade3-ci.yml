@@ -1,0 +1,36 @@
+name: LoopJolt Arcade 3 checks
+on:
+  pull_request:
+    paths: ['vibe-arcade/**','loopjolt-backend/**','.github/workflows/loopjolt-arcade3-ci.yml']
+  push:
+    branches: [main]
+    paths: ['vibe-arcade/arcade3/**','loopjolt-backend/**']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  arcade3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and canonical replay rules
+        run: |
+          for f in vibe-arcade/arcade3/*.js loopjolt-backend/verify-run.js; do node --check "$f"; done
+          node --test vibe-arcade/tests/arcade3-core.test.cjs
+      - name: Install browser tests
+        run: |
+          npm install --prefix "$RUNNER_TEMP/lj3" playwright@1.55.0 --no-audit --no-fund
+          "$RUNNER_TEMP/lj3/node_modules/.bin/playwright" install --with-deps chromium
+      - name: UI and mocked authenticated replay flow
+        run: NODE_PATH="$RUNNER_TEMP/lj3/node_modules" node vibe-arcade/tests/arcade3-browser.cjs
+      - name: Screenshots for visual review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: arcade3-visual-qa
+          path: arcade3-qa/
+          retention-days: 7

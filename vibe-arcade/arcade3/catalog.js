@@ -1,0 +1,1 @@
+(function(){'use strict';for(const c of document.querySelectorAll('canvas[data-game]')){const game=c.dataset.game,s=ArcadeRules.create(game,125904),r=new ArcadeRenderer(c,game);r.reduced=true;r.draw(s,0);}window.LJTelemetry?.track('page_view','arcade3','arcade3-launch');})();
