@@ -1,7 +1,8 @@
 (function(){
 'use strict';
 const R=OrbitRules,C=LoopCommunity,$=s=>document.querySelector(s),canvas=$('#game'),ctx=canvas.getContext('2d');
-let state=R.create(123456),started=false,paused=false,last=0,acc=0,pending=null,inputs=[],challenge=null,seed=123456,finishing=false,fx=[],toastUntil=0,soundOn=false,audio=null,loadPending=false;
+let state=R.create(123456),started=false,paused=false,last=0,acc=0,pending=null,inputs=[],challenge=null,seed=123456,finishing=false,fx=[],toastUntil=0,soundOn=false,audio=null,loadPending=false,clock=RankedClock.create();
+const UX=new GameSessionUI({game:'orbit-sprint',version:R.VERSION,onPlay:mode=>launch(mode)});
 let best=0;try{best=Number(localStorage.getItem('orbit_best_v1')||0)||0;soundOn=localStorage.getItem('orbit_sound')==='on';}catch{}
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const A=window.VibeAnalytics||{track:()=>{}};
@@ -13,17 +14,33 @@ $('#sound').onclick=()=>{soundOn=!soundOn;try{localStorage.setItem('orbit_sound'
 function hint(text){$('#callout').textContent=text;toastUntil=performance.now()+750;}
 function input(a){if(started&&!paused&&state.alive)pending=a;}
 for(const a of ['left','right','jump','dash'])$('#'+a).addEventListener('pointerdown',e=>{e.preventDefault();input(a);});
-window.addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;const a={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowUp:'jump',KeyW:'jump',Space:'jump',KeyX:'dash',ShiftLeft:'dash'}[e.code];if(a){e.preventDefault();if(!e.repeat)input(a);}if(e.code==='KeyP'&&!e.repeat)togglePause();});
+window.addEventListener('keydown',e=>{if(!UX.inputAllowed(e.target)||!started)return;const a={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowUp:'jump',KeyW:'jump',Space:'jump',KeyX:'dash',ShiftLeft:'dash'}[e.code];if(a){e.preventDefault();if(!e.repeat)input(a);}if(e.code==='KeyP'&&!e.repeat)togglePause();});
 let touchStart=null;canvas.addEventListener('pointerdown',e=>{touchStart={x:e.clientX,y:e.clientY};canvas.setPointerCapture?.(e.pointerId);});canvas.addEventListener('pointerup',e=>{if(!touchStart)return;const dx=e.clientX-touchStart.x,dy=e.clientY-touchStart.y;touchStart=null;if(Math.max(Math.abs(dx),Math.abs(dy))<15)input('jump');else input(Math.abs(dx)>Math.abs(dy)?dx<0?'left':'right':dy<0?'jump':'dash');});
+for(const a of ['left','right','jump','dash'])$('#'+a).addEventListener('keydown',e=>{if(['Space','Enter'].includes(e.code)){e.preventDefault();e.stopPropagation();if(!e.repeat)input(a);}});
 function hud(){$('#score').textContent=state.score.toLocaleString();$('#time').textContent=Math.max(0,(R.MAX_TICKS-state.tick)/60).toFixed(1);$('#combo').textContent=state.combo;$('#energy').textContent=state.energy+'/5';$('#dash').classList.toggle('charged',state.energy>=5);}
-function togglePause(){if(!started||!state.alive)return;paused=!paused;last=performance.now();acc=0;pending=null;if(paused&&challenge){challenge=null;$('#mode').textContent='PRACTICE · PAUSED RUN';}$('#pause').textContent=paused?'Resume':'Pause';$('#runStatus').textContent=paused?'Paused. A paused run cannot enter rankings.':'Swipe or use arrows / Space / X.';}
-$('#pause').onclick=togglePause;document.addEventListener('visibilitychange',()=>{if(document.hidden&&started&&state.alive&&!paused)togglePause();});
-async function launch(){if(loadPending)return;loadPending=true;$('#start').disabled=true;$('#rankMessage').textContent='Preparing your run…';challenge=null;
- try{if(C.authenticated&&C.profile)challenge=await C.api('start',{});}catch{challenge=null;$('#runStatus').textContent='Ranked service unavailable. This run is practice.';}
- state=R.create(challenge?challenge.seed:seed);inputs=[];pending=null;acc=0;last=performance.now();started=true;paused=false;finishing=false;fx=[];$('#overlay').hidden=true;$('#pause').textContent='Pause';$('#mode').textContent=challenge?'RANKED · WEEKLY COURSE':'GUEST PRACTICE';$('#start').disabled=false;loadPending=false;track('game_start',{ranked:!!challenge});hud();canvas.focus({preventScroll:true});sound('start');}
-$('#start').onclick=launch;
-async function finish(){if(finishing)return;finishing=true;started=false;best=Math.max(best,state.score);try{localStorage.setItem('orbit_best_v1',String(best));}catch{}pb();hud();$('#overlayEyebrow').textContent=state.won?'COURSE COMPLETE':'FLIGHT RECORDED';$('#overlayTitle').textContent=state.score.toLocaleString()+' points';$('#overlayText').textContent=state.orbs+' orbs · '+state.maxCombo+' best streak · '+(state.tick/60).toFixed(1)+'s survived';$('#start').textContent='Fly again →';$('#overlay').hidden=false;$('#rankMessage').textContent=challenge?'Checking your run on the server…':'Practice score saved on this browser. Sign in before your next run to compete.';track('game_finish',{score:state.score,seconds:state.tick/60,ranked:!!challenge});
- if(challenge){const runId=challenge.runId;challenge=null;try{const answer=await C.api('finish',{runId,actions:inputs,ticks:state.tick});$('#rankMessage').textContent=answer.saved?'Verified score saved. See world & country rankings above.':'Score could not be saved.';}catch(e){$('#rankMessage').textContent='Local score saved; ranking submission failed. No unverified score was published.';}}
+function togglePause(){if(!started||!state.alive)return;paused=!paused;last=performance.now();acc=0;pending=null;
+ if(paused&&challenge){challenge=null;UX.downgrade('Paused run.');}
+ $('#pause').textContent=paused?'Resume':'Pause';$('#overlay').hidden=!paused;$('#resume').hidden=!paused;$('#start').hidden=paused;$('#resultLinks').hidden=true;
+ if(paused){$('#overlayEyebrow').textContent='PAUSED';$('#overlayTitle').textContent='Take a breath.';$('#overlayText').textContent='This run is now practice. Your device record still counts.';$('#rankMessage').textContent='Resume when ready.';}
+ UX.paused(paused);$('#runStatus').textContent=paused?'Paused · practice only':'Swipe or use arrows / Space / X.';
+}
+$('#pause').onclick=togglePause;$('#resume').onclick=()=>{togglePause();canvas.focus({preventScroll:true});};
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&started&&state.alive&&!paused)togglePause();});
+document.addEventListener('game:help',()=>{if(started&&!paused)togglePause();});
+async function launch(mode=UX.mode()){
+ if(loadPending||started)return;loadPending=true;const prepared=await UX.prepare(mode);if(!prepared.ok){loadPending=false;return;}
+ challenge=prepared.run;state=R.create(challenge?challenge.seed:seed);inputs=[];pending=null;acc=0;last=performance.now();clock=RankedClock.create();started=true;paused=false;finishing=false;fx=[];
+ $('#overlay').hidden=true;$('#resume').hidden=true;$('#start').hidden=false;$('#pause').textContent='Pause';$('#pause').disabled=false;loadPending=false;UX.started(challenge);
+ $('#runStatus').textContent=challenge?'Ranked run · verified after play.':'Practice run · device record only.';track('game_start',{ranked:!!challenge});hud();canvas.focus({preventScroll:true});sound('start');
+}
+$('#start').onclick=()=>launch(UX.mode());
+async function finish(){if(finishing)return;finishing=true;started=false;loadPending=true;
+ best=Math.max(best,state.score);try{localStorage.setItem('orbit_best_v1',String(best));}catch{}pb();hud();
+ $('#overlayEyebrow').textContent=challenge?'RANKED RESULT':'PRACTICE RESULT';$('#overlayTitle').textContent=state.score.toLocaleString()+' points';$('#overlayText').textContent=state.orbs+' orbs · '+state.maxCombo+' best streak · '+(state.tick/60).toFixed(1)+'s';
+ $('#overlay').hidden=false;$('#resume').hidden=true;$('#start').hidden=false;$('#pause').disabled=true;track('game_finish',{score:state.score,seconds:state.tick/60,ranked:!!challenge});
+ const finishedRun=challenge;challenge=null;
+ try{await UX.finished({run:finishedRun,actions:inputs,ticks:state.tick,score:state.score});}
+ finally{loadPending=false;UX.buttons();$('#start').focus({preventScroll:true});}
 }
 function quad(points,fill,stroke){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.stroke();}}
 function laneX(lane,p){return 360+(lane-1)*(35+210*p);}
@@ -47,7 +64,8 @@ function render(now){const t=state.tick/60,idle=started?state.tick:(reduce?0:now
  if(paused){ctx.fillStyle='#060b1baa';ctx.fillRect(0,0,720,900);ctx.textAlign='center';ctx.fillStyle='#eaf6ff';ctx.font='bold 42px system-ui';ctx.fillText('PAUSED',360,420);ctx.font='20px system-ui';ctx.fillText('Press Resume or P',360,460);}
  if(now>toastUntil)$('#callout').textContent='';
 }
-function frame(now){if(started&&!paused&&state.alive){acc+=Math.min(.1,(now-last)/1000);let n=0;while(acc>=1/60&&state.alive&&n++<6){if(pending){inputs.push([state.tick,pending]);}R.step(state,pending);pending=null;acc-=1/60;if(state.lastEvent){const e=state.lastEvent;if(e==='orb'){sound(e);if(state.combo%5===0)hint(state.combo+' ORB STREAK');if(!reduce)for(let i=0;i<10;i++)fx.push({x:laneX(state.lane,1),y:725,vx:Math.cos(i)*65,vy:Math.sin(i)*65,time:now,color:'#64edd4'});}if(e==='dash'){sound(e);hint('DASH ACTIVE');}if(e==='crash'||e==='win'){sound(e==='win'?'orb':'crash');}}}hud();if(!state.alive)finish();}last=now;render(now);requestAnimationFrame(frame);}
-(async()=>{try{const cfg=await C.config();seed=cfg.seed;if(!started)state=R.create(seed);if(C.authenticated){await C.me();if(C.profile)$('#playerLink').textContent=C.flag(C.profile.country)+' '+C.profile.handle;}if(!cfg.loginReady)$('#rankMessage').textContent='Guest play is ready. Google sign-in and ranked submissions await owner setup.';}catch{$('#runStatus').textContent='Offline practice mode. Rankings unavailable.';}})();
+function frame(now){if(started&&!paused&&state.alive){const elapsedMs=Math.max(0,now-last);if(challenge&&!RankedClock.observe(clock,elapsedMs)){challenge=null;UX.downgrade('Frame timing became unstable.');$('#runStatus').textContent='Frame timing unstable · practice only.';}acc+=Math.min(.1,elapsedMs/1000);let n=0;while(acc>=1/60&&state.alive&&n++<6){if(pending){inputs.push([state.tick,pending]);}R.step(state,pending);pending=null;acc-=1/60;if(state.lastEvent){const e=state.lastEvent;if(e==='orb'){sound(e);if(state.combo%5===0)hint(state.combo+' ORB STREAK');if(!reduce)for(let i=0;i<10;i++)fx.push({x:laneX(state.lane,1),y:725,vx:Math.cos(i)*65,vy:Math.sin(i)*65,time:now,color:'#64edd4'});}if(e==='dash'){sound(e);hint('DASH ACTIVE');}if(e==='crash'||e==='win'){sound(e==='win'?'orb':'crash');}}}hud();if(!state.alive)finish();}last=now;render(now);requestAnimationFrame(frame);}
+(async()=>{const cfg=await UX.boot();seed=cfg?.seed||seed;if(!started&&!loadPending)state=R.create(seed);})();
+window.LoopJoltSnapshot=()=>JSON.parse(JSON.stringify({state,active:started,paused,ranked:!!challenge,inputCount:inputs.length}));
 track('game_open');requestAnimationFrame(frame);
 })();

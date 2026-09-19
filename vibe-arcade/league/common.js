@@ -17,5 +17,8 @@ function identity(){const p=C?.profile,target=$('#leagueIdentity');if(target){if
 const ready=(async()=>{let config=null;try{config=await C?.config();}catch{}if(C?.authenticated)try{await C.me();}catch{}identity();return config;})();
 function track(e,props){window.LJTelemetry?.track(e,'league','league-simple-v1',props||{});}
 window.WorldLeague={C,GAMES,node,number,label,readBoard,safeReturn,ready,identity,track,viewForUrl,navigation};
+// Return only after an explicit sign-in or profile-save action, never on an ordinary account read.
+const returnTo=location.pathname.startsWith('/community')?safeReturn(new URLSearchParams(location.search).get('returnTo')):null;
+if(returnTo){let armed=false;document.addEventListener('click',e=>{if(e.target.closest('#login'))armed=true;});document.addEventListener('submit',e=>{if(e.target.id==='profileForm')armed=true;});document.addEventListener('league:identity',()=>{if(armed&&C?.authenticated&&C?.profile){armed=false;location.assign(returnTo);}});}
 countdown();setInterval(countdown,60000);navigation();window.addEventListener('hashchange',navigation);window.addEventListener('popstate',navigation);document.addEventListener('change',navigation);track('page_view');
 })();
