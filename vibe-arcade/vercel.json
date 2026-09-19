@@ -1,50 +1,24 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "installCommand": "npm ci --ignore-scripts --no-audit --no-fund",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".",
   "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=()"
-        }
-      ]
-    }
+    {"source":"/(.*)","headers":[
+      {"key":"X-Content-Type-Options","value":"nosniff"},
+      {"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"},
+      {"key":"Permissions-Policy","value":"camera=(), microphone=(), geolocation=()"}
+    ]},
+    {"source":"/assets/flags/7.5.0/(.*)","headers":[
+      {"key":"Cache-Control","value":"public, max-age=31536000, immutable"}
+    ]}
   ],
   "redirects": [
-    {
-      "source": "/ig",
-      "destination": "/?utm_source=instagram&utm_medium=profile&utm_campaign=alwayson",
-      "permanent": false
-    },
-    {
-      "source": "/tt",
-      "destination": "/?utm_source=tiktok&utm_medium=profile&utm_campaign=alwayson",
-      "permanent": false
-    },
-    {
-      "source": "/yt",
-      "destination": "/?utm_source=youtube&utm_medium=profile&utm_campaign=alwayson",
-      "permanent": false
-    },
-    {
-      "source": "/th",
-      "destination": "/?utm_source=threads&utm_medium=profile&utm_campaign=alwayson",
-      "permanent": false
-    },
-    {
-      "source": "/fb",
-      "destination": "/?utm_source=facebook&utm_medium=profile&utm_campaign=alwayson",
-      "permanent": false
-    }
+    {"source":"/ig","destination":"/?utm_source=instagram&utm_medium=profile&utm_campaign=alwayson","permanent":false},
+    {"source":"/tt","destination":"/?utm_source=tiktok&utm_medium=profile&utm_campaign=alwayson","permanent":false},
+    {"source":"/yt","destination":"/?utm_source=youtube&utm_medium=profile&utm_campaign=alwayson","permanent":false},
+    {"source":"/th","destination":"/?utm_source=threads&utm_medium=profile&utm_campaign=alwayson","permanent":false},
+    {"source":"/fb","destination":"/?utm_source=facebook&utm_medium=profile&utm_campaign=alwayson","permanent":false}
   ]
 }

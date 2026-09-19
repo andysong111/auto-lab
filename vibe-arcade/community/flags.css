@@ -1,0 +1,9 @@
+/* Image flags are independent of OS emoji fonts. Do not replace these with text emoji. */
+.lj-flag-label{display:inline-flex;align-items:center;gap:8px;vertical-align:middle;max-width:100%;min-width:0;line-height:1.4}
+.lj-flag-label .lj-flag{display:inline-block!important;width:24px!important;height:18px!important;min-width:24px;max-width:none;flex:0 0 24px;object-fit:contain;vertical-align:middle;border-radius:2px;box-shadow:0 0 0 1px rgba(210,226,255,.24);margin:0!important}
+.lj-flag-label .lj-flag-name{min-width:0;overflow-wrap:anywhere}
+.lj-flag-placeholder{display:inline-flex;align-items:center;justify-content:center;flex:0 0 24px;width:24px;height:18px;border:1px solid #52627b;border-radius:2px;font-size:10px;font-weight:700;line-height:1;color:inherit}
+.lj-country-preview{margin:9px 0;font-size:12px;color:#b8c8e1}
+.lj-country-preview[hidden]{display:none!important}
+#accountTitle .lj-flag{width:28px!important;height:21px!important;flex-basis:28px;min-width:28px}
+@media(max-width:480px){.lj-flag-label{gap:6px}.lj-flag-label .lj-flag{width:22px!important;height:16.5px!important;min-width:22px;flex-basis:22px}}
