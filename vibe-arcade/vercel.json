@@ -15,6 +15,7 @@
     ]}
   ],
   "redirects": [
+    {"source":"/arcade3","destination":"/#games","permanent":false},
     {"source":"/ig","destination":"/?utm_source=instagram&utm_medium=profile&utm_campaign=alwayson","permanent":false},
     {"source":"/tt","destination":"/?utm_source=tiktok&utm_medium=profile&utm_campaign=alwayson","permanent":false},
     {"source":"/yt","destination":"/?utm_source=youtube&utm_medium=profile&utm_campaign=alwayson","permanent":false},
