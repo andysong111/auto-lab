@@ -23,6 +23,7 @@ jobs:
           node --check vibe-arcade/analytics.js
           node --check vibe-arcade/game-utils.js
           node --check vibe-arcade/api/event.js
+          for file in vibe-arcade/league/*.js vibe-arcade/community/*.js; do node --check "$file"; done
       - name: Validate inline game scripts
         run: |
           python - <<'PY'
@@ -50,7 +51,7 @@ jobs:
           sleep 1
       - name: Smoke routes
         run: |
-          curl --fail http://127.0.0.1:8765/ | grep 'LOOPJOLT'
+          curl --fail http://127.0.0.1:8765/ | grep '<title>LoopJolt'
           curl --fail http://127.0.0.1:8765/games/dont-press/ | grep "Don't Press"
           curl --fail http://127.0.0.1:8765/games/perfect-timing/ | grep 'Perfect Timing'
           curl --fail http://127.0.0.1:8765/games/reaction-rush/ | grep 'Reaction Rush'
