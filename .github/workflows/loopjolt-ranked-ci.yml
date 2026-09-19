@@ -8,17 +8,16 @@ on:
   push:
     branches: [main]
     paths:
-      - 'vibe-arcade/games/orbit-sprint/**'
-      - 'vibe-arcade/community/**'
-      - 'vibe-arcade/tests/**'
+      - 'vibe-arcade/**'
       - 'loopjolt-backend/**'
+      - '.github/workflows/loopjolt-ranked-ci.yml'
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   rules-and-browser:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -26,7 +25,7 @@ jobs:
           node-version: '22'
       - name: Syntax and deterministic replay tests
         run: |
-          for f in vibe-arcade/games/orbit-sprint/*.js vibe-arcade/community/*.js; do node --check "$f"; done
+          for f in vibe-arcade/games/orbit-sprint/*.js vibe-arcade/community/*.js vibe-arcade/league/*.js; do node --check "$f"; done
           node --test vibe-arcade/tests/orbit-core.test.cjs
       - name: Install pinned browser test tools
         run: |
@@ -34,3 +33,14 @@ jobs:
           "$RUNNER_TEMP/loopjolt-browser/node_modules/.bin/playwright" install --with-deps chromium
       - name: Desktop and mobile smoke (mocked API, no external scores)
         run: NODE_PATH="$RUNNER_TEMP/loopjolt-browser/node_modules" node vibe-arcade/tests/browser-smoke.cjs
+      - name: World League responsive navigation and data-state checks
+        run: |
+          NODE_PATH="$RUNNER_TEMP/loopjolt-browser/node_modules" node vibe-arcade/tests/league-browser.cjs
+          NODE_PATH="$RUNNER_TEMP/loopjolt-browser/node_modules" node vibe-arcade/tests/league-nav-browser.cjs
+      - name: Save visual QA captures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: league-ui-qa
+          path: league-qa/
+          if-no-files-found: ignore
