@@ -20,7 +20,7 @@ jobs:
       - name: Syntax and canonical replay rules
         run: |
           for f in vibe-arcade/arcade3/*.js loopjolt-backend/verify-run.js; do node --check "$f"; done
-          node --test vibe-arcade/tests/arcade3-core.test.cjs
+          node --test vibe-arcade/tests/arcade3-core.test.cjs vibe-arcade/tests/arcade3-clock.test.cjs
       - name: Install browser tests
         run: |
           npm install --prefix "$RUNNER_TEMP/lj3" playwright@1.55.0 --no-audit --no-fund
