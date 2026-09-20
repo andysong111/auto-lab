@@ -9,15 +9,14 @@ const EDGE='https://qmtmyqytzkdtglfcegef.supabase.co/functions/v1/loopjolt-commu
 const OUT=process.env.QA_OUT||'/tmp/play-id-live';
 const id='qa_'+crypto.randomBytes(5).toString('hex');
 const password=crypto.randomBytes(32).toString('base64url'),replacement=crypto.randomBytes(32).toString('base64url');
-const checks=[];let browser,ctx,api,created=false,deleted=false,recovery;
-function ok(label,value){assert(value,label);checks.push(label);}
+const checks=[];let browser,ctx,api,created=false,deleted=false,recovery,failure=null;
+function ok(label,value){assert(value,label);checks.push(label);console.log('PASS: '+label);}
 async function post(context,action,body={},edge=false,origin=ORIGIN){const res=await context.post((edge?EDGE:ORIGIN+'/api/play-id')+'?action='+action,{headers:{Origin:origin,'Content-Type':'application/json'},data:body,timeout:30000});let data={};try{data=await res.json();}catch{}return {status:res.status(),data};}
 async function signIn(context,pass,country='KR',recover=false,code){const pre=await post(context,'auth_prepare',{id,password:pass,country,consent:true,age16:true,recover,...(code?{recoveryCode:code}:{})},true);ok('credential preparation '+(recover?'recovery':'login'),pre.status===200&&!!pre.data.ticket&&!pre.data.token);const ex=await post(context,'auth_exchange',{ticket:pre.data.ticket});ok('HttpOnly session exchange',ex.status===200&&!ex.data.token);return {pre:pre.data,session:ex.data};}
 (async()=>{
  if(process.env.LOOPJOLT_LIVE_AUTH_SMOKE!=='approved-option-a')throw Error('explicit_live_smoke_opt_in_required');
  fs.mkdirSync(OUT,{recursive:true});
  api=await request.newContext();
- // Wait for both the reviewed UI and the explicitly enabled backend, not just HTTP 200.
  let ready=false;
  for(let i=0;i<60;i++){
   try{const c=await api.get(EDGE+'?action=config',{timeout:10000});const cfg=await c.json();const js=await api.get(ORIGIN+'/community/client.js',{timeout:10000});if(cfg.playIdReady&&(await js.text()).includes('auth_prepare')){ready=true;break;}}catch{}
@@ -45,8 +44,9 @@ async function signIn(context,pass,country='KR',recover=false,code){const pre=aw
  }
  await page.goto(ORIGIN+'/challengers/play?game=nova-merge&capture=1',{waitUntil:'networkidle'});
  await page.waitForFunction(()=>!document.querySelector('#primary').disabled);
- await page.click('#primary');await page.keyboard.press('4');await page.waitForTimeout(400);
- ok('Nova Merge free play starts without account',!(await page.locator('#status').textContent()).includes('Preparing'));
+ await page.click('#primary');await page.waitForTimeout(400);
+ const canvas=page.locator('#phaser-game canvas');await canvas.click({position:{x:130,y:180}});
+ ok('Nova Merge free play starts without account',(await page.locator('#status').textContent()).includes('Practice run'));
  await page.goto(ORIGIN+'/community/?panel=profile&returnTo=%2Fdescent%2F',{waitUntil:'networkidle'});
  await page.waitForSelector('#quickForm');
  await page.screenshot({path:path.join(OUT,'PlayID_Entry_mobile.png'),fullPage:true});
@@ -58,7 +58,9 @@ async function signIn(context,pass,country='KR',recover=false,code){const pre=aw
  ok('secure HttpOnly SameSite cookie',!!cookie&&cookie.httpOnly&&cookie.secure&&cookie.sameSite==='Lax');
  const jsState=await page.evaluate(()=>({cookie:document.cookie,local:JSON.stringify(localStorage),session:JSON.stringify(sessionStorage)}));
  ok('session and recovery secrets not in script-readable storage',![cookie.value,recovery,password].some(s=>Object.values(jsState).some(v=>v.includes(s))));
- await page.click('#finishQuick');await page.waitForURL(ORIGIN+'/descent/');
+ await page.click('#finishQuick');
+ // vercel.json intentionally canonicalizes /descent/ to /descent.
+ await page.waitForURL(url=>url.origin===ORIGIN&&/^\/descent\/?$/.test(url.pathname));
  await page.waitForFunction(()=>LoopCommunity.profile?.handle?.startsWith('qa_'));
  ok('returns to selected game with identity',await page.evaluate(who=>LoopCommunity.profile.handle===who,id));
  await page.reload({waitUntil:'networkidle'});await page.waitForFunction(()=>!!LoopCommunity.profile);
@@ -79,11 +81,11 @@ async function signIn(context,pass,country='KR',recover=false,code){const pre=aw
  r=await post(ctx.request,'profile');ok('failed recovery preserves current session',r.status===200);
  r=await post(ctx.request,'delete_profile',{confirmation:'DELETE MY LOOPJOLT ACCOUNT'});ok('disposable QA account deleted',r.status===200);deleted=r.status===200;
  ok('no uncaught browser page errors',pageErrors.length===0);
- fs.writeFileSync(path.join(OUT,'live-auth-result.json'),JSON.stringify({sourceCommit:process.env.GITHUB_SHA,checks,passed:checks.length,createdTestAccount:created,deletedTestAccount:deleted,rankedScoresSubmitted:0,realEndpoints:true},null,2));
  console.log('PASS live Option A: '+checks.length+' checks; temporary account deleted; no ranked score submitted.');
-})().catch(e=>{console.error('LIVE OPTION A FAILED:',String(e.message).slice(0,250));process.exitCode=1;}).finally(async()=>{
+})().catch(e=>{failure=String(e.message).slice(0,250);console.error('LIVE OPTION A FAILED:',failure);process.exitCode=1;}).finally(async()=>{
  if(created&&!deleted&&ctx){try{const r=await post(ctx.request,'delete_profile',{confirmation:'DELETE MY LOOPJOLT ACCOUNT'});deleted=r.status===200;}catch{}}
  if(created&&!deleted&&ctx){for(const pass of [replacement,password]){try{await signIn(ctx.request,pass);const r=await post(ctx.request,'delete_profile',{confirmation:'DELETE MY LOOPJOLT ACCOUNT'});if(r.status===200){deleted=true;break;}}catch{}}}
  if(created&&!deleted){console.error('QA cleanup requires review: '+id);process.exitCode=1;}
+ if(fs.existsSync(OUT))fs.writeFileSync(path.join(OUT,'live-auth-result.json'),JSON.stringify({sourceCommit:process.env.GITHUB_SHA,checks,passed:checks.length,complete:!failure,failure,createdTestAccount:created,deletedTestAccount:deleted,rankedScoresSubmitted:0,realEndpoints:true},null,2));
  try{await ctx?.close();await browser?.close();await api?.dispose();}catch{}
 });
