@@ -1,0 +1,49 @@
+name: LoopJolt Play ID checks
+on:
+  push:
+    branches: [main, feature/play-id-entry]
+    paths: ['loopjolt-backend/auth/**', 'loopjolt-backend/tests/play-id*', 'loopjolt-backend/migrations/20260920_play_id.sql', 'vibe-arcade/api/play-id.js', 'vibe-arcade/community/**', '.github/workflows/loopjolt-play-id-ci.yml']
+  pull_request:
+    paths: ['loopjolt-backend/auth/**', 'loopjolt-backend/tests/play-id*', 'loopjolt-backend/migrations/20260920_play_id.sql', 'vibe-arcade/api/play-id.js', 'vibe-arcade/community/**', '.github/workflows/loopjolt-play-id-ci.yml']
+permissions:
+  contents: read
+jobs:
+  auth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: loopjolt-ci-only
+          POSTGRES_DB: playid_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: loopjolt-ci-only
+      PGDATABASE: playid_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Native crypto, cookie bridge and abuse protection
+        run: node --test loopjolt-backend/tests/play-id.test.cjs
+      - name: Syntax
+        run: |
+          test ! -f vibe-arcade/community/quick-auth.js || node --check vibe-arcade/community/quick-auth.js
+          node --check vibe-arcade/community/client.js
+          node --check vibe-arcade/community/page.js
+          node --experimental-strip-types --check loopjolt-backend/edge/index.ts
+      - name: Isolated SQL lifecycle - never production
+        run: |
+          test "$PGHOST" = localhost && test "$PGDATABASE" = playid_test
+          psql -v ON_ERROR_STOP=1 -f loopjolt-backend/tests/play-id-db-setup.sql
+          psql -v ON_ERROR_STOP=1 -f loopjolt-backend/tests/play-id-db.test.sql
