@@ -1,0 +1,206 @@
+{
+  "schemaVersion": "loopjolt-marketing-storyboards/2.3",
+  "stage": "marketing-2-3",
+  "date": "2026-09-20",
+  "status": "scripts_ready_media_pending",
+  "sourceCommit": "aaf688f4b3bce503322734475a6cc8b7083c7e34",
+  "permissions": {"render": false, "schedule": false, "publish": false, "rankedSubmit": false},
+  "verification": {"repositoryRulesReviewed": true, "liveGameplayReviewed": false, "mediaReviewed": false, "leaderboardSnapshotTaken": false},
+  "shared": {
+    "format": "FLAG_CHALLENGE",
+    "language": "en",
+    "durationSeconds": 18,
+    "canvas": {"width": 1080, "height": 1920},
+    "template": "flag-template.tokens.json",
+    "templateVersion": "2.2",
+    "countries": [
+      {"code": "KR", "name": "South Korea"},
+      {"code": "US", "name": "United States"},
+      {"code": "JP", "name": "Japan"},
+      {"code": "IN", "name": "India"},
+      {"code": "BR", "name": "Brazil"}
+    ],
+    "countryMeaning": "Invitation choices only. Not existing participants, opponents, winners or paid geographic targeting.",
+    "flagImages": {"requiredType": "real_svg_or_png", "assetsReady": false, "heroWidthPx": 120, "recolor": false},
+    "firstFlagAtSeconds": 0,
+    "gameplayStartsAtSeconds": 0,
+    "captureMode": "practice",
+    "disclosure": "PRACTICE HIGHLIGHTS",
+    "scorePolicy": "No editorial player score, country score, rank, winner, gap or verified badge in this pilot. A native practice HUD is not a country score.",
+    "footagePolicy": "Record complete fresh practice runs through normal controls; retain originals. Use chronological highlights after the opening teaser. No state injection, fabricated completion, speed-up, or ranked submissions. Label a repeated teaser REPLAY if reused.",
+    "layout": {
+      "criticalGameplaySafeRect": {"x": 90, "y": 300, "width": 900, "height": 1240},
+      "competitionPlate": {"x": 60, "y": 70, "width": 960, "height": 230},
+      "ctaPlate": {"x": 80, "y": 1540, "width": 920, "height": 110},
+      "flagRow": {"x": 192, "y": 78, "width": 696, "height": 80},
+      "hookBox": {"x": 60, "y": 164, "width": 960, "height": 90},
+      "disclosureBox": {"x": 60, "y": 267, "width": 960, "height": 30},
+      "hookFontPx": 72,
+      "hookMaxLines": 1,
+      "disclosureFontPx": 24,
+      "minUnoccludedGameplayAreaRatio": 0.65,
+      "note": "The 900x1240 rectangle is the critical-action safe region, NOT a hard footage crop. Native-aspect footage extends behind it. Theoretical coverage subtracts both opaque plates; actual source content and type-fit need visual review. No extra opaque overlays without recalculation."
+    },
+    "cover": {
+      "crop": {"x": 108, "y": 420, "width": 864, "height": 1080},
+      "flagRowY": 450,
+      "hookY": 565,
+      "gameplaySubjectY": 760,
+      "note": "Compose a separate cover from a real captured frame; do not reuse the top-of-video flag row outside the centered crop."
+    },
+    "mediaGate": {
+      "fullDecode": true,
+      "fullOutputFreezeScan": true,
+      "gameplayFreezeRoiRequired": true,
+      "maxUnplannedStaticSeconds": 0.6,
+      "gameplayRange": [0, 12],
+      "declaredGraphicRanges": [[12, 15], [15, 18]],
+      "inspectPercent": [0, 25, 50, 75, 100],
+      "full1xPlayback": true,
+      "coverCropReview": true,
+      "noAnimatedOverlayMaskingFrozenGameplay": true
+    },
+    "profileLinks": {
+      "instagram": "https://vibe-arcade-dun.vercel.app/ig",
+      "youtube": "https://vibe-arcade-dun.vercel.app/yt",
+      "tiktok": "https://vibe-arcade-dun.vercel.app/tt",
+      "threads": "https://vibe-arcade-dun.vercel.app/th",
+      "facebook": "https://vibe-arcade-dun.vercel.app/fb"
+    },
+    "attribution": {
+      "campaign": "flag_challenge_pilot_20260920",
+      "medium": "organic_social",
+      "note": "Existing shared bio links attribute the channel, not reliably an individual post. Do not label their visits as precise per-video conversions."
+    },
+    "audio": {"voiceover": false, "musicPurchase": false, "use": "Original game effects for gameplay; subdued existing effects for graphic cards. The story must work muted."}
+  },
+  "games": [
+    {
+      "id": "dd_fc01",
+      "title": "Deep Descent",
+      "game": "gyro-drop",
+      "version": "gd-descent-v2",
+      "entryPath": "/descent/",
+      "capturePath": "/descent/?capture=1",
+      "sourceFiles": ["descent/core.js", "descent/app.js", "descent/view.js"],
+      "hook": "WHICH FLAG CLEARS 48?",
+      "thumbnailText": "CLEAR 48?",
+      "sourceCanvas": {"width": 600, "height": 840},
+      "footageRect": {"x": 0, "y": 140, "width": 1080, "height": 1512},
+      "controls": "Drag the tower or hold Left/Right (A/D). Space or the burst button only when energy is full.",
+      "verifiedMechanics": [
+        "48 rings; three regions and guardians.",
+        "Guardian rings are at zero-based floor indexes 15, 31 and 47.",
+        "A charged burst breaks one guardian seal, not the entire multi-seal guardian."
+      ],
+      "captureTarget": "Reach a guardian through an unmodified practice run. Seek a visible closed-to-open gate, alignment and an honest seal/clear/damage outcome. The 48 in the hook is the full-game target, not a claim this clip clears the game.",
+      "requiredEvent": "A visible guardian gate interaction; a seal, guardian clear or genuine damage response.",
+      "shots": [
+        {"start": 0, "end": 1, "kind": "gameplay", "copy": ["WHICH FLAG CLEARS 48?"], "action": "Flags and a moving guardian danger moment from the first frame. No logo intro.", "evidenceRequired": "Current 48-ring rules; real practice footage; label PRACTICE HIGHLIGHTS."},
+        {"start": 1, "end": 4, "kind": "gameplay", "copy": ["FIND THE GAP"], "action": "Chronological highlight of tower alignment and a clean drop.", "evidenceRequired": "Source frames must show actual alignment/contact, not AI-generated gameplay."},
+        {"start": 4, "end": 8, "kind": "gameplay", "copy": ["WAIT. THEN DROP."], "action": "Show the real guardian gate opening and the alignment attempt.", "evidenceRequired": "Gate state must visibly match the instruction; do not depict a closed gate as passable."},
+        {"start": 8, "end": 12, "kind": "gameplay", "copy": ["YOUR FLAG. YOUR TURN."], "action": "Resolve the actual attempt: a seal breaks, the guardian is cleared, or damage occurs. Do not promise a victory.", "evidenceRequired": "Use the recorded outcome. A partial seal break is not a boss defeat or 48-ring completion."},
+        {"start": 12, "end": 15, "kind": "identity_card", "copy": ["PICK YOUR FLAG", "PLAY RANKED"], "action": "An explicit graphic transition, not a frozen gameplay frame. Show the two lines sequentially; all flags remain equal invitation choices.", "evidenceRequired": "Verify that the production game still offers country selection and ranked entry. Do not show a saved-score animation."},
+        {"start": 15, "end": 18, "kind": "end_card", "copy": ["LOOPJOLT", "PLAY FREE", "LINK IN BIO"], "action": "Show the brand and profile-link CTA. Use the existing channel profile link; no invented short domain.", "evidenceRequired": "Check the actual destination before publishing; these cards are intentionally graphic, not gameplay."}
+      ],
+      "caption": "Which flag are you playing for? Take on 48 rings in Deep Descent. This clip shows practice highlights. Pick your flag and try ranked on LoopJolt. Play free via the link in bio.",
+      "hashtags": ["LoopJolt", "DeepDescent", "BrowserGames"],
+      "media": null,
+      "sourceWindows": [],
+      "coverSourceFrame": null
+    },
+    {
+      "id": "cp_fc01",
+      "title": "Core Pins",
+      "game": "core-pins",
+      "version": "cp-phaser-v1",
+      "entryPath": "/challengers/play?game=core-pins",
+      "capturePath": "/challengers/play?game=core-pins&capture=1",
+      "sourceFiles": ["challengers/core.js", "challengers/boot.js", "core-pins/app.js", "core-pins/view.js"],
+      "hook": "WHICH FLAG NAILS IT?",
+      "thumbnailText": "NAIL IT?",
+      "sourceCanvas": {"width": 720, "height": 900},
+      "footageRect": {"x": 0, "y": 285, "width": 1080, "height": 1350},
+      "controls": "Tap the canvas or press Space to throw. The launcher approaches from below; preserve it and the full rotating core in frame.",
+      "verifiedMechanics": [
+        "A throw collides with existing pins or red hazards.",
+        "Stage target is min(15, 6 + stage * 2); boss stages occur every fourth stage.",
+        "The simulation throws at screen-space angle 900 (bottom)."
+      ],
+      "captureTarget": "Record a crowded rotating core with a narrow safe angle and a genuine stage-ending pin or collision. Prefer a boss stage only when actually reached. Never edit health or stage to stage the moment.",
+      "requiredEvent": "A real thrown pin with an unambiguous clean insertion or collision; include a stage clear only when visible.",
+      "shots": [
+        {"start": 0, "end": 1, "kind": "gameplay", "copy": ["WHICH FLAG NAILS IT?"], "action": "Flags plus an already-rotating crowded core; show the launcher so the challenge is instantly readable.", "evidenceRequired": "The core, pins, hazards and launcher must all be visible."},
+        {"start": 1, "end": 4, "kind": "gameplay", "copy": ["WAIT FOR THE GAP"], "action": "Let an existing pin or red hazard pass the launch axis.", "evidenceRequired": "Keep the actual rotation direction, timing and contact position."},
+        {"start": 4, "end": 8, "kind": "gameplay", "copy": ["TAP. STICK. REPEAT."], "action": "Show genuine clean throws into safe gaps; preserve the cause/effect of each input.", "evidenceRequired": "Do not splice away a collision and present the sequence as an uninterrupted perfect streak."},
+        {"start": 8, "end": 12, "kind": "gameplay", "copy": ["YOUR FLAG. YOUR TURN."], "action": "Show the actual decisive throw: stage clear or honest collision.", "evidenceRequired": "No ONE PIN LEFT label unless target-stageHits is exactly one in the source; no ONE SHIELD claim unless health equals one."},
+        {"start": 12, "end": 15, "kind": "identity_card", "copy": ["PICK YOUR FLAG", "PLAY RANKED"], "action": "An explicit graphic transition, not a frozen gameplay frame. Show the two lines sequentially; all flags remain equal invitation choices.", "evidenceRequired": "Verify that the production game still offers country selection and ranked entry. Do not show a saved-score animation."},
+        {"start": 15, "end": 18, "kind": "end_card", "copy": ["LOOPJOLT", "PLAY FREE", "LINK IN BIO"], "action": "Show the brand and profile-link CTA. Use the existing channel profile link; no invented short domain.", "evidenceRequired": "Check the actual destination before publishing; these cards are intentionally graphic, not gameplay."}
+      ],
+      "caption": "Which flag can nail the next shot? Time your pins and avoid the collisions in Core Pins. Practice highlights shown. Pick your flag and try ranked on LoopJolt. Play free via the link in bio.",
+      "hashtags": ["LoopJolt", "CorePins", "BrowserGames"],
+      "media": null,
+      "sourceWindows": [],
+      "coverSourceFrame": null
+    },
+    {
+      "id": "nm_fc01",
+      "title": "Nova Merge",
+      "game": "nova-merge",
+      "version": "nm-phaser-v1",
+      "entryPath": "/challengers/play?game=nova-merge",
+      "capturePath": "/challengers/play?game=nova-merge&capture=1",
+      "sourceFiles": ["challengers/core.js", "challengers/game.js"],
+      "hook": "WHICH FLAG SAVES THIS?",
+      "thumbnailText": "SAVE THIS?",
+      "sourceCanvas": {"width": 720, "height": 900},
+      "footageRect": {"x": 0, "y": 285, "width": 1080, "height": 1350},
+      "controls": "Use keys 1-7 for deterministic column selection, or tap a column. Keep the incoming orb and all seven columns visible.",
+      "verifiedMechanics": [
+        "Seven columns, eight-row capacity per column.",
+        "Two matching top orbs in one column merge; matching neighbour tops can then trigger resonance.",
+        "Dropping into a full column ends the run before any merge can rescue that drop."
+      ],
+      "captureTarget": "Reach a visibly cramped board through real play: prefer at least two columns at seven or more rows. Select a non-full column that actually produces a vertical merge followed by neighbour resonance. If no such clip is captured, recapture; do not invent the chain.",
+      "requiredEvent": "A genuine merge plus neighbour resonance that visibly removes at least one orb and frees space; neither simulated editor animation nor a full-column rescue.",
+      "shots": [
+        {"start": 0, "end": 1, "kind": "gameplay", "copy": ["WHICH FLAG SAVES THIS?"], "action": "Flags over a visibly cramped real board. Start with actual input/action, not a still screenshot.", "evidenceRequired": "Show the real next orb and board; the selected column must have capacity."},
+        {"start": 1, "end": 4, "kind": "gameplay", "copy": ["PICK THE COLUMN"], "action": "Show the incoming orb and the actual choice of a non-full matching column.", "evidenceRequired": "Use actual game columns, not a made-up free-moving physics container."},
+        {"start": 4, "end": 8, "kind": "gameplay", "copy": ["MATCH. MERGE. CHAIN."], "action": "Show a vertical merge and a genuine neighbour resonance from the same move sequence.", "evidenceRequired": "The adjacent top disappears and the merged orb upgrades in the source. No fabricated combo number."},
+        {"start": 8, "end": 12, "kind": "gameplay", "copy": ["YOUR FLAG. YOUR TURN."], "action": "Show newly available space and the next actual drop.", "evidenceRequired": "Only call it a save when the source shows space being freed and play continuing. No claim of finishing the whole game."},
+        {"start": 12, "end": 15, "kind": "identity_card", "copy": ["PICK YOUR FLAG", "PLAY RANKED"], "action": "An explicit graphic transition, not a frozen gameplay frame. Show the two lines sequentially; all flags remain equal invitation choices.", "evidenceRequired": "Verify that the production game still offers country selection and ranked entry. Do not show a saved-score animation."},
+        {"start": 15, "end": 18, "kind": "end_card", "copy": ["LOOPJOLT", "PLAY FREE", "LINK IN BIO"], "action": "Show the brand and profile-link CTA. Use the existing channel profile link; no invented short domain.", "evidenceRequired": "Check the actual destination before publishing; these cards are intentionally graphic, not gameplay."}
+      ],
+      "caption": "Which flag finds the saving chain? Match orbs and make space in Nova Merge. Practice highlights shown. Pick your flag and try ranked on LoopJolt. Play free via the link in bio.",
+      "hashtags": ["LoopJolt", "NovaMerge", "PuzzleGames"],
+      "media": null,
+      "sourceWindows": [],
+      "coverSourceFrame": null
+    }
+  ],
+  "handoff": {
+    "nextStage": "marketing-2-4: capture and render review copies; publication is a separate action after the media gate.",
+    "productionPreflight": [
+      "Recheck deployed routes and rule versions; do not mix Deep Descent with legacy Gyro Drop.",
+      "Capture in a fresh logged-out practice session; do not submit bot scores or use test accounts as country competition evidence.",
+      "For Nova Merge, isolate capture telemetry from performance reporting; its current legacy track() does not skip capture=1. Do not interpret capture visits as customers.",
+      "Resolve real flag assets and verify license/asset policy; no image generation needed for gameplay.",
+      "Attach full source run, source time windows, input/event evidence where available, file hash and actual outcome.",
+      "Check hook font fit, native aspect ratio, critical gameplay bounds, unoccluded footage area and centered thumbnail crop visually.",
+      "Run full decode, whole-video and gameplay-ROI freeze scans, inspect all five checkpoint frames, watch the entire file at 1x, and review cover.",
+      "Keep automation and public posting disabled until a separate production workflow explicitly approves the real media."
+    ],
+    "userDecisionRequiredNow": false,
+    "askBefore": [
+      "New spending or paid video tools.",
+      "Changing campaign countries, account positioning, or budget as a targeting strategy rather than illustrative flags.",
+      "Claiming real national matchups without a sourced leaderboard snapshot."
+    ],
+    "notClaimed": [
+      "No video captured or generated in this stage.",
+      "No live playback or deployed-rule parity validated.",
+      "No current country participation count inferred.",
+      "No existing scheduled posts changed."
+    ]
+  }
+}
