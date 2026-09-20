@@ -1,18 +1,19 @@
-# Stage 2-2 Game Shell — bounded change
+# Stage 2-2 — Game Shell
 
-Owner requested 2-2 after all four Stage 2 decisions were approved. Baseline main: b278caafd1e9f56f51422cdf5d6ccceaaaef7e01 (2-1 deployed, PR19).
+## Scope / baseline
+User approved 2-2 after Runtime2-1. Baseline main b278caafd1e9f56f51422cdf5d6ccceaaaef7e01. Branch refactor/game-shell-stage-2-2, PR20.
+Deep Descent-only UI binding extraction. Existing markup/copy/CSS/graphics/controls/scoring/Runtime/auth remain. No backend, other-game migration, new dependency/payment or social work.
 
-## Scope
-Deep Descent only. Extract reusable DOM presentation for entry/Practice/Ranked, HUD bindings, pause/resume, result/save status, identity and common button actions. Keep game-specific copy/metrics in a small adapter. Reuse existing static markup and CSS; no redesign, new game, physics or art work. Shell must never authenticate, fetch a board, infer save success, change input timing or own score rules. Runtime 2-1 still owns platform requests; the game owns gameplay and timing.
+## Implementation ready locally
+- shell/core.js: reusable static-markup slots, entry controls, HUD text/meters, pause, native result dialog, identity/status presentation and common action routing.
+- descent/shell.js: keeps game-specific copy/metrics out of the shell.
+- descent/app.js: delegates presentation, retains rules, inputs/timing and Runtime current-result checks.
+- Failed ranked replay restores entry buttons; stale close events cannot reset a new run.
+- 38 isolated shell/browser checks; Runtime41 + Descent22; existing 4-width full-course suite plus replay-failure/Escape; 6 exact before/after state/DOM/request/screenshot pairs locally.
+- Screenshots are mocked QA, not real-player or advertising evidence.
 
-## Forbidden in this PR
-No other game migration, Runtime/auth rewrite, DB/Edge/OAuth change, dependency/subscription, score/profile writes, generated assets or SNS schedule changes. No 2-3 Feel Kit work.
+## Finish gates
+Commit tested source, inspect review, pass all CI, merge with expected head and verify deployed blobs/guest behavior. Until confirmed in the PR20 release comment this file DOES NOT claim deployment. Do not update DB or impersonate a real Google user for QA.
 
-## Gates
-- Core presentation tests: missing/optional slots, disabled actions, text escaping, independent mounts, listener disposal, native dialog dismissal and replay races.
-- Existing Runtime41, Descent22 and browser suites; complete 48-ring course.
-- Before/after baseline DOM/state/request and desktop/mobile screenshots; canonical rules, art/audio/CSS/runtime byte-identical.
-- Reversible merge only after CI/review; verify live assets and guest play with analytics suppressed and no score writes.
-
-Current checkpoint: branch opened; implementing and testing locally. Not deployed.
-Resume from this file + PR discussion, not all prior chat. Stop after 2-2. Rollback is PR revert/previous Vercel deployment, no DB rollback.
+## Resume
+Read this file and PR20's last release/checkpoint comment. Stop after 2-2; Stage2-3 not started. Rollback: PR revert/previous Vercel deployment. No database rollback.

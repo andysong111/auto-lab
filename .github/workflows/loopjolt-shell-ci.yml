@@ -1,0 +1,49 @@
+name: LoopJolt Game Shell 2-2 gate
+on:
+  pull_request:
+    paths: ['vibe-arcade/shell/**', 'vibe-arcade/descent/**', 'vibe-arcade/runtime/**', 'vibe-arcade/tests/shell-*', '.github/workflows/loopjolt-shell-ci.yml']
+  push:
+    branches: [main]
+    paths: ['vibe-arcade/shell/**', 'vibe-arcade/descent/**', 'vibe-arcade/runtime/**', 'vibe-arcade/tests/shell-*', '.github/workflows/loopjolt-shell-ci.yml']
+permissions:
+  contents: read
+concurrency:
+  group: shell22-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  shell:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax, Runtime and unchanged rules
+        run: |
+          node --check vibe-arcade/shell/core.js
+          node --check vibe-arcade/descent/shell.js
+          node --check vibe-arcade/descent/app.js
+          node --test vibe-arcade/tests/runtime-core.test.cjs
+          node --test vibe-arcade/tests/descent-core.test.cjs loopjolt-backend/tests/descent-verify.test.cjs
+      - name: Build existing pinned assets
+        run: cd vibe-arcade && npm ci --ignore-scripts --no-audit --no-fund && npm run build
+      - name: Browser tools (test only)
+        run: |
+          npm install --prefix "$RUNNER_TEMP/pw" playwright@1.55.0 --ignore-scripts --no-audit --no-fund
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Reusable shell and native dialog lifecycle
+        run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" node vibe-arcade/tests/shell-browser.cjs
+      - name: One-time extraction parity (not a permanent design freeze)
+        if: github.event_name == 'pull_request' && github.head_ref == 'refactor/game-shell-stage-2-2'
+        env:
+          SHELL_BASE_REF: ${{ github.event.pull_request.base.sha }}
+        run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" SHELL_QA_OUT=/tmp/shell22-parity node vibe-arcade/tests/shell-parity.cjs
+      - uses: actions/upload-artifact@v4
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'refactor/game-shell-stage-2-2'
+        with:
+          name: shell22-parity
+          path: /tmp/shell22-parity
+          retention-days: 3
