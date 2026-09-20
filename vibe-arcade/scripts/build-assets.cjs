@@ -7,3 +7,5 @@ const out=path.join(root,'vendor');fs.mkdirSync(out,{recursive:true});
 fs.copyFileSync(path.join(pkg,'dist','phaser.min.js'),path.join(out,'phaser-3.90.0.min.js'));
 if(fs.existsSync(path.join(pkg,'LICENSE.md')))fs.copyFileSync(path.join(pkg,'LICENSE.md'),path.join(out,'PHASER-LICENSE.md'));
 console.log('Built local Phaser 3.90.0 runtime.');
+require('./build-core-pins.cjs').build();
+console.log('Built Core Pins shared-kit bundle.');

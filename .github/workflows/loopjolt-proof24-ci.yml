@@ -1,0 +1,46 @@
+name: LoopJolt Core Pins proof 2-4
+on:
+  pull_request:
+    paths: ['vibe-arcade/core-pins/**', 'vibe-arcade/challengers/**', 'vibe-arcade/runtime/**', 'vibe-arcade/shell/**', 'vibe-arcade/feel/**', 'vibe-arcade/scripts/build-*.cjs', 'vibe-arcade/scripts/proof24-*.cjs', 'vibe-arcade/tests/proof24-*', '.github/workflows/loopjolt-proof24-ci.yml']
+  push:
+    branches: [main]
+    paths: ['vibe-arcade/core-pins/**', 'vibe-arcade/challengers/**', 'vibe-arcade/runtime/**', 'vibe-arcade/shell/**', 'vibe-arcade/feel/**', 'vibe-arcade/scripts/build-*.cjs', 'vibe-arcade/tests/proof24-*', '.github/workflows/loopjolt-proof24-ci.yml']
+permissions:
+  contents: read
+concurrency:
+  group: proof24-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      PROOF24_BASE_REF: ${{ github.event_name == 'pull_request' && github.head_ref == 'refactor/core-pins-proof-2-4' && github.event.pull_request.base.sha || '' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build existing pinned runtime and composed Core Pins bundle
+        run: cd vibe-arcade && npm ci --ignore-scripts --no-audit --no-fund && npm run build
+      - name: Dispatch, unchanged rules and shared kit tests
+        run: |
+          for f in vibe-arcade/core-pins/*.js; do node --check "$f"; done
+          node --test vibe-arcade/tests/proof24-core.test.cjs
+          node --test vibe-arcade/tests/runtime-core.test.cjs vibe-arcade/tests/feel-core.test.cjs vibe-arcade/tests/challengers-core.test.cjs loopjolt-backend/tests/challengers-verify.test.cjs
+          mkdir -p /tmp/proof24-qa
+          node vibe-arcade/scripts/proof24-metrics.cjs > /tmp/proof24-qa/reuse-metrics.json
+      - name: Browser test tools only
+        run: |
+          npm install --prefix "$RUNNER_TEMP/pw" playwright@1.55.0 --ignore-scripts --no-audit --no-fund
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Core Pins integration, original-game parity and legacy routes
+        run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" PROOF24_OUT=/tmp/proof24-qa node vibe-arcade/tests/proof24-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: proof24-evidence
+          path: /tmp/proof24-qa
+          retention-days: 3
