@@ -3,7 +3,7 @@
 const ORIGIN='https://vibe-arcade-dun.vercel.app';
 const ENDPOINT='https://qmtmyqytzkdtglfcegef.supabase.co/functions/v1/loopjolt-community';
 const COOKIE='__Host-loopjolt_play';
-const ALLOWED=new Set(['auth_enter','auth_recover','auth_logout','profile','save_profile','delete_profile','start','finish']);
+const ALLOWED=new Set(['auth_exchange','auth_logout','profile','save_profile','delete_profile','start','finish']);
 const SESSION=/^ljp_[a-f0-9]{64}$/;
 function cookieToken(header=''){const match=String(header).split(';').map(s=>s.trim()).find(s=>s.startsWith(COOKIE+'='));const value=match?match.slice(COOKIE.length+1):'';return SESSION.test(value)?value:'';}
 function cookie(value,seconds){return COOKIE+'='+value+'; Path=/; Max-Age='+seconds+'; HttpOnly; Secure; SameSite=Lax';}
@@ -18,7 +18,8 @@ function makeHandler(fetcher=fetch){return async function handler(req,res){
  try{if(typeof body==='string')body=JSON.parse(body);}catch{return res.status(400).json({error:'invalid_payload'});}
  if(!body||typeof body!=='object'||Array.isArray(body))return res.status(400).json({error:'invalid_payload'});
  if(Buffer.byteLength(JSON.stringify(body))>65536)return res.status(413).json({error:'payload_too_large'});
- const token=cookieToken(req.headers.cookie),isLogin=action==='auth_enter'||action==='auth_recover';
+ const token=cookieToken(req.headers.cookie),isLogin=action==='auth_exchange';
+ if(isLogin&&(!/^ljx_[a-f0-9]{64}$/.test(body.ticket||'')||Object.keys(body).some(k=>k!=='ticket')))return res.status(400).json({error:'invalid_payload'});
  // Clearing the browser cookie is unconditional, even when upstream revocation is unavailable.
  if(action==='auth_logout'||action==='delete_profile'){
   if(action==='auth_logout')res.setHeader('Set-Cookie',cookie('',0));

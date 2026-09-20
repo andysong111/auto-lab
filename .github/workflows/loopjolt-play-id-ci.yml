@@ -2,9 +2,9 @@ name: LoopJolt Play ID checks
 on:
   push:
     branches: [main, feature/play-id-entry]
-    paths: ['loopjolt-backend/auth/**', 'loopjolt-backend/tests/play-id*', 'loopjolt-backend/migrations/20260920_play_id.sql', 'vibe-arcade/api/play-id.js', 'vibe-arcade/community/**', '.github/workflows/loopjolt-play-id-ci.yml']
+    paths: ['loopjolt-backend/auth/**', 'loopjolt-backend/tests/play-id*', 'loopjolt-backend/migrations/20260920_play_id*.sql', 'vibe-arcade/api/play-id.js', 'vibe-arcade/community/**', '.github/workflows/loopjolt-play-id-ci.yml']
   pull_request:
-    paths: ['loopjolt-backend/auth/**', 'loopjolt-backend/tests/play-id*', 'loopjolt-backend/migrations/20260920_play_id.sql', 'vibe-arcade/api/play-id.js', 'vibe-arcade/community/**', '.github/workflows/loopjolt-play-id-ci.yml']
+    paths: ['loopjolt-backend/auth/**', 'loopjolt-backend/tests/play-id*', 'loopjolt-backend/migrations/20260920_play_id*.sql', 'vibe-arcade/api/play-id.js', 'vibe-arcade/community/**', '.github/workflows/loopjolt-play-id-ci.yml']
 permissions:
   contents: read
 concurrency:
@@ -50,6 +50,7 @@ jobs:
           test "$PGHOST" = localhost && test "$PGDATABASE" = playid_test
           psql -v ON_ERROR_STOP=1 -f loopjolt-backend/tests/play-id-db-setup.sql
           psql -v ON_ERROR_STOP=1 -f loopjolt-backend/tests/play-id-db.test.sql
+          psql -v ON_ERROR_STOP=1 -f loopjolt-backend/tests/play-id-exchange-db.test.sql
       - name: Build pinned browser assets
         run: cd vibe-arcade && npm ci --ignore-scripts --no-audit --no-fund && npm run build
       - name: Pack source and built assets for reproducible inspection
@@ -66,4 +67,30 @@ jobs:
         with:
           name: play-id-workspace
           path: ${{ runner.temp }}/play-id-workspace.zip
+          retention-days: 3
+
+  live:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: auth
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned live browser checker
+        run: |
+          npm install --prefix "$RUNNER_TEMP/pw" playwright@1.55.0 --ignore-scripts --no-audit --no-fund
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Live Option A smoke - own disposable ID, no score submissions
+        env:
+          LOOPJOLT_LIVE_AUTH_SMOKE: approved-option-a
+          QA_OUT: /tmp/play-id-live
+        run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" node loopjolt-backend/tests/play-id-live.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: play-id-live-review
+          path: /tmp/play-id-live
           retention-days: 3

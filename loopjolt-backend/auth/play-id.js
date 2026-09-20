@@ -49,7 +49,23 @@ function create({rpc,secret,countries}){
  }
  async function resolve(token){if(!/^ljp_[a-f0-9]{64}$/.test(token||''))throw Error('invalid_or_expired_login');const r=await rpc('session',{sessionHash:await digest(token)});if(!r.subject)throw Error('invalid_or_expired_login');return r.subject;}
  async function logout(token){if(/^ljp_[a-f0-9]{64}$/.test(token||''))await rpc('logout',{sessionHash:await digest(token)});return {loggedOut:true};}
- return Object.freeze({enter,recover,resolve,logout});
+ // Credential requests arrive directly from the browser so the platform sees its network,
+ // not a shared Vercel egress IP. Only a single-use ticket crosses browser JS.
+ async function prepare(body,ip){
+  const result=body.recover===true?await recover(body,ip):await enter(body,ip);
+  const ticket='ljx_'+random();
+  try{const staged=await rpc('exchange_stage',{sessionHash:await digest(result.token),ticketHash:await digest(ticket)});if(staged.staged!==true)throw Error('invalid_auth_response');}
+  catch(e){await logout(result.token).catch(()=>{});throw e;}
+  const {token,...publicResult}=result;return {...publicResult,ticket};
+ }
+ async function exchange(ticket){
+  if(!/^ljx_[a-f0-9]{64}$/.test(ticket||''))throw Error('invalid_or_expired_login');
+  const token='ljp_'+random();
+  const r=await rpc('exchange_redeem',{ticketHash:await digest(ticket),sessionHash:await digest(token)});
+  if(!r.profile||r.error)throw Error('invalid_or_expired_login');
+  return {profile:r.profile,expiresAt:r.expiresAt,token};
+ }
+ return Object.freeze({enter,recover,prepare,exchange,resolve,logout});
 }
 const api={ITERATIONS,random,digest,id,password,derive,equal,create};root.LoopPlayId=Object.freeze(api);if(typeof module!=='undefined')module.exports=api;
 })(globalThis);

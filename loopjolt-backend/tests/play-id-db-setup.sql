@@ -9,3 +9,5 @@ do $$declare src text;begin
  execute replace(src,'FUNCTION public.loopjolt_gateway(','FUNCTION public.loopjolt_gateway_v3(');
 end;$$;
 \i loopjolt-backend/migrations/20260920_play_id.sql
+
+\i loopjolt-backend/migrations/20260920_play_id_exchange.sql

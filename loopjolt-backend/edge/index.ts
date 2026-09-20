@@ -18,7 +18,7 @@ async function rpc(action:string,subject:string|null=null,payload:unknown={}){
 }
 async function authRpc(action:string,payload:unknown={}){
  const key=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY'),base=Deno.env.get('SUPABASE_URL');if(!key||!base)throw Error('backend_unavailable');
- const response=await fetch(base+'/rest/v1/rpc/loopjolt_play_auth',{method:'POST',headers:{apikey:key,Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify({p_action:action,p_payload:payload}),signal:AbortSignal.timeout(8000)});
+ const response=await fetch(base+'/rest/v1/rpc/'+(action.startsWith('exchange_')?'loopjolt_play_exchange':'loopjolt_play_auth'),{method:'POST',headers:{apikey:key,Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify({p_action:action,p_payload:payload}),signal:AbortSignal.timeout(8000)});
  const data=await response.json();if(!response.ok)throw Error(data.message||'database_error');return data;
 }
 const playId=(globalThis as any).LoopPlayId.create({rpc:authRpc,secret:Deno.env.get('SUPABASE_SERVICE_ROLE_KEY'),countries:CODES});
@@ -38,11 +38,11 @@ Deno.serve(async(req:Request)=>{
   }
   if(req.method!=='POST')return reply({error:'method_not_allowed'},405);if(origin!==ORIGIN)return reply({error:'origin_required'},403);
   const body=await readLimited(req);if(!body||typeof body!=='object'||Array.isArray(body))return reply({error:'invalid_payload'},400);
-  // Network limits use only the gateway-observed address, never a supplied JSON field.
-  // Reverse proxies can pool addresses: identifier limits remain independent of this hint.
+  // Credential preparation is called directly from the browser (no pooled BFF egress).
+  // This network hint is supplemental; account-key and global creation limits stay independent.
   const ip=(req.headers.get('x-forwarded-for')||'unknown').split(',').at(-1)?.trim()||'unknown';
-  if(action==='auth_enter')return reply(await playId.enter(body,ip));
-  if(action==='auth_recover')return reply(await playId.recover(body,ip));
+  if(action==='auth_prepare')return reply(await playId.prepare(body,ip));
+  if(action==='auth_exchange')return reply(await playId.exchange(body.ticket));
   const bearer=req.headers.get('Authorization')||'';
   if(action==='auth_logout')return reply(await playId.logout(bearer.startsWith('Bearer ')?bearer.slice(7):''));
   if(!bearer.startsWith('Bearer ')||bearer.length>8500)return reply({error:'authentication_required'},401);

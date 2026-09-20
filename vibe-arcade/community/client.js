@@ -50,10 +50,14 @@ function logout(){const wasQuick=quick;token='';profile=null;quick=false;try{ses
  if(wasQuick)signingOut=fetch('/api/play-id?action=auth_logout',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}',credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(10000)}).catch(()=>{});return signingOut;
 }
 async function quickAuth(body,recover=false){
- await signingOut;const response=await fetch('/api/play-id?action='+(recover?'auth_recover':'auth_enter'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(20000)}),data=await response.json();
- if(!response.ok)throw Error(data.error||'request_failed');if(!data.profile||!data.expiresAt)throw Error('invalid_auth_response');
+ await signingOut;
+ const prepared=await fetch(ENDPOINT+'?action=auth_prepare',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...body,recover}),credentials:'omit',cache:'no-store',signal:AbortSignal.timeout(20000)});
+ const proof=await prepared.json();if(!prepared.ok)throw Error(proof.error||'request_failed');
+ if(!/^ljx_[a-f0-9]{64}$/.test(proof.ticket||''))throw Error('invalid_auth_response');
+ const response=await fetch('/api/play-id?action=auth_exchange',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ticket:proof.ticket}),credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(20000)}),data=await response.json();
+ if(!response.ok)throw Error(data.error||'request_failed');if(!data.profile||!Number.isFinite(Date.parse(data.expiresAt)))throw Error('invalid_auth_response');
  token='';quick=true;profile=data.profile;try{sessionStorage.removeItem(KEY);localStorage.setItem(QUICK,JSON.stringify({expires:Date.parse(data.expiresAt)}));}catch{}
- return data;
+ return {...data,created:proof.created===true,recovered:proof.recovered===true,...(proof.recoveryCode?{recoveryCode:proof.recoveryCode}:{})};
 }
 async function api(action,body){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),10000);try{
  let url=ENDPOINT+'?action='+encodeURIComponent(action),options={signal:controller.signal,cache:'no-store'};
