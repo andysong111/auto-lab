@@ -51,7 +51,7 @@ Never show an invented winner.
 
 5.0–10.0s
 - Escalation: gate, boss, combo, burst, merge chain, etc.
-- Brief label: ONE RUN = ONE COUNTRY SCORE.
+- Brief label: SET YOUR BEST. BACK YOUR FLAG.
 
 10.0–15.0s
 - Success or honest failure.
@@ -134,7 +134,7 @@ Use exact live/snapshotted values only.
 6.0–10.0s
 - scoreboard cut;
 - actual gap again;
-- text: EVERY VERIFIED RUN COUNTS.
+- text: VERIFIED BESTS SHAPE THE BOARD.
 
 10.0–14.0s
 - CTA:
