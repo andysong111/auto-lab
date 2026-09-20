@@ -39,3 +39,6 @@ Required checks before scheduling:
 - if no frame is strong enough, create a deterministic cover from real gameplay rather than generating fake gameplay
 
 Default fallback: use a verified non-blank gameplay frame around 1.0s, never the first frame automatically.
+
+## Full playback integrity gate
+Before any video is scheduled, run a full-file decode and freeze scan. Reject unplanned static/repeated-frame runs >= 0.60 seconds in the gameplay body. Manually inspect start / 25% / 50% / 75% / end, compare audio and video durations, and watch the complete rendered file once at 1x. A valid thumbnail does not imply a valid video.
