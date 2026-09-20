@@ -9,33 +9,22 @@ let acc=0,lastFrame=performance.now(),clock=RankedClock.create(),best=0;
 let reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,soundOn=false;
 try{best=Number(localStorage.getItem('dd-best-'+R.VERSION)||0)||0;reduced=reduced||localStorage.getItem('dd-less-motion')==='1';soundOn=localStorage.getItem('dd-sound')==='1';}catch{}
 const audio=new DescentAudio();
+const UI=DescentShell.create({host:document,platform:P,rules:R,onAction:handleShellAction});
 const view=DescentView.make({state:()=>state,isPlaying:()=>playing&&!paused,reduced:()=>reduced,
  action:a=>{if(a[0]==='steer')steer=a[1];},turn:d=>{turn=R.clamp(turn+d,-450,450);},
  ready:()=>{initialized=true;buttons();},contextLost:()=>{pauseRun('Graphics context interrupted. This run is practice only.');}});
 function track(event,props={}){if(!capture)window.LJTelemetry?.track(event,R.GAME,R.VERSION,props);}
-function text(s){$('#status').textContent=s;}
-function profileLabel(){const p=P.getPlayer();if(p){P.renderFlagLabel($('#identity'),p.country,p.handle);P.renderFlagLabel($('#resultIdentity'),p.country,p.handle);}else{$('#identity').textContent='Sign in';$('#resultIdentity').textContent='YOUR EXPEDITION';}}
-function buttons(){
- $('#play').disabled=!initialized||busy;$('#play').textContent='Play practice';
- $('#ranked').disabled=!initialized||busy||!eligible||capture;
- $('#ranked').textContent=P.getPlayer()?'Play ranked':'Sign in to compete';
- $('#entryNote').textContent=capture?'Capture mode · no ranked submissions or analytics.':eligible?'Same weekly course. Compete for your flag.':'Practice is ready. The v2 ranking board is not available yet.';
- $('#pause').disabled=!playing;$('#motion').setAttribute('aria-pressed',String(reduced));$('#sound').setAttribute('aria-pressed',String(soundOn));$('#sound').textContent=soundOn?'Sound on':'Sound off';
-}
-function hud(){
- $('#score').textContent=state.score.toLocaleString('en-US');$('#time').textContent=((R.MAX_TICKS-state.tick)/60).toFixed(1);
- $('#stage').textContent=state.floor+' / 48 RINGS';$('#progress').style.width=(state.floor/48*100)+'%';$('.progress').setAttribute('aria-valuenow',state.floor);
- $('#shields').textContent='● '.repeat(state.health)+'○ '.repeat(3-state.health);$('#shields').setAttribute('aria-label',state.health+' shields');
- $('#charge').textContent=state.energy+' / 100';$('#chargeBar').style.width=state.energy+'%';$('#burst').disabled=!playing||paused||state.energy<100||state.burst>0;$('#burst').classList.toggle('ready',state.energy>=100);
- $('#modeTag').textContent=capture?'CAPTURE · PRACTICE':ranked?'RANKED · v2':'PRACTICE';$('#best').textContent=best.toLocaleString('en-US');
-}
+function text(s){UI.text({status:s});}
+function profileLabel(){UI.identity();}
+function buttons(){UI.controls({ready:initialized,busy,eligible,capture,playing,sound:soundOn,reduced});}
+function hud(){UI.hud({state,playing,paused,ranked,capture,best});}
 const board=scope=>P.readBoard(scope);
-async function official(){if(!P.getPlayer()||!eligible)return;try{const b=await board('world'),p=P.getPlayer();const r=b.rows?.find(x=>x.handle?.toLowerCase()===p.handle.toLowerCase());$('#official').textContent=r?Number(r.score).toLocaleString('en-US'):'Not in top 100';}catch{$('#official').textContent='Unavailable';}}
+async function official(){if(!P.getPlayer()||!eligible)return;try{const b=await board('world'),p=P.getPlayer();const r=b.rows?.find(x=>x.handle?.toLowerCase()===p.handle.toLowerCase());UI.text({official:r?Number(r.score).toLocaleString('en-US'):'Not in top 100'});}catch{UI.text({official:'Unavailable'});}}
 (async()=>{try{const c=await P.boot();seed=c.seed;eligible=c.eligible;
  profileLabel();buttons();if(!playing&&!busy&&state.tick===0){state=R.create(seed);hud();}official();}catch{eligible=false;buttons();}})();
 function downgrade(message){if(ranked){P.downgrade();ranked=false;text(message);track('ranked_downgrade',{reason:message});hud();}}
-function pauseRun(message){if(!playing||paused)return;downgrade(message||'Paused. This attempt is now practice only.');paused=true;steer=0;turn=0;$('#paused').hidden=false;$('#pauseNote').textContent='Paused attempts stay in practice; start a new run to compete.';$('#pause').textContent='▶';audio.enable(false);hud();}
-function resume(){if(!playing||!paused)return;paused=false;acc=0;lastFrame=performance.now();$('#paused').hidden=true;$('#pause').textContent='Ⅱ';audio.enable(soundOn);view.focus();hud();}
+function pauseRun(message){if(!playing||paused)return;downgrade(message||'Paused. This attempt is now practice only.');paused=true;steer=0;turn=0;UI.paused();audio.enable(false);hud();}
+function resume(){if(!playing||!paused)return;paused=false;acc=0;lastFrame=performance.now();UI.resumed();audio.enable(soundOn);view.focus();hud();}
 function actionForTick(){
  if(burst){burst=false;return ['burst'];}
  if(steer!==state.steer)return ['steer',steer];
@@ -46,34 +35,26 @@ async function launch(want){
  if(busy||playing||!initialized)return;
  if(want&&!P.getPlayer()){location.href='/community/?panel=profile&returnTo=%2Fdescent%2F';return;}
  if(want&&(!eligible||capture))return;
- busy=true;let startError='';const id=++epoch;ranked=false;wantedRanked=!!want;buttons();$('#entryNote').textContent=want?'Preparing a verified run…':'Preparing…';
+ busy=true;let startError='';const id=++epoch;ranked=false;wantedRanked=!!want;buttons();UI.text({entryNote:want?'Preparing a verified run…':'Preparing…'});
  try{
   const prepared=want?await P.startRanked():P.startPractice();
   if(id!==epoch)return;
-  state=R.create(prepared.seed);ranked=prepared.ranked;playing=true;paused=false;actions=[];turn=0;steer=0;burst=false;acc=0;clock=RankedClock.create();lastFrame=performance.now();view.reset();audio.reset();audio.enable(soundOn);$('#entry').hidden=true;$('#paused').hidden=true;$('#pause').textContent='Ⅱ';
+  state=R.create(prepared.seed);ranked=prepared.ranked;playing=true;paused=false;actions=[];turn=0;steer=0;burst=false;acc=0;clock=RankedClock.create();lastFrame=performance.now();view.reset();audio.reset();audio.enable(soundOn);UI.started();
   text(ranked?'Official run · unpaused gameplay is verified on the server.':'Practice · drag the tower, not the drone. Space = charged burst.');track('game_start',{ranked});view.focus();hud();
  }catch(e){if(id===epoch){ranked=false;profileLabel();startError=e.message==='invalid_or_expired_login'?'Sign-in expired. Sign in again before a ranked run.':'Ranked start unavailable. Retry or choose practice.';}}
- finally{if(id===epoch){busy=false;buttons();if(startError)$('#entryNote').textContent=startError;}}
+ finally{if(id===epoch){busy=false;buttons();if(startError){UI.entry();UI.text({entryNote:startError});}}}
 }
-function showResult(){
- const p=P.getPlayer();profileLabel();$('#badge').textContent=state.won?'ENGINE BREAKER':state.floor>=32?'EMBER EXPLORER':state.floor>=16?'VAULT DIVER':'FIRST DESCENT';
- $('#resultScore').replaceChildren(document.createTextNode(state.score.toLocaleString('en-US')),Object.assign(document.createElement('span'),{textContent:'pts'}));
- $('#reason').textContent={engine_reached:'All 48 rings cleared. The engine is yours.',red_plate:'Your drone landed on a red plate.',closed_gate:'The gate was closed. Wait for it to turn blue.',time_up:'Time is up. Every clean drop takes you deeper.'}[state.reason]||'Your expedition is complete.';
- $('#rings').textContent=state.floor+' / 48';$('#perfects').textContent=state.perfects;$('#combo').textContent=state.maxCombo;$('#standing').textContent='';$('#retrySave').hidden=true;
- $('#save').className='save';$('#save').textContent=ranked?'Verifying your run…':'Practice best saved on this device. Not a ranked score.';
- $('#again').textContent=wantedRanked&&eligible?'Play ranked again':'Play again';
- if(!$('#result').open)$('#result').showModal();
-}
+function showResult(){UI.result({state,ranked,wantedRanked,eligible});}
 async function submit(operation){
- $('#retrySave').hidden=true;$('#save').textContent='Verifying your run…';
+ UI.saving();
  const result=await operation;if(!P.isCurrent(result))return;
  if(result.status==='verified'){
-  $('#save').className='save ok';$('#save').textContent='Verified · '+result.score.toLocaleString('en-US')+' points saved.';track('score_verified',{score:result.score});
+  UI.saved(result);track('score_verified',{score:result.score});
   try{const [players,nations]=await Promise.all([board('world'),board('nations')]);if(!P.isCurrent(result))return;const p=P.getPlayer();const mine=players.rows.find(x=>x.handle?.toLowerCase()===p?.handle.toLowerCase()),country=nations.rows.find(x=>p?.country&&x.country_code===p.country);
-   $('#standing').textContent=[mine?'World #'+mine.rank:'Outside the displayed top 100',country?P.countryName(p.country)+' #'+country.rank:null].filter(Boolean).join(' · ');if(mine)$('#official').textContent=Number(mine.score).toLocaleString('en-US');
-  }catch{if(P.isCurrent(result))$('#standing').textContent='Score saved. Rank lookup is temporarily unavailable.';}
+   UI.text({standing:[mine?'World #'+mine.rank:'Outside the displayed top 100',country?P.countryName(p.country)+' #'+country.rank:null].filter(Boolean).join(' · ')});if(mine)UI.text({official:Number(mine.score).toLocaleString('en-US')});
+  }catch{if(P.isCurrent(result))UI.text({standing:'Score saved. Rank lookup is temporarily unavailable.'});}
  }else if(result.status==='failed'){
-  $('#save').className='save error';$('#save').textContent=result.error.message==='invalid_or_expired_login'?'Sign-in expired. This score was not confirmed.':'Save not confirmed. Your local best is safe.';$('#retrySave').hidden=!result.retryable;
+  UI.saved(result);
  }
 }
 function end(){
@@ -81,19 +62,22 @@ function end(){
  hud();buttons();track('game_finish',{ranked,score:state.score,floor:state.floor,reason:state.reason});showResult();
  if(ranked)submit(P.submitRun({actions,ticks:state.tick}));ranked=false;
 }
-$('#play').onclick=()=>launch(false);$('#ranked').onclick=()=>launch(true);
+function handleShellAction(action){
+ if(action==='practice')launch(false);
+ if(action==='ranked')launch(true);
+ if(action==='pause')paused?resume():pauseRun();
+ if(action==='resume')resume();
+ if(action==='dismiss')buttons();
+ if(action==='replay')launch(wantedRanked&&eligible&&!capture);
+ if(action==='retry'&&P.canRetry&&!P.saving)submit(P.retrySave());
+ if(action==='sound'){soundOn=!soundOn;audio.enable(soundOn);try{localStorage.setItem('dd-sound',soundOn?'1':'0');}catch{}buttons();}
+ if(action==='motion'){reduced=!reduced;try{localStorage.setItem('dd-less-motion',reduced?'1':'0');}catch{}buttons();}
+}
 $('#burst').onclick=()=>{if(playing&&!paused&&state.energy>=100)burst=true;};
-$('#pause').onclick=()=>paused?resume():pauseRun();$('#resume').onclick=resume;
-$('#closeResult').onclick=()=>{$('#result').close();$('#entry').hidden=false;buttons();};
-$('#result').addEventListener('cancel',()=>{$('#entry').hidden=false;buttons();});
-$('#again').onclick=()=>{$('#result').close();launch(wantedRanked&&eligible&&!capture);};
-$('#retrySave').onclick=()=>{if(P.canRetry&&!P.saving)submit(P.retrySave());};
-$('#sound').onclick=()=>{soundOn=!soundOn;audio.enable(soundOn);try{localStorage.setItem('dd-sound',soundOn?'1':'0');}catch{}buttons();};
-$('#motion').onclick=()=>{reduced=!reduced;try{localStorage.setItem('dd-less-motion',reduced?'1':'0');}catch{}buttons();};
 for(const [id,dir] of [['left',-1],['right',1]]){$('#'+id).onpointerdown=e=>{e.preventDefault();steer=dir;$('#'+id).setPointerCapture?.(e.pointerId);};$('#'+id).onpointerup=$('#'+id).onpointercancel=()=>steer=0;}
 window.addEventListener('pointerup',()=>steer=0);
 window.addEventListener('keydown',e=>{
- if(!playing||$('#result').open||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;
+ if(!playing||UI.resultOpen||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;
  if(['ArrowLeft','ArrowRight','Space','KeyA','KeyD','KeyP','Escape'].includes(e.code)){
   e.preventDefault();e.stopPropagation();
   if(e.code==='KeyP'||e.code==='Escape'){if(!e.repeat)paused?resume():pauseRun();return;}

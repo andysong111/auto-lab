@@ -43,6 +43,17 @@ async function endWithScore(p){
  {const p=await load();await p.click('#ranked');await p.waitForTimeout(10);await p.click('#pause');assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().paused),true);assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().ranked),false);await p.click('#resume');assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().paused),false);await p.context().close();}
  {const p=await load();await p.evaluate(()=>__options.delayFinish=true);await p.click('#ranked');await p.waitForTimeout(10);await endWithScore(p);assert((await p.locator('#save').innerText()).includes('Verifying'));await p.click('#again');await p.waitForTimeout(10);await p.evaluate(()=>__release());await p.waitForTimeout(30);assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().playing),true);assert.equal(await p.locator('#result').isVisible(),false);await p.context().close();}
  {const p=await load(390,true);assert(await p.locator('#ranked').isDisabled());await p.click('#play');await endWithScore(p);assert.equal(await p.evaluate(()=>__calls.start+__calls.finish),0);await p.context().close();}
+ // Shell: replay failure must restore the entry choices, not strand a closed result.
+ {const p=await load();await p.click('#ranked');await p.waitForTimeout(10);await endWithScore(p);
+ await p.evaluate(()=>__options.failStart=true);await p.click('#again');await p.waitForTimeout(30);
+ assert.equal(await p.locator('#entry').isVisible(),true);assert((await p.locator('#entryNote').innerText()).includes('unavailable'));
+ assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().playing),false);
+ await p.click('#play');await p.evaluate(()=>__qa.frames(10));assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().playing),true);assert.deepEqual(p.errors,[]);await p.context().close();}
+ // Shell: native Escape result dismissal returns to entry; the next run remains visible.
+ {const p=await load();await p.click('#play');await endWithScore(p);await p.keyboard.press('Escape');await p.waitForTimeout(30);
+ assert.equal(await p.locator('#result').isVisible(),false);assert.equal(await p.locator('#entry').isVisible(),true);
+ await p.click('#play');await p.evaluate(()=>__qa.frames(25));await p.waitForTimeout(30);
+ assert.equal(await p.locator('#entry').isVisible(),false);assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().playing),true);assert.deepEqual(p.errors,[]);await p.context().close();}
  // Hidden tabs pause and downgrade; resuming never restores ranked eligibility.
  {const p=await load();await p.click('#ranked');await p.waitForTimeout(10);await p.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,get:()=>true});document.dispatchEvent(new Event('visibilitychange'));});assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().paused),true);assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().ranked),false);await p.click('#resume');assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().ranked),false);await p.context().close();}
  // Visit each guardian through actual input events. Screenshots are mocked-QA,

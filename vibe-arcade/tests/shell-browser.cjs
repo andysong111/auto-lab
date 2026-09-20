@@ -1,0 +1,71 @@
+/* DOM-only shell tests with two unrelated fixture layouts. No live auth or transport. */
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const {chromium}=require(process.env.PW_MODULE||'playwright');
+(async()=>{
+ const browser=await chromium.launch({headless:true,...(process.env.PW_EXECUTABLE?{executablePath:process.env.PW_EXECUTABLE}:{}),args:['--no-sandbox','--disable-dev-shm-usage']});
+ try{
+  const context=await browser.newContext(),page=await context.newPage();let external=0;const errors=[];
+  page.on('pageerror',e=>errors.push(e.message));await page.route('**/*',r=>{external++;return r.abort();});
+  await page.setContent('<!doctype html><style>[hidden]{display:none!important}</style><main></main>');
+  await page.addScriptTag({content:fs.readFileSync(path.resolve(__dirname,'../shell/core.js'),'utf8')});
+  const passed=await page.evaluate(async()=>{
+   const passed=[],ok=(name,fn)=>{fn();passed.push(name);},eq=(a,b)=>{if(a!==b)throw Error(JSON.stringify({a,b}));},throws=fn=>{let did=false;try{fn();}catch{did=true;}if(!did)throw Error('Expected rejection');};
+   const html=prefix=>`<section data-fixture="${prefix}"><div data-ui="entry"><button data-ui="practice">Practice</button><button data-ui="ranked">Ranked</button><p data-ui="entryNote"></p></div><div data-ui="paused" hidden><p data-ui="pauseNote"></p><button data-ui="resume">Resume</button></div><button data-ui="pause">Ⅱ</button><button data-ui="sound">Sound off</button><button data-ui="motion">Less motion</button><span data-ui="identity"></span><b data-ui="metric"></b><div data-ui="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"><i data-ui="fill"></i></div><dialog data-ui="result"><button data-ui="dismiss">Close</button><span data-ui="resultIdentity"></span><h2 data-ui="resultScore"></h2><p data-ui="save"></p><button data-ui="retry" hidden>Retry save</button><button data-ui="replay">Replay</button></dialog></section>`;
+   const puzzle='<section data-fixture="b"><header>Puzzle moves: <b data-ui="metric"></b></header><aside data-ui="entry"><button data-ui="ranked">Join</button><button data-ui="practice">Try</button></aside><aside data-ui="paused" hidden>Paused puzzle</aside><dialog data-ui="result"><h2 data-ui="resultScore"></h2><button data-ui="replay">Again</button><button data-ui="dismiss">Back</button></dialog></section>';
+   document.querySelector('main').innerHTML=html('a')+puzzle;
+   const a=document.querySelector('[data-fixture=a]'),b=document.querySelector('[data-fixture=b]');
+   const sel=name=>`[data-ui="${name}"]`,el=(name,host=a)=>host.querySelector(sel(name));
+   const slots=Object.fromEntries(['entry','paused','result','practice','ranked','entryNote','pauseNote','pause','resume','sound','motion','identity','resultIdentity','resultScore','save','retry','dismiss','replay'].map(k=>[k,sel(k)]));
+   const options={host:a,slots,fields:{points:sel('metric')},meters:{power:{fill:sel('fill'),aria:sel('progress')}}};
+   let calls=[],shell;const onAction=name=>{calls.push(name);if(name==='replay'||name==='resume')shell.show('playing');if(name==='pause')shell.show('paused',{note:'Practice only'});};
+   ok('explicitly configured missing slot rejects before binding',()=>throws(()=>LoopJoltGameShell.create({...options,slots:{...slots,practice:'#missing'}})));
+   shell=LoopJoltGameShell.create({...options,onAction});
+   ok('duplicate mount is rejected',()=>throws(()=>LoopJoltGameShell.create(options)));
+   const controls={ready:true,busy:false,eligible:true,capture:false,hasPlayer:false,playing:false,sound:false,reduced:false,entryNote:'Ready'};
+   shell.controls({...controls,ready:false});el('practice').click();el('ranked').click();ok('loading buttons do not dispatch',()=>eq(calls.length,0));
+   shell.controls(controls);el('practice').click();ok('practice dispatches exactly once',()=>eq(calls.join(','),'practice'));
+   ok('guest ranked affordance is explicit',()=>eq(el('ranked').textContent,'Sign in to compete'));
+   shell.controls({...controls,hasPlayer:true});ok('signed-in label',()=>eq(el('ranked').textContent,'Play ranked'));
+   shell.controls({...controls,busy:true});el('ranked').click();ok('busy ranked button suppressed',()=>eq(calls.length,1));
+   shell.controls({...controls,capture:true});el('ranked').click();ok('capture cannot click ranked',()=>eq(calls.length,1));
+   shell.controls({...controls,sound:true,reduced:true});ok('sound/motion accessible pressed state',()=>{eq(el('sound').textContent,'Sound on');eq(el('sound').getAttribute('aria-pressed'),'true');eq(el('motion').getAttribute('aria-pressed'),'true');});
+   shell.text({points:0});ok('zero score is retained',()=>eq(el('metric').textContent,'0'));
+   shell.text({points:'<img src=x onerror=alert(1)>'});ok('text is never parsed as HTML',()=>{eq(el('metric').children.length,0);eq(el('metric').textContent,'<img src=x onerror=alert(1)>');});
+   ok('unknown fields/non-scalar text rejected',()=>{throws(()=>shell.text({unknown:1}));throws(()=>shell.text({points:{}}));});
+   shell.meter('power',150,100);ok('meter bounded and accessible',()=>{eq(el('fill').style.width,'100%');eq(el('progress').getAttribute('aria-valuenow'),'100');});
+   ok('nonfinite meter rejected',()=>throws(()=>shell.meter('power',NaN,100)));
+   shell.identity(null,null,{header:'Guest',result:'Local result'});ok('guest identity fallbacks',()=>{eq(el('identity').textContent,'Guest');eq(el('resultIdentity').textContent,'Local result');});
+   shell.identity({country:'KR',handle:'<b>name</b>'},(target,c,h)=>target.textContent=c+' '+h);ok('identity renderer is injected, not an auth implementation',()=>eq(el('identity').textContent,'KR <b>name</b>'));
+   shell.show('playing');ok('playing hides entry and pause',()=>{eq(el('entry').hidden,true);eq(el('paused').hidden,true);});
+   shell.show('paused',{note:'Unranked'});ok('pause presentation has correct overlay/icon',()=>{eq(el('paused').hidden,false);eq(el('pause').textContent,'▶');eq(el('pauseNote').textContent,'Unranked');});
+   shell.show('playing');ok('resume does not restore any ranked status',()=>{eq(el('paused').hidden,true);eq(el('pause').textContent,'Ⅱ');});
+   const result={parts:[{text:'1,000'},{text:'pts',tag:'span'}],values:{points:1000},replayLabel:'Play again',save:{state:'saving',message:'Verifying'}};
+   shell.result(result);ok('result uses native modal and safe suffix',()=>{eq(el('result').open,true);eq(el('resultScore').textContent,'1,000pts');eq(el('resultScore').querySelector('span').textContent,'pts');eq(el('retry').hidden,true);});
+   shell.result(result);ok('repeated result rendering never opens a second modal',()=>eq(el('result').open,true));
+   shell.save({state:'failed',message:'Unconfirmed',retryable:false});ok('permanent failure hides retry',()=>eq(el('retry').hidden,true));
+   shell.save({state:'failed',message:'Unconfirmed',retryable:true});el('retry').click();ok('transient failure exposes one retry action',()=>eq(calls.at(-1),'retry'));
+   shell.save({state:'saving',message:'Still verifying'});ok('retry hides while save is pending',()=>{eq(el('retry').hidden,true);eq(el('save').textContent,'Still verifying');});
+   shell.save({state:'verified',message:'Verified · 1,000 points'});ok('verified is only a supplied presentation outcome',()=>eq(el('save').className,'save ok'));
+   ok('unknown save state and unsafe result tags rejected',()=>{throws(()=>shell.save({state:'success',message:'bad'}));throws(()=>shell.result({parts:[{text:'x',tag:'script'}]}));});
+   el('dismiss').click();ok('close returns to entry',()=>{eq(shell.screen,'entry');eq(el('entry').hidden,false);eq(el('result').open,false);});
+   shell.result(result);el('replay').click();await new Promise(r=>setTimeout(r,20));ok('queued modal close cannot undo replay',()=>{eq(shell.screen,'playing');eq(el('entry').hidden,true);eq(calls.filter(x=>x==='replay').length,1);});
+   shell.result(result);el('replay').click();shell.result(result);await new Promise(r=>setTimeout(r,20));ok('old close event cannot dismiss a newer result',()=>eq(el('result').open,true));
+   el('result').close();await new Promise(r=>setTimeout(r,20));ok('native programmatic close reveals entry',()=>{eq(shell.screen,'entry');eq(el('entry').hidden,false);});
+   const minimal=Object.fromEntries(['entry','paused','result','practice','ranked','replay','dismiss','resultScore'].map(k=>[k,sel(k)]));
+   const second=LoopJoltGameShell.create({host:b,slots:minimal,fields:{points:sel('metric')},labels:{signIn:'Join puzzle rankings'},onAction:n=>calls.push('b:'+n)});second.controls(controls);second.text({points:'Puzzle moves: 4'});el('practice',b).click();ok('different fixture/metric uses same shell without cross-talk',()=>{eq(el('metric',b).textContent,'Puzzle moves: 4');eq(el('metric').textContent,'1000');eq(calls.at(-1),'b:practice');eq(el('ranked',b).textContent,'Join puzzle rankings');});
+   shell.result(result);shell.destroy();ok('destroy closes modal without leaving page inert',()=>eq(el('result').open,false));
+   const old=calls.length;shell.destroy();el('practice').click();ok('destroy is idempotent and removes listeners',()=>eq(calls.length,old));
+   ok('disposed methods fail explicitly',()=>throws(()=>shell.text({points:3})));
+   shell=LoopJoltGameShell.create({...options,onAction});shell.controls(controls);el('practice').click();ok('remount dispatches once, not twice',()=>eq(calls.length,old+1));
+   window.__shellFixture={shell,second,result,el,calls};return passed;
+  });
+  // Actual keyboard dismissal and focus trapping, not synthetic cancel events.
+  await page.evaluate(()=>__shellFixture.shell.result(__shellFixture.result));await page.keyboard.press('Tab');
+  assert(await page.evaluate(()=>__shellFixture.el('result').contains(document.activeElement)),'focus remains in native modal');passed.push('native modal traps keyboard focus');
+  await page.keyboard.press('Escape');await page.waitForTimeout(20);
+  assert.equal(await page.evaluate(()=>__shellFixture.shell.screen),'entry');assert.equal(await page.evaluate(()=>__shellFixture.el('result').open),false);passed.push('real Escape dismisses to entry once');
+  assert.equal(external,0);assert.deepEqual(errors,[]);passed.push('no network requests or page errors');
+  console.log(JSON.stringify({passed:passed.length,checks:passed},null,2));await context.close();
+ }finally{await browser.close();}
+})().catch(e=>{console.error(e);process.exitCode=1});
