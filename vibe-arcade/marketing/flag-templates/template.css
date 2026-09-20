@@ -15,7 +15,7 @@
 .flag-card .code{font-size:32px;font-weight:1000;letter-spacing:.03em}
 .fact{position:absolute;left:90px;top:535px;display:flex;align-items:center;gap:16px}
 .fact span,.fact b{padding:13px 20px;border-radius:999px;background:rgba(8,15,16,.78);border:1px solid rgba(255,255,255,.14)}
-.fact span{font-size:25px;color:#afc0ba}.fact b{font-size:38px;color:#f0cc7a}
+.fact span{font-size:25px;color:#afc0ba}.fact b{font-size:38px;color:#f0cc7a}.fact b:empty,.fact span:empty{display:none}
 .cta{position:absolute;left:90px;right:180px;top:1480px;height:150px;padding:25px 30px;border-radius:32px;background:rgba(8,15,16,.82);border:1px solid rgba(240,204,122,.38);display:flex;flex-direction:column;justify-content:center}
 .cta b{font-size:46px;line-height:1;color:#fff}.cta span{font-size:25px;color:#afc0ba;margin-top:13px}
 footer{position:absolute;left:90px;right:180px;top:1685px;display:flex;justify-content:space-between;font-size:23px;font-weight:800;color:#91a39e}
@@ -29,4 +29,11 @@ footer{position:absolute;left:90px;right:180px;top:1685px;display:flex;justify-c
 .board-row .rank{font-size:46px;font-weight:1000;color:#f0cc7a}.board-row img{width:90px;height:60px;object-fit:cover;border-radius:8px}.board-row .country{font-size:36px;font-weight:1000}.board-row .score{font-size:42px;font-weight:1000}
 .preview-warning{position:absolute;left:90px;right:180px;top:715px;padding:18px;border-radius:18px;background:#7b312f;color:white;text-align:center;font-size:25px;font-weight:1000;letter-spacing:.05em}
 .format-versus .flags,.format-versus .fact{display:none}.format-board .flags{display:none}.format-board .fact{top:850px}
+.cover .cta,.cover footer,.cover .fact{display:none}
+.cover .brand{top:74px}.cover .hook{top:205px;height:190px}.cover .hook div{font-size:88px}
+.cover.format-challenge .flags{top:430px;justify-content:center}
+.cover.format-versus .versus{top:440px}
+.cover.format-board .board{top:440px}
+.cover .preview-warning{top:1040px}
+.cover .gameplay-placeholder{top:900px}
 @media(max-width:700px){body{align-items:start}.frame{transform-origin:top left;transform:scale(.36);margin-bottom:-1228px}}
