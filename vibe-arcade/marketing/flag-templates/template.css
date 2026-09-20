@@ -1,0 +1,32 @@
+:root{font-family:Inter,Montserrat,Arial,sans-serif;color:#f5faf7;background:#080d0e}
+*{box-sizing:border-box}body{margin:0;display:grid;place-items:center;min-height:100vh;background:#050809}
+.frame{position:relative;width:1080px;height:1920px;overflow:hidden;background:#111c1d;isolation:isolate}
+.gameplay{position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,#36524f 0,#172627 36%,#0b1112 72%);background-size:cover;background-position:center}
+.gameplay::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,8,9,.55),rgba(5,8,9,.03) 28%,rgba(5,8,9,.08) 66%,rgba(5,8,9,.76))}
+.gameplay-placeholder{position:absolute;left:300px;top:760px;width:480px;height:480px;border:3px solid rgba(240,204,122,.28);border-radius:50%;display:grid;place-items:center;color:rgba(255,255,255,.25);font-weight:900;font-size:30px;letter-spacing:.08em}
+.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,8,9,.18),transparent 76%,rgba(5,8,9,.38));pointer-events:none}
+.brand{position:absolute;left:90px;right:180px;top:64px;height:58px;display:flex;align-items:center;justify-content:space-between;font-weight:900;letter-spacing:.08em;font-size:29px}
+.brand span{color:#f0cc7a}.brand b{font-size:23px;color:#afc0ba}
+.hook{position:absolute;left:90px;right:180px;top:150px;height:180px;display:flex;align-items:center}
+.hook div{max-width:810px;font-weight:1000;font-size:82px;line-height:.94;letter-spacing:-.045em;text-wrap:balance}
+.flags{position:absolute;left:90px;right:180px;top:340px;height:166px;display:flex;gap:18px;align-items:center}
+.flag-card{height:132px;min-width:174px;padding:13px 17px;border:1px solid rgba(255,255,255,.18);border-radius:26px;background:rgba(8,15,16,.72);backdrop-filter:blur(14px);display:flex;align-items:center;gap:14px}
+.flag-card img{width:92px;height:64px;object-fit:cover;border-radius:9px;box-shadow:0 0 0 2px rgba(255,255,255,.18)}
+.flag-card .code{font-size:32px;font-weight:1000;letter-spacing:.03em}
+.fact{position:absolute;left:90px;top:535px;display:flex;align-items:center;gap:16px}
+.fact span,.fact b{padding:13px 20px;border-radius:999px;background:rgba(8,15,16,.78);border:1px solid rgba(255,255,255,.14)}
+.fact span{font-size:25px;color:#afc0ba}.fact b{font-size:38px;color:#f0cc7a}
+.cta{position:absolute;left:90px;right:180px;top:1480px;height:150px;padding:25px 30px;border-radius:32px;background:rgba(8,15,16,.82);border:1px solid rgba(240,204,122,.38);display:flex;flex-direction:column;justify-content:center}
+.cta b{font-size:46px;line-height:1;color:#fff}.cta span{font-size:25px;color:#afc0ba;margin-top:13px}
+footer{position:absolute;left:90px;right:180px;top:1685px;display:flex;justify-content:space-between;font-size:23px;font-weight:800;color:#91a39e}
+.versus{position:absolute;left:90px;right:180px;top:350px;height:355px;display:grid;grid-template-columns:1fr 110px 1fr;align-items:center;gap:14px}
+.versus-side{height:295px;border-radius:36px;background:rgba(8,15,16,.79);border:1px solid rgba(255,255,255,.16);display:grid;place-items:center;padding:22px}
+.versus-side img{width:190px;height:125px;object-fit:cover;border-radius:14px;box-shadow:0 0 0 2px rgba(255,255,255,.16)}
+.versus-side .country{font-size:38px;font-weight:1000}.versus-side .score{font-size:67px;font-weight:1000;color:#f0cc7a}
+.versus-vs{font-size:54px;font-weight:1000;text-align:center}
+.board{position:absolute;left:90px;right:180px;top:345px;display:flex;flex-direction:column;gap:12px}
+.board-row{height:116px;border-radius:26px;background:rgba(8,15,16,.79);border:1px solid rgba(255,255,255,.15);display:grid;grid-template-columns:70px 108px 1fr auto;align-items:center;padding:12px 24px;gap:14px}
+.board-row .rank{font-size:46px;font-weight:1000;color:#f0cc7a}.board-row img{width:90px;height:60px;object-fit:cover;border-radius:8px}.board-row .country{font-size:36px;font-weight:1000}.board-row .score{font-size:42px;font-weight:1000}
+.preview-warning{position:absolute;left:90px;right:180px;top:715px;padding:18px;border-radius:18px;background:#7b312f;color:white;text-align:center;font-size:25px;font-weight:1000;letter-spacing:.05em}
+.format-versus .flags,.format-versus .fact{display:none}.format-board .flags{display:none}.format-board .fact{top:850px}
+@media(max-width:700px){body{align-items:start}.frame{transform-origin:top left;transform:scale(.36);margin-bottom:-1228px}}
