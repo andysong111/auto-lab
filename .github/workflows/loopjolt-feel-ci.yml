@@ -1,0 +1,53 @@
+name: LoopJolt Feel Kit 2-3 gate
+on:
+  pull_request:
+    paths: ['vibe-arcade/feel/**', 'vibe-arcade/descent/**', 'vibe-arcade/tests/feel-*', '.github/workflows/loopjolt-feel-ci.yml']
+  push:
+    branches: [main]
+    paths: ['vibe-arcade/feel/**', 'vibe-arcade/descent/**', 'vibe-arcade/tests/feel-*', '.github/workflows/loopjolt-feel-ci.yml']
+permissions:
+  contents: read
+concurrency:
+  group: feel23-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  feel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Feel lifecycle and existing game/platform tests
+        run: |
+          for f in vibe-arcade/feel/*.js vibe-arcade/descent/*.js; do node --check "$f"; done
+          node --test vibe-arcade/tests/feel-core.test.cjs
+          node --test vibe-arcade/tests/runtime-core.test.cjs
+          node --test vibe-arcade/tests/descent-core.test.cjs loopjolt-backend/tests/descent-verify.test.cjs
+      - name: Build existing pinned assets
+        run: cd vibe-arcade && npm ci --ignore-scripts --no-audit --no-fund && npm run build
+      - name: Browser tools (test only)
+        run: |
+          npm install --prefix "$RUNNER_TEMP/pw" playwright@1.55.0 --ignore-scripts --no-audit --no-fund
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Real Phaser and Web Audio lifecycle
+        run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" node vibe-arcade/tests/feel-browser.cjs
+      - name: One-time extraction parity, not a future design freeze
+        if: github.event_name == 'pull_request' && github.head_ref == 'refactor/feel-kit-stage-2-3'
+        env:
+          FEEL_BASE_REF: ${{ github.event.pull_request.base.sha }}
+        run: |
+          mkdir -p /tmp/feel23-baseline
+          git archive "$FEEL_BASE_REF" | tar -x -C /tmp/feel23-baseline
+          cp -r vibe-arcade/vendor /tmp/feel23-baseline/vibe-arcade/
+          BASELINE_DIR=/tmp/feel23-baseline NODE_PATH="$RUNNER_TEMP/pw/node_modules" node vibe-arcade/tests/feel-browser.cjs
+          BASELINE_DIR=/tmp/feel23-baseline NODE_PATH="$RUNNER_TEMP/pw/node_modules" FEEL_QA_OUT=/tmp/feel23-parity node vibe-arcade/tests/feel-parity.cjs
+      - uses: actions/upload-artifact@v4
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'refactor/feel-kit-stage-2-3'
+        with:
+          name: feel23-parity
+          path: /tmp/feel23-parity
+          retention-days: 3

@@ -1,16 +1,20 @@
 # Stage 2-3 Feel Kit — bounded checkpoint
 
-Approved continuation on 2026-09-20, after Runtime2-1 and GameShell2-2.
-Baseline main: f58cb57dac264a02617663865fc9412ea8a73317.
-Branch: refactor/feel-kit-stage-2-3.
+Approved continuation 2026-09-20. Baseline main f58cb57dac264a02617663865fc9412ea8a73317. Branch refactor/feel-kit-stage-2-3, PR21.
 
-## Deliverable
-Extract reusable Phaser feedback (bounded fragments, floating text, notification/pulse/shake ownership) and a lazy, voice-limited Web Audio synth. Preserve Deep Descent-specific event mappings, visual assets, timbre and cues in adapters. Deep Descent is the ONLY integrated production game. Keep rules/clock/input/score/UI/Runtime/Shell/auth untouched, except loading the local modules and necessary lifecycle wiring. No physical hit-stop, simulation slowdowns or new analytics.
+## Implemented, pending review/CI/production
+Reusable bounded Phaser feedback and lazy voice-limited Web Audio synth. Deep Descent-only adapters preserve original event mappings, geometry/art/timbres. No game-rules, input/clock/score/Runtime/Shell/credentials/DB/Edge/OAuth change. No production dependency, subscription, generated/purchased art, ads or SNS changes.
 
-## Safety / cost
-No new subscriptions, generated/purchased assets, production dependencies, DB/Edge/OAuth changes or social scheduling. No real-user score writes. Existing infrastructure usage may still be billed. Presentation never decides a score. Effects dispose only resources they own; sound-off, pause and destroy must not leak queued audio into a new run. Reduced-motion choices remain honored.
+Recovery: queued notes cleared on sound-off/pause/replay/disposal; rapid on/off completions reconciled without unmuting newer off request. Owned transient sprites/tweens disposed without killing other owners' objects. Reduced motion suppresses pulses/shakes and limits fragment count. No hit-stop or official timer change.
 
-## Next checkpoint / gates
-Implementation not yet committed. Build and test locally, including mock lifecycle/voice limits, real Phaser/WebAudio browser checks, before/after gameplay + visual comparisons, existing Runtime/Shell/Descent tests; then commit tested files as one change. PR review + green CI required before merge. Verify production assets, guest practice and public boards without writing scores. Record deployment evidence in this PR. Stop after2-3; second-game migration is2-4.
+## Local verification completed
+- 34 unit tests: budgets, lifetime, independent effects, reduced motion, note envelopes, voice cap, rapid toggle races, no unsupported-audio crash and disposal.
+- Real Phaser/WebAudio fixture32 checks including10 exact old/new sound-recipe comparisons; no network requests.
+- Runtime41 + Descent22 + Shell38 checks pass.
+- Existing 4-width Descent browser suite passes practice/mock-ranked/start failure/retry/pause/frame/visibility/stale/capture cases and keyboard-input completion of48rings/6seals.
+- 6 entry/play/result before-after pairs390/1280 have identical state/UI/request payloads; 5pairs exact pixels, mobile result7pixels max1/255 channel difference. No intentional layout/art/gameplay drift. Baseline comparison is one-time for this PR, not a future design freeze.
 
-Rollback: revert PR or restore preceding Vercel deployment; no database rollback.
+## Finish gates / resume
+Commit tested files, review, all CI green, merge expected head only, verify Vercel assets and actual guest browser/readonly boards. Never fabricate real Google-authenticated scores. Record final deployment in PR21; this checkpoint is NOT a deployment claim. Stop after2-3. Second-game integration/time-savings proof is2-4.
+
+Rollback: revert PR or restore preceding deployment; no database rollback. Standard existing hosting/test usage costs may still apply.

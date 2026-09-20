@@ -8,7 +8,7 @@ function shade(color,f){const r=Math.min(255,((color>>16)&255)*f),g=Math.min(255
 function make(options){
  let instance=null;
  class Scene extends Phaser.Scene{
-  constructor(){super('descent');this.depthValue=0;this.region=0;this.pieces=[];this.floaters=[];this.lastState=null;this.lastDrag=null;this.turnQueue=0;this.lastGuardian=-1;this.introDismissed=false;}
+  constructor(){super('descent');this.depthValue=0;this.region=0;this.lastState=null;this.lastDrag=null;this.turnQueue=0;this.lastGuardian=-1;this.introDismissed=false;}
   create(){
    instance=this;A.make(this);
    this.bg=this.add.image(300,420,'dd-bg-0').setDisplaySize(W,H);
@@ -22,6 +22,7 @@ function make(options){
    this.notice=this.add.text(CX,102,'FIND THE OPENING',{fontFamily:'system-ui',fontSize:'21px',fontStyle:'bold',color:'#fff9df',align:'center'}).setOrigin(.5);
    this.helper=this.add.text(CX,130,'Drag the tower · your drone stays at the front',{fontFamily:'system-ui',fontSize:'12px',color:'#d4e8dd'}).setOrigin(.5);
    this.context=this.add.text(CX,724,'',{fontFamily:'system-ui',fontSize:'13px',color:'#ffffff',backgroundColor:'#163735b0',padding:{x:14,y:8}}).setOrigin(.5);
+   this.feel=DescentFeel.create(this,{reduced:options.reduced,region:()=>this.region,origin:{x:CX,y:CY+RY-20},notice:this.notice,helper:this.helper,hero:this.hero,guardian:this.guardian,themes:A.THEMES,regions:R.REGIONS});
    this.input.on('pointerdown',p=>{if(!options.isPlaying())return;this.lastDrag=p.x;options.action(['steer',0]);});
    this.input.on('pointermove',p=>{if(this.lastDrag===null||!p.isDown||!options.isPlaying())return;const dx=p.x-this.lastDrag;this.lastDrag=p.x;options.turn(dx*6);});
    const release=()=>{this.lastDrag=null;};this.input.on('pointerup',release);this.input.on('pointerupoutside',release);this.input.on('gameout',release);
@@ -63,35 +64,9 @@ function make(options){
    }
    if(front&&r.gift){const p=point(r.center,177,y,scale);g.fillStyle(r.gift==='focus'?0xa9b8ff:0xffdc8f,.95);g.fillCircle(p.x,p.y-10,5);}
   }
-  pop(text,color='#ffefd4'){
-   this.notice.setText(text).setColor(color).setAlpha(1);this.helper.setAlpha(0);
-   this.tweens.killTweensOf(this.notice);this.tweens.add({targets:this.notice,alpha:0,delay:850,duration:280});
-  }
-  particles(kind,value){
-   const reduced=options.reduced(),n=reduced?3:kind==='shatter'?28:kind==='damage'?14:9;
-   for(let i=0;i<n&&this.pieces.length<90;i++){
-    const p=this.add.image(CX,CY+RY-20,kind==='shatter'||kind==='crumble'?'dd-debris':'dd-particle');
-    const tint=kind==='damage'?0xff7d86:kind==='shatter'?0xffcf83:A.THEMES[this.region].accent;
-    p.setTint(tint).setScale((kind==='shatter'?.28:.22)+Math.random()*.18);
-    this.pieces.push({p,x:CX,y:CY+RY-20,vx:(Math.random()-.5)*8,vy:-2-Math.random()*5,age:0,ttl:45+Math.random()*15,spin:(Math.random()-.5)*.15});
-   }
-   if(value&&this.floaters.length<5){const t=this.add.text(CX+63,CY+RY-74,'+'+value,{fontFamily:'system-ui',fontSize:'22px',fontStyle:'bold',color:'#fff5d1'});this.floaters.push({t,age:0});}
-  }
-  handleEvents(events){
-   for(const e of events){
-    if(['drop','perfect','shatter','crumble'].includes(e.kind)){
-     this.particles(e.kind,e.value);this.hero.setScale(.4,.55);this.tweens.add({targets:this.hero,scaleX:.47,scaleY:.47,duration:160});
-     if(e.guardian)this.pop('GUARDIAN CLEARED');else if(e.kind==='perfect')this.pop('PERFECT DROP');else if(e.kind==='shatter')this.pop('BREAK THROUGH!');
-    }
-    if(e.kind==='seal'){this.pop('SEAL BROKEN · '+e.remaining+' LEFT','#e4d2ff');this.particles('shatter',e.value);this.guardian.setScale(.62);this.tweens.add({targets:this.guardian,scaleX:.54,scaleY:.54,duration:190});}
-    if(e.kind==='burst'){this.pop('3-FLOOR BURST','#ffe493');this.particles('shatter');}
-    if(e.kind==='damage'){this.pop(e.cause==='gate'?'WAIT FOR BLUE':'AVOID THE RED','#ffc4af');this.particles('damage');if(!options.reduced())this.cameras.main.shake(110,.004);}
-    if(e.kind==='focus')this.pop('FOCUS · SLOWER RINGS','#d4c1ff');
-    if(e.kind==='region')this.pop(R.REGIONS[e.region].toUpperCase());
-    if(e.kind==='complete')this.pop('ENGINE REACHED','#fff2a5');
-   }
-  }
-  reset(){this.depthValue=0;this.lastGuardian=-1;this.introDismissed=false;this.tweens.killTweensOf(this.notice);this.notice.setText('FIND THE OPENING').setAlpha(1);this.helper.setAlpha(1);for(const p of this.pieces)p.p.destroy();this.pieces=[];for(const t of this.floaters)t.t.destroy();this.floaters=[];}
+  pop(text,color){this.feel.pop(text,color);}
+  handleEvents(events){this.feel.events(events);}
+  reset(){this.feel.reset();this.depthValue=0;this.lastGuardian=-1;this.introDismissed=false;this.notice.setText('FIND THE OPENING').setAlpha(1);this.helper.setAlpha(1);}
   update(time,dt){
    const s=options.state();if(!s)return;
    if(s.tick>240&&!this.introDismissed){this.introDismissed=true;this.helper.setAlpha(0);if(!this.tweens.isTweening(this.notice))this.notice.setAlpha(0);}
@@ -130,9 +105,7 @@ function make(options){
 
    if(options.isPlaying()&&ring){if(ring.kind==='guardian')hint=(ring.open?'OPEN · ALIGN THE GAP':'CLOSED · WAIT ON STONE')+' · '+(ring.seals-ring.sealsHit)+' SEAL'+(ring.seals-ring.sealsHit===1?'':'S');else if(ring.kind==='laser')hint=ring.open?'GATE OPEN · FIND THE GAP':'RED GATE · WAIT FOR BLUE';else if(ring.kind==='drift')hint='MOVING RING · LEAD THE GAP';else if(ring.kind==='brittle')hint='CRACKED STONE · TWO BOUNCES BREAK IT';else if(s.energy===100)hint='BURST READY · PRESS SPACE OR THE BUTTON';}
    this.context.setText(hint).setVisible(!!hint);
-   const k=Math.min(dt/16.667,3);for(const q of this.pieces){q.age+=k;q.vy+=.1*k;q.x+=q.vx*k;q.y+=q.vy*k;q.p.setPosition(q.x,q.y).setAlpha(Math.max(0,1-q.age/q.ttl));q.p.rotation+=q.spin*k;}
-   this.pieces=this.pieces.filter(q=>{if(q.age>=q.ttl){q.p.destroy();return false;}return true;});
-   for(const q of this.floaters){q.age+=dt;q.t.y-=dt*.035;q.t.alpha=Math.max(0,1-q.age/650);}this.floaters=this.floaters.filter(q=>{if(q.age>=650){q.t.destroy();return false;}return true;});
+   this.feel.update(dt);
   }
  }
  const game=new Phaser.Game({type:Phaser.AUTO,parent:'gameCanvas',width:W,height:H,backgroundColor:'#1a4147',scene:Scene,render:{antialias:true,pixelArt:false},scale:{mode:Phaser.Scale.FIT,autoCenter:Phaser.Scale.CENTER_BOTH},input:{activePointers:2},fps:{target:60,forceSetTimeOut:false}});

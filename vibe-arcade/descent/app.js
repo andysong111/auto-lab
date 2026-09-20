@@ -70,7 +70,7 @@ function handleShellAction(action){
  if(action==='dismiss')buttons();
  if(action==='replay')launch(wantedRanked&&eligible&&!capture);
  if(action==='retry'&&P.canRetry&&!P.saving)submit(P.retrySave());
- if(action==='sound'){soundOn=!soundOn;audio.enable(soundOn);try{localStorage.setItem('dd-sound',soundOn?'1':'0');}catch{}buttons();}
+ if(action==='sound'){soundOn=!soundOn;audio.enable(soundOn&&!paused);try{localStorage.setItem('dd-sound',soundOn?'1':'0');}catch{}buttons();}
  if(action==='motion'){reduced=!reduced;try{localStorage.setItem('dd-less-motion',reduced?'1':'0');}catch{}buttons();}
 }
 $('#burst').onclick=()=>{if(playing&&!paused&&state.energy>=100)burst=true;};
@@ -86,6 +86,8 @@ window.addEventListener('keydown',e=>{
 },true);
 window.addEventListener('keyup',e=>{if(['ArrowLeft','ArrowRight','KeyA','KeyD'].includes(e.code))steer=0;});
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing)pauseRun('Tab hidden. This attempt is practice only.');});
+// Release synthesized voices on page exit; bfcache visits can resume the same context.
+window.addEventListener('pagehide',e=>{if(e.persisted)audio.enable(false);else audio.destroy();});
 function frame(now){
  const dt=now-lastFrame;lastFrame=now;
  if(playing&&!paused){
