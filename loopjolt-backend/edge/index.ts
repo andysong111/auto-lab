@@ -3,8 +3,9 @@ import { createRemoteJWKSet, jwtVerify } from 'npm:jose@6.1.0';
 import '../../vibe-arcade/games/orbit-sprint/core.js';
 import '../../vibe-arcade/arcade3/core.js';
 import '../../vibe-arcade/challengers/core.js';
+import '../../vibe-arcade/descent/core.js';
 import '../verify-run.js';
-const orbit=(globalThis as any).OrbitRules,arcade=(globalThis as any).ArcadeRules,challengers=(globalThis as any).ChallengerRules,verifyRun=(globalThis as any).LoopJoltVerify;
+const orbit=(globalThis as any).OrbitRules,arcade=(globalThis as any).ArcadeRules,challengers=(globalThis as any).ChallengerRules,descent=(globalThis as any).DescentRules,verifyRun=(globalThis as any).LoopJoltVerify;
 const JWKS=createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'));
 const ORIGIN='https://vibe-arcade-dun.vercel.app';
 const CODES=new Set('AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW'.split(' '));
@@ -37,14 +38,14 @@ Deno.serve(async(req:Request)=>{
   if(action==='profile')return reply({profile:await rpc('profile',subject)});
   if(action==='save_profile'){const country=String(body.country||'').toUpperCase();if(country&&!CODES.has(country))return reply({error:'invalid_country'},400);return reply({profile:await rpc('save_profile',subject,{handle:body.handle,country,consent:body.consent===true,age16:body.age16===true})});}
   if(action==='delete_profile')return reply(await rpc('delete_profile',subject,{confirmation:body.confirmation}));
-  if(action==='start')return reply(await rpc('start',subject,{game:String(body.game||'orbit-sprint')}));
+  if(action==='start')return reply(await rpc('start',subject,{game:String(body.game||'orbit-sprint'),version:typeof body.version==='string'?body.version:undefined}));
   if(action==='finish'){
    if(typeof body.runId!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(body.runId))return reply({error:'invalid_run'},400);
    const run=await rpc('run',subject,{runId:body.runId});if(Date.parse(run.expires_at)<Date.now())return reply({error:'run_expired'},410);
-   let verified;try{verified=verifyRun(run,body,orbit,arcade,challengers);}catch(e){return reply({error:e instanceof Error&&e.message==='version_mismatch'?'version_mismatch':'invalid_game_replay'},400);}
+   let verified;try{verified=verifyRun(run,body,orbit,arcade,challengers,descent);}catch(e){return reply({error:e instanceof Error&&e.message==='version_mismatch'?'version_mismatch':'invalid_game_replay'},400);}
    // Only these server-computed fields reach SQL; claimed score, country and game are ignored.
    return reply(await rpc('finish',subject,{runId:body.runId,score:verified.score,ticks:verified.ticks,orbs:verified.orbs,maxCombo:verified.maxCombo}));
   }
   return reply({error:'not_found'},404);
- }catch(e){const raw=e instanceof Error?e.message:'';const known=['payload_too_large','invalid_board','invalid_game','game_validator_unavailable','authentication_required','account_blocked','invalid_handle','consent_required','invalid_country','country_locked_30_days','profile_required','confirmation_required','login_not_configured','rate_limited','run_not_found','run_expired','impossible_elapsed_time'];const message=known.find(v=>raw.includes(v))||(raw.includes('loopjolt_handle_unique')?'handle_taken':'request_failed');console.error('[LOOPJOLT_API]',action,message);return reply({error:message},message==='payload_too_large'?413:message==='rate_limited'?429:message==='handle_taken'?409:400);}
+ }catch(e){const raw=e instanceof Error?e.message:'';const known=['payload_too_large','version_mismatch','excessive_elapsed_time','invalid_board','invalid_game','game_validator_unavailable','authentication_required','account_blocked','invalid_handle','consent_required','invalid_country','country_locked_30_days','profile_required','confirmation_required','login_not_configured','rate_limited','run_not_found','run_expired','impossible_elapsed_time'];const message=known.find(v=>raw.includes(v))||(raw.includes('loopjolt_handle_unique')?'handle_taken':'request_failed');console.error('[LOOPJOLT_API]',action,message);return reply({error:message},message==='payload_too_large'?413:message==='rate_limited'?429:message==='handle_taken'?409:400);}
 });
