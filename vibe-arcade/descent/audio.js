@@ -16,6 +16,7 @@ class Audio{
  event(e){
   if(e.kind==='bounce')this.note(125,.1,'sine',.3,0,80);
   if(e.kind==='drop')this.note(330,.16,'triangle',.28,0,620);
+  if(e.kind==='seal'){[196,294,392].forEach((n,i)=>this.note(n,.3,'triangle',.14,i*.07));}
   if(e.kind==='perfect'){[523,659,784].forEach((n,i)=>this.note(n,.22,'sine',.26,i*.045));}
   if(e.kind==='shatter'||e.kind==='burst'){this.note(100,.32,'triangle',.3,0,38);this.note(780,.18,'sawtooth',.08,0,150);}
   if(e.kind==='damage'){this.note(150,.24,'triangle',.35,0,65);this.note(83,.35,'sine',.24,.06);}

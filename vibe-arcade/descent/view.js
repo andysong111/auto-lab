@@ -8,14 +8,14 @@ function shade(color,f){const r=Math.min(255,((color>>16)&255)*f),g=Math.min(255
 function make(options){
  let instance=null;
  class Scene extends Phaser.Scene{
-  constructor(){super('descent');this.depthValue=0;this.region=0;this.pieces=[];this.floaters=[];this.lastState=null;this.lastDrag=null;this.turnQueue=0;}
+  constructor(){super('descent');this.depthValue=0;this.region=0;this.pieces=[];this.floaters=[];this.lastState=null;this.lastDrag=null;this.turnQueue=0;this.lastGuardian=-1;this.introDismissed=false;}
   create(){
    instance=this;A.make(this);
    this.bg=this.add.image(300,420,'dd-bg-0').setDisplaySize(W,H);
    this.nextBg=this.add.image(300,420,'dd-bg-1').setDisplaySize(W,H).setAlpha(0);
    this.clouds=[this.add.image(90,185,'dd-cloud').setScale(1.8,.9).setAlpha(.4),this.add.image(500,580,'dd-cloud').setScale(1.5,1).setAlpha(.4)];
    this.rear=this.add.graphics();this.pole=this.add.tileSprite(CX,470,76,820,'dd-pole').setTileScale(.53,1);
-   this.front=this.add.graphics();this.halo=this.add.image(CX,CY+RY-23,'dd-glow').setTint(0x75ffee).setScale(.9).setAlpha(.5);
+   this.front=this.add.graphics();this.guardian=this.add.image(CX,CY-85,'dd-guardian-0').setScale(.54).setVisible(false);this.sealMarks=this.add.graphics();this.halo=this.add.image(CX,CY+RY-23,'dd-glow').setTint(0x75ffee).setScale(.9).setAlpha(.5);
    this.hero=this.add.image(CX,CY+RY-24,'dd-orb').setScale(.47);this.fx=this.add.graphics();
    this.regionText=this.add.text(28,24,'01 / SKY SANCTUARY',{fontFamily:'system-ui',fontSize:'11px',fontStyle:'bold',color:'#eeffed'});
    this.sectorText=this.add.text(572,24,'SECTOR 01 / 12',{fontFamily:'system-ui',fontSize:'11px',color:'#eeffed'}).setOrigin(1,0);
@@ -83,6 +83,7 @@ function make(options){
      this.particles(e.kind,e.value);this.hero.setScale(.4,.55);this.tweens.add({targets:this.hero,scaleX:.47,scaleY:.47,duration:160});
      if(e.guardian)this.pop('GUARDIAN CLEARED');else if(e.kind==='perfect')this.pop('PERFECT DROP');else if(e.kind==='shatter')this.pop('BREAK THROUGH!');
     }
+    if(e.kind==='seal'){this.pop('SEAL BROKEN · '+e.remaining+' LEFT','#e4d2ff');this.particles('shatter',e.value);this.guardian.setScale(.62);this.tweens.add({targets:this.guardian,scaleX:.54,scaleY:.54,duration:190});}
     if(e.kind==='burst'){this.pop('3-FLOOR BURST','#ffe493');this.particles('shatter');}
     if(e.kind==='damage'){this.pop(e.cause==='gate'?'WAIT FOR BLUE':'AVOID THE RED','#ffc4af');this.particles('damage');if(!options.reduced())this.cameras.main.shake(110,.004);}
     if(e.kind==='focus')this.pop('FOCUS · SLOWER RINGS','#d4c1ff');
@@ -90,11 +91,18 @@ function make(options){
     if(e.kind==='complete')this.pop('ENGINE REACHED','#fff2a5');
    }
   }
-  reset(){this.depthValue=0;this.notice.setText('FIND THE OPENING').setAlpha(1);this.helper.setAlpha(1);for(const p of this.pieces)p.p.destroy();this.pieces=[];for(const t of this.floaters)t.t.destroy();this.floaters=[];}
+  reset(){this.depthValue=0;this.lastGuardian=-1;this.introDismissed=false;this.tweens.killTweensOf(this.notice);this.notice.setText('FIND THE OPENING').setAlpha(1);this.helper.setAlpha(1);for(const p of this.pieces)p.p.destroy();this.pieces=[];for(const t of this.floaters)t.t.destroy();this.floaters=[];}
   update(time,dt){
    const s=options.state();if(!s)return;
+   if(s.tick>240&&!this.introDismissed){this.introDismissed=true;this.helper.setAlpha(0);if(!this.tweens.isTweening(this.notice))this.notice.setAlpha(0);}
+
    const region=Math.min(2,Math.floor(s.floor/16));
-   if(region!==this.region){this.region=region;this.bg.setTexture('dd-bg-'+region);this.pole.setTint(region===0?0xffffff:region===1?0xb1a1d6:0xe9ae7a);}
+   if(region!==this.region){
+    this.tweens.killTweensOf(this.nextBg);this.bg.setTexture('dd-bg-'+this.region);this.region=region;
+    if(options.reduced()){this.bg.setTexture('dd-bg-'+region);this.nextBg.setAlpha(0);}
+    else{this.nextBg.setTexture('dd-bg-'+region).setAlpha(0);this.tweens.add({targets:this.nextBg,alpha:1,duration:400,onComplete:()=>{this.bg.setTexture('dd-bg-'+region);this.nextBg.setAlpha(0);}});}
+    this.pole.setTint(region===0?0xffffff:region===1?0xb1a1d6:0xe9ae7a);
+   }
    this.depthValue+=(Math.min(s.floor,47)-this.depthValue)*Math.min(1,dt/130);
    const motion=options.reduced()?0:time;
    this.clouds.forEach((c,i)=>{c.x=(i?460:75)+Math.sin(motion/11000+i)*45;c.y=(i?650:210)-this.depthValue*(i?1.2:.6)%80;c.setTint(region===0?0xddeee1:region===1?0xa38ec7:0xdd9575);});
@@ -112,7 +120,15 @@ function make(options){
    this.regionText.setText('0'+(region+1)+' / '+R.REGIONS[region].toUpperCase());
    this.sectorText.setText('SECTOR '+String(Math.min(12,Math.floor(s.floor/4)+1)).padStart(2,'0')+' / 12');
    const ring=R.ringAt(s);let hint='';
-   if(options.isPlaying()&&ring){if(ring.kind==='guardian'||ring.kind==='laser')hint=ring.open?'GATE OPEN · FIND THE GAP':'RED GATE · WAIT FOR BLUE';else if(ring.kind==='drift')hint='MOVING RING · LEAD THE GAP';else if(ring.kind==='brittle')hint='CRACKED STONE · TWO BOUNCES BREAK IT';else if(s.energy===100)hint='BURST READY · PRESS SPACE OR THE BUTTON';}
+   const guardian=ring?.kind==='guardian'&&s.alive;
+   this.guardian.setVisible(guardian);this.sealMarks.clear();
+   if(guardian){
+    this.guardian.setTexture('dd-guardian-'+ring.region).setAlpha(ring.open?1:.8);
+    if(this.lastGuardian!==s.floor&&options.isPlaying()){this.lastGuardian=s.floor;this.pop(ring.guardianName.toUpperCase(),'#ffe3ac');}
+    for(let n=0;n<ring.seals;n++){const x=CX+(n-(ring.seals-1)/2)*23;this.sealMarks.lineStyle(2,0xffebbb,.9);this.sealMarks.strokeCircle(x,CY-9,6);if(n>=ring.sealsHit){this.sealMarks.fillStyle(ring.open?A.THEMES[ring.region].accent:0xff7385,1);this.sealMarks.fillCircle(x,CY-9,4);}}
+   }
+
+   if(options.isPlaying()&&ring){if(ring.kind==='guardian')hint=(ring.open?'OPEN · ALIGN THE GAP':'CLOSED · WAIT ON STONE')+' · '+(ring.seals-ring.sealsHit)+' SEAL'+(ring.seals-ring.sealsHit===1?'':'S');else if(ring.kind==='laser')hint=ring.open?'GATE OPEN · FIND THE GAP':'RED GATE · WAIT FOR BLUE';else if(ring.kind==='drift')hint='MOVING RING · LEAD THE GAP';else if(ring.kind==='brittle')hint='CRACKED STONE · TWO BOUNCES BREAK IT';else if(s.energy===100)hint='BURST READY · PRESS SPACE OR THE BUTTON';}
    this.context.setText(hint).setVisible(!!hint);
    const k=Math.min(dt/16.667,3);for(const q of this.pieces){q.age+=k;q.vy+=.1*k;q.x+=q.vx*k;q.y+=q.vy*k;q.p.setPosition(q.x,q.y).setAlpha(Math.max(0,1-q.age/q.ttl));q.p.rotation+=q.spin*k;}
    this.pieces=this.pieces.filter(q=>{if(q.age>=q.ttl){q.p.destroy();return false;}return true;});

@@ -6,6 +6,11 @@
 const VERSION='gd-descent-v2', GAME='gyro-drop', FPS=60, MAX_TICKS=5400;
 const FLOORS=48, CONTACT=900, MAX_INPUTS=2500;
 const REGIONS=Object.freeze(['Sky Sanctuary','Crystal Vault','Ember Engine']);
+const GUARDIANS=Object.freeze([
+ Object.freeze({name:'Sky Warden',seals:1,period:420,openFrom:115,openTo:335}),
+ Object.freeze({name:'Prism Sentinel',seals:2,period:360,openFrom:100,openTo:285}),
+ Object.freeze({name:'Ember Engine',seals:3,period:320,openFrom:90,openTo:245})
+]);
 const mod=(n,m=3600)=>(n%m+m)%m;
 const distance=(a,b)=>Math.abs(mod(a-b+1800)-1800);
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
@@ -15,7 +20,7 @@ function create(seed){
  if(!Number.isInteger(seed)||seed<0||seed>0xffffffff)throw Error('invalid_seed');
  const s={game:GAME,version:VERSION,seed,rng:seed>>>0,tick:0,motion:0,rotation:0,steer:0,
   floor:0,health:3,energy:0,burst:0,focusUntil:0,combo:0,maxCombo:0,score:0,
-  perfects:0,hits:0,misses:0,guardians:0,alive:true,won:false,reason:'',
+  perfects:0,hits:0,misses:0,guardians:0,guardianHits:0,sealsBroken:0,alive:true,won:false,reason:'',
   nextImpact:108,lastImpact:0,cycle:108,bounces:0,rings:[],events:[]};
  for(let i=0;i<FLOORS;i++){
   const region=Math.floor(i/16),guardian=i%16===15;
@@ -32,10 +37,15 @@ function create(seed){
 function ringAt(s,index=s.floor){
  const r=s.rings[index];if(!r)return null;
  const turn=mod(s.rotation+Math.trunc(s.motion*r.speed/2));
- const pulse=mod(s.motion+r.phase,360);
- const gate=r.kind==='guardian'||r.kind==='laser';
- return {...r,turn,center:mod(r.gap+turn),redCenter:mod(r.hazard+turn),
-  open:!gate||pulse>=105&&pulse<290,warning:gate&&(pulse>=65&&pulse<105||pulse>=255&&pulse<290)};
+ const boss=r.kind==='guardian'?GUARDIANS[r.region]:null;
+ const sealsHit=boss&&index===s.floor?s.guardianHits:0;
+ const gap=mod(r.gap+sealsHit*(800+r.region*100));
+ const period=boss?boss.period:360,openFrom=boss?boss.openFrom:105,openTo=boss?boss.openTo:290;
+ const pulse=mod(s.motion+r.phase,period),gate=!!boss||r.kind==='laser';
+ return {...r,gap,turn,center:mod(gap+turn),redCenter:mod(r.hazard+turn),
+  guardianName:boss?.name||'',seals:boss?.seals||0,sealsHit,
+  open:!gate||pulse>=openFrom&&pulse<openTo,
+  warning:gate&&(pulse>=openFrom-35&&pulse<openFrom||pulse>=openTo-30&&pulse<openTo)};
 }
 function contact(s,index=s.floor){
  const r=ringAt(s,index);if(!r)return {kind:'complete'};
@@ -50,13 +60,24 @@ function finish(s,reason,won=false){
 }
 function clear(s,hit,mode){
  const i=s.floor,r=hit.ring;let value;
- if(mode==='burst'){s.burst--;s.combo=0;value=150;}
+ if(r.kind==='guardian'){
+  s.guardianHits++;s.sealsBroken++;
+  // A full burst can crack ONE guardian seal, never silently skip the encounter.
+  if(mode==='burst')s.burst=0;
+  if(s.guardianHits<r.seals){
+   const sealValue=180+r.region*60;s.score+=sealValue;s.hits++;s.combo=0;s.bounces=0;
+   emit(s,'seal',{value:sealValue,name:r.guardianName,remaining:r.seals-s.guardianHits,total:r.seals});
+   s.cycle=75;s.lastImpact=s.tick;s.nextImpact=s.tick+s.cycle;return;
+  }
+ }
+
+ if(mode==='burst'){s.burst=Math.max(0,s.burst-1);s.combo=0;value=150;}
  else if(mode==='brittle'){s.combo=0;value=90;}
  else{s.combo++;s.maxCombo=Math.max(s.maxCombo,s.combo);if(hit.perfect)s.perfects++;
   value=130+r.stage*5+Math.min(s.combo,8)*25+(hit.perfect?70:0);
   s.energy=Math.min(100,s.energy+23+(hit.perfect?14:0));}
  if(r.kind==='guardian'){s.guardians++;value+=450;}
- s.hits++;s.score+=value;s.floor++;s.bounces=0;
+ s.hits++;s.score+=value;s.floor++;s.bounces=0;s.guardianHits=0;
  if(r.gift==='energy')s.energy=Math.min(100,s.energy+20);
  if(r.gift==='focus'){s.focusUntil=s.tick+300;emit(s,'focus');}
  if(s.floor%16===0&&s.floor<FLOORS){s.health=Math.min(3,s.health+1);emit(s,'region',{region:Math.floor(s.floor/16)});}
@@ -103,6 +124,6 @@ function replay(seed,actions,ticks){
  if(s.alive||s.tick!==ticks||i!==actions.length||s.score>50000)throw Error('incomplete_or_extra_inputs');
  return {score:s.score,ticks:s.tick,orbs:s.hits,maxCombo:s.maxCombo,won:s.won,version:VERSION};
 }
-const api={GAME,VERSION,FPS,MAX_TICKS,FLOORS,CONTACT,MAX_INPUTS,REGIONS,create,step,ringAt,contact,replay,distance,mod,clamp};
+const api={GAME,VERSION,FPS,MAX_TICKS,FLOORS,CONTACT,MAX_INPUTS,REGIONS,GUARDIANS,create,step,ringAt,contact,replay,distance,mod,clamp};
 root.DescentRules=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(globalThis);

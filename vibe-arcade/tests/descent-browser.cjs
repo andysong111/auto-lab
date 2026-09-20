@@ -43,20 +43,32 @@ async function endWithScore(p){
  {const p=await load();await p.click('#ranked');await p.waitForTimeout(10);await p.click('#pause');assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().paused),true);assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().ranked),false);await p.click('#resume');assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().paused),false);await p.context().close();}
  {const p=await load();await p.evaluate(()=>__options.delayFinish=true);await p.click('#ranked');await p.waitForTimeout(10);await endWithScore(p);assert((await p.locator('#save').innerText()).includes('Verifying'));await p.click('#again');await p.waitForTimeout(10);await p.evaluate(()=>__release());await p.waitForTimeout(30);assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().playing),true);assert.equal(await p.locator('#result').isVisible(),false);await p.context().close();}
  {const p=await load(390,true);assert(await p.locator('#ranked').isDisabled());await p.click('#play');await endWithScore(p);assert.equal(await p.evaluate(()=>__calls.start+__calls.finish),0);await p.context().close();}
- // Successful full playthrough through the three worlds, generated from actual input events.
- {const p=await load(1280,true);await p.click('#play');await p.evaluate(async()=>{
+ // Hidden tabs pause and downgrade; resuming never restores ranked eligibility.
+ {const p=await load();await p.click('#ranked');await p.waitForTimeout(10);await p.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,get:()=>true});document.dispatchEvent(new Event('visibilitychange'));});assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().paused),true);assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().ranked),false);await p.click('#resume');assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().ranked),false);await p.context().close();}
+ // Visit each guardian through actual input events. Screenshots are mocked-QA,
+ // not production players and not advertisements. No state setters are exposed.
+ {const p=await load(1280,true);await p.click('#play');
+ const reach=async floor=>p.evaluate(async target=>{
   for(let i=0;i<5405&&DescentDiagnostics.snapshot().state.alive;i++){
-   const s=DescentDiagnostics.snapshot().state,r=DescentRules.ringAt(s);if(!r)break;
-   const motion=s.motion+Math.max(0,s.nextImpact-s.tick)*(s.tick<s.focusUntil?1:2),future=DescentRules.ringAt({...s,motion});let target=900-future.gap-Math.trunc(motion*future.speed/2);
-   if(!future.open)target+=future.width/2+350;
-   const d=DescentRules.mod(target-s.rotation+1800)-1800;
+   const s=DescentDiagnostics.snapshot().state;
+   if(s.floor>=target)break;
+   const r=DescentRules.ringAt(s);if(!r)break;
+   const motion=s.motion+Math.max(0,s.nextImpact-s.tick)*(s.tick<s.focusUntil?1:2),future=DescentRules.ringAt({...s,motion});
+   let targetRotation=900-future.gap-Math.trunc(motion*future.speed/2);
+   if(!future.open)targetRotation+=future.width/2+350;
+   const d=DescentRules.mod(targetRotation-s.rotation+1800)-1800;
    for(const [code,down] of [['ArrowLeft',d<-21],['ArrowRight',d>21]])window.dispatchEvent(new KeyboardEvent(down?'keydown':'keyup',{code,bubbles:true}));
-   // When left is needed, dispatch it last because keyup clears steering.
    if(d<-21)window.dispatchEvent(new KeyboardEvent('keydown',{code:'ArrowLeft',bubbles:true}));
    if(s.energy===100&&s.burst===0&&r.kind==='guardian')window.dispatchEvent(new KeyboardEvent('keydown',{code:'Space',bubbles:true}));
    __qa.frame();
-   if(s.floor>=16&&!window.__zone1){window.__zone1=DescentDiagnostics.snapshot();}
   }
- });await p.waitForTimeout(30);const s=await p.evaluate(()=>DescentDiagnostics.snapshot().state);console.log('Full input playthrough',s.floor,s.score,s.reason);assert.equal(s.won,true);await p.screenshot({path:path.join(out,'complete-result.png'),fullPage:true});assert.deepEqual(p.errors,[]);await p.context().close();}
+ },floor);
+ for(const [floor,name] of [[8,'sanctuary-play'],[15,'sky-warden'],[31,'prism-sentinel'],[47,'ember-engine']]){
+  await reach(floor);await p.waitForTimeout(20);const current=await p.evaluate(()=>DescentDiagnostics.snapshot().state);
+  assert.equal(current.floor,floor,'must reach '+name+' by keyboard input');await p.screenshot({path:path.join(out,name+'.png'),fullPage:true});
+ }
+ await reach(48);await p.waitForTimeout(40);const s=await p.evaluate(()=>DescentDiagnostics.snapshot().state);
+ console.log('Full input playthrough',s.floor,s.score,s.reason,'seals',s.sealsBroken);
+ assert.equal(s.won,true);assert.equal(s.sealsBroken,6);await p.screenshot({path:path.join(out,'complete-result.png'),fullPage:true});assert.deepEqual(p.errors,[]);await p.context().close();}
  console.log('PASS: 4 viewports, practice, ranked replay, start failure, save retry, frame downgrade, pause, stale response, capture and 48-ring completion.');
 }finally{if(browser)await browser.close();if(server)server.kill();}})().catch(e=>{console.error(e);process.exitCode=1;});
