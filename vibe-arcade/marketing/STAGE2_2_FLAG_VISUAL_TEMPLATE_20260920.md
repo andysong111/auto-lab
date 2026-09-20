@@ -121,3 +121,13 @@ Template and three visual states implemented and QA'd. No Metricool schedule cha
 
 ## Next bounded task
 Stage 2-3: map Deep Descent, Core Pins and Nova Merge to one concrete script/shot list each using this template. No batch publication yet.
+
+## QA completed
+Rendered in real Chromium at 1080×1920 after the normal site asset build:
+- challenge video layout: 4 flags loaded, no overflow, no browser errors.
+- versus video layout: 2 flags loaded; unverified scores masked to em dashes; preview warning visible.
+- board video layout: 3 flags loaded; unverified scores masked; preview warning visible.
+- challenge / versus / board cover=1 layouts: all loaded at 1080×1920 with no overflow or browser errors.
+- six PNG captures were generated for QA only; no social publication occurred.
+
+The template intentionally refuses to make versus/board demo numbers look live unless verified=1 is explicitly supplied from a real board snapshot workflow.
