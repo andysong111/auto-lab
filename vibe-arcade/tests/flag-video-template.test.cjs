@@ -1,0 +1,10 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict');
+const T=require('../marketing/flag-video-template.js');
+test('canvas and safe zones fixed for 9:16',()=>{assert.equal(T.W,1080);assert.equal(T.H,1920);assert.deepEqual(T.SAFE,{top:120,right:96,bottom:250,left:96});});
+test('challenge uses real image flags not emoji',()=>{const s=T.render({mode:'challenge',flags:['KR','US','JP'],progress:'48 RINGS'});assert.match(s,/kr\.svg/);assert.match(s,/us\.svg/);assert.match(s,/jp\.svg/);assert.doesNotMatch(s,/🇰🇷|🇺🇸|🇯🇵/);assert.match(s,/WHICH FLAG CLEARS THIS/);});
+test('vs requires scores and prints exact numeric values',()=>{assert.throws(()=>T.render({mode:'vs',left:{country:'KR'},right:{country:'US'}}),/real_scores/);const s=T.render({mode:'vs',left:{country:'KR',score:8420},right:{country:'US',score:8310}});assert.match(s,/8,420/);assert.match(s,/8,310/);assert.match(s,/ONLY 110 APART/);});
+test('world requires at least three real rows',()=>{assert.throws(()=>T.render({mode:'world',rows:[{country:'KR',score:1}]}),/3_rows/);const s=T.render({mode:'world',rows:[{country:'KR',score:9},{country:'US',score:8},{country:'JP',score:7}]});assert.match(s,/#1/);assert.match(s,/#2/);assert.match(s,/#3/);});
+test('invalid country codes rejected',()=>{assert.throws(()=>T.render({mode:'challenge',flags:['KOREA','US']}),/invalid_country/);});
+test('user text is XML escaped',()=>{const s=T.render({mode:'challenge',flags:[{country:'KR',label:'A&B'},{country:'US',label:'<USA>'}]});assert.match(s,/A&amp;B/);assert.match(s,/&lt;USA&gt;/);});
+test('thumbnail variants render',()=>{for(const d of [{mode:'challenge',flags:['KR','US','JP']},{mode:'vs',left:{country:'KR',score:10},right:{country:'US',score:9}},{mode:'world',rows:[{country:'KR',score:3},{country:'US',score:2},{country:'JP',score:1}]}]){const s=T.thumbnail(d);assert.match(s,/1080/);assert.match(s,/1920/);}});
