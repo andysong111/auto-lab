@@ -1,0 +1,1 @@
+(function(){'use strict';if(new URLSearchParams(location.search).get('game')!=='gyro-drop')return;const a=document.createElement('a');a.href='/descent/';a.textContent='Original edition · Play the new Deep Descent →';a.style.cssText='display:block;padding:12px 0;color:#d5ff68;font-size:13px';document.querySelector('.game-head')?.insertAdjacentElement('afterend',a);})();

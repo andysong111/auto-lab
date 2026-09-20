@@ -1,0 +1,53 @@
+name: Gyro Descent quality gate
+on:
+  pull_request:
+    paths: ['vibe-arcade/**', 'loopjolt-backend/**', '.github/workflows/loopjolt-descent-ci.yml']
+  push:
+    branches: [main]
+    paths: ['vibe-arcade/descent/**', 'vibe-arcade/tests/descent-*', 'loopjolt-backend/**']
+permissions:
+  contents: read
+concurrency:
+  group: descent-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build pinned runtime and flags
+        run: cd vibe-arcade && npm ci --ignore-scripts --no-audit --no-fund && npm run build
+      - name: Syntax, rules and compatibility
+        run: |
+          for f in vibe-arcade/descent/*.js; do node --check "$f"; done
+          node --test vibe-arcade/tests/descent-core.test.cjs
+          node --test loopjolt-backend/tests/descent-verify.test.cjs
+          node --test vibe-arcade/tests/challengers-core.test.cjs
+      - name: Install browser test tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/pw" playwright@1.55.0 --ignore-scripts --no-audit --no-fund
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Browser interactions, mocked ranked saves, all-stage completion
+        run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" QA_OUT=/tmp/descent-qa node vibe-arcade/tests/descent-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: descent-visual-qa
+          path: /tmp/descent-qa
+          retention-days: 3
+      - name: Pack reviewed source and built assets for reproducible inspection
+        run: |
+          mkdir -p /tmp/descent-workspace
+          git archive HEAD | tar -x -C /tmp/descent-workspace
+          cp -r vibe-arcade/vendor /tmp/descent-workspace/vibe-arcade/
+          cp -r vibe-arcade/assets/flags /tmp/descent-workspace/vibe-arcade/assets/
+          cd /tmp/descent-workspace && zip -qr /tmp/descent-workspace.zip .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: descent-workspace
+          path: /tmp/descent-workspace.zip
+          retention-days: 1
