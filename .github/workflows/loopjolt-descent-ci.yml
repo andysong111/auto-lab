@@ -1,0 +1,29 @@
+name: Gyro Descent quality gate
+on:
+  pull_request:
+    paths: ['vibe-arcade/**', 'loopjolt-backend/**', '.github/workflows/loopjolt-descent-ci.yml']
+permissions:
+  contents: read
+jobs:
+  workspace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build existing pinned runtime
+        run: cd vibe-arcade && npm ci --ignore-scripts --no-audit --no-fund && npm run build
+      - name: Pack tracked source and built browser assets only
+        run: |
+          mkdir -p /tmp/descent-workspace
+          git archive HEAD | tar -x -C /tmp/descent-workspace
+          cp -r vibe-arcade/vendor /tmp/descent-workspace/vibe-arcade/
+          cp -r vibe-arcade/assets/flags /tmp/descent-workspace/vibe-arcade/assets/
+          cd /tmp/descent-workspace && zip -qr /tmp/descent-workspace.zip .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: descent-workspace
+          path: /tmp/descent-workspace.zip
+          retention-days: 1
