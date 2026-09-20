@@ -1,0 +1,9 @@
+/* Core Pins-only functional controls; original Challenger scene/CSS retained. */
+.pins-toolbar{display:flex;gap:8px;justify-content:flex-end;padding:0 12px 12px;flex-wrap:wrap}
+.pins-toolbar .game-btn{font-size:11px;padding:8px 12px}
+.pins-paused{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;background:#030706c9;text-align:center}
+.pins-paused .result-card{max-width:320px;margin:16px}.pins-paused h2{font-size:28px}
+.pins-paused p{font-size:13px;line-height:1.6}
+.pins-entry[hidden],.pins-paused[hidden],.pins-retry[hidden]{display:none!important}
+.pins-retry{width:100%;margin-top:8px}.pins-identity{font-size:12px;color:var(--muted);margin-bottom:8px;min-height:15px}
+.challenger-page.pins-active .phaser-game{touch-action:none}
