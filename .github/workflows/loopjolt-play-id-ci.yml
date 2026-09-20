@@ -7,6 +7,9 @@ on:
     paths: ['loopjolt-backend/auth/**', 'loopjolt-backend/tests/play-id*', 'loopjolt-backend/migrations/20260920_play_id.sql', 'vibe-arcade/api/play-id.js', 'vibe-arcade/community/**', '.github/workflows/loopjolt-play-id-ci.yml']
 permissions:
   contents: read
+concurrency:
+  group: play-id-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 jobs:
   auth:
     runs-on: ubuntu-latest
@@ -47,3 +50,20 @@ jobs:
           test "$PGHOST" = localhost && test "$PGDATABASE" = playid_test
           psql -v ON_ERROR_STOP=1 -f loopjolt-backend/tests/play-id-db-setup.sql
           psql -v ON_ERROR_STOP=1 -f loopjolt-backend/tests/play-id-db.test.sql
+      - name: Build pinned browser assets
+        run: cd vibe-arcade && npm ci --ignore-scripts --no-audit --no-fund && npm run build
+      - name: Pack source and built assets for reproducible inspection
+        run: |
+          mkdir -p "$RUNNER_TEMP/play-id-workspace"
+          git archive HEAD | tar -x -C "$RUNNER_TEMP/play-id-workspace"
+          cp -r vibe-arcade/vendor "$RUNNER_TEMP/play-id-workspace/vibe-arcade/"
+          mkdir -p "$RUNNER_TEMP/play-id-workspace/vibe-arcade/assets"
+          cp -r vibe-arcade/assets/flags "$RUNNER_TEMP/play-id-workspace/vibe-arcade/assets/"
+          cp vibe-arcade/core-pins/bundle.js "$RUNNER_TEMP/play-id-workspace/vibe-arcade/core-pins/"
+          git rev-parse HEAD > "$RUNNER_TEMP/play-id-workspace/QA_SOURCE_COMMIT.txt"
+          cd "$RUNNER_TEMP/play-id-workspace" && zip -qr "$RUNNER_TEMP/play-id-workspace.zip" .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: play-id-workspace
+          path: ${{ runner.temp }}/play-id-workspace.zip
+          retention-days: 3
