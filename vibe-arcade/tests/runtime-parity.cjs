@@ -3,7 +3,8 @@
 'use strict';
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),cp=require('node:child_process');
 const {chromium}=require(process.env.PW_MODULE||'playwright');
-const root=path.resolve(__dirname,'..'),repo=path.resolve(root,'..'),base=process.env.RUNTIME_BASE_REF||'8e373aa5211cd50c9e109ae7d02ed646d0fba762';
+const root=path.resolve(__dirname,'..'),repo=path.resolve(root,'..'),base=process.env.RUNTIME_BASE_REF;
+if(!base&&!process.env.BASELINE_DIR)throw Error('Provide RUNTIME_BASE_REF explicitly for this one-time parity comparison.');
 const out=process.env.RUNTIME_QA_OUT||'/tmp/runtime21-qa';fs.mkdirSync(out,{recursive:true});
 const baseline=p=>process.env.BASELINE_DIR?fs.readFileSync(path.join(process.env.BASELINE_DIR,p),'utf8'):cp.execFileSync('git',['show',base+':'+p],{cwd:repo,encoding:'utf8'});
 function unchanged(){

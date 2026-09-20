@@ -30,13 +30,18 @@ jobs:
       - name: Build existing pinned assets
         run: cd vibe-arcade && npm ci --ignore-scripts --no-audit --no-fund && npm run build
       - name: Browser tools (test only)
+        if: github.event_name == 'pull_request' && github.head_ref == 'refactor/runtime-stage-2-1'
         run: |
           npm install --prefix "$RUNNER_TEMP/pw" playwright@1.55.0 --ignore-scripts --no-audit --no-fund
           "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+      # One-time extraction proof; future deliberate UI/rules changes are not frozen.
       - name: Before vs after gameplay, DOM, payload and visual parity
+        if: github.event_name == 'pull_request' && github.head_ref == 'refactor/runtime-stage-2-1'
+        env:
+          RUNTIME_BASE_REF: ${{ github.event.pull_request.base.sha }}
         run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" RUNTIME_QA_OUT=/tmp/runtime21-qa node vibe-arcade/tests/runtime-parity.cjs
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'refactor/runtime-stage-2-1'
         with:
           name: runtime21-parity
           path: /tmp/runtime21-qa
