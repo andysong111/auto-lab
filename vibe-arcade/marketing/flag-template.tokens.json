@@ -1,0 +1,112 @@
+{
+  "version": "2.2",
+  "canvas": {
+    "width": 1080,
+    "height": 1920
+  },
+  "safeZones": {
+    "outer": {
+      "left": 60,
+      "right": 60,
+      "top": 70,
+      "bottom": 80
+    },
+    "gameplay": {
+      "x": 90,
+      "y": 300,
+      "width": 900,
+      "height": 1240
+    },
+    "competition": {
+      "x": 60,
+      "y": 70,
+      "width": 960,
+      "height": 230
+    },
+    "cta": {
+      "x": 80,
+      "y": 1540,
+      "width": 920,
+      "height": 300
+    },
+    "centeredGridCrop": {
+      "x": 108,
+      "y": 420,
+      "width": 864,
+      "height": 1080
+    }
+  },
+  "typography": {
+    "hero": {
+      "font": "Montserrat ExtraBold",
+      "minPx": 72,
+      "maxPx": 92,
+      "maxLines": 2
+    },
+    "country": {
+      "font": "Montserrat ExtraBold",
+      "minPx": 42,
+      "maxPx": 54
+    },
+    "score": {
+      "font": "Montserrat ExtraBold",
+      "minPx": 64,
+      "maxPx": 88
+    },
+    "label": {
+      "font": "Metropolis",
+      "minPx": 24,
+      "maxPx": 30
+    },
+    "cta": {
+      "font": "Metropolis",
+      "minPx": 34,
+      "maxPx": 44
+    },
+    "disclosure": {
+      "font": "Metropolis",
+      "minPx": 18,
+      "maxPx": 22
+    }
+  },
+  "flags": {
+    "source": "real-image-assets-only",
+    "heroMinWidthPx": 120,
+    "boardMinWidthPx": 72,
+    "preserveAspectRatio": true,
+    "recolor": false
+  },
+  "formats": {
+    "FLAG_CHALLENGE": {
+      "minFlags": 3,
+      "maxFlags": 5,
+      "requiresScores": false
+    },
+    "FLAG_VS_FLAG": {
+      "minFlags": 2,
+      "maxFlags": 2,
+      "requiresScores": true,
+      "requiresPeriod": true,
+      "requiresSnapshotAt": true
+    },
+    "WORLD_BOARD": {
+      "minFlags": 3,
+      "maxFlags": 5,
+      "requiresScores": true,
+      "requiresPeriod": true,
+      "requiresSnapshotAt": true,
+      "requiresRanks": true
+    }
+  },
+  "freezeGate": {
+    "maxUnplannedStaticSeconds": 0.6,
+    "inspectPercent": [
+      0,
+      25,
+      50,
+      75,
+      100
+    ],
+    "fullPlaybackRequired": true
+  }
+}
