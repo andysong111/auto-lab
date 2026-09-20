@@ -1,25 +1,27 @@
 # LoopJolt Stage 2-1 — bounded runtime extraction
 
-Owner approved all four decisions on 2026-09-20.
+Owner approved all four decisions on 2026-09-20: unchanged gameplay/UI, Deep Descent only, preserve game specifics via adapter, automatic reversible no-cost deployment after checks.
 
-## Scope
-- Extract config/profile/login integration, ranked start, input-only score submission, same-run retry and version-checked board reads into a reusable runtime.
-- Integrate ONLY Deep Descent, using an adapter over the existing LoopCommunity provider. Do not copy/store credentials or change Google/OAuth/session policy.
-- Preserve all current HTML/UI copy, CSS, game rules, rendering, audio, input timing and local records. No database or Edge migrations. Other games stay untouched.
-- No dependencies, paid subscriptions, assets, generation credits, social posts or ad spending.
-- Automatically merge/deploy only after tests and visual/behavioral regression gates; no new approval needed for this reversible scope.
+## Scope boundary
+Config/profile/login integration, ranked start, input-only score submission, same-run retry and version-checked board reads become reusable. Existing LoopCommunity still owns credentials. Do NOT modify other games, game rules/render/audio/CSS, session policy, DB/Edge/OAuth, ads or scheduled posts. No additional packages/subscriptions.
 
-## Baseline
-main: 8e373aa5211cd50c9e109ae7d02ed646d0fba762
-Deep Descent app blob: cdf737e09606920115553dcd858cce0ec0245d3c
-New branch: refactor/runtime-stage-2-1
-Source + built-assets baseline recovered from PR18 quality-gate artifact (e46002d, merged unchanged).
+## Baseline and resume point
+- Released main: 8e373aa5211cd50c9e109ae7d02ed646d0fba762
+- Prior Descent app blob: cdf737e09606920115553dcd858cce0ec0245d3c
+- Branch: refactor/runtime-stage-2-1
+- PR: #19
+- Current checkpoint: implementation and local tests complete; review/CI/production confirmation still required. This file does NOT claim deployment.
 
-## Planned gates
-1. Pure runtime tests: practice/capture isolation, failed/duplicate/stale start, exact-version enforcement, immutable input snapshots, verified vs unconfirmed save, same-ID retry, stale-response isolation, auth expiry and board errors.
-2. Existing full Deep Descent browser flow and deterministic rules unchanged.
-3. Before/after identical input trace + DOM/screenshot comparison on desktop/mobile.
-4. CI review, Production browser/read-only API checks. Never call a mock login or synthetic score a real Google-user E2E.
+## Completed locally
+- 41 runtime/adapter tests (includes actual Community provider with fake VM transport).
+- Existing 22 Descent core/adapter tests.
+- Existing browser suite: 4 viewports, practice/mock-ranked, failed start, retry, pause/frame/visibility downgrade, stale response, capture isolation, all 48 rings and six seals.
+- Before/after comparison: same gameplay snapshots, UI text/state and platform request bodies. Six screenshots (390/1280 × entry/play/result) had zero changed pixels in the completed local run. Protected source files match exactly. No real production player or score was created by tests.
 
-## Current checkpoint
-Scope recorded. Implementation not yet merged or deployed. Resume by reading this file, the PR head and test results, not by repeating the whole project history.
+## Finish gates
+1. Commit tested files to this PR in one batch; review findings; all required CI green.
+2. Merge with expected head SHA and verify Vercel Production serves exact committed code.
+3. Live read-only config/board check and guest practice/browser screenshot; never impersonate the owner or claim fake-profile QA as a real Google-user E2E.
+4. Record merge/deployment/test results in PR #19. Stop at 2-1; do not begin 2-2 in the same change.
+
+Rollback: revert PR or restore preceding deployment. No score/schema rollback required.

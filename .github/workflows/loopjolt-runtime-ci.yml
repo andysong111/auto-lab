@@ -1,0 +1,43 @@
+name: LoopJolt Runtime 2-1 gate
+on:
+  pull_request:
+    paths: ['vibe-arcade/runtime/**', 'vibe-arcade/descent/**', 'vibe-arcade/tests/runtime-*', '.github/workflows/loopjolt-runtime-ci.yml']
+  push:
+    branches: [main]
+    paths: ['vibe-arcade/runtime/**', 'vibe-arcade/descent/**', 'vibe-arcade/tests/runtime-*', '.github/workflows/loopjolt-runtime-ci.yml']
+permissions:
+  contents: read
+concurrency:
+  group: runtime21-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Runtime, adapter and unchanged canonical rules
+        run: |
+          for f in vibe-arcade/runtime/*.js; do node --check "$f"; done
+          node --check vibe-arcade/descent/app.js
+          node --test vibe-arcade/tests/runtime-core.test.cjs
+          node --test vibe-arcade/tests/descent-core.test.cjs loopjolt-backend/tests/descent-verify.test.cjs
+      - name: Build existing pinned assets
+        run: cd vibe-arcade && npm ci --ignore-scripts --no-audit --no-fund && npm run build
+      - name: Browser tools (test only)
+        run: |
+          npm install --prefix "$RUNNER_TEMP/pw" playwright@1.55.0 --ignore-scripts --no-audit --no-fund
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Before vs after gameplay, DOM, payload and visual parity
+        run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" RUNTIME_QA_OUT=/tmp/runtime21-qa node vibe-arcade/tests/runtime-parity.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: runtime21-parity
+          path: /tmp/runtime21-qa
+          retention-days: 3
