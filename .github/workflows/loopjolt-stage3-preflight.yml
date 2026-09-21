@@ -1,0 +1,44 @@
+name: LoopJolt stage 3 release preflight
+on:
+  push:
+    branches: [main, marketing/stage3-preflight]
+    paths: ['vibe-arcade/marketing/stage3/**', 'vibe-arcade/league/home.js', 'vibe-arcade/api/event.js', '.github/workflows/loopjolt-stage3-preflight.yml']
+  pull_request:
+    paths: ['vibe-arcade/marketing/stage3/**', 'vibe-arcade/league/home.js', 'vibe-arcade/api/event.js', '.github/workflows/loopjolt-stage3-preflight.yml']
+permissions:
+  contents: read
+concurrency:
+  group: stage3-preflight-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test vibe-arcade/marketing/stage3/attribution.test.cjs
+      - run: node --check vibe-arcade/marketing/stage3/verify-live-links.cjs
+  live-links:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read-only production redirects and deployed source parity
+        env:
+          EXPECT_DEPLOYED: '1'
+          QA_OUT: /tmp/loopjolt-stage3
+        run: node vibe-arcade/marketing/stage3/verify-live-links.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage3-live-links
+          path: /tmp/loopjolt-stage3
+          retention-days: 7
