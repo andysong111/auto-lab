@@ -1,0 +1,39 @@
+name: LoopJolt Nova Merge hosted media check
+on:
+  push:
+    branches: [marketing/stage3-nova-hosted-check-20260921]
+    paths: ['.github/workflows/loopjolt-nova-hosted-check.yml']
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+      - name: Download and validate approved Nova Merge candidate
+        shell: bash
+        env:
+          INPUT_URL: https://static.metricool.com/planner/202609/7005118-file-14483459320692003408.mp4
+          EXPECTED_SHA256: 2ddf4b63f559fa255454b4b008d8af3af7c8afabb640d70454c8078b7e7f91de
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location --max-time 90 "$INPUT_URL" -o /tmp/novamerge.mp4
+          actual="$(sha256sum /tmp/novamerge.mp4 | awk '{print $1}')"
+          bytes="$(stat -c%s /tmp/novamerge.mp4)"
+          echo "bytes=$bytes"
+          echo "sha256=$actual"
+          test "$actual" = "$EXPECTED_SHA256"
+          ffprobe -v error -select_streams v:0 -show_entries stream=width,height,avg_frame_rate -show_entries format=duration -of default=noprint_wrappers=1 /tmp/novamerge.mp4
+          ffprobe -v error -select_streams a:0 -show_entries stream=codec_name,sample_rate,channels -of default=noprint_wrappers=1 /tmp/novamerge.mp4
+          ffmpeg -v error -i /tmp/novamerge.mp4 -f null -
+          ffmpeg -hide_banner -i /tmp/novamerge.mp4 -t 12 -an -vf 'scale=1080:1920,crop=790:920:145:420,freezedetect=n=-45dB:d=0.60' -f null - 2> /tmp/freeze.log
+          if grep -q 'freeze_start:' /tmp/freeze.log; then
+            echo 'unplanned gameplay freeze >=0.60s detected'
+            cat /tmp/freeze.log
+            exit 2
+          fi
+          echo 'novamerge_hosted_gate=PASS'
