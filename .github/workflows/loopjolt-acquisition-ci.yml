@@ -1,0 +1,93 @@
+name: LoopJolt acquisition and SEO
+on:
+  push:
+    branches: [main, marketing/stage4-foundation, marketing/stage4-integrated]
+    paths: ['vibe-arcade/measurement/**', 'vibe-arcade/marketing/stage4/**', 'vibe-arcade/scripts/build-*.cjs', 'vibe-arcade/tests/acquisition*', 'vibe-arcade/tests/search-foundation*', 'vibe-arcade/api/event.js', 'loopjolt-backend/measurement/**', 'loopjolt-backend/migrations/20260921_acquisition.sql', 'loopjolt-backend/tests/acquisition*', '.github/workflows/loopjolt-acquisition-ci.yml']
+  pull_request:
+    paths: ['vibe-arcade/**', 'loopjolt-backend/measurement/**', 'loopjolt-backend/migrations/20260921_acquisition.sql', 'loopjolt-backend/tests/acquisition*', '.github/workflows/loopjolt-acquisition-ci.yml']
+permissions:
+  contents: read
+concurrency:
+  group: acquisition-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+jobs:
+  foundation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: acquisition-ci-only
+          POSTGRES_DB: acquisition_test
+        ports: ['5432:5432']
+        options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: acquisition-ci-only
+      PGDATABASE: acquisition_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build pinned assets and integrated search/discovery pages
+        run: cd vibe-arcade && npm ci --ignore-scripts --no-audit --no-fund && npm run build
+      - name: Acquisition, SEO and conservative experiment contracts
+        run: |
+          node --test vibe-arcade/tests/acquisition.test.cjs vibe-arcade/tests/acquisition-seo.test.cjs vibe-arcade/marketing/stage4/decide.test.cjs
+          node --test vibe-arcade/tests/acquisition-build.test.cjs vibe-arcade/tests/acquisition-legacy.test.cjs
+          node --test vibe-arcade/tests/search-foundation.test.cjs
+          node --test vibe-arcade/marketing/stage3/attribution.test.cjs
+      - name: Private telemetry SQL lifecycle - disposable database only
+        run: |
+          test "$PGHOST" = localhost && test "$PGDATABASE" = acquisition_test
+          psql -v ON_ERROR_STOP=1 -c 'create role anon; create role authenticated; create role service_role;'
+          psql -v ON_ERROR_STOP=1 -f loopjolt-backend/migrations/20260921_acquisition.sql
+          psql -v ON_ERROR_STOP=1 -f loopjolt-backend/tests/acquisition-db.test.sql
+      - name: Install pinned browser checker
+        run: |
+          npm install --prefix "$RUNNER_TEMP/pw" playwright@1.55.0 --ignore-scripts --no-audit --no-fund
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Real local canonical and legacy practice routes - no external writes
+        run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" QA_OUT=/tmp/acquisition-browser node vibe-arcade/tests/acquisition-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acquisition-browser-evidence
+          path: /tmp/acquisition-browser
+          retention-days: 7
+      - name: Pack exact tested generated files and sources
+        run: |
+          mkdir -p "$RUNNER_TEMP/acquisition-workspace"
+          git archive HEAD | tar -x -C "$RUNNER_TEMP/acquisition-workspace"
+          cp -r vibe-arcade/. "$RUNNER_TEMP/acquisition-workspace/vibe-arcade/"
+          rm -rf "$RUNNER_TEMP/acquisition-workspace/vibe-arcade/node_modules"
+          git rev-parse HEAD > "$RUNNER_TEMP/acquisition-workspace/QA_SOURCE_COMMIT.txt"
+          cd "$RUNNER_TEMP/acquisition-workspace" && zip -qr "$RUNNER_TEMP/acquisition-workspace.zip" .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acquisition-workspace
+          path: ${{ runner.temp }}/acquisition-workspace.zip
+          retention-days: 3
+  live:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: foundation
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node vibe-arcade/scripts/build-measurement.cjs
+      - name: Read-only production pages, routes and collector gateway
+        run: QA_OUT=/tmp/acquisition-live node vibe-arcade/tests/acquisition-live.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acquisition-live-evidence
+          path: /tmp/acquisition-live
+          retention-days: 7
