@@ -56,6 +56,8 @@ Fresh contexts carry no account/cookies. HTTP mutations, external requests (incl
 
 ## GitHub and Preview
 
+Before the engine PR is merged, use `"base_ref": "feature/autonomous-game-factory-phase1"` for commissioning so candidate branches include the Factory workflow. After merge, use `main`.
+
 Set an existing appropriately scoped `GITHUB_TOKEN` in the operator environment (never commit it), then `run <id> --config <file> --rc`. The adapter only writes candidate files under `vibe-arcade/autonomy/games/<id>/<version>/`, on exactly `factory/<id>`. It never force-pushes, edits main, auto-merges, registers rankings or changes secrets.
 
 A draft PR is reused on retry. The adapter waits for the required Factory checks and all check-runs to succeed, then finds a successful **Preview** deployment for the exact candidate commit. `PREVIEW_DEPLOYING` is resumable; run again after CI/deployment completes. HTTP smoke uses GET only, verifies every runtime asset byte against local QA source and rejects production aliases or redirects outside the candidate. For protected deployments, an existing operator-side `VERCEL_AUTOMATION_BYPASS_SECRET` is sent only to the validated Preview origin, never GitHub or artifacts. Without existing access, protection fails smoke explicitly; do not disable deployment protection to make a test green. `READY_TO_SHIP` remains a candidate state and does not imply production/design approval.

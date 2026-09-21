@@ -1,0 +1,9 @@
+{
+  "operation_id": "GAME-20260921-001/repair/5",
+  "source_hash": "f05e8909b3d0223b74d5e844377375f059930baa0acbb751c51229ba529a3ef0",
+  "changed_files": [
+    "manifest.json"
+  ],
+  "cause": "Applied workspace revision for freeze, freeze, freeze",
+  "adapter_tests": []
+}

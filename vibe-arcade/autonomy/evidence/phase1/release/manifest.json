@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260921-001",
+  "generation": 1,
+  "version": "v1",
+  "title": "Factory test chamber",
+  "slug": "factory-test-chamber",
+  "genre": "commissioning-fixture",
+  "mechanic_family": "fixture-only",
+  "controls": [
+    "Arrows or WASD to move",
+    "Space to interact"
+  ],
+  "mobile_controls": [
+    "Tap or drag on the board"
+  ],
+  "reference_quality_games": [
+    "astra-sentinel-v3",
+    "deep-descent"
+  ],
+  "created_at": "2026-09-21T14:55:27.953Z",
+  "state": "READY_TO_SHIP",
+  "repair_attempt": 0,
+  "max_repair_attempts": 5,
+  "source_path": "autonomy/games/GAME-20260921-001/v1",
+  "preview_url": "https://vibe-arcade-5trtpgsry-a2bsangsa.vercel.app",
+  "qa_status": "PASS",
+  "quality_status": "PASS",
+  "release_status": "READY",
+  "failure_reasons": [],
+  "metrics_eligibility": false,
+  "qa": {
+    "seed": 7,
+    "keyboard": {
+      "key": "ArrowRight",
+      "observation": "state.x"
+    },
+    "pointer": {
+      "observation": "state.taps"
+    },
+    "terminal_ms": 12000
+  },
+  "revision": 8,
+  "history": [
+    {
+      "from": "IDEA",
+      "to": "SPEC_READY",
+      "at": "2026-09-21T14:55:27.963Z"
+    },
+    {
+      "from": "SPEC_READY",
+      "to": "BUILDING",
+      "at": "2026-09-21T14:55:28.145Z"
+    },
+    {
+      "from": "BUILDING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-21T14:55:28.151Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QUALITY_GATE",
+      "at": "2026-09-21T14:55:39.258Z"
+    },
+    {
+      "from": "QUALITY_GATE",
+      "to": "RC_READY",
+      "at": "2026-09-21T14:55:39.265Z"
+    },
+    {
+      "from": "RC_READY",
+      "to": "PREVIEW_DEPLOYING",
+      "at": "2026-09-21T15:00:39.402Z"
+    },
+    {
+      "from": "PREVIEW_DEPLOYING",
+      "to": "PREVIEW_SMOKE",
+      "at": "2026-09-21T15:00:39.406Z"
+    },
+    {
+      "from": "PREVIEW_SMOKE",
+      "to": "READY_TO_SHIP",
+      "at": "2026-09-21T15:01:46.141Z"
+    }
+  ],
+  "source_hash": "c90ca93039f546c38e1ce21db4b25eb6b1083c68028f02307f01f4104d9f11a5",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0",
+  "branch": "factory/GAME-20260921-001",
+  "rc_commit": "a92c756d5cf3189cccbaa562c6382d3cfcb08bb5",
+  "pr_number": 39,
+  "pr_url": "https://github.com/andysong111/auto-lab/pull/39",
+  "deployment_id": "6571299539"
+}

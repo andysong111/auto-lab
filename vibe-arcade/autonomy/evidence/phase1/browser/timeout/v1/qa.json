@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260921-001",
+  "version": "v1",
+  "source_hash": "baf2f9d882a82146f6d8440f30d197917e967679ab1656071a7d3ab2f64c1711",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0",
+  "passed": false,
+  "hard_failures": [
+    {
+      "code": "timeout",
+      "message": "QA worker exceeded process deadline"
+    }
+  ],
+  "soft_failures": [],
+  "console_errors": [],
+  "page_errors": [],
+  "browser_cases": [],
+  "screenshots": [],
+  "side_effects": [],
+  "duration_ms": 3011
+}

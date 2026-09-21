@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260921-001",
+  "version": "v1",
+  "source_hash": "5f372d5bb9125bee6c9723a101e7a8669f8dccdd536200081e520d697b0be5ea",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0",
+  "passed": false,
+  "hard_failures": [
+    {
+      "code": "missing_assets",
+      "message": "missing assets\n\n1 !== 0\n",
+      "viewport": 390
+    },
+    {
+      "code": "missing_assets",
+      "message": "/missing.js",
+      "viewport": 390
+    },
+    {
+      "code": "missing_assets",
+      "message": "missing assets\n\n1 !== 0\n",
+      "viewport": 768
+    },
+    {
+      "code": "missing_assets",
+      "message": "/missing.js",
+      "viewport": 768
+    },
+    {
+      "code": "missing_assets",
+      "message": "missing assets\n\n1 !== 0\n",
+      "viewport": 1280
+    },
+    {
+      "code": "missing_assets",
+      "message": "/missing.js",
+      "viewport": 1280
+    },
+    {
+      "code": "console_error",
+      "message": "Browser console errors",
+      "viewport": null
+    }
+  ],
+  "soft_failures": [],
+  "console_errors": [
+    {
+      "viewport": 390,
+      "message": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "viewport": 768,
+      "message": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "viewport": 1280,
+      "message": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  ],
+  "page_errors": [],
+  "browser_cases": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        "html"
+      ],
+      "passed": false,
+      "load_ms": 91,
+      "resources": []
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "checks": [
+        "html"
+      ],
+      "passed": false,
+      "load_ms": 72,
+      "resources": []
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "checks": [
+        "html"
+      ],
+      "passed": false,
+      "load_ms": 90,
+      "resources": []
+    }
+  ],
+  "screenshots": [],
+  "side_effects": [],
+  "duration_ms": 601,
+  "scope": "isolated browser verification; no claim of fun, retention or production approval"
+}

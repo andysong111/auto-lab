@@ -1,6 +1,6 @@
 # Work Phase 1 Factory handoff
 
-Status: IMPLEMENTATION IN PROGRESS. This checkpoint is not a completion or CI-green claim.
+Status: PHASE 1 COMMISSIONED. Verified implementation and isolated RC checks are green; production shipping is disabled.
 
 Repository: `andysong111/auto-lab`; branch: `feature/autonomous-game-factory-phase1`.
 Investigation baseline: `2e0b909e9d67660080319a3b4d14169cc0a8d4d5`.
@@ -22,11 +22,87 @@ Investigation baseline: `2e0b909e9d67660080319a3b4d14169cc0a8d4d5`.
 
 State flow: IDEA → SPEC_READY → BUILDING → QA_RUNNING → QUALITY_GATE → RC_READY → PREVIEW_DEPLOYING → PREVIEW_SMOKE → READY_TO_SHIP. Failed build/QA/gate → REPAIR_PENDING → REPAIRING → QA_RUNNING. Five unsuccessful repairs → REJECTED. ARCHIVED is terminal. Source tamper/production side effects fail closed. Quality PASS and READY do not enable production.
 
-## Current local evidence
+## Completed commissioning
 
-- 12 contract/orchestrator tests passed on the initial implementation.
-- Browser commissioning is running; a clock-install timing issue was found and corrected before claiming a pass.
-- Chromium 1.55-compatible browser downloaded and launches locally.
-- This Work container cannot create the `bwrap` network namespace. CommandAdapter correctly fails closed; WorkspaceBuilder/WorkspaceRepair are used for real browser repair commissioning. Hosted workers must support isolation before using CommandAdapter.
+Phase 1 code and commissioning are complete. Production shipping remains disabled. The new fixture is an engine test, not a claim of Astra V3 / Deep Descent commercial quality.
 
-PR, Preview, final test counts, CI commit and known remaining limitations will be updated here before final handoff. Instructions and rollback are in `README.md`. Do not enable production from this checkpoint.
+| Deliverable | GitHub / Preview |
+| --- | --- |
+| Engine PR | https://github.com/andysong111/auto-lab/pull/38 |
+| Engine branch | `feature/autonomous-game-factory-phase1` |
+| Verified implementation commit | `db33fc7a536784103ebcdc3529f6f948f4952722` |
+| Engine Preview | https://vibe-arcade-pu1ttx0ww-a2bsangsa.vercel.app |
+| Isolated commissioning RC PR | https://github.com/andysong111/auto-lab/pull/39 (draft; targets engine feature branch) |
+| RC branch / commit | `factory/GAME-20260921-001` / `a92c756d5cf3189cccbaa562c6382d3cfcb08bb5` |
+| RC Preview | https://vibe-arcade-5trtpgsry-a2bsangsa.vercel.app/autonomy/games/GAME-20260921-001/v1/ |
+| RC state | `READY_TO_SHIP`, `qa_status=PASS`, `quality_status=PASS`, `metrics_eligibility=false` |
+| Production shipping | `AUTO_PRODUCTION_SHIP=false`; no production shipping implementation is callable |
+
+Vercel Preview protection remains enabled. Existing connected Vercel access was used temporarily for read-only smoke; access tokens/cookies are not committed or included in these links. An authorized Vercel login may be required to view Preview.
+
+### Actual test results
+
+- **19 / 19** contract, state, isolation, resume, crash recovery, repair budget and release adapter tests passed.
+- **9 / 9** real Chromium commissioning scenarios passed. Viewports: **390×844, 768×1024, 1280×800**.
+- Broken frozen fixture: v1 QA FAIL → repair request → workspace revision → v2 QA PASS → RC_READY. One attempt, changed files and results recorded.
+- Irreparable fixture: six failed QA runs, exactly **five repairs**, v6 → REJECTED. Re-running does not restart a rejected job.
+- External POST, missing assets, absent mobile/keyboard effect, runaway entities and infinite-loop timeout were detected. External writes were blocked; no production account or score was created.
+- Real CLI `create` → `run` → repeated `run` → `status` passed. The second run kept manifest revision 5, skipped build/QA and returned RC_READY in 255 ms in this run.
+- **283 / 283** existing canonical/runtime/acquisition/search/backend replay contracts passed.
+- All **six** existing browser suites passed: Astra production V3, Astra original full campaign, Deep Descent, Core Pins + Nova Merge proof24, legacy challengers, Orbit Sprint + auth shell. Deep Descent completed 48 rings / 6 seals through actual input events.
+- All implementation and candidate GitHub checks are green; the pre-existing `live` check remained intentionally skipped. See `evidence/phase1/ci-implementation.json` and `evidence/phase1/release/ci.json` for immutable check URLs. The final documentation/evidence commit is also checked on PR #38.
+- Actual Vercel Preview smoke passed: **7 runtime files** returned HTTP 200 and matched local QA source SHA-256 bytes. The unmodified engine advanced PREVIEW_DEPLOYING → PREVIEW_SMOKE → READY_TO_SHIP. See `evidence/phase1/release/`.
+
+The existing Descent test initially stalled in headless SwiftShader under its burst-RAF clock. The only change outside the new Factory directory/workflow is a **test-only `--disable-webgl` launch option**, exercising Phaser's existing Canvas fallback. All original assertions remain. Production rendering, rules, authentication and ranking files are unchanged in the PR.
+
+Source protection evidence: the regression runner hashes existing games, generated Astra release, runtime, shell, feel, community, measurement, marketing, backend and public verification/search files before and after testing. The hashes are identical. Build-generated local diffs were not included in the engine PR. No live Supabase migration, data mutation, SNS write, ad change, secret update or production deploy was performed.
+
+### Release transport distinction
+
+The reusable `GitHubVercelAdapter` uses GitHub REST with an existing operator token. Its tests cover isolated branch/tree/commit/PR writes, no force push, source identity, retry without duplicate commit/PR, CI wait, exact-SHA Preview discovery, production alias rejection and protected Preview headers. This Work environment provided connected GitHub/Vercel tools instead of exposing an operator token to Node. Live commissioning therefore provisioned PR #39 through that connected transport, verified GitHub deployment metadata and CI for its exact SHA, then passed the metadata to the normal orchestrator and used the same adapter's real HTTP smoke. No test falsely claims a live REST credential was available.
+
+## Run and operate
+
+From the repository, install and build existing pinned dependencies, then install the isolated Factory package:
+
+```sh
+cd vibe-arcade
+npm ci --ignore-scripts --no-audit --no-fund
+npm run build
+npm ci --prefix autonomy --ignore-scripts --no-audit --no-fund
+cd autonomy
+npx playwright install chromium
+cd ..
+node autonomy/cli.cjs create --spec autonomy/examples/dummy-spec.json
+node autonomy/cli.cjs run GAME-20260921-001 --workspace autonomy/fixtures/dummy
+node autonomy/cli.cjs status GAME-20260921-001
+```
+
+Use a new ID for a new job; the commissioning ID already has an isolated remote branch. `qa <id>` stops after browser QA. `repair <id> --config <operator.json>` resumes a pending repair with a reviewed revision. `run <id> --config <operator.json> --rc` additionally provisions/waits for the RC Preview. A pending CI/deployment returns PREVIEW_DEPLOYING; invoke it again after CI completes. See `README.md` for the operator configuration and adapter contracts.
+
+Test commands:
+
+```sh
+cd vibe-arcade/autonomy
+npm test
+FACTORY_EVIDENCE_DIR=/tmp/factory-browser npm run test:browser
+FACTORY_EVIDENCE_DIR=/tmp/factory-regression npm run test:regression
+```
+
+GitHub Actions `.github/workflows/playjolt-factory-ci.yml` runs these alongside existing workflows and uploads JSON, logs and screenshots. `evidence/phase1/` commits the commissioning JSON so the supervising team can read the outcome directly from GitHub. Runtime jobs keep `artifacts/<id>/<version>/qa.json`, quality/release evidence, repair requests and `repair-history.json` automatically.
+
+## Known limits and next supervising-team work
+
+1. BuilderAdapter / RepairAdapter are ready for provider integration, but no paid LLM API is configured. Workspace adapters were exercised end to end. CommandAdapter requires Linux `bwrap` and working namespaces; this Work container forbids creating that namespace and the adapter correctly fails closed. A future worker must provide isolation; there is no unsafe shell fallback.
+2. PASS and READY_TO_SHIP are mechanical candidate states. First-five-second clarity, repeatability, visual completeness and progression presentation remain UNVERIFIED. Mechanic-family overlap is a declared-family heuristic, not plagiarism detection. Add baseline-derived visual/design evidence before any production release policy; do not treat the fixture as a quality bar or ship by a subjective AI score.
+3. QA uses read-only diagnostics plus real DOM/input/lifecycle observations. It is Chromium commissioning, not a hostile-code security service or a cross-browser/device certification. Use isolated provider workers and expand WebKit/Firefox/device tests when commissioned.
+4. FileStore is the working default and has no dependency on production DB availability. It is a single-host store, not a distributed queue. A future private additive `loopjolt_factory` store should implement jobs, attempts, QA/repair runs and releases with transactional leases/CAS. No migration is needed for this phase.
+5. No real KPI eligibility, winner/loser classifier, production auto-merge/ship, Shorts/SNS publisher or ranked adapter is enabled. The reserved ranked interface makes no calls. Production rollout requires separate server replay/version registration and retained authentication/country policies.
+6. Merge/review engine PR #38 through the normal owner process when desired. Keep fixture PR #39 unmerged or close it after inspection; it demonstrates Preview and is not a production catalog item. After the engine is merged, use `base_ref=main`; before that use the engine feature branch so Factory CI exists on the candidate branch.
+7. Attach the selected builder/repair provider through the existing interfaces, enforce provider operation-ID idempotency and budgets, provide existing scoped GitHub/Preview credentials on an isolated operator worker, and schedule resumable `run --rc` invocations. No orchestrator rewrite is required.
+
+## Production enable and rollback
+
+There is no Phase 1 production enable command. Setting `AUTO_PRODUCTION_SHIP=true` cannot ship: `productionShip()` rejects explicitly. A future reviewed production adapter must enforce design evidence, source-bound QA, metrics eligibility, ranking/version compatibility, deployment and rollback gates before it is enabled.
+
+Rollback now: close PR #38 and stop Factory workers; production has not changed. Close PR #39 to retire the unlisted commissioning fixture. If the engine is later merged, revert that engine PR through a normal branch/PR. No DB rollback or production deletion is needed. Preserve the evidence/job directories for diagnosis rather than deleting operational data.

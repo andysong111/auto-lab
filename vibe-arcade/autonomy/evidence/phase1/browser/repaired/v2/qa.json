@@ -1,0 +1,412 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260921-001",
+  "version": "v2",
+  "source_hash": "aa3896a1e86a42edcc8ab24c304239538bb8cb97a75a758cb14c791111491ec1",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0",
+  "passed": true,
+  "hard_failures": [],
+  "soft_failures": [],
+  "console_errors": [],
+  "page_errors": [],
+  "browser_cases": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow",
+        "terminal",
+        "resources",
+        "restart",
+        "pagehide",
+        "capture_no_writes"
+      ],
+      "passed": true,
+      "load_ms": 97,
+      "resources": [
+        {
+          "tick": 69,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 99,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 129,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 159,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 189,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 219,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 249,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 279,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 309,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 339,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 369,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 399,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 429,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 459,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 489,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 519,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 549,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 579,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 600,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 600,
+          "entities": 1,
+          "dom": 30
+        }
+      ],
+      "heap_growth": 265744
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow",
+        "terminal",
+        "resources",
+        "restart",
+        "pagehide",
+        "capture_no_writes"
+      ],
+      "passed": true,
+      "load_ms": 72,
+      "resources": [
+        {
+          "tick": 73,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 103,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 133,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 163,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 193,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 223,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 253,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 283,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 313,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 343,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 373,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 403,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 433,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 463,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 493,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 523,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 553,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 583,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 600,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 600,
+          "entities": 1,
+          "dom": 30
+        }
+      ],
+      "heap_growth": 453484
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow",
+        "terminal",
+        "resources",
+        "restart",
+        "pagehide",
+        "capture_no_writes"
+      ],
+      "passed": true,
+      "load_ms": 105,
+      "resources": [
+        {
+          "tick": 69,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 99,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 129,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 159,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 189,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 219,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 249,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 279,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 309,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 339,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 369,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 399,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 429,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 459,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 489,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 519,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 549,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 579,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 600,
+          "entities": 1,
+          "dom": 30
+        },
+        {
+          "tick": 600,
+          "entities": 1,
+          "dom": 30
+        }
+      ],
+      "heap_growth": 359980
+    }
+  ],
+  "screenshots": [
+    "viewport-390.png",
+    "viewport-768.png",
+    "viewport-1280.png"
+  ],
+  "side_effects": [],
+  "duration_ms": 9759,
+  "scope": "isolated browser verification; no claim of fun, retention or production approval"
+}

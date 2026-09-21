@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260921-001",
+  "version": "v4",
+  "source_hash": "9fe8b32e5f5bef61e9d1e988d5a224a80c599c5199d8ac0bfc1cbeec8b0f7859",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0",
+  "passed": false,
+  "hard_failures": [
+    {
+      "code": "freeze",
+      "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+      "viewport": 390
+    },
+    {
+      "code": "freeze",
+      "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+      "viewport": 768
+    },
+    {
+      "code": "freeze",
+      "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+      "viewport": 1280
+    }
+  ],
+  "soft_failures": [],
+  "console_errors": [],
+  "page_errors": [],
+  "browser_cases": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start"
+      ],
+      "passed": false,
+      "load_ms": 78,
+      "resources": []
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start"
+      ],
+      "passed": false,
+      "load_ms": 73,
+      "resources": []
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start"
+      ],
+      "passed": false,
+      "load_ms": 77,
+      "resources": []
+    }
+  ],
+  "screenshots": [],
+  "side_effects": [],
+  "duration_ms": 4326,
+  "scope": "isolated browser verification; no claim of fun, retention or production approval"
+}

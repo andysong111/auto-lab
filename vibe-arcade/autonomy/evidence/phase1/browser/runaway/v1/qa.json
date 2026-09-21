@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260921-001",
+  "version": "v1",
+  "source_hash": "99f9f4ed59f454e57c09df414d8a849fa5ff54d36b6a9fb031b5971433d33184",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0",
+  "passed": false,
+  "hard_failures": [
+    {
+      "code": "terminal",
+      "message": "runaway entity count",
+      "viewport": 390
+    },
+    {
+      "code": "terminal",
+      "message": "runaway entity count",
+      "viewport": 768
+    },
+    {
+      "code": "terminal",
+      "message": "runaway entity count",
+      "viewport": 1280
+    }
+  ],
+  "soft_failures": [],
+  "console_errors": [],
+  "page_errors": [],
+  "browser_cases": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow"
+      ],
+      "passed": false,
+      "load_ms": 174,
+      "resources": []
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow"
+      ],
+      "passed": false,
+      "load_ms": 149,
+      "resources": []
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow"
+      ],
+      "passed": false,
+      "load_ms": 131,
+      "resources": []
+    }
+  ],
+  "screenshots": [],
+  "side_effects": [],
+  "duration_ms": 3790,
+  "scope": "isolated browser verification; no claim of fun, retention or production approval"
+}

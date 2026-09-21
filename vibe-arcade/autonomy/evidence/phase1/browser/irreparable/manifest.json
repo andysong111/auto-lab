@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260921-001",
+  "generation": 1,
+  "version": "v6",
+  "title": "Factory test chamber",
+  "slug": "factory-test-chamber",
+  "genre": "commissioning-fixture",
+  "mechanic_family": "fixture-only",
+  "controls": [
+    "Arrows or WASD to move",
+    "Space to interact"
+  ],
+  "mobile_controls": [
+    "Tap or drag on the board"
+  ],
+  "reference_quality_games": [
+    "astra-sentinel-v3",
+    "deep-descent"
+  ],
+  "created_at": "2026-09-21T14:53:51.914Z",
+  "state": "REJECTED",
+  "repair_attempt": 5,
+  "max_repair_attempts": 5,
+  "source_path": "autonomy/games/GAME-20260921-001/v6",
+  "preview_url": null,
+  "qa_status": "FAIL",
+  "quality_status": "REJECT",
+  "release_status": "REJECTED",
+  "failure_reasons": [
+    {
+      "code": "freeze",
+      "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+      "viewport": 390
+    },
+    {
+      "code": "freeze",
+      "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+      "viewport": 768
+    },
+    {
+      "code": "freeze",
+      "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+      "viewport": 1280
+    }
+  ],
+  "metrics_eligibility": false,
+  "qa": {
+    "seed": 7,
+    "keyboard": {
+      "key": "ArrowRight",
+      "observation": "state.x"
+    },
+    "pointer": {
+      "observation": "state.taps"
+    },
+    "terminal_ms": 12000
+  },
+  "revision": 25,
+  "history": [
+    {
+      "from": "IDEA",
+      "to": "SPEC_READY",
+      "at": "2026-09-21T14:53:51.915Z"
+    },
+    {
+      "from": "SPEC_READY",
+      "to": "BUILDING",
+      "at": "2026-09-21T14:53:51.916Z"
+    },
+    {
+      "from": "BUILDING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-21T14:53:51.921Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-21T14:53:56.677Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-21T14:53:56.677Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-21T14:53:56.678Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-21T14:53:56.683Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-21T14:54:01.430Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-21T14:54:01.431Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-21T14:54:01.432Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-21T14:54:01.436Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-21T14:54:06.264Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-21T14:54:06.265Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-21T14:54:06.265Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-21T14:54:06.272Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-21T14:54:10.968Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-21T14:54:10.969Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-21T14:54:10.970Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-21T14:54:10.976Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-21T14:54:15.868Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-21T14:54:15.868Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-21T14:54:15.869Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-21T14:54:15.877Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-21T14:54:20.847Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REJECTED",
+      "at": "2026-09-21T14:54:20.850Z"
+    }
+  ],
+  "source_hash": "f05e8909b3d0223b74d5e844377375f059930baa0acbb751c51229ba529a3ef0",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0"
+}

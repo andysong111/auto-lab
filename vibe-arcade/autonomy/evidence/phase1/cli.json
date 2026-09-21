@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "states": [
+    {
+      "command": "create",
+      "state": "SPEC_READY",
+      "revision": 1,
+      "duration_ms": 216
+    },
+    {
+      "command": "run",
+      "state": "RC_READY",
+      "revision": 5,
+      "duration_ms": 11421
+    },
+    {
+      "command": "run",
+      "state": "RC_READY",
+      "revision": 5,
+      "duration_ms": 255
+    },
+    {
+      "command": "status",
+      "state": "RC_READY",
+      "revision": 5,
+      "duration_ms": 340
+    }
+  ]
+}
