@@ -1,0 +1,21 @@
+/* Production Astra v3 browser check: movement + auto-fire only, no dash control. */
+'use strict';
+const {chromium}=require(process.env.PW_MODULE||'playwright'),fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'..'),out=process.env.QA_OUT||'/tmp/astra-simple';fs.mkdirSync(out,{recursive:true});
+require('../scripts/build-astra-release.cjs').build(root);
+const mime={'.html':'text/html','.js':'application/javascript','.css':'text/css','.svg':'image/svg+xml'};
+const server=http.createServer((req,res)=>{const u=new URL(req.url,'http://local'),file=path.resolve(root,'.'+decodeURIComponent(u.pathname));if(file!==root&&!file.startsWith(root+path.sep)){res.writeHead(403);return res.end();}const f=[file,file+'.html',path.join(file,'index.html')].find(p=>fs.existsSync(p)&&fs.statSync(p).isFile());if(!f){res.writeHead(404);return res.end('missing');}res.setHeader('Content-Type',mime[path.extname(f)]||'application/octet-stream');fs.createReadStream(f).pipe(res);});
+const report={version:'astra-v3',controls:'move-only',checks:[],externalWrites:0};
+(async()=>{await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port,browser=await chromium.launch({headless:true,args:['--no-sandbox']});try{
+ for(const width of [390,1280]){const ctx=await browser.newContext({viewport:{width,height:900},isMobile:width<600,hasTouch:width<600}),p=await ctx.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));await ctx.route('**/*',r=>{if(r.request().method()!=='GET'){report.externalWrites++;return r.abort();}return r.request().url().startsWith(origin)?r.continue():r.abort();});
+  await p.goto(origin+'/games/astra-sentinel?capture=1',{waitUntil:'networkidle'});await p.waitForFunction(()=>!!window.AstraDiagnostics);assert.equal(await p.locator('#dash').count(),0);assert.equal(await p.locator('text=PHASE DASH').count(),0);assert((await p.locator('.manual').textContent()).includes('That is the whole combat control scheme.'));
+  await p.click('#play');const start=await p.evaluate(()=>AstraDiagnostics.snapshot().state);assert.equal(start.dashes,0);
+  await p.keyboard.press('Space');await p.waitForTimeout(120);assert.equal(await p.evaluate(()=>AstraDiagnostics.snapshot().state.dashes),0,'Space must not dash');
+  if(width===1280){const x=await p.evaluate(()=>AstraDiagnostics.snapshot().state.player.x);await p.keyboard.down('KeyD');await p.waitForTimeout(280);await p.keyboard.up('KeyD');assert((await p.evaluate(()=>AstraDiagnostics.snapshot().state.player.x))>x);}
+  else {const b=await p.locator('#game').boundingBox(),cdp=await ctx.newCDPSession(p);await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:b.x+b.width*.45,y:b.y+b.height*.55}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:b.x+b.width*.68,y:b.y+b.height*.55}]});const x=await p.evaluate(()=>AstraDiagnostics.snapshot().state.player.x);await p.waitForTimeout(180);assert((await p.evaluate(()=>AstraDiagnostics.snapshot().state.player.x))>x);await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});}
+  await p.waitForTimeout(2200);const s=await p.evaluate(()=>AstraDiagnostics.snapshot().state);assert(s.tick>60);assert.equal(s.dashes,0);
+  await p.click('#pause');const tick=await p.evaluate(()=>AstraDiagnostics.snapshot().state.tick);await p.waitForTimeout(160);assert.equal(await p.evaluate(()=>AstraDiagnostics.snapshot().state.tick),tick);await p.click('#resume');await p.waitForTimeout(100);assert((await p.evaluate(()=>AstraDiagnostics.snapshot().state.tick))>tick);
+  assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);assert.deepEqual(errors,[]);await p.screenshot({path:path.join(out,'astra-v3-'+width+'.png'),fullPage:true});report.checks.push({width,spaceDash:false,movement:true,pause:true});await ctx.close();
+ }
+ assert.equal(report.externalWrites,0);report.passed=true;
+}finally{await browser.close();server.close();}})().catch(e=>{report.passed=false;report.error=e.stack;process.exitCode=1;server.close();}).finally(()=>{fs.writeFileSync(path.join(out,'result.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));});
