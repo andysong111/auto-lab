@@ -1,0 +1,40 @@
+name: LoopJolt first-release media evidence
+on:
+  push:
+    branches: [marketing/stage3-hosted-media]
+    paths: ['.github/workflows/loopjolt-first-release-inspect.yml', 'vibe-arcade/marketing/stage3/inspect-first-release.cjs']
+permissions:
+  contents: read
+concurrency:
+  group: loopjolt-first-release-evidence
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install the existing pinned inspection toolchain
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          npm install --prefix "$RUNNER_TEMP/pw" playwright@1.55.0 --ignore-scripts --no-audit --no-fund
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Validate syntax
+        run: node --check vibe-arcade/marketing/stage3/inspect-first-release.cjs
+      - name: Read-only public hosted/platform inspection
+        env:
+          QA_OUT: /tmp/loopjolt-first-release
+        run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" node vibe-arcade/marketing/stage3/inspect-first-release.cjs
+      - name: Retain evidence even when a gate is unverified
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: first-release-media-evidence
+          path: /tmp/loopjolt-first-release
+          retention-days: 3
