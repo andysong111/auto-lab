@@ -1,0 +1,22 @@
+{
+  "version": "phase1-1",
+  "max_repair_attempts": 5,
+  "auto_production_ship": false,
+  "required_viewports": [[390, 844], [768, 1024], [1280, 800]],
+  "limits": {
+    "load_ms": 8000,
+    "case_timeout_ms": 45000,
+    "run_timeout_ms": 150000,
+    "freeze_ms": 1200,
+    "max_entities": 512,
+    "max_dom_nodes": 2000,
+    "max_heap_growth_bytes": 67108864,
+    "overflow_px": 1,
+    "severe_overflow_px": 16,
+    "max_terminal_ms": 120000
+  },
+  "required_checks": ["html", "assets", "start", "real_clock", "keyboard", "touch", "progress", "interaction", "pause", "resume", "hidden", "terminal", "restart", "pagehide", "resources", "overflow", "capture_no_writes"],
+  "fatal_codes": ["production_side_effect", "path_isolation", "source_tampered"],
+  "heuristics": ["first_five_seconds", "mechanic_overlap", "information_density", "control_count", "repeatability", "visual_completeness", "progression_visibility"],
+  "notes": "PASS means mechanically verified release candidate only. Heuristics cannot override failures, approve production, or establish fun/retention. Unknown heuristics remain explicitly unverified."
+}
