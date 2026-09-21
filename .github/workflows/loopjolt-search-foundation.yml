@@ -1,0 +1,36 @@
+name: LoopJolt search foundation
+on:
+  pull_request:
+    paths: ['vibe-arcade/scripts/build-search-metadata.cjs', 'vibe-arcade/scripts/build-assets.cjs', 'vibe-arcade/tests/search-foundation*', 'vibe-arcade/index.html', 'vibe-arcade/descent/index.html', 'vibe-arcade/sitemap.xml', '.github/workflows/loopjolt-search-foundation.yml']
+  push:
+    branches: [main]
+    paths: ['vibe-arcade/scripts/build-search-metadata.cjs', 'vibe-arcade/scripts/build-assets.cjs', 'vibe-arcade/tests/search-foundation*', 'vibe-arcade/index.html', 'vibe-arcade/descent/index.html', 'vibe-arcade/sitemap.xml', '.github/workflows/loopjolt-search-foundation.yml']
+permissions:
+  contents: read
+concurrency:
+  group: search-foundation-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Search contracts against source
+        run: node --test vibe-arcade/tests/search-foundation.test.cjs
+      - name: Build all pinned assets and SEO HTML
+        run: cd vibe-arcade && npm ci --ignore-scripts --no-audit --no-fund && npm run build
+      - name: Search contracts against built HTML
+        run: node --test vibe-arcade/tests/search-foundation.test.cjs
+      - name: Read-only live metadata and sitemap verification
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: node vibe-arcade/tests/search-foundation-live.cjs
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        with:
+          name: loopjolt-search-live
+          path: /tmp/loopjolt-search-live
+          retention-days: 7

@@ -9,3 +9,4 @@ if(fs.existsSync(path.join(pkg,'LICENSE.md')))fs.copyFileSync(path.join(pkg,'LIC
 console.log('Built local Phaser 3.90.0 runtime.');
 require('./build-core-pins.cjs').build();
 console.log('Built Core Pins shared-kit bundle.');
+require('./build-search-metadata.cjs').build();
