@@ -39,3 +39,16 @@ Core tests include deterministic outcomes, real clears and offered upgrades, mon
 `astra-routes.cjs` separately uses native local HTTP navigation with normal wall-clock frames, slash/no-slash URLs, real browser touch events, sound controls and pause. It blocks all writes/external network. `astra-live.cjs` compares exact deployed bytes and checks home/reference/verification URLs using read-only HTTP; it does not claim a human watched live gameplay.
 
 Unchanged-game regression workflows remain in force. Production release requires passing new CI and relevant existing checks. Do not mark a tree object or preview as a live release. Current release state belongs in the deployment checkpoint, not this specification.
+
+
+## Production control policy — v3
+
+Approved 2026-09-21 after owner playtest: Astra Sentinel production controls are intentionally simplified to **movement only + automatic fire**.
+
+- Desktop: WASD or arrow keys move. P / Escape pauses.
+- Mobile: drag in the arena to move.
+- There is no dash button, Space dash, dash gauge, dash invulnerability or dash-based upgrade in the public release.
+- The former `flux` upgrade ID is retained internally for compatibility but is presented as **VECTOR DRIVE / MOBILITY** and only increases movement speed.
+- The wider P2 arena, smaller actor scale, harder enemy progression, three guardians and fixed safe-lane sweep warnings remain.
+- Local records use the `astra-v3` namespace because controls changed materially.
+- The committed v1 source directory remains rollback material; the canonical clean URL is generated at build time from the approved release builder.
