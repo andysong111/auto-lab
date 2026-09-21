@@ -38,7 +38,7 @@ jobs:
       - name: Acquisition, SEO and conservative experiment contracts
         run: |
           node --test vibe-arcade/tests/acquisition.test.cjs vibe-arcade/tests/acquisition-seo.test.cjs vibe-arcade/marketing/stage4/decide.test.cjs
-          node --test vibe-arcade/tests/acquisition-build.test.cjs
+          node --test vibe-arcade/tests/acquisition-build.test.cjs vibe-arcade/tests/acquisition-legacy.test.cjs
       - name: Private telemetry SQL lifecycle - disposable database only
         run: |
           test "$PGHOST" = localhost && test "$PGDATABASE" = acquisition_test

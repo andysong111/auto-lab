@@ -22,7 +22,7 @@ function track(event,game,build,props={}){
   session.last=time;game=C.GAMES.has(game)?game:C.gameFor(location.href);props=props&&typeof props==='object'?props:{};
   const attemptKey=game||'none';
   if(event==='game_start'){current[attemptKey]=uuid();session.starts[attemptKey]=(session.starts[attemptKey]||0)+1;}
-  if(event==='replay'&&session.starts[attemptKey]<2)return;
+  if(event==='replay'&&(session.starts[attemptKey]||0)<2)return;
   const attempt=current[attemptKey]||null;
   const unique=['game_finish','score_verified','ranked_downgrade','replay'].includes(event)?attempt+':'+event:null;
   if(unique&&attempt&&seen.has(unique))return;if(unique&&attempt)seen.add(unique);
@@ -34,7 +34,10 @@ function track(event,game,build,props={}){
  }catch{/* Measurement cannot stop gameplay. */}
 }
 root.LJTelemetry={schema:C.SCHEMA,track,excluded:false};
-root.VibeAnalytics={build:'acquisition-v1',track:(event,props={})=>track(event,props.game||C.gameFor(location.href),props.version||'legacy-ui',props)};
+// These original quick-play games emit replay INSTEAD OF game_start for each later attempt.
+// Convert only their legacy API signal into a new attempt; the shared counter emits one replay.
+const legacyReplayStart=new Set(['color-trap','dont-press','memory-grid','odd-one-out','perfect-timing','reaction-rush']);
+root.VibeAnalytics={build:'acquisition-v1',track:(event,props={})=>{const game=props.game||C.gameFor(location.href);track(event==='replay'&&legacyReplayStart.has(game)?'game_start':event,game,props.version||'legacy-ui',props);}};
 track('page_view',C.gameFor(location.href),'acquisition-v1');
 document.addEventListener('click',e=>{const el=e.target?.closest?.('#ranked, #signInRun, #alternatePlay, #start');if(!el||el.disabled||el.hidden)return;if(el.id==='ranked'||el.id==='signInRun'||/ranked/i.test(el.textContent||''))track('ranked_entry',C.gameFor(location.href),'acquisition-v1');},true);
 })(globalThis);
