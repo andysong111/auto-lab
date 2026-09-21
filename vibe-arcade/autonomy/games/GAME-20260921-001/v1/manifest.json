@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260921-001",
+  "generation": 1,
+  "version": "v1",
+  "title": "Factory test chamber",
+  "slug": "factory-test-chamber",
+  "genre": "commissioning-fixture",
+  "mechanic_family": "fixture-only",
+  "controls": [
+    "Arrows or WASD to move",
+    "Space to interact"
+  ],
+  "mobile_controls": [
+    "Tap or drag on the board"
+  ],
+  "reference_quality_games": [
+    "astra-sentinel-v3",
+    "deep-descent"
+  ],
+  "created_at": "2026-09-21T14:55:27.953Z",
+  "state": "BUILDING",
+  "repair_attempt": 0,
+  "max_repair_attempts": 5,
+  "source_path": "autonomy/games/GAME-20260921-001/v1",
+  "preview_url": null,
+  "qa_status": "PENDING",
+  "quality_status": "PENDING",
+  "release_status": "NONE",
+  "failure_reasons": [],
+  "metrics_eligibility": false,
+  "qa": {
+    "seed": 7,
+    "keyboard": {
+      "key": "ArrowRight",
+      "observation": "state.x"
+    },
+    "pointer": {
+      "observation": "state.taps"
+    },
+    "terminal_ms": 12000
+  },
+  "revision": 2,
+  "history": []
+}
