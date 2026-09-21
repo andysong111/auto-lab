@@ -1,8 +1,8 @@
 'use strict';
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),cp=require('node:child_process');
 const root=path.resolve(__dirname,'..'),R=require('../challengers/core.js');
-function dispatcher(query,failAt=-1){const scripts=[],links=[],primary={disabled:false},ranked={disabled:false},status={textContent:''};let reloaded=0;
- const document={querySelector:s=>({'#primary':primary,'#ranked':ranked,'#status':status}[s]),createElement:tag=>({tag}),head:{append:n=>links.push(n.href)},body:{append:s=>{scripts.push(s.src);if(scripts.length-1===failAt)s.onerror();else s.onload();}}};
+function dispatcher(query,failAt=-1,datasetGame){const scripts=[],links=[],primary={disabled:false},ranked={disabled:false},status={textContent:''};let reloaded=0;
+ const document={querySelector:s=>({'#primary':primary,'#ranked':ranked,'#status':status}[s]),createElement:tag=>({tag}),head:{append:n=>{if(n.rel==='stylesheet')links.push(n.href);}},body:{dataset:{game:datasetGame},append:s=>{scripts.push(s.src);if(scripts.length-1===failAt)s.onerror();else s.onload();}}};
  vm.runInNewContext(fs.readFileSync(path.join(root,'challengers/boot.js'),'utf8'),{document,location:{search:query,reload:()=>reloaded++},URLSearchParams});
  return {scripts,links,primary,ranked,status,reload:()=>{primary.onclick();return reloaded;}};
 }
@@ -23,3 +23,5 @@ if(process.env.BASELINE_DIR||process.env.PROOF24_BASE_REF)test('proof-only prote
 });
 
 test('bundle contains each source verbatim in order and is valid JavaScript',()=>{const {build,FILES}=require('../scripts/build-core-pins.cjs');const text=build(root);new vm.Script(text);let at=0;for(const f of FILES){const src=fs.readFileSync(path.join(root,f),'utf8');const found=text.indexOf(src,at);assert(found>=at);at=found+src.length;}});
+
+test('canonical dataset matches a real document and selects the correct controller',()=>{assert.deepEqual(dispatcher('?game=nova-merge',-1,'core-pins').scripts,['/core-pins/bundle.js']);assert.deepEqual(dispatcher('?game=core-pins',-1,'nova-merge').scripts,['/challengers/game.js']);});
