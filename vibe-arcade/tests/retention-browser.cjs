@@ -57,8 +57,11 @@ async function end(p,g){
   }
  },g.game);await p.waitForTimeout(100);
 }
+// Playwright screenshots can await animation frames. The isolated clock is paused
+// between assertions, so pump UI frames during screenshots of TERMINAL states only.
+async function snapshot(p,file){let done=false;const pump=(async()=>{while(!done){await p.evaluate(()=>__frames(1));await new Promise(r=>setTimeout(r,25));}})();try{await p.screenshot({path:file,fullPage:true,animations:'disabled',timeout:20000});}finally{done=true;await pump;}}
 const report={scope:'retention-before-new-games',checks:[],productionWrites:0};
-async function test(label,fn){await fn();report.checks.push(label);console.log('PASS '+label);fs.writeFileSync(path.join(out,'result.json'),JSON.stringify(report,null,2));}
+async function test(label,fn){console.log('RUN '+label);let timer;try{await Promise.race([fn(),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error(label+' exceeded 150s')),150000);})]);}finally{clearTimeout(timer);}report.checks.push(label);console.log('PASS '+label);fs.writeFileSync(path.join(out,'result.json'),JSON.stringify(report,null,2));}
 (async()=>{const browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH||undefined,args:['--no-sandbox','--disable-dev-shm-usage']});try{
 for(const width of (process.env.QUICK?'390':'390,1280').split(',').map(Number))for(const g of games){
  await test(g.name+' practice/replay/next '+width,async()=>{
@@ -66,7 +69,7 @@ for(const width of (process.env.QUICK?'390':'390,1280').split(',').map(Number))f
   assert(await p.locator(g.dialog).isVisible());assert(await p.locator('.lj-local-comparison').isVisible());assert.equal(await p.locator(g.again).textContent(),'PLAY AGAIN');assert((await p.locator(g.save).textContent()).includes('Not a ranked score'));
   const previous=await p.evaluate(()=>__snapshot());assert(!previous.alive);const text=await p.locator('.lj-local-comparison').textContent();assert(text.includes('THIS RUN')&&text.includes('DEVICE BEST'));
   assert.equal(await p.locator('a[data-next-game]').count(),1);assert.equal((await p.evaluate(()=>__calls.start)).length,0);assert.equal((await p.evaluate(()=>__calls.finish)).length,0);
-  await p.screenshot({path:path.join(out,g.game+'-result-'+width+'.png'),fullPage:true});
+  await snapshot(p,path.join(out,g.game+'-result-'+width+'.png'));
   const scroll=await p.evaluate(()=>({client:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));assert(scroll.scroll<=scroll.client+1,'horizontal overflow');
   await p.locator(g.again).click();await p.evaluate(()=>__frames(3));const current=await p.evaluate(()=>__snapshot());assert(current.alive&&current.tick<previous.tick);assert(!(await p.locator(g.dialog).isVisible()));assert.deepEqual(errors,[]);assert.equal(external.filter(x=>x.method==='POST').length,0);await ctx.close();
  });
