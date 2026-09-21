@@ -14,3 +14,6 @@ require('./build-search-metadata.cjs').build();
 require('./build-measurement.cjs').build();
 require('./build-discovery.cjs').build();
 console.log('Built acquisition clients and canonical playable discovery pages.');
+
+// Owner-gated candidate only; never promotes the production game.
+require('./build-astra-polish.cjs').build();
