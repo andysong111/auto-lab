@@ -1,0 +1,39 @@
+name: LoopJolt Core Pins hosted media check
+on:
+  push:
+    branches: [marketing/stage3-corepins-hosted-check-20260921]
+    paths: ['.github/workflows/loopjolt-corepins-hosted-check.yml']
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+      - name: Download and validate approved Core Pins candidate
+        shell: bash
+        env:
+          INPUT_URL: https://static.metricool.com/planner/202609/7005118-file-16948261199467206743.mp4
+          EXPECTED_SHA256: 7046344d511a47dd85d221ec5bef2e064f2f24b0b47a5c8147630dbcf551b413
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location --max-time 90 "$INPUT_URL" -o /tmp/corepins.mp4
+          actual="$(sha256sum /tmp/corepins.mp4 | awk '{print $1}')"
+          bytes="$(stat -c%s /tmp/corepins.mp4)"
+          echo "bytes=$bytes"
+          echo "sha256=$actual"
+          test "$actual" = "$EXPECTED_SHA256"
+          ffprobe -v error -select_streams v:0 -show_entries stream=width,height,avg_frame_rate -show_entries format=duration -of default=noprint_wrappers=1 /tmp/corepins.mp4
+          ffprobe -v error -select_streams a:0 -show_entries stream=codec_name,sample_rate,channels -of default=noprint_wrappers=1 /tmp/corepins.mp4
+          ffmpeg -v error -i /tmp/corepins.mp4 -f null -
+          ffmpeg -hide_banner -i /tmp/corepins.mp4 -t 12 -an -vf 'scale=1080:1920,crop=790:920:145:420,freezedetect=n=-45dB:d=0.60' -f null - 2> /tmp/freeze.log
+          if grep -q 'freeze_start:' /tmp/freeze.log; then
+            echo 'unplanned gameplay freeze >=0.60s detected'
+            cat /tmp/freeze.log
+            exit 2
+          fi
+          echo 'corepins_hosted_gate=PASS'
