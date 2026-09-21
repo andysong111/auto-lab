@@ -13,4 +13,5 @@ console.log('Built Core Pins shared-kit bundle.');
 require('./build-search-metadata.cjs').build();
 require('./build-measurement.cjs').build();
 require('./build-discovery.cjs').build();
+require('./build-retention.cjs').build();
 console.log('Built acquisition clients and canonical playable discovery pages.');

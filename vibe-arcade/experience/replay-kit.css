@@ -1,0 +1,19 @@
+/* Quiet result hierarchy; game art, canvas coordinates and rules are untouched. */
+.lj-result-shell .lj-local-comparison{display:grid;gap:6px;margin:12px 0 16px;padding:12px 14px;border:1px solid #ffffff26;border-radius:10px;text-align:left}
+.lj-result-shell .lj-local-comparison[hidden]{display:none}
+.lj-result-shell .lj-local-comparison strong{color:#d5ff68;font-size:12px;line-height:1.4;letter-spacing:.06em}
+.lj-result-shell .lj-local-comparison span{color:#d5dbd7;font-size:13px;line-height:1.5}
+.lj-result-shell .lj-replay-primary{min-height:44px;touch-action:manipulation}
+.lj-result-shell a[data-next-game]{display:inline-flex;align-items:center;min-height:44px;line-height:1.4;font-size:12px;overflow-wrap:anywhere}
+.lj-result-shell a[aria-disabled=true]{opacity:.45;cursor:wait}
+.lj-result-shell [data-state=saving]{color:#ddcc99}
+.lj-result-shell [data-state=failed]{color:#f6bdc2}
+.lj-result-shell [data-state=verified]{color:#d5ff68}
+.lj-result-shell button:focus-visible,.lj-result-shell a:focus-visible{outline:2px solid #d5ff68;outline-offset:3px}
+.lj-result-shell .result-actions{display:flex;flex-wrap:wrap;gap:10px}
+.lj-result-shell .result-actions [data-next-game]{flex-basis:100%;justify-content:center}
+dialog.lj-result-shell{max-height:calc(100dvh - 24px);overflow-y:auto;overscroll-behavior:contain}
+.experience .lj-result-shell{overflow-y:auto;max-height:100%;box-sizing:border-box}
+.experience .lj-result-shell .overlay-card{margin:auto;flex-shrink:0}
+@media(max-width:480px){.lj-result-shell .result-card{padding:22px 18px}.lj-result-shell .result-stats{margin:10px 0}.lj-result-shell .lj-local-comparison{margin:8px 0;padding:9px}.lj-result-shell .result-actions{gap:8px}}
+@media(prefers-reduced-motion:reduce){.lj-result-shell *{scroll-behavior:auto!important}}

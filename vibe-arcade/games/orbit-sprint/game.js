@@ -2,8 +2,10 @@
 'use strict';
 const R=OrbitRules,C=LoopCommunity,$=s=>document.querySelector(s),canvas=$('#game'),ctx=canvas.getContext('2d');
 let state=R.create(123456),started=false,paused=false,last=0,acc=0,pending=null,inputs=[],challenge=null,seed=123456,finishing=false,fx=[],toastUntil=0,soundOn=false,audio=null,loadPending=false,clock=RankedClock.create();
-const UX=new GameSessionUI({game:'orbit-sprint',version:R.VERSION,onPlay:mode=>launch(mode)});
+const capture=new URLSearchParams(location.search).get('capture')==='1',Replay=window.LoopJoltReplayKit;
+const UX=new GameSessionUI({game:'orbit-sprint',version:R.VERSION,capture,onPlay:mode=>launch(mode)});
 let best=0;try{best=Number(localStorage.getItem('orbit_best_v1')||0)||0;soundOn=localStorage.getItem('orbit_sound')==='on';}catch{}
+if(Replay)best=Replay.loadBest('orbit_best_v1');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const A=window.VibeAnalytics||{track:()=>{}};
 function track(event,props={}){try{A.track(event,{game:'orbit-sprint',version:R.VERSION,...props});}catch{}}
@@ -35,11 +37,12 @@ async function launch(mode=UX.mode()){
 }
 $('#start').onclick=()=>launch(UX.mode());
 async function finish(){if(finishing)return;finishing=true;started=false;loadPending=true;
- best=Math.max(best,state.score);try{localStorage.setItem('orbit_best_v1',String(best));}catch{}pb();hud();
+ const local=Replay?.record({score:state.score,previousBest:best,key:'orbit_best_v1',capture});
+ best=local?local.best:Math.max(best,state.score);if(!local&&!capture)try{localStorage.setItem('orbit_best_v1',String(best));}catch{}pb();hud();
  $('#overlayEyebrow').textContent=challenge?'RANKED RESULT':'PRACTICE RESULT';$('#overlayTitle').textContent=state.score.toLocaleString()+' points';$('#overlayText').textContent=state.orbs+' orbs · '+state.maxCombo+' best streak · '+(state.tick/60).toFixed(1)+'s';
  $('#overlay').hidden=false;$('#resume').hidden=true;$('#start').hidden=false;$('#pause').disabled=true;track('game_finish',{score:state.score,seconds:state.tick/60,ranked:!!challenge});
  const finishedRun=challenge;challenge=null;
- try{await UX.finished({run:finishedRun,actions:inputs,ticks:state.tick,score:state.score});}
+ try{await UX.finished({run:finishedRun,actions:inputs,ticks:state.tick,score:state.score,local});}
  finally{loadPending=false;UX.buttons();$('#start').focus({preventScroll:true});}
 }
 function quad(points,fill,stroke){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.stroke();}}
@@ -65,7 +68,8 @@ function render(now){const t=state.tick/60,idle=started?state.tick:(reduce?0:now
  if(now>toastUntil)$('#callout').textContent='';
 }
 function frame(now){if(started&&!paused&&state.alive){const elapsedMs=Math.max(0,now-last);if(challenge&&!RankedClock.observe(clock,elapsedMs)){challenge=null;UX.downgrade('Frame timing became unstable.');$('#runStatus').textContent='Frame timing unstable · practice only.';}acc+=Math.min(.1,elapsedMs/1000);let n=0;while(acc>=1/60&&state.alive&&n++<6){if(pending){inputs.push([state.tick,pending]);}R.step(state,pending);pending=null;acc-=1/60;if(state.lastEvent){const e=state.lastEvent;if(e==='orb'){sound(e);if(state.combo%5===0)hint(state.combo+' ORB STREAK');if(!reduce)for(let i=0;i<10;i++)fx.push({x:laneX(state.lane,1),y:725,vx:Math.cos(i)*65,vy:Math.sin(i)*65,time:now,color:'#64edd4'});}if(e==='dash'){sound(e);hint('DASH ACTIVE');}if(e==='crash'||e==='win'){sound(e==='win'?'orb':'crash');}}}hud();if(!state.alive)finish();}last=now;render(now);requestAnimationFrame(frame);}
-(async()=>{const cfg=await UX.boot();seed=cfg?.seed||seed;if(!started&&!loadPending)state=R.create(seed);})();
+(async()=>{const cfg=await UX.boot();seed=cfg?.seed||seed;if(!started&&!loadPending&&state.tick===0)state=R.create(seed);})();
 window.LoopJoltSnapshot=()=>JSON.parse(JSON.stringify({state,active:started,paused,ranked:!!challenge,inputCount:inputs.length}));
+Replay?.autoPractice({ready:()=>!started&&!loadPending,start:()=>launch('practice')});
 track('game_open');requestAnimationFrame(frame);
 })();

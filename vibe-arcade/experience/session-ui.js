@@ -17,6 +17,7 @@ class SessionUI {
   this.$('retrySave').onclick=()=>this.submit();
   this.$('howToPlay').addEventListener('toggle',()=>{if(this.$('howToPlay').open)document.dispatchEvent(new Event('game:help'));});
   this.buttons();
+  this.replay=game==='orbit-sprint'?root.LoopJoltReplayKit?.create({game,result:'#overlay',score:'#overlayTitle',again:'#start',save:'#rankMessage',retry:'#retrySave',nextLink:'#nextGame'}):null;
  }
  mode(){return this.choice||(!this.capture&&this.C?.authenticated&&this.C?.profile&&this.eligible()?'ranked':'practice');}
  eligible(){return this.config?.loginReady!==false&&this.config?.rankedGames?.some(g=>g.game===this.game&&g.version===this.version);}
@@ -30,7 +31,7 @@ class SessionUI {
   this.$('signInRun').textContent=this.C?.authenticated?'Finish player setup':'Sign in to rank';
   this.$('entryMode').textContent=this.capture?'Practice · capture mode':ranked?'Ranked · official scores':'Practice · device only';
   this.$('entryMode').hidden=playing||again;
-  this.identityUI();
+  this.identityUI();if(this.replay&&again)this.$('start').textContent='PLAY AGAIN';
  }
  async boot(){
   if(this.capture){this.saveEl.textContent='Real gameplay capture. No rankings or analytics.';this.buttons();return null;}
@@ -44,7 +45,7 @@ class SessionUI {
  async prepare(choice){
   if(['preparing','saving','playing'].includes(this.phase))return {ok:false};
   this.phase='preparing';this.choice=this.capture?'practice':choice;const id=++this.serial;
-  this.pending=null;this.$('retrySave').hidden=true;this.$('rankSummary').hidden=true;this.$('nextTarget').hidden=true;
+  this.pending=null;this.replay?.begin();this.$('retrySave').hidden=true;this.$('rankSummary').hidden=true;this.$('nextTarget').hidden=true;
   this.$('resultLinks').hidden=true;this.buttons();this.reason='';
   if(this.choice==='practice')return {ok:true,run:null,serial:id};
   try{
@@ -66,30 +67,30 @@ class SessionUI {
  started(run){this.phase='playing';this.$('alternatePlay').onclick=()=>this.onPlay(this.mode()==='ranked'?'practice':'ranked');this.$('howToPlay').open=false;document.body.classList.add('is-playing');this.$('mode').textContent=run?'RANKED':'PRACTICE';this.buttons();}
  downgrade(reason){this.choice='practice';this.reason=reason;this.$('mode').textContent='PRACTICE';}
  paused(value){this.phase=value?'paused':'playing';this.$('rankSummary').hidden=true;this.$('nextTarget').hidden=true;this.$('retrySave').hidden=true;this.buttons();}
- finished({run,actions,ticks,score}){
+ finished({run,actions,ticks,score,local}){
   document.body.classList.remove('is-playing');this.phase='result';this.$('resultLinks').hidden=false;
   this.$('entryMode').hidden=true;this.$('rankSummary').hidden=true;this.$('nextTarget').hidden=true;
   this.pending=run?{serial:this.serial,run,score,profile:this.runProfile,body:{runId:run.runId,actions:actions.map(a=>a.slice()),ticks}}:null;
   this.saveEl.dataset.state=run?'saving':'practice';
   this.saveEl.textContent=run?'Verifying and saving…':(this.reason?this.reason+' ':'')+'Device best saved. Not entered in rankings.';
-  this.buttons();return run?this.submit():Promise.resolve();
+  this.buttons();if(local){this.replay?.complete(local,{ranked:this.mode()==='ranked'});this.replay?.saved({state:run?'saving':'practice'});}return run?this.submit():Promise.resolve();
  }
  async submit(){
   const p=this.pending;if(!p||p.serial!==this.serial||this.saving)return;
-  if(p.run.expiresAt&&Date.parse(p.run.expiresAt)<=Date.now()){this.saveEl.textContent='Save window expired. Device best retained.';this.$('retrySave').hidden=true;this.pending=null;return;}
-  this.saving=true;this.phase='saving';this.$('retrySave').hidden=true;this.saveEl.textContent='Verifying and saving…';this.buttons();
+  if(p.run.expiresAt&&Date.parse(p.run.expiresAt)<=Date.now()){this.saveEl.textContent='Save window expired. Device best retained.';this.$('retrySave').hidden=true;this.pending=null;this.replay?.saved({state:'failed',retryable:false});return;}
+  this.saving=true;this.phase='saving';this.$('retrySave').hidden=true;this.saveEl.textContent='Verifying and saving…';this.buttons();this.replay?.saved({state:'saving'});
   try{
    const result=await this.C.api('finish',p.body);
    if(p.serial!==this.serial)return;
    if(result.saved!==true||!Number.isSafeInteger(result.score)||result.score<0)throw Error('not_confirmed');
    this.saveEl.dataset.state='verified';this.saveEl.textContent='Verified · '+number(result.score)+' points saved.';
    const title=this.$('resultTitle')||this.$('overlayTitle');title.textContent=number(result.score)+' points';
-   this.pending=null;this.context(p.serial,true,p.profile);
+   this.pending=null;this.replay?.saved({state:'verified',score:result.score});this.context(p.serial,true,p.profile);
   }catch(e){
    if(p.serial!==this.serial)return;
    const final=/invalid|expired|impossible|mismatch|blocked|not_found|profile_required|authentication/.test(e.message);
    this.saveEl.dataset.state='unconfirmed';this.saveEl.textContent=final?'Ranked save was rejected. Device best retained.':'Save not confirmed. Device best retained. Retry before playing again.';
-   this.$('retrySave').hidden=final;if(final)this.pending=null;if(!this.C?.authenticated)this.choice='practice';
+   this.replay?.saved({state:'failed',retryable:!final});this.$('retrySave').hidden=final;if(final)this.pending=null;if(!this.C?.authenticated)this.choice='practice';
   }finally{this.saving=false;if(p.serial===this.serial){this.phase='result';this.buttons();}}
  }
  async context(id,showResult,profile){
