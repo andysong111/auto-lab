@@ -1,1 +1,22 @@
-module.exports=function handler(req,res){if(req.method!=='POST')return res.status(405).json({ok:false});const body=req.body&&typeof req.body==='object'?req.body:{};const allowed=['page_view','game_open','game_start','game_finish','replay','share','next_game','score_verified','ranked_downgrade'];if(!allowed.includes(body.event))return res.status(400).json({ok:false});const clean={event:body.event,event_ts:String(body.event_ts||'').slice(0,40),session_id:String(body.session_id||'').slice(0,80),build:String(body.build||'').slice(0,40),path:String(body.path||'').slice(0,160),referrer:String(body.referrer||'').slice(0,300),screen:String(body.screen||'').slice(0,40),lang:String(body.lang||'').slice(0,30),source:String(body.source||'').slice(0,80),medium:String(body.medium||'').slice(0,80),campaign:String(body.campaign||'').slice(0,120),content:String(body.content||'').slice(0,120),props:body.props&&typeof body.props==='object'?body.props:{}};console.log('[VIBE_EVENT]',JSON.stringify(clean));return res.status(204).end()}
+/* Same-origin, bounded event collection. No password/handle/referrer/body logging. */
+'use strict';
+const C=require('../measurement/contract.js');
+const ENDPOINT='https://qmtmyqytzkdtglfcegef.supabase.co/functions/v1/loopjolt-acquisition';
+function makeHandler(fetcher=fetch,logger=console){return async function(req,res){
+ res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');
+ if(req.method!=='POST')return res.status(405).json({ok:false});
+ if(req.headers?.origin!==C.ORIGIN||req.headers?.['sec-fetch-site']==='cross-site')return res.status(403).json({ok:false});
+ if(!String(req.headers?.['content-type']||'').toLowerCase().startsWith('application/json'))return res.status(415).json({ok:false});
+ let body=req.body;try{if(typeof body==='string')body=JSON.parse(body);if(Buffer.byteLength(JSON.stringify(body)||'')>4096)return res.status(413).json({ok:false});}catch{return res.status(400).json({ok:false});}
+ let data;try{data=C.clean(body);}catch(e){
+  if(e.message==='legacy_event'){logger.log('[LJ_METRIC_LEGACY]',body.event);return res.status(204).end();}
+  return res.status(400).json({ok:false});
+ }
+ if(!data)return res.status(204).end();
+ try{const r=await fetcher(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Origin:C.ORIGIN},body:JSON.stringify(data),signal:AbortSignal.timeout(5000)});
+  if(r.status===429)return res.status(429).json({ok:false});
+  if(!r.ok){logger.warn('[LJ_METRIC_SINK_UNAVAILABLE]');return res.status(503).json({ok:false});}
+  return res.status(204).end();
+ }catch{logger.warn('[LJ_METRIC_SINK_UNAVAILABLE]');return res.status(503).json({ok:false});}
+};}
+module.exports=makeHandler();module.exports.makeHandler=makeHandler;

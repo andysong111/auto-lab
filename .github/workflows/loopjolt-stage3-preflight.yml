@@ -1,10 +1,10 @@
 name: LoopJolt stage 3 release preflight
 on:
   push:
-    branches: [main, marketing/stage3-preflight]
-    paths: ['vibe-arcade/marketing/stage3/**', 'vibe-arcade/league/home.js', 'vibe-arcade/api/event.js', '.github/workflows/loopjolt-stage3-preflight.yml']
+    branches: [main, marketing/stage3-preflight, marketing/stage4-foundation]
+    paths: ['vibe-arcade/marketing/stage3/**', 'vibe-arcade/league/home.js', 'vibe-arcade/api/event.js', 'vibe-arcade/arcade3/telemetry.js', 'vibe-arcade/measurement/**', 'vibe-arcade/scripts/build-*.cjs', 'vibe-arcade/community/client.js', 'vibe-arcade/vercel.json', 'vibe-arcade/index.html', 'vibe-arcade/games/**/index.html', 'vibe-arcade/descent/index.html', '.github/workflows/loopjolt-stage3-preflight.yml']
   pull_request:
-    paths: ['vibe-arcade/marketing/stage3/**', 'vibe-arcade/league/home.js', 'vibe-arcade/api/event.js', '.github/workflows/loopjolt-stage3-preflight.yml']
+    paths: ['vibe-arcade/marketing/stage3/**', 'vibe-arcade/league/home.js', 'vibe-arcade/api/event.js', 'vibe-arcade/arcade3/telemetry.js', 'vibe-arcade/measurement/**', 'vibe-arcade/scripts/build-*.cjs', 'vibe-arcade/community/client.js', 'vibe-arcade/vercel.json', 'vibe-arcade/index.html', 'vibe-arcade/games/**/index.html', 'vibe-arcade/descent/index.html', '.github/workflows/loopjolt-stage3-preflight.yml']
 permissions:
   contents: read
 concurrency:
@@ -19,6 +19,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - run: node vibe-arcade/scripts/build-measurement.cjs && node vibe-arcade/scripts/build-discovery.cjs
       - run: node --test vibe-arcade/marketing/stage3/attribution.test.cjs
       - run: node --check vibe-arcade/marketing/stage3/verify-live-links.cjs
   live-links:
@@ -31,7 +32,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Read-only production redirects and deployed source parity
+      - run: node vibe-arcade/scripts/build-measurement.cjs && node vibe-arcade/scripts/build-discovery.cjs
+      - name: Read-only production redirects and generated-source parity
         env:
           EXPECT_DEPLOYED: '1'
           QA_OUT: /tmp/loopjolt-stage3
