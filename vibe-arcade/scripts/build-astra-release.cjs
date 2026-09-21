@@ -52,7 +52,11 @@ function build(root=path.resolve(__dirname,'..')){
   html=html.replace('AN ORIGINAL EXPEDITION','VETERAN EXPEDITION');
   html=html.replace('05 / ARENA ROGUELITE','05 / ARENA ROGUELITE · V2');
   put('index.html',html);
-  // Vercel cleanUrls prefers a sibling .html file for the canonical clean path.\n  // Keep the v1 directory source untouched; the build-only shim serves the exact P2 release HTML.\n  fs.writeFileSync(path.join(root,'games/astra-sentinel.html'),html);\n\n  for(const f of ['arena.js','arena-view.js','motion.js','polish.js','art.js','style.css'])copy(f);
+  // Vercel cleanUrls prefers a sibling .html file for the canonical clean path.
+  // Keep the v1 directory source untouched; the build-only shim serves the exact P2 release HTML.
+  fs.writeFileSync(path.join(root,'games/astra-sentinel.html'),html);
+
+  for(const f of ['arena.js','arena-view.js','motion.js','polish.js','art.js','style.css'])copy(f);
   const previewCss=get('preview.css'),start=previewCss.indexOf('.evolution-preview');
   if(start<0)throw Error('release_css_base_drift');
   put('polish.css',previewCss.slice(start));
