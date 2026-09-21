@@ -36,7 +36,9 @@ jobs:
       - name: Build pinned browser assets and generated entry pages
         run: cd vibe-arcade && npm ci --ignore-scripts --no-audit --no-fund && npm run build
       - name: Acquisition, SEO and conservative experiment contracts
-        run: node --test vibe-arcade/tests/acquisition.test.cjs vibe-arcade/tests/acquisition-seo.test.cjs vibe-arcade/marketing/stage4/decide.test.cjs
+        run: |
+          node --test vibe-arcade/tests/acquisition.test.cjs vibe-arcade/tests/acquisition-seo.test.cjs vibe-arcade/marketing/stage4/decide.test.cjs
+          node --test vibe-arcade/tests/acquisition-build.test.cjs
       - name: Private telemetry SQL lifecycle - disposable database only
         run: |
           test "$PGHOST" = localhost && test "$PGDATABASE" = acquisition_test
@@ -68,3 +70,22 @@ jobs:
           name: acquisition-workspace
           path: ${{ runner.temp }}/acquisition-workspace.zip
           retention-days: 3
+  live:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: foundation
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node vibe-arcade/scripts/build-measurement.cjs && node vibe-arcade/scripts/build-discovery.cjs
+      - name: Read-only production pages, routes and collector gateway
+        run: QA_OUT=/tmp/acquisition-live node vibe-arcade/tests/acquisition-live.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acquisition-live-evidence
+          path: /tmp/acquisition-live
+          retention-days: 7

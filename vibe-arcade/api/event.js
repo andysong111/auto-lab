@@ -2,6 +2,9 @@
 'use strict';
 const C=require('../measurement/contract.js');
 const ENDPOINT='https://qmtmyqytzkdtglfcegef.supabase.co/functions/v1/loopjolt-acquisition';
+// Intentionally public anon project key, NOT a service role or user credential.
+// Gateway JWT verification remains enabled; private SQL still requires the Edge service role.
+const PUBLIC_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFtdG15cXl0emtkdGdsZmNlZ2VmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwNDA1NTMsImV4cCI6MjA5ODYxNjU1M30.VM4gVmdvtDDNESa20LrL0YuMBpBE1I2lLEwkjUfiAl8';
 function makeHandler(fetcher=fetch,logger=console){return async function(req,res){
  res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');
  if(req.method!=='POST')return res.status(405).json({ok:false});
@@ -13,7 +16,7 @@ function makeHandler(fetcher=fetch,logger=console){return async function(req,res
   return res.status(400).json({ok:false});
  }
  if(!data)return res.status(204).end();
- try{const r=await fetcher(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Origin:C.ORIGIN},body:JSON.stringify(data),signal:AbortSignal.timeout(5000)});
+ try{const r=await fetcher(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Origin:C.ORIGIN,Authorization:'Bearer '+PUBLIC_ANON,apikey:PUBLIC_ANON},body:JSON.stringify(data),signal:AbortSignal.timeout(5000)});
   if(r.status===429)return res.status(429).json({ok:false});
   if(!r.ok){logger.warn('[LJ_METRIC_SINK_UNAVAILABLE]');return res.status(503).json({ok:false});}
   return res.status(204).end();
