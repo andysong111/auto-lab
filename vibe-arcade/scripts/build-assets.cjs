@@ -9,11 +9,9 @@ if(fs.existsSync(path.join(pkg,'LICENSE.md')))fs.copyFileSync(path.join(pkg,'LIC
 console.log('Built local Phaser 3.90.0 runtime.');
 require('./build-core-pins.cjs').build();
 console.log('Built Core Pins shared-kit bundle.');
-// Preserve the concurrently merged search foundation and extend it in a deterministic order.
 require('./build-search-metadata.cjs').build();
 require('./build-measurement.cjs').build();
 require('./build-discovery.cjs').build();
 console.log('Built acquisition clients and canonical playable discovery pages.');
-
-// Owner-gated candidate only; never promotes the production game.
-require('./build-astra-polish.cjs').build();
+const astra=require('./build-astra-release.cjs').build();
+console.log('Built Astra Sentinel '+astra.version+' production release and owner review candidate.');
