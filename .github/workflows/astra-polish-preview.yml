@@ -3,7 +3,7 @@ on:
   push:
     branches: [preview/astra-polish]
   pull_request:
-    paths: ['vibe-arcade/preview/astra-polish/**', 'vibe-arcade/scripts/build-astra-polish*.cjs', 'vibe-arcade/scripts/build-astra-release.cjs', 'vibe-arcade/tests/astra-polish-*', 'vibe-arcade/tests/astra-release.test.cjs', 'vibe-arcade/vercel.json', '.github/workflows/astra-polish-preview.yml']
+    paths: ['vibe-arcade/preview/astra-polish/**', 'vibe-arcade/scripts/build-astra-polish*.cjs', 'vibe-arcade/scripts/build-astra-release.cjs', 'vibe-arcade/tests/astra-polish-*', 'vibe-arcade/tests/astra-release.test.cjs', 'vibe-arcade/tests/astra-simple-controls-browser.cjs', 'vibe-arcade/vercel.json', '.github/workflows/astra-polish-preview.yml']
 permissions:
   contents: read
 concurrency:
@@ -28,8 +28,10 @@ jobs:
         run: |
           npm install --prefix "$RUNNER_TEMP/pw" playwright@1.55.0 --ignore-scripts --no-audit --no-fund
           "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
-      - name: P2 full campaign, pointer/dash/upgrade inputs, four viewport widths
+      - name: P2 full campaign regression, pointer/dash/upgrade inputs, four viewport widths
         run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" QA_OUT=/tmp/astra-polish/full node vibe-arcade/tests/astra-polish-browser.cjs
+      - name: Production Astra v3 movement-only controls, desktop and mobile
+        run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" QA_OUT=/tmp/astra-polish/simple node vibe-arcade/tests/astra-simple-controls-browser.cjs
       - name: Normal-clock native routes, touch, sound and pause
         run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" QA_OUT=/tmp/astra-polish/routes node vibe-arcade/tests/astra-polish-browser.cjs --routes
       - name: Record reviewed source and generated candidate identity
