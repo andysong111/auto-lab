@@ -29,8 +29,9 @@ test('P2 difficulty and safe-lane rules are retained after control simplificatio
   const arena=require('../release/astra-sentinel/arena.js');assert.equal(arena.SCALE,1.4);
   const s={player:{x:504,y:756},enemies:[{type:'boss',boss:3,attack:1}]},w=arena.wallFor(s);
   assert(w&&w.gapWidth>0&&w.delay===96);
-  const core=fs.readFileSync(path.join(dir,'core.js'),'utf8');
-  for(const token of ["quota:stage%3===0?18+stage*2","bossHp:stage===3?1000:stage===6?2650:5100","s.walls.length===0&&s.stage>=4"])assert(core.includes(token));
+  const core=fs.readFileSync(path.join(dir,'core.js'),'utf8'),arenaSource=fs.readFileSync(path.join(dir,'arena.js'),'utf8');
+  for(const token of ["quota:stage%3===0?18+stage*2","bossHp:stage===3?1000:stage===6?2650:5100"])assert(arenaSource.includes(token));
+  assert(core.includes('s.walls.length===0&&s.stage>=4'));
 });
 test('build is byte-idempotent',()=>{
   const files=fs.readdirSync(dir).sort(),before=files.map(f=>fs.readFileSync(path.join(dir,f)));
