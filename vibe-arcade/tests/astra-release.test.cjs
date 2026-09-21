@@ -9,9 +9,9 @@ test('approved release is Astra v3 with move-only controls',()=>{
   assert(!core.includes("if(input.dash===true"));assert(!core.includes("event(s,'dash'"));
   assert(html.includes('rel="canonical" href="https://vibe-arcade-dun.vercel.app/games/astra-sentinel"'));
   assert(!/PLAYTEST|NOT LIVE|noindex|feelSelect|preview\.js/.test(html));
-  assert(!/id="dash"|dashNote|dashBar|PHASE DASH|Space dashes/.test(html));
+  assert(!/id="dash"|dashNote|dashBar|PHASE DASH|Space dashes|phase through/i.test(html));
   assert(html.includes('That is the whole combat control scheme.'));
-  assert(!/dashBuffer|dashRequested|requestDash\(|Key.*Space/.test(app));
+  assert(!/dashBuffer|dashRequested|requestDash\(|Key.*Space|phase through/i.test(app));
   assert(app.includes("KEY='loopjolt_astra_v3'"));
   assert(app.includes("crypto.getRandomValues(new Uint32Array(1))[0]"));
   assert(app.includes("navigator.clipboard.writeText"));

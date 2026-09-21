@@ -36,6 +36,7 @@ function build(root=path.resolve(__dirname,'..')){
   app=once(app,"$('dash').onclick=()=>{if(!paused&&state.phase==='playing'){dashRequested=true;canvas.focus({preventScroll:true});}};","");
   app=once(app,"if(e.code==='Space'&&!e.repeat&&!/BUTTON|A/.test(e.target.tagName)){e.preventDefault();dashRequested=true;}","");
   app=once(app,'const input=movement();R.step(state,input);dashRequested=false;view.effects(state.events);','const input=movement();R.step(state,input);view.effects(state.events);');
+  app=once(app,"state.walls.length?'SWEEP INCOMING · Move into the cyan corridor or phase through.':state.stage===1?","state.walls.length?'SWEEP INCOMING · Move into the cyan corridor.':state.stage===1?");
   app=once(app,"else if(e.kind==='dash'){this.tone(110,.18,.019,'triangle',800);this.tone(700,.13,.008,'sine',1300);}","");
   app=once(app,";$('pause').disabled=true;$('dash').disabled=true;$('resultDialog').showModal();",";$('pause').disabled=true;$('resultDialog').showModal();");
   const dashHud="$('dash').disabled=state.phase!=='playing'||paused||p.dashCd>0;$('dashNote').textContent=p.dashCd>0?(p.dashCd/60).toFixed(1)+'s RECHARGING':'SPACE · READY';$('dashBar').style.width=(1-p.dashCd/st.dashCd)*100+'%';";
