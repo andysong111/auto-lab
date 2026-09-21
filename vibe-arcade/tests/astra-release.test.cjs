@@ -10,7 +10,9 @@ test('approved release is P2 at canonical route, not review UI',()=>{
   assert(html.includes('rel="canonical" href="https://vibe-arcade-dun.vercel.app/games/astra-sentinel"'));
   assert(!/PLAYTEST|NOT LIVE|noindex|feelSelect|preview\.js/.test(html));
   for(const f of ['arena.js','arena-view.js','motion.js','polish.js','core.js','art.js','app.js'])assert(html.includes('/release/astra-sentinel/'+f));
-  const v=JSON.parse(fs.readFileSync(path.join(root,'vercel.json'),'utf8'));\n  assert(!v.rewrites);\n  assert.equal(fs.readFileSync(path.join(root,'games/astra-sentinel.html'),'utf8'),html);
+  const v=JSON.parse(fs.readFileSync(path.join(root,'vercel.json'),'utf8')); 
+  assert(!v.rewrites);
+  assert.equal(fs.readFileSync(path.join(root,'games/astra-sentinel.html'),'utf8'),html);
 });
 test('dash keeps original screen-space reach in the 1.4x arena',()=>{
   const s=R.create(7);R.begin(s);const y=s.player.y;R.step(s,{y:-1,dash:true});
