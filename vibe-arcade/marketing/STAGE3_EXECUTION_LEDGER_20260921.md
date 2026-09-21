@@ -44,6 +44,13 @@ Observed after scheduled time:
 - Therefore actual hosted/platform playback, gameplay motion, audio, crop and freeze integrity are **UNVERIFIED** in this checkpoint.
 - No additional networks/games were scheduled or published from this checkpoint.
 
+## 11:27 KST recheck
+- Metricool still returns candidate `dd_fc01_instagram` with the same UUID `9065192409182392302`, provider status **PUBLISHED**, detailed status `Published`, and the same public URL `https://www.instagram.com/reel/Ddh9RSXDUJH/`.
+- No duplicate replacement post was created.
+- Instagram Reels analytics query for `2026-09-21 00:00–11:27 KST` still returned **zero rows** for reel-level fields including reel ID, URL, reach, views, average watch time, total watch time and retention. Treat this as analytics ingestion not yet available, not as playback success or failure.
+- A fresh attempt to retrieve the public Instagram Reel through the available web path failed, and a fresh attempt to download the Metricool-hosted MP4 through the available container/network path also failed. These are inspection-capability limitations; neither result is evidence that the published Reel itself is broken.
+- Because no new evidence can verify gameplay motion, audio, crop, or the >=0.60s freeze guard on the actual hosted/platform copy, the playback gate remains **UNVERIFIED** and fan-out remains blocked.
+
 ## Prepared stage-3 candidate ledger
 | Candidate | Game | Network | State | Public URL | Playback gate |
 |---|---|---|---|---|---|
@@ -67,6 +74,6 @@ The Instagram/YouTube/TikTok copy that says to use the profile/channel link stil
 Stage 3 is **not complete**. The first release successfully reached Instagram, but the required hosted/platform playback integrity check remains unresolved and the other 11 prepared candidates have not been released.
 
 ## Stage-4 handoff state
-Stage 4 is **not started**. Repository searches for an original LoopJolt MARKETING `Stage 4` / `4구간` specification returned no matching scope, and the available marketing README/checkpoints define stage-3 QA/publishing rules but do not define a post-stage-3 stage-4 completion contract. Do not substitute an engineering/Game Kit phase or invent a new approved marketing stage.
+Stage 4 is **not started**. Repository searches for an original LoopJolt MARKETING `Stage 4` / `4구간` specification returned no matching scope, and the available marketing README/checkpoints define stage-3 QA/publishing rules but do not define a post-stage-3 stage-4 completion contract. A fresh prior-context lookup during the 11:27 KST recheck also did not recover a usable stage-4 marketing specification. Do not substitute an engineering/Game Kit phase or invent a new approved marketing stage.
 
 Next safe action: re-check provider/public evidence and analytics ingestion, and use any newly available native/platform media evidence to verify real playback. Only after that gate genuinely passes should stage-3 fan-out resume.
