@@ -1,7 +1,7 @@
 name: LoopJolt acquisition and SEO
 on:
   push:
-    branches: [main, marketing/stage4-foundation, marketing/stage4-integrated]
+    branches: [main, marketing/stage4-foundation, marketing/stage4-integrated, marketing/stage4-retention-guard]
     paths: ['vibe-arcade/measurement/**', 'vibe-arcade/marketing/stage4/**', 'vibe-arcade/scripts/build-*.cjs', 'vibe-arcade/tests/acquisition*', 'vibe-arcade/tests/search-foundation*', 'vibe-arcade/api/event.js', 'loopjolt-backend/measurement/**', 'loopjolt-backend/migrations/20260921_acquisition.sql', 'loopjolt-backend/tests/acquisition*', '.github/workflows/loopjolt-acquisition-ci.yml']
   pull_request:
     paths: ['vibe-arcade/**', 'loopjolt-backend/measurement/**', 'loopjolt-backend/migrations/20260921_acquisition.sql', 'loopjolt-backend/tests/acquisition*', '.github/workflows/loopjolt-acquisition-ci.yml']
@@ -41,11 +41,11 @@ jobs:
           node --test vibe-arcade/tests/acquisition-build.test.cjs vibe-arcade/tests/acquisition-legacy.test.cjs
           node --test vibe-arcade/tests/search-foundation.test.cjs
           node --test vibe-arcade/marketing/stage3/attribution.test.cjs
-      - name: Private telemetry SQL lifecycle - disposable database only
+      - name: Private telemetry SQL lifecycle and fail-closed retention - disposable database only
         run: |
           test "$PGHOST" = localhost && test "$PGDATABASE" = acquisition_test
           psql -v ON_ERROR_STOP=1 -c 'create role anon; create role authenticated; create role service_role;'
-          psql -v ON_ERROR_STOP=1 -f loopjolt-backend/migrations/20260921_acquisition.sql
+          node loopjolt-backend/tests/acquisition-retention-ci.cjs
           psql -v ON_ERROR_STOP=1 -f loopjolt-backend/tests/acquisition-db.test.sql
       - name: Install pinned browser checker
         run: |
