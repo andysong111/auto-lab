@@ -82,7 +82,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node vibe-arcade/scripts/build-measurement.cjs && node vibe-arcade/scripts/build-discovery.cjs
+      - run: node vibe-arcade/scripts/build-measurement.cjs
       - name: Read-only production pages, routes and collector gateway
         run: QA_OUT=/tmp/acquisition-live node vibe-arcade/tests/acquisition-live.cjs
       - uses: actions/upload-artifact@v4
