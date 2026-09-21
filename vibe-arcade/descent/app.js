@@ -10,9 +10,12 @@ let reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,soundOn=false
 try{best=Number(localStorage.getItem('dd-best-'+R.VERSION)||0)||0;reduced=reduced||localStorage.getItem('dd-less-motion')==='1';soundOn=localStorage.getItem('dd-sound')==='1';}catch{}
 const audio=new DescentAudio();
 const UI=DescentShell.create({host:document,platform:P,rules:R,onAction:handleShellAction});
+const Replay=window.LoopJoltReplayKit,kit=Replay?.create({game:R.GAME,result:'#result',score:'#resultScore',again:'#again',save:'#save',retry:'#retrySave',dismiss:'#closeResult',nextLink:'#result .result-links a[href="/"]'});
+if(Replay)best=Replay.loadBest('dd-best-'+R.VERSION);
+const autoStart=Replay?.autoPractice({ready:()=>initialized&&!busy&&!playing,start:()=>launch(false)});
 const view=DescentView.make({state:()=>state,isPlaying:()=>playing&&!paused,reduced:()=>reduced,
  action:a=>{if(a[0]==='steer')steer=a[1];},turn:d=>{turn=R.clamp(turn+d,-450,450);},
- ready:()=>{initialized=true;buttons();},contextLost:()=>{pauseRun('Graphics context interrupted. This run is practice only.');}});
+ ready:()=>{initialized=true;buttons();autoStart?.();},contextLost:()=>{pauseRun('Graphics context interrupted. This run is practice only.');}});
 function track(event,props={}){if(!capture)window.LJTelemetry?.track(event,R.GAME,R.VERSION,props);}
 function text(s){UI.text({status:s});}
 function profileLabel(){UI.identity();}
@@ -32,34 +35,38 @@ function actionForTick(){
  return null;
 }
 async function launch(want){
- if(busy||playing||!initialized)return;
+ if(busy||playing||!initialized||P.saving||kit?.saving)return;
  if(want&&!P.getPlayer()){location.href='/community/?panel=profile&returnTo=%2Fdescent%2F';return;}
  if(want&&(!eligible||capture))return;
  busy=true;let startError='';const id=++epoch;ranked=false;wantedRanked=!!want;buttons();UI.text({entryNote:want?'Preparing a verified run…':'Preparing…'});
  try{
   const prepared=want?await P.startRanked():P.startPractice();
   if(id!==epoch)return;
-  state=R.create(prepared.seed);ranked=prepared.ranked;playing=true;paused=false;actions=[];turn=0;steer=0;burst=false;acc=0;clock=RankedClock.create();lastFrame=performance.now();view.reset();audio.reset();audio.enable(soundOn);UI.started();
+  state=R.create(prepared.seed);ranked=prepared.ranked;playing=true;paused=false;actions=[];turn=0;steer=0;burst=false;acc=0;clock=RankedClock.create();lastFrame=performance.now();view.reset();audio.reset();audio.enable(soundOn);UI.started();kit?.begin();
   text(ranked?'Official run · unpaused gameplay is verified on the server.':'Practice · drag the tower, not the drone. Space = charged burst.');track('game_start',{ranked});view.focus();hud();
  }catch(e){if(id===epoch){ranked=false;profileLabel();startError=e.message==='invalid_or_expired_login'?'Sign-in expired. Sign in again before a ranked run.':'Ranked start unavailable. Retry or choose practice.';}}
  finally{if(id===epoch){busy=false;buttons();if(startError){UI.entry();UI.text({entryNote:startError});}}}
 }
 function showResult(){UI.result({state,ranked,wantedRanked,eligible});}
 async function submit(operation){
- UI.saving();
- const result=await operation;if(!P.isCurrent(result))return;
+ const id=epoch;UI.saving();kit?.saved({state:'saving'});
+ const result=await operation;if(id!==epoch)return;
+ if(!P.isCurrent(result)){kit?.saved({state:'failed',retryable:false});return;}
  if(result.status==='verified'){
-  UI.saved(result);track('score_verified',{score:result.score});
+  UI.saved(result);kit?.saved({state:'verified',score:result.score});track('score_verified',{score:result.score});
   try{const [players,nations]=await Promise.all([board('world'),board('nations')]);if(!P.isCurrent(result))return;const p=P.getPlayer();const mine=players.rows.find(x=>x.handle?.toLowerCase()===p?.handle.toLowerCase()),country=nations.rows.find(x=>p?.country&&x.country_code===p.country);
    UI.text({standing:[mine?'World #'+mine.rank:'Outside the displayed top 100',country?P.countryName(p.country)+' #'+country.rank:null].filter(Boolean).join(' · ')});if(mine)UI.text({official:Number(mine.score).toLocaleString('en-US')});
   }catch{if(P.isCurrent(result))UI.text({standing:'Score saved. Rank lookup is temporarily unavailable.'});}
  }else if(result.status==='failed'){
-  UI.saved(result);
+  UI.saved(result);kit?.saved({state:'failed',retryable:result.retryable});
  }
 }
 function end(){
- if(!playing)return;playing=false;paused=false;best=Math.max(best,state.score);if(!capture)try{localStorage.setItem('dd-best-'+R.VERSION,String(best));}catch{}
+ if(!playing)return;playing=false;paused=false;
+ const local=Replay?.record({score:state.score,previousBest:best,key:'dd-best-'+R.VERSION,capture});
+ best=local?local.best:Math.max(best,state.score);if(!local&&!capture)try{localStorage.setItem('dd-best-'+R.VERSION,String(best));}catch{}
  hud();buttons();track('game_finish',{ranked,score:state.score,floor:state.floor,reason:state.reason});showResult();
+ if(local){kit.complete(local,{ranked:wantedRanked&&eligible&&!capture});kit.saved({state:ranked?'saving':'practice'});}
  if(ranked)submit(P.submitRun({actions,ticks:state.tick}));ranked=false;
 }
 function handleShellAction(action){

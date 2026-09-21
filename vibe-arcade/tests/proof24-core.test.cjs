@@ -1,13 +1,13 @@
 'use strict';
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),cp=require('node:child_process');
 const root=path.resolve(__dirname,'..'),R=require('../challengers/core.js');
-function dispatcher(query,failAt=-1){const scripts=[],links=[],primary={disabled:false},ranked={disabled:false},status={textContent:''};let reloaded=0;
- const document={querySelector:s=>({'#primary':primary,'#ranked':ranked,'#status':status}[s]),createElement:tag=>({tag}),head:{append:n=>links.push(n.href)},body:{append:s=>{scripts.push(s.src);if(scripts.length-1===failAt)s.onerror();else s.onload();}}};
+function dispatcher(query,failAt=-1,datasetGame){const scripts=[],links=[],primary={disabled:false},ranked={disabled:false},status={textContent:''};let reloaded=0;
+ const document={querySelector:s=>({'#primary':primary,'#ranked':ranked,'#status':status}[s]),createElement:tag=>({tag}),head:{append:n=>{if(n.rel==='stylesheet')links.push(n.href);}},body:{dataset:{game:datasetGame},append:s=>{scripts.push(s.src);if(scripts.length-1===failAt)s.onerror();else s.onload();}}};
  vm.runInNewContext(fs.readFileSync(path.join(root,'challengers/boot.js'),'utf8'),{document,location:{search:query,reload:()=>reloaded++},URLSearchParams});
  return {scripts,links,primary,ranked,status,reload:()=>{primary.onclick();return reloaded;}};
 }
 test('only Core Pins loads its shared-kit bundle; all five imports are unchanged modules',()=>{const d=dispatcher('?game=core-pins'),{FILES}=require('../scripts/build-core-pins.cjs');assert.deepEqual(d.scripts,['/core-pins/bundle.js']);assert.equal(FILES.length,9);assert.deepEqual(FILES.slice(0,5),['runtime/core.js','runtime/community-adapter.js','shell/core.js','feel/phaser-fx.js','feel/audio.js']);assert.deepEqual(d.links,['/core-pins/style.css']);});
-for(const game of ['gyro-drop','nova-merge','','CORE-PINS','unknown'])test('legacy dispatch retained for '+game,()=>{const d=dispatcher('?game='+game);assert.deepEqual(d.scripts,['/challengers/game.js']);assert.deepEqual(d.links,[]);assert.equal(d.primary.disabled,false);});
+for(const game of ['gyro-drop','nova-merge','','CORE-PINS','unknown'])test('legacy dispatch retained for '+game,()=>{const d=dispatcher('?game='+game);assert.deepEqual(d.scripts,['/challengers/game.js']);assert.deepEqual(d.links,[]);assert.equal(d.primary.disabled,true);});
 test('social UTM query parameters retain the Core Pins path',()=>{assert.equal(dispatcher('?game=core-pins&utm_source=instagram&utm_campaign=test').scripts.at(-1),'/core-pins/bundle.js');});
 test('load failure stops before app boot, exposes reload, not double controllers',()=>{for(const index of [0]){const d=dispatcher('?game=core-pins',index);assert.equal(d.scripts.length,index+1);assert(d.status.textContent.includes('could not load'));assert.equal(d.ranked.disabled,true);assert.equal(d.primary.textContent,'Reload game');assert.equal(d.reload(),1);}});
 test('game adapter contains no direct transport, credential or voice-node implementation',()=>{const a=fs.readFileSync(path.join(root,'core-pins/app.js'),'utf8'),v=fs.readFileSync(path.join(root,'core-pins/view.js'),'utf8'),f=fs.readFileSync(path.join(root,'core-pins/feel.js'),'utf8');assert(!/\bfetch\(|\.api\(|Authorization|access_token|createOscillator|createGain/.test(a+v+f));assert(a.includes('P.startRanked()')&&a.includes('P.submitRun(')&&a.includes('P.retrySave()'));assert(f.includes('LoopJoltFeelFX.create')&&f.includes('LoopJoltFeelAudio.create'));});
@@ -21,5 +21,5 @@ if(process.env.BASELINE_DIR||process.env.PROOF24_BASE_REF)test('proof-only prote
  for(const f of paths)assert(fs.readFileSync(path.join(root,f)).equals(baseline(f)),f+' changed');
  assert.equal(fs.readFileSync(path.join(root,'challengers/play.html'),'utf8').replace('/challengers/boot.js','/challengers/game.js'),baseline('challengers/play.html').toString());
 });
-
 test('bundle contains each source verbatim in order and is valid JavaScript',()=>{const {build,FILES}=require('../scripts/build-core-pins.cjs');const text=build(root);new vm.Script(text);let at=0;for(const f of FILES){const src=fs.readFileSync(path.join(root,f),'utf8');const found=text.indexOf(src,at);assert(found>=at);at=found+src.length;}});
+test('canonical game dataset selects correct controller and ignores conflicting query',()=>{assert.deepEqual(dispatcher('?game=nova-merge',-1,'core-pins').scripts,['/core-pins/bundle.js']);assert.deepEqual(dispatcher('?game=core-pins',-1,'nova-merge').scripts,['/challengers/game.js']);});

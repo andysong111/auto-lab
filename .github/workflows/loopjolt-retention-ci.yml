@@ -1,0 +1,50 @@
+name: LoopJolt retention UX
+on:
+  push:
+    branches: [main, feature/retention-ux]
+    paths: ['vibe-arcade/experience/**', 'vibe-arcade/descent/app.js', 'vibe-arcade/core-pins/**', 'vibe-arcade/challengers/**', 'vibe-arcade/games/orbit-sprint/game.js', 'vibe-arcade/scripts/build-*.cjs', 'vibe-arcade/tests/retention-*', '.github/workflows/loopjolt-retention-ci.yml']
+  pull_request:
+    paths: ['vibe-arcade/**', '.github/workflows/loopjolt-retention-ci.yml']
+permissions:
+  contents: read
+concurrency:
+  group: retention-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+jobs:
+  ux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build the actual pinned game and presentation sources
+        run: cd vibe-arcade && npm ci --ignore-scripts --no-audit --no-fund && npm run build
+      - name: Local best, entry intent and unchanged rule contracts
+        run: |
+          node --test vibe-arcade/tests/retention-core.test.cjs
+          node --test vibe-arcade/tests/runtime-core.test.cjs vibe-arcade/tests/descent-core.test.cjs vibe-arcade/tests/challengers-core.test.cjs vibe-arcade/tests/orbit-core.test.cjs
+          node --check vibe-arcade/experience/replay-kit.js
+          node --check vibe-arcade/challengers/game.js
+      - name: Browser tools for isolated tests only
+        run: |
+          npm install --prefix "$RUNNER_TEMP/pw" playwright@1.55.0 --ignore-scripts --no-audit --no-fund
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Four games, mobile/desktop, real navigation and save races - mock backend only
+        run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" QA_OUT=/tmp/retention-qa node vibe-arcade/tests/retention-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: retention-ux-evidence
+          path: /tmp/retention-qa
+          retention-days: 7
+      - name: Read-only production source check after deployment
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: QA_OUT=/tmp/retention-live node vibe-arcade/tests/retention-live.cjs
+      - uses: actions/upload-artifact@v4
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        with:
+          name: retention-live-evidence
+          path: /tmp/retention-live
+          retention-days: 7

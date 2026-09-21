@@ -1,17 +1,20 @@
 (function(){'use strict';
 const R=ChallengerRules,C=window.LoopCommunity,$=q=>document.querySelector(q),params=new URLSearchParams(location.search);
-const game=R.CONFIG[params.get('game')]?params.get('game'):'gyro-drop',cfg=R.CONFIG[game],capture=params.get('capture')==='1';
+const selected=document.body.dataset.game||params.get('game');
+const game=R.CONFIG[selected]?selected:'gyro-drop',cfg=R.CONFIG[game],capture=params.get('capture')==='1';
 const COPY={
  'gyro-drop':{title:'Gyro Drop',tag:'Turn the tower. Chain the fall.',health:'SHIELDS',how:'Drag left or right to rotate the tower. Drop through the glowing gaps. Red sectors cost a shield. Chain three clean drops to enter smash mode.'},
  'core-pins':{title:'Core Pins',tag:'One tap. One clean angle.',health:'SHIELDS',how:'Tap or press Space to fire a pin into the rotating core. Never hit a pin or red seal already on the core. Clear each ring and survive the boss stages.'},
  'nova-merge':{title:'Nova Merge',tag:'Drop small. Build a galaxy.',health:'BOARD',how:'Tap a column or use 1–7 to drop the next orb. Two matching orbs in a column merge. Matching neighbour tops can trigger a resonance chain. Keep the board below the limit.'}
 }[game];
-document.title=COPY.title+' — LoopJolt';$('#title').textContent=COPY.title;$('#tagline').textContent=COPY.tag;$('#healthLabel').textContent=COPY.health;$('#instructions').textContent=COPY.how;
+if(!document.body.dataset.game)document.title=COPY.title+' — LoopJolt';$('#title').textContent=COPY.title;$('#tagline').textContent=COPY.tag;$('#healthLabel').textContent=COPY.health;$('#instructions').textContent=COPY.how;
 $('#rankings').href=$('#resultRankings').href='/community/?game='+encodeURIComponent(game)+'&scope=world';
-let seed=125904,state=R.create(game,seed),active=false,ranked=false,run=null,inputs=[],pending=null,acc=0,last=performance.now(),busy=false,attempt=0,best=0,profile=null,ready=false,savePayload=null,saveAttempt=0,clock=RankedClock.create();
-try{best=Number(localStorage.getItem('lj_ch_'+cfg.version)||0)||0;}catch{}$('#best').textContent=best.toLocaleString();
+let seed=125904,state=R.create(game,seed),active=false,ranked=false,run=null,inputs=[],pending=null,acc=0,last=performance.now(),busy=false,attempt=0,best=0,profile=null,ready=false,savePayload=null,saveAttempt=0,clock=RankedClock.create(),gameReady=false,wantedRanked=false,saveBusy=false,disposed=false;
+const Replay=window.LoopJoltReplayKit,kit=game==='nova-merge'?Replay?.create({game,result:'#resultDialog',score:'#resultScore',again:'#again',save:'#saveState',dismiss:'#closeResult',onRetry:()=>{if(savePayload&&!saveBusy)saveRanked(savePayload,saveAttempt);}}):null;
+if(Replay)best=Replay.loadBest('lj_ch_'+cfg.version);else try{best=Number(localStorage.getItem('lj_ch_'+cfg.version)||0)||0;}catch{}$('#best').textContent=best.toLocaleString();
+const autoStart=game==='nova-merge'?Replay?.autoPractice({ready:()=>gameReady&&!active&&!busy,start:()=>launch(false)}):null;
 function status(t){$('#status').textContent=t;}function hud(){$('#score').textContent=state.score.toLocaleString();$('#time').textContent=Math.max(0,(cfg.ticks-state.tick)/60).toFixed(1);$('#combo').textContent=state.combo;$('#health').textContent=game==='nova-merge'?Math.max(...state.cols.map(c=>c.length))+'/'+state.maxRows:state.health;}
-function record(a){if(!active||busy||!state.alive)return;if(pending){if(game==='gyro-drop'&&a[0]==='turn'&&pending[0]==='turn'){pending[1]=Math.max(-180,Math.min(180,pending[1]+a[1]));return;}return;}pending=a;}
+function record(a){if(!active||busy||!state.alive||$('#resultDialog').open)return;if(pending){if(game==='gyro-drop'&&a[0]==='turn'&&pending[0]==='turn'){pending[1]=Math.max(-180,Math.min(180,pending[1]+a[1]));return;}return;}pending=a;}
 function track(e,p={}){window.LJTelemetry?.track(e,game,cfg.version,p);}
 function tone(kind){try{const ac=tone.ac||(tone.ac=new (AudioContext||webkitAudioContext)()),o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;o.type=kind==='bad'?'sawtooth':'triangle';o.frequency.setValueAtTime(kind==='bad'?120:kind==='merge'?520:760,t);o.frequency.exponentialRampToValueAtTime(kind==='bad'?55:1200,t+.12);g.gain.setValueAtTime(.022,t);g.gain.exponentialRampToValueAtTime(.0001,t+.14);o.connect(g);g.connect(ac.destination);o.start();o.stop(t+.15);}catch{}}
 class GameScene extends Phaser.Scene{
@@ -24,6 +27,7 @@ class GameScene extends Phaser.Scene{
  this.input.keyboard.on('keydown-LEFT',()=>{if(game==='gyro-drop')record(['turn',-100]);else if(game==='nova-merge')this.selected=Math.max(0,this.selected-1);});
  this.input.keyboard.on('keydown-RIGHT',()=>{if(game==='gyro-drop')record(['turn',100]);else if(game==='nova-merge')this.selected=Math.min(6,this.selected+1);});
  for(let i=1;i<=7;i++)this.input.keyboard.on('keydown-'+i,()=>{if(game==='nova-merge'){this.selected=i-1;record(['drop',i-1]);}});
+ gameReady=true;updateButtons();autoStart?.();
  }
  burst(x,y,color=0xd5ff68,n=10){for(let i=0;i<n;i++){const p=this.add.circle(x,y,2+Math.random()*3,color,.9),a=Math.random()*Math.PI*2,d=25+Math.random()*65;this.tweens.add({targets:p,x:x+Math.cos(a)*d,y:y+Math.sin(a)*d,alpha:0,scale:.2,duration:350+Math.random()*250,onComplete:()=>p.destroy()});}}
  float(text,x,y,color='#d5ff68'){const t=this.add.text(x,y,text,{fontFamily:'system-ui',fontSize:'18px',fontStyle:'bold',color}).setOrigin(.5);this.tweens.add({targets:t,y:y-50,alpha:0,duration:650,onComplete:()=>t.destroy()});}
@@ -38,14 +42,45 @@ class GameScene extends Phaser.Scene{
 }
 const phaser=new Phaser.Game({type:Phaser.AUTO,parent:'phaser-game',width:720,height:900,transparent:false,backgroundColor:'#08100f',scene:GameScene,render:{antialias:true,pixelArt:false},scale:{mode:Phaser.Scale.FIT,autoCenter:Phaser.Scale.CENTER_BOTH}});
 function scene(){return phaser.scene.getScene('play');}
-async function account(){try{const c=await C.config();seed=c.seed||seed;ready=!!c.rankedGames?.some(g=>g.game===game&&g.version===cfg.version);if(C.authenticated){profile=await C.me();if(profile)C.renderFlagLabel($('#identity'),profile.country,profile.handle);}if(!active&&!busy){status(capture?'Capture mode · practice only':ready?'Practice is instant. Ranked runs require sign-in.':'Practice ready. Ranked board activates after verification.');state=R.create(game,seed);}}catch{if(!active&&!busy)status('Practice ready. Ranking service is unavailable.');}hud();updateButtons();}
-function updateButtons(){$('#ranked').disabled=capture||!ready;$('#ranked').textContent=profile?'PLAY RANKED':'SIGN IN TO RANK';}
-async function launch(wantRanked){if(busy)return;if(wantRanked&&!profile){const ret='/challengers/play?game='+encodeURIComponent(game);location.href='/community/?panel=profile&returnTo='+encodeURIComponent(ret);return;}busy=true;const id=++attempt;run=null;ranked=false;status('Preparing…');try{if(wantRanked&&!capture&&ready){run=await C.api('start',{game});if(run.version!==cfg.version)throw Error('version_mismatch');ranked=true;}}catch{run=null;ranked=false;status('Ranked start failed. Nothing was submitted.');busy=false;return;}if(id!==attempt)return;state=R.create(game,run?Number(run.seed):seed);inputs=[];pending=null;active=true;busy=false;savePayload=null;saveAttempt=0;clock=RankedClock.create();acc=0;last=performance.now();status(ranked?'Ranked run · server will replay your inputs.':'Practice run · score stays on this device.');track('game_start',{ranked});hud();}
+async function account(){try{const c=await C.config();seed=c.seed||seed;ready=!!c.rankedGames?.some(g=>g.game===game&&g.version===cfg.version);if(C.authenticated){profile=await C.me();if(profile)C.renderFlagLabel($('#identity'),profile.country,profile.handle);}if(!active&&!busy&&state.tick===0){status(capture?'Capture mode · practice only':ready?'Practice is instant. Ranked runs require sign-in.':'Practice ready. Ranked board activates after verification.');state=R.create(game,seed);}}catch{if(!active&&!busy)status('Practice ready. Ranking service is unavailable.');}hud();updateButtons();}
+function updateButtons(){$('#primary').disabled=!gameReady||busy||active||saveBusy;$('#ranked').disabled=!gameReady||busy||active||saveBusy||capture||!ready;$('#ranked').textContent=profile?'PLAY RANKED':'SIGN IN TO RANK';$('.game-actions').hidden=active;}
+
+async function launch(wantRanked){if(disposed||busy||active||saveBusy||!gameReady)return;if(wantRanked&&!profile){const ret='/challengers/play?game='+encodeURIComponent(game);location.href='/community/?panel=profile&returnTo='+encodeURIComponent(ret);return;}busy=true;wantedRanked=!!wantRanked;const id=++attempt;saveAttempt++;savePayload=null;kit?.begin();run=null;ranked=false;updateButtons();status('Preparing…');try{if(wantRanked&&!capture&&ready){run=await C.api('start',{game});if(run.version!==cfg.version)throw Error('version_mismatch');ranked=true;}}catch{run=null;ranked=false;status('Ranked start failed. Nothing was submitted.');busy=false;updateButtons();return;}if(id!==attempt||disposed)return;state=R.create(game,run?Number(run.seed):seed);inputs=[];pending=null;active=true;busy=false;savePayload=null;clock=RankedClock.create();acc=0;last=performance.now();status(ranked?'Ranked run · server will replay your inputs.':'Practice run · score stays on this device.');track('game_start',{ranked});$('#resultDialog').close();updateButtons();hud();phaser.canvas.focus({preventScroll:true});}
 $('#primary').onclick=()=>launch(false);$('#ranked').onclick=()=>launch(true);
 async function rankSummary(){if(!profile)return'';try{const u=new URL(C.endpoint);u.search=new URLSearchParams({action:'board',game,scope:'world',period:'week'});const d=await fetch(u,{cache:'no-store'}).then(r=>r.json()),row=d.rows?.find(r=>r.handle?.toLowerCase()===profile.handle.toLowerCase());const u2=new URL(C.endpoint);u2.search=new URLSearchParams({action:'board',game,scope:'nations',period:'week'});const n=await fetch(u2,{cache:'no-store'}).then(r=>r.json()),country=n.rows?.find(r=>r.country_code===profile.country);return[row?'World #'+row.rank:null,country?C.countryName(profile.country)+' #'+country.rank:null].filter(Boolean).join(' · ');}catch{return'';}}
-async function saveRanked(payload,id){$('#saveState').className='save-state';$('#saveState').textContent='Verifying this run…';try{const response=await C.api('finish',payload);if(id!==saveAttempt)return;if(response.saved){$('#saveState').className='save-state ok';$('#saveState').textContent='Verified · '+Number(response.score).toLocaleString()+' saved.';const summary=await rankSummary();if(id===saveAttempt)$('#rankState').textContent=summary||'Official leaderboard updated.';}else throw Error('not_saved');}catch{if(id!==saveAttempt)return;$('#saveState').className='save-state bad';$('#saveState').textContent='Save not confirmed. Your local best is safe.';}}
-async function finish(){if(!active)return;active=false;best=Math.max(best,state.score);try{localStorage.setItem('lj_ch_'+cfg.version,String(best));}catch{}$('#best').textContent=best.toLocaleString();track('game_finish',{ranked,score:state.score,ticks:state.tick});$('#resultScore').textContent=state.score.toLocaleString()+' pts';$('#resultMeta').textContent=game==='gyro-drop'?state.falls+' rings · '+state.maxCombo+' best chain':game==='core-pins'?'Stage '+state.stage+' · '+state.hits+' clean pins':state.merges+' merges · level '+(state.largest+1)+' largest';$('#rankState').textContent='';$('#saveState').className='save-state';if(ranked&&run){savePayload={runId:run.runId,actions:inputs,ticks:state.tick};const id=++saveAttempt;saveRanked(savePayload,id);}else $('#saveState').textContent='Practice best saved on this device.';run=null;ranked=false;$('#resultDialog').showModal();}
-$('#again').onclick=()=>{$('#resultDialog').close();launch(false);};$('#closeResult').onclick=()=>$('#resultDialog').close();
+async function saveRanked(payload,id){
+ if(saveBusy||!payload||id!==saveAttempt||disposed)return;
+ const generation=attempt;saveBusy=true;updateButtons();$('#saveState').className='save-state';$('#saveState').textContent='Verifying this run…';kit?.saved({state:'saving'});
+ try{
+  const response=await C.api('finish',payload);
+  if(disposed||id!==saveAttempt||generation!==attempt)return;
+  if(response.saved!==true||!Number.isSafeInteger(response.score)||response.score<0||response.score>50000)throw Error('not_saved');
+  savePayload=null;$('#saveState').className='save-state ok';$('#saveState').textContent='Verified · '+response.score.toLocaleString()+' points saved.';kit?.saved({state:'verified',score:response.score});track('score_verified');
+  // A slow board lookup must not block retry/play or overwrite the following attempt.
+  rankSummary().then(summary=>{if(!disposed&&id===saveAttempt&&generation===attempt)$('#rankState').textContent=summary||'Official leaderboard updated.';});
+ }catch(e){
+  if(disposed||id!==saveAttempt||generation!==attempt)return;
+  const retryable=['network_error','request_failed','backend_unavailable'].includes(e.message)||['AbortError','TimeoutError','TypeError'].includes(e.name);
+  if(!retryable)savePayload=null;
+  $('#saveState').className='save-state bad';$('#saveState').textContent='Save not confirmed. This is not a ranked score.';kit?.saved({state:'failed',retryable});
+ }finally{if(id===saveAttempt&&generation===attempt){saveBusy=false;updateButtons();}}
+}
+function finish(){
+ if(!active)return;active=false;
+ const local=Replay?.record({score:state.score,previousBest:best,key:'lj_ch_'+cfg.version,capture});
+ best=local?local.best:Math.max(best,state.score);if(!local&&!capture)try{localStorage.setItem('lj_ch_'+cfg.version,String(best));}catch{}
+ $('#best').textContent=best.toLocaleString();track('game_finish',{ranked,score:state.score,ticks:state.tick});
+ $('#resultScore').textContent=state.score.toLocaleString()+' pts';$('#resultMeta').textContent=game==='gyro-drop'?state.falls+' rings · '+state.maxCombo+' best chain':game==='core-pins'?'Stage '+state.stage+' · '+state.hits+' clean pins':state.merges+' merges · level '+(state.largest+1)+' largest';
+ $('#rankState').textContent='';$('#saveState').className='save-state';$('#resultDialog').showModal();updateButtons();
+ if(local)kit?.complete(local,{ranked:wantedRanked&&ready&&!capture});
+ if(ranked&&run){
+  savePayload=Object.freeze({runId:run.runId,actions:Object.freeze(inputs.map(a=>Object.freeze(a.slice()))),ticks:state.tick});const id=++saveAttempt;saveRanked(savePayload,id);
+ }else if(kit)kit.saved({state:'practice'});else $('#saveState').textContent=local?Replay.practiceNote(local):'Practice score · device only.';
+ run=null;ranked=false;
+}
+$('#again').onclick=()=>{if(!saveBusy)launch(wantedRanked&&ready&&!capture&&!!C.authenticated);};
+$('#closeResult').onclick=()=>{if(!saveBusy)$('#resultDialog').close();};
+window.addEventListener('pagehide',e=>{if(!e.persisted){disposed=true;attempt++;saveAttempt++;savePayload=null;kit?.destroy();}});
 function downgradeTiming(reason){if(!ranked||!run)return;ranked=false;run=null;status(reason||'Frame timing changed. This attempt is practice only.');}
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&active&&ranked)downgradeTiming('Tab hidden. This attempt is practice only.');});
 let loopLast=performance.now();function loop(now){const rawDt=Math.max(0,now-loopLast),dt=Math.min(100,rawDt);loopLast=now;if(active&&state.alive){if(ranked&&!RankedClock.observe(clock,rawDt))downgradeTiming('Frame timing became unstable. This attempt is practice only.');acc+=dt/1000;let n=0;while(acc>=1/60&&state.alive&&n++<6){const a=pending;pending=null;if(a)inputs.push([state.tick,...a]);R.step(state,a);if(state.events.length)scene()?.process(state.events);acc-=1/60;}hud();if(!state.alive)finish();}requestAnimationFrame(loop);}requestAnimationFrame(loop);

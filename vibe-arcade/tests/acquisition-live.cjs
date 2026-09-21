@@ -1,8 +1,8 @@
 /* Read-only production verification: no event, account or score submissions. */
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict');
-// Match the production build order, including the concurrently merged stage-3 SEO pass.
-require('../scripts/build-search-metadata.cjs').build();require('../scripts/build-discovery.cjs').build();
+// Match production build order including the optional retention presentation pass.
+require('../scripts/build-search-metadata.cjs').build();require('../scripts/build-discovery.cjs').build();require('../scripts/build-retention.cjs').build();
 const root=path.resolve(__dirname,'..'),origin='https://vibe-arcade-dun.vercel.app',out=process.env.QA_OUT||'/tmp/acquisition-live';fs.mkdirSync(out,{recursive:true});
 const result={at:new Date().toISOString(),commit:process.env.GITHUB_SHA||null,readOnly:true,checks:[],errors:[]};
 const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
