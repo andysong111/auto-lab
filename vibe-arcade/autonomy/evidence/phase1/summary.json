@@ -1,0 +1,117 @@
+{
+  "implementation_commit": "db33fc7a536784103ebcdc3529f6f948f4952722",
+  "contract_tests": {
+    "passed": 19,
+    "failed": 0
+  },
+  "browser_tests": {
+    "passed": 9,
+    "failed": 0
+  },
+  "production_contract_tests": {
+    "passed": 283,
+    "failed": 0
+  },
+  "production_browser_suites": [
+    "astra-v3",
+    "astra-campaign",
+    "deep-descent",
+    "core-pins-and-nova",
+    "legacy-challengers",
+    "orbit-and-auth-shell"
+  ],
+  "scenarios": [
+    {
+      "case": "irreparable",
+      "state": "REJECTED",
+      "version": "v6",
+      "repair_attempt": 5,
+      "qa_passed": false,
+      "failure_codes": [
+        "freeze"
+      ]
+    },
+    {
+      "case": "missing",
+      "state": "REJECTED",
+      "version": "v1",
+      "repair_attempt": 0,
+      "qa_passed": false,
+      "failure_codes": [
+        "console_error",
+        "missing_assets"
+      ]
+    },
+    {
+      "case": "no-keyboard",
+      "state": "REJECTED",
+      "version": "v1",
+      "repair_attempt": 0,
+      "qa_passed": false,
+      "failure_codes": [
+        "keyboard"
+      ]
+    },
+    {
+      "case": "no-touch",
+      "state": "REJECTED",
+      "version": "v1",
+      "repair_attempt": 0,
+      "qa_passed": false,
+      "failure_codes": [
+        "touch"
+      ]
+    },
+    {
+      "case": "repaired",
+      "state": "RC_READY",
+      "version": "v2",
+      "repair_attempt": 1,
+      "qa_passed": true,
+      "failure_codes": []
+    },
+    {
+      "case": "runaway",
+      "state": "REJECTED",
+      "version": "v1",
+      "repair_attempt": 0,
+      "qa_passed": false,
+      "failure_codes": [
+        "terminal"
+      ]
+    },
+    {
+      "case": "successful",
+      "state": "RC_READY",
+      "version": "v1",
+      "repair_attempt": 0,
+      "qa_passed": true,
+      "failure_codes": []
+    },
+    {
+      "case": "timeout",
+      "state": "REJECTED",
+      "version": "v1",
+      "repair_attempt": 0,
+      "qa_passed": false,
+      "failure_codes": [
+        "timeout"
+      ]
+    },
+    {
+      "case": "write",
+      "state": "REJECTED",
+      "version": "v1",
+      "repair_attempt": 0,
+      "qa_passed": false,
+      "failure_codes": [
+        "capture_no_writes",
+        "console_error",
+        "production_side_effect"
+      ]
+    }
+  ],
+  "production_writes": 0,
+  "production_ship_enabled": false,
+  "note": "Raw local regression report began before the working-tree changes were committed as db33fc7. Same source was committed; final GitHub CI runs provide commit-bound evidence. Screenshots are in GitHub Actions artifacts."
+}

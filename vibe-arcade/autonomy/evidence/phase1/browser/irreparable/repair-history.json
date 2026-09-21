@@ -1,0 +1,152 @@
+[
+  {
+    "attempt": 1,
+    "version": "v2",
+    "cause": [
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 390
+      },
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 768
+      },
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 1280
+      }
+    ],
+    "changed_files": [
+      "manifest.json"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Applied workspace revision for freeze, freeze, freeze",
+    "qa_artifact": "v2/qa.json"
+  },
+  {
+    "attempt": 2,
+    "version": "v3",
+    "cause": [
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 390
+      },
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 768
+      },
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 1280
+      }
+    ],
+    "changed_files": [
+      "manifest.json"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Applied workspace revision for freeze, freeze, freeze",
+    "qa_artifact": "v3/qa.json"
+  },
+  {
+    "attempt": 3,
+    "version": "v4",
+    "cause": [
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 390
+      },
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 768
+      },
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 1280
+      }
+    ],
+    "changed_files": [
+      "manifest.json"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Applied workspace revision for freeze, freeze, freeze",
+    "qa_artifact": "v4/qa.json"
+  },
+  {
+    "attempt": 4,
+    "version": "v5",
+    "cause": [
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 390
+      },
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 768
+      },
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 1280
+      }
+    ],
+    "changed_files": [
+      "manifest.json"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Applied workspace revision for freeze, freeze, freeze",
+    "qa_artifact": "v5/qa.json"
+  },
+  {
+    "attempt": 5,
+    "version": "v6",
+    "cause": [
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 390
+      },
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 768
+      },
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 1280
+      }
+    ],
+    "changed_files": [
+      "manifest.json"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Applied workspace revision for freeze, freeze, freeze",
+    "qa_artifact": "v6/qa.json"
+  }
+]

@@ -1,0 +1,77 @@
+{
+  "baseline_commit": "322a6ff9d363b53fc355c649dcb162007a8ab970",
+  "checks": [
+    {
+      "name": "build",
+      "exit_code": 0,
+      "duration_ms": 120,
+      "passed": true
+    },
+    {
+      "name": "canonical-contracts",
+      "exit_code": 0,
+      "duration_ms": 1430,
+      "passed": true
+    },
+    {
+      "name": "astra-v3",
+      "exit_code": 0,
+      "duration_ms": 8447,
+      "passed": true
+    },
+    {
+      "name": "astra-campaign",
+      "exit_code": 0,
+      "duration_ms": 15759,
+      "passed": true
+    },
+    {
+      "name": "deep-descent",
+      "exit_code": 0,
+      "duration_ms": 26446,
+      "passed": true
+    },
+    {
+      "name": "core-pins-and-nova",
+      "exit_code": 0,
+      "duration_ms": 49474,
+      "passed": true
+    },
+    {
+      "name": "legacy-challengers",
+      "exit_code": 0,
+      "duration_ms": 30856,
+      "passed": true
+    },
+    {
+      "name": "orbit-and-auth-shell",
+      "exit_code": 0,
+      "duration_ms": 11372,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "network": "unmatched external traffic blocked; existing accounts/rankings mocked locally",
+  "protected_source_hashes": {
+    "games/astra-sentinel": "d54ad6f945f6387b2bc7424ce834366891adc4ee4ff84c9adaf21d8d41e5978e",
+    "release/astra-sentinel": "c0f555fcd45701f4f0036ec6224ebcb00eacbfc624ceb1567722208f32ead165",
+    "descent": "754bff36cba5ad87503d728067f4c0e2b4c917263d04dd49c6afce4c3ef2acec",
+    "core-pins": "ffea06ce0d03bf0020e64f70155de39589668a31ff5d7ed542115eb0d7cb4ec7",
+    "challengers": "29b4b964ad80d93c2c4a9950df5d73b360790db40219a1b8131f2bd52a9c3a66",
+    "games/orbit-sprint": "06ae31524f7b930fc198365bb616560caadadfd45ef0fe91fc9a908a40dfa376",
+    "runtime": "3cc35de0d4b6e30731d1fa0a51b42c875a6c29b088320008d7cb165c426c35c9",
+    "shell": "b450ffcd6d0c60a6007b14a3c4f28a23abed4dfbdab40f04f4f29a9108ef74e7",
+    "feel": "2703814e70cad698defdcd953b87ac03877a600b9dcd161f96f4295bd711eb7d",
+    "community": "dbeb76140dccc1c7152afc54bfa8f472da475b3ee9e91b1052187b0361f7993d",
+    "measurement": "01c9f930b5e8cee96afdbaf136b8c2051a74f7e6cefcb94ab61e50aec98ff252",
+    "marketing": "627e4109d4d48e349d4565c08eb13b2805fcee3e8e5111f4575672b3b81e64e3",
+    "backend": "9085ce274a1dfc5d161cd9026c99d44a47b4e5f562094ae106f79434f3ad71c4",
+    "index.html": "7af1636b2a287d9c766d9a0ece1ddbfe27e12f0be8acab1a91f5b9c21be2ff39",
+    "sitemap.xml": "dbff01a1ecfe976cacb2fd4ecc1d4fba0286f2cd377005df89c45003e2d052d1",
+    "robots.txt": "de18b1c36655413309f07eb159afd64e5fdbe90013fc959cd02b53e8c596b3b0",
+    "google6335338393f57b11.html": "69ea61b9f73659e5d6e33e9214a12f0ba24a57fe11b8e2517d6d549292d084fe",
+    "vercel.json": "3568404397fdf3286de62cb886b4f05f8a52263f7704f2ebf8c8194733331338",
+    "package.json": "5c15512cd0e94640fb06c22a5b35b82103ef9c17e540a9af2b74c519208002aa",
+    "package-lock.json": "f47f2134cfeaab051898831fc294b7e0e5458bfc6a51d6f5950f6a06476f77e9"
+  }
+}

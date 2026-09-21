@@ -1,0 +1,66 @@
+name: PlayJolt Factory Phase 1
+on:
+  pull_request:
+    paths: ['vibe-arcade/**', '.github/workflows/playjolt-factory-ci.yml']
+  push:
+    branches: [feature/autonomous-game-factory-phase1, 'factory/**']
+    paths: ['vibe-arcade/autonomy/**', '.github/workflows/playjolt-factory-ci.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: factory-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+jobs:
+  contracts:
+    name: Factory contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - run: npm test --prefix vibe-arcade/autonomy
+  browser:
+    name: Factory browser
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - run: vibe-arcade/autonomy/node_modules/.bin/playwright install --with-deps chromium
+      - run: npm run test:browser --prefix vibe-arcade/autonomy
+        env:
+          FACTORY_EVIDENCE_DIR: ${{ runner.temp }}/factory-evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: factory-browser-evidence
+          path: ${{ runner.temp }}/factory-evidence
+          retention-days: 14
+  regression:
+    name: Factory regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade --ignore-scripts --no-audit --no-fund
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - run: vibe-arcade/autonomy/node_modules/.bin/playwright install --with-deps chromium
+      - run: npm run test:regression --prefix vibe-arcade/autonomy
+        env:
+          FACTORY_EVIDENCE_DIR: ${{ runner.temp }}/factory-regression
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: factory-production-regression
+          path: ${{ runner.temp }}/factory-regression
+          retention-days: 14

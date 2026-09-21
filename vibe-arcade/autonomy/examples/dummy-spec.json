@@ -1,0 +1,15 @@
+{
+  "game_id": "GAME-20260921-001",
+  "title": "Factory test chamber",
+  "slug": "factory-test-chamber",
+  "genre": "commissioning-fixture",
+  "mechanic_family": "fixture-only",
+  "controls": ["Arrows or WASD to move", "Space to interact"],
+  "mobile_controls": ["Tap or drag on the board"],
+  "qa": {
+    "seed": 7,
+    "keyboard": {"key": "ArrowRight", "observation": "state.x"},
+    "pointer": {"observation": "state.taps"},
+    "terminal_ms": 12000
+  }
+}

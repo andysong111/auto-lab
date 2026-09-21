@@ -1,0 +1,7 @@
+node_modules/
+jobs/
+games/
+artifacts/
+.work/
+.locks/
+*.tmp

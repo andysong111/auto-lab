@@ -1,0 +1,16 @@
+{
+  "operation_id": "GAME-20260921-001/build/v1",
+  "source_hash": "02f484fe48f06d4bbef69e187ab295b09cad231b919b9cceb074b47df11e8c9b",
+  "changed_files": [
+    "README.md",
+    "app.js",
+    "core.js",
+    "gamekit.js",
+    "index.html",
+    "manifest.json",
+    "style.css",
+    "view/art.js"
+  ],
+  "cause": "Imported reviewed game workspace",
+  "adapter_tests": []
+}

@@ -1,0 +1,12 @@
+{
+  "name": "playjolt-autonomous-factory",
+  "version": "0.1.0",
+  "private": true,
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test tests/contracts.test.cjs tests/orchestrator.test.cjs tests/rc.test.cjs",
+    "test:browser": "node --test --test-concurrency=1 tests/browser.test.cjs",
+    "test:regression": "node tests/regression.cjs"
+  },
+  "dependencies": { "ajv": "8.17.1", "playwright": "1.55.0" }
+}
