@@ -18,7 +18,7 @@ node autonomy/cli.cjs run GAME-20260921-001 --workspace autonomy/fixtures/dummy
 node autonomy/cli.cjs status GAME-20260921-001
 ```
 
-The fixture demonstrates the contract; it is not a commercially complete game. Do not infer Astra/Descent-level design quality from its mechanical PASS. An arbitrary new game must implement `core.js`, `app.js`, `view/art.js`, `style.css`, `index.html`, `README.md`, the GameKit core/DOM contract, and manifest input probes. The factory supplies trusted `gamekit.js` and immutable `manifest.json`.
+The fixture demonstrates the contract; it is not a commercially complete game. Do not infer Astra/Descent-level design quality from its mechanical PASS. An arbitrary new game must implement `core.js`, `app.js`, `view/art.js`, `style.css`, `index.html`, `README.md`, the GameKit core/DOM contract, and manifest input probes. The factory supplies trusted `gamekit.js` and an immutable, schema-valid `manifest.json` at build time. The job manifest is the authoritative changing state; the source descriptor preserves build-time metadata without internal failure history.
 
 `qa <id>` runs through the next QA checkpoint. `repair <id>` resumes a failed/pending repair job. `run <id>` is the complete resumable build → browser QA → bounded repairs → quality gate → RC command. Optional `--rc` adds a GitHub/Vercel adapter. `--root` selects a separate app workspace for commissioning or tests. JSON output and exit code 2 mean REJECTED; exit code 1 means an operational error.
 
@@ -36,7 +36,7 @@ Provide trusted operator configuration with `--config <file>`, with paths resolv
 
 `WorkspaceBuilder`/`WorkspaceRepair` import reviewed files; they do not execute generated Node code. A provider can implement `build(context)` and `repair(context)` to populate the supplied workspace. Each context has manifest, immutable spec, operationId and repair request. Repeated calls for the same operation ID must produce the same intended result and avoid duplicate paid requests. Provider SDKs/credentials belong outside generated game files and the browser.
 
-`CommandAdapter` accepts `{ "command": { "command": ["/usr/bin/node", "builder.js"], "timeout_ms": 120000 } }` in operator config. It requires Linux `bwrap`, an isolated network/mount/process namespace, and a command available in its mounted runtime or supplied workspace. Only that workspace is writable; no shell interpolation or inherited credentials. If isolation is unavailable it fails closed. No unrestricted shell fallback. This interface is for a trusted workspace command; an external AI service should write a reviewed output workspace or use a separate provider adapter.
+`CommandAdapter` accepts `{ "command": { "command": ["/usr/bin/node", "-e", "/* trusted builder reads factory-request.json and writes game files */"], "timeout_ms": 120000 } }` in operator config. It requires Linux `bwrap`, an isolated network/mount/process namespace, and a command available in its mounted runtime or supplied workspace. Only that workspace is writable; no shell interpolation or inherited credentials. If isolation is unavailable it fails closed. No unrestricted shell fallback. This interface is for a trusted workspace command; an external AI service should write a reviewed output workspace or use a separate provider adapter.
 
 ## State, evidence and recovery
 
@@ -44,7 +44,7 @@ Provide trusted operator configuration with `--config <file>`, with paths resolv
 
 Local state: `jobs/<id>/manifest.json`, original `spec.json`. Evidence: `artifacts/<id>/<version>/{build,qa,quality,preview-smoke,rc}.json`, screenshots, `repair-<attempt>.json` and `repair-history.json`. Sources: `games/<id>/<version>/`. All are isolated from existing routes and ignored by normal Git staging. Only explicitly released candidate files enter `factory/<id>` branches. Operator evidence is not copied into the homepage or telemetry.
 
-Writes use temporary-file rename and fsync; one live process owns each job. A dead same-host lock is recovered; a remote-host lock is never stolen. Re-running `run` resumes the recorded state, checks source/policy fingerprints and reuses completed build/QA evidence. A source modified after verification is rejected. Interrupted repairs keep their attempt and operation ID. A policy change invalidates downstream approval. FileStore is single-host; a future DB store needs transactional compare-and-swap/leases. Do not put file state on multiple workers sharing unreliable locks.
+Writes use temporary-file rename and fsync; one live process owns each job. A dead same-host lock is recovered; a remote-host lock is never stolen. Re-running `run` resumes the recorded state, checks source/policy fingerprints and reuses completed build/QA evidence. A source modified after verification is rejected. Interrupted repairs keep their attempt and operation ID. An unavailable reviewed repair workspace leaves REPAIR_PENDING without consuming an attempt; configure the next revision and rerun. A policy change invalidates downstream approval. FileStore is single-host; a future DB store needs transactional compare-and-swap/leases. Do not put file state on multiple workers sharing unreliable locks.
 
 ## Browser and quality contract
 
@@ -58,7 +58,7 @@ Fresh contexts carry no account/cookies. HTTP mutations, external requests (incl
 
 Set an existing appropriately scoped `GITHUB_TOKEN` in the operator environment (never commit it), then `run <id> --config <file> --rc`. The adapter only writes candidate files under `vibe-arcade/autonomy/games/<id>/<version>/`, on exactly `factory/<id>`. It never force-pushes, edits main, auto-merges, registers rankings or changes secrets.
 
-A draft PR is reused on retry. The adapter waits for the required Factory checks and all check-runs to succeed, then finds a successful **Preview** deployment for the exact candidate commit. `PREVIEW_DEPLOYING` is resumable; run again after CI/deployment completes. HTTP smoke uses GET only, verifies every runtime asset byte against local QA source and rejects production aliases or redirects outside the candidate. A protected preview returns an explicit smoke failure; do not disable deployment protection to make a test green. `READY_TO_SHIP` remains a candidate state and does not imply production/design approval.
+A draft PR is reused on retry. The adapter waits for the required Factory checks and all check-runs to succeed, then finds a successful **Preview** deployment for the exact candidate commit. `PREVIEW_DEPLOYING` is resumable; run again after CI/deployment completes. HTTP smoke uses GET only, verifies every runtime asset byte against local QA source and rejects production aliases or redirects outside the candidate. For protected deployments, an existing operator-side `VERCEL_AUTOMATION_BYPASS_SECRET` is sent only to the validated Preview origin, never GitHub or artifacts. Without existing access, protection fails smoke explicitly; do not disable deployment protection to make a test green. `READY_TO_SHIP` remains a candidate state and does not imply production/design approval.
 
 ## Tests
 

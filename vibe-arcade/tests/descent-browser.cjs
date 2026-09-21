@@ -33,7 +33,9 @@ async function endWithScore(p){
 }
 (async()=>{try{
  if(!inline){server=spawn('python3',['-m','http.server','8765','--directory',root],{stdio:'ignore'});await new Promise(r=>setTimeout(r,700));}
- browser=await chromium.launch({headless:true,...(process.env.PW_EXECUTABLE?{executablePath:process.env.PW_EXECUTABLE}:{}),args:['--no-sandbox','--disable-dev-shm-usage']});
+ // Headless SwiftShader can stall when this deterministic harness bursts thousands of RAF callbacks.
+ // Exercise Phaser's supported Canvas renderer; production renderer selection remains unchanged.
+ browser=await chromium.launch({headless:true,...(process.env.PW_EXECUTABLE?{executablePath:process.env.PW_EXECUTABLE}:{}),args:['--no-sandbox','--disable-dev-shm-usage','--disable-webgl']});
  for(const width of [360,390,768,1280]){const p=await load(width);assert(await p.locator('#play').isEnabled());assert(await p.locator('#ranked').isEnabled());await p.screenshot({path:path.join(out,'entry-'+width+'.png'),fullPage:true});await p.click('#play');await p.evaluate(()=>__qa.frames(30));assert.equal(await p.evaluate(()=>DescentDiagnostics.snapshot().playing),true);assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);assert.deepEqual(p.errors,[]);await p.context().close();}
  {const p=await load();await p.click('#play');await endWithScore(p);assert((await p.locator('#save').innerText()).includes('Practice'));assert.equal(await p.evaluate(()=>__calls.finish),0);await p.context().close();}
  {const p=await load();await p.click('#ranked');await p.waitForTimeout(10);await endWithScore(p);assert((await p.locator('#save').innerText()).includes('Verified'));assert.equal(await p.evaluate(()=>__calls.finish),1);await p.screenshot({path:path.join(out,'verified-result.png'),fullPage:true});assert.deepEqual(p.errors,[]);await p.context().close();}

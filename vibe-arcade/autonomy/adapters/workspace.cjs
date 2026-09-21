@@ -10,6 +10,7 @@ class WorkspaceBuilder extends BuilderAdapter {
 }
 class WorkspaceRepair extends RepairAdapter {
   constructor(revisions=[]) { super(); this.revisions=revisions.map(p=>path.resolve(p)); }
+  available(request) { return !!this.revisions[request.attempt-1]; }
   async repair({workspace,request}) {
     const source=this.revisions[request.attempt-1];
     if(!source) throw Error('repair_workspace_unavailable');

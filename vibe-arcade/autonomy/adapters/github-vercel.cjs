@@ -13,7 +13,7 @@ function previewURL(raw) {
   if(u.protocol!=='https:'||u.username||u.password||u.port||!u.hostname.endsWith('.vercel.app')||u.hostname==='vibe-arcade-dun.vercel.app'||u.search||u.hash) throw Error('not_a_preview_url');
   return u.origin;
 }
-async function smokePreview({manifest,gameRoot,fetchImpl=fetch}) {
+async function smokePreview({manifest,gameRoot,fetchImpl=fetch,bypassToken}) {
   const started=Date.now(),checks=[],failures=[];
   try {
     const origin=previewURL(manifest.preview_url),prefix=`/autonomy/games/${manifest.game_id}/${manifest.version}`;
@@ -21,7 +21,7 @@ async function smokePreview({manifest,gameRoot,fetchImpl=fetch}) {
       let url=origin+prefix+'/'+name;
       let r;
       for(let redirects=0;redirects<4;redirects++) {
-        r=await fetchImpl(url,{method:'GET',redirect:'manual',signal:AbortSignal.timeout(10000),headers:{'Cache-Control':'no-cache'}});
+        r=await fetchImpl(url,{method:'GET',redirect:'manual',signal:AbortSignal.timeout(10000),headers:{'Cache-Control':'no-cache',...(bypassToken?{'x-vercel-protection-bypass':bypassToken}:{})}});
         if(![301,302,307,308].includes(r.status))break;
         const next=new URL(r.headers.get('location'),url);
         if(next.origin!==origin||!next.pathname.startsWith(prefix))throw Error('preview_redirect_outside_candidate');
@@ -38,8 +38,8 @@ async function smokePreview({manifest,gameRoot,fetchImpl=fetch}) {
   return {passed:failures.length===0,checks,hard_failures:failures,method:'GET only; byte identity of all candidate runtime assets',duration_ms:Date.now()-started};
 }
 class GitHubVercelAdapter {
-  constructor({token=process.env.GITHUB_TOKEN,baseRef='main',fetchImpl=fetch,requiredChecks=['Factory contracts','Factory browser','Factory regression']}={}) {
-    this.token=token;this.base=baseRef;this.fetch=fetchImpl;this.requiredChecks=requiredChecks;
+  constructor({token=process.env.GITHUB_TOKEN,baseRef='main',fetchImpl=fetch,previewBypassToken=process.env.VERCEL_AUTOMATION_BYPASS_SECRET,requiredChecks=['Factory contracts','Factory browser','Factory regression']}={}) {
+    this.previewBypassToken=previewBypassToken;this.token=token;this.base=baseRef;this.fetch=fetchImpl;this.requiredChecks=requiredChecks;
   }
   async api(route,method='GET',body) {
     if(!this.token)throw Error('github_token_required');
@@ -69,6 +69,7 @@ class GitHubVercelAdapter {
     if(tree.truncated)throw Error('github_tree_truncated');
     const names=listFiles(gameRoot),prefix=`vibe-arcade/autonomy/games/${m.game_id}/${m.version}/`;
     assertFiles(m.game_id,m.version,names.map(f=>prefix+f));
+    if(tree.tree.some(t=>t.path.startsWith(prefix)&&t.type!=='tree'&&(!names.includes(t.path.slice(prefix.length))||t.mode!=='100644')))throw Error('rc_unexpected_file');
     const blobSha=b=>crypto.createHash('sha1').update(Buffer.from(`blob ${b.length}\0`)).update(b).digest('hex');
     const unchanged=names.every(f=>tree.tree.find(t=>t.path===prefix+f)?.sha===blobSha(fs.readFileSync(path.join(gameRoot,f))));
     if(!unchanged) {
@@ -105,7 +106,7 @@ class GitHubVercelAdapter {
     }
     return {branch,rc_commit:journal.rc_commit,pr_number:pr.number,pr_url:pr.html_url};
   }
-  smoke({manifest,gameRoot}) {return smokePreview({manifest,gameRoot,fetchImpl:this.fetch});}
+  smoke({manifest,gameRoot}) {return smokePreview({manifest,gameRoot,fetchImpl:this.fetch,bypassToken:this.previewBypassToken});}
   productionShip() {throw Error('AUTO_PRODUCTION_SHIP=false: production shipping is not implemented in Phase 1');}
 }
 module.exports={GitHubVercelAdapter,smokePreview,assertBranch,assertFiles,previewURL};

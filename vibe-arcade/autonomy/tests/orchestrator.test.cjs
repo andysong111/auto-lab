@@ -39,3 +39,14 @@ test('dead process lock recovers; live and remote host locks remain protected',a
   atomicJSON(file,{pid:process.pid,host:os.hostname(),token:'active'});await assert.rejects(()=>factory.run(spec.game_id),/job_locked/);
   atomicJSON(file,{pid:2147483647,host:'different-host',token:'remote'});await assert.rejects(()=>factory.run(spec.game_id),/job_locked/);
 });
+
+test('missing repair revision remains pending and consumes no repair budget',async t=>{
+  const {factory,spec}=setup(t,{repairer:new WorkspaceRepair([]),qa:async c=>({...await mockQA(c),passed:false,hard_failures:[{code:'freeze',message:'broken fixture'}]})});
+  await factory.create(spec);await assert.rejects(()=>factory.run(spec.game_id),/repair_workspace_unavailable/);
+  const m=factory.store.get(spec.game_id);assert.equal(m.state,'REPAIR_PENDING');assert.equal(m.repair_attempt,0);assert.equal(factory.repairHistory(m).length,0);
+});
+test('published build descriptor satisfies the shared manifest schema',async t=>{
+  const {factory,spec}=setup(t,{qa:mockQA});await factory.create(spec);const m=await factory.run(spec.game_id);
+  const descriptor=JSON.parse(fs.readFileSync(path.join(factory.source(m),'manifest.json')));
+  require('../orchestrator/manifest.cjs').validate(descriptor);assert.equal(descriptor.version,m.version);assert(!descriptor.source_hash);
+});

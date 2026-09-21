@@ -57,3 +57,13 @@ test('GitHub adapter creates only isolated blobs/branch/draft PR, resumes CI and
   assert.equal(calls.filter(c=>c.method==='POST'&&c.route==='git/commits').length,1);assert.equal(calls.filter(c=>c.method==='POST'&&c.route==='pulls').length,1);
   unsafe=true;await assert.rejects(()=>adapter.prepare({manifest:m,gameRoot,store}),/branch_path_isolation/);
 });
+
+test('preview bypass is scoped to validated origin and absent from artifacts',async t=>{
+  const {factory,spec}=setup(t,{qa:mockQA});await factory.create(spec);const m={...await factory.run(spec.game_id),preview_url:'https://vibe-arcade-rc.vercel.app'};
+  const root=factory.source(m),secret='test-only-preview-token',seen=[];
+  const adapter=new GitHubVercelAdapter({previewBypassToken:secret,fetchImpl:async(url,o)=>{
+    assert.equal(new URL(url).origin,m.preview_url);assert.equal(o.method,'GET');seen.push(o.headers['x-vercel-protection-bypass']);
+    const rel=new URL(url).pathname.split('/v1/')[1];return new Response(fs.readFileSync(path.join(root,rel)));
+  }});
+  const result=await adapter.smoke({manifest:m,gameRoot:root});assert(result.passed);assert(seen.every(v=>v===secret));assert(!JSON.stringify(result).includes(secret));
+});

@@ -53,7 +53,9 @@ class Factory {
       inspectGame(work);
       // These two files are always factory-owned, regardless of the adapter response.
       fs.copyFileSync(path.join(__dirname,'../gamekit/gamekit.js'),path.join(work,'gamekit.js'));
-      atomicJSON(path.join(work,'manifest.json'),{schema_version:1,game_id:m.game_id,version:m.version,title:m.title,seed:m.qa.seed,metrics_eligibility:false});
+      const descriptor={...m,history:[],failure_reasons:[]};
+      for(const key of ['source_hash','policy_hash','branch','pr_number','pr_url','rc_commit','deployment_id'])delete descriptor[key];
+      atomicJSON(path.join(work,'manifest.json'),descriptor);
       const changes=listFiles(work).filter(f=>before[f]!==hash(fs.readFileSync(path.join(work,f)).toString('base64')));
       if(fs.existsSync(this.source(m))) fs.rmSync(this.source(m),{recursive:true,force:true});
       fs.mkdirSync(path.dirname(this.source(m)),{recursive:true});fs.renameSync(work,this.source(m));
@@ -77,6 +79,7 @@ class Factory {
           case 'IDEA': m=this.move(m,'SPEC_READY');break;
           case 'SPEC_READY': m=this.move(m,'BUILDING');break;
           case 'BUILDING': {
+            if(!this.builder)throw Error('builder_adapter_not_configured');
             try { const build=await this.build(m);m=this.move(m,'QA_RUNNING',{source_hash:build.source_hash,qa_status:'RUNNING'}); }
             catch(e) { m=this.move(m,'BUILD_FAILED',{failure_reasons:[{code:e.message.startsWith('path_isolation')?'path_isolation':'build_failed',message:e.message}]}); }
             break;
@@ -106,6 +109,7 @@ class Factory {
           }
           case 'REPAIR_PENDING': {
             const request=readJSON(this.store.artifact(id,`repair-${m.repair_attempt+1}.json`));
+            if(!this.repairer||this.repairer.available?.(request)===false)throw Error('repair_workspace_unavailable: provide the next reviewed revision or RepairAdapter, then rerun');
             this.history(m,{attempt:request.attempt,version:request.target_version,cause:request.qa_failures,changed_files:[],tests:[],result:'RUNNING'});
             m=this.move(m,'REPAIRING',{repair_attempt:request.attempt,version:request.target_version,source_path:`autonomy/games/${id}/${request.target_version}`,qa_status:'PENDING',quality_status:'PENDING',release_status:'NONE',preview_url:null});break;
           }
