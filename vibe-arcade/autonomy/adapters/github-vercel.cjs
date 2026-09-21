@@ -60,6 +60,10 @@ class GitHubVercelAdapter {
       const base=await this.api('commits/'+encodeURIComponent(this.base));
       ref=await this.api('git/refs','POST',{ref:'refs/heads/'+branch,sha:base.sha});
     }
+    const comparison=await this.api('compare/'+encodeURIComponent(this.base)+'...'+ref.object.sha);
+    const gamePrefix=`vibe-arcade/autonomy/games/${m.game_id}/`;
+    if(comparison.files?.length>=300||comparison.files?.some(f=>!f.filename.startsWith(gamePrefix)||f.status==='removed'||f.previous_filename&&!f.previous_filename.startsWith(gamePrefix)))throw Error('branch_path_isolation');
+    if(journal.rc_commit&&ref.object.sha!==journal.rc_commit)throw Error('rc_branch_diverged');
     // Recover crash after ref update by comparing the source tree with the desired files.
     const head=await this.api('git/commits/'+ref.object.sha), tree=await this.api('git/trees/'+head.tree.sha+'?recursive=1');
     if(tree.truncated)throw Error('github_tree_truncated');
@@ -87,7 +91,8 @@ class GitHubVercelAdapter {
       body:`Mechanical QA passed for source ${m.source_hash}.\n\nUnlisted Phase 1 candidate; no production merge, accounts, rankings, telemetry, or homepage registration. Heuristic quality remains unverified.\n\nArtifacts: autonomy/artifacts/${m.game_id}/${m.version}/. AUTO_PRODUCTION_SHIP=false.`});
     Object.assign(journal,{pr_number:pr.number,pr_url:pr.html_url});write();
     const checks=await this.api('commits/'+journal.rc_commit+'/check-runs?per_page=100');
-    const ciReady=this.requiredChecks.every(name=>checks.check_runs.some(c=>c.name===name&&c.conclusion==='success')) && checks.check_runs.every(c=>['success','neutral','skipped'].includes(c.conclusion));
+    const status=await this.api('commits/'+journal.rc_commit+'/status');
+    const ciReady=checks.total_count<=100&&this.requiredChecks.every(name=>checks.check_runs.some(c=>c.name===name&&c.conclusion==='success')) && checks.check_runs.every(c=>['success','neutral','skipped'].includes(c.conclusion)) && status.state==='success';
     if(!ciReady)return {branch,rc_commit:journal.rc_commit,pr_number:pr.number,pr_url:pr.html_url};
     const deployments=await this.api('deployments?sha='+journal.rc_commit+'&per_page=100');
     for(const d of deployments) {
