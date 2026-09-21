@@ -21,7 +21,9 @@ jobs:
       - name: P2 geometry, fair warnings, difficulty probes and unchanged production
         run: |
           node vibe-arcade/scripts/build-astra-polish.cjs
-          QA_OUT=/tmp/astra-polish/probes node --test vibe-arcade/tests/astra-polish-core.test.cjs vibe-arcade/tests/astra-core.test.cjs vibe-arcade/tests/astra-package.test.cjs\n          node vibe-arcade/scripts/build-astra-release.cjs\n          node --test vibe-arcade/tests/astra-release.test.cjs
+          QA_OUT=/tmp/astra-polish/probes node --test vibe-arcade/tests/astra-polish-core.test.cjs vibe-arcade/tests/astra-core.test.cjs vibe-arcade/tests/astra-package.test.cjs
+          node vibe-arcade/scripts/build-astra-release.cjs
+          node --test vibe-arcade/tests/astra-release.test.cjs
       - name: Browser checker, test dependency only
         run: |
           npm install --prefix "$RUNNER_TEMP/pw" playwright@1.55.0 --ignore-scripts --no-audit --no-fund
@@ -35,7 +37,8 @@ jobs:
           mkdir -p /tmp/astra-polish/source /tmp/astra-polish/playable
           cp -r vibe-arcade/preview/astra-polish /tmp/astra-polish/source/
           cp vibe-arcade/scripts/build-astra-polish*.cjs /tmp/astra-polish/source/
-          cp -r vibe-arcade/labs/astra-sentinel/. /tmp/astra-polish/playable/\n          mkdir -p /tmp/astra-polish/release && cp -r vibe-arcade/release/astra-sentinel/. /tmp/astra-polish/release/
+          cp -r vibe-arcade/labs/astra-sentinel/. /tmp/astra-polish/playable/
+          mkdir -p /tmp/astra-polish/release && cp -r vibe-arcade/release/astra-sentinel/. /tmp/astra-polish/release/
           git rev-parse HEAD > /tmp/astra-polish/source-commit.txt
           find vibe-arcade/labs/astra-sentinel -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/astra-polish/candidate-sha256.txt
       - uses: actions/upload-artifact@v4
