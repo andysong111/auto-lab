@@ -1,0 +1,32 @@
+{
+  "schema": "loopjolt-experiments/4.1",
+  "status": "measurement_first_not_published",
+  "campaign": "flag_challenge_pilot_20260920",
+  "campaignFamily": "flag_challenge",
+  "campaignRule": "Preserve existing raw campaigns and published links. Family is a reporting group, not a rewrite.",
+  "game": "gyro-drop",
+  "version": "gd-descent-v2",
+  "factor": "hook",
+  "variants": [
+    {"id": "dd_hook_a", "copy": "WHICH FLAG CLEARS 48?"},
+    {"id": "dd_hook_b", "copy": "CAN YOU CLEAR ALL 48?"},
+    {"id": "dd_hook_c", "copy": "THIS GETS HARD FAST."}
+  ],
+  "fixed": ["real_flag_assets", "gameplay_source", "body_edit", "duration_18s", "cta", "caption_beyond_hook", "channel", "no_paid_spend"],
+  "nextFactors": ["cta_timing", "duration"],
+  "releaseGate": "Finish current 3-game rollout before new experiment posts. Do not batch-release all factors or close stage 3 from one post.",
+  "measurementGate": "Use same-age windows and retain collection timestamps. Shared bio URLs supply channel totals, never exact per-video starts.",
+  "dataPolicy": {
+    "minimumAgeHours": 72,
+    "minimumIndependentPostsPerVariant": 3,
+    "minimumViewsPerVariant": 500,
+    "minimumTaggedSessionsPerVariant": 100,
+    "minimumStartedSessionsPerVariant": 30,
+    "minimumAbsoluteStartRateLift": 0.05,
+    "killAfterCompletedLosses": 2,
+    "reviewPoint": "72h; extend to 7 days for insufficient data; no repeated peeking to declare a winner"
+  },
+  "thresholdNote": "Operational pilot thresholds, not statistically guaranteed sample sizes. Organic posts are not randomized trials.",
+  "autoPublish": false,
+  "paidSpendAllowed": false
+}
