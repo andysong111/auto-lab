@@ -3,10 +3,10 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const ORIGIN='https://vibe-arcade-dun.vercel.app';
 const PAGES={
- 'index.html':{url:ORIGIN+'/',title:'LoopJolt | Free Browser Games - Play for Your Flag',description:'Play free browser games with no download. Try Deep Descent, Core Pins, Nova Merge and Orbit Sprint without an account. Choose your flag for ranked play (16+).'},
+ 'index.html':{url:ORIGIN+'/',title:'LoopJolt | Free Browser Games - Play for Your Flag',description:'Play free browser games with no download. Try Astra Sentinel, Deep Descent, Core Pins, Nova Merge and Orbit Sprint. Practice needs no account; ranked play is 16+.'},
  'descent/index.html':{url:ORIGIN+'/descent',title:'Deep Descent - Free Browser Game | LoopJolt',description:'Play Deep Descent free in your browser. Guide a drone through 48 rings and guardian gates. No download or account needed to try; ranked play is 16+.'}
 };
-const URLS=['/','/descent','/challengers/play?game=core-pins','/challengers/play?game=nova-merge','/games/orbit-sprint','/games/dont-press','/games/perfect-timing','/games/reaction-rush'];
+const URLS=['/','/games/astra-sentinel','/descent','/challengers/play?game=core-pins','/challengers/play?game=nova-merge','/games/orbit-sprint','/games/dont-press','/games/perfect-timing','/games/reaction-rush'];
 const esc=s=>s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 function transform(html,file){
  const p=PAGES[file];assert(p,'unsupported_page');assert.equal((html.match(/<head>/g)||[]).length,1,'one head required');assert.equal((html.match(/<\/head>/g)||[]).length,1);assert.equal((html.match(/<title>/g)||[]).length,1);
@@ -32,6 +32,6 @@ function build(root=path.resolve(__dirname,'..')){
  // Compute/validate every input before writing anything.
  const out=Object.keys(PAGES).map(f=>[path.join(root,f),transform(fs.readFileSync(path.join(root,f),'utf8'),f)]);
  out.push([path.join(root,'sitemap.xml'),sitemap()]);for(const [file,content] of out)fs.writeFileSync(file,content);
- console.log('Built descriptive home/Deep Descent metadata and 8 clean sitemap URLs. No ranking or indexation guarantee.');
+ console.log('Built descriptive home/Deep Descent metadata and 9 clean sitemap URLs. No ranking or indexation guarantee.');
 }
 if(require.main===module)build();module.exports={ORIGIN,PAGES,URLS,transform,sitemap,build};

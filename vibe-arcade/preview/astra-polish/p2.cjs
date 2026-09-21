@@ -1,0 +1,80 @@
+/* Apply P2 only to generated labs assets. Production source files are never written. */
+'use strict';
+const fs=require('node:fs'),path=require('node:path');
+function build(dest){const get=f=>fs.readFileSync(path.join(dest,f),'utf8'),put=(f,s)=>fs.writeFileSync(path.join(dest,f),s);
+ function once(s,a,b){if(s.split(a).length!==2)throw Error('P2_base_drift:'+a.slice(0,80));return s.replace(a,b);}
+ let core=get('core.js');
+ core=once(core,"const VERSION='astra-polish-preview1',W=720,H=820","const Arena=root.AstraArena||(typeof require==='function'?require('./arena.js'):null);\nconst VERSION='astra-polish-preview2',W=Arena.W,H=Arena.H");
+ core=once(core,"function tuning(stage){return {quota:stage%3===0?9+stage:12+stage*6,interval:Math.max(27,75-stage*5),hp:1+(stage-1)*.30,speed:1+(stage-1)*.085,damage:10+stage*1.8,bossHp:stage===3?720:stage===6?1850:3800};}","function tuning(stage){return Arena.tuning(stage);}");
+ core=once(core,'Reduce the time between volleys by 18%.','Reduce the time between volleys by 14%.');
+ core=once(core,'+24 maximum hull. Take 12% less damage.','+20 maximum hull. Take 10% less damage.');
+ core=once(core,'Restore all hull and add 12 maximum hull.','Restore up to 40 hull and add 8 maximum hull.');
+ core=once(core,'Fire an additional parallel bolt. Up to 3 bolts.','Add a parallel bolt dealing 70% damage. Up to 3 bolts.');
+ core=once(core,'(12+t*2.3)','(12+t*1.8)');core=once(core,'Math.pow(.82,u.rapid)','Math.pow(.86,u.rapid)');core=once(core,'speed:3.3*','speed:4.4*');core=once(core,'Math.pow(.88,u.armor)','Math.pow(.90,u.armor)');
+ core=once(core,'x:360,y:540,','x:504,y:756,');core=once(core,'offers:[],enemies:[],','offers:[],walls:[],enemies:[],');
+ core=once(core,"s.player.maxHp+=24;s.player.hp=Math.min(s.player.maxHp,s.player.hp+24)","s.player.maxHp+=20;s.player.hp=Math.min(s.player.maxHp,s.player.hp+20)");
+ core=once(core,'s.player.maxHp+=12;s.player.hp=s.player.maxHp','s.player.maxHp+=8;s.player.hp=Math.min(s.player.maxHp,s.player.hp+40)');
+ core=once(core,'s.player.x=360;s.player.y=560;','s.walls=[];s.player.x=504;s.player.y=784;');
+ core=once(core,'x=side<2?(side?656:64):90+random(s)*540;y=side<2?135+random(s)*550:(side===2?130:690);if(len(x-p.x,y-p.y)>220)break;}if(boss){x=360;y=195;}',
+ 'x=(side<2?(side?656:64):90+random(s)*540)*Arena.SCALE;y=(side<2?135+random(s)*550:(side===2?130:690))*Arena.SCALE;if(len(x-p.x,y-p.y)>300)break;}if(boss){x=504;y=273;}');
+ core=once(core,"e.cool=185-s.stage*5;","e.cool=154-s.stage*5;");
+ core=once(core,"if(s.stage>=5&&r<.18)return'tank';if(s.stage>=4&&r<.4)return'lancer';","if(s.stage>=4&&r<.18)return'tank';if(s.stage>=2&&r<.4)return'lancer';");
+ core=once(core,'random(s)<.16','random(s)<.10');core=once(core,'Math.min(p.maxHp,p.hp+10)','Math.min(p.maxHp,p.hp+8)');
+
+ core=once(core,'p.x+=p.dx*9;p.y+=p.dy*9;','p.x+=p.dx*12.6;p.y+=p.dy*12.6;');
+ core=once(core,'p.x=clamp(p.x,57,663);p.y=clamp(p.y,125,709);','p.x=clamp(p.x,Arena.BOUNDS.left,Arena.BOUNDS.right);p.y=clamp(p.y,Arena.BOUNDS.top,Arena.BOUNDS.bottom);');
+ core=once(core,'if(s.stage>=4&&s.stageTick>180','if(s.walls.length===0&&s.stage>=4&&s.stageTick>180');
+ core=once(core,'zone(s,p.x+p.dx*35,p.y+p.dy*35,40+s.stage*3,62);if(s.stage>=7)zone(s,110+random(s)*500,185+random(s)*420,66,90);',
+ 'zone(s,p.x+p.dx*49,p.y+p.dy*49,(40+s.stage*3)*Arena.SCALE,68);if(s.stage>=7)zone(s,(110+random(s)*500)*Arena.SCALE,(185+random(s)*420)*Arena.SCALE,80,90);');
+ core=once(core,'shoot(s,p.x-Math.sin(a)*off,p.y+Math.cos(a)*off,a,st.damage);','shoot(s,p.x-Math.sin(a)*off,p.y+Math.cos(a)*off,a,st.damage*(i===0?1:.7));');
+ core=once(core,'vx:Math.cos(a)*9.5,vy:Math.sin(a)*9.5','vx:Math.cos(a)*13.3,vy:Math.sin(a)*13.3');
+ core=once(core,'if(dist(e,from)>285)','if(dist(e,from)>399)');
+ core=once(core,"if(d>265)move(.58*t.speed);else if(d<155)move(-.4);", "if(d>371)move(.65*t.speed);else if(d<217)move(-.56);");
+ core=once(core,'2.3+s.stage*.14','(2.3+s.stage*.18)*Arena.SCALE');core=core.replaceAll('e.aim+spread,2.3','e.aim+spread,3.22').replaceAll('e.aim-spread,2.3','e.aim-spread,3.22');
+ core=once(core,'move(4.5,e.aim)','move(6.3,e.aim)');core=once(core,'e.cool=165','e.cool=140');
+ core=once(core,'if(e.cool>40)move(.4)','if(e.cool>40)move(.56)');
+ core=once(core,'move((d>205?.32:-.14)*t.speed)','move((d>287?.40:-.16)*t.speed)');
+ core=once(core,'zone(s,p.x,p.y,43+e.boss*6,65)','zone(s,p.x,p.y,(43+e.boss*6)*Arena.SCALE,72)');
+ core=once(core,'zone(s,p.x+85,p.y,43,80);zone(s,p.x-85,p.y,43,80);','zone(s,p.x+119,p.y,60,86);zone(s,p.x-119,p.y,60,86);');
+ core=once(core,"event(s,'telegraph',{x:e.x,y:e.y,boss:e.boss});", "if(e.attack%3===1&&!s.walls.length){const wall=Arena.wallFor(s);if(wall)s.walls.push(wall);}event(s,'telegraph',{x:e.x,y:e.y,boss:e.boss});");
+ core=once(core,"const n=8+e.boss*2+(e.phase===2?4:0),offset=e.attack*.29;for(let i=0;i<n;i++)hostile(s,e.x,e.y,offset+i*Math.PI*2/n,2.05+e.boss*.28,7);if(e.boss>=2)for(let i=-1;i<=1;i++)hostile(s,e.x,e.y,e.aim+i*.14,3.8,6);", "for(const b of Arena.bossVolley(e))hostile(s,e.x,e.y,b.a,b.speed,b.r);");
+ core=once(core,'(e.boss===1?145:115)-(e.phase===2?30:0)','(e.boss===1?130:110)-(e.phase===2?26:0)');
+ core=once(core,'e.x=clamp(e.x,45,675);e.y=clamp(e.y,113,720);','e.x=clamp(e.x,63,945);e.y=clamp(e.y,158,1008);');
+ core=once(core,'x:clamp(x,68,652),y:clamp(y,134,694)','x:clamp(x,95.2,912.8),y:clamp(y,187.6,971.6)');
+ core=once(core,'b.x>-30&&b.x<750&&b.y>60&&b.y<790','b.x>-42&&b.x<1050&&b.y>84&&b.y<1106');
+ core=once(core,'b.x>20&&b.x<700&&b.y>85&&b.y<750','b.x>28&&b.x<980&&b.y>119&&b.y<1050');
+ core=once(core,'for(const z of s.zones){z.age++;','Arena.updateWall(s,hurt);for(const z of s.zones){z.age++;');
+ core=once(core,'if(dist(h,p)<90)','if(dist(h,p)<126)');
+ core=once(core,'p.maxHp+=6;p.hp=Math.min(p.maxHp,p.hp+24)','p.maxHp+=4;p.hp=Math.min(p.maxHp,p.hp+16)');
+ core=once(core,'s.hostile=[];s.zones=[];s.bullets=[];','s.hostile=[];s.zones=[];s.bullets=[];s.walls=[];');
+ core=once(core,'VERSION,W,H,MAX_TICKS,REGIONS','VERSION,W,H,ARENA:Arena,MAX_TICKS,REGIONS');
+ put('core.js',core);
+ let art=get('art.js');
+ art=once(art,'polish.before(c,s);','c.save();c.scale(1/AstraArena.SCALE,1/AstraArena.SCALE);polish.before(c,s);');
+ art=once(art,'hero(c,360,355,0,at,-.65,3.1,false);','hero(c,504,497,0,at,-.65,3.1*AstraArena.SCALE,false);');
+ art=once(art,"if(s.stageTick<130&&s.phase==='playing')", "c.restore();if(s.stageTick<130&&s.phase==='playing')");
+ art=once(art,'const j=opts.joy;', 'const j={...opts.joy,x:opts.joy.x/AstraArena.SCALE,y:opts.joy.y/AstraArena.SCALE};');
+ art=once(art,'polish.telegraphs(c,s);','polish.telegraphs(c,s);AstraArenaView.draw(c,s);');
+ art=once(art,"e.kind==='heal'?'+10'", "e.kind==='heal'?'+8'");
+ art=once(art,"c.font='bold 12px system-ui'","c.font='bold 16px system-ui'");
+ put('art.js',art);
+ let polish=get('polish.js');
+ polish=once(polish,"const n=8+e.boss*2+(e.phase===2?4:0),q=1-e.cool/50;c.save();c.globalAlpha=.2+q*.5;for(let i=0;i<n;i++){const a=e.attack*.29+i*TAU/n,r0=e.r+18,r1=r0+13+q*20;", "const shots=AstraArena.bossVolley(e),q=1-e.cool/50;c.save();c.globalAlpha=.2+q*.5;for(const shot of shots){const a=shot.a,r0=e.r+18,r1=r0+13+q*20;");
+ put('polish.js',polish);
+
+ let app=get('app.js');app=app.replaceAll('preview1_','preview2_');
+ app=once(app,'state=R.create(74021);',"const rawSeed=new URLSearchParams(location.search).get('seed');const chosenSeed=/^\\d{1,10}$/.test(rawSeed||'')&&Number(rawSeed)<=4294967295?Number(rawSeed):74021;state=R.create(chosenSeed);");
+ app=once(app,'Math.max(48,Math.hypot(x,y))' ,'Math.max(48*AstraArena.SCALE,Math.hypot(x,y))');
+ app=once(app,"'+6 max hull · up to 24 hull restored · stronger bolts'","'+4 max hull · up to 16 hull restored · stronger bolts'");
+ app=once(app,"state.stage===1?'Defeat all defenders. Watch the red warnings.':'Clear the gate. Evolve. Push deeper.'", "state.walls.length?'SWEEP INCOMING · Move into the cyan corridor or phase through.':state.stage===1?'Defeat all defenders. Watch the red warnings.':'Clear the gate. Evolve. Push deeper.'");
+ put('app.js',app);
+ let html=get('index.html');html=html.replaceAll('PLAYTEST P1','PLAYTEST P2').replaceAll('>P1</span>','>P2</span>');
+ html=once(html,'[REVIEW] Astra Sentinel — Motion & Graphics','[REVIEW P2] Astra Sentinel — Wider Arena & Escalating Combat');
+ html=once(html,'Same expedition seed for comparison. Movement changes restart the run. Preview records are separate.','P2: 40% wider/deeper arena, smaller actors, reduced healing and guardian sweeps. Same seed for testing. Changing movement restarts the run. Records are isolated.');
+ html=once(html,'+6 maximum hull and up to 24 repair','+4 maximum hull and up to 16 repair');
+ html=once(html,'Green shards restore 10 hull.','Green shards restore 8 hull. Guardian sweeps have a cyan safe corridor, fixed when the warning starts. The sweep arrives after a 1.6-second warning.');
+ html=once(html,'<script src="/labs/astra-sentinel/motion.js">','<script src="/labs/astra-sentinel/arena.js"></script><script src="/labs/astra-sentinel/arena-view.js"></script><script src="/labs/astra-sentinel/motion.js">');
+ put('index.html',html);
+ for(const f of ['arena.js','arena-view.js'])fs.copyFileSync(path.join(__dirname,f),path.join(dest,f));
+}
+module.exports={build};
