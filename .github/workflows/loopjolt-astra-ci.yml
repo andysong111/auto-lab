@@ -1,0 +1,48 @@
+name: Astra Sentinel quality gate
+on:
+  push:
+    branches: [main, feature/astra-sentinel]
+    paths: ['vibe-arcade/games/astra-sentinel/**', 'vibe-arcade/tests/astra-*', 'vibe-arcade/index.html', '.github/workflows/loopjolt-astra-ci.yml']
+  pull_request:
+    paths: ['vibe-arcade/games/astra-sentinel/**', 'vibe-arcade/tests/astra-*', 'vibe-arcade/index.html', '.github/workflows/loopjolt-astra-ci.yml']
+permissions:
+  contents: read
+concurrency:
+  group: astra-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+jobs:
+  expedition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Original rules, difficulty, progression, caps and exact source identity
+        run: |
+          for f in vibe-arcade/games/astra-sentinel/*.js; do node --check "$f"; done
+          node --test vibe-arcade/tests/astra-core.test.cjs vibe-arcade/tests/astra-package.test.cjs
+      - name: Install browser checker for tests only
+        run: |
+          npm install --prefix "$RUNNER_TEMP/pw" playwright@1.55.0 --ignore-scripts --no-audit --no-fund
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Full campaign and responsive UI - isolated rules and normal controls
+        run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" QA_OUT=/tmp/astra-qa node vibe-arcade/tests/astra-browser.cjs
+      - name: Native clean/slash routes, touch, sound and normal clock
+        run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" QA_OUT=/tmp/astra-qa/routes node vibe-arcade/tests/astra-routes.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: astra-gameplay-evidence
+          path: /tmp/astra-qa
+          retention-days: 7
+      - name: Read-only live deployment source verification
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: QA_OUT=/tmp/astra-live node vibe-arcade/tests/astra-live.cjs
+      - uses: actions/upload-artifact@v4
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        with:
+          name: astra-production-evidence
+          path: /tmp/astra-live
+          retention-days: 7
