@@ -1,6 +1,18 @@
 # LoopJolt marketing stage 3 execution ledger — 2026-09-21
 
-Status: **IN PROGRESS — first Instagram release published; platform playback gate still UNVERIFIED; no fan-out yet.**
+Status: **IN PROGRESS — first Instagram release published; hosted-source file gate PASSED; native platform playback still UNVERIFIED; owner evidence required; no fan-out yet.**
+
+## Latest checkpoint — 11:55 KST native inspection
+
+See `STAGE3_3_HOSTED_MEDIA_CHECK_20260921.md` for evidence and resumption criteria. A new read-only GitHub Actions route retrieved the Metricool-hosted MP4, proved full byte equality with the approved Publish_v1, passed full decoding and the unchanged >=0.60-second gameplay ROI freeze guard, and supplied five visually reviewed checkpoints. Source file QA is no longer blocked by download access.
+
+Independent native Instagram inspection reached the exact public Reel with the correct visible owner and caption, but showed a Sign up / Log in modal, no playable video element, and a login redirect on the profile page. Native video playback/audio/crop and the actual profile website field remain UNVERIFIED. This access restriction is not evidence that the Reel is broken. The new local-browser 1x readiness timeout is also not counted as a successful playback.
+
+Evidence: run `35555707959`, artifact `10619889671`, diagnostic branch `marketing/stage3-hosted-media`, commit `9dc500cfae47e49e79df6352de1fba6143d1adf1`. Diagnostic scripts remain separate from production application code. The existing hourly continuation task was paused to stop identical access-failure polling; no equivalent posting authorization was revoked.
+
+Next necessary input is one screen recording from the owner's already logged-in Instagram app showing this exact Reel from start to end with sound, followed by the profile website link and its destination. Do not request credentials. Record screen-recording limits honestly; resume the approved rollout only when the applicable native checks are evidenced. No additional public post or schedule was created in this session.
+
+The earlier observations below are preserved as history and are superseded by this section only for hosted-input accessibility/file QA.
 
 ## Guardrails
 - Marketing workflow only. Do not confuse with similarly numbered engineering/Game Kit stages.
@@ -37,24 +49,24 @@ Observed after scheduled time:
 - Caption returned by Metricool matches the approved `dd_fc01_instagram` copy.
 - Connected Instagram account for this brand is `playloopjolt`, so the scheduler/account mapping is consistent with the intended destination.
 
-### Playback / transcoding verification boundary
-- Direct public Instagram page retrieval is not available from the current web inspection path.
-- Direct download of the Metricool-hosted MP4 is not available from the current container/network path.
+### Historical playback / transcoding verification boundary
+- Direct public Instagram page retrieval was not available from the initial web inspection path.
+- Direct download of the Metricool-hosted MP4 was not available from the initial container/network path.
 - Metricool Reels analytics had not populated the new reel yet at the first post-publication check; reel-level query returned no rows and daily reel counts/views were still `0` at that moment, consistent with analytics ingestion lag and not evidence of failure.
-- Therefore actual hosted/platform playback, gameplay motion, audio, crop and freeze integrity are **UNVERIFIED** in this checkpoint.
-- No additional networks/games were scheduled or published from this checkpoint.
+- Actual hosted/platform playback, gameplay motion, audio, crop and freeze integrity were **UNVERIFIED** in that initial checkpoint. Hosted-source file QA is now separately passed as described above.
+- No additional networks/games were scheduled or published from that checkpoint.
 
-## 11:27 KST recheck
-- Metricool still returns candidate `dd_fc01_instagram` with the same UUID `9065192409182392302`, provider status **PUBLISHED**, detailed status `Published`, and the same public URL `https://www.instagram.com/reel/Ddh9RSXDUJH/`.
+## 11:27 KST recheck — historical
+- Metricool still returned candidate `dd_fc01_instagram` with the same UUID `9065192409182392302`, provider status **PUBLISHED**, detailed status `Published`, and the same public URL `https://www.instagram.com/reel/Ddh9RSXDUJH/`.
 - No duplicate replacement post was created.
 - Instagram Reels analytics query for `2026-09-21 00:00–11:27 KST` still returned **zero rows** for reel-level fields including reel ID, URL, reach, views, average watch time, total watch time and retention. Treat this as analytics ingestion not yet available, not as playback success or failure.
-- A fresh attempt to retrieve the public Instagram Reel through the available web path failed, and a fresh attempt to download the Metricool-hosted MP4 through the available container/network path also failed. These are inspection-capability limitations; neither result is evidence that the published Reel itself is broken.
-- Because no new evidence can verify gameplay motion, audio, crop, or the >=0.60s freeze guard on the actual hosted/platform copy, the playback gate remains **UNVERIFIED** and fan-out remains blocked.
+- A fresh attempt to retrieve the public Instagram Reel through the available web path failed, and a fresh attempt to download the Metricool-hosted MP4 through the available container/network path also failed. These were inspection-capability limitations; neither result was evidence that the published Reel itself was broken.
+- At that time no new evidence could verify gameplay motion, audio, crop, or the >=0.60s freeze guard on the actual hosted/platform copy, so the playback gate remained **UNVERIFIED** and fan-out remained blocked.
 
 ## Prepared stage-3 candidate ledger
-| Candidate | Game | Network | State | Public URL | Playback gate |
+| Candidate | Game | Network | State | Public URL | Native playback gate |
 |---|---|---|---|---|---|
-| dd_fc01_instagram | Deep Descent | Instagram | PUBLISHED | https://www.instagram.com/reel/Ddh9RSXDUJH/ | UNVERIFIED |
+| dd_fc01_instagram | Deep Descent | Instagram | PUBLISHED | https://www.instagram.com/reel/Ddh9RSXDUJH/ | UNVERIFIED; native login wall |
 | dd_fc01_youtube | Deep Descent | YouTube | NOT SCHEDULED | — | BLOCKED BY FIRST-RELEASE PLAYBACK GATE |
 | dd_fc01_tiktok | Deep Descent | TikTok | NOT SCHEDULED | — | BLOCKED BY FIRST-RELEASE PLAYBACK GATE |
 | dd_fc01_threads | Deep Descent | Threads | NOT SCHEDULED | — | BLOCKED BY FIRST-RELEASE PLAYBACK GATE |
@@ -68,12 +80,14 @@ Observed after scheduled time:
 | nm_fc01_threads | Nova Merge | Threads | NOT SCHEDULED | — | BLOCKED BY FIRST-RELEASE PLAYBACK GATE |
 
 ## Profile-link verification
-The Instagram/YouTube/TikTok copy that says to use the profile/channel link still requires native profile website-field verification before it can be considered fully validated. Current connected-account identity is confirmed, but a connected account is not proof that the profile website field is configured correctly.
+The Instagram/YouTube/TikTok copy that says to use the profile/channel link still requires native profile website-field verification before it can be considered fully validated. Current connected-account identity is confirmed, but a connected account is not proof that the profile website field is configured correctly. The latest native Instagram profile attempt redirected to `/accounts/login/`; no link absence is inferred.
 
 ## Stage-3 completion state
-Stage 3 is **not complete**. The first release successfully reached Instagram, but the required hosted/platform playback integrity check remains unresolved and the other 11 prepared candidates have not been released.
+Stage 3 is **not complete**. The first release successfully reached Instagram and the hosted input file matches the approved master. Native platform playback remains unresolved and the other 11 prepared candidates have not been released.
 
 ## Stage-4 handoff state
-Stage 4 is **not started**. Repository searches for an original LoopJolt MARKETING `Stage 4` / `4구간` specification returned no matching scope, and the available marketing README/checkpoints define stage-3 QA/publishing rules but do not define a post-stage-3 stage-4 completion contract. A fresh prior-context lookup during the 11:27 KST recheck also did not recover a usable stage-4 marketing specification. Do not substitute an engineering/Game Kit phase or invent a new approved marketing stage.
+Stage 4 is **not started**. Repository searches for an original LoopJolt MARKETING `Stage 4` / `4구간` specification returned no matching scope, and the available marketing README/checkpoints do not define an exact post-stage-3 stage-4 completion contract. Prior context did not recover that exact contract.
 
-Next safe action: re-check provider/public evidence and analytics ingestion, and use any newly available native/platform media evidence to verify real playback. Only after that gate genuinely passes should stage-3 fan-out resume.
+A later connected Notion project-page read located `vibe-arcade/MASTER_PLAN.md` (Sep 19), which supports distribution -> measurement -> KEEP/MODIFY/KILL. Its older account/catalog descriptions have been superseded in part by later approved work. Its monetization Stage 4 is a distant platform-economics phase, NOT this marketing stage 4. Do not substitute an engineering/Game Kit phase or invent a new approved numbered stage.
+
+Next safe action: obtain the minimal native playback/profile evidence described at the top, then resume approved stage-3 execution without duplicate posts. Do not restart unchanged blind hourly access retries. Completion and stage-4 advancement must reflect work actually done.
