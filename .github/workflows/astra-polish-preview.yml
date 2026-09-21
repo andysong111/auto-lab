@@ -3,7 +3,7 @@ on:
   push:
     branches: [preview/astra-polish]
   pull_request:
-    paths: ['vibe-arcade/preview/astra-polish/**', 'vibe-arcade/scripts/build-astra-polish.cjs', 'vibe-arcade/tests/astra-polish-*', '.github/workflows/astra-polish-preview.yml']
+    paths: ['vibe-arcade/preview/astra-polish/**', 'vibe-arcade/scripts/build-astra-polish*.cjs', 'vibe-arcade/tests/astra-polish-*', '.github/workflows/astra-polish-preview.yml']
 permissions:
   contents: read
 concurrency:
@@ -18,23 +18,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Build candidate and prove production sources are unchanged
+      - name: P2 geometry, fair warnings, difficulty probes and unchanged production
         run: |
           node vibe-arcade/scripts/build-astra-polish.cjs
-          node --test vibe-arcade/tests/astra-polish-core.test.cjs vibe-arcade/tests/astra-core.test.cjs vibe-arcade/tests/astra-package.test.cjs
+          QA_OUT=/tmp/astra-polish/probes node --test vibe-arcade/tests/astra-polish-core.test.cjs vibe-arcade/tests/astra-core.test.cjs vibe-arcade/tests/astra-package.test.cjs
       - name: Browser checker, test dependency only
         run: |
           npm install --prefix "$RUNNER_TEMP/pw" playwright@1.55.0 --ignore-scripts --no-audit --no-fund
           "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
-      - name: Full campaign, original input controls, device storage and four viewport widths
+      - name: P2 full campaign, pointer/dash/upgrade inputs, four viewport widths
         run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" QA_OUT=/tmp/astra-polish/full node vibe-arcade/tests/astra-polish-browser.cjs
       - name: Normal-clock native routes, touch, sound and pause
         run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" QA_OUT=/tmp/astra-polish/routes node vibe-arcade/tests/astra-polish-browser.cjs --routes
-      - name: Record reviewed source identity
+      - name: Record reviewed source and generated candidate identity
         run: |
-          mkdir -p /tmp/astra-polish/source
+          mkdir -p /tmp/astra-polish/source /tmp/astra-polish/playable
           cp -r vibe-arcade/preview/astra-polish /tmp/astra-polish/source/
-          cp vibe-arcade/scripts/build-astra-polish.cjs /tmp/astra-polish/source/
+          cp vibe-arcade/scripts/build-astra-polish*.cjs /tmp/astra-polish/source/
+          cp -r vibe-arcade/labs/astra-sentinel/. /tmp/astra-polish/playable/
           git rev-parse HEAD > /tmp/astra-polish/source-commit.txt
           find vibe-arcade/labs/astra-sentinel -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/astra-polish/candidate-sha256.txt
       - uses: actions/upload-artifact@v4
