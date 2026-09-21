@@ -1,12 +1,19 @@
 {
   "name": "playjolt-autonomous-factory",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "engines": { "node": ">=22" },
-  "scripts": {
-    "test": "node --test tests/contracts.test.cjs tests/orchestrator.test.cjs tests/rc.test.cjs",
-    "test:browser": "node --test --test-concurrency=1 tests/browser.test.cjs",
-    "test:regression": "node tests/regression.cjs"
+  "engines": {
+    "node": ">=22"
   },
-  "dependencies": { "ajv": "8.17.1", "playwright": "1.55.0" }
+  "scripts": {
+    "test": "node --test tests/contracts.test.cjs tests/orchestrator.test.cjs tests/rc.test.cjs control-plane/tests/control-plane.test.cjs",
+    "test:browser": "node --test --test-concurrency=1 tests/browser.test.cjs",
+    "test:regression": "node tests/regression.cjs",
+    "control:snapshot": "node control-plane/cli.cjs snapshot",
+    "control:dashboard": "node control-plane/cli.cjs dashboard"
+  },
+  "dependencies": {
+    "ajv": "8.17.1",
+    "playwright": "1.55.0"
+  }
 }
