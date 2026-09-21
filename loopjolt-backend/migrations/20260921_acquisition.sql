@@ -1,3 +1,11 @@
+-- RETENTION_PREREQUISITE_BEGIN
+-- Deployment fails before any schema change when managed retention is unavailable.
+do $$begin
+ if not exists(select 1 from pg_extension where extname='pg_cron') then
+  raise exception 'retention_scheduler_required: install and configure pg_cron before this migration';
+ end if;
+end;$$;
+-- RETENTION_PREREQUISITE_END
 -- Additive marketing telemetry only. No foreign keys, triggers or writes to game accounts/scores.
 create schema if not exists loopjolt_marketing;
 revoke all on schema loopjolt_marketing from public,anon,authenticated;
@@ -91,6 +99,11 @@ create function loopjolt_marketing.cleanup() returns void language sql security 
  delete from loopjolt_marketing.limits where expires_at<now();
 $$;
 revoke all on function loopjolt_marketing.cleanup() from public,anon,authenticated;
-do $$begin if exists(select 1 from pg_extension where extname='pg_cron') then
+-- RETENTION_PROVISION_BEGIN
+do $$begin
  perform cron.schedule('loopjolt-marketing-retention','17 * * * *','select loopjolt_marketing.cleanup();');
-end if;end;$$;
+ if not exists(select 1 from cron.job where jobname='loopjolt-marketing-retention' and active and schedule='17 * * * *' and command='select loopjolt_marketing.cleanup();') then
+  raise exception 'retention_scheduler_required: cleanup job is not active';
+ end if;
+end;$$;
+-- RETENTION_PROVISION_END
