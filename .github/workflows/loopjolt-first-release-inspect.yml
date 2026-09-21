@@ -2,7 +2,7 @@ name: LoopJolt first-release media evidence
 on:
   push:
     branches: [marketing/stage3-hosted-media]
-    paths: ['.github/workflows/loopjolt-first-release-inspect.yml', 'vibe-arcade/marketing/stage3/inspect-first-release.cjs']
+    paths: ['.github/workflows/loopjolt-first-release-inspect.yml', 'vibe-arcade/marketing/stage3/inspect-*.cjs']
 permissions:
   contents: read
 concurrency:
@@ -26,11 +26,21 @@ jobs:
           npm install --prefix "$RUNNER_TEMP/pw" playwright@1.55.0 --ignore-scripts --no-audit --no-fund
           "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
       - name: Validate syntax
-        run: node --check vibe-arcade/marketing/stage3/inspect-first-release.cjs
-      - name: Read-only public hosted/platform inspection
+        run: |
+          node --check vibe-arcade/marketing/stage3/inspect-first-release.cjs
+          node --check vibe-arcade/marketing/stage3/inspect-instagram-public.cjs
+      - name: Read-only hosted inspection - subcheck result lives in JSON
+        continue-on-error: true
         env:
           QA_OUT: /tmp/loopjolt-first-release
         run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" node vibe-arcade/marketing/stage3/inspect-first-release.cjs
+      - name: Independent public Instagram read - no authentication bypass
+        env:
+          QA_OUT: /tmp/loopjolt-first-release
+        run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" node vibe-arcade/marketing/stage3/inspect-instagram-public.cjs
+      - name: Preserve incomplete gates as a failed validation
+        run: |
+          node -e "const fs=require('fs'); const p='/tmp/loopjolt-first-release/'; const a=JSON.parse(fs.readFileSync(p+'first-release-inspection.json')); const b=JSON.parse(fs.readFileSync(p+'native-instagram-inspection.json')); if(!a.hostedInput.verified || !b.platformVerified || !b.profileVerified)process.exit(2);"
       - name: Retain evidence even when a gate is unverified
         if: always()
         uses: actions/upload-artifact@v4
