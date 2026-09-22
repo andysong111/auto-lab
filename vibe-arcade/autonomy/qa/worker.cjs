@@ -4,6 +4,7 @@ const {chromium} = require('playwright');
 const {serve} = require('./server.cjs'), {installGuard} = require('./guard.cjs');
 const {atomicJSON,readJSON,hashTree,hash} = require('../orchestrator/files.cjs');
 const {validate} = require('../orchestrator/manifest.cjs');
+const {reviewPrism}=require('./review-inputs.cjs');
 const sleep = ms => new Promise(r => setTimeout(r,ms));
 const at = (obj,key) => key.split('.').reduce((o,k) => o?.[k], obj);
 const snap = page => page.evaluate(() => GameDiagnostics.snapshot());
@@ -22,7 +23,8 @@ async function execute(config) {
     for (const [width,height] of policy.required_viewports) {
       const c={viewport:{width,height},checks:[],passed:false,load_ms:0,resources:[]}, effects=[];
       report.browser_cases.push(c);
-      const ctx=await browser.newContext({viewport:{width,height},isMobile:width<600,hasTouch:true,serviceWorkers:'block'});
+      const review=config.review===true&&manifest.game_id==='GAME-20260922-110';
+      const ctx=await browser.newContext({viewport:{width,height},isMobile:width<600,hasTouch:true,serviceWorkers:'block',...(review&&width===390?{recordVideo:{dir:outDir,size:{width,height}}}:{})});
       await installGuard(ctx,server.origin,effects);
       const p=await ctx.newPage(); p.setDefaultTimeout(3500); p.setDefaultNavigationTimeout(policy.limits.load_ms);
       await p.clock.install();
@@ -71,6 +73,7 @@ async function execute(config) {
         await cdp.detach();
         const screenshot=`viewport-${width}.png`; await p.screenshot({path:path.join(outDir,screenshot),fullPage:true,animations:'disabled',timeout:5000}); report.screenshots.push(screenshot);
         await check('restart',async()=>{ const old=await snap(p); await p.locator('[data-game-restart]').click(); const s=await snap(p); assert.equal(s.phase,'playing'); assert(s.tick<old.tick); await p.clock.runFor(100); assert((await snap(p)).tick>s.tick); });
+        if(review)await check('commissioning_playthrough',async()=>{c.playthrough=await reviewPrism({page:p,context:ctx,mobile:width<600,capture});});
         await check('pagehide',async()=>{ await p.evaluate(()=>dispatchEvent(new PageTransitionEvent('pagehide',{persisted:false}))); const s=await snap(p); await p.clock.runFor(200); assert((await snap(p)).disposed); assert.deepEqual((await snap(p)).state,s.state); });
         await check('capture_no_writes',async()=>{ await sleep(30); assert.equal(effects.length,0,'capture attempted side effects'); assert.equal((await snap(p)).ranked,false); });
         c.passed=true;
@@ -78,7 +81,10 @@ async function execute(config) {
       finally {
         if(effects.length) { report.side_effects.push(...effects.map(e=>({...e,viewport:width}))); fail('production_side_effect','Attempted network or persistence effects were blocked/audited',width); }
         if(broken.length) fail('missing_assets',broken.join(','),width);
-        await ctx.close(); save();
+        const video=review&&width===390?p.video():null;
+        await ctx.close();
+        if(video){const from=await video.path(),name=`viewport-${width}-playthrough.webm`;fs.renameSync(from,path.join(outDir,name));report.capture={file:name,kind:'accelerated input-driven browser recording; not human play or a real-time performance benchmark'};}
+        save();
       }
     }
     if(report.console_errors.length) fail('console_error','Browser console errors',null);

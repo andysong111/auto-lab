@@ -1,0 +1,69 @@
+name: PlayJolt first real game review and RC verification
+on:
+  push:
+    branches: [commissioning/first-real-game-20260922]
+    paths: ['.github/workflows/playjolt-first-real-review.yml']
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+  deployments: read
+concurrency:
+  group: playjolt-first-real-game-review
+  cancel-in-progress: false
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Restore original paid-run state and full idempotency ledger
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/first-game-review" >> "$GITHUB_ENV"
+          gh run download 35700802371 -n first-real-game-GAME-20260922-110 -D "$RUNNER_TEMP/first-game-review"
+          test -f "$RUNNER_TEMP/first-game-review/autonomy/.provider/ledger.json"
+          test "$(gh api repos/andysong111/auto-lab/git/ref/heads/factory/GAME-20260922-110 --jq .object.sha)" = 73dd47cbc50db6825c2fcc9d6a19d60136cd5818
+      - name: Verify candidate bytes came only from the real provider
+        run: node vibe-arcade/autonomy/commissioning/first-real-game/audit-provenance.cjs "$FACTORY_WORKER_ROOT"
+      - name: Build reviewed QA image
+        run: |
+          docker build --iidfile "$RUNNER_TEMP/first-review-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/first-review-image")" >> "$GITHUB_ENV"
+      - name: Actual mobile/keyboard score and success reachability plus capture
+        run: node vibe-arcade/autonomy/commissioning/first-real-game/review.cjs
+      - name: Reuse existing RC adapter against exact candidate commit
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: |
+          node - <<'NODE'
+          const path=require('node:path');
+          const {Factory}=require('./vibe-arcade/autonomy/orchestrator/engine.cjs');
+          const {FileStore}=require('./vibe-arcade/autonomy/orchestrator/store.cjs');
+          const {GitHubVercelAdapter}=require('./vibe-arcade/autonomy/adapters/github-vercel.cjs');
+          const {atomicJSON}=require('./vibe-arcade/autonomy/orchestrator/files.cjs');
+          const root=process.env.FACTORY_WORKER_ROOT,store=new FileStore(root),release=new GitHubVercelAdapter();
+          // Branch/PR were created by this SAME adapter through the connected GitHub transport.
+          // The token here is read-only: any unexpected GitHub mutation fails closed.
+          (async()=>{const factory=new Factory({store,release});let m;
+            for(let i=0;i<20;i++){m=await factory.run('GAME-20260922-110',{rc:true});if(m.rc_commit!=='73dd47cbc50db6825c2fcc9d6a19d60136cd5818')throw Error('unexpected_rc_commit');if(m.state!=='PREVIEW_DEPLOYING')break;await new Promise(r=>setTimeout(r,15000));}
+            atomicJSON(path.join(root,'rc-result.json'),m);console.log(JSON.stringify({state:m.state,rc_commit:m.rc_commit,preview_url:m.preview_url,pr:m.pr_number}));
+          })().catch(e=>{console.error(e.message);process.exitCode=1;});
+          NODE
+      - name: Preserve review and RC evidence (no model calls in this workflow)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: first-real-game-review-GAME-20260922-110
+          path: ${{ runner.temp }}/first-game-review
+          include-hidden-files: true
+          retention-days: 30
