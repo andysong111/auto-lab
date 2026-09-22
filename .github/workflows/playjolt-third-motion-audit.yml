@@ -1,4 +1,5 @@
 name: PlayJolt third candidate read-only motion audit
+# Also run the complete product suite with bounded native media-event settlement; preserve terminal state.
 on:
   push:
     branches: [commissioning/third-real-game-20260922]
