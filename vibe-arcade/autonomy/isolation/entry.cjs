@@ -7,8 +7,9 @@ if(process.argv[2]==='probe') {require('./probe.cjs');}
 else {
   const config=readJSON('/input/qa.json');
   const duration=Math.min(300000,Math.max(1000,config.deadline_ms||config.policy.limits.run_timeout_ms));
-  const script=config.product==='ribbon-shift'?'/opt/factory/qa/ribbon-shift.cjs':'/opt/factory/qa/worker.cjs';
-  if(config.product&&config.product!=='ribbon-shift')throw Error('unknown_product_qa');
+  const scripts={'ribbon-shift':'ribbon-shift.cjs','ribbon-motion-audit':'ribbon-motion-audit.cjs'};
+  if(config.product&&!Object.hasOwn(scripts,config.product))throw Error('unknown_product_qa');
+  const script='/opt/factory/qa/'+(scripts[config.product]||'worker.cjs');
   const child=spawn(process.execPath,[script,'/input/qa.json'],{env:{PATH:'/usr/bin:/bin',HOME:'/tmp',PLAYWRIGHT_BROWSERS_PATH:'/ms-playwright'},stdio:'inherit'});
   const timer=setTimeout(()=>process.exit(124),duration);
   child.once('exit',code=>{clearTimeout(timer);process.exit(code??1);});
