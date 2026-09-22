@@ -13,7 +13,7 @@ function bounded(value,min,max,name,integer=false) {
 }
 function config(raw={}) {
   const c={};for(const k of Object.keys(defaults))c[k]={...defaults[k],...raw[k]};
-  const bounds={per_game:{max_provider_calls:[1,6,true],max_input_tokens:[1,1000000,true],max_output_tokens:[1,200000,true],max_estimated_cost:[0,10],max_wall_clock_minutes:[0.001,60]},
+  const bounds={per_game:{max_provider_calls:[1,6,true],max_input_tokens:[1,1000000,true],max_output_tokens:[1,200000,true],max_estimated_cost:[0,10],max_wall_clock_minutes:[0.001,240]},
     global:{daily_provider_call_limit:[1,100,true],daily_cost_limit:[0,100],max_concurrent_builds:[1,1,true]},
     request:{max_input_tokens:[1,100000,true],max_output_tokens:[1,32000,true],timeout_ms:[1,300000,true],max_response_bytes:[100,1048576,true],max_file_bytes:[10,262144,true],max_files:[1,32,true]},
     isolation:{cpus:[0.5,2],memory_mb:[512,2048,true],pids:[64,256,true],timeout_ms:[1000,300000,true]},
