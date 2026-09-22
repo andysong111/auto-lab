@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260922-131",
+  "version": "v5",
+  "target_version": "v6",
+  "attempt": 5,
+  "max_repair_attempts": 5,
+  "source_hash": "39689b2db8507f7bb4611845917523ae67ad62385dd2feb424cd21c9472db43b",
+  "qa_failures": [
+    {
+      "code": "product_reduced_motion",
+      "message": "Expected values to be strictly equal:\n\n'true' !== 'false'\n",
+      "seed": 1
+    }
+  ],
+  "allowed_scope": [
+    "core.js",
+    "app.js",
+    "view/**",
+    "style.css",
+    "index.html",
+    "README.md",
+    "assets/**"
+  ],
+  "protected_paths": [
+    "vibe-arcade/games/**",
+    "vibe-arcade/release/**",
+    "vibe-arcade/descent/**",
+    "vibe-arcade/core-pins/**",
+    "vibe-arcade/challengers/**",
+    "vibe-arcade/community/**",
+    "vibe-arcade/runtime/**",
+    "vibe-arcade/measurement/**",
+    "vibe-arcade/marketing/**",
+    "vibe-arcade/index.html",
+    "vibe-arcade/sitemap.xml",
+    "vibe-arcade/robots.txt",
+    "vibe-arcade/google*.html",
+    "loopjolt-backend/**",
+    ".github/**",
+    "**/.env*",
+    "**/secrets/**",
+    "manifest.json",
+    "gamekit.js"
+  ],
+  "acceptance_tests": [
+    "manifest schema",
+    "all three real browser viewports",
+    "no console/page errors",
+    "start/progress/input/interaction",
+    "terminal/restart/pause/resume/hidden",
+    "no side effects",
+    "source and resource bounds"
+  ],
+  "operation_id": "GAME-20260922-131/repair/5"
+}

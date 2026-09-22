@@ -1,0 +1,2811 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260922-131",
+  "version": "v6",
+  "source_hash": "ea85f704319bc9e6896d2304c9192d5b1b12a418654a47f8f765991e94c03736",
+  "policy_hash": "da8cea0438c7a915e0c1901548785580f85be8219c0f86b37d50eff2e95ceb54",
+  "passed": true,
+  "hard_failures": [],
+  "soft_failures": [],
+  "console_errors": [],
+  "page_errors": [],
+  "browser_cases": [
+    {
+      "seed": 1,
+      "transitions": [
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": []
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 8
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 14
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 14
+          },
+          "settled_consistent": true,
+          "wall_ms": 20
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 15
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 22
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 22
+          },
+          "settled_consistent": true,
+          "wall_ms": 28
+        },
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 8,
+              "activeVoices": 0
+            },
+            "tick": 24
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 30
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 30
+          },
+          "settled_consistent": true,
+          "wall_ms": 21
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 33
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 38
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 38
+          },
+          "settled_consistent": true,
+          "wall_ms": 20
+        },
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 41
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 47
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 47
+          },
+          "settled_consistent": true,
+          "wall_ms": 20
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 49
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 56
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 56
+          },
+          "settled_consistent": true,
+          "wall_ms": 27
+        }
+      ],
+      "passed": true
+    },
+    {
+      "seed": 7,
+      "transitions": [
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": []
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 7
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 13
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 13
+          },
+          "settled_consistent": true,
+          "wall_ms": 22
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 16
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 22
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 22
+          },
+          "settled_consistent": true,
+          "wall_ms": 20
+        },
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 24
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 31
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 31
+          },
+          "settled_consistent": true,
+          "wall_ms": 27
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 32
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 38
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 38
+          },
+          "settled_consistent": true,
+          "wall_ms": 22
+        },
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 8,
+              "activeVoices": 0
+            },
+            "tick": 41
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 47
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 47
+          },
+          "settled_consistent": true,
+          "wall_ms": 20
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 50
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 55
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 55
+          },
+          "settled_consistent": true,
+          "wall_ms": 21
+        }
+      ],
+      "passed": true
+    },
+    {
+      "seed": 23,
+      "transitions": [
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": []
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 8
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 13
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 13
+          },
+          "settled_consistent": true,
+          "wall_ms": 20
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 16
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 22
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 22
+          },
+          "settled_consistent": true,
+          "wall_ms": 22
+        },
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 24
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 31
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 31
+          },
+          "settled_consistent": true,
+          "wall_ms": 17
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 32
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 38
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 38
+          },
+          "settled_consistent": true,
+          "wall_ms": 16
+        },
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 8,
+              "activeVoices": 0
+            },
+            "tick": 41
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 47
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 47
+          },
+          "settled_consistent": true,
+          "wall_ms": 21
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 50
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 56
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 56
+          },
+          "settled_consistent": true,
+          "wall_ms": 23
+        }
+      ],
+      "passed": true
+    },
+    {
+      "seed": 89,
+      "transitions": [
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": []
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 7
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 14
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 14
+          },
+          "settled_consistent": true,
+          "wall_ms": 27
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 16
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 22
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 22
+          },
+          "settled_consistent": true,
+          "wall_ms": 20
+        },
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 8,
+              "activeVoices": 0
+            },
+            "tick": 24
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 30
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 30
+          },
+          "settled_consistent": true,
+          "wall_ms": 21
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 33
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 39
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 39
+          },
+          "settled_consistent": true,
+          "wall_ms": 21
+        },
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 41
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 47
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 47
+          },
+          "settled_consistent": true,
+          "wall_ms": 27
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 49
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 55
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 55
+          },
+          "settled_consistent": true,
+          "wall_ms": 21
+        }
+      ],
+      "passed": true
+    },
+    {
+      "seed": 2026,
+      "transitions": [
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": []
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 8
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 14
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 14
+          },
+          "settled_consistent": true,
+          "wall_ms": 20
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 15
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 22
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 22
+          },
+          "settled_consistent": true,
+          "wall_ms": 25
+        },
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 8,
+              "activeVoices": 0
+            },
+            "tick": 24
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 30
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 30
+          },
+          "settled_consistent": true,
+          "wall_ms": 22
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 33
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 38
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 38
+          },
+          "settled_consistent": true,
+          "wall_ms": 20
+        },
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 41
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 47
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 47
+          },
+          "settled_consistent": true,
+          "wall_ms": 20
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 49
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 56
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 56
+          },
+          "settled_consistent": true,
+          "wall_ms": 25
+        }
+      ],
+      "passed": true
+    },
+    {
+      "seed": 4294967295,
+      "transitions": [
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": []
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 7
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 13
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 13
+          },
+          "settled_consistent": true,
+          "wall_ms": 21
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 16
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 22
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 22
+          },
+          "settled_consistent": true,
+          "wall_ms": 21
+        },
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 25
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 30
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 30
+          },
+          "settled_consistent": true,
+          "wall_ms": 21
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 32
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 39
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 39
+          },
+          "settled_consistent": true,
+          "wall_ms": 23
+        },
+        {
+          "requested": true,
+          "before": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 41
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 47
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 47
+          },
+          "settled_consistent": true,
+          "wall_ms": 21
+        },
+        {
+          "requested": false,
+          "before": {
+            "native": {
+              "matches": true,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                }
+              ]
+            },
+            "dom": "true",
+            "presentation": {
+              "reducedMotion": true,
+              "particles": 0,
+              "activeVoices": 0
+            },
+            "tick": 50
+          },
+          "after_virtual_100ms": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 55
+          },
+          "immediate_consistent": true,
+          "after_native_delivery": {
+            "native": {
+              "matches": false,
+              "events": [
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                },
+                {
+                  "matches": true
+                },
+                {
+                  "matches": false
+                }
+              ]
+            },
+            "dom": "false",
+            "presentation": {
+              "reducedMotion": false,
+              "particles": 4,
+              "activeVoices": 0
+            },
+            "tick": 55
+          },
+          "settled_consistent": true,
+          "wall_ms": 22
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "screenshots": [],
+  "side_effects": [],
+  "duration_ms": 3352,
+  "scope": "Read-only audit of native media delivery versus virtual-clock-only assertions; no candidate/Factory/provider edits",
+  "isolation": {
+    "engine": "docker",
+    "image": "sha256:22d4b862661cd5046af54a8e5084c9b1ebbcc6a58700dc004b0ef57ffda8dd45",
+    "network": "none",
+    "readonly": true,
+    "cpu": 1,
+    "memory_mb": 1024,
+    "pids": 128
+  }
+}

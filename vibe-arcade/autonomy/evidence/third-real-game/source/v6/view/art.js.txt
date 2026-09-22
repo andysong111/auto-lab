@@ -1,0 +1,132 @@
+(() => {
+  'use strict';
+  let reducedMotion = false;
+  const colors = ['#ef765e', '#77d7bb', '#f3c65b', '#e99b83', '#75a9c8', '#c887a6', '#c8dc8d', '#e5b36b', '#a893d5'];
+  const presentation = {
+    particles: 0,
+    setReducedMotion(value) {
+      reducedMotion = !!value;
+      if (reducedMotion) presentation.particles = 0;
+    },
+    snapshot() { return { reducedMotion, particles: presentation.particles, activeVoices: 0 }; }
+  };
+  globalThis.RibbonPresentation = presentation;
+
+  const rounded = (ctx, x, y, width, height, radius) => {
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(x, y, width, height, radius);
+    else ctx.rect(x, y, width, height);
+  };
+
+  const tile = (ctx, value, x, y, size, selected, checked) => {
+    rounded(ctx, x, y, size, size, size * 0.08);
+    ctx.fillStyle = '#17252d';
+    ctx.fill();
+    ctx.save();
+    rounded(ctx, x + 3, y + 3, size - 6, size - 6, size * 0.07);
+    ctx.clip();
+    ctx.fillStyle = colors[value];
+    ctx.fillRect(x + 3, y + 3, size - 6, size - 6);
+    ctx.strokeStyle = 'rgba(15,31,39,.65)';
+    ctx.lineWidth = Math.max(2, size * 0.042);
+    for (let stripe = -size; stripe < size * 2; stripe += size * 0.25) {
+      ctx.beginPath();
+      ctx.moveTo(x + stripe, y + 2);
+      ctx.lineTo(x + stripe + size * 0.45, y + size - 2);
+      ctx.stroke();
+    }
+    ctx.strokeStyle = 'rgba(255,248,224,.38)';
+    ctx.lineWidth = size * 0.07;
+    ctx.beginPath();
+    ctx.moveTo(x + size * 0.15, y + size * 0.74);
+    ctx.quadraticCurveTo(x + size * 0.47, y + size * 0.13, x + size * 0.84, y + size * 0.34);
+    ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle = '#10232b';
+    ctx.font = `800 ${Math.max(20, size * 0.31)}px system-ui`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(value + 1), x + size / 2, y + size / 2 + 1);
+    if (selected || checked) {
+      rounded(ctx, x + 3, y + 3, size - 6, size - 6, size * 0.07);
+      ctx.strokeStyle = checked ? '#8ff0ca' : '#fff4d3';
+      ctx.lineWidth = checked ? 3 : Math.max(2, size * 0.04);
+      ctx.stroke();
+    }
+  };
+
+  const draw = (ctx, snapshot, size) => {
+    const state = snapshot.state;
+    const width = size.width;
+    const height = size.height;
+    const unit = Math.min(width, height);
+    const originX = (width - unit) / 2;
+    const originY = (height - unit) / 2;
+    const X = (value) => originX + value * unit;
+    const Y = (value) => originY + value * unit;
+    presentation.particles = reducedMotion ? 0 : Math.min(32, state.effects.length * 4);
+
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = '#0c1720';
+    ctx.fillRect(0, 0, width, height);
+    rounded(ctx, X(0.035), Y(0.065), unit * 0.93, unit * 0.88, unit * 0.035);
+    ctx.fillStyle = '#132631';
+    ctx.fill();
+    ctx.strokeStyle = '#31505a';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = '#f3c65b';
+    ctx.font = `700 ${Math.max(12, unit * 0.034)}px system-ui`;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillText(`MOSAIC ${state.stage + 1}/3`, X(0.07), Y(0.075));
+
+    const cell = unit * 0.24;
+    const left = X(0.06);
+    const top = Y(0.10);
+    // Restored feedback is intentionally an outline only: no canvas text can
+    // collide with the numbered tile labels during a stage transition.
+    const checking = state.celebrate > 0;
+    for (let index = 0; index < 9; index++) {
+      const row = Math.floor(index / 3);
+      const column = index % 3;
+      const selected = (state.cursor < 3 && row === state.cursor) || (state.cursor >= 3 && column === state.cursor - 3);
+      tile(ctx, state.board[index], left + column * cell, top + row * cell, cell, selected, checking);
+    }
+
+    for (let row = 0; row < 3; row++) {
+      const x = X(0.80), y = Y(0.10 + row * 0.24), button = unit * 0.15;
+      rounded(ctx, x, y, button, button, button * 0.13);
+      ctx.fillStyle = state.cursor === row ? '#f3c65b' : '#ef765e';
+      ctx.fill();
+      ctx.fillStyle = '#13242b';
+      ctx.font = `900 ${Math.max(23, unit * 0.075)}px system-ui`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('→', x + button / 2, y + button / 2);
+    }
+    for (let column = 0; column < 3; column++) {
+      const x = X(0.06 + column * 0.24), y = Y(0.83), button = unit * 0.15;
+      rounded(ctx, x, y, button, button, button * 0.13);
+      ctx.fillStyle = state.cursor === column + 3 ? '#f3c65b' : '#77d7bb';
+      ctx.fill();
+      ctx.fillStyle = '#13242b';
+      ctx.font = `900 ${Math.max(23, unit * 0.075)}px system-ui`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('↓', x + button / 2, y + button / 2);
+    }
+
+    if (!reducedMotion && presentation.particles) {
+      ctx.fillStyle = '#f3c65b';
+      for (let i = 0; i < presentation.particles; i++) {
+        const angle = i * 2.4 + state.tick * 0.08;
+        const radius = unit * (0.18 + (i % 4) * 0.025);
+        ctx.globalAlpha = 0.5;
+        ctx.fillRect(X(0.42) + Math.cos(angle) * radius, Y(0.46) + Math.sin(angle) * radius, 3, 3);
+      }
+      ctx.globalAlpha = 1;
+    }
+  };
+  globalThis.RibbonShiftArt = { draw };
+})();

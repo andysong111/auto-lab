@@ -1,0 +1,50 @@
+{
+  "schema": "playjolt-release-review/1",
+  "passed": false,
+  "errors": [
+    "state_not_ready_to_ship",
+    "qa_not_pass",
+    "quality_not_pass",
+    "release_not_ready",
+    "preview_missing",
+    "rc_commit_missing",
+    "branch_missing",
+    "pr_missing"
+  ],
+  "candidate": {
+    "game_id": "GAME-20260922-131",
+    "version": "v6",
+    "title": "Ribbon Shift",
+    "slug": "ribbon-shift",
+    "preview_url": null,
+    "source_hash": "ea85f704319bc9e6896d2304c9192d5b1b12a418654a47f8f765991e94c03736",
+    "pr_url": null
+  },
+  "evidence": {
+    "qa_status": "FAIL",
+    "quality_status": "REJECT",
+    "release_status": "REJECTED",
+    "repair_attempt": 5,
+    "failure_reasons": [
+      {
+        "code": "product_reduced_motion",
+        "message": "Expected values to be strictly equal:\n\n'true' !== 'false'\n",
+        "seed": 89
+      }
+    ]
+  },
+  "owner_review": {
+    "decision": "PENDING",
+    "reviewed_by": null,
+    "recorded_at": null
+  },
+  "production": {
+    "authorized": false,
+    "reason": "Production adapter remains disabled until a separate reviewed release action consumes an APPROVE decision."
+  },
+  "rollback": {
+    "base_ref": "7e8e260ab1895eeec845ab216408820f5f444afe",
+    "restore_commit": "7e8e260ab1895eeec845ab216408820f5f444afe",
+    "required": true
+  }
+}

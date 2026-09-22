@@ -1,0 +1,25 @@
+{
+  "operation_id": "GAME-20260922-131/repair/4",
+  "source_hash": "39689b2db8507f7bb4611845917523ae67ad62385dd2feb424cd21c9472db43b",
+  "changed_files": [
+    "app.js",
+    "manifest.json"
+  ],
+  "cause": "Updated reduced-motion change handling so the dispatched MediaQueryList event value is authoritative, preventing stale MediaQueryList.matches state from leaving presentation mode set to true.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Suggested: simulate a reduced-motion MediaQueryList change event with {matches:false} before its matches property changes, then verify document.documentElement.dataset.reducedMotion and RibbonPresentation.snapshot().reducedMotion are both false.",
+    "provider-suggested (not executed): Suggested: simulate {matches:true} followed by {matches:false} during active play and verify presentation particles are zero only while reduced motion is enabled."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_01655a8a035dc576006ab28269383c87d198ab8a7b04b90be0",
+    "usage": {
+      "input_tokens": 10243,
+      "output_tokens": 1323,
+      "estimated_cost": 0.064786
+    },
+    "estimated_cost": 0.064786,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

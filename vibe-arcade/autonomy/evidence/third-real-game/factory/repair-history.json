@@ -1,0 +1,430 @@
+[
+  {
+    "attempt": 1,
+    "version": "v2",
+    "cause": [
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 390
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 768
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 1280
+      },
+      {
+        "code": "product_playthrough",
+        "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+        "seed": 1
+      },
+      {
+        "code": "product_playthrough",
+        "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+        "seed": 7
+      },
+      {
+        "code": "product_playthrough",
+        "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+        "seed": 23
+      },
+      {
+        "code": "product_playthrough",
+        "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+        "seed": 89
+      },
+      {
+        "code": "product_playthrough",
+        "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+        "seed": 2026
+      },
+      {
+        "code": "product_playthrough",
+        "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_practice_best",
+        "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+        "seed": null
+      }
+    ],
+    "changed_files": [
+      "README.md",
+      "app.js",
+      "core.js",
+      "index.html",
+      "manifest.json",
+      "style.css",
+      "view/art.js"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Repaired Ribbon Shift with bounded deterministic board generation, exact mixed-axis shortest-depth candidates, resilient canvas drawing, live reduced-motion reporting, and corrected result/goal DOM wiring.",
+    "qa_artifact": "v2/qa.json"
+  },
+  {
+    "attempt": 2,
+    "version": "v3",
+    "cause": [
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 390
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 768
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 1280
+      },
+      {
+        "code": "product_playthrough",
+        "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+        "seed": 1
+      },
+      {
+        "code": "product_playthrough",
+        "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+        "seed": 7
+      },
+      {
+        "code": "product_playthrough",
+        "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+        "seed": 23
+      },
+      {
+        "code": "product_playthrough",
+        "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+        "seed": 89
+      },
+      {
+        "code": "product_playthrough",
+        "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+        "seed": 2026
+      },
+      {
+        "code": "product_playthrough",
+        "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_practice_best",
+        "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+        "seed": null
+      }
+    ],
+    "changed_files": [
+      "index.html",
+      "manifest.json"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Restored the required GameKit progress DOM hook by applying data-game-progress to the existing visible ribbon goal-progress element. This preserves the custom 0/3 objective display while satisfying the GameKit required DOM contract that likely prevented initialization.",
+    "qa_artifact": "v3/qa.json"
+  },
+  {
+    "attempt": 3,
+    "version": "v4",
+    "cause": [
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 1
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'1'\n",
+        "seed": 1
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 1
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'3'\n",
+        "seed": 1
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 1
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'5'\n",
+        "seed": 1
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 1
+      },
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 7
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'2'\n",
+        "seed": 7
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 7
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'6'\n",
+        "seed": 7
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 7
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'10'\n",
+        "seed": 7
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 7
+      },
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 23
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'1'\n",
+        "seed": 23
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 23
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'3'\n",
+        "seed": 23
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 23
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'5'\n",
+        "seed": 23
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 23
+      },
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 89
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'2'\n",
+        "seed": 89
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 89
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'4'\n",
+        "seed": 89
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 89
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'8'\n",
+        "seed": 89
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 89
+      },
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_reduced_motion",
+        "message": "Expected values to be strictly equal:\n\n'true' !== 'false'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'1'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'3'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'5'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_reduced_motion",
+        "message": "Expected values to be strictly equal:\n\n'false' !== 'true'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'2'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'4'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'9'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 4294967295
+      }
+    ],
+    "changed_files": [
+      "app.js",
+      "index.html",
+      "manifest.json",
+      "style.css",
+      "view/art.js"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Separated immutable objective progress from GameKit elapsed progress, removed the overlapping canvas restoration banner, and initialized/reconciled reduced-motion presentation before first kit draw and on live preference changes.",
+    "qa_artifact": "v4/qa.json"
+  },
+  {
+    "attempt": 4,
+    "version": "v5",
+    "cause": [
+      {
+        "code": "product_reduced_motion",
+        "message": "Expected values to be strictly equal:\n\n'true' !== 'false'\n",
+        "seed": 89
+      },
+      {
+        "code": "product_reduced_motion",
+        "message": "Expected values to be strictly equal:\n\n'true' !== 'false'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_reduced_motion",
+        "message": "Expected values to be strictly equal:\n\n'true' !== 'false'\n",
+        "seed": 4294967295
+      }
+    ],
+    "changed_files": [
+      "app.js",
+      "manifest.json"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Updated reduced-motion change handling so the dispatched MediaQueryList event value is authoritative, preventing stale MediaQueryList.matches state from leaving presentation mode set to true.",
+    "qa_artifact": "v5/qa.json"
+  },
+  {
+    "attempt": 5,
+    "version": "v6",
+    "cause": [
+      {
+        "code": "product_reduced_motion",
+        "message": "Expected values to be strictly equal:\n\n'true' !== 'false'\n",
+        "seed": 1
+      }
+    ],
+    "changed_files": [
+      "app.js",
+      "manifest.json"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Repaired reduced-motion subscription handling with current, legacy, and onchange MediaQueryList paths, while preserving authoritative event match values and cleanup.",
+    "qa_artifact": "v6/qa.json"
+  }
+]

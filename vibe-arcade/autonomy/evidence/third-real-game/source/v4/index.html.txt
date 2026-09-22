@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Ribbon Shift</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <p class="eyebrow">LOCAL SPATIAL PRACTICE</p>
+      <h1>RESTORE 3 MOSAICS</h1>
+      <p class="intro">Tap a row to slide right; tap a bottom arrow to slide down.</p>
+    </header>
+    <div class="goalbar" aria-label="Goal progress"><span>GOAL PROGRESS</span><strong data-ribbon-goal-progress>0/3</strong></div>
+    <div class="reference" aria-label="Target reference: tiles one through nine in reading order"><span class="mini" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span>TARGET: 1 → 9</span></div>
+    <section class="game-frame">
+      <canvas data-game-canvas tabindex="0" aria-label="Ribbon Shift mosaic board"></canvas>
+      <div class="hud">
+        <div class="stat">CURRENT SCORE <b data-game-score>0</b></div>
+        <div class="stat">DEVICE BEST / LOCAL PRACTICE <b data-ribbon-best>0</b></div>
+      </div>
+      <p class="instruction" data-game-status>Choose a ribbon handle, then shift it.</p>
+      <p class="elapsed" data-game-progress data-ribbon-elapsed>ELAPSED 0%</p>
+      <div class="controls"><button data-game-start>START PRACTICE</button><button data-game-pause>PAUSE</button><button data-game-resume>RESUME</button></div>
+      <div class="result" data-ribbon-result hidden><h2>MOSAICS RESTORED</h2><strong data-ribbon-result-count>3/3</strong><p data-ribbon-detail></p><button data-game-restart>REPLAY SAME WEAVE</button></div>
+      <p data-game-error hidden class="error"></p>
+    </section>
+  </main>
+  <script src="./core.js"></script>
+  <script src="./view/art.js"></script>
+  <script src="./gamekit.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

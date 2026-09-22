@@ -1,0 +1,1725 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260922-131",
+  "version": "v3",
+  "source_hash": "391b356239f8da2bdc6256df97756bc0ac926d36a368324b44da50b4624fe40f",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0",
+  "passed": false,
+  "hard_failures": [
+    {
+      "code": "product_goal",
+      "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+      "seed": 1
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'1'\n",
+      "seed": 1
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 1
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'3'\n",
+      "seed": 1
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 1
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'5'\n",
+      "seed": 1
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 1
+    },
+    {
+      "code": "product_goal",
+      "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+      "seed": 7
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'2'\n",
+      "seed": 7
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 7
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'6'\n",
+      "seed": 7
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 7
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'10'\n",
+      "seed": 7
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 7
+    },
+    {
+      "code": "product_goal",
+      "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+      "seed": 23
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'1'\n",
+      "seed": 23
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 23
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'3'\n",
+      "seed": 23
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 23
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'5'\n",
+      "seed": 23
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 23
+    },
+    {
+      "code": "product_goal",
+      "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+      "seed": 89
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'2'\n",
+      "seed": 89
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 89
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'4'\n",
+      "seed": 89
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 89
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'8'\n",
+      "seed": 89
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 89
+    },
+    {
+      "code": "product_goal",
+      "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_reduced_motion",
+      "message": "Expected values to be strictly equal:\n\n'true' !== 'false'\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'1'\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'3'\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'5'\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_goal",
+      "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_reduced_motion",
+      "message": "Expected values to be strictly equal:\n\n'false' !== 'true'\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'2'\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'4'\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'9'\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 4294967295
+    }
+  ],
+  "soft_failures": [],
+  "console_errors": [],
+  "page_errors": [],
+  "browser_cases": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow",
+        "terminal",
+        "resources",
+        "restart",
+        "pagehide",
+        "capture_no_writes"
+      ],
+      "passed": true,
+      "load_ms": 183,
+      "resources": [
+        {
+          "tick": 70,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 100,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 130,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 160,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 190,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 220,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 250,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 280,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 310,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 340,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 370,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 400,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 430,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 460,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 490,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 520,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 550,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 580,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 610,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 640,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 670,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 700,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 730,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 760,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 790,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 820,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 850,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 880,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 910,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 940,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 970,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1000,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1030,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1060,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1090,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1120,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1150,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1180,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1210,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1240,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1270,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1300,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1330,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1360,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1390,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1420,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1450,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1480,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1510,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1540,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1570,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1600,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1630,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1660,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1690,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1720,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1750,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1780,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1810,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1840,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1870,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1900,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1930,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1960,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1990,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2020,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2050,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2080,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2110,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2140,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2170,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2200,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2230,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2260,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2290,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2320,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2350,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2380,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2410,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2440,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2470,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2500,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2530,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2560,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2590,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2620,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2650,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2680,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2700,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2700,
+          "entities": 9,
+          "dom": 50
+        }
+      ],
+      "heap_growth": 295652
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow",
+        "terminal",
+        "resources",
+        "restart",
+        "pagehide",
+        "capture_no_writes"
+      ],
+      "passed": true,
+      "load_ms": 137,
+      "resources": [
+        {
+          "tick": 70,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 100,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 130,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 160,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 190,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 220,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 250,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 280,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 310,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 340,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 370,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 400,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 430,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 460,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 490,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 520,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 550,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 580,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 610,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 640,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 670,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 700,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 730,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 760,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 790,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 820,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 850,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 880,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 910,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 940,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 970,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1000,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1030,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1060,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1090,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1120,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1150,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1180,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1210,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1240,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1270,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1300,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1330,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1360,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1390,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1420,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1450,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1480,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1510,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1540,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1570,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1600,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1630,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1660,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1690,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1720,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1750,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1780,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1810,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1840,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1870,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1900,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1930,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1960,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1990,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2020,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2050,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2080,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2110,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2140,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2170,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2200,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2230,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2260,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2290,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2320,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2350,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2380,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2410,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2440,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2470,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2500,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2530,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2560,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2590,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2620,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2650,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2680,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2700,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2700,
+          "entities": 9,
+          "dom": 50
+        }
+      ],
+      "heap_growth": 420420
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow",
+        "terminal",
+        "resources",
+        "restart",
+        "pagehide",
+        "capture_no_writes"
+      ],
+      "passed": true,
+      "load_ms": 172,
+      "resources": [
+        {
+          "tick": 63,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 93,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 123,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 153,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 183,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 213,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 243,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 273,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 303,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 333,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 363,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 393,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 423,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 453,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 483,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 513,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 543,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 573,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 603,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 633,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 663,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 693,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 723,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 753,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 783,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 813,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 843,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 873,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 903,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 933,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 963,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 993,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1023,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1053,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1083,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1113,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1143,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1173,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1203,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1233,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1263,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1293,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1323,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1353,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1383,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1413,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1443,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1473,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1503,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1533,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1563,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1593,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1623,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1653,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1683,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1713,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1743,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1773,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1803,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1833,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1863,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1893,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1923,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1953,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 1983,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2013,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2043,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2073,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2103,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2133,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2163,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2193,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2223,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2253,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2283,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2313,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2343,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2373,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2403,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2433,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2463,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2493,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2523,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2553,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2583,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2613,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2643,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2673,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2700,
+          "entities": 9,
+          "dom": 50
+        },
+        {
+          "tick": 2700,
+          "entities": 9,
+          "dom": 50
+        }
+      ],
+      "heap_growth": -697512
+    }
+  ],
+  "screenshots": [
+    "common/viewport-390-entry.png",
+    "common/viewport-390-playing.png",
+    "common/viewport-390-midgame.png",
+    "common/viewport-390.png",
+    "common/viewport-768-entry.png",
+    "common/viewport-768-playing.png",
+    "common/viewport-768-midgame.png",
+    "common/viewport-768.png",
+    "common/viewport-1280-entry.png",
+    "common/viewport-1280-playing.png",
+    "common/viewport-1280-midgame.png",
+    "common/viewport-1280.png",
+    "product/viewport-390-entry.png",
+    "product/viewport-390-playing.png",
+    "product/viewport-390-midgame.png",
+    "product/viewport-390-progress.png",
+    "product/viewport-390-success.png",
+    "product/viewport-390-failure.png",
+    "product/viewport-1280-entry.png",
+    "product/viewport-1280-playing.png",
+    "product/viewport-1280-midgame.png",
+    "product/viewport-1280-progress.png",
+    "product/viewport-1280-success.png"
+  ],
+  "side_effects": [],
+  "duration_ms": 83844,
+  "scope": "isolated browser verification; no claim of fun, retention or production approval",
+  "isolation": {
+    "engine": "docker",
+    "image": "sha256:93cadd18fd84ebfa7b94957c212b0844c7c0a84450ca51f403b0af719a8d09a1",
+    "network": "none",
+    "readonly": true,
+    "cpu": 1,
+    "memory_mb": 1024,
+    "pids": 128
+  },
+  "product_evidence": {
+    "passed": false,
+    "report": "product/qa.json",
+    "seeds": [
+      1,
+      7,
+      23,
+      89,
+      2026,
+      4294967295
+    ],
+    "source_hash": "391b356239f8da2bdc6256df97756bc0ac926d36a368324b44da50b4624fe40f"
+  }
+}

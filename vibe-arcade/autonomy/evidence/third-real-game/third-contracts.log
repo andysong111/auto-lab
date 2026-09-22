@@ -1,0 +1,55 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> playjolt-autonomous-factory@0.2.0 test
+> node --test tests/contracts.test.cjs tests/orchestrator.test.cjs tests/rc.test.cjs control-plane/tests/control-plane.test.cjs commissioning/tests/*.test.cjs
+
+✔ a distinct 45-second proposal keeps its public-quality brief in the factory spec (2.969617ms)
+✔ known mechanic family is blocked: arena-survival-autofire (0.74319ms)
+✔ known mechanic family is blocked: tower-descent-rotation (0.542904ms)
+✔ known mechanic family is blocked: radial-pin-timing (0.435044ms)
+✔ known mechanic family is blocked: column-merge (0.388255ms)
+✔ known mechanic family is blocked: auto-runner (0.294376ms)
+✔ known mechanic family is blocked: single-button-reaction (0.291892ms)
+✔ too many controls and long sessions fail before paid generation (0.409747ms)
+✔ public title and slug collisions are blocked (0.838958ms)
+✔ release packet fails closed before READY_TO_SHIP (0.362007ms)
+✔ READY_TO_SHIP packet still does not authorize production without owner review adapter (0.343038ms)
+✔ paid commissioning rejects a missing or vague public-quality implementation contract (1.602353ms)
+✔ previously rejected Prism mechanic family cannot consume the second commissioning slot (0.205043ms)
+✔ third proposal is original family, concrete contract and passes before paid call (1.750252ms)
+✔ independent bounded reverse oracle returns shortest normal forward shift solutions (99.230615ms)
+✔ same validation twice pauses before third reservation and requires exact reviewed fingerprint (4.16653ms)
+✔ control policy fails closed for production shipping and intake (2.308648ms)
+✔ READY_TO_SHIP never becomes a production-ship action (4.321038ms)
+✔ critical failure becomes the only kind that requires owner action (2.023497ms)
+✔ ordinary rejected candidate is informational and does not wake owner (0.964248ms)
+✔ phase 2 metrics remain disabled and cannot classify a winner (0.381846ms)
+✔ dashboard escapes game text and is explicitly noindex (1.364461ms)
+✔ active limit and provider readiness can stop intake independently (1.058667ms)
+✔ manifest schema rejects omissions, traversal, wrong identity, excess repair budget and unknown state (4.966204ms)
+✔ every invalid state edge is rejected; terminal rejection cannot resurrect (9.656138ms)
+✔ repair requests cannot exceed five and carry protected paths plus concrete acceptance tests (0.550565ms)
+✔ symlinks, absolute paths and traversal cannot be imported (4.602776ms)
+✔ quality gate requires fresh exhaustive hard evidence; heuristics alone cannot pass (13.105778ms)
+✔ fixture core is DOM independent and deterministic for the same seed/input sequence (2.039611ms)
+✔ successful run is idempotent and resumption skips already verified build/QA (28.702693ms)
+✔ exactly five failed repairs -> REJECTED, with one history entry per attempt (50.231347ms)
+✔ fatal protected-scope failure rejects without calling repair (3.102419ms)
+✔ crash after build checkpoint resumes without rebuilding (8.362523ms)
+✔ crash during repair reuses attempt and operation id, never resets repair budget (13.328366ms)
+✔ dead process lock recovers; live and remote host locks remain protected (7.761403ms)
+✔ missing repair revision remains pending and consumes no repair budget (6.335652ms)
+✔ published build descriptor satisfies the shared manifest schema (8.106494ms)
+✔ release adapter cannot target main or production alias or protected paths (1.970708ms)
+✔ preview smoke matches every deployed runtime byte and only performs GET (28.679979ms)
+✔ orchestrator resumes preview wait and smoke failure without rebuilding or spending repair attempts (14.345363ms)
+✔ GitHub adapter creates only isolated blobs/branch/draft PR, resumes CI and reuses one commit (19.790736ms)
+✔ preview bypass is scoped to validated origin and absent from artifacts (14.065719ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 42
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 521.334129

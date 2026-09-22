@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260922-131",
+  "version": "v1",
+  "source_hash": "47a91868f9bddd3dbe01b655de0dadc9d18c36bb4fe2b9c0e5dc51670a91ed57",
+  "policy_hash": "355491eb9adbc7237dbbf3881ef861468e93f35744036d67d6cf6f12d41cbbd4",
+  "passed": false,
+  "hard_failures": [
+    {
+      "code": "product_playthrough",
+      "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+      "seed": 1
+    },
+    {
+      "code": "product_playthrough",
+      "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+      "seed": 7
+    },
+    {
+      "code": "product_playthrough",
+      "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+      "seed": 23
+    },
+    {
+      "code": "product_playthrough",
+      "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+      "seed": 89
+    },
+    {
+      "code": "product_playthrough",
+      "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+      "seed": 2026
+    },
+    {
+      "code": "product_playthrough",
+      "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_practice_best",
+      "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+      "seed": null
+    }
+  ],
+  "soft_failures": [],
+  "console_errors": [],
+  "page_errors": [],
+  "side_effects": [],
+  "browser_cases": [
+    {
+      "seed": 1,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [],
+      "boards": [],
+      "goal_progress": [
+        0
+      ],
+      "input_method": "CDP touch",
+      "state_injection": false,
+      "passed": false
+    },
+    {
+      "seed": 7,
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "checks": [],
+      "boards": [],
+      "goal_progress": [
+        0
+      ],
+      "input_method": "keyboard",
+      "state_injection": false,
+      "passed": false
+    },
+    {
+      "seed": 23,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [],
+      "boards": [],
+      "goal_progress": [
+        0
+      ],
+      "input_method": "CDP touch",
+      "state_injection": false,
+      "passed": false
+    },
+    {
+      "seed": 89,
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "checks": [],
+      "boards": [],
+      "goal_progress": [
+        0
+      ],
+      "input_method": "keyboard",
+      "state_injection": false,
+      "passed": false
+    },
+    {
+      "seed": 2026,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [],
+      "boards": [],
+      "goal_progress": [
+        0
+      ],
+      "input_method": "CDP touch",
+      "state_injection": false,
+      "passed": false
+    },
+    {
+      "seed": 4294967295,
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "checks": [],
+      "boards": [],
+      "goal_progress": [
+        0
+      ],
+      "input_method": "keyboard",
+      "state_injection": false,
+      "passed": false
+    }
+  ],
+  "screenshots": [
+    "viewport-390-failure.png",
+    "viewport-1280-failure.png"
+  ],
+  "duration_ms": 11941,
+  "scope": "Independent reverse-BFS shortest paths, actual keyboard/CDP touch, no game-state injection; public-quality evidence is not a fun score",
+  "capture": {
+    "file": "viewport-390-playthrough.webm",
+    "kind": "Accelerated normal-input QA capture, not human speed"
+  },
+  "isolation": {
+    "engine": "docker",
+    "image": "sha256:93cadd18fd84ebfa7b94957c212b0844c7c0a84450ca51f403b0af719a8d09a1",
+    "network": "none",
+    "readonly": true,
+    "cpu": 1,
+    "memory_mb": 1024,
+    "pids": 128
+  }
+}

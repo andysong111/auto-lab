@@ -1,0 +1,72 @@
+(() => {
+  'use strict';
+  const canvas = document.querySelector('[data-game-canvas]');
+  const goal = document.querySelector('[data-ribbon-goal-progress]');
+  const elapsed = document.querySelector('[data-ribbon-elapsed]');
+  const score = document.querySelector('[data-game-score]');
+  const best = document.querySelector('[data-ribbon-best]');
+  const status = document.querySelector('[data-game-status]');
+  const result = document.querySelector('[data-ribbon-result]');
+  const detail = document.querySelector('[data-ribbon-detail]');
+  let mediaQuery = null;
+  let mediaListener = null;
+
+  const setMotion = () => {
+    const reduced = !!(mediaQuery && mediaQuery.matches);
+    document.documentElement.dataset.reducedMotion = String(reduced);
+    if (globalThis.RibbonPresentation) globalThis.RibbonPresentation.setReducedMotion(reduced);
+  };
+
+  const draw = (ctx, snapshot, size) => {
+    globalThis.RibbonShiftArt.draw(ctx, snapshot, size);
+    const state = snapshot.state;
+    const localBest = Number.isFinite(snapshot.best) ? snapshot.best : 0;
+    // This is deliberately not the GameKit elapsed-progress node. Goal progress
+    // remains objective progress even when the kit refreshes elapsed progress.
+    goal.textContent = `${state.solved}/3`;
+    elapsed.textContent = `ELAPSED ${Math.min(100, Math.floor(state.tick / 27))}%`;
+    score.textContent = String(state.score);
+    best.textContent = String(localBest);
+    status.textContent = state.outcome === 'complete'
+      ? 'All three mosaics are restored. The completed weave is on display.'
+      : state.outcome === 'failure'
+        ? `Time ended with ${state.solved}/3 mosaics restored.`
+        : state.celebrate > 0
+          ? `Mosaic ${state.solved}/3 restored — preparing the next weave.`
+          : `Mosaic ${Math.min(3, state.stage + 1)} of 3 · choose a ribbon and shift it.`;
+    const finished = globalThis.RibbonShiftCore.terminal(state);
+    result.hidden = !finished;
+    if (finished) {
+      const complete = state.outcome === 'complete';
+      result.querySelector('h2').textContent = complete ? 'MOSAICS RESTORED' : 'TIME UP';
+      result.querySelector('[data-ribbon-result-count]').textContent = `${state.solved}/3`;
+      detail.textContent = complete
+        ? `All 3 mosaics restored · ${state.moves} shifts used · current score ${state.score} · device best ${localBest} local practice`
+        : `${state.solved}/3 restored · ${state.moves} shifts used · current score ${state.score} · device best ${localBest} local practice`;
+    }
+  };
+
+  const boot = (metadata) => {
+    mediaQuery = globalThis.matchMedia('(prefers-reduced-motion: reduce)');
+    mediaListener = setMotion;
+    mediaQuery.addEventListener('change', mediaListener);
+    // Set the live presentation preference before the first GameKit draw/capture.
+    setMotion();
+    globalThis.PlayJoltGameKit.create({ core: globalThis.RibbonShiftCore, draw, canvas, metadata });
+    globalThis.addEventListener('pagehide', () => {
+      if (mediaQuery && mediaListener) mediaQuery.removeEventListener('change', mediaListener);
+    }, { once: true });
+  };
+
+  fetch('./manifest.json')
+    .then((response) => {
+      if (!response.ok) throw new Error('practice manifest unavailable');
+      return response.json();
+    })
+    .then(boot)
+    .catch((error) => {
+      const errorNode = document.querySelector('[data-game-error]');
+      errorNode.hidden = false;
+      errorNode.textContent = `Could not start practice: ${error.message}`;
+    });
+})();

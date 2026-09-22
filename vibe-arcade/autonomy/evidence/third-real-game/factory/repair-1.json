@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260922-131",
+  "version": "v1",
+  "target_version": "v2",
+  "attempt": 1,
+  "max_repair_attempts": 5,
+  "source_hash": "47a91868f9bddd3dbe01b655de0dadc9d18c36bb4fe2b9c0e5dc51670a91ed57",
+  "qa_failures": [
+    {
+      "code": "html",
+      "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+      "viewport": 390
+    },
+    {
+      "code": "html",
+      "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+      "viewport": 768
+    },
+    {
+      "code": "html",
+      "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+      "viewport": 1280
+    },
+    {
+      "code": "product_playthrough",
+      "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+      "seed": 1
+    },
+    {
+      "code": "product_playthrough",
+      "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+      "seed": 7
+    },
+    {
+      "code": "product_playthrough",
+      "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+      "seed": 23
+    },
+    {
+      "code": "product_playthrough",
+      "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+      "seed": 89
+    },
+    {
+      "code": "product_playthrough",
+      "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+      "seed": 2026
+    },
+    {
+      "code": "product_playthrough",
+      "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_practice_best",
+      "message": "page.waitForFunction: Timeout 1500ms exceeded.",
+      "seed": null
+    }
+  ],
+  "allowed_scope": [
+    "core.js",
+    "app.js",
+    "view/**",
+    "style.css",
+    "index.html",
+    "README.md",
+    "assets/**"
+  ],
+  "protected_paths": [
+    "vibe-arcade/games/**",
+    "vibe-arcade/release/**",
+    "vibe-arcade/descent/**",
+    "vibe-arcade/core-pins/**",
+    "vibe-arcade/challengers/**",
+    "vibe-arcade/community/**",
+    "vibe-arcade/runtime/**",
+    "vibe-arcade/measurement/**",
+    "vibe-arcade/marketing/**",
+    "vibe-arcade/index.html",
+    "vibe-arcade/sitemap.xml",
+    "vibe-arcade/robots.txt",
+    "vibe-arcade/google*.html",
+    "loopjolt-backend/**",
+    ".github/**",
+    "**/.env*",
+    "**/secrets/**",
+    "manifest.json",
+    "gamekit.js"
+  ],
+  "acceptance_tests": [
+    "manifest schema",
+    "all three real browser viewports",
+    "no console/page errors",
+    "start/progress/input/interaction",
+    "terminal/restart/pause/resume/hidden",
+    "no side effects",
+    "source and resource bounds"
+  ],
+  "operation_id": "GAME-20260922-131/repair/1"
+}

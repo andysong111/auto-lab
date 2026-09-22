@@ -1,0 +1,47 @@
+(() => {
+  'use strict';
+  const canvas = document.querySelector('[data-game-canvas]');
+  const goal = document.querySelector('[data-ribbon-goal-progress]');
+  const score = document.querySelector('[data-game-score]');
+  const best = document.querySelector('[data-ribbon-best]');
+  const status = document.querySelector('[data-game-status]');
+  const result = document.querySelector('[data-ribbon-result]');
+  const detail = document.querySelector('[data-ribbon-detail]');
+  let reduceQuery;
+  let removeMedia = () => {};
+  const syncMotion = () => {
+    const reduced = !!reduceQuery.matches;
+    document.documentElement.dataset.reducedMotion = String(reduced);
+    if (globalThis.RibbonPresentation) globalThis.RibbonPresentation.setReducedMotion(reduced);
+  };
+  const update = (ctx, snapshot, size) => {
+    globalThis.RibbonShiftArt.draw(ctx, snapshot, size);
+    const state = snapshot.state;
+    const shownBest = Number.isFinite(snapshot.best) ? snapshot.best : 0;
+    goal.textContent = `${state.solved}/3`;
+    score.textContent = String(state.score);
+    best.textContent = String(shownBest);
+    status.textContent = state.outcome === 'complete' ? 'All mosaics aligned.' : `Stage ${Math.min(3, state.stage + 1)} · elapsed ${Math.floor(state.tick / 27)}%`;
+    const done = globalThis.RibbonShiftCore.terminal(state);
+    result.hidden = !done;
+    if (done) {
+      const complete = state.outcome === 'complete';
+      result.querySelector('h2').textContent = complete ? 'MOSAICS RESTORED' : 'TIME UP';
+      detail.textContent = `${state.solved}/3 restored · ${state.moves} shifts · current score ${state.score} · device best ${shownBest} local practice`;
+    }
+  };
+  const boot = (metadata) => {
+    const kit = globalThis.PlayJoltGameKit.create({core: globalThis.RibbonShiftCore, draw: update, canvas, metadata});
+    reduceQuery = matchMedia('(prefers-reduced-motion: reduce)');
+    syncMotion();
+    const listener = () => syncMotion();
+    reduceQuery.addEventListener('change', listener);
+    removeMedia = () => reduceQuery.removeEventListener('change', listener);
+    addEventListener('pagehide', removeMedia, {once:true});
+    return kit;
+  };
+  fetch('./manifest.json').then((r) => r.json()).then(boot).catch((error) => {
+    document.querySelector('[data-game-error]').hidden = false;
+    document.querySelector('[data-game-error]').textContent = `Could not start practice: ${error.message}`;
+  });
+})();

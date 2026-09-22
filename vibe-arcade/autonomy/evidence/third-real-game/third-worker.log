@@ -1,0 +1,68 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> playjolt-autonomous-factory@0.2.0 test:worker
+> node --test worker/tests/providers.test.cjs worker/tests/worker.test.cjs
+
+✔ successful mock output is validated, persisted and deduplicated by immutable operation ID (127.379697ms)
+✔ reject malformed JSON (4.375979ms)
+✔ reject unexpected metadata (2.154369ms)
+✔ reject path escape (2.029735ms)
+✔ reject factory-owned kit (3.300377ms)
+✔ reject CDN (4.035906ms)
+✔ reject DOM core (3.37004ms)
+✔ reject missing files (2.981375ms)
+✔ all paths are validated before any file write; existing workspace symlinks are blocked (2.424921ms)
+✔ provider timeout is bounded and unknown submission is never re-posted (115.603099ms)
+✔ known response ID survives manager restart; retry is retrieval, not a second generation (74.677713ms)
+✔ network failure and model failure remain distinct; cached model failure is not called again (77.4649ms)
+✔ budget: game call limit (73.460947ms)
+✔ budget: daily call limit (76.147745ms)
+✔ budget: input token limit (32.527717ms)
+✔ budget: output token limit (34.363431ms)
+✔ budget: game cost limit (31.797557ms)
+✔ budget: daily cost limit (34.206183ms)
+✔ wall clock budget includes downtime and refuses new calls after expiry (67.586674ms)
+✔ reported usage exceeding reservation permanently pauses without replaying provider (68.608376ms)
+✔ prices require explicit recent estimates and invalid budgets/concurrency are rejected (0.433181ms)
+✔ repair compiler preserves original Factory request, QA identity and narrows CSS-only repairs (4.832515ms)
+✔ OpenAI is unavailable without key/model or explicit paid-call authorization; no fetch occurs (0.217141ms)
+✔ OpenAI Responses uses strict file output, durable background ID, no tools, fixed official origin and GET resumption (5.582987ms)
+✔ OpenAI HTTP 401 is classified and never SDK-retried (0.542003ms)
+✔ OpenAI HTTP 429 is classified and never SDK-retried (0.252374ms)
+✔ OpenAI HTTP 503 is classified and never SDK-retried (0.254046ms)
+✔ missing provider output is model failure, not a retryable network error (37.4161ms)
+✔ ledger storage failure pauses before any provider submission (32.396649ms)
+✔ repair scope honors additional protections in the original Factory request (4.220955ms)
+✔ maximum file/output size is rejected before applying any bytes (2.438221ms)
+✔ DOM-core rejection records exact line and quarantines files without applying them (34.845454ms)
+✔ repair compiler receives quarantined rejected source and validation guidance when no accepted workspace exists (32.988736ms)
+✔ quarantine excludes unsafe output paths from future repair context (35.270239ms)
+✔ trusted beforeProvider hold blocks generation and budget reservation (59.790335ms)
+✔ worker repairs rejected source from quarantine with precise validation context (156.488764ms)
+✔ worker mock build reuses Factory transitions and remains unlisted RC_READY (121.754738ms)
+✔ intake_disabled blocks all provider and isolation calls (2.340866ms)
+✔ factory_kill_switch blocks all provider and isolation calls (1.509015ms)
+✔ provider unavailable and isolation unavailable both fail before reserving/charging or changing Factory (72.105835ms)
+✔ budget pause preserves BUILDING checkpoint and consumes no repair attempt (77.736171ms)
+✔ live kill switch aborts in-flight work and no second generation is submitted (295.306111ms)
+✔ global worker lock prevents overlapping jobs/calls (43.650823ms)
+✔ bounded polling backs off and stops after configured polls or intake disable (409.719589ms)
+✔ shutdown signal interrupts pending provider, preserving resumable Factory state (88.277971ms)
+✔ actual worker process crash after response checkpoint recovers stale locks and resumes GET without new submission (312.939441ms)
+✔ fatal path escape rejects with existing exception policy; no repair call (101.242908ms)
+✔ RC remains behind both worker opt-in and current Control Plane release switch (200.524401ms)
+✔ container invocation has only candidate/input/artifact mounts, no network, secrets or host execution fallback (0.943226ms)
+✔ Control Plane reads worker pause overlay without changing Factory state or raising routine owner alerts (80.423505ms)
+✔ Docker report boundary: failed game report (5.512191ms)
+✔ Docker report boundary: infrastructure report (4.639109ms)
+✔ Docker report boundary: crash after pass report (4.290463ms)
+✔ Docker report boundary: mismatched source evidence (3.764705ms)
+✔ injected real providers still require verified prices; zero-price mocks require explicit test mode (79.214811ms)
+ℹ tests 55
+ℹ suites 0
+ℹ pass 55
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2338.48053

@@ -1,0 +1,29 @@
+{
+  "operation_id": "GAME-20260922-131/repair/3",
+  "source_hash": "ea1853d53b51ad8b15f9f0364dd2d8f2033aae47a082fe4dec3b5000fa63d417",
+  "changed_files": [
+    "app.js",
+    "index.html",
+    "manifest.json",
+    "style.css",
+    "view/art.js"
+  ],
+  "cause": "Separated immutable objective progress from GameKit elapsed progress, removed the overlapping canvas restoration banner, and initialized/reconciled reduced-motion presentation before first kit draw and on live preference changes.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Verify [data-ribbon-goal-progress] remains literal objective progress (0/3 through 3/3) while GameKit owns the separate [data-game-progress] elapsed node.",
+    "provider-suggested (not executed): Verify a completion transition uses only tile outlines and status DOM text, with no canvas text drawn over tile numbers.",
+    "provider-suggested (not executed): Verify RibbonPresentation.snapshot().reducedMotion and particles update immediately after a prefers-reduced-motion change."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_04979a75ceea0f21006ab281dd608887d1a7c2a4ab1db1bf0b",
+    "usage": {
+      "input_tokens": 16716,
+      "output_tokens": 5021,
+      "estimated_cost": 0.157242
+    },
+    "estimated_cost": 0.157242,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

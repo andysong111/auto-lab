@@ -1,0 +1,9 @@
+{
+  "game_id": "GAME-20260922-131",
+  "passed": true,
+  "actual_validation_failures": 0,
+  "cases": [],
+  "ledger_unchanged": true,
+  "ledger_sha256": "0bbe4adf578b81f48cca608d16ef6a7a3cf3d3a1145423ac7c60fce93c910583",
+  "scope": "No real output validation failure occurred; conditional behavior covered by mock provider/worker tests."
+}

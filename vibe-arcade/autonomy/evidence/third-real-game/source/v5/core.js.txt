@@ -1,0 +1,174 @@
+(() => {
+  'use strict';
+  const TARGET = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+  const code = (board) => board.join('');
+  const shift = (board, operation, reverse) => {
+    const out = board.slice();
+    const line = operation % 3;
+    const offset = reverse ? 2 : 1;
+    if (operation < 3) {
+      for (let i = 0; i < 3; i++) out[line * 3 + ((i + offset) % 3)] = board[line * 3 + i];
+    } else {
+      for (let i = 0; i < 3; i++) out[((i + offset) % 3) * 3 + line] = board[i * 3 + line];
+    }
+    return out;
+  };
+
+  const distances = new Map();
+  const layers = [[], [], [], [], []];
+  const queue = [TARGET];
+  distances.set(code(TARGET), 0);
+  for (let cursor = 0; cursor < queue.length; cursor++) {
+    const board = queue[cursor];
+    const distance = distances.get(code(board));
+    layers[distance].push(board);
+    if (distance === 4) continue;
+    for (let operation = 0; operation < 6; operation++) {
+      const prior = shift(board, operation, true);
+      const id = code(prior);
+      if (!distances.has(id)) {
+        distances.set(id, distance + 1);
+        queue.push(prior);
+      }
+    }
+  }
+
+  const hasMixedShortestRoute = (board, distance, usedAxes) => {
+    if (distance === 0) return usedAxes === 3;
+    for (let operation = 0; operation < 6; operation++) {
+      const next = shift(board, operation, false);
+      if (distances.get(code(next)) === distance - 1 && hasMixedShortestRoute(next, distance - 1, usedAxes | (operation < 3 ? 1 : 2))) return true;
+    }
+    return false;
+  };
+  const choices = [[], [], [], [], []];
+  for (let depth = 2; depth <= 4; depth++) {
+    choices[depth] = layers[depth].filter((board) => hasMixedShortestRoute(board, depth, 0));
+  }
+
+  const generator = (seed) => {
+    let value = (seed >>> 0) || 0x9e3779b9;
+    return () => {
+      value = (value + 0x6d2b79f5) >>> 0;
+      let z = value;
+      z = Math.imul(z ^ (z >>> 15), z | 1);
+      z ^= z + Math.imul(z ^ (z >>> 7), z | 61);
+      return ((z ^ (z >>> 14)) >>> 0) / 4294967296;
+    };
+  };
+  const boardsFor = (seed) => {
+    const next = generator(seed);
+    return [2, 3, 4].map((depth) => choices[depth][Math.floor(next() * choices[depth].length)].slice());
+  };
+  const restored = (board) => board.every((tile, index) => tile === index);
+  const effect = (state, kind, ttl) => {
+    state.effects.push({ kind, ttl });
+    if (state.effects.length > 32) state.effects.shift();
+  };
+  const move = (state, operation) => {
+    state.board = shift(state.board, operation, false);
+    state.moves += 1;
+    state.stageMoves += 1;
+    state.score += 10;
+    state.interactions += 1;
+    effect(state, 'shift', 10);
+    if (restored(state.board)) {
+      state.solved += 1;
+      state.score += 200;
+      state.celebrate = 30;
+      effect(state, 'restore', 30);
+      if (state.solved === 3) state.outcome = 'complete';
+    }
+  };
+  const touchOperation = (pointer) => {
+    if (!pointer || !Number.isFinite(pointer.x) || !Number.isFinite(pointer.y)) return -1;
+    const x = pointer.x;
+    const y = pointer.y;
+    if (x >= 0.79 && x <= 1 && y >= 0.10 && y < 0.82) {
+      const row = Math.floor((y - 0.10) / 0.24);
+      return row >= 0 && row < 3 ? row : -1;
+    }
+    if (x >= 0.06 && x < 0.78 && y >= 0.82 && y <= 1) {
+      const column = Math.floor((x - 0.06) / 0.24);
+      return column >= 0 && column < 3 ? column + 3 : -1;
+    }
+    if (x >= 0.06 && x < 0.78 && y >= 0.10 && y < 0.82) {
+      const row = Math.floor((y - 0.10) / 0.24);
+      return row >= 0 && row < 3 ? row : -1;
+    }
+    return -1;
+  };
+  const create = (seed) => {
+    const boards = boardsFor(seed >>> 0);
+    return {
+      seed: seed >>> 0,
+      boards,
+      board: boards[0].slice(),
+      stage: 0,
+      solved: 0,
+      moves: 0,
+      stageMoves: 0,
+      cursor: 0,
+      outcome: null,
+      tick: 0,
+      score: 0,
+      interactions: 0,
+      effects: [],
+      celebrate: 0,
+      actionHeld: false,
+      pointerHeld: false,
+      lastX: 0
+    };
+  };
+  const step = (state, input) => {
+    const controls = input || {};
+    state.tick += 1;
+    state.effects = state.effects.filter((item) => {
+      item.ttl -= 1;
+      return item.ttl > 0;
+    });
+
+    const x = Number.isFinite(controls.x) ? controls.x : 0;
+    if (x === 1 && state.lastX !== 1) state.cursor = (state.cursor + 1) % 6;
+    if (x === -1 && state.lastX !== -1) state.cursor = (state.cursor + 5) % 6;
+    state.lastX = x;
+
+    const pointer = controls.pointer || null;
+    const pointerEdge = !!pointer && !state.pointerHeld;
+    state.pointerHeld = !!pointer;
+    const action = !!controls.action;
+    const actionEdge = action && !state.actionHeld;
+    state.actionHeld = action;
+
+    if (!state.outcome && state.celebrate === 0) {
+      const operation = pointerEdge ? touchOperation(pointer) : (actionEdge ? state.cursor : -1);
+      if (operation >= 0) move(state, operation);
+    }
+    if (state.celebrate > 0) {
+      state.celebrate -= 1;
+      if (state.celebrate === 0 && state.solved < 3) {
+        state.stage = state.solved;
+        state.board = state.boards[state.stage].slice();
+        state.stageMoves = 0;
+      }
+    }
+    if (!state.outcome && state.tick >= 2700) state.outcome = 'failure';
+    return state;
+  };
+  const observe = (state) => ({
+    tick: state.tick,
+    score: state.score,
+    progress: Math.floor(state.tick / 27),
+    interactions: state.interactions,
+    entities: 9 + state.effects.length,
+    board: state.board.slice(),
+    stage: state.stage,
+    solved: state.solved,
+    moves: state.moves,
+    stageMoves: state.stageMoves,
+    cursor: state.cursor,
+    outcome: state.outcome
+  });
+  const terminal = (state) => (state.outcome === 'complete' && state.tick >= 900) || (state.outcome === 'failure' && state.tick >= 2700);
+  globalThis.RibbonShiftCore = { create, step, observe, terminal };
+})();

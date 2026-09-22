@@ -1,0 +1,960 @@
+{
+  "operation_id": "GAME-20260922-131/repair/3",
+  "game_id": "GAME-20260922-131",
+  "version": "v4",
+  "mode": "repair",
+  "immutable_spec": {
+    "game_id": "GAME-20260922-131",
+    "generation": 1,
+    "title": "Ribbon Shift",
+    "slug": "ribbon-shift",
+    "genre": "spatial puzzle",
+    "mechanic_family": "toroidal-strip-permutation",
+    "controls": [
+      "Left/Right: choose a row or column handle",
+      "Space: slide the selected strip"
+    ],
+    "mobile_controls": [
+      "Tap a row or its arrow to slide right",
+      "Tap a bottom arrow to slide its column down"
+    ],
+    "max_repair_attempts": 5,
+    "qa": {
+      "seed": 23,
+      "terminal_ms": 46000,
+      "keyboard": {
+        "key": "ArrowRight",
+        "observation": "state.cursor"
+      },
+      "pointer": {
+        "observation": "state.moves"
+      }
+    },
+    "implementation_contract": {
+      "goal": "Visible entry headline RESTORE 3 MOSAICS, a small target tile reference and a large START PRACTICE button. Keep [data-ribbon-goal-progress] visible from entry to result, 0/3 then1/3 then2/3 then3/3. First board must visibly be scrambled. No account, ranking or long tutorial. One short instruction: Tap a row to slide right; tap a bottom arrow to slide down.",
+      "progression": "Three sequential 3x3 tile boards. Each has tiles numbered1..9 (canonical core values0..8), original woven procedural patterns and redundant symbols/colors. Goal is row-major0..8, never merging. A move cycles exactly one full row one place RIGHT or one column one place DOWN with wrap. Match the target to restore a mosaic. Subsequent boards appear after a short bounded celebration (<=500ms). Show restored mosaics, current board and elapsed time separately; core observe.progress is floor(tick/27), labeled elapsed %, NOT objective progress. observe.score rewards actual tile shifts modestly and board restoration substantially; score is not invented by elapsed time. A normal run ends at2700 ticks (45sec) if incomplete. Solving all three earlier gives a stable completion celebration while tick continues to at least900 (15sec); NEVER stop ticking before minimum terminal time. terminal returns boolean after >=900 for complete or>=2700 for failure.",
+      "presentation": "Clean original textile/kinetic visual identity, dark ink background with warm coral, mint and gold ribbons. Strong hierarchy: objective/progress, current score/device best, target/reference, large square board, controls. Animate whole strips sliding and wrapping, tile alignment pulses and mosaic completion stamps; cap transient effects32. View is drawing-only. App may wrap draw to update DOM. CURRENT SCORE and DEVICE BEST / LOCAL PRACTICE are visible separate labels. Render best from snapshot.best, never custom persistence. Use [data-ribbon-best] numeric text, [data-ribbon-result] result panel, [data-ribbon-detail] breakdown. Omit audio entirely for this commissioning; use visible input/solve feedback.",
+      "originality": "Original toroidal strip permutation game with procedural woven tiles, not an optics/beam/receiver game and not cargo, airships or resource allocation. No Prism/Cloud code, art, design reuse. No arena combat, falling tower, radial pin, column merge, runner, reaction or timing mechanic. Astra V3 and Deep Descent only inform goal clarity, mobile feedback and complete results. No external assets, CDN, dependencies or copyrighted characters.",
+      "difficulty": "Every board is solvable. Use a bounded reverse BFS from canonical target with six legal operations (3 rows right,3 columns down), or another bounded equivalent exact method, to choose deterministic seeded scrambles with MINIMUM forward solution lengths exactly2,3,4 for stages0,1,2. Reverse of one shift is two forward shifts; take care BFS predecessor direction! Later stages require intertwined row and column decisions, not time/HP increase. At least one shortest solution per board uses both axes. Do not encode QA seeds specially. Seed selection must vary boards; six seeds1,7,23,89,2026,4294967295 should produce at least4 distinct three-board sequences. Expose plain state.board array9 containing0..8, state.stage0..2 (retain2 after completion), state.solved0..3, state.moves cumulative, state.stageMoves, state.cursor0..5, state.outcome null or complete/failure. Do not expose a special QA win/solver hook; QA independently searches and uses real inputs. Bounded precomputation, no runaway graph growth. Normal-input completion must be possible on all seeds, with later required moves greater than earlier. Cursor or time does not count toward difficulty actions.",
+      "mobile_readability": "390px is first-class. Square canvas, at least300CSSpx wide on390viewport. Board coordinates normalized left=.06,top=.10,cell=.24 (3x3 ends x=.78,y=.82). Row handles right at(.88,.22/.46/.70), column handles below at(.18/.42/.66,.90). Tap a board cell or its right handle cycles that row RIGHT. Tap bottom handle cycles its column DOWN. These fixed hit regions let normal mobile controls be independently tested. Core reads input.pointer and input.action once per discrete tap, not every held tick, and does NOT also apply keyboard action for the same pointer tap. Six focusable conceptual handles cursor0..2 rows,3..5 columns; ArrowRight increments cursor modulo6 ONCE per key press edge (holding200ms must not return cursor to original), ArrowLeft decrements, Space shifts focused strip ONCE. Keep all important text DOM or >=12CSSpx and every tile number large (>=20CSSpx), no labels over dynamic tiles. Separate touch arrows >=44CSSpx. No horizontal or internal label overlap. Any extra text under board must fit viewport width.",
+      "result": "At finished complete show MOSAICS RESTORED, large3/3 seal, current score, device best/local practice, moves used and restored boards, clear replay button using data-game-restart. Failure headline TIME UP with actual0..2/3 restored, score, best and replay; do not present failure as completion. [data-ribbon-result] hidden until GameKit finished. Device best visible even on entry and survives replay and ordinary page reload using GameKit snapshot.best. Capture/QA may update in-memory best only; no record/network writes. New stage and restart reset appropriate board state; replay uses original deterministic seed. Maintain visible goal progress through result.",
+      "reduced_motion": "Use matchMedia(prefers-reduced-motion: reduce) at initial load AND its change event during active play. Set document.documentElement data-reduced-motion to true/false from actual preference and let drawing consume this live flag. Under reduce, disable translation/particles/shake/looping CSS animations; use immediate strip placement and static outline/check feedback. Expose read-only globalThis.RibbonPresentation.snapshot() returning {reducedMotion,particles,activeVoices:0}; particles must be zero when reduced and always<=32. This reports real presentation state, never canonical game state. Remove listener on pagehide/dispose. Never override GameDiagnostics. No WebAudio contexts/voices for this run.",
+      "runtime": "Use existing GameKit exactly. core exports globalThis.RibbonShiftCore={create,step,observe,terminal}; no browser identifiers anywhere in core including comments. step(state,input) mutates one1/60tick, no dt arg. observe returns finite tick/score/progress/interactions/entities (9 tiles + real bounded effects). app fetches ./manifest.json and calls PlayJoltGameKit.create({core:RibbonShiftCore,draw,canvas,metadata}). Read diagnostics through returned kit.diagnostics.snapshot or supplied draw snapshot, never kit.snapshot. Render receives (ctx,snapshot,{width,height}), canonical state is snapshot.state. GameKit supplied files/required data-game DOM hooks must remain. No custom RAF, no custom input listeners replacing GameKit. Do not stop tick in success celebration. Do not mutate cloned draw snapshot. Ensure selection cursor and touch moves observation fields are present from idle."
+    }
+  },
+  "quality_baselines": [
+    {
+      "game": "astra-sentinel-v3",
+      "role": "quality only; clear entry, complete lifecycle, polished feedback; no copying"
+    },
+    {
+      "game": "deep-descent",
+      "role": "quality only; mobile control, visible progression, terminal/restart, bounded effects; no copying"
+    }
+  ],
+  "gamekit_contract": {
+    "version": "gamekit-1",
+    "factory_supplied": [
+      "gamekit.js",
+      "manifest.json"
+    ],
+    "files": {
+      "core.js": "DOM-free create(seed), step(state,input), observe(state), terminal(state). Export with globalThis.YourCore = {create,step,observe,terminal}; NEVER use window even for export. Core source is statically checked for document/window/localStorage/fetch identifiers. Mutate only supplied state; no time/random globals.",
+      "app.js": "Fetch ./manifest.json, then PlayJoltGameKit.create({core,draw,canvas:document.querySelector('[data-game-canvas]'),metadata}). No private game loop or replacement diagnostics.",
+      "view/art.js": "draw(ctx,snapshot,{width,height}); drawing only. snapshot.state is cloned; do not mutate canonical state.",
+      "index.html": "Load ./core.js, ./view/art.js, ./gamekit.js, ./app.js in that order; local ./style.css. Include noindex,nofollow and viewport meta.",
+      "style.css": "Responsive canvas/container at 390x844,768x1024,1280x800; touch-action:none on canvas. No horizontal overflow.",
+      "README.md": "Original mechanic, controls, deterministic behavior and play/replay instructions."
+    },
+    "required_dom": [
+      "canvas[data-game-canvas][tabindex=\"0\"]",
+      "button[data-game-start]",
+      "button[data-game-pause]",
+      "button[data-game-resume]",
+      "button[data-game-restart]",
+      "[data-game-status]",
+      "[data-game-score]",
+      "[data-game-progress]",
+      "[data-game-error][hidden]"
+    ],
+    "input": {
+      "x": "-1/0/1 from arrows or A/D",
+      "y": "-1/0/1 from arrows or W/S",
+      "action": "one simulation tick from Space or touch/pointer",
+      "pointer": "null or normalized {x,y} while touching canvas"
+    },
+    "observe": "Return finite {tick,score,progress,interactions,entities}; tick advances each 1/60 step. Count actual gameplay interaction/collision/damage. Respect the immutable spec.qa keyboard/pointer observation paths.",
+    "lifecycle": "GameKit owns boot/start/pause/resume/finish/restart, responsive canvas, visibility/pagehide, error boundary, local practice best and GameDiagnostics.snapshot(). Do not override GameDiagnostics or GameKit.",
+    "limits": {
+      "load_ms": 8000,
+      "case_timeout_ms": 45000,
+      "run_timeout_ms": 150000,
+      "freeze_ms": 1200,
+      "max_entities": 512,
+      "max_dom_nodes": 2000,
+      "max_heap_growth_bytes": 67108864,
+      "overflow_px": 1,
+      "severe_overflow_px": 16,
+      "max_terminal_ms": 120000
+    },
+    "source_hash": "883b869e99e7aabfad1b4d1383de9954dfc479bac911e84430e18d07a210e777"
+  },
+  "allowed_paths": [
+    "core.js",
+    "app.js",
+    "view/art.js",
+    "style.css",
+    "index.html",
+    "README.md",
+    "view/**",
+    "assets/**"
+  ],
+  "protected_paths": [
+    "vibe-arcade/games/**",
+    "vibe-arcade/release/**",
+    "vibe-arcade/descent/**",
+    "vibe-arcade/core-pins/**",
+    "vibe-arcade/challengers/**",
+    "vibe-arcade/community/**",
+    "vibe-arcade/runtime/**",
+    "vibe-arcade/measurement/**",
+    "vibe-arcade/marketing/**",
+    "vibe-arcade/index.html",
+    "vibe-arcade/sitemap.xml",
+    "vibe-arcade/robots.txt",
+    "vibe-arcade/google*.html",
+    "loopjolt-backend/**",
+    ".github/**",
+    "**/.env*",
+    "**/secrets/**",
+    "manifest.json",
+    "gamekit.js"
+  ],
+  "budget": {
+    "per_game": {
+      "max_provider_calls": 6,
+      "max_input_tokens": 500000,
+      "max_output_tokens": 108000,
+      "max_estimated_cost": 2,
+      "max_wall_clock_minutes": 60
+    },
+    "request": {
+      "max_input_tokens": 100000,
+      "max_output_tokens": 18000,
+      "timeout_ms": 300000,
+      "max_response_bytes": 1048576,
+      "max_file_bytes": 131072,
+      "max_files": 24
+    }
+  },
+  "previous_failures": [
+    {
+      "code": "product_goal",
+      "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+      "seed": 1
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'1'\n",
+      "seed": 1
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 1
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'3'\n",
+      "seed": 1
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 1
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'5'\n",
+      "seed": 1
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 1
+    },
+    {
+      "code": "product_goal",
+      "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+      "seed": 7
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'2'\n",
+      "seed": 7
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 7
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'6'\n",
+      "seed": 7
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 7
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'10'\n",
+      "seed": 7
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 7
+    },
+    {
+      "code": "product_goal",
+      "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+      "seed": 23
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'1'\n",
+      "seed": 23
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 23
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'3'\n",
+      "seed": 23
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 23
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'5'\n",
+      "seed": 23
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 23
+    },
+    {
+      "code": "product_goal",
+      "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+      "seed": 89
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'2'\n",
+      "seed": 89
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 89
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'4'\n",
+      "seed": 89
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 89
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'8'\n",
+      "seed": 89
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 89
+    },
+    {
+      "code": "product_goal",
+      "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_reduced_motion",
+      "message": "Expected values to be strictly equal:\n\n'true' !== 'false'\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'1'\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'3'\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'5'\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 2026
+    },
+    {
+      "code": "product_goal",
+      "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_reduced_motion",
+      "message": "Expected values to be strictly equal:\n\n'false' !== 'true'\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'2'\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'4'\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_progress",
+      "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'9'\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "product_readability",
+      "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+      "seed": 4294967295
+    }
+  ],
+  "repair_request": {
+    "schema_version": 1,
+    "game_id": "GAME-20260922-131",
+    "version": "v3",
+    "target_version": "v4",
+    "attempt": 3,
+    "max_repair_attempts": 5,
+    "source_hash": "391b356239f8da2bdc6256df97756bc0ac926d36a368324b44da50b4624fe40f",
+    "qa_failures": [
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 1
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'1'\n",
+        "seed": 1
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 1
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'3'\n",
+        "seed": 1
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 1
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'5'\n",
+        "seed": 1
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 1
+      },
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 7
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'2'\n",
+        "seed": 7
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 7
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'6'\n",
+        "seed": 7
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 7
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'10'\n",
+        "seed": 7
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 7
+      },
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 23
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'1'\n",
+        "seed": 23
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 23
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'3'\n",
+        "seed": 23
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 23
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'5'\n",
+        "seed": 23
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 23
+      },
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 89
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'2'\n",
+        "seed": 89
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 89
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'4'\n",
+        "seed": 89
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 89
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'8'\n",
+        "seed": 89
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 89
+      },
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_reduced_motion",
+        "message": "Expected values to be strictly equal:\n\n'true' !== 'false'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'1'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'3'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'5'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_reduced_motion",
+        "message": "Expected values to be strictly equal:\n\n'false' !== 'true'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'2'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'4'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'9'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 4294967295
+      }
+    ],
+    "allowed_scope": [
+      "core.js",
+      "app.js",
+      "view/**",
+      "style.css",
+      "index.html",
+      "README.md",
+      "assets/**"
+    ],
+    "protected_paths": [
+      "vibe-arcade/games/**",
+      "vibe-arcade/release/**",
+      "vibe-arcade/descent/**",
+      "vibe-arcade/core-pins/**",
+      "vibe-arcade/challengers/**",
+      "vibe-arcade/community/**",
+      "vibe-arcade/runtime/**",
+      "vibe-arcade/measurement/**",
+      "vibe-arcade/marketing/**",
+      "vibe-arcade/index.html",
+      "vibe-arcade/sitemap.xml",
+      "vibe-arcade/robots.txt",
+      "vibe-arcade/google*.html",
+      "loopjolt-backend/**",
+      ".github/**",
+      "**/.env*",
+      "**/secrets/**",
+      "manifest.json",
+      "gamekit.js"
+    ],
+    "acceptance_tests": [
+      "manifest schema",
+      "all three real browser viewports",
+      "no console/page errors",
+      "start/progress/input/interaction",
+      "terminal/restart/pause/resume/hidden",
+      "no side effects",
+      "source and resource bounds"
+    ],
+    "operation_id": "GAME-20260922-131/repair/3"
+  },
+  "qa_evidence": {
+    "passed": false,
+    "hard_failures": [
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 1
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'1'\n",
+        "seed": 1
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 1
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'3'\n",
+        "seed": 1
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 1
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'5'\n",
+        "seed": 1
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 1
+      },
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 7
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'2'\n",
+        "seed": 7
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 7
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'6'\n",
+        "seed": 7
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 7
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'10'\n",
+        "seed": 7
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 7
+      },
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 23
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'1'\n",
+        "seed": 23
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 23
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'3'\n",
+        "seed": 23
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 23
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'5'\n",
+        "seed": 23
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 23
+      },
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 89
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'2'\n",
+        "seed": 89
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 89
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'4'\n",
+        "seed": 89
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 89
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'8'\n",
+        "seed": 89
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 89
+      },
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_reduced_motion",
+        "message": "Expected values to be strictly equal:\n\n'true' !== 'false'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'1'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'3'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'5'\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 2026
+      },
+      {
+        "code": "product_goal",
+        "message": "The input did not match the regular expression /0\\s*\\/\\s*3/. Input:\n\n'0'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_reduced_motion",
+        "message": "Expected values to be strictly equal:\n\n'false' !== 'true'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /1\\s*\\/\\s*3/. Input:\n\n'2'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /2\\s*\\/\\s*3/. Input:\n\n'4'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAIC RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAIC RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_progress",
+        "message": "The input did not match the regular expression /3\\s*\\/\\s*3/. Input:\n\n'9'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "product_readability",
+        "message": "canvas label overlaps: [{\"a\":\"4\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"5\",\"b\":\"MOSAICS RESTORED\"},{\"a\":\"6\",\"b\":\"MOSAICS RESTORED\"}]\n\n3 !== 0\n",
+        "seed": 4294967295
+      }
+    ],
+    "console_errors": [],
+    "page_errors": [],
+    "browser_cases": [
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "checks": [
+          "html",
+          "assets",
+          "start",
+          "real_clock",
+          "keyboard",
+          "touch",
+          "progress",
+          "interaction",
+          "pause",
+          "resume",
+          "hidden",
+          "overflow",
+          "terminal",
+          "resources",
+          "restart",
+          "pagehide",
+          "capture_no_writes"
+        ],
+        "passed": true
+      },
+      {
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "checks": [
+          "html",
+          "assets",
+          "start",
+          "real_clock",
+          "keyboard",
+          "touch",
+          "progress",
+          "interaction",
+          "pause",
+          "resume",
+          "hidden",
+          "overflow",
+          "terminal",
+          "resources",
+          "restart",
+          "pagehide",
+          "capture_no_writes"
+        ],
+        "passed": true
+      },
+      {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "checks": [
+          "html",
+          "assets",
+          "start",
+          "real_clock",
+          "keyboard",
+          "touch",
+          "progress",
+          "interaction",
+          "pause",
+          "resume",
+          "hidden",
+          "overflow",
+          "terminal",
+          "resources",
+          "restart",
+          "pagehide",
+          "capture_no_writes"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  "model_validation": null,
+  "sources": {
+    "README.md": "# Ribbon Shift\n\nRibbon Shift is an original toroidal-strip spatial puzzle. Restore three woven 3×3 mosaics by moving a whole row right or a whole column down. Every shift wraps at the far edge; tiles never merge.\n\nUse Left and Right to choose one of the six handles, then press Space to shift that strip. On touch screens, tap any row (or its right arrow) to move that row right, or tap a bottom arrow to move its column down.\n\nEach deterministic seed creates three solvable boards with exact shortest solution depths of two, three, and four moves. Every selected shortest route uses both row and column shifts. Replay returns to the same seeded weave. Current score and device-local practice best are supplied by GameKit.\n",
+    "app.js": "(() => {\n  'use strict';\n  const canvas = document.querySelector('[data-game-canvas]');\n  const goal = document.querySelector('[data-ribbon-goal-progress]');\n  const score = document.querySelector('[data-game-score]');\n  const best = document.querySelector('[data-ribbon-best]');\n  const status = document.querySelector('[data-game-status]');\n  const result = document.querySelector('[data-ribbon-result]');\n  const detail = document.querySelector('[data-ribbon-detail]');\n  let mediaQuery = null;\n  let mediaListener = null;\n\n  const setMotion = () => {\n    const reduced = !!(mediaQuery && mediaQuery.matches);\n    document.documentElement.dataset.reducedMotion = String(reduced);\n    if (globalThis.RibbonPresentation) globalThis.RibbonPresentation.setReducedMotion(reduced);\n  };\n  const draw = (ctx, snapshot, size) => {\n    globalThis.RibbonShiftArt.draw(ctx, snapshot, size);\n    const state = snapshot.state;\n    const localBest = Number.isFinite(snapshot.best) ? snapshot.best : 0;\n    goal.textContent = `${state.solved}/3`;\n    score.textContent = String(state.score);\n    best.textContent = String(localBest);\n    status.textContent = state.outcome === 'complete'\n      ? 'Every ribbon is restored. Celebration continues.'\n      : `Mosaic ${Math.min(3, state.stage + 1)} of 3 · elapsed ${Math.floor(state.tick / 27)}%`;\n    const finished = globalThis.RibbonShiftCore.terminal(state);\n    result.hidden = !finished;\n    if (finished) {\n      const complete = state.outcome === 'complete';\n      result.querySelector('h2').textContent = complete ? 'MOSAICS RESTORED' : 'TIME UP';\n      result.querySelector('[data-ribbon-result-count]').textContent = `${state.solved}/3`;\n      detail.textContent = `${state.solved}/3 restored · ${state.moves} shifts used · current score ${state.score} · device best ${localBest} local practice`;\n    }\n  };\n  const boot = (metadata) => {\n    globalThis.PlayJoltGameKit.create({ core: globalThis.RibbonShiftCore, draw, canvas, metadata });\n    mediaQuery = globalThis.matchMedia('(prefers-reduced-motion: reduce)');\n    mediaListener = setMotion;\n    mediaQuery.addEventListener('change', mediaListener);\n    setMotion();\n    globalThis.addEventListener('pagehide', () => {\n      if (mediaQuery && mediaListener) mediaQuery.removeEventListener('change', mediaListener);\n    }, { once: true });\n  };\n  fetch('./manifest.json')\n    .then((response) => {\n      if (!response.ok) throw new Error('practice manifest unavailable');\n      return response.json();\n    })\n    .then(boot)\n    .catch((error) => {\n      const errorNode = document.querySelector('[data-game-error]');\n      errorNode.hidden = false;\n      errorNode.textContent = `Could not start practice: ${error.message}`;\n    });\n})();\n",
+    "core.js": "(() => {\n  'use strict';\n  const TARGET = [0, 1, 2, 3, 4, 5, 6, 7, 8];\n  const code = (board) => board.join('');\n  const shift = (board, operation, reverse) => {\n    const out = board.slice();\n    const line = operation % 3;\n    const offset = reverse ? 2 : 1;\n    if (operation < 3) {\n      for (let i = 0; i < 3; i++) out[line * 3 + ((i + offset) % 3)] = board[line * 3 + i];\n    } else {\n      for (let i = 0; i < 3; i++) out[((i + offset) % 3) * 3 + line] = board[i * 3 + line];\n    }\n    return out;\n  };\n\n  const distances = new Map();\n  const layers = [[], [], [], [], []];\n  const queue = [TARGET];\n  distances.set(code(TARGET), 0);\n  for (let cursor = 0; cursor < queue.length; cursor++) {\n    const board = queue[cursor];\n    const distance = distances.get(code(board));\n    layers[distance].push(board);\n    if (distance === 4) continue;\n    for (let operation = 0; operation < 6; operation++) {\n      const prior = shift(board, operation, true);\n      const id = code(prior);\n      if (!distances.has(id)) {\n        distances.set(id, distance + 1);\n        queue.push(prior);\n      }\n    }\n  }\n\n  const hasMixedShortestRoute = (board, distance, usedAxes) => {\n    if (distance === 0) return usedAxes === 3;\n    for (let operation = 0; operation < 6; operation++) {\n      const next = shift(board, operation, false);\n      if (distances.get(code(next)) === distance - 1 && hasMixedShortestRoute(next, distance - 1, usedAxes | (operation < 3 ? 1 : 2))) return true;\n    }\n    return false;\n  };\n  const choices = [[], [], [], [], []];\n  for (let depth = 2; depth <= 4; depth++) {\n    choices[depth] = layers[depth].filter((board) => hasMixedShortestRoute(board, depth, 0));\n  }\n\n  const generator = (seed) => {\n    let value = (seed >>> 0) || 0x9e3779b9;\n    return () => {\n      value = (value + 0x6d2b79f5) >>> 0;\n      let z = value;\n      z = Math.imul(z ^ (z >>> 15), z | 1);\n      z ^= z + Math.imul(z ^ (z >>> 7), z | 61);\n      return ((z ^ (z >>> 14)) >>> 0) / 4294967296;\n    };\n  };\n  const boardsFor = (seed) => {\n    const next = generator(seed);\n    return [2, 3, 4].map((depth) => choices[depth][Math.floor(next() * choices[depth].length)].slice());\n  };\n  const restored = (board) => board.every((tile, index) => tile === index);\n  const effect = (state, kind, ttl) => {\n    state.effects.push({ kind, ttl });\n    if (state.effects.length > 32) state.effects.shift();\n  };\n  const move = (state, operation) => {\n    state.board = shift(state.board, operation, false);\n    state.moves += 1;\n    state.stageMoves += 1;\n    state.score += 10;\n    state.interactions += 1;\n    effect(state, 'shift', 10);\n    if (restored(state.board)) {\n      state.solved += 1;\n      state.score += 200;\n      state.celebrate = 30;\n      effect(state, 'restore', 30);\n      if (state.solved === 3) state.outcome = 'complete';\n    }\n  };\n  const touchOperation = (pointer) => {\n    if (!pointer || !Number.isFinite(pointer.x) || !Number.isFinite(pointer.y)) return -1;\n    const x = pointer.x;\n    const y = pointer.y;\n    if (x >= 0.79 && x <= 1 && y >= 0.10 && y < 0.82) {\n      const row = Math.floor((y - 0.10) / 0.24);\n      return row >= 0 && row < 3 ? row : -1;\n    }\n    if (x >= 0.06 && x < 0.78 && y >= 0.82 && y <= 1) {\n      const column = Math.floor((x - 0.06) / 0.24);\n      return column >= 0 && column < 3 ? column + 3 : -1;\n    }\n    if (x >= 0.06 && x < 0.78 && y >= 0.10 && y < 0.82) {\n      const row = Math.floor((y - 0.10) / 0.24);\n      return row >= 0 && row < 3 ? row : -1;\n    }\n    return -1;\n  };\n  const create = (seed) => {\n    const boards = boardsFor(seed >>> 0);\n    return {\n      seed: seed >>> 0,\n      boards,\n      board: boards[0].slice(),\n      stage: 0,\n      solved: 0,\n      moves: 0,\n      stageMoves: 0,\n      cursor: 0,\n      outcome: null,\n      tick: 0,\n      score: 0,\n      interactions: 0,\n      effects: [],\n      celebrate: 0,\n      actionHeld: false,\n      pointerHeld: false,\n      lastX: 0\n    };\n  };\n  const step = (state, input) => {\n    const controls = input || {};\n    state.tick += 1;\n    state.effects = state.effects.filter((item) => {\n      item.ttl -= 1;\n      return item.ttl > 0;\n    });\n\n    const x = Number.isFinite(controls.x) ? controls.x : 0;\n    if (x === 1 && state.lastX !== 1) state.cursor = (state.cursor + 1) % 6;\n    if (x === -1 && state.lastX !== -1) state.cursor = (state.cursor + 5) % 6;\n    state.lastX = x;\n\n    const pointer = controls.pointer || null;\n    const pointerEdge = !!pointer && !state.pointerHeld;\n    state.pointerHeld = !!pointer;\n    const action = !!controls.action;\n    const actionEdge = action && !state.actionHeld;\n    state.actionHeld = action;\n\n    if (!state.outcome && state.celebrate === 0) {\n      const operation = pointerEdge ? touchOperation(pointer) : (actionEdge ? state.cursor : -1);\n      if (operation >= 0) move(state, operation);\n    }\n    if (state.celebrate > 0) {\n      state.celebrate -= 1;\n      if (state.celebrate === 0 && state.solved < 3) {\n        state.stage = state.solved;\n        state.board = state.boards[state.stage].slice();\n        state.stageMoves = 0;\n      }\n    }\n    if (!state.outcome && state.tick >= 2700) state.outcome = 'failure';\n    return state;\n  };\n  const observe = (state) => ({\n    tick: state.tick,\n    score: state.score,\n    progress: Math.floor(state.tick / 27),\n    interactions: state.interactions,\n    entities: 9 + state.effects.length,\n    board: state.board.slice(),\n    stage: state.stage,\n    solved: state.solved,\n    moves: state.moves,\n    stageMoves: state.stageMoves,\n    cursor: state.cursor,\n    outcome: state.outcome\n  });\n  const terminal = (state) => (state.outcome === 'complete' && state.tick >= 900) || (state.outcome === 'failure' && state.tick >= 2700);\n  globalThis.RibbonShiftCore = { create, step, observe, terminal };\n})();\n",
+    "index.html": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n  <meta name=\"robots\" content=\"noindex,nofollow\">\n  <title>Ribbon Shift</title>\n  <link rel=\"stylesheet\" href=\"./style.css\">\n</head>\n<body>\n  <main class=\"shell\">\n    <header class=\"masthead\">\n      <p class=\"eyebrow\">LOCAL SPATIAL PRACTICE</p>\n      <h1>RESTORE 3 MOSAICS</h1>\n      <p class=\"intro\">Tap a row to slide right; tap a bottom arrow to slide down.</p>\n    </header>\n    <div class=\"goalbar\" aria-label=\"Goal progress\"><span>GOAL PROGRESS</span><strong data-ribbon-goal-progress data-game-progress>0/3</strong></div>\n    <div class=\"reference\" aria-label=\"Target reference: tiles one through nine in reading order\"><span class=\"mini\" aria-hidden=\"true\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span>TARGET: 1 → 9</span></div>\n    <section class=\"game-frame\">\n      <canvas data-game-canvas tabindex=\"0\" aria-label=\"Ribbon Shift mosaic board\"></canvas>\n      <div class=\"hud\"><div class=\"stat\">CURRENT SCORE <b data-game-score>0</b></div><div class=\"stat\">DEVICE BEST / LOCAL PRACTICE <b data-ribbon-best>0</b></div></div>\n      <p class=\"instruction\" data-game-status>Choose a ribbon handle, then shift it.</p>\n      <div class=\"controls\"><button data-game-start>START PRACTICE</button><button data-game-pause>PAUSE</button><button data-game-resume>RESUME</button></div>\n      <div class=\"result\" data-ribbon-result hidden><h2>MOSAICS RESTORED</h2><strong data-ribbon-result-count>3/3</strong><p data-ribbon-detail></p><button data-game-restart>REPLAY SAME WEAVE</button></div>\n      <p data-game-error hidden class=\"error\"></p>\n    </section>\n  </main>\n  <script src=\"./core.js\"></script>\n  <script src=\"./view/art.js\"></script>\n  <script src=\"./gamekit.js\"></script>\n  <script src=\"./app.js\"></script>\n</body>\n</html>\n",
+    "style.css": "*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#09131b;color:#f9efd9;font-family:system-ui,sans-serif}body{overflow-x:hidden}.shell{width:min(100%,760px);margin:auto;padding:16px 12px 30px}.masthead{text-align:center}.eyebrow{margin:0;color:#77d7bb;font-size:12px;font-weight:800;letter-spacing:.14em}.masthead h1{font-size:clamp(29px,8vw,48px);line-height:1;margin:7px 0}.intro{margin:0 auto 12px;max-width:520px;color:#c9d8d5;font-size:15px}.goalbar{display:flex;justify-content:space-between;align-items:center;background:#172832;border:1px solid #31505a;border-radius:12px;padding:9px 12px;margin:12px 0;font-weight:800}.goalbar strong{color:#f3c65b;font-size:20px}.reference{display:flex;gap:10px;align-items:center;justify-content:center;margin:10px 0 14px;color:#c9d8d5;font-size:13px}.mini{display:grid;grid-template-columns:repeat(3,13px);gap:2px}.mini i{width:13px;height:13px;background:#ef765e;border-radius:2px}.mini i:nth-child(2n){background:#77d7bb}.mini i:nth-child(3n){background:#f3c65b}.game-frame{width:min(100%,640px);margin:auto}canvas{display:block;width:100%;aspect-ratio:1/1;min-width:300px;background:#0c1720;border-radius:15px;touch-action:none;outline:none}.hud{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.stat{background:#14252e;padding:9px;border-radius:9px;font-size:12px;color:#aac0bd}.stat b{display:block;font-size:20px;color:#fff1d8}.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}button{min-height:44px;border:0;border-radius:9px;padding:10px 15px;font:800 14px system-ui;background:#77d7bb;color:#11232a;cursor:pointer}button[data-game-start]{background:#f3c65b;font-size:16px;min-width:190px}button[data-game-pause],button[data-game-resume]{background:#ef765e}.instruction{text-align:center;color:#c8d7d4;font-size:14px;margin:10px 0}.result{margin-top:14px;padding:18px;text-align:center;background:#203641;border:2px solid #f3c65b;border-radius:14px}.result h2{margin:0;color:#f3c65b;font-size:27px}.result strong{font-size:36px;display:block}.result p{color:#d4e1dc;font-size:14px}.error{color:#ffd0c5;text-align:center}@media(min-width:800px){.shell{width:min(96%,1050px)}.game-frame{width:min(640px,72vh)}}\n",
+    "view/art.js": "(() => {\n  'use strict';\n  let reducedMotion = false;\n  const colors = ['#ef765e', '#77d7bb', '#f3c65b', '#e99b83', '#75a9c8', '#c887a6', '#c8dc8d', '#e5b36b', '#a893d5'];\n  const presentation = {\n    particles: 0,\n    setReducedMotion(value) { reducedMotion = !!value; },\n    snapshot() { return { reducedMotion, particles: presentation.particles, activeVoices: 0 }; }\n  };\n  globalThis.RibbonPresentation = presentation;\n  const rounded = (ctx, x, y, width, height, radius) => {\n    ctx.beginPath();\n    if (ctx.roundRect) ctx.roundRect(x, y, width, height, radius);\n    else ctx.rect(x, y, width, height);\n  };\n  const tile = (ctx, value, x, y, size, selected, checked) => {\n    rounded(ctx, x, y, size, size, size * 0.08);\n    ctx.fillStyle = '#17252d';\n    ctx.fill();\n    ctx.save();\n    rounded(ctx, x + 3, y + 3, size - 6, size - 6, size * 0.07);\n    ctx.clip();\n    ctx.fillStyle = colors[value];\n    ctx.fillRect(x + 3, y + 3, size - 6, size - 6);\n    ctx.strokeStyle = 'rgba(15,31,39,.65)';\n    ctx.lineWidth = Math.max(2, size * 0.042);\n    for (let stripe = -size; stripe < size * 2; stripe += size * 0.25) {\n      ctx.beginPath();\n      ctx.moveTo(x + stripe, y + 2);\n      ctx.lineTo(x + stripe + size * 0.45, y + size - 2);\n      ctx.stroke();\n    }\n    ctx.strokeStyle = 'rgba(255,248,224,.38)';\n    ctx.lineWidth = size * 0.07;\n    ctx.beginPath();\n    ctx.moveTo(x + size * 0.15, y + size * 0.74);\n    ctx.quadraticCurveTo(x + size * 0.47, y + size * 0.13, x + size * 0.84, y + size * 0.34);\n    ctx.stroke();\n    ctx.restore();\n    ctx.fillStyle = '#10232b';\n    ctx.font = `800 ${Math.max(20, size * 0.31)}px system-ui`;\n    ctx.textAlign = 'center';\n    ctx.textBaseline = 'middle';\n    ctx.fillText(String(value + 1), x + size / 2, y + size / 2 + 1);\n    if (selected || checked) {\n      rounded(ctx, x + 3, y + 3, size - 6, size - 6, size * 0.07);\n      ctx.strokeStyle = checked ? '#8ff0ca' : '#fff4d3';\n      ctx.lineWidth = checked ? 3 : Math.max(2, size * 0.04);\n      ctx.stroke();\n    }\n  };\n  const draw = (ctx, snapshot, size) => {\n    const state = snapshot.state;\n    const width = size.width;\n    const height = size.height;\n    const unit = Math.min(width, height);\n    const originX = (width - unit) / 2;\n    const originY = (height - unit) / 2;\n    const X = (value) => originX + value * unit;\n    const Y = (value) => originY + value * unit;\n    presentation.particles = reducedMotion ? 0 : Math.min(32, state.effects.length * 4);\n    ctx.clearRect(0, 0, width, height);\n    ctx.fillStyle = '#0c1720';\n    ctx.fillRect(0, 0, width, height);\n    rounded(ctx, X(0.035), Y(0.065), unit * 0.93, unit * 0.88, unit * 0.035);\n    ctx.fillStyle = '#132631';\n    ctx.fill();\n    ctx.strokeStyle = '#31505a';\n    ctx.lineWidth = 2;\n    ctx.stroke();\n    ctx.fillStyle = '#f3c65b';\n    ctx.font = `700 ${Math.max(12, unit * 0.034)}px system-ui`;\n    ctx.textAlign = 'left';\n    ctx.textBaseline = 'alphabetic';\n    ctx.fillText(`MOSAIC ${state.stage + 1}/3`, X(0.07), Y(0.075));\n    const cell = unit * 0.24;\n    const left = X(0.06);\n    const top = Y(0.10);\n    const checking = state.celebrate > 0;\n    for (let index = 0; index < 9; index++) {\n      const row = Math.floor(index / 3);\n      const column = index % 3;\n      const selected = (state.cursor < 3 && row === state.cursor) || (state.cursor >= 3 && column === state.cursor - 3);\n      tile(ctx, state.board[index], left + column * cell, top + row * cell, cell, selected, checking);\n    }\n    for (let row = 0; row < 3; row++) {\n      const x = X(0.80), y = Y(0.10 + row * 0.24), button = unit * 0.15;\n      rounded(ctx, x, y, button, button, button * 0.13);\n      ctx.fillStyle = state.cursor === row ? '#f3c65b' : '#ef765e';\n      ctx.fill();\n      ctx.fillStyle = '#13242b';\n      ctx.font = `900 ${Math.max(23, unit * 0.075)}px system-ui`;\n      ctx.textAlign = 'center';\n      ctx.textBaseline = 'middle';\n      ctx.fillText('→', x + button / 2, y + button / 2);\n    }\n    for (let column = 0; column < 3; column++) {\n      const x = X(0.06 + column * 0.24), y = Y(0.83), button = unit * 0.15;\n      rounded(ctx, x, y, button, button, button * 0.13);\n      ctx.fillStyle = state.cursor === column + 3 ? '#f3c65b' : '#77d7bb';\n      ctx.fill();\n      ctx.fillStyle = '#13242b';\n      ctx.font = `900 ${Math.max(23, unit * 0.075)}px system-ui`;\n      ctx.textAlign = 'center';\n      ctx.textBaseline = 'middle';\n      ctx.fillText('↓', x + button / 2, y + button / 2);\n    }\n    if (state.celebrate > 0) {\n      ctx.fillStyle = 'rgba(10,25,31,.78)';\n      ctx.fillRect(X(0.06), Y(0.39), unit * 0.72, unit * 0.14);\n      ctx.fillStyle = '#fff2d7';\n      ctx.font = `900 ${Math.max(18, unit * 0.062)}px system-ui`;\n      ctx.textAlign = 'center';\n      ctx.textBaseline = 'middle';\n      ctx.fillText(state.solved === 3 ? 'MOSAICS RESTORED' : 'MOSAIC RESTORED', X(0.42), Y(0.46));\n    }\n    if (!reducedMotion && presentation.particles) {\n      ctx.fillStyle = '#f3c65b';\n      for (let i = 0; i < presentation.particles; i++) {\n        const angle = i * 2.4 + state.tick * 0.08;\n        const radius = unit * (0.18 + (i % 4) * 0.025);\n        ctx.globalAlpha = 0.5;\n        ctx.fillRect(X(0.42) + Math.cos(angle) * radius, Y(0.46) + Math.sin(angle) * radius, 3, 3);\n      }\n      ctx.globalAlpha = 1;\n    }\n  };\n  globalThis.RibbonShiftArt = { draw };\n})();\n"
+  },
+  "empty_workspace": false
+}

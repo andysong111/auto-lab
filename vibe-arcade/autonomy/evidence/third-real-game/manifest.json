@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260922-131",
+  "generation": 1,
+  "version": "v6",
+  "title": "Ribbon Shift",
+  "slug": "ribbon-shift",
+  "genre": "spatial puzzle",
+  "mechanic_family": "toroidal-strip-permutation",
+  "controls": [
+    "Left/Right: choose a row or column handle",
+    "Space: slide the selected strip"
+  ],
+  "mobile_controls": [
+    "Tap a row or its arrow to slide right",
+    "Tap a bottom arrow to slide its column down"
+  ],
+  "reference_quality_games": [
+    "astra-sentinel-v3",
+    "deep-descent"
+  ],
+  "created_at": "2026-09-22T13:19:48.685Z",
+  "state": "REJECTED",
+  "repair_attempt": 5,
+  "max_repair_attempts": 5,
+  "source_path": "autonomy/games/GAME-20260922-131/v6",
+  "preview_url": null,
+  "qa_status": "FAIL",
+  "quality_status": "REJECT",
+  "release_status": "REJECTED",
+  "failure_reasons": [
+    {
+      "code": "product_reduced_motion",
+      "message": "Expected values to be strictly equal:\n\n'true' !== 'false'\n",
+      "seed": 89
+    }
+  ],
+  "metrics_eligibility": false,
+  "qa": {
+    "seed": 23,
+    "terminal_ms": 46000,
+    "keyboard": {
+      "key": "ArrowRight",
+      "observation": "state.cursor"
+    },
+    "pointer": {
+      "observation": "state.moves"
+    }
+  },
+  "revision": 25,
+  "history": [
+    {
+      "from": "IDEA",
+      "to": "SPEC_READY",
+      "at": "2026-09-22T13:19:48.690Z"
+    },
+    {
+      "from": "SPEC_READY",
+      "to": "BUILDING",
+      "at": "2026-09-22T13:20:31.450Z"
+    },
+    {
+      "from": "BUILDING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T13:21:58.221Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T13:22:22.506Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T13:22:22.509Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T13:22:22.510Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T13:23:38.401Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T13:24:02.739Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T13:24:02.741Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T13:24:02.743Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T13:24:24.094Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T13:25:49.046Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T13:25:49.048Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T13:25:49.050Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T13:26:43.385Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T13:28:08.576Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T13:28:08.583Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T13:28:08.588Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T13:28:28.451Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T13:29:55.351Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T13:29:55.358Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T13:29:55.360Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T13:30:21.576Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T13:31:47.857Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REJECTED",
+      "at": "2026-09-22T13:31:47.859Z"
+    }
+  ],
+  "source_hash": "ea85f704319bc9e6896d2304c9192d5b1b12a418654a47f8f765991e94c03736",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0"
+}

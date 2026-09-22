@@ -1,0 +1,26 @@
+{
+  "operation_id": "GAME-20260922-131/repair/5",
+  "source_hash": "ea85f704319bc9e6896d2304c9192d5b1b12a418654a47f8f765991e94c03736",
+  "changed_files": [
+    "app.js",
+    "manifest.json"
+  ],
+  "cause": "Repaired reduced-motion subscription handling with current, legacy, and onchange MediaQueryList paths, while preserving authoritative event match values and cleanup.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Toggle the active MediaQueryList from reduce to no-preference and verify document.documentElement.dataset.reducedMotion and RibbonPresentation.snapshot().reducedMotion both become \"false\"/false.",
+    "provider-suggested (not executed): Verify reduced-motion updates through addEventListener, legacy addListener, and onchange-style MediaQueryList implementations.",
+    "provider-suggested (not executed): Verify pagehide removes every media-query listener registration."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_064c35a7fc948284006ab282d38f6887d198216047f1b6239e",
+    "usage": {
+      "input_tokens": 10040,
+      "output_tokens": 1685,
+      "estimated_cost": 0.07049
+    },
+    "estimated_cost": 0.07049,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

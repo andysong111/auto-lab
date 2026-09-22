@@ -1,0 +1,400 @@
+{
+  "schema_version": 1,
+  "cost_basis": "estimated; configured USD rates, no billing API",
+  "jobs": {
+    "GAME-20260922-131": {
+      "started_at": 1790083231479
+    }
+  },
+  "operations": {
+    "GAME-20260922-131/build/v1": {
+      "operation_id": "GAME-20260922-131/build/v1",
+      "game_id": "GAME-20260922-131",
+      "version": "v1",
+      "request_hash": "3071608fa29308b50f7aa10ed9ab642cfb470207bde2786223e165b2e830b387",
+      "day": "2026-09-22",
+      "state": "COMPLETE",
+      "provider": "openai-responses/gpt-5.6-terra",
+      "started_at": 1790083231479,
+      "deadline_at": 1790083531479,
+      "reserved": {
+        "input_tokens": 16053,
+        "output_tokens": 18000,
+        "estimated_cost": 0.388212
+      },
+      "prices": {
+        "input_per_million": 4,
+        "output_per_million": 18,
+        "as_of": "2026-09-22",
+        "estimated": true
+      },
+      "response_id": "resp_0441298e445aac62006ab280a062ac87d1ba071288cf8ba1e5",
+      "accounted": {
+        "input_tokens": 3060,
+        "output_tokens": 6237,
+        "estimated_cost": 0.124506
+      },
+      "result": {
+        "files": [
+          {
+            "content": "(() => {\n  'use strict';\n  const TARGET = [0,1,2,3,4,5,6,7,8];\n  const distances = new Map();\n  const byDistance = [[],[],[],[],[]];\n  const key = (a) => a.join('');\n  const shifted = (board, op, reverse) => {\n    const b = board.slice();\n    const axis = op < 3 ? 0 : 1;\n    const n = op % 3;\n    const delta = reverse ? 2 : 1;\n    for (let i = 0; i < 3; i++) {\n      const from = axis === 0 ? n * 3 + i : i * 3 + n;\n      const toI = (i + delta) % 3;\n      const to = axis === 0 ? n * 3 + toI : toI * 3 + n;\n      b[to] = board[from];\n    }\n    return b;\n  };\n  const queue = [TARGET];\n  distances.set(key(TARGET), 0);\n  for (let at = 0; at < queue.length; at++) {\n    const current = queue[at];\n    const d = distances.get(key(current));\n    byDistance[d].push(current);\n    if (d === 4) continue;\n    for (let op = 0; op < 6; op++) {\n      const previous = shifted(current, op, true);\n      const k = key(previous);\n      if (!distances.has(k)) {\n        distances.set(k, d + 1);\n        queue.push(previous);\n      }\n    }\n  }\n  const mixed = [[],[],[],[],[]];\n  const collect = (depth, board, mask) => {\n    if (depth > 0 && distances.get(key(board)) === depth && mask === 3) mixed[depth].push(board);\n    if (depth === 4) return;\n    for (let op = 0; op < 6; op++) collect(depth + 1, shifted(board, op, true), mask | (op < 3 ? 1 : 2));\n  };\n  collect(0, TARGET, 0);\n  for (let d = 2; d <= 4; d++) {\n    const seen = new Set();\n    mixed[d] = mixed[d].filter((b) => {\n      const k = key(b);\n      if (seen.has(k)) return false;\n      seen.add(k);\n      return true;\n    });\n  }\n  const random = (seed) => {\n    let x = (seed >>> 0) || 0x6d2b79f5;\n    return () => {\n      x += 0x6d2b79f5;\n      let z = x;\n      z = Math.imul(z ^ (z >>> 15), z | 1);\n      z ^= z + Math.imul(z ^ (z >>> 7), z | 61);\n      return ((z ^ (z >>> 14)) >>> 0) / 4294967296;\n    };\n  };\n  const makeBoards = (seed) => {\n    const rnd = random(seed);\n    return [2,3,4].map((d) => mixed[d][Math.floor(rnd() * mixed[d].length)].slice());\n  };\n  const isTarget = (b) => b.every((v, i) => v === i);\n  const addEffect = (state, kind) => {\n    state.effects.push({kind, ttl: kind === 'solve' ? 30 : 10});\n    if (state.effects.length > 32) state.effects.shift();\n  };\n  const apply = (state, op) => {\n    state.board = shifted(state.board, op, false);\n    state.moves++;\n    state.stageMoves++;\n    state.score += 10;\n    state.interactions++;\n    addEffect(state, 'shift');\n    if (isTarget(state.board)) {\n      state.solved++;\n      state.score += 200;\n      state.celebrate = 30;\n      addEffect(state, 'solve');\n      if (state.solved === 3) state.outcome = 'complete';\n    }\n  };\n  const pointerOp = (p) => {\n    if (!p) return -1;\n    if (p.x >= 0.79 && p.x <= 1 && p.y >= 0.10 && p.y <= 0.82) {\n      const row = Math.floor((p.y - 0.10) / 0.24);\n      if (row >= 0 && row < 3) return row;\n    }\n    if (p.y >= 0.82 && p.y <= 1 && p.x >= 0.06 && p.x <= 0.78) {\n      const col = Math.floor((p.x - 0.06) / 0.24);\n      if (col >= 0 && col < 3) return 3 + col;\n    }\n    if (p.x >= 0.06 && p.x <= 0.78 && p.y >= 0.10 && p.y <= 0.82) {\n      const row = Math.floor((p.y - 0.10) / 0.24);\n      return row >= 0 && row < 3 ? row : -1;\n    }\n    return -1;\n  };\n  const create = (seed) => {\n    const boards = makeBoards(seed >>> 0);\n    return {seed: seed >>> 0, boards, board: boards[0].slice(), stage: 0, solved: 0, moves: 0, stageMoves: 0, cursor: 0, outcome: null, tick: 0, score: 0, interactions: 0, effects: [], celebrate: 0, actionHeld: false, pointerHeld: false};\n  };\n  const step = (state, input) => {\n    state.tick++;\n    state.effects = state.effects.filter((e) => --e.ttl > 0);\n    const pointer = input && input.pointer ? input.pointer : null;\n    const pointerEdge = !!pointer && !state.pointerHeld;\n    state.pointerHeld = !!pointer;\n    const x = input && Number.isFinite(input.x) ? input.x : 0;\n    if (x === 1 && state.lastX !== 1) state.cursor = (state.cursor + 1) % 6;\n    if (x === -1 && state.lastX !== -1) state.cursor = (state.cursor + 5) % 6;\n    state.lastX = x;\n    const action = !!(input && input.action);\n    const actionEdge = action && !state.actionHeld;\n    state.actionHeld = action;\n    if (!state.outcome && state.celebrate === 0) {\n      const op = pointerEdge ? pointerOp(pointer) : (actionEdge ? state.cursor : -1);\n      if (op >= 0) apply(state, op);\n    }\n    if (state.celebrate > 0) {\n      state.celebrate--;\n      if (state.celebrate === 0 && state.solved < 3) {\n        state.stage = state.solved;\n        state.board = state.boards[state.stage].slice();\n        state.stageMoves = 0;\n      }\n    }\n    if (!state.outcome && state.tick >= 2700) state.outcome = 'failure';\n    return state;\n  };\n  const observe = (state) => ({tick: state.tick, score: state.score, progress: Math.floor(state.tick / 27), interactions: state.interactions, entities: 9 + state.effects.length, cursor: state.cursor, moves: state.moves, stage: state.stage, solved: state.solved, outcome: state.outcome});\n  const terminal = (state) => (state.outcome === 'complete' && state.tick >= 900) || (state.outcome === 'failure' && state.tick >= 2700);\n  globalThis.RibbonShiftCore = {create, step, observe, terminal};\n})();\n",
+            "path": "core.js"
+          },
+          {
+            "content": "(() => {\n  'use strict';\n  const canvas = document.querySelector('[data-game-canvas]');\n  const goal = document.querySelector('[data-ribbon-goal-progress]');\n  const score = document.querySelector('[data-game-score]');\n  const best = document.querySelector('[data-ribbon-best]');\n  const status = document.querySelector('[data-game-status]');\n  const result = document.querySelector('[data-ribbon-result]');\n  const detail = document.querySelector('[data-ribbon-detail]');\n  let reduceQuery;\n  let removeMedia = () => {};\n  const syncMotion = () => {\n    const reduced = !!reduceQuery.matches;\n    document.documentElement.dataset.reducedMotion = String(reduced);\n    if (globalThis.RibbonPresentation) globalThis.RibbonPresentation.setReducedMotion(reduced);\n  };\n  const update = (ctx, snapshot, size) => {\n    globalThis.RibbonShiftArt.draw(ctx, snapshot, size);\n    const state = snapshot.state;\n    const shownBest = Number.isFinite(snapshot.best) ? snapshot.best : 0;\n    goal.textContent = `${state.solved}/3`;\n    score.textContent = String(state.score);\n    best.textContent = String(shownBest);\n    status.textContent = state.outcome === 'complete' ? 'All mosaics aligned.' : `Stage ${Math.min(3, state.stage + 1)} · elapsed ${Math.floor(state.tick / 27)}%`;\n    const done = globalThis.RibbonShiftCore.terminal(state);\n    result.hidden = !done;\n    if (done) {\n      const complete = state.outcome === 'complete';\n      result.querySelector('h2').textContent = complete ? 'MOSAICS RESTORED' : 'TIME UP';\n      detail.textContent = `${state.solved}/3 restored · ${state.moves} shifts · current score ${state.score} · device best ${shownBest} local practice`;\n    }\n  };\n  const boot = (metadata) => {\n    const kit = globalThis.PlayJoltGameKit.create({core: globalThis.RibbonShiftCore, draw: update, canvas, metadata});\n    reduceQuery = matchMedia('(prefers-reduced-motion: reduce)');\n    syncMotion();\n    const listener = () => syncMotion();\n    reduceQuery.addEventListener('change', listener);\n    removeMedia = () => reduceQuery.removeEventListener('change', listener);\n    addEventListener('pagehide', removeMedia, {once:true});\n    return kit;\n  };\n  fetch('./manifest.json').then((r) => r.json()).then(boot).catch((error) => {\n    document.querySelector('[data-game-error]').hidden = false;\n    document.querySelector('[data-game-error]').textContent = `Could not start practice: ${error.message}`;\n  });\n})();\n",
+            "path": "app.js"
+          },
+          {
+            "content": "(() => {\n  'use strict';\n  let reduced = false;\n  const palette = ['#ef765e','#77d7bb','#f3c65b','#e99b83','#75a9c8','#c887a6','#c8dc8d','#e5b36b','#a893d5'];\n  const particleCount = (state) => reduced ? 0 : Math.min(32, state.effects.length * 4);\n  const presentation = {\n    setReducedMotion(value) { reduced = !!value; },\n    snapshot() { return {reducedMotion: reduced, particles: presentation._particles || 0, activeVoices: 0}; },\n    _particles: 0\n  };\n  globalThis.RibbonPresentation = presentation;\n  const rr = (ctx,x,y,w,h,r) => { ctx.beginPath(); ctx.roundRect(x,y,w,h,r); };\n  const tile = (ctx, value, x, y, s, selected, solved) => {\n    const c = palette[value];\n    ctx.fillStyle = '#17252d'; rr(ctx,x,y,s,s,s*.08); ctx.fill();\n    ctx.save(); rr(ctx,x+3,y+3,s-6,s-6,s*.07); ctx.clip();\n    ctx.fillStyle = c; ctx.globalAlpha = .92; ctx.fillRect(x+3,y+3,s-6,s-6);\n    ctx.strokeStyle = '#10202a'; ctx.lineWidth = Math.max(2,s*.045);\n    for(let n=-s;n<s*2;n+=s*.26){ctx.beginPath();ctx.moveTo(x+n,y+2);ctx.lineTo(x+n+s*.45,y+s-2);ctx.stroke();}\n    ctx.globalAlpha=.3;ctx.strokeStyle='#fff4dc';ctx.lineWidth=s*.08;\n    ctx.beginPath();ctx.moveTo(x+s*.18,y+s*.76);ctx.quadraticCurveTo(x+s*.5,y+s*.13,x+s*.84,y+s*.36);ctx.stroke();\n    ctx.restore();\n    ctx.fillStyle='#11242b';ctx.font=`800 ${Math.max(20,s*.31)}px system-ui`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(String(value+1),x+s/2,y+s/2+1);\n    if(selected){ctx.strokeStyle='#fff4d3';ctx.lineWidth=Math.max(2,s*.045);rr(ctx,x+2,y+2,s-4,s-4,s*.07);ctx.stroke();}\n    if(solved){ctx.strokeStyle='#8ff0ca';ctx.lineWidth=3;rr(ctx,x+5,y+5,s-10,s-10,s*.08);ctx.stroke();}\n  };\n  const draw = (ctx, snapshot, size) => {\n    const state = snapshot.state, w=size.width, h=size.height;\n    presentation._particles = particleCount(state);\n    ctx.clearRect(0,0,w,h); ctx.fillStyle='#0c1720';ctx.fillRect(0,0,w,h);\n    const unit=Math.min(w,h); const ox=(w-unit)/2, oy=(h-unit)/2;\n    const X=(v)=>ox+v*unit, Y=(v)=>oy+v*unit;\n    ctx.fillStyle='#132631';rr(ctx,X(.035),Y(.065),unit*.93,unit*.88,unit*.035);ctx.fill();\n    ctx.strokeStyle='#31505a';ctx.lineWidth=2;rr(ctx,X(.035),Y(.065),unit*.93,unit*.88,unit*.035);ctx.stroke();\n    ctx.fillStyle='#f3c65b';ctx.font=`700 ${Math.max(12,unit*.034)}px system-ui`;ctx.textAlign='left';ctx.fillText(`MOSAIC ${state.stage+1}/3`,X(.07),Y(.075));\n    const cell=unit*.24, left=X(.06), top=Y(.10), solved=state.celebrate>0;\n    for(let i=0;i<9;i++) tile(ctx,state.board[i],left+(i%3)*cell,top+Math.floor(i/3)*cell,cell,i%3===state.cursor&&state.cursor<3?Math.floor(i/3)===state.cursor:false,solved);\n    for(let r=0;r<3;r++){\n      const x=X(.80),y=Y(.10+.24*r),s=unit*.15;ctx.fillStyle=state.cursor===r?'#f3c65b':'#ef765e';rr(ctx,x,y,s,s,s*.12);ctx.fill();ctx.fillStyle='#17252d';ctx.font=`900 ${Math.max(23,unit*.075)}px system-ui`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('→',x+s/2,y+s/2);\n    }\n    for(let c=0;c<3;c++){\n      const x=X(.06+.24*c),y=Y(.83),s=unit*.15;ctx.fillStyle=state.cursor===c+3?'#f3c65b':'#77d7bb';rr(ctx,x,y,s,s,s*.12);ctx.fill();ctx.fillStyle='#17252d';ctx.font=`900 ${Math.max(23,unit*.075)}px system-ui`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('↓',x+s/2,y+s/2);\n    }\n    if(state.celebrate>0){ctx.fillStyle='rgba(10,25,31,.72)';ctx.fillRect(X(.06),Y(.39),unit*.72,unit*.14);ctx.fillStyle='#fff2d7';ctx.font=`900 ${Math.max(18,unit*.065)}px system-ui`;ctx.textAlign='center';ctx.fillText(state.solved===3?'MOSAIC RESTORED':'WOVEN!',X(.42),Y(.48));}\n    if(!reduced && state.effects.length){ctx.fillStyle='#f3c65b';for(let i=0;i<presentation._particles;i++){const a=i*2.4+state.tick*.08;const r=unit*(.18+(i%4)*.025);ctx.globalAlpha=.5;ctx.fillRect(X(.42)+Math.cos(a)*r,Y(.46)+Math.sin(a)*r,3,3);}ctx.globalAlpha=1;}\n  };\n  globalThis.RibbonShiftArt={draw};\n})();\n",
+            "path": "view/art.js"
+          },
+          {
+            "content": "*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#09131b;color:#f9efd9;font-family:system-ui,sans-serif}body{overflow-x:hidden}.shell{width:min(100%,760px);margin:auto;padding:16px 12px 30px}.masthead{text-align:center}.eyebrow{margin:0;color:#77d7bb;font-size:12px;font-weight:800;letter-spacing:.14em}.masthead h1{font-size:clamp(29px,8vw,48px);line-height:1;margin:7px 0}.intro{margin:0 auto 12px;max-width:520px;color:#c9d8d5;font-size:15px}.goalbar{display:flex;justify-content:space-between;align-items:center;background:#172832;border:1px solid #31505a;border-radius:12px;padding:9px 12px;margin:12px 0;font-weight:800}.goalbar span:last-child{color:#f3c65b;font-size:20px}.reference{display:flex;gap:10px;align-items:center;justify-content:center;margin:10px 0 14px;color:#c9d8d5;font-size:13px}.mini{display:grid;grid-template-columns:repeat(3,13px);gap:2px}.mini i{width:13px;height:13px;background:#ef765e;border-radius:2px}.mini i:nth-child(2n){background:#77d7bb}.mini i:nth-child(3n){background:#f3c65b}.game-frame{width:min(100%,640px);margin:auto}canvas{display:block;width:100%;aspect-ratio:1/1;min-width:300px;background:#0c1720;border-radius:15px;touch-action:none;outline:none}.hud{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.stat{background:#14252e;padding:9px;border-radius:9px;font-size:12px;color:#aac0bd}.stat b{display:block;font-size:20px;color:#fff1d8}.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}button{min-height:44px;border:0;border-radius:9px;padding:10px 15px;font:800 14px system-ui;background:#77d7bb;color:#11232a;cursor:pointer}button[data-game-start]{background:#f3c65b;font-size:16px;min-width:190px}button[data-game-pause],button[data-game-resume]{background:#ef765e}.instruction{text-align:center;color:#c8d7d4;font-size:14px;margin:10px 0}.result{margin-top:14px;padding:18px;text-align:center;background:#203641;border:2px solid #f3c65b;border-radius:14px}.result h2{margin:0;color:#f3c65b;font-size:27px}.result strong{font-size:36px;display:block}.result p{color:#d4e1dc;font-size:14px}.error{color:#ffd0c5;text-align:center}@media(min-width:800px){.shell{width:min(96%,1050px)}.game-frame{width:min(640px,72vh)}}\n",
+            "path": "style.css"
+          },
+          {
+            "content": "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta name=\"robots\" content=\"noindex,nofollow\"><title>Ribbon Shift</title><link rel=\"stylesheet\" href=\"./style.css\"></head><body><main class=\"shell\"><header class=\"masthead\"><p class=\"eyebrow\">LOCAL SPATIAL PRACTICE</p><h1>RESTORE 3 MOSAICS</h1><p class=\"intro\">Tap a row to slide right; tap a bottom arrow to slide down.</p></header><div class=\"goalbar\"><span>GOAL PROGRESS</span><span data-ribbon-goal-progress>0/3</span></div><div class=\"reference\" aria-label=\"Target reference: tiles 1 through 9 in reading order\"><span class=\"mini\" aria-hidden=\"true\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span> TARGET: 1 → 9</div><section class=\"game-frame\"><canvas data-game-canvas tabindex=\"0\" aria-label=\"Ribbon Shift mosaic board\"></canvas><div class=\"hud\"><div class=\"stat\">CURRENT SCORE <b data-game-score>0</b></div><div class=\"stat\">DEVICE BEST / LOCAL PRACTICE <b data-ribbon-best>0</b></div></div><p class=\"instruction\" data-game-status>Choose a ribbon handle, then shift it.</p><div class=\"controls\"><button data-game-start>START PRACTICE</button><button data-game-pause>PAUSE</button><button data-game-resume>RESUME</button></div><div class=\"result\" data-ribbon-result hidden><h2>MOSAICS RESTORED</h2><strong data-ribbon-goal-progress>3/3</strong><p data-ribbon-detail></p><button data-game-restart>REPLAY SAME WEAVE</button></div><p data-game-error hidden class=\"error\"></p></section></main><script src=\"./core.js\"></script><script src=\"./view/art.js\"></script><script src=\"./gamekit.js\"></script><script src=\"./app.js\"></script></body></html>\n",
+            "path": "index.html"
+          },
+          {
+            "content": "# Ribbon Shift\n\nRibbon Shift is an original toroidal-strip spatial puzzle. Restore each three-by-three woven mosaic by cycling a complete row right or a complete column down; every shift wraps around the edge.\n\nUse Left/Right to focus one of six ribbon handles and Space to shift it. On touch screens, tap a board row or its coral arrow to move that row right, or tap a mint arrow below the board to move its column down.\n\nThe game uses deterministic seeded boards. The three mosaics have exact shortest solution depths of 2, 3, and 4 shifts, with both row and column moves required in a shortest route. Replay returns to the same deterministic weave. Score and device-local practice best are supplied by GameKit.\n",
+            "path": "README.md"
+          }
+        ],
+        "tests": [
+          "Load index.html through the supplied GameKit runtime and verify the START PRACTICE lifecycle.",
+          "For seed 23, independently search real shift inputs for each presented board and verify completion becomes terminal no earlier than tick 900.",
+          "Verify pointer taps at row and bottom-handle normalized regions increase state.moves once per tap.",
+          "Verify reduced-motion media changes make RibbonPresentation.snapshot().particles return zero."
+        ],
+        "summary": "Implemented Ribbon Shift as a deterministic, DOM-free toroidal strip puzzle core with BFS-derived exact-depth boards, GameKit bootstrap, responsive canvas presentation, touch/keyboard controls, results, and live reduced-motion handling.",
+        "status": "complete",
+        "provider_metadata": {
+          "provider": "openai-responses/gpt-5.6-terra",
+          "response_id": "resp_0441298e445aac62006ab280a062ac87d1ba071288cf8ba1e5",
+          "usage": {
+            "input_tokens": 3060,
+            "output_tokens": 6237,
+            "estimated_cost": 0.124506
+          },
+          "estimated_cost": 0.124506,
+          "cost_basis": "estimated",
+          "billed_cost": null
+        }
+      },
+      "completed_at": 1790083318211
+    },
+    "GAME-20260922-131/repair/1": {
+      "operation_id": "GAME-20260922-131/repair/1",
+      "game_id": "GAME-20260922-131",
+      "version": "v2",
+      "request_hash": "1b96cc7204c2c54d41dc1d1a9a62bf297539a347f6c30fc36e27da830251d519",
+      "day": "2026-09-22",
+      "state": "COMPLETE",
+      "provider": "openai-responses/gpt-5.6-terra",
+      "started_at": 1790083342541,
+      "deadline_at": 1790083642541,
+      "reserved": {
+        "input_tokens": 36870,
+        "output_tokens": 18000,
+        "estimated_cost": 0.47148
+      },
+      "prices": {
+        "input_per_million": 4,
+        "output_per_million": 18,
+        "as_of": "2026-09-22",
+        "estimated": true
+      },
+      "response_id": "resp_0c489d23296442f4006ab2810ecc6487d1a6fd894bacb9582f",
+      "accounted": {
+        "input_tokens": 9558,
+        "output_tokens": 7218,
+        "estimated_cost": 0.168156
+      },
+      "result": {
+        "files": [
+          {
+            "content": "(() => {\n  'use strict';\n  const TARGET = [0, 1, 2, 3, 4, 5, 6, 7, 8];\n  const code = (board) => board.join('');\n  const shift = (board, operation, reverse) => {\n    const out = board.slice();\n    const line = operation % 3;\n    const offset = reverse ? 2 : 1;\n    if (operation < 3) {\n      for (let i = 0; i < 3; i++) out[line * 3 + ((i + offset) % 3)] = board[line * 3 + i];\n    } else {\n      for (let i = 0; i < 3; i++) out[((i + offset) % 3) * 3 + line] = board[i * 3 + line];\n    }\n    return out;\n  };\n\n  const distances = new Map();\n  const layers = [[], [], [], [], []];\n  const queue = [TARGET];\n  distances.set(code(TARGET), 0);\n  for (let cursor = 0; cursor < queue.length; cursor++) {\n    const board = queue[cursor];\n    const distance = distances.get(code(board));\n    layers[distance].push(board);\n    if (distance === 4) continue;\n    for (let operation = 0; operation < 6; operation++) {\n      const prior = shift(board, operation, true);\n      const id = code(prior);\n      if (!distances.has(id)) {\n        distances.set(id, distance + 1);\n        queue.push(prior);\n      }\n    }\n  }\n\n  const hasMixedShortestRoute = (board, distance, usedAxes) => {\n    if (distance === 0) return usedAxes === 3;\n    for (let operation = 0; operation < 6; operation++) {\n      const next = shift(board, operation, false);\n      if (distances.get(code(next)) === distance - 1 && hasMixedShortestRoute(next, distance - 1, usedAxes | (operation < 3 ? 1 : 2))) return true;\n    }\n    return false;\n  };\n  const choices = [[], [], [], [], []];\n  for (let depth = 2; depth <= 4; depth++) {\n    choices[depth] = layers[depth].filter((board) => hasMixedShortestRoute(board, depth, 0));\n  }\n\n  const generator = (seed) => {\n    let value = (seed >>> 0) || 0x9e3779b9;\n    return () => {\n      value = (value + 0x6d2b79f5) >>> 0;\n      let z = value;\n      z = Math.imul(z ^ (z >>> 15), z | 1);\n      z ^= z + Math.imul(z ^ (z >>> 7), z | 61);\n      return ((z ^ (z >>> 14)) >>> 0) / 4294967296;\n    };\n  };\n  const boardsFor = (seed) => {\n    const next = generator(seed);\n    return [2, 3, 4].map((depth) => choices[depth][Math.floor(next() * choices[depth].length)].slice());\n  };\n  const restored = (board) => board.every((tile, index) => tile === index);\n  const effect = (state, kind, ttl) => {\n    state.effects.push({ kind, ttl });\n    if (state.effects.length > 32) state.effects.shift();\n  };\n  const move = (state, operation) => {\n    state.board = shift(state.board, operation, false);\n    state.moves += 1;\n    state.stageMoves += 1;\n    state.score += 10;\n    state.interactions += 1;\n    effect(state, 'shift', 10);\n    if (restored(state.board)) {\n      state.solved += 1;\n      state.score += 200;\n      state.celebrate = 30;\n      effect(state, 'restore', 30);\n      if (state.solved === 3) state.outcome = 'complete';\n    }\n  };\n  const touchOperation = (pointer) => {\n    if (!pointer || !Number.isFinite(pointer.x) || !Number.isFinite(pointer.y)) return -1;\n    const x = pointer.x;\n    const y = pointer.y;\n    if (x >= 0.79 && x <= 1 && y >= 0.10 && y < 0.82) {\n      const row = Math.floor((y - 0.10) / 0.24);\n      return row >= 0 && row < 3 ? row : -1;\n    }\n    if (x >= 0.06 && x < 0.78 && y >= 0.82 && y <= 1) {\n      const column = Math.floor((x - 0.06) / 0.24);\n      return column >= 0 && column < 3 ? column + 3 : -1;\n    }\n    if (x >= 0.06 && x < 0.78 && y >= 0.10 && y < 0.82) {\n      const row = Math.floor((y - 0.10) / 0.24);\n      return row >= 0 && row < 3 ? row : -1;\n    }\n    return -1;\n  };\n  const create = (seed) => {\n    const boards = boardsFor(seed >>> 0);\n    return {\n      seed: seed >>> 0,\n      boards,\n      board: boards[0].slice(),\n      stage: 0,\n      solved: 0,\n      moves: 0,\n      stageMoves: 0,\n      cursor: 0,\n      outcome: null,\n      tick: 0,\n      score: 0,\n      interactions: 0,\n      effects: [],\n      celebrate: 0,\n      actionHeld: false,\n      pointerHeld: false,\n      lastX: 0\n    };\n  };\n  const step = (state, input) => {\n    const controls = input || {};\n    state.tick += 1;\n    state.effects = state.effects.filter((item) => {\n      item.ttl -= 1;\n      return item.ttl > 0;\n    });\n\n    const x = Number.isFinite(controls.x) ? controls.x : 0;\n    if (x === 1 && state.lastX !== 1) state.cursor = (state.cursor + 1) % 6;\n    if (x === -1 && state.lastX !== -1) state.cursor = (state.cursor + 5) % 6;\n    state.lastX = x;\n\n    const pointer = controls.pointer || null;\n    const pointerEdge = !!pointer && !state.pointerHeld;\n    state.pointerHeld = !!pointer;\n    const action = !!controls.action;\n    const actionEdge = action && !state.actionHeld;\n    state.actionHeld = action;\n\n    if (!state.outcome && state.celebrate === 0) {\n      const operation = pointerEdge ? touchOperation(pointer) : (actionEdge ? state.cursor : -1);\n      if (operation >= 0) move(state, operation);\n    }\n    if (state.celebrate > 0) {\n      state.celebrate -= 1;\n      if (state.celebrate === 0 && state.solved < 3) {\n        state.stage = state.solved;\n        state.board = state.boards[state.stage].slice();\n        state.stageMoves = 0;\n      }\n    }\n    if (!state.outcome && state.tick >= 2700) state.outcome = 'failure';\n    return state;\n  };\n  const observe = (state) => ({\n    tick: state.tick,\n    score: state.score,\n    progress: Math.floor(state.tick / 27),\n    interactions: state.interactions,\n    entities: 9 + state.effects.length,\n    board: state.board.slice(),\n    stage: state.stage,\n    solved: state.solved,\n    moves: state.moves,\n    stageMoves: state.stageMoves,\n    cursor: state.cursor,\n    outcome: state.outcome\n  });\n  const terminal = (state) => (state.outcome === 'complete' && state.tick >= 900) || (state.outcome === 'failure' && state.tick >= 2700);\n  globalThis.RibbonShiftCore = { create, step, observe, terminal };\n})();\n",
+            "path": "core.js"
+          },
+          {
+            "content": "(() => {\n  'use strict';\n  const canvas = document.querySelector('[data-game-canvas]');\n  const goal = document.querySelector('[data-ribbon-goal-progress]');\n  const score = document.querySelector('[data-game-score]');\n  const best = document.querySelector('[data-ribbon-best]');\n  const status = document.querySelector('[data-game-status]');\n  const result = document.querySelector('[data-ribbon-result]');\n  const detail = document.querySelector('[data-ribbon-detail]');\n  let mediaQuery = null;\n  let mediaListener = null;\n\n  const setMotion = () => {\n    const reduced = !!(mediaQuery && mediaQuery.matches);\n    document.documentElement.dataset.reducedMotion = String(reduced);\n    if (globalThis.RibbonPresentation) globalThis.RibbonPresentation.setReducedMotion(reduced);\n  };\n  const draw = (ctx, snapshot, size) => {\n    globalThis.RibbonShiftArt.draw(ctx, snapshot, size);\n    const state = snapshot.state;\n    const localBest = Number.isFinite(snapshot.best) ? snapshot.best : 0;\n    goal.textContent = `${state.solved}/3`;\n    score.textContent = String(state.score);\n    best.textContent = String(localBest);\n    status.textContent = state.outcome === 'complete'\n      ? 'Every ribbon is restored. Celebration continues.'\n      : `Mosaic ${Math.min(3, state.stage + 1)} of 3 · elapsed ${Math.floor(state.tick / 27)}%`;\n    const finished = globalThis.RibbonShiftCore.terminal(state);\n    result.hidden = !finished;\n    if (finished) {\n      const complete = state.outcome === 'complete';\n      result.querySelector('h2').textContent = complete ? 'MOSAICS RESTORED' : 'TIME UP';\n      result.querySelector('[data-ribbon-result-count]').textContent = `${state.solved}/3`;\n      detail.textContent = `${state.solved}/3 restored · ${state.moves} shifts used · current score ${state.score} · device best ${localBest} local practice`;\n    }\n  };\n  const boot = (metadata) => {\n    globalThis.PlayJoltGameKit.create({ core: globalThis.RibbonShiftCore, draw, canvas, metadata });\n    mediaQuery = globalThis.matchMedia('(prefers-reduced-motion: reduce)');\n    mediaListener = setMotion;\n    mediaQuery.addEventListener('change', mediaListener);\n    setMotion();\n    globalThis.addEventListener('pagehide', () => {\n      if (mediaQuery && mediaListener) mediaQuery.removeEventListener('change', mediaListener);\n    }, { once: true });\n  };\n  fetch('./manifest.json')\n    .then((response) => {\n      if (!response.ok) throw new Error('practice manifest unavailable');\n      return response.json();\n    })\n    .then(boot)\n    .catch((error) => {\n      const errorNode = document.querySelector('[data-game-error]');\n      errorNode.hidden = false;\n      errorNode.textContent = `Could not start practice: ${error.message}`;\n    });\n})();\n",
+            "path": "app.js"
+          },
+          {
+            "content": "(() => {\n  'use strict';\n  let reducedMotion = false;\n  const colors = ['#ef765e', '#77d7bb', '#f3c65b', '#e99b83', '#75a9c8', '#c887a6', '#c8dc8d', '#e5b36b', '#a893d5'];\n  const presentation = {\n    particles: 0,\n    setReducedMotion(value) { reducedMotion = !!value; },\n    snapshot() { return { reducedMotion, particles: presentation.particles, activeVoices: 0 }; }\n  };\n  globalThis.RibbonPresentation = presentation;\n  const rounded = (ctx, x, y, width, height, radius) => {\n    ctx.beginPath();\n    if (ctx.roundRect) ctx.roundRect(x, y, width, height, radius);\n    else ctx.rect(x, y, width, height);\n  };\n  const tile = (ctx, value, x, y, size, selected, checked) => {\n    rounded(ctx, x, y, size, size, size * 0.08);\n    ctx.fillStyle = '#17252d';\n    ctx.fill();\n    ctx.save();\n    rounded(ctx, x + 3, y + 3, size - 6, size - 6, size * 0.07);\n    ctx.clip();\n    ctx.fillStyle = colors[value];\n    ctx.fillRect(x + 3, y + 3, size - 6, size - 6);\n    ctx.strokeStyle = 'rgba(15,31,39,.65)';\n    ctx.lineWidth = Math.max(2, size * 0.042);\n    for (let stripe = -size; stripe < size * 2; stripe += size * 0.25) {\n      ctx.beginPath();\n      ctx.moveTo(x + stripe, y + 2);\n      ctx.lineTo(x + stripe + size * 0.45, y + size - 2);\n      ctx.stroke();\n    }\n    ctx.strokeStyle = 'rgba(255,248,224,.38)';\n    ctx.lineWidth = size * 0.07;\n    ctx.beginPath();\n    ctx.moveTo(x + size * 0.15, y + size * 0.74);\n    ctx.quadraticCurveTo(x + size * 0.47, y + size * 0.13, x + size * 0.84, y + size * 0.34);\n    ctx.stroke();\n    ctx.restore();\n    ctx.fillStyle = '#10232b';\n    ctx.font = `800 ${Math.max(20, size * 0.31)}px system-ui`;\n    ctx.textAlign = 'center';\n    ctx.textBaseline = 'middle';\n    ctx.fillText(String(value + 1), x + size / 2, y + size / 2 + 1);\n    if (selected || checked) {\n      rounded(ctx, x + 3, y + 3, size - 6, size - 6, size * 0.07);\n      ctx.strokeStyle = checked ? '#8ff0ca' : '#fff4d3';\n      ctx.lineWidth = checked ? 3 : Math.max(2, size * 0.04);\n      ctx.stroke();\n    }\n  };\n  const draw = (ctx, snapshot, size) => {\n    const state = snapshot.state;\n    const width = size.width;\n    const height = size.height;\n    const unit = Math.min(width, height);\n    const originX = (width - unit) / 2;\n    const originY = (height - unit) / 2;\n    const X = (value) => originX + value * unit;\n    const Y = (value) => originY + value * unit;\n    presentation.particles = reducedMotion ? 0 : Math.min(32, state.effects.length * 4);\n    ctx.clearRect(0, 0, width, height);\n    ctx.fillStyle = '#0c1720';\n    ctx.fillRect(0, 0, width, height);\n    rounded(ctx, X(0.035), Y(0.065), unit * 0.93, unit * 0.88, unit * 0.035);\n    ctx.fillStyle = '#132631';\n    ctx.fill();\n    ctx.strokeStyle = '#31505a';\n    ctx.lineWidth = 2;\n    ctx.stroke();\n    ctx.fillStyle = '#f3c65b';\n    ctx.font = `700 ${Math.max(12, unit * 0.034)}px system-ui`;\n    ctx.textAlign = 'left';\n    ctx.textBaseline = 'alphabetic';\n    ctx.fillText(`MOSAIC ${state.stage + 1}/3`, X(0.07), Y(0.075));\n    const cell = unit * 0.24;\n    const left = X(0.06);\n    const top = Y(0.10);\n    const checking = state.celebrate > 0;\n    for (let index = 0; index < 9; index++) {\n      const row = Math.floor(index / 3);\n      const column = index % 3;\n      const selected = (state.cursor < 3 && row === state.cursor) || (state.cursor >= 3 && column === state.cursor - 3);\n      tile(ctx, state.board[index], left + column * cell, top + row * cell, cell, selected, checking);\n    }\n    for (let row = 0; row < 3; row++) {\n      const x = X(0.80), y = Y(0.10 + row * 0.24), button = unit * 0.15;\n      rounded(ctx, x, y, button, button, button * 0.13);\n      ctx.fillStyle = state.cursor === row ? '#f3c65b' : '#ef765e';\n      ctx.fill();\n      ctx.fillStyle = '#13242b';\n      ctx.font = `900 ${Math.max(23, unit * 0.075)}px system-ui`;\n      ctx.textAlign = 'center';\n      ctx.textBaseline = 'middle';\n      ctx.fillText('→', x + button / 2, y + button / 2);\n    }\n    for (let column = 0; column < 3; column++) {\n      const x = X(0.06 + column * 0.24), y = Y(0.83), button = unit * 0.15;\n      rounded(ctx, x, y, button, button, button * 0.13);\n      ctx.fillStyle = state.cursor === column + 3 ? '#f3c65b' : '#77d7bb';\n      ctx.fill();\n      ctx.fillStyle = '#13242b';\n      ctx.font = `900 ${Math.max(23, unit * 0.075)}px system-ui`;\n      ctx.textAlign = 'center';\n      ctx.textBaseline = 'middle';\n      ctx.fillText('↓', x + button / 2, y + button / 2);\n    }\n    if (state.celebrate > 0) {\n      ctx.fillStyle = 'rgba(10,25,31,.78)';\n      ctx.fillRect(X(0.06), Y(0.39), unit * 0.72, unit * 0.14);\n      ctx.fillStyle = '#fff2d7';\n      ctx.font = `900 ${Math.max(18, unit * 0.062)}px system-ui`;\n      ctx.textAlign = 'center';\n      ctx.textBaseline = 'middle';\n      ctx.fillText(state.solved === 3 ? 'MOSAICS RESTORED' : 'MOSAIC RESTORED', X(0.42), Y(0.46));\n    }\n    if (!reducedMotion && presentation.particles) {\n      ctx.fillStyle = '#f3c65b';\n      for (let i = 0; i < presentation.particles; i++) {\n        const angle = i * 2.4 + state.tick * 0.08;\n        const radius = unit * (0.18 + (i % 4) * 0.025);\n        ctx.globalAlpha = 0.5;\n        ctx.fillRect(X(0.42) + Math.cos(angle) * radius, Y(0.46) + Math.sin(angle) * radius, 3, 3);\n      }\n      ctx.globalAlpha = 1;\n    }\n  };\n  globalThis.RibbonShiftArt = { draw };\n})();\n",
+            "path": "view/art.js"
+          },
+          {
+            "content": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n  <meta name=\"robots\" content=\"noindex,nofollow\">\n  <title>Ribbon Shift</title>\n  <link rel=\"stylesheet\" href=\"./style.css\">\n</head>\n<body>\n  <main class=\"shell\">\n    <header class=\"masthead\">\n      <p class=\"eyebrow\">LOCAL SPATIAL PRACTICE</p>\n      <h1>RESTORE 3 MOSAICS</h1>\n      <p class=\"intro\">Tap a row to slide right; tap a bottom arrow to slide down.</p>\n    </header>\n    <div class=\"goalbar\" aria-label=\"Goal progress\"><span>GOAL PROGRESS</span><strong data-ribbon-goal-progress>0/3</strong></div>\n    <div class=\"reference\" aria-label=\"Target reference: tiles one through nine in reading order\"><span class=\"mini\" aria-hidden=\"true\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span>TARGET: 1 → 9</span></div>\n    <section class=\"game-frame\">\n      <canvas data-game-canvas tabindex=\"0\" aria-label=\"Ribbon Shift mosaic board\"></canvas>\n      <div class=\"hud\"><div class=\"stat\">CURRENT SCORE <b data-game-score>0</b></div><div class=\"stat\">DEVICE BEST / LOCAL PRACTICE <b data-ribbon-best>0</b></div></div>\n      <p class=\"instruction\" data-game-status>Choose a ribbon handle, then shift it.</p>\n      <div class=\"controls\"><button data-game-start>START PRACTICE</button><button data-game-pause>PAUSE</button><button data-game-resume>RESUME</button></div>\n      <div class=\"result\" data-ribbon-result hidden><h2>MOSAICS RESTORED</h2><strong data-ribbon-result-count>3/3</strong><p data-ribbon-detail></p><button data-game-restart>REPLAY SAME WEAVE</button></div>\n      <p data-game-error hidden class=\"error\"></p>\n    </section>\n  </main>\n  <script src=\"./core.js\"></script>\n  <script src=\"./view/art.js\"></script>\n  <script src=\"./gamekit.js\"></script>\n  <script src=\"./app.js\"></script>\n</body>\n</html>\n",
+            "path": "index.html"
+          },
+          {
+            "content": "*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#09131b;color:#f9efd9;font-family:system-ui,sans-serif}body{overflow-x:hidden}.shell{width:min(100%,760px);margin:auto;padding:16px 12px 30px}.masthead{text-align:center}.eyebrow{margin:0;color:#77d7bb;font-size:12px;font-weight:800;letter-spacing:.14em}.masthead h1{font-size:clamp(29px,8vw,48px);line-height:1;margin:7px 0}.intro{margin:0 auto 12px;max-width:520px;color:#c9d8d5;font-size:15px}.goalbar{display:flex;justify-content:space-between;align-items:center;background:#172832;border:1px solid #31505a;border-radius:12px;padding:9px 12px;margin:12px 0;font-weight:800}.goalbar strong{color:#f3c65b;font-size:20px}.reference{display:flex;gap:10px;align-items:center;justify-content:center;margin:10px 0 14px;color:#c9d8d5;font-size:13px}.mini{display:grid;grid-template-columns:repeat(3,13px);gap:2px}.mini i{width:13px;height:13px;background:#ef765e;border-radius:2px}.mini i:nth-child(2n){background:#77d7bb}.mini i:nth-child(3n){background:#f3c65b}.game-frame{width:min(100%,640px);margin:auto}canvas{display:block;width:100%;aspect-ratio:1/1;min-width:300px;background:#0c1720;border-radius:15px;touch-action:none;outline:none}.hud{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.stat{background:#14252e;padding:9px;border-radius:9px;font-size:12px;color:#aac0bd}.stat b{display:block;font-size:20px;color:#fff1d8}.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}button{min-height:44px;border:0;border-radius:9px;padding:10px 15px;font:800 14px system-ui;background:#77d7bb;color:#11232a;cursor:pointer}button[data-game-start]{background:#f3c65b;font-size:16px;min-width:190px}button[data-game-pause],button[data-game-resume]{background:#ef765e}.instruction{text-align:center;color:#c8d7d4;font-size:14px;margin:10px 0}.result{margin-top:14px;padding:18px;text-align:center;background:#203641;border:2px solid #f3c65b;border-radius:14px}.result h2{margin:0;color:#f3c65b;font-size:27px}.result strong{font-size:36px;display:block}.result p{color:#d4e1dc;font-size:14px}.error{color:#ffd0c5;text-align:center}@media(min-width:800px){.shell{width:min(96%,1050px)}.game-frame{width:min(640px,72vh)}}\n",
+            "path": "style.css"
+          },
+          {
+            "content": "# Ribbon Shift\n\nRibbon Shift is an original toroidal-strip spatial puzzle. Restore three woven 3×3 mosaics by moving a whole row right or a whole column down. Every shift wraps at the far edge; tiles never merge.\n\nUse Left and Right to choose one of the six handles, then press Space to shift that strip. On touch screens, tap any row (or its right arrow) to move that row right, or tap a bottom arrow to move its column down.\n\nEach deterministic seed creates three solvable boards with exact shortest solution depths of two, three, and four moves. Every selected shortest route uses both row and column shifts. Replay returns to the same seeded weave. Current score and device-local practice best are supplied by GameKit.\n",
+            "path": "README.md"
+          }
+        ],
+        "tests": [
+          "Load the page at 390px, 768px, and 1280px widths and verify the start control, goal progress, canvas, and local-best labels are visible.",
+          "For seed 23, inspect RibbonShiftCore.create(23) and verify board has nine values 0 through 8, cursor is 0, moves is 0, and stage is 0.",
+          "Use independently discovered legal shifts to solve all three boards; verify solved progresses 0/3 through 3/3 and completion does not terminal before tick 900.",
+          "Tap a row region and a bottom-column region once each and verify moves increments once per discrete pointer contact.",
+          "Toggle reduced-motion preference and verify RibbonPresentation.snapshot().particles is zero while reduced motion is active."
+        ],
+        "summary": "Repaired Ribbon Shift with bounded deterministic board generation, exact mixed-axis shortest-depth candidates, resilient canvas drawing, live reduced-motion reporting, and corrected result/goal DOM wiring.",
+        "status": "complete",
+        "provider_metadata": {
+          "provider": "openai-responses/gpt-5.6-terra",
+          "response_id": "resp_0c489d23296442f4006ab2810ecc6487d1a6fd894bacb9582f",
+          "usage": {
+            "input_tokens": 9558,
+            "output_tokens": 7218,
+            "estimated_cost": 0.168156
+          },
+          "estimated_cost": 0.168156,
+          "cost_basis": "estimated",
+          "billed_cost": null
+        }
+      },
+      "completed_at": 1790083418391
+    },
+    "GAME-20260922-131/repair/2": {
+      "operation_id": "GAME-20260922-131/repair/2",
+      "game_id": "GAME-20260922-131",
+      "version": "v3",
+      "request_hash": "df507460eabfc7283bed4159ce085a4e936bf3a426349b07f71406eabec787d3",
+      "day": "2026-09-22",
+      "state": "COMPLETE",
+      "provider": "openai-responses/gpt-5.6-terra",
+      "started_at": 1790083442773,
+      "deadline_at": 1790083742773,
+      "reserved": {
+        "input_tokens": 39613,
+        "output_tokens": 18000,
+        "estimated_cost": 0.482452
+      },
+      "prices": {
+        "input_per_million": 4,
+        "output_per_million": 18,
+        "as_of": "2026-09-22",
+        "estimated": true
+      },
+      "response_id": "resp_0173afe53fc8905f006ab28173114887d194e411f343d11dee",
+      "accounted": {
+        "input_tokens": 10388,
+        "output_tokens": 990,
+        "estimated_cost": 0.059372
+      },
+      "result": {
+        "files": [
+          {
+            "content": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n  <meta name=\"robots\" content=\"noindex,nofollow\">\n  <title>Ribbon Shift</title>\n  <link rel=\"stylesheet\" href=\"./style.css\">\n</head>\n<body>\n  <main class=\"shell\">\n    <header class=\"masthead\">\n      <p class=\"eyebrow\">LOCAL SPATIAL PRACTICE</p>\n      <h1>RESTORE 3 MOSAICS</h1>\n      <p class=\"intro\">Tap a row to slide right; tap a bottom arrow to slide down.</p>\n    </header>\n    <div class=\"goalbar\" aria-label=\"Goal progress\"><span>GOAL PROGRESS</span><strong data-ribbon-goal-progress data-game-progress>0/3</strong></div>\n    <div class=\"reference\" aria-label=\"Target reference: tiles one through nine in reading order\"><span class=\"mini\" aria-hidden=\"true\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span>TARGET: 1 → 9</span></div>\n    <section class=\"game-frame\">\n      <canvas data-game-canvas tabindex=\"0\" aria-label=\"Ribbon Shift mosaic board\"></canvas>\n      <div class=\"hud\"><div class=\"stat\">CURRENT SCORE <b data-game-score>0</b></div><div class=\"stat\">DEVICE BEST / LOCAL PRACTICE <b data-ribbon-best>0</b></div></div>\n      <p class=\"instruction\" data-game-status>Choose a ribbon handle, then shift it.</p>\n      <div class=\"controls\"><button data-game-start>START PRACTICE</button><button data-game-pause>PAUSE</button><button data-game-resume>RESUME</button></div>\n      <div class=\"result\" data-ribbon-result hidden><h2>MOSAICS RESTORED</h2><strong data-ribbon-result-count>3/3</strong><p data-ribbon-detail></p><button data-game-restart>REPLAY SAME WEAVE</button></div>\n      <p data-game-error hidden class=\"error\"></p>\n    </section>\n  </main>\n  <script src=\"./core.js\"></script>\n  <script src=\"./view/art.js\"></script>\n  <script src=\"./gamekit.js\"></script>\n  <script src=\"./app.js\"></script>\n</body>\n</html>\n",
+            "path": "index.html"
+          }
+        ],
+        "tests": [
+          "Suggested verification: load the page at 390px, 768px, and 1280px and confirm GameKit initialization succeeds now that the required [data-game-progress] hook is present.",
+          "Suggested verification: start, pause, resume, solve with keyboard and pointer inputs, then replay."
+        ],
+        "summary": "Restored the required GameKit progress DOM hook by applying data-game-progress to the existing visible ribbon goal-progress element. This preserves the custom 0/3 objective display while satisfying the GameKit required DOM contract that likely prevented initialization.",
+        "status": "complete",
+        "provider_metadata": {
+          "provider": "openai-responses/gpt-5.6-terra",
+          "response_id": "resp_0173afe53fc8905f006ab28173114887d194e411f343d11dee",
+          "usage": {
+            "input_tokens": 10388,
+            "output_tokens": 990,
+            "estimated_cost": 0.059372
+          },
+          "estimated_cost": 0.059372,
+          "cost_basis": "estimated",
+          "billed_cost": null
+        }
+      },
+      "completed_at": 1790083464084
+    },
+    "GAME-20260922-131/repair/3": {
+      "operation_id": "GAME-20260922-131/repair/3",
+      "game_id": "GAME-20260922-131",
+      "version": "v4",
+      "request_hash": "d1549ba6d8ae7b2d4cf9f62a6d53fb61bfdfda716531adfe641e3e5667144cf5",
+      "day": "2026-09-22",
+      "state": "COMPLETE",
+      "provider": "openai-responses/gpt-5.6-terra",
+      "started_at": 1790083549083,
+      "deadline_at": 1790083849083,
+      "reserved": {
+        "input_tokens": 58868,
+        "output_tokens": 18000,
+        "estimated_cost": 0.559472
+      },
+      "prices": {
+        "input_per_million": 4,
+        "output_per_million": 18,
+        "as_of": "2026-09-22",
+        "estimated": true
+      },
+      "response_id": "resp_04979a75ceea0f21006ab281dd608887d1a7c2a4ab1db1bf0b",
+      "accounted": {
+        "input_tokens": 16716,
+        "output_tokens": 5021,
+        "estimated_cost": 0.157242
+      },
+      "result": {
+        "files": [
+          {
+            "content": "(() => {\n  'use strict';\n  const canvas = document.querySelector('[data-game-canvas]');\n  const goal = document.querySelector('[data-ribbon-goal-progress]');\n  const elapsed = document.querySelector('[data-ribbon-elapsed]');\n  const score = document.querySelector('[data-game-score]');\n  const best = document.querySelector('[data-ribbon-best]');\n  const status = document.querySelector('[data-game-status]');\n  const result = document.querySelector('[data-ribbon-result]');\n  const detail = document.querySelector('[data-ribbon-detail]');\n  let mediaQuery = null;\n  let mediaListener = null;\n\n  const setMotion = () => {\n    const reduced = !!(mediaQuery && mediaQuery.matches);\n    document.documentElement.dataset.reducedMotion = String(reduced);\n    if (globalThis.RibbonPresentation) globalThis.RibbonPresentation.setReducedMotion(reduced);\n  };\n\n  const draw = (ctx, snapshot, size) => {\n    globalThis.RibbonShiftArt.draw(ctx, snapshot, size);\n    const state = snapshot.state;\n    const localBest = Number.isFinite(snapshot.best) ? snapshot.best : 0;\n    // This is deliberately not the GameKit elapsed-progress node. Goal progress\n    // remains objective progress even when the kit refreshes elapsed progress.\n    goal.textContent = `${state.solved}/3`;\n    elapsed.textContent = `ELAPSED ${Math.min(100, Math.floor(state.tick / 27))}%`;\n    score.textContent = String(state.score);\n    best.textContent = String(localBest);\n    status.textContent = state.outcome === 'complete'\n      ? 'All three mosaics are restored. The completed weave is on display.'\n      : state.outcome === 'failure'\n        ? `Time ended with ${state.solved}/3 mosaics restored.`\n        : state.celebrate > 0\n          ? `Mosaic ${state.solved}/3 restored — preparing the next weave.`\n          : `Mosaic ${Math.min(3, state.stage + 1)} of 3 · choose a ribbon and shift it.`;\n    const finished = globalThis.RibbonShiftCore.terminal(state);\n    result.hidden = !finished;\n    if (finished) {\n      const complete = state.outcome === 'complete';\n      result.querySelector('h2').textContent = complete ? 'MOSAICS RESTORED' : 'TIME UP';\n      result.querySelector('[data-ribbon-result-count]').textContent = `${state.solved}/3`;\n      detail.textContent = complete\n        ? `All 3 mosaics restored · ${state.moves} shifts used · current score ${state.score} · device best ${localBest} local practice`\n        : `${state.solved}/3 restored · ${state.moves} shifts used · current score ${state.score} · device best ${localBest} local practice`;\n    }\n  };\n\n  const boot = (metadata) => {\n    mediaQuery = globalThis.matchMedia('(prefers-reduced-motion: reduce)');\n    mediaListener = setMotion;\n    mediaQuery.addEventListener('change', mediaListener);\n    // Set the live presentation preference before the first GameKit draw/capture.\n    setMotion();\n    globalThis.PlayJoltGameKit.create({ core: globalThis.RibbonShiftCore, draw, canvas, metadata });\n    globalThis.addEventListener('pagehide', () => {\n      if (mediaQuery && mediaListener) mediaQuery.removeEventListener('change', mediaListener);\n    }, { once: true });\n  };\n\n  fetch('./manifest.json')\n    .then((response) => {\n      if (!response.ok) throw new Error('practice manifest unavailable');\n      return response.json();\n    })\n    .then(boot)\n    .catch((error) => {\n      const errorNode = document.querySelector('[data-game-error]');\n      errorNode.hidden = false;\n      errorNode.textContent = `Could not start practice: ${error.message}`;\n    });\n})();\n",
+            "path": "app.js"
+          },
+          {
+            "content": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n  <meta name=\"robots\" content=\"noindex,nofollow\">\n  <title>Ribbon Shift</title>\n  <link rel=\"stylesheet\" href=\"./style.css\">\n</head>\n<body>\n  <main class=\"shell\">\n    <header class=\"masthead\">\n      <p class=\"eyebrow\">LOCAL SPATIAL PRACTICE</p>\n      <h1>RESTORE 3 MOSAICS</h1>\n      <p class=\"intro\">Tap a row to slide right; tap a bottom arrow to slide down.</p>\n    </header>\n    <div class=\"goalbar\" aria-label=\"Goal progress\"><span>GOAL PROGRESS</span><strong data-ribbon-goal-progress>0/3</strong></div>\n    <div class=\"reference\" aria-label=\"Target reference: tiles one through nine in reading order\"><span class=\"mini\" aria-hidden=\"true\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span>TARGET: 1 → 9</span></div>\n    <section class=\"game-frame\">\n      <canvas data-game-canvas tabindex=\"0\" aria-label=\"Ribbon Shift mosaic board\"></canvas>\n      <div class=\"hud\">\n        <div class=\"stat\">CURRENT SCORE <b data-game-score>0</b></div>\n        <div class=\"stat\">DEVICE BEST / LOCAL PRACTICE <b data-ribbon-best>0</b></div>\n      </div>\n      <p class=\"instruction\" data-game-status>Choose a ribbon handle, then shift it.</p>\n      <p class=\"elapsed\" data-game-progress data-ribbon-elapsed>ELAPSED 0%</p>\n      <div class=\"controls\"><button data-game-start>START PRACTICE</button><button data-game-pause>PAUSE</button><button data-game-resume>RESUME</button></div>\n      <div class=\"result\" data-ribbon-result hidden><h2>MOSAICS RESTORED</h2><strong data-ribbon-result-count>3/3</strong><p data-ribbon-detail></p><button data-game-restart>REPLAY SAME WEAVE</button></div>\n      <p data-game-error hidden class=\"error\"></p>\n    </section>\n  </main>\n  <script src=\"./core.js\"></script>\n  <script src=\"./view/art.js\"></script>\n  <script src=\"./gamekit.js\"></script>\n  <script src=\"./app.js\"></script>\n</body>\n</html>\n",
+            "path": "index.html"
+          },
+          {
+            "content": "(() => {\n  'use strict';\n  let reducedMotion = false;\n  const colors = ['#ef765e', '#77d7bb', '#f3c65b', '#e99b83', '#75a9c8', '#c887a6', '#c8dc8d', '#e5b36b', '#a893d5'];\n  const presentation = {\n    particles: 0,\n    setReducedMotion(value) {\n      reducedMotion = !!value;\n      if (reducedMotion) presentation.particles = 0;\n    },\n    snapshot() { return { reducedMotion, particles: presentation.particles, activeVoices: 0 }; }\n  };\n  globalThis.RibbonPresentation = presentation;\n\n  const rounded = (ctx, x, y, width, height, radius) => {\n    ctx.beginPath();\n    if (ctx.roundRect) ctx.roundRect(x, y, width, height, radius);\n    else ctx.rect(x, y, width, height);\n  };\n\n  const tile = (ctx, value, x, y, size, selected, checked) => {\n    rounded(ctx, x, y, size, size, size * 0.08);\n    ctx.fillStyle = '#17252d';\n    ctx.fill();\n    ctx.save();\n    rounded(ctx, x + 3, y + 3, size - 6, size - 6, size * 0.07);\n    ctx.clip();\n    ctx.fillStyle = colors[value];\n    ctx.fillRect(x + 3, y + 3, size - 6, size - 6);\n    ctx.strokeStyle = 'rgba(15,31,39,.65)';\n    ctx.lineWidth = Math.max(2, size * 0.042);\n    for (let stripe = -size; stripe < size * 2; stripe += size * 0.25) {\n      ctx.beginPath();\n      ctx.moveTo(x + stripe, y + 2);\n      ctx.lineTo(x + stripe + size * 0.45, y + size - 2);\n      ctx.stroke();\n    }\n    ctx.strokeStyle = 'rgba(255,248,224,.38)';\n    ctx.lineWidth = size * 0.07;\n    ctx.beginPath();\n    ctx.moveTo(x + size * 0.15, y + size * 0.74);\n    ctx.quadraticCurveTo(x + size * 0.47, y + size * 0.13, x + size * 0.84, y + size * 0.34);\n    ctx.stroke();\n    ctx.restore();\n    ctx.fillStyle = '#10232b';\n    ctx.font = `800 ${Math.max(20, size * 0.31)}px system-ui`;\n    ctx.textAlign = 'center';\n    ctx.textBaseline = 'middle';\n    ctx.fillText(String(value + 1), x + size / 2, y + size / 2 + 1);\n    if (selected || checked) {\n      rounded(ctx, x + 3, y + 3, size - 6, size - 6, size * 0.07);\n      ctx.strokeStyle = checked ? '#8ff0ca' : '#fff4d3';\n      ctx.lineWidth = checked ? 3 : Math.max(2, size * 0.04);\n      ctx.stroke();\n    }\n  };\n\n  const draw = (ctx, snapshot, size) => {\n    const state = snapshot.state;\n    const width = size.width;\n    const height = size.height;\n    const unit = Math.min(width, height);\n    const originX = (width - unit) / 2;\n    const originY = (height - unit) / 2;\n    const X = (value) => originX + value * unit;\n    const Y = (value) => originY + value * unit;\n    presentation.particles = reducedMotion ? 0 : Math.min(32, state.effects.length * 4);\n\n    ctx.clearRect(0, 0, width, height);\n    ctx.fillStyle = '#0c1720';\n    ctx.fillRect(0, 0, width, height);\n    rounded(ctx, X(0.035), Y(0.065), unit * 0.93, unit * 0.88, unit * 0.035);\n    ctx.fillStyle = '#132631';\n    ctx.fill();\n    ctx.strokeStyle = '#31505a';\n    ctx.lineWidth = 2;\n    ctx.stroke();\n    ctx.fillStyle = '#f3c65b';\n    ctx.font = `700 ${Math.max(12, unit * 0.034)}px system-ui`;\n    ctx.textAlign = 'left';\n    ctx.textBaseline = 'alphabetic';\n    ctx.fillText(`MOSAIC ${state.stage + 1}/3`, X(0.07), Y(0.075));\n\n    const cell = unit * 0.24;\n    const left = X(0.06);\n    const top = Y(0.10);\n    // Restored feedback is intentionally an outline only: no canvas text can\n    // collide with the numbered tile labels during a stage transition.\n    const checking = state.celebrate > 0;\n    for (let index = 0; index < 9; index++) {\n      const row = Math.floor(index / 3);\n      const column = index % 3;\n      const selected = (state.cursor < 3 && row === state.cursor) || (state.cursor >= 3 && column === state.cursor - 3);\n      tile(ctx, state.board[index], left + column * cell, top + row * cell, cell, selected, checking);\n    }\n\n    for (let row = 0; row < 3; row++) {\n      const x = X(0.80), y = Y(0.10 + row * 0.24), button = unit * 0.15;\n      rounded(ctx, x, y, button, button, button * 0.13);\n      ctx.fillStyle = state.cursor === row ? '#f3c65b' : '#ef765e';\n      ctx.fill();\n      ctx.fillStyle = '#13242b';\n      ctx.font = `900 ${Math.max(23, unit * 0.075)}px system-ui`;\n      ctx.textAlign = 'center';\n      ctx.textBaseline = 'middle';\n      ctx.fillText('→', x + button / 2, y + button / 2);\n    }\n    for (let column = 0; column < 3; column++) {\n      const x = X(0.06 + column * 0.24), y = Y(0.83), button = unit * 0.15;\n      rounded(ctx, x, y, button, button, button * 0.13);\n      ctx.fillStyle = state.cursor === column + 3 ? '#f3c65b' : '#77d7bb';\n      ctx.fill();\n      ctx.fillStyle = '#13242b';\n      ctx.font = `900 ${Math.max(23, unit * 0.075)}px system-ui`;\n      ctx.textAlign = 'center';\n      ctx.textBaseline = 'middle';\n      ctx.fillText('↓', x + button / 2, y + button / 2);\n    }\n\n    if (!reducedMotion && presentation.particles) {\n      ctx.fillStyle = '#f3c65b';\n      for (let i = 0; i < presentation.particles; i++) {\n        const angle = i * 2.4 + state.tick * 0.08;\n        const radius = unit * (0.18 + (i % 4) * 0.025);\n        ctx.globalAlpha = 0.5;\n        ctx.fillRect(X(0.42) + Math.cos(angle) * radius, Y(0.46) + Math.sin(angle) * radius, 3, 3);\n      }\n      ctx.globalAlpha = 1;\n    }\n  };\n  globalThis.RibbonShiftArt = { draw };\n})();\n",
+            "path": "view/art.js"
+          },
+          {
+            "content": "*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#09131b;color:#f9efd9;font-family:system-ui,sans-serif}body{overflow-x:hidden}.shell{width:min(100%,760px);margin:auto;padding:16px 12px 30px}.masthead{text-align:center}.eyebrow{margin:0;color:#77d7bb;font-size:12px;font-weight:800;letter-spacing:.14em}.masthead h1{font-size:clamp(29px,8vw,48px);line-height:1;margin:7px 0}.intro{margin:0 auto 12px;max-width:520px;color:#c9d8d5;font-size:15px}.goalbar{display:flex;justify-content:space-between;align-items:center;background:#172832;border:1px solid #31505a;border-radius:12px;padding:9px 12px;margin:12px 0;font-weight:800}.goalbar strong{color:#f3c65b;font-size:20px}.reference{display:flex;gap:10px;align-items:center;justify-content:center;margin:10px 0 14px;color:#c9d8d5;font-size:13px}.mini{display:grid;grid-template-columns:repeat(3,13px);gap:2px}.mini i{width:13px;height:13px;background:#ef765e;border-radius:2px}.mini i:nth-child(2n){background:#77d7bb}.mini i:nth-child(3n){background:#f3c65b}.game-frame{width:min(100%,640px);margin:auto}canvas{display:block;width:100%;aspect-ratio:1/1;min-width:300px;background:#0c1720;border-radius:15px;touch-action:none;outline:none}.hud{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.stat{background:#14252e;padding:9px;border-radius:9px;font-size:12px;color:#aac0bd}.stat b{display:block;font-size:20px;color:#fff1d8}.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}button{min-height:44px;border:0;border-radius:9px;padding:10px 15px;font:800 14px system-ui;background:#77d7bb;color:#11232a;cursor:pointer}button[data-game-start]{background:#f3c65b;font-size:16px;min-width:190px}button[data-game-pause],button[data-game-resume]{background:#ef765e}.instruction{text-align:center;color:#c8d7d4;font-size:14px;margin:10px 0 3px}.elapsed{text-align:center;color:#77d7bb;font-size:12px;font-weight:800;letter-spacing:.08em;margin:0 0 10px}.result{margin-top:14px;padding:18px;text-align:center;background:#203641;border:2px solid #f3c65b;border-radius:14px}.result h2{margin:0;color:#f3c65b;font-size:27px}.result strong{font-size:36px;display:block}.result p{color:#d4e1dc;font-size:14px}.error{color:#ffd0c5;text-align:center}@media(min-width:800px){.shell{width:min(96%,1050px)}.game-frame{width:min(640px,72vh)}}\n",
+            "path": "style.css"
+          }
+        ],
+        "tests": [
+          "Verify [data-ribbon-goal-progress] remains literal objective progress (0/3 through 3/3) while GameKit owns the separate [data-game-progress] elapsed node.",
+          "Verify a completion transition uses only tile outlines and status DOM text, with no canvas text drawn over tile numbers.",
+          "Verify RibbonPresentation.snapshot().reducedMotion and particles update immediately after a prefers-reduced-motion change."
+        ],
+        "summary": "Separated immutable objective progress from GameKit elapsed progress, removed the overlapping canvas restoration banner, and initialized/reconciled reduced-motion presentation before first kit draw and on live preference changes.",
+        "status": "complete",
+        "provider_metadata": {
+          "provider": "openai-responses/gpt-5.6-terra",
+          "response_id": "resp_04979a75ceea0f21006ab281dd608887d1a7c2a4ab1db1bf0b",
+          "usage": {
+            "input_tokens": 16716,
+            "output_tokens": 5021,
+            "estimated_cost": 0.157242
+          },
+          "estimated_cost": 0.157242,
+          "cost_basis": "estimated",
+          "billed_cost": null
+        }
+      },
+      "completed_at": 1790083603371
+    },
+    "GAME-20260922-131/repair/4": {
+      "operation_id": "GAME-20260922-131/repair/4",
+      "game_id": "GAME-20260922-131",
+      "version": "v5",
+      "request_hash": "dc4a6f44d1a0e6310262d43c6b839231241aa31cad75d65d2782567f5b3f097a",
+      "day": "2026-09-22",
+      "state": "COMPLETE",
+      "provider": "openai-responses/gpt-5.6-terra",
+      "started_at": 1790083688626,
+      "deadline_at": 1790083988626,
+      "reserved": {
+        "input_tokens": 39123,
+        "output_tokens": 18000,
+        "estimated_cost": 0.480492
+      },
+      "prices": {
+        "input_per_million": 4,
+        "output_per_million": 18,
+        "as_of": "2026-09-22",
+        "estimated": true
+      },
+      "response_id": "resp_01655a8a035dc576006ab28269383c87d198ab8a7b04b90be0",
+      "accounted": {
+        "input_tokens": 10243,
+        "output_tokens": 1323,
+        "estimated_cost": 0.064786
+      },
+      "result": {
+        "files": [
+          {
+            "content": "(() => {\n  'use strict';\n  const canvas = document.querySelector('[data-game-canvas]');\n  const goal = document.querySelector('[data-ribbon-goal-progress]');\n  const elapsed = document.querySelector('[data-ribbon-elapsed]');\n  const score = document.querySelector('[data-game-score]');\n  const best = document.querySelector('[data-ribbon-best]');\n  const status = document.querySelector('[data-game-status]');\n  const result = document.querySelector('[data-ribbon-result]');\n  const detail = document.querySelector('[data-ribbon-detail]');\n  let mediaQuery = null;\n  let mediaListener = null;\n\n  const setMotion = (change) => {\n    // A change event is authoritative. This also supports MediaQueryList test\n    // shims which invoke listeners before updating their public matches field.\n    const reduced = change && typeof change.matches === 'boolean'\n      ? change.matches\n      : !!(mediaQuery && mediaQuery.matches);\n    document.documentElement.dataset.reducedMotion = String(reduced);\n    if (globalThis.RibbonPresentation) globalThis.RibbonPresentation.setReducedMotion(reduced);\n  };\n\n  const draw = (ctx, snapshot, size) => {\n    globalThis.RibbonShiftArt.draw(ctx, snapshot, size);\n    const state = snapshot.state;\n    const localBest = Number.isFinite(snapshot.best) ? snapshot.best : 0;\n    goal.textContent = `${state.solved}/3`;\n    elapsed.textContent = `ELAPSED ${Math.min(100, Math.floor(state.tick / 27))}%`;\n    score.textContent = String(state.score);\n    best.textContent = String(localBest);\n    status.textContent = state.outcome === 'complete'\n      ? 'All three mosaics are restored. The completed weave is on display.'\n      : state.outcome === 'failure'\n        ? `Time ended with ${state.solved}/3 mosaics restored.`\n        : state.celebrate > 0\n          ? `Mosaic ${state.solved}/3 restored — preparing the next weave.`\n          : `Mosaic ${Math.min(3, state.stage + 1)} of 3 · choose a ribbon and shift it.`;\n    const finished = globalThis.RibbonShiftCore.terminal(state);\n    result.hidden = !finished;\n    if (finished) {\n      const complete = state.outcome === 'complete';\n      result.querySelector('h2').textContent = complete ? 'MOSAICS RESTORED' : 'TIME UP';\n      result.querySelector('[data-ribbon-result-count]').textContent = `${state.solved}/3`;\n      detail.textContent = complete\n        ? `All 3 mosaics restored · ${state.moves} shifts used · current score ${state.score} · device best ${localBest} local practice`\n        : `${state.solved}/3 restored · ${state.moves} shifts used · current score ${state.score} · device best ${localBest} local practice`;\n    }\n  };\n\n  const boot = (metadata) => {\n    mediaQuery = globalThis.matchMedia('(prefers-reduced-motion: reduce)');\n    mediaListener = (event) => setMotion(event);\n    mediaQuery.addEventListener('change', mediaListener);\n    setMotion();\n    globalThis.PlayJoltGameKit.create({ core: globalThis.RibbonShiftCore, draw, canvas, metadata });\n    globalThis.addEventListener('pagehide', () => {\n      if (mediaQuery && mediaListener) mediaQuery.removeEventListener('change', mediaListener);\n    }, { once: true });\n  };\n\n  fetch('./manifest.json')\n    .then((response) => {\n      if (!response.ok) throw new Error('practice manifest unavailable');\n      return response.json();\n    })\n    .then(boot)\n    .catch((error) => {\n      const errorNode = document.querySelector('[data-game-error]');\n      errorNode.hidden = false;\n      errorNode.textContent = `Could not start practice: ${error.message}`;\n    });\n})();\n",
+            "path": "app.js"
+          }
+        ],
+        "tests": [
+          "Suggested: simulate a reduced-motion MediaQueryList change event with {matches:false} before its matches property changes, then verify document.documentElement.dataset.reducedMotion and RibbonPresentation.snapshot().reducedMotion are both false.",
+          "Suggested: simulate {matches:true} followed by {matches:false} during active play and verify presentation particles are zero only while reduced motion is enabled."
+        ],
+        "summary": "Updated reduced-motion change handling so the dispatched MediaQueryList event value is authoritative, preventing stale MediaQueryList.matches state from leaving presentation mode set to true.",
+        "status": "complete",
+        "provider_metadata": {
+          "provider": "openai-responses/gpt-5.6-terra",
+          "response_id": "resp_01655a8a035dc576006ab28269383c87d198ab8a7b04b90be0",
+          "usage": {
+            "input_tokens": 10243,
+            "output_tokens": 1323,
+            "estimated_cost": 0.064786
+          },
+          "estimated_cost": 0.064786,
+          "cost_basis": "estimated",
+          "billed_cost": null
+        }
+      },
+      "completed_at": 1790083708439
+    },
+    "GAME-20260922-131/repair/5": {
+      "operation_id": "GAME-20260922-131/repair/5",
+      "game_id": "GAME-20260922-131",
+      "version": "v6",
+      "request_hash": "9b6b8ce66a5db53113dce06ed9c73a814a219d2e116e9a20452b3ad1ba019d01",
+      "day": "2026-09-22",
+      "state": "COMPLETE",
+      "provider": "openai-responses/gpt-5.6-terra",
+      "started_at": 1790083795390,
+      "deadline_at": 1790084095390,
+      "reserved": {
+        "input_tokens": 38399,
+        "output_tokens": 18000,
+        "estimated_cost": 0.477596
+      },
+      "prices": {
+        "input_per_million": 4,
+        "output_per_million": 18,
+        "as_of": "2026-09-22",
+        "estimated": true
+      },
+      "response_id": "resp_064c35a7fc948284006ab282d38f6887d198216047f1b6239e",
+      "accounted": {
+        "input_tokens": 10040,
+        "output_tokens": 1685,
+        "estimated_cost": 0.07049
+      },
+      "result": {
+        "files": [
+          {
+            "content": "(() => {\n  'use strict';\n  const canvas = document.querySelector('[data-game-canvas]');\n  const goal = document.querySelector('[data-ribbon-goal-progress]');\n  const elapsed = document.querySelector('[data-ribbon-elapsed]');\n  const score = document.querySelector('[data-game-score]');\n  const best = document.querySelector('[data-ribbon-best]');\n  const status = document.querySelector('[data-game-status]');\n  const result = document.querySelector('[data-ribbon-result]');\n  const detail = document.querySelector('[data-ribbon-detail]');\n  let mediaQuery = null;\n  let mediaListener = null;\n\n  const setMotion = (event) => {\n    // The event value is preferred because MediaQueryList implementations can\n    // notify listeners before their public matches property is refreshed.\n    const reduced = event && typeof event.matches === 'boolean'\n      ? event.matches\n      : !!(mediaQuery && mediaQuery.matches);\n    document.documentElement.dataset.reducedMotion = reduced ? 'true' : 'false';\n    if (globalThis.RibbonPresentation) globalThis.RibbonPresentation.setReducedMotion(reduced);\n  };\n\n  const draw = (ctx, snapshot, size) => {\n    globalThis.RibbonShiftArt.draw(ctx, snapshot, size);\n    const state = snapshot.state;\n    const localBest = Number.isFinite(snapshot.best) ? snapshot.best : 0;\n    goal.textContent = `${state.solved}/3`;\n    elapsed.textContent = `ELAPSED ${Math.min(100, Math.floor(state.tick / 27))}%`;\n    score.textContent = String(state.score);\n    best.textContent = String(localBest);\n    status.textContent = state.outcome === 'complete'\n      ? 'All three mosaics are restored. The completed weave is on display.'\n      : state.outcome === 'failure'\n        ? `Time ended with ${state.solved}/3 mosaics restored.`\n        : state.celebrate > 0\n          ? `Mosaic ${state.solved}/3 restored — preparing the next weave.`\n          : `Mosaic ${Math.min(3, state.stage + 1)} of 3 · choose a ribbon and shift it.`;\n    const finished = globalThis.RibbonShiftCore.terminal(state);\n    result.hidden = !finished;\n    if (finished) {\n      const complete = state.outcome === 'complete';\n      result.querySelector('h2').textContent = complete ? 'MOSAICS RESTORED' : 'TIME UP';\n      result.querySelector('[data-ribbon-result-count]').textContent = `${state.solved}/3`;\n      detail.textContent = complete\n        ? `All 3 mosaics restored · ${state.moves} shifts used · current score ${state.score} · device best ${localBest} local practice`\n        : `${state.solved}/3 restored · ${state.moves} shifts used · current score ${state.score} · device best ${localBest} local practice`;\n    }\n  };\n\n  const boot = (metadata) => {\n    mediaQuery = globalThis.matchMedia('(prefers-reduced-motion: reduce)');\n    mediaListener = (event) => setMotion(event);\n    // Support both current browsers and lightweight MediaQueryList shims.\n    if (typeof mediaQuery.addEventListener === 'function') mediaQuery.addEventListener('change', mediaListener);\n    if (typeof mediaQuery.addListener === 'function') mediaQuery.addListener(mediaListener);\n    mediaQuery.onchange = mediaListener;\n    setMotion(null);\n    globalThis.PlayJoltGameKit.create({ core: globalThis.RibbonShiftCore, draw, canvas, metadata });\n    globalThis.addEventListener('pagehide', () => {\n      if (!mediaQuery || !mediaListener) return;\n      if (typeof mediaQuery.removeEventListener === 'function') mediaQuery.removeEventListener('change', mediaListener);\n      if (typeof mediaQuery.removeListener === 'function') mediaQuery.removeListener(mediaListener);\n      if (mediaQuery.onchange === mediaListener) mediaQuery.onchange = null;\n    }, { once: true });\n  };\n\n  fetch('./manifest.json')\n    .then((response) => {\n      if (!response.ok) throw new Error('practice manifest unavailable');\n      return response.json();\n    })\n    .then(boot)\n    .catch((error) => {\n      const errorNode = document.querySelector('[data-game-error]');\n      errorNode.hidden = false;\n      errorNode.textContent = `Could not start practice: ${error.message}`;\n    });\n})();\n",
+            "path": "app.js"
+          }
+        ],
+        "tests": [
+          "Toggle the active MediaQueryList from reduce to no-preference and verify document.documentElement.dataset.reducedMotion and RibbonPresentation.snapshot().reducedMotion both become \"false\"/false.",
+          "Verify reduced-motion updates through addEventListener, legacy addListener, and onchange-style MediaQueryList implementations.",
+          "Verify pagehide removes every media-query listener registration."
+        ],
+        "summary": "Repaired reduced-motion subscription handling with current, legacy, and onchange MediaQueryList paths, while preserving authoritative event match values and cleanup.",
+        "status": "complete",
+        "provider_metadata": {
+          "provider": "openai-responses/gpt-5.6-terra",
+          "response_id": "resp_064c35a7fc948284006ab282d38f6887d198216047f1b6239e",
+          "usage": {
+            "input_tokens": 10040,
+            "output_tokens": 1685,
+            "estimated_cost": 0.07049
+          },
+          "estimated_cost": 0.07049,
+          "cost_basis": "estimated",
+          "billed_cost": null
+        }
+      },
+      "completed_at": 1790083821562
+    }
+  }
+}

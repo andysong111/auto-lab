@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "product_audit_passed": true,
+  "source_hash": "ea85f704319bc9e6896d2304c9192d5b1b12a418654a47f8f765991e94c03736",
+  "state": "REJECTED",
+  "repair_attempt": 5,
+  "model_calls": 0,
+  "original_qa_ledger_manifest_unchanged": true,
+  "original_hashes": [
+    "1f53c8ae53f1fdd2d6779455c966ed3d43a31a19d5eadc101df8b2b8f769b584",
+    "0bbe4adf578b81f48cca608d16ef6a7a3cf3d3a1145423ac7c60fce93c910583",
+    "89078bd99bcb61aaa906c06404e9ac77f63519275bd1a751050139b72452a53d"
+  ],
+  "transitions": 36,
+  "virtual_only_mismatches": 0,
+  "native_settled_failures": 0,
+  "max_delivery_wall_ms": 28
+}

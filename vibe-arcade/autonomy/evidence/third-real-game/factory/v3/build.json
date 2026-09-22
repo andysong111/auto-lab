@@ -1,0 +1,25 @@
+{
+  "operation_id": "GAME-20260922-131/repair/2",
+  "source_hash": "391b356239f8da2bdc6256df97756bc0ac926d36a368324b44da50b4624fe40f",
+  "changed_files": [
+    "index.html",
+    "manifest.json"
+  ],
+  "cause": "Restored the required GameKit progress DOM hook by applying data-game-progress to the existing visible ribbon goal-progress element. This preserves the custom 0/3 objective display while satisfying the GameKit required DOM contract that likely prevented initialization.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Suggested verification: load the page at 390px, 768px, and 1280px and confirm GameKit initialization succeeds now that the required [data-game-progress] hook is present.",
+    "provider-suggested (not executed): Suggested verification: start, pause, resume, solve with keyboard and pointer inputs, then replay."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_0173afe53fc8905f006ab28173114887d194e411f343d11dee",
+    "usage": {
+      "input_tokens": 10388,
+      "output_tokens": 990,
+      "estimated_cost": 0.059372
+    },
+    "estimated_cost": 0.059372,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

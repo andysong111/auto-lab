@@ -1,0 +1,33 @@
+{
+  "operation_id": "GAME-20260922-131/repair/1",
+  "source_hash": "3889f18a3e78768961313e0ce20eee0538df99ef48135875a12996c7aeef8009",
+  "changed_files": [
+    "README.md",
+    "app.js",
+    "core.js",
+    "index.html",
+    "manifest.json",
+    "style.css",
+    "view/art.js"
+  ],
+  "cause": "Repaired Ribbon Shift with bounded deterministic board generation, exact mixed-axis shortest-depth candidates, resilient canvas drawing, live reduced-motion reporting, and corrected result/goal DOM wiring.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Load the page at 390px, 768px, and 1280px widths and verify the start control, goal progress, canvas, and local-best labels are visible.",
+    "provider-suggested (not executed): For seed 23, inspect RibbonShiftCore.create(23) and verify board has nine values 0 through 8, cursor is 0, moves is 0, and stage is 0.",
+    "provider-suggested (not executed): Use independently discovered legal shifts to solve all three boards; verify solved progresses 0/3 through 3/3 and completion does not terminal before tick 900.",
+    "provider-suggested (not executed): Tap a row region and a bottom-column region once each and verify moves increments once per discrete pointer contact.",
+    "provider-suggested (not executed): Toggle reduced-motion preference and verify RibbonPresentation.snapshot().particles is zero while reduced motion is active."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_0c489d23296442f4006ab2810ecc6487d1a6fd894bacb9582f",
+    "usage": {
+      "input_tokens": 9558,
+      "output_tokens": 7218,
+      "estimated_cost": 0.168156
+    },
+    "estimated_cost": 0.168156,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "operation_id": "GAME-20260922-131/build/v1",
+  "source_hash": "47a91868f9bddd3dbe01b655de0dadc9d18c36bb4fe2b9c0e5dc51670a91ed57",
+  "changed_files": [
+    "README.md",
+    "app.js",
+    "core.js",
+    "gamekit.js",
+    "index.html",
+    "manifest.json",
+    "style.css",
+    "view/art.js"
+  ],
+  "cause": "Implemented Ribbon Shift as a deterministic, DOM-free toroidal strip puzzle core with BFS-derived exact-depth boards, GameKit bootstrap, responsive canvas presentation, touch/keyboard controls, results, and live reduced-motion handling.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Load index.html through the supplied GameKit runtime and verify the START PRACTICE lifecycle.",
+    "provider-suggested (not executed): For seed 23, independently search real shift inputs for each presented board and verify completion becomes terminal no earlier than tick 900.",
+    "provider-suggested (not executed): Verify pointer taps at row and bottom-handle normalized regions increase state.moves once per tap.",
+    "provider-suggested (not executed): Verify reduced-motion media changes make RibbonPresentation.snapshot().particles return zero."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_0441298e445aac62006ab280a062ac87d1ba071288cf8ba1e5",
+    "usage": {
+      "input_tokens": 3060,
+      "output_tokens": 6237,
+      "estimated_cost": 0.124506
+    },
+    "estimated_cost": 0.124506,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}
