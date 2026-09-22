@@ -44,7 +44,7 @@
     "owner review decision recorded",
     "rollback target recorded"
   ],
-  "notes": "Second-candidate commissioning incorporates lessons from rejected Prism Relay. It still does not authorize production shipping, rankings, marketing, or catalog mutation.",
+  "notes": "Second-candidate commissioning incorporates lessons from rejected Prism Relay and forbids close reuse of its exhausted mechanic family. It still does not authorize production shipping, rankings, marketing, or catalog mutation.",
   "public_quality_contract": {
     "required_before_paid_build": [
       "visible first-five-second objective",
@@ -64,5 +64,14 @@
       "mobile readability review"
     ],
     "notes": "These are product-quality requirements, not numeric fun scores. Sound is optional, but if used, events must be distinct and resource-bounded."
-  }
+  },
+  "rejected_mechanic_families": [
+    {
+      "game_id": "GAME-20260922-110",
+      "title": "Prism Relay",
+      "mechanic_family": "spatial-optical-routing",
+      "disposition": "REJECTED_AFTER_5_REPAIRS",
+      "reason": "Do not spend the next commissioning slot on a close variant of the exhausted first candidate."
+    }
+  ]
 }

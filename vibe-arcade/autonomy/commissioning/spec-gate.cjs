@@ -18,7 +18,9 @@ function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.
   if(!/^state\.[a-zA-Z0-9_.]+$/.test(proposal.qa?.pointer?.observation||''))errors.push({code:'pointer_probe'});
   const family=norm(proposal.mechanic_family);
   const blocked=new Set(policy.blocked_mechanic_families.map(norm));
+  const rejected=new Set((policy.rejected_mechanic_families||[]).map(x=>norm(x.mechanic_family)));
   if(blocked.has(family))errors.push({code:'mechanic_family_blocked',mechanic_family:proposal.mechanic_family});
+  if(rejected.has(family))errors.push({code:'rejected_mechanic_family',mechanic_family:proposal.mechanic_family});
   const titles=new Set(catalog.games.map(g=>norm(g.title))),slugs=new Set(catalog.games.map(g=>norm(g.id)));
   if(titles.has(norm(proposal.title)))errors.push({code:'title_collision',title:proposal.title});
   if(slugs.has(norm(proposal.slug)))errors.push({code:'slug_collision',slug:proposal.slug});

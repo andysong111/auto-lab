@@ -41,3 +41,7 @@ The first autonomous launch candidate, Prism Relay, correctly ended **REJECTED**
 That rejection is now used as generation input, not as permission to reset the same job. New paid commissioning must include an implementation contract covering first-five-second objective clarity, visible goal progress, visible device-local best, multi-seed depth, mobile readability, result presentation and dynamic reduced-motion behavior. Generic QA now preserves entry/playing/midgame screenshots before release review.
 
 A rejected candidate remains terminal. Start a new GAME ID for the next original candidate; never clone the rejected job merely to regain repair calls.
+
+## Rejected-family memory
+
+Prism Relay (`GAME-20260922-110`, `spatial-optical-routing`) exhausted 5/5 repairs and remains terminal REJECTED. The next real candidate must use a different mechanic family; this is enforced before any paid provider call. A new title or GAME ID is not enough to bypass the rejected-family rule.
