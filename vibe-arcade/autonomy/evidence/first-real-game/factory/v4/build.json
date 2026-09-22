@@ -1,0 +1,31 @@
+{
+  "operation_id": "GAME-20260922-110/repair/3",
+  "source_hash": "32c334dadddacc3d5bc337dc013c827bd5ac628aba2b2dac610549a80b4c8de8",
+  "changed_files": [
+    "README.md",
+    "app.js",
+    "core.js",
+    "index.html",
+    "manifest.json",
+    "view/art.js"
+  ],
+  "cause": "Replaced the affected game files with parse-safe ES5-style implementations, preserving deterministic routing, pointer/keyboard input, bounded particles, responsive UI, and GameKit lifecycle integration.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Load index.html with supplied gamekit.js and manifest.json; confirm no JavaScript parse errors and GameKit creation completes.",
+    "provider-suggested (not executed): Start a run, hold ArrowRight for at least 200 ms, and verify state.cursor.x changes.",
+    "provider-suggested (not executed): Send a normalized pointer press at (0.72, 0.55) and verify state.rotations increments exactly once.",
+    "provider-suggested (not executed): Advance 2700 fixed steps and verify terminal(state) is true; restart and compare initial seeded state."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_02d0a1f4df142e4d006ab2320bd57087d1889b48e45d89002c",
+    "usage": {
+      "input_tokens": 9319,
+      "output_tokens": 6655,
+      "estimated_cost": 0.15706601
+    },
+    "estimated_cost": 0.15706601,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

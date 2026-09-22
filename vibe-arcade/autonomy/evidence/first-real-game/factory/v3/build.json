@@ -1,0 +1,30 @@
+{
+  "operation_id": "GAME-20260922-110/repair/2",
+  "source_hash": "4731fdf9af6a025445db26cecd7167dfdec361e62cc2d469f9d6a07baf7215bb",
+  "changed_files": [
+    "README.md",
+    "app.js",
+    "core.js",
+    "manifest.json",
+    "view/art.js"
+  ],
+  "cause": "Replaced the game implementation files with syntax-safe browser scripts, retained deterministic DOM-free routing logic, and added explicit pointer/action de-duplication so tap rotation is counted once.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Load index.html with the supplied gamekit.js and manifest.json; confirm no page errors and that the required game DOM hooks are present.",
+    "provider-suggested (not executed): Start a run, hold ArrowRight for at least 12 fixed ticks, and confirm state.cursor.x changes from 0.",
+    "provider-suggested (not executed): Send a pointer/action input at normalized (0.72, 0.55) and confirm state.rotations increases exactly once.",
+    "provider-suggested (not executed): Advance 2700 fixed ticks and confirm terminal(state) is true; restart through GameKit and confirm the deterministic initial state is reproduced."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_0f5a34dbf0fd628d006ab231cc0a3087d1b5ebcc646a5ee1c3",
+    "usage": {
+      "input_tokens": 9414,
+      "output_tokens": 6541,
+      "estimated_cost": 0.155394
+    },
+    "estimated_cost": 0.155394,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

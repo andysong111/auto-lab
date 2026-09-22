@@ -1,0 +1,1592 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260922-110",
+  "version": "v4",
+  "source_hash": "32c334dadddacc3d5bc337dc013c827bd5ac628aba2b2dac610549a80b4c8de8",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0",
+  "passed": true,
+  "hard_failures": [],
+  "soft_failures": [],
+  "console_errors": [],
+  "page_errors": [],
+  "browser_cases": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow",
+        "terminal",
+        "resources",
+        "restart",
+        "commissioning_playthrough",
+        "pagehide",
+        "capture_no_writes"
+      ],
+      "passed": true,
+      "load_ms": 117,
+      "resources": [
+        {
+          "tick": 66,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 96,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 126,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 156,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 186,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 216,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 246,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 276,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 306,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 336,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 366,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 396,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 426,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 456,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 486,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 516,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 546,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 576,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 606,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 636,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 666,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 696,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 726,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 756,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 786,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 816,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 846,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 876,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 906,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 936,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 966,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 996,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1026,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1056,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1086,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1116,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1146,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1176,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1206,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1236,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1266,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1296,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1326,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1356,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1386,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1416,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1446,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1476,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1506,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1536,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1566,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1596,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1626,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1656,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1686,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1716,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1746,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1776,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1806,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1836,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1866,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1896,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1926,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1956,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1986,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2016,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2046,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2076,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2106,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2136,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2166,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2196,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2226,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2256,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2286,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2316,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2346,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2376,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2406,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2436,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2466,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2496,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2526,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2556,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2586,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2616,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2646,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2676,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2700,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2700,
+          "entities": 12,
+          "dom": 26
+        }
+      ],
+      "heap_growth": -734160,
+      "playthrough": {
+        "passed": true,
+        "input_method": "CDP touch down/up",
+        "state_injection": false,
+        "actions": 3,
+        "checkpoints": [
+          {
+            "tick": 61,
+            "circuits": 1,
+            "score": 129,
+            "rotations": 1
+          },
+          {
+            "tick": 118,
+            "circuits": 2,
+            "score": 257,
+            "rotations": 2
+          },
+          {
+            "tick": 175,
+            "circuits": 3,
+            "score": 385,
+            "rotations": 3
+          }
+        ],
+        "terminal": {
+          "tick": 2700,
+          "score": 385,
+          "circuits": 3,
+          "best": 385
+        },
+        "interpretation": "Automated reachability evidence, not human difficulty or fun validation."
+      }
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow",
+        "terminal",
+        "resources",
+        "restart",
+        "commissioning_playthrough",
+        "pagehide",
+        "capture_no_writes"
+      ],
+      "passed": true,
+      "load_ms": 88,
+      "resources": [
+        {
+          "tick": 69,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 99,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 129,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 159,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 189,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 219,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 249,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 279,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 309,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 339,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 369,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 399,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 429,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 459,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 489,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 519,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 549,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 579,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 609,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 639,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 669,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 699,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 729,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 759,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 789,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 819,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 849,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 879,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 909,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 939,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 969,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 999,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1029,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1059,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1089,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1119,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1149,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1179,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1209,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1239,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1269,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1299,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1329,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1359,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1389,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1419,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1449,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1479,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1509,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1539,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1569,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1599,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1629,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1659,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1689,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1719,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1749,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1779,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1809,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1839,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1869,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1899,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1929,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1959,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1989,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2019,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2049,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2079,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2109,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2139,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2169,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2199,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2229,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2259,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2289,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2319,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2349,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2379,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2409,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2439,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2469,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2499,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2529,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2559,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2589,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2619,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2649,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2679,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2700,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2700,
+          "entities": 12,
+          "dom": 26
+        }
+      ],
+      "heap_growth": -395116,
+      "playthrough": {
+        "passed": true,
+        "input_method": "keyboard arrows/Space",
+        "state_injection": false,
+        "actions": 3,
+        "checkpoints": [
+          {
+            "tick": 57,
+            "circuits": 1,
+            "score": 129,
+            "rotations": 1
+          },
+          {
+            "tick": 129,
+            "circuits": 2,
+            "score": 257,
+            "rotations": 2
+          },
+          {
+            "tick": 182,
+            "circuits": 3,
+            "score": 385,
+            "rotations": 3
+          }
+        ],
+        "terminal": {
+          "tick": 2700,
+          "score": 385,
+          "circuits": 3,
+          "best": 385
+        },
+        "interpretation": "Automated reachability evidence, not human difficulty or fun validation."
+      }
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow",
+        "terminal",
+        "resources",
+        "restart",
+        "commissioning_playthrough",
+        "pagehide",
+        "capture_no_writes"
+      ],
+      "passed": true,
+      "load_ms": 90,
+      "resources": [
+        {
+          "tick": 65,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 95,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 125,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 155,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 185,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 215,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 245,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 275,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 305,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 335,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 365,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 395,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 425,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 455,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 485,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 515,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 545,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 575,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 605,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 635,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 665,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 695,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 725,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 755,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 785,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 815,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 845,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 875,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 905,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 935,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 965,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 995,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1025,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1055,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1085,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1115,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1145,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1175,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1205,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1235,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1265,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1295,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1325,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1355,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1385,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1415,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1445,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1475,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1505,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1535,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1565,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1595,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1625,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1655,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1685,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1715,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1745,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1775,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1805,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1835,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1865,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1895,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1925,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1955,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 1985,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2015,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2045,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2075,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2105,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2135,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2165,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2195,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2225,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2255,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2285,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2315,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2345,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2375,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2405,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2435,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2465,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2495,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2525,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2555,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2585,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2615,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2645,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2675,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2700,
+          "entities": 12,
+          "dom": 26
+        },
+        {
+          "tick": 2700,
+          "entities": 12,
+          "dom": 26
+        }
+      ],
+      "heap_growth": -624664,
+      "playthrough": {
+        "passed": true,
+        "input_method": "keyboard arrows/Space",
+        "state_injection": false,
+        "actions": 3,
+        "checkpoints": [
+          {
+            "tick": 58,
+            "circuits": 1,
+            "score": 129,
+            "rotations": 1
+          },
+          {
+            "tick": 130,
+            "circuits": 2,
+            "score": 257,
+            "rotations": 2
+          },
+          {
+            "tick": 183,
+            "circuits": 3,
+            "score": 385,
+            "rotations": 3
+          }
+        ],
+        "terminal": {
+          "tick": 2700,
+          "score": 385,
+          "circuits": 3,
+          "best": 385
+        },
+        "interpretation": "Automated reachability evidence, not human difficulty or fun validation."
+      }
+    }
+  ],
+  "screenshots": [
+    "viewport-390-entry.png",
+    "viewport-390-playing.png",
+    "viewport-390-midgame.png",
+    "viewport-390.png",
+    "viewport-390-charged.png",
+    "viewport-390-success.png",
+    "viewport-768-entry.png",
+    "viewport-768-playing.png",
+    "viewport-768-midgame.png",
+    "viewport-768.png",
+    "viewport-768-charged.png",
+    "viewport-768-success.png",
+    "viewport-1280-entry.png",
+    "viewport-1280-playing.png",
+    "viewport-1280-midgame.png",
+    "viewport-1280.png",
+    "viewport-1280-charged.png",
+    "viewport-1280-success.png"
+  ],
+  "side_effects": [],
+  "duration_ms": 70713,
+  "scope": "isolated browser verification; no claim of fun, retention or production approval",
+  "capture": {
+    "file": "viewport-390-playthrough.webm",
+    "kind": "accelerated input-driven browser recording; not human play or a real-time performance benchmark"
+  },
+  "isolation": {
+    "engine": "docker",
+    "image": "sha256:c1349b7800293d58fe0c3eaad5bed1e94bdce51b6090cf01f816c83179be3d59",
+    "network": "none",
+    "readonly": true,
+    "cpu": 1,
+    "memory_mb": 1024,
+    "pids": 128
+  }
+}

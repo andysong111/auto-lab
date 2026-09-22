@@ -1,0 +1,291 @@
+{
+  "candidate_commit": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+  "base_commit": "c64d9f10d8a0f099603e5a6a9b78f1ad1d823a2d",
+  "checks": [
+    {
+      "name": "live",
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687432/job/106661414002",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "Vercel Preview Comments",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/runs/106660994347",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "AI worker isolated browser",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687482/job/106660962792",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "experience",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687798/job/106660962751",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "AI provider worker contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687482/job/106660962487",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "arcade3",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687613/job/106660962338",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "rules-and-browser",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687510/job/106660962012",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "foundation",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687432/job/106660961890",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "checks",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687443/job/106660961865",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "Factory regression",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687388/job/106660961754",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "Factory contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687388/job/106660961450",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "Factory browser",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687388/job/106660961330",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687293/job/106660961228",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "Factory contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701679490/job/106660936953",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "Factory browser",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701679490/job/106660936855",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "Factory regression",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701679490/job/106660936632",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    },
+    {
+      "name": "smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701679562/job/106660936614",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+    }
+  ],
+  "runs": [
+    {
+      "name": "LoopJolt CI",
+      "id": 35701687293,
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687293",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Gyro Descent quality gate",
+      "id": 35701687443,
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687443",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "LoopJolt ranked-game checks",
+      "id": 35701687510,
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687510",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "LoopJolt game experience",
+      "id": 35701687798,
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687798",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "LoopJolt acquisition and SEO",
+      "id": 35701687432,
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687432",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "PlayJolt AI Provider Worker",
+      "id": 35701687482,
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687482",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "PlayJolt Factory Phase 1",
+      "id": 35701687388,
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687388",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "LoopJolt Arcade 3 checks",
+      "id": 35701687613,
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701687613",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "LoopJolt CI",
+      "id": 35701679562,
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701679562",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "PlayJolt Factory Phase 1",
+      "id": 35701679490,
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35701679490",
+      "head": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "deployment": {
+    "id": "dpl_B6HHwPb2dLgeZPtsQjJDzY5gQDSy",
+    "name": "vibe-arcade",
+    "url": "vibe-arcade-ivrp070e0-a2bsangsa.vercel.app",
+    "type": "LAMBDAS",
+    "state": "READY",
+    "createdAt": 1790063461016,
+    "creator": {
+      "uid": "CEGztuLAeTu9xsTp3g0RdVJa",
+      "username": "andy0801a-7747"
+    },
+    "project": {
+      "id": "prj_hJymflHqliPOswSsArY46Izj8vhG",
+      "name": "vibe-arcade",
+      "framework": null
+    },
+    "meta": {
+      "githubCommitRef": "factory/GAME-20260922-110",
+      "githubCommitSha": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+      "githubCommitMessage": "factory: GAME-20260922-110 v4 release candidate",
+      "githubRepo": "auto-lab",
+      "githubOrg": "andysong111"
+    },
+    "alias": [
+      "vibe-arcade-git-factory-game-20260922-110-a2bsangsa.vercel.app"
+    ],
+    "target": null,
+    "regions": [
+      "iad1"
+    ],
+    "buildingAt": 1790063462064,
+    "ready": 1790063471764,
+    "readyState": "READY",
+    "source": "git",
+    "aliasError": null
+  },
+  "paid_artifact": {
+    "artifacts": [
+      {
+        "id": 10682453232,
+        "name": "first-real-game-GAME-20260922-110",
+        "size_in_bytes": 1444149,
+        "url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10682453232",
+        "archive_download_url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10682453232/zip",
+        "expired": false,
+        "created_at": "2026-09-22T07:46:44Z",
+        "expires_at": "2026-10-22T07:46:43Z",
+        "updated_at": "2026-09-22T07:46:44Z",
+        "digest": "sha256:8a545a585881f7398500b6a29439acba93f0715d186fbdf8569da12b409bff95",
+        "workflow_run": {
+          "id": 35700802371,
+          "repository_id": 1192904955,
+          "head_repository_id": 1192904955,
+          "head_branch": "commissioning/first-real-game-20260922",
+          "head_sha": "d684c1a6b2a15d2f873a10fab26b7a6d4c7de80f"
+        }
+      }
+    ]
+  },
+  "review_artifact": {
+    "artifacts": [
+      {
+        "id": 10682744708,
+        "name": "first-real-game-review-GAME-20260922-110",
+        "size_in_bytes": 4046343,
+        "url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10682744708",
+        "archive_download_url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10682744708/zip",
+        "expired": false,
+        "created_at": "2026-09-22T07:59:24Z",
+        "expires_at": "2026-10-22T07:59:23Z",
+        "updated_at": "2026-09-22T07:59:24Z",
+        "digest": "sha256:d5ccdcb4044c70e5fd60bb4b23e851d21320c3b86757ee52cdb5a4e1d2e61b65",
+        "workflow_run": {
+          "id": 35702212896,
+          "repository_id": 1192904955,
+          "head_repository_id": 1192904955,
+          "head_branch": "commissioning/first-real-game-20260922",
+          "head_sha": "135268a9bca307417959449bc337518cd11ec515"
+        }
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-22",
+  "production_authorized": false
+}

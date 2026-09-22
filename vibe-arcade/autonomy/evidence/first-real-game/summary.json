@@ -1,0 +1,21 @@
+{
+  "game_id": "GAME-20260922-110",
+  "version": "v4",
+  "factory_state": "READY_TO_SHIP",
+  "source_hash": "32c334dadddacc3d5bc337dc013c827bd5ac628aba2b2dac610549a80b4c8de8",
+  "rc_commit": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+  "pr": 45,
+  "preview_url": "https://vibe-arcade-ivrp070e0-a2bsangsa.vercel.app",
+  "technical_commissioning": "COMPLETE",
+  "design_approval": "PENDING; shortcomings documented in handoff",
+  "real_model_calls": 4,
+  "estimated_model_cost_usd": 0.58391601,
+  "billed_cost": null,
+  "manual_candidate_edits": 0,
+  "production_authorized": false,
+  "paid_run": 35700802371,
+  "review_run": 35702212896,
+  "review_passed": true,
+  "auth_smoke": "Connected Vercel temporary share authentication established a host-scoped cookie; unchanged RC smoke used GET/manual redirects and exact-byte comparison. Cookie/share token are NOT committed. Existing protection retained.",
+  "safety": "No production merge, homepage/sitemap/ranking registration, Supabase writes, SNS or advertising. No second candidate."
+}

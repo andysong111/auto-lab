@@ -1,0 +1,39 @@
+{
+  "schema": "playjolt-release-review/1",
+  "passed": true,
+  "errors": [],
+  "candidate": {
+    "game_id": "GAME-20260922-110",
+    "version": "v4",
+    "title": "Prism Relay",
+    "slug": "prism-relay",
+    "preview_url": "https://vibe-arcade-ivrp070e0-a2bsangsa.vercel.app",
+    "source_hash": "32c334dadddacc3d5bc337dc013c827bd5ac628aba2b2dac610549a80b4c8de8",
+    "branch": "factory/GAME-20260922-110",
+    "pr_number": 45,
+    "pr_url": "https://github.com/andysong111/auto-lab/pull/45",
+    "rc_commit": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+  },
+  "evidence": {
+    "qa_status": "PASS",
+    "quality_status": "PASS",
+    "release_status": "READY",
+    "repair_attempt": 3,
+    "failure_reasons": []
+  },
+  "owner_review": {
+    "decision": "PENDING",
+    "reviewed_by": null,
+    "recorded_at": null
+  },
+  "production": {
+    "authorized": false,
+    "reason": "Production adapter remains disabled until a separate reviewed release action consumes an APPROVE decision."
+  },
+  "rollback": {
+    "base_ref": "c64d9f10d8a0f099603e5a6a9b78f1ad1d823a2d",
+    "restore_commit": "c64d9f10d8a0f099603e5a6a9b78f1ad1d823a2d",
+    "source_commit": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+    "required": true
+  }
+}

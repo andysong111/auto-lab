@@ -1,0 +1,57 @@
+{
+  "schema": "playjolt-ai-source-provenance/1",
+  "game_id": "GAME-20260922-110",
+  "version": "v4",
+  "source_hash": "32c334dadddacc3d5bc337dc013c827bd5ac628aba2b2dac610549a80b4c8de8",
+  "passed": true,
+  "files": [
+    {
+      "file": "core.js",
+      "sha256": "3c4b65b083bbfa6c475ae6f9356a064abf58dc8e3426bb575d2eeec9b7a0eac3",
+      "operation_id": "GAME-20260922-110/repair/3",
+      "response_id": "resp_02d0a1f4df142e4d006ab2320bd57087d1889b48e45d89002c",
+      "byte_identical_to_provider": true
+    },
+    {
+      "file": "app.js",
+      "sha256": "6f611a8e8d49acb36859d88414d5851d571d84a1732904b6d59d83db39381523",
+      "operation_id": "GAME-20260922-110/repair/3",
+      "response_id": "resp_02d0a1f4df142e4d006ab2320bd57087d1889b48e45d89002c",
+      "byte_identical_to_provider": true
+    },
+    {
+      "file": "view/art.js",
+      "sha256": "a03f56b20f30634045ee1adb6dc6fd341563c958337184221fdb2859a88c0d63",
+      "operation_id": "GAME-20260922-110/repair/3",
+      "response_id": "resp_02d0a1f4df142e4d006ab2320bd57087d1889b48e45d89002c",
+      "byte_identical_to_provider": true
+    },
+    {
+      "file": "index.html",
+      "sha256": "65e33a22a1b95c35c5285ec2b3653336c5fc9f22890380fa5df1ce7b7f9e4d78",
+      "operation_id": "GAME-20260922-110/repair/3",
+      "response_id": "resp_02d0a1f4df142e4d006ab2320bd57087d1889b48e45d89002c",
+      "byte_identical_to_provider": true
+    },
+    {
+      "file": "style.css",
+      "sha256": "9b2f2d82f3c1d0ff0a714eb0f85e1ac7524206878e1bc6b70a75aeefad34fa2a",
+      "operation_id": "GAME-20260922-110/repair/3",
+      "response_id": "resp_02d0a1f4df142e4d006ab2320bd57087d1889b48e45d89002c",
+      "byte_identical_to_provider": true
+    },
+    {
+      "file": "README.md",
+      "sha256": "501444407166d6c35b81d50977dc6dc824ff54c12fc331864c2ca553680fb856",
+      "operation_id": "GAME-20260922-110/repair/3",
+      "response_id": "resp_02d0a1f4df142e4d006ab2320bd57087d1889b48e45d89002c",
+      "byte_identical_to_provider": true
+    }
+  ],
+  "factory_supplied": [
+    "gamekit.js",
+    "manifest.json"
+  ],
+  "candidate_manual_edits": 0,
+  "note": "Every generated source file equals the latest successful provider response for that path. Factory supplies kit and version descriptor."
+}

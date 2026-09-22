@@ -1,0 +1,17 @@
+{
+  "game_id": "GAME-20260922-110",
+  "model": "gpt-5.6-terra",
+  "max_generations": 6,
+  "max_repairs": 5,
+  "estimated_usd_ceiling": 2,
+  "user_authorized": true,
+  "authorization_source": "User first-real-game Work instruction; paid PlayJolt AI calls expected below KRW 50000 approved. This run enforces stricter USD 2 total estimate.",
+  "production_authorized": false,
+  "one_candidate_only": true,
+  "request_revision": 2,
+  "rerun_paid_workflow": false,
+  "verified_zero_job_runs": [
+    35700612984
+  ],
+  "zero_job_reason": "Initial workflow was rejected at configuration validation before any runner job or secret access. API confirmed jobs.total_count=0; preflight independently rechecks this."
+}

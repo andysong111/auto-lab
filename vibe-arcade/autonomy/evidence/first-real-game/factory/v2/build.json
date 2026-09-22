@@ -1,0 +1,32 @@
+{
+  "operation_id": "GAME-20260922-110/repair/1",
+  "source_hash": "cae71744ea3d7117468a3d4262ae3f1c765694f988d4d741803111366c3372d3",
+  "changed_files": [
+    "README.md",
+    "app.js",
+    "core.js",
+    "index.html",
+    "manifest.json",
+    "style.css",
+    "view/art.js"
+  ],
+  "cause": "Replaced the game implementation with syntax-safe DOM-free deterministic core, robust GameKit boot handling, responsive required DOM, and procedural canvas presentation. The routing mechanics include pointer/action deduplication, deterministic solvable-then-scrambled boards, bounded particles, charging, terminal state, and repeatable restart behavior.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Suggested: load index.html at 390x844, 768x1024, and 1280x800 and confirm GameKit initialization has no page errors.",
+    "provider-suggested (not executed): Suggested: start a run, hold ArrowRight for at least 200 ms, and inspect state.cursor.x.",
+    "provider-suggested (not executed): Suggested: pointer tap normalized (0.72, 0.55) and inspect that state.rotations increases exactly once.",
+    "provider-suggested (not executed): Suggested: advance 2700 fixed steps, verify terminal state, then restart and compare initial deterministic state."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_0eee9151ca0cf042006ab2318384e087d18df6122ea6247262",
+    "usage": {
+      "input_tokens": 8289,
+      "output_tokens": 6823,
+      "estimated_cost": 0.15597
+    },
+    "estimated_cost": 0.15597,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "attempt": 1,
+    "version": "v2",
+    "cause": [
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 390
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 768
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 1280
+      },
+      {
+        "code": "pageerror",
+        "message": "Uncaught browser errors",
+        "viewport": null
+      }
+    ],
+    "changed_files": [
+      "README.md",
+      "app.js",
+      "core.js",
+      "index.html",
+      "manifest.json",
+      "style.css",
+      "view/art.js"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Replaced the game implementation with syntax-safe DOM-free deterministic core, robust GameKit boot handling, responsive required DOM, and procedural canvas presentation. The routing mechanics include pointer/action deduplication, deterministic solvable-then-scrambled boards, bounded particles, charging, terminal state, and repeatable restart behavior.",
+    "qa_artifact": "v2/qa.json"
+  },
+  {
+    "attempt": 2,
+    "version": "v3",
+    "cause": [
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 390
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 768
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 1280
+      },
+      {
+        "code": "pageerror",
+        "message": "Uncaught browser errors",
+        "viewport": null
+      }
+    ],
+    "changed_files": [
+      "README.md",
+      "app.js",
+      "core.js",
+      "manifest.json",
+      "view/art.js"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Replaced the game implementation files with syntax-safe browser scripts, retained deterministic DOM-free routing logic, and added explicit pointer/action de-duplication so tap rotation is counted once.",
+    "qa_artifact": "v3/qa.json"
+  },
+  {
+    "attempt": 3,
+    "version": "v4",
+    "cause": [
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 390
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 768
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 1280
+      },
+      {
+        "code": "pageerror",
+        "message": "Uncaught browser errors",
+        "viewport": null
+      }
+    ],
+    "changed_files": [
+      "README.md",
+      "app.js",
+      "core.js",
+      "index.html",
+      "manifest.json",
+      "view/art.js"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "PASS",
+    "adapter_cause": "Replaced the affected game files with parse-safe ES5-style implementations, preserving deterministic routing, pointer/keyboard input, bounded particles, responsive UI, and GameKit lifecycle integration.",
+    "qa_artifact": "v4/qa.json"
+  }
+]

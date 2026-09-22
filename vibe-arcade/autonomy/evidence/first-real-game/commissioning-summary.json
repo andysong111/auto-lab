@@ -1,0 +1,79 @@
+{
+  "schema": "playjolt-first-real-game/1",
+  "game_id": "GAME-20260922-110",
+  "model": "gpt-5.6-terra",
+  "run_id": "35700802371",
+  "runner_commit": "d684c1a6b2a15d2f873a10fab26b7a6d4c7de80f",
+  "operations": [
+    {
+      "operation_id": "GAME-20260922-110/build/v1",
+      "operation": "build",
+      "version": "v1",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_05a6d7f9a088a524006ab23132309887d19b5a1720891bf5ed",
+      "input_tokens": 2533,
+      "output_tokens": 5853,
+      "estimated_cost": 0.115486,
+      "cumulative_estimated_cost": 0.115486,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    },
+    {
+      "operation_id": "GAME-20260922-110/repair/1",
+      "operation": "repair",
+      "version": "v2",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_0eee9151ca0cf042006ab2318384e087d18df6122ea6247262",
+      "input_tokens": 8289,
+      "output_tokens": 6823,
+      "estimated_cost": 0.15597,
+      "cumulative_estimated_cost": 0.271456,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    },
+    {
+      "operation_id": "GAME-20260922-110/repair/2",
+      "operation": "repair",
+      "version": "v3",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_0f5a34dbf0fd628d006ab231cc0a3087d1b5ebcc646a5ee1c3",
+      "input_tokens": 9414,
+      "output_tokens": 6541,
+      "estimated_cost": 0.155394,
+      "cumulative_estimated_cost": 0.42685,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    },
+    {
+      "operation_id": "GAME-20260922-110/repair/3",
+      "operation": "repair",
+      "version": "v4",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_02d0a1f4df142e4d006ab2320bd57087d1889b48e45d89002c",
+      "input_tokens": 9319,
+      "output_tokens": 6655,
+      "estimated_cost": 0.15706601,
+      "cumulative_estimated_cost": 0.58391601,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    }
+  ],
+  "total_calls": 4,
+  "total_estimated_cost": 0.58391601,
+  "billed_cost": null,
+  "model_source": "real OpenAI provider, no injected mock",
+  "factory": {
+    "state": "RC_READY",
+    "version": "v4",
+    "repair_attempt": 3,
+    "qa_status": "PASS",
+    "quality_status": "PASS",
+    "source_hash": "32c334dadddacc3d5bc337dc013c827bd5ac628aba2b2dac610549a80b4c8de8",
+    "failure_reasons": []
+  },
+  "production_authorized": false
+}
