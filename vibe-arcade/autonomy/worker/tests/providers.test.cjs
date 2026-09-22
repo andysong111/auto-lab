@@ -114,3 +114,35 @@ test('maximum file/output size is rejected before applying any bytes',async t=>{
   const e=setup(t),r=await request(e);assert.throws(()=>validateOutput(output({content:'x'.repeat(e.limits.request.max_file_bytes+1)}),r,e.limits.request),{code:'model_file_too_large'});
   assert.throws(()=>validateOutput('x'.repeat(e.limits.request.max_response_bytes+1),r,e.limits.request),{code:'model_output_too_large'});
 });
+
+test('DOM-core rejection records exact line and quarantines files without applying them',async t=>{
+  const bad='(()=>{ const core={create(){},step(){},observe(){},terminal(){}};\nwindow.BadCore=core;\n})();';
+  const provider=new MockProvider({handler:async c=>{c.onResponseId('resp_dom_bad');return {output:output({content:bad}),usage:{input_tokens:100,output_tokens:100}};}});
+  const e=setup(t,{provider}),r=await request(e);
+  await assert.rejects(()=>e.manager.execute(r),x=>x.code==='core_dom_dependency'&&/line 2 uses window/.test(x.message)&&/globalThis/.test(x.message));
+  const op=e.manager.read().operations[r.operation_id];
+  assert.equal(op.state,'MODEL_FAILED');assert.equal(op.error_context.file,'core.js');assert.equal(op.error_context.line,2);assert.equal(op.error_context.identifier,'window');
+  assert(op.rejected_output.files.some(f=>f.path==='core.js'&&f.content===bad));
+  const workspace=path.join(e.root,`autonomy/.work/${r.game_id}/v1`);
+  assert.deepEqual(fs.readdirSync(workspace),[],'rejected model files must never be applied to candidate workspace');
+});
+test('repair compiler receives quarantined rejected source and validation guidance when no accepted workspace exists',async t=>{
+  const bad='(()=>{ const core={create(){},step(){},observe(){},terminal(){}};\nwindow.BadCore=core;\n})();';
+  const provider=new MockProvider({handler:async c=>{c.onResponseId('resp_dom_context');return {output:output({content:bad}),usage:{input_tokens:100,output_tokens:100}};}});
+  const e=setup(t,{provider}),build=await request(e);
+  await assert.rejects(()=>e.manager.execute(build),{code:'core_dom_dependency'});
+  const m=e.store.get(e.spec.game_id),req=requestFor(m,{hard_failures:[{code:'build_failed',message:e.manager.read().operations[build.operation_id].error_detail}]});
+  const workspace=path.join(e.root,`autonomy/.work/${m.game_id}/v2`);fs.mkdirSync(workspace,{recursive:true});
+  const rejected=e.manager.rejectedContext(m.game_id,1);
+  const prompt=compile({root:e.root,workspace,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id,budget:build.budget,rejected});
+  assert.equal(prompt.model_validation.error_code,'core_dom_dependency');assert.match(prompt.model_validation.error_detail,/globalThis/);
+  assert.equal(prompt.sources['core.js'],bad);assert.equal(prompt.empty_workspace,true);
+  assert(prompt.gamekit_contract.files['core.js'].includes('globalThis.YourCore'));
+});
+test('quarantine excludes unsafe output paths from future repair context',async t=>{
+  const e=setup(t),r=await request(e),bad={...output(),files:[...output().files,{path:'../../steal.txt',content:'secret-looking-data'}]};
+  const provider=new MockProvider({handler:async c=>{c.onResponseId('resp_bad_path');return {output:bad,usage:{input_tokens:100,output_tokens:100}};}});e.manager.provider=provider;
+  await assert.rejects(()=>e.manager.execute(r),/path_isolation/);
+  const q=e.manager.read().operations[r.operation_id].rejected_output;
+  assert(q&&!q.files.some(f=>f.path.includes('..')));
+});
