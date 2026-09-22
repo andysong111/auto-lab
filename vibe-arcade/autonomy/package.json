@@ -6,7 +6,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test tests/contracts.test.cjs tests/orchestrator.test.cjs tests/rc.test.cjs control-plane/tests/control-plane.test.cjs commissioning/tests/commissioning.test.cjs",
+    "test": "node --test tests/contracts.test.cjs tests/orchestrator.test.cjs tests/rc.test.cjs control-plane/tests/control-plane.test.cjs commissioning/tests/commissioning.test.cjs tests/media-settlement.test.cjs",
     "test:browser": "node --test --test-concurrency=1 tests/browser.test.cjs",
     "test:regression": "node tests/regression.cjs",
     "control:snapshot": "node control-plane/cli.cjs snapshot",

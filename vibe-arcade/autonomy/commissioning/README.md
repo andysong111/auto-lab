@@ -45,3 +45,18 @@ A rejected candidate remains terminal. Start a new GAME ID for the next original
 ## Rejected-family memory
 
 Prism Relay (`GAME-20260922-110`, `spatial-optical-routing`) exhausted 5/5 repairs and remains terminal REJECTED. The next real candidate must use a different mechanic family; this is enforced before any paid provider call. A new title or GAME ID is not enough to bypass the rejected-family rule.
+
+
+## Third-candidate lessons
+
+Ribbon Shift (`GAME-20260922-131`) remains terminal **REJECTED** at repair 5/5. A zero-model-call audit later showed that its final reduced-motion failure was partly a browser-event settlement race, but that does not resurrect the job: the same source still had genuine product issues (no whole-strip transition, reversible move-score farming, artificial post-success wait, and mobile result/replay below the initial viewport).
+
+The mechanic family `toroidal-strip-permutation` is **not** globally blocked because the commissioning did not prove the entire family unsuitable. However, future idea selection must not recreate Ribbon Shift's same 3×3 row/column-cycle design under a new ID merely to regain budget.
+
+General rules carried forward:
+- native media preference changes get a short bounded wall-clock settlement window before failure;
+- score must not increase from reversible actions that make no objective progress unless that behavior is explicitly justified;
+- successful objectives end promptly; target session length comes from meaningful play, not dead time after success;
+- meaningful state changes need visible action feedback, with reduced-motion-safe alternatives;
+- the primary replay action belongs in the initial mobile result viewport;
+- browser boot timeouts should include any visible GameKit error text in repair feedback.

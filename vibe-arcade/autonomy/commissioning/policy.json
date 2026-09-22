@@ -1,5 +1,5 @@
 {
-  "version": "first-real-game-commissioning-2",
+  "version": "first-real-game-commissioning-3",
   "mode": "first_real_game",
   "max_public_games_before_validation": 10,
   "known_public_game_count": 8,
@@ -44,7 +44,7 @@
     "owner review decision recorded",
     "rollback target recorded"
   ],
-  "notes": "Second-candidate commissioning incorporates lessons from rejected Prism Relay and forbids close reuse of its exhausted mechanic family. It still does not authorize production shipping, rankings, marketing, or catalog mutation.",
+  "notes": "Commissioning v3 incorporates Prism quality lessons, Cloud Cargo provider-feedback lessons, and Ribbon Shift QA/product lessons. Production shipping remains unauthorized.",
   "public_quality_contract": {
     "required_before_paid_build": [
       "visible first-five-second objective",
@@ -52,8 +52,11 @@
       "visible device-local best distinct from current score",
       "multi-seed progression/depth plan",
       "mobile readability plan",
-      "result/completion presentation",
-      "reduced-motion behavior that can respond after page load"
+      "result/completion presentation with primary replay action visible on mobile",
+      "reduced-motion behavior that can respond after page load",
+      "score incentives that do not reward reversible no-progress farming",
+      "immediate terminal response after success; no artificial post-success waiting",
+      "visible action/state-change feedback appropriate to the mechanic"
     ],
     "evidence_before_release": [
       "entry screenshot",
@@ -61,9 +64,12 @@
       "midgame screenshot",
       "terminal/result screenshot",
       "multiple deterministic seed difficulty evidence",
-      "mobile readability review"
+      "mobile readability review",
+      "score-incentive review",
+      "success-to-terminal timing evidence",
+      "action-feedback evidence"
     ],
-    "notes": "These are product-quality requirements, not numeric fun scores. Sound is optional, but if used, events must be distinct and resource-bounded."
+    "notes": "Product-quality requirements, not numeric fun scores. A target session length must come from meaningful play, never dead time after success. Sound is optional; if used, events must be distinct and resource-bounded."
   },
   "rejected_mechanic_families": [
     {
