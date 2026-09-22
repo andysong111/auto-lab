@@ -1,0 +1,66 @@
+name: PlayJolt second real game commissioning
+on:
+  push:
+    branches: [commissioning/second-real-game-20260922]
+    paths: ['vibe-arcade/autonomy/commissioning/second-real-game/run-request.json']
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: playjolt-second-real-game-GAME-20260922-121
+  cancel-in-progress: false
+jobs:
+  commissioning:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      AUTO_PRODUCTION_SHIP: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Dedicated state
+        run: echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/playjolt-second-real-game" >> "$GITHUB_ENV"
+      - name: No duplicate submissions before provider secret
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          gh api --paginate "repos/$GITHUB_REPOSITORY/actions/workflows/playjolt-second-real-game.yml/runs?branch=commissioning%2Fsecond-real-game-20260922&per_page=100" --jq '.workflow_runs[].id' > "$RUNNER_TEMP/prior-commissioning-runs"
+          node vibe-arcade/autonomy/commissioning/second-real-game/preflight.cjs
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Contract and Spec Gate before paid build
+        run: |
+          node --test vibe-arcade/autonomy/commissioning/tests/*.test.cjs
+          node vibe-arcade/autonomy/commissioning/cli.cjs check-spec vibe-arcade/autonomy/commissioning/second-real-game/proposal.json
+          node vibe-arcade/autonomy/commissioning/second-real-game/prepare.cjs
+          node vibe-arcade/autonomy/cli.cjs create --root "$FACTORY_WORKER_ROOT" --spec "$FACTORY_WORKER_ROOT/factory-spec.json"
+      - name: Build pinned isolated browser runtime
+        run: |
+          docker build --iidfile "$RUNNER_TEMP/second-game-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/second-game-image")" >> "$GITHUB_ENV"
+      - name: Actual Terra Worker build and bounded repairs
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FACTORY_OPENAI_MODEL: gpt-5.6-terra
+          FACTORY_ALLOW_PAID_CALLS: '1'
+        run: |
+          set -euo pipefail
+          test -n "$OPENAI_API_KEY"
+          node vibe-arcade/autonomy/commissioning/second-real-game/run.cjs
+      - name: Record operations and Factory outcome
+        if: always()
+        run: node vibe-arcade/autonomy/commissioning/second-real-game/summarize.cjs
+      - name: Preserve exact sources and durable ledger
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: second-real-game-GAME-20260922-121
+          path: ${{ runner.temp }}/playjolt-second-real-game
+          include-hidden-files: true
+          retention-days: 30

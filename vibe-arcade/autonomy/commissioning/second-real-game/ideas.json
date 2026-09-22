@@ -1,0 +1,35 @@
+{
+  "game_id": "GAME-20260922-121",
+  "baseline_commit": "b4db1b3f9858eaa7f62403ab16da8085e97267a9",
+  "selected": "Cloud Cargo",
+  "candidates": [
+    {
+      "title": "Cloud Cargo",
+      "family": "dual-resource-cargo-assignment",
+      "decision": "SELECT",
+      "mechanic": "Partition finite cargo by mass and energy across shared airship bays; no trajectories, rotations, light paths, merges or timing windows.",
+      "reason": "Two touch actions, explicit exact goals, independently enumerable valid solutions and measurable added constraints; readable 4/5/6-card bounded board."
+    },
+    {
+      "title": "Trace Choir",
+      "family": "sequence-memory-reconstruction",
+      "decision": "NOT_SELECTED",
+      "mechanic": "Observe a short rhythm-free constellation of symbols then rebuild the order with tap/drag.",
+      "reason": "Distinct from timing games, but memory/reveal state introduces additional accessibility and independent cognitive-difficulty validation within the same budget."
+    },
+    {
+      "title": "Fold Foundry",
+      "family": "polyomino-coverage-planning",
+      "decision": "NOT_SELECTED",
+      "mechanic": "Place and rotate original tiles to cover a stencil, no optical paths or merging.",
+      "reason": "Distinct family, but rotation plus dragging raises 390px touch precision and geometry-solvability risks; not selected for this single commissioning."
+    }
+  ],
+  "policy_review": {
+    "all_public_and_rejected_families_compared": true,
+    "prism_cloning": false,
+    "only_one_candidate_will_be_created": true,
+    "production_authorized": false
+  },
+  "quality_baselines_role": "Completion and usability only; no supplied baseline game code/art."
+}
