@@ -1,0 +1,157 @@
+name: PlayJolt bounded Terra repair loop
+
+on:
+  push:
+    branches:
+      - commissioning/terra-canary-20260922
+    paths:
+      - .github/workflows/playjolt-terra-repair-loop.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: playjolt-terra-repair-loop-20260922
+  cancel-in-progress: false
+
+jobs:
+  repair-loop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      FACTORY_OPENAI_MODEL: gpt-5.6-terra
+      FACTORY_ALLOW_PAID_CALLS: "1"
+      FACTORY_WORKER_ROOT: /tmp/playjolt-terra-repair-loop
+      PRIOR_RUN_ID: "35687383568"
+      PRIOR_ARTIFACT: terra-repair-canary-evidence
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Factory dependencies
+        run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+
+      - name: Restore latest approved canary state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf "$FACTORY_WORKER_ROOT"
+          mkdir -p "$FACTORY_WORKER_ROOT"
+          gh run download "$PRIOR_RUN_ID" -n "$PRIOR_ARTIFACT" -D "$FACTORY_WORKER_ROOT"
+          test -f "$FACTORY_WORKER_ROOT/autonomy/jobs/GAME-20260922-901/manifest.json"
+          test -f "$FACTORY_WORKER_ROOT/autonomy/.provider/ledger.json"
+
+      - name: Apply standing owner approval inside existing conservative factory budget
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs=require('node:fs'),path=require('node:path');
+          const root=process.env.FACTORY_WORKER_ROOT;
+          const configFile=path.join(root,'worker-config.json');
+          const c=JSON.parse(fs.readFileSync(configFile,'utf8'));
+          c.pricing={input_per_million:2,output_per_million:12,as_of:'2026-09-22'};
+          c.per_game.max_provider_calls=6;
+          c.per_game.max_estimated_cost=0.50;
+          c.per_game.max_wall_clock_minutes=120;
+          c.global.daily_provider_call_limit=6;
+          c.global.daily_cost_limit=0.50;
+          c.release_candidates=false;
+          c.polling.max_polls=8;
+          c.polling.max_jobs=1;
+          fs.writeFileSync(configFile,JSON.stringify(c,null,2)+'\n');
+
+          const policyFile=path.join(root,'control-policy.json');
+          const p=JSON.parse(fs.readFileSync(policyFile,'utf8'));
+          p.mode='owner-approved-bounded-repair-loop';
+          p.intake_enabled=true;
+          p.auto_rc_enabled=false;
+          p.kill_switches.release_candidates=true;
+          p.kill_switches.production_shipping=true;
+          p.kill_switches.marketing_promotion=true;
+          fs.writeFileSync(policyFile,JSON.stringify(p,null,2)+'\n');
+          NODE
+
+      - name: Build reviewed isolated QA image
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker build --iidfile /tmp/playjolt-qa-image -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat /tmp/playjolt-qa-image)" >> "$GITHUB_ENV"
+
+      - name: Continue bounded AI repair loop to PASS or REJECTED
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${OPENAI_API_KEY:-}" ]; then
+            echo "::error::OPENAI_API_KEY secret is missing."
+            exit 78
+          fi
+          node vibe-arcade/autonomy/worker.cjs loop             --root "$FACTORY_WORKER_ROOT"             --policy "$FACTORY_WORKER_ROOT/control-policy.json"             --config "$FACTORY_WORKER_ROOT/worker-config.json"             | tee "$FACTORY_WORKER_ROOT/repair-loop-result.json"
+
+      - name: Summarize final canary state and cumulative estimated cost
+        if: always()
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const fs=require('node:fs'),path=require('node:path');
+          const root=process.env.FACTORY_WORKER_ROOT;
+          const ledgerFile=path.join(root,'autonomy/.provider/ledger.json');
+          const manifestFile=path.join(root,'autonomy/jobs/GAME-20260922-901/manifest.json');
+          const out={
+            model:'gpt-5.6-terra',
+            standing_owner_approval:'paid calls under KRW 50000',
+            factory_budget_usd:0.50,
+            provider_operations:0,
+            cumulative_estimated_cost_usd:0
+          };
+          if(fs.existsSync(ledgerFile)){
+            const ledger=JSON.parse(fs.readFileSync(ledgerFile,'utf8'));
+            const ops=Object.values(ledger.operations||{});
+            out.provider_operations=ops.length;
+            out.operations=ops.map(o=>({
+              operation_id:o.operation_id,
+              state:o.state,
+              provider:o.provider,
+              response_id:o.response_id||null,
+              accounted:o.accounted||null,
+              reserved:o.reserved||null,
+              error_code:o.error_code||null
+            }));
+            out.cumulative_estimated_cost_usd=ops.reduce((s,o)=>s+(o.accounted?.estimated_cost??o.reserved?.estimated_cost??0),0);
+            if(ops.length>6)out.safety_violation='repair_budget_exceeded';
+            if(out.cumulative_estimated_cost_usd>0.50+1e-9)out.safety_violation='factory_cost_budget_exceeded';
+          }
+          if(fs.existsSync(manifestFile)){
+            const m=JSON.parse(fs.readFileSync(manifestFile,'utf8'));
+            out.factory={
+              state:m.state,version:m.version,repair_attempt:m.repair_attempt,
+              qa_status:m.qa_status,quality_status:m.quality_status,release_status:m.release_status,
+              failure_reasons:m.failure_reasons
+            };
+            const qa=path.join(root,'autonomy/artifacts/GAME-20260922-901',m.version,'qa.json');
+            if(fs.existsSync(qa)){
+              const q=JSON.parse(fs.readFileSync(qa,'utf8'));
+              out.latest_qa={passed:q.passed,hard_failures:q.hard_failures,duration_ms:q.duration_ms};
+            }
+          }
+          fs.writeFileSync(path.join(root,'repair-loop-summary.json'),JSON.stringify(out,null,2)+'\n');
+          console.log(JSON.stringify(out,null,2));
+          if(out.safety_violation)process.exitCode=1;
+          NODE
+
+      - name: Upload bounded repair evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terra-repair-loop-evidence
+          path: /tmp/playjolt-terra-repair-loop
+          retention-days: 14
