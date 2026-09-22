@@ -1,0 +1,41 @@
+name: PlayJolt second candidate rejected response audit
+on:
+  push:
+    branches: [commissioning/second-real-game-20260922]
+    paths: ['.github/workflows/playjolt-second-response-audit.yml']
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: playjolt-second-rejected-read-only
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Restore exact exhausted job and immutable provider ledger
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/second-rejected-audit" >> "$GITHUB_ENV"
+          gh run download 35726303477 -n second-real-game-GAME-20260922-121 -D "$RUNNER_TEMP/second-rejected-audit"
+      - name: GET six existing provider responses; zero new generation calls
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node vibe-arcade/autonomy/commissioning/second-real-game/retrieve-rejected.cjs
+      - name: Preserve rejected response data and unchanged state
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: second-rejected-response-audit
+          path: ${{ runner.temp }}/second-rejected-audit
+          include-hidden-files: true
+          retention-days: 30
