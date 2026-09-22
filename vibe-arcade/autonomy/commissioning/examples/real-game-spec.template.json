@@ -1,0 +1,17 @@
+{
+  "game_id": "GAME-20260922-110",
+  "generation": 1,
+  "title": "REPLACE WITH ORIGINAL TITLE",
+  "slug": "replace-with-original-slug",
+  "genre": "REPLACE",
+  "mechanic_family": "REPLACE-WITH-DISTINCT-FAMILY",
+  "controls": ["Primary desktop input"],
+  "mobile_controls": ["Primary mobile input"],
+  "max_repair_attempts": 5,
+  "qa": {
+    "seed": 7,
+    "keyboard": {"key": "ArrowRight", "observation": "state.example"},
+    "pointer": {"observation": "state.pointerExample"},
+    "terminal_ms": 45000
+  }
+}

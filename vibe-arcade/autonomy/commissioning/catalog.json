@@ -1,0 +1,14 @@
+{
+  "captured_at": "2026-09-22",
+  "source": "current PlayJolt home/catalog plus legacy links",
+  "games": [
+    {"id":"astra-sentinel","title":"Astra Sentinel","route":"/games/astra-sentinel","mechanic_family":"arena-survival-autofire","controls":["move"],"status":"public"},
+    {"id":"deep-descent","title":"Deep Descent","route":"/descent/","mechanic_family":"tower-descent-rotation","controls":["steer","burst"],"status":"public"},
+    {"id":"core-pins","title":"Core Pins","route":"/challengers/play?game=core-pins","mechanic_family":"radial-pin-timing","controls":["throw"],"status":"public"},
+    {"id":"nova-merge","title":"Nova Merge","route":"/challengers/play?game=nova-merge","mechanic_family":"column-merge","controls":["drop"],"status":"public"},
+    {"id":"orbit-sprint","title":"Orbit Sprint","route":"/games/orbit-sprint/","mechanic_family":"auto-runner","controls":["lane","jump","dash"],"status":"public"},
+    {"id":"dont-press","title":"Don't Press","route":"/games/dont-press/","mechanic_family":"single-button-reaction","controls":["press"],"status":"legacy-public"},
+    {"id":"perfect-timing","title":"Perfect Timing","route":"/games/perfect-timing/","mechanic_family":"single-button-timing","controls":["press"],"status":"legacy-public"},
+    {"id":"reaction-rush","title":"Reaction Rush","route":"/games/reaction-rush/","mechanic_family":"single-button-reaction","controls":["press"],"status":"legacy-public"}
+  ]
+}
