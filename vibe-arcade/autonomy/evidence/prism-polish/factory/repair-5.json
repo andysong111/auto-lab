@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260922-110",
+  "version": "v5",
+  "target_version": "v6",
+  "attempt": 5,
+  "max_repair_attempts": 5,
+  "source_hash": "6445c118a8ec32f6266d3911e963526813f618e214f97f91998e60ee339bec55",
+  "qa_failures": [
+    {
+      "code": "polish_playthrough",
+      "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+      "seed": 1
+    },
+    {
+      "code": "polish_playthrough",
+      "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+      "seed": 7
+    },
+    {
+      "code": "polish_playthrough",
+      "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+      "seed": 23
+    },
+    {
+      "code": "polish_playthrough",
+      "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+      "seed": 89
+    },
+    {
+      "code": "polish_playthrough",
+      "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+      "seed": 2026
+    },
+    {
+      "code": "polish_playthrough",
+      "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+      "seed": 4294967295
+    }
+  ],
+  "allowed_scope": [
+    "core.js",
+    "app.js",
+    "view/**",
+    "style.css",
+    "index.html",
+    "README.md",
+    "assets/**"
+  ],
+  "protected_paths": [
+    "vibe-arcade/games/**",
+    "vibe-arcade/release/**",
+    "vibe-arcade/descent/**",
+    "vibe-arcade/core-pins/**",
+    "vibe-arcade/challengers/**",
+    "vibe-arcade/community/**",
+    "vibe-arcade/runtime/**",
+    "vibe-arcade/measurement/**",
+    "vibe-arcade/marketing/**",
+    "vibe-arcade/index.html",
+    "vibe-arcade/sitemap.xml",
+    "vibe-arcade/robots.txt",
+    "vibe-arcade/google*.html",
+    "loopjolt-backend/**",
+    ".github/**",
+    "**/.env*",
+    "**/secrets/**",
+    "manifest.json",
+    "gamekit.js"
+  ],
+  "acceptance_tests": [
+    "manifest schema",
+    "all three real browser viewports",
+    "no console/page errors",
+    "start/progress/input/interaction",
+    "terminal/restart/pause/resume/hidden",
+    "no side effects",
+    "source and resource bounds"
+  ],
+  "operation_id": "GAME-20260922-110/repair/5"
+}

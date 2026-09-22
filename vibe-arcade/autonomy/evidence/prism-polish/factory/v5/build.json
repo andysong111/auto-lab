@@ -1,0 +1,29 @@
+{
+  "operation_id": "GAME-20260922-110/repair/4",
+  "source_hash": "6445c118a8ec32f6266d3911e963526813f618e214f97f91998e60ee339bec55",
+  "changed_files": [
+    "README.md",
+    "app.js",
+    "core.js",
+    "index.html",
+    "manifest.json",
+    "style.css",
+    "view/art.js"
+  ],
+  "cause": "Repaired Prism Relay with explicit required DOM polish hooks, deterministic gated boards with guaranteed increasing route costs, three distinct receivers, completion/failure states, local WebAudio feedback, and reduced-motion presentation.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Suggested: verify core shortest forced route costs are 2, 4, and 6 for multiple seeds; verify tap at normalized (0.72,0.55) increments rotations; verify DOM goal, receiver, best, result, and sound hooks remain visible."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_0d15bd70a3bf6256006ab26265af9087d2a46e3859f3c21d92",
+    "usage": {
+      "input_tokens": 18117,
+      "output_tokens": 7529,
+      "estimated_cost": 0.20799
+    },
+    "estimated_cost": 0.20799,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

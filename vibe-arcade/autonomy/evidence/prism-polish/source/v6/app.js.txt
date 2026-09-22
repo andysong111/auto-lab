@@ -1,0 +1,58 @@
+(function () {
+  'use strict';
+  var sound = true, context = null, voices = [], lastEvent = -1;
+  var feedback = { reducedMotion: false, soundEnabled: true, events: { rotate: 0, charge: 0, complete: 0, fail: 0 } };
+  try { feedback.reducedMotion = globalThis.matchMedia && globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (ignore) {}
+  globalThis.PrismRelayFeedback = { snapshot: function () { return { reducedMotion: feedback.reducedMotion, soundEnabled: sound, events: feedback.events }; } };
+
+  function stopVoices() {
+    var i;
+    for (i = 0; i < voices.length; i += 1) { try { voices[i].stop(); } catch (ignore) {} }
+    voices = [];
+  }
+  function ensureAudio() {
+    var Ctor = globalThis.AudioContext || globalThis.webkitAudioContext;
+    if (!context && Ctor) { try { context = new Ctor(); } catch (ignore) {} }
+    if (context && context.state === 'suspended') context.resume().catch(function () {});
+  }
+  function note(kind) {
+    var frequencies = { rotate: 330, charge: 523, complete: 784, fail: 165 };
+    var osc, gain, now;
+    if (!sound) return;
+    ensureAudio();
+    if (!context || voices.length >= 8) return;
+    try {
+      now = context.currentTime;
+      osc = context.createOscillator(); gain = context.createGain();
+      osc.type = kind === 'fail' ? 'triangle' : 'sine';
+      osc.frequency.setValueAtTime(frequencies[kind] || 330, now);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(kind === 'rotate' ? 0.035 : 0.06, now + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+      osc.connect(gain); gain.connect(context.destination); voices.push(osc);
+      osc.onended = function () { var p = voices.indexOf(osc); if (p >= 0) voices.splice(p, 1); try { osc.disconnect(); gain.disconnect(); } catch (ignore) {} };
+      osc.start(now); osc.stop(now + 0.24);
+    } catch (ignore) {}
+  }
+  function updateDom(snapshot) {
+    var state = snapshot.state || {}, receivers = document.querySelector('[data-prism-receivers]'), best = document.querySelector('[data-prism-best]'), result = document.querySelector('[data-prism-result]');
+    if (receivers) receivers.textContent = Math.min(3, state.circuits || 0) + '/3';
+    if (best) best.textContent = Number.isFinite(snapshot.best) ? String(snapshot.best) : '0';
+    if (result) result.textContent = state.terminal ? (state.circuits >= 3 ? 'RELAY COMPLETE' : 'RELAY INCOMPLETE') : '';
+    if (state.event !== lastEvent) {
+      lastEvent = state.event;
+      if (state.eventType && feedback.events[state.eventType] !== undefined) { feedback.events[state.eventType] += 1; note(state.eventType); }
+    }
+  }
+  function showError() { var error = document.querySelector('[data-game-error]'); if (error) { error.hidden = false; error.textContent = 'Unable to prepare Prism Relay.'; } }
+  fetch('./manifest.json').then(function (response) { if (!response.ok) throw new Error('Manifest unavailable'); return response.json(); }).then(function (metadata) {
+    var canvas = document.querySelector('[data-game-canvas]');
+    if (!canvas || !globalThis.PlayJoltGameKit || !globalThis.PrismRelayCore || !globalThis.PrismRelayView) throw new Error('Game runtime unavailable');
+    var start = document.querySelector('[data-game-start]'), soundButton = document.querySelector('[data-prism-sound]');
+    if (start) start.addEventListener('click', ensureAudio);
+    if (soundButton) soundButton.addEventListener('click', function () { sound = !sound; feedback.soundEnabled = sound; soundButton.setAttribute('aria-pressed', sound ? 'true' : 'false'); soundButton.textContent = sound ? 'Sound On' : 'Sound Off'; if (!sound) stopVoices(); else ensureAudio(); });
+    document.addEventListener('visibilitychange', function () { if (document.hidden) stopVoices(); });
+    globalThis.addEventListener('pagehide', stopVoices);
+    globalThis.PlayJoltGameKit.create({ core: globalThis.PrismRelayCore, draw: function (ctx, snapshot, size) { updateDom(snapshot); globalThis.PrismRelayView.draw(ctx, snapshot, size, { reducedMotion: feedback.reducedMotion }); }, canvas: canvas, metadata: metadata });
+  }).catch(showError);
+}());

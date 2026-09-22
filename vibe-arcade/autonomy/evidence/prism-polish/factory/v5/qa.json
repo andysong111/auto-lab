@@ -1,0 +1,2089 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260922-110",
+  "version": "v5",
+  "source_hash": "6445c118a8ec32f6266d3911e963526813f618e214f97f91998e60ee339bec55",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0",
+  "passed": false,
+  "hard_failures": [
+    {
+      "code": "polish_playthrough",
+      "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+      "seed": 1
+    },
+    {
+      "code": "polish_playthrough",
+      "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+      "seed": 7
+    },
+    {
+      "code": "polish_playthrough",
+      "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+      "seed": 23
+    },
+    {
+      "code": "polish_playthrough",
+      "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+      "seed": 89
+    },
+    {
+      "code": "polish_playthrough",
+      "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+      "seed": 2026
+    },
+    {
+      "code": "polish_playthrough",
+      "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+      "seed": 4294967295
+    }
+  ],
+  "soft_failures": [],
+  "console_errors": [],
+  "page_errors": [],
+  "browser_cases": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow",
+        "terminal",
+        "resources",
+        "restart",
+        "pagehide",
+        "capture_no_writes"
+      ],
+      "passed": true,
+      "load_ms": 110,
+      "resources": [
+        {
+          "tick": 70,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 100,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 130,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 160,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 190,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 220,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 250,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 280,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 310,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 340,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 370,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 400,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 430,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 460,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 490,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 520,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 550,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 580,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 610,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 640,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 670,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 700,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 730,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 760,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 790,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 820,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 850,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 880,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 910,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 940,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 970,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1000,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1030,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1060,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1090,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1120,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1150,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1180,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1210,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1240,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1270,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1300,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1330,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1360,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1390,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1420,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1450,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1480,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1510,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1540,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1570,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1600,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1630,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1660,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1690,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1720,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1750,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1780,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1810,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1840,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1870,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1900,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1930,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1960,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1990,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2020,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2050,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2080,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2110,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2140,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2170,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2200,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2230,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2260,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2290,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2320,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2350,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2380,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2410,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2440,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2470,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2500,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2530,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2560,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2590,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2620,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2650,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2680,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2700,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2700,
+          "entities": 12,
+          "dom": 39
+        }
+      ],
+      "heap_growth": -514560
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow",
+        "terminal",
+        "resources",
+        "restart",
+        "pagehide",
+        "capture_no_writes"
+      ],
+      "passed": true,
+      "load_ms": 99,
+      "resources": [
+        {
+          "tick": 65,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 95,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 125,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 155,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 185,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 215,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 245,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 275,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 305,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 335,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 365,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 395,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 425,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 455,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 485,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 515,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 545,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 575,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 605,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 635,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 665,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 695,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 725,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 755,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 785,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 815,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 845,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 875,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 905,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 935,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 965,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 995,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1025,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1055,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1085,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1115,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1145,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1175,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1205,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1235,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1265,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1295,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1325,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1355,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1385,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1415,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1445,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1475,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1505,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1535,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1565,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1595,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1625,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1655,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1685,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1715,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1745,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1775,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1805,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1835,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1865,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1895,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1925,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1955,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1985,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2015,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2045,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2075,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2105,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2135,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2165,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2195,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2225,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2255,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2285,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2315,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2345,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2375,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2405,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2435,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2465,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2495,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2525,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2555,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2585,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2615,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2645,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2675,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2700,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2700,
+          "entities": 12,
+          "dom": 39
+        }
+      ],
+      "heap_growth": -721724
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow",
+        "terminal",
+        "resources",
+        "restart",
+        "pagehide",
+        "capture_no_writes"
+      ],
+      "passed": true,
+      "load_ms": 51,
+      "resources": [
+        {
+          "tick": 70,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 100,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 130,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 160,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 190,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 220,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 250,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 280,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 310,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 340,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 370,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 400,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 430,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 460,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 490,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 520,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 550,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 580,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 610,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 640,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 670,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 700,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 730,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 760,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 790,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 820,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 850,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 880,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 910,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 940,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 970,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1000,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1030,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1060,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1090,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1120,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1150,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1180,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1210,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1240,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1270,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1300,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1330,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1360,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1390,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1420,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1450,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1480,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1510,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1540,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1570,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1600,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1630,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1660,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1690,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1720,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1750,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1780,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1810,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1840,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1870,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1900,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1930,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1960,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 1990,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2020,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2050,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2080,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2110,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2140,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2170,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2200,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2230,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2260,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2290,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2320,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2350,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2380,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2410,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2440,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2470,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2500,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2530,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2560,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2590,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2620,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2650,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2680,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2700,
+          "entities": 12,
+          "dom": 39
+        },
+        {
+          "tick": 2700,
+          "entities": 12,
+          "dom": 39
+        }
+      ],
+      "heap_growth": -417804
+    }
+  ],
+  "screenshots": [
+    "viewport-390-entry.png",
+    "viewport-390-playing.png",
+    "viewport-390-midgame.png",
+    "viewport-390.png",
+    "viewport-768-entry.png",
+    "viewport-768-playing.png",
+    "viewport-768-midgame.png",
+    "viewport-768.png",
+    "viewport-1280-entry.png",
+    "viewport-1280-playing.png",
+    "viewport-1280-midgame.png",
+    "viewport-1280.png"
+  ],
+  "side_effects": [],
+  "duration_ms": 40837,
+  "scope": "isolated browser verification; no claim of fun, retention or production approval",
+  "isolation": {
+    "engine": "docker",
+    "image": "sha256:48131135cb51e969c3554e0c4645e1f611dd6a165fb192903ad71991654a4a08",
+    "network": "none",
+    "readonly": true,
+    "cpu": 1,
+    "memory_mb": 1024,
+    "pids": 128
+  },
+  "commissioning_contract": {
+    "schema": "prism-relay-polish/1",
+    "scope": "Polish existing Prism Relay; no new game. Implement all four owner requirements together. Preserve immutable controls, keyboard observation state.cursor.x, pointer observation state.rotations, original identity, GameKit lifecycle and capture safety. No edit to GameKit or manifest.",
+    "goal": "Prominent visible DOM heading: LIGHT 3 RECEIVERS. A compact visual trio and [data-prism-receivers] text 0/3, 1/3, 2/3, 3/3 must remain visible on entry, during play and result. Each completed board charges a distinct receiver. Explain taps rotate/arrows+Space in one short line. No long tutorial.",
+    "best": "Visible DOM [data-prism-best] is the numeric GameKit snapshot.best, adjacent to DEVICE BEST / BEST SCORE and LOCAL PRACTICE labels. Separate from CURRENT SCORE [data-game-score]. GameKit snapshot best is updated on finish and retained on restart. Do not access/write storage yourself. In qa/capture, GameKit best is memory-only; never write records, even sound preferences. Keep practice without account, no ranking implication.",
+    "routing": "Retain original 4 columns x 3 rows, beam starts row 1, board index y*4+x, outlet values -1/0/1, rotation cycles -1 -> 0 -> 1 -> -1. Preserve normalized pointer board rectangle x .08-.92, y .23-.75 so existing controls work. Keep state.board, state.target, state.circuits, state.boardNumber, state.cursor, state.rotations. Route travels one column each step; outlet changes next row. You may add clearly drawn mandatory routing gates: state.gates is an array of {x,y}, meaning the beam MUST enter column x at row y, otherwise cannot charge. If used, these gates must be visible with a concise visual legend, not invisible QA constraints. Other hidden solution constraints are forbidden.",
+    "depth": "Generate seeded ORIGINAL boards with real routing decisions. For the first three boards, the TRUE shortest rotation costs over ALL valid routes must be at least 2, 4, 6 respectively, and later stage costs must strictly rise for every tested seed. Do NOT just count the number of scrambled tiles; unintended alternate routes can trivialize the puzzle. Use a small bounded exhaustive route-cost check in generation, bounded retries and a guaranteed valid fallback with the SAME cost guarantees. Later boards need multiple meaningful prism changes and can add visible gate waypoints, changing receiver targets. Seed generalization required; never special-case test seeds. All boards solvable. Receiver order is a deterministic permutation of the three rows. Three solved boards completes the objective; stop producing extra boards after 3. Keep 15-60 second session (45s deadline, earliest final completion 15s is fine), reachable timeout failure and restart. Progress still changes with time for the existing common QA; the separate receiver counter carries goal progress.",
+    "feedback": "Original polished code-created light optics, clear active receiver and gate waypoint hierarchy. Rotate, beam connect, receiver charge, success and failure each need distinct restrained WebAudio feedback and visible feedback. Use one lazy AudioContext activated from Start/sound click; max 8 concurrent short voices, disconnect on ended, stop voices on mute/pause/hidden/pagehide. No CDN, audio file downloads, dependencies or copied art. Use [data-prism-sound] button with aria-pressed=true when enabled, false when muted, visible Sound On/Off label. Mute must stop/suppress notes; re-enable works. No sound preference writes. Prefer short oscillator envelopes <=0.5s; no oscillators created from every render. Event edge detection only. Handle unavailable AudioContext gracefully.",
+    "result": "A strong original complete/incomplete result with 3 receiver medallions, CURRENT SCORE vs DEVICE BEST and clear replay action. DOM [data-prism-result] displays RELAY COMPLETE after 3 receivers or RELAY INCOMPLETE on timeout. Use glow/pulse/board reaction for connections and celebration on success, static alternatives when prefers-reduced-motion: reduce. Respect reduced motion in CSS AND canvas; no strobing, prolonged screen shake or motion-only instructions.",
+    "runtime": "PlayJoltGameKit.create returns runtime and calls draw(ctx,snapshot,size) every frame, including idle/finished. In app.js wrap the view draw callback to update DOM and observe audio event edges using snapshots (including snapshot.best, paused, phase, capture, qa, state). This is not a second animation loop. view/art.js remains drawing only; optional 4th presentation options argument can convey reduced motion. core.js DOM-free/deterministic. Do not replace GameDiagnostics or mutate snapshots/runtime state. Reuse valid current IIFE syntax. Expose optional read-only PrismRelayFeedback.snapshot() with reducedMotion, soundEnabled, events counters for diagnostics; actual WebAudio will also be independently instrumented.",
+    "acceptance": "All original Chromium checks plus visible entry goal/best, all four progress milestones, normal-input solution at seeds 1,7,23,89,2026,4294967295, independently computed shortest rotation costs, distinct receiver targets, increasing stage complexity, success/failure/restart, best retained then reloaded in fresh local-practice context, zero capture writes, toggle/audio resources, reduced motion, overflow, errors. No model test claims substitute for Docker Chromium evidence. Suggested tests are not executed as shell commands. Return structured files; preserve all unrelated behavior. Two lifetime repair attempts remain (4 and 5)."
+  },
+  "polish": {
+    "passed": false,
+    "artifact": "polish/qa.json",
+    "policy_hash": "355491eb9adbc7237dbbf3881ef861468e93f35744036d67d6cf6f12d41cbbd4",
+    "seeds": [
+      {
+        "seed": 1,
+        "passed": false,
+        "boards": [
+          {
+            "stage": 1,
+            "required_rotations": 2,
+            "changed_prisms": 2,
+            "target": 0,
+            "gates": [
+              {
+                "x": 1,
+                "y": 0
+              },
+              {
+                "x": 2,
+                "y": 1
+              },
+              {
+                "x": 3,
+                "y": 0
+              }
+            ],
+            "board": [
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 0
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": null
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": -1
+              }
+            ],
+            "solution": [
+              {
+                "x": 0,
+                "y": 1,
+                "turns": 1,
+                "outlet": -1
+              },
+              {
+                "x": 1,
+                "y": 0,
+                "turns": 1,
+                "outlet": 1
+              },
+              {
+                "x": 2,
+                "y": 1,
+                "turns": 0,
+                "outlet": -1
+              },
+              {
+                "x": 3,
+                "y": 0,
+                "turns": 0,
+                "outlet": 0
+              }
+            ]
+          }
+        ],
+        "receiver_progress": [
+          0
+        ]
+      },
+      {
+        "seed": 7,
+        "passed": false,
+        "boards": [
+          {
+            "stage": 1,
+            "required_rotations": 2,
+            "changed_prisms": 2,
+            "target": 0,
+            "gates": [
+              {
+                "x": 1,
+                "y": 0
+              },
+              {
+                "x": 2,
+                "y": 1
+              },
+              {
+                "x": 3,
+                "y": 0
+              }
+            ],
+            "board": [
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 0
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": null
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": 0
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 1
+              }
+            ],
+            "solution": [
+              {
+                "x": 0,
+                "y": 1,
+                "turns": 1,
+                "outlet": -1
+              },
+              {
+                "x": 1,
+                "y": 0,
+                "turns": 1,
+                "outlet": 1
+              },
+              {
+                "x": 2,
+                "y": 1,
+                "turns": 0,
+                "outlet": -1
+              },
+              {
+                "x": 3,
+                "y": 0,
+                "turns": 0,
+                "outlet": 0
+              }
+            ]
+          }
+        ],
+        "receiver_progress": [
+          0
+        ]
+      },
+      {
+        "seed": 23,
+        "passed": false,
+        "boards": [
+          {
+            "stage": 1,
+            "required_rotations": 2,
+            "changed_prisms": 2,
+            "target": 0,
+            "gates": [
+              {
+                "x": 1,
+                "y": 0
+              },
+              {
+                "x": 2,
+                "y": 1
+              },
+              {
+                "x": 3,
+                "y": 0
+              }
+            ],
+            "board": [
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": 0
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": null
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 0
+              },
+              {
+                "outlet": 0
+              }
+            ],
+            "solution": [
+              {
+                "x": 0,
+                "y": 1,
+                "turns": 1,
+                "outlet": -1
+              },
+              {
+                "x": 1,
+                "y": 0,
+                "turns": 1,
+                "outlet": 1
+              },
+              {
+                "x": 2,
+                "y": 1,
+                "turns": 0,
+                "outlet": -1
+              },
+              {
+                "x": 3,
+                "y": 0,
+                "turns": 0,
+                "outlet": 0
+              }
+            ]
+          }
+        ],
+        "receiver_progress": [
+          0
+        ]
+      },
+      {
+        "seed": 89,
+        "passed": false,
+        "boards": [
+          {
+            "stage": 1,
+            "required_rotations": 2,
+            "changed_prisms": 2,
+            "target": 0,
+            "gates": [
+              {
+                "x": 1,
+                "y": 0
+              },
+              {
+                "x": 2,
+                "y": 1
+              },
+              {
+                "x": 3,
+                "y": 0
+              }
+            ],
+            "board": [
+              {
+                "outlet": 0
+              },
+              {
+                "outlet": 0
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": null
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 1
+              }
+            ],
+            "solution": [
+              {
+                "x": 0,
+                "y": 1,
+                "turns": 1,
+                "outlet": -1
+              },
+              {
+                "x": 1,
+                "y": 0,
+                "turns": 1,
+                "outlet": 1
+              },
+              {
+                "x": 2,
+                "y": 1,
+                "turns": 0,
+                "outlet": -1
+              },
+              {
+                "x": 3,
+                "y": 0,
+                "turns": 0,
+                "outlet": 0
+              }
+            ]
+          }
+        ],
+        "receiver_progress": [
+          0
+        ]
+      },
+      {
+        "seed": 2026,
+        "passed": false,
+        "boards": [
+          {
+            "stage": 1,
+            "required_rotations": 2,
+            "changed_prisms": 2,
+            "target": 0,
+            "gates": [
+              {
+                "x": 1,
+                "y": 0
+              },
+              {
+                "x": 2,
+                "y": 1
+              },
+              {
+                "x": 3,
+                "y": 0
+              }
+            ],
+            "board": [
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 0
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": null
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 0
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 1
+              }
+            ],
+            "solution": [
+              {
+                "x": 0,
+                "y": 1,
+                "turns": 1,
+                "outlet": -1
+              },
+              {
+                "x": 1,
+                "y": 0,
+                "turns": 1,
+                "outlet": 1
+              },
+              {
+                "x": 2,
+                "y": 1,
+                "turns": 0,
+                "outlet": -1
+              },
+              {
+                "x": 3,
+                "y": 0,
+                "turns": 0,
+                "outlet": 0
+              }
+            ]
+          }
+        ],
+        "receiver_progress": [
+          0
+        ]
+      },
+      {
+        "seed": 4294967295,
+        "passed": false,
+        "boards": [
+          {
+            "stage": 1,
+            "required_rotations": 2,
+            "changed_prisms": 2,
+            "target": 0,
+            "gates": [
+              {
+                "x": 1,
+                "y": 0
+              },
+              {
+                "x": 2,
+                "y": 1
+              },
+              {
+                "x": 3,
+                "y": 0
+              }
+            ],
+            "board": [
+              {
+                "outlet": 0
+              },
+              {
+                "outlet": 0
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": null
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": 0
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": 0
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": 1
+              },
+              {
+                "outlet": -1
+              },
+              {
+                "outlet": 1
+              }
+            ],
+            "solution": [
+              {
+                "x": 0,
+                "y": 1,
+                "turns": 1,
+                "outlet": -1
+              },
+              {
+                "x": 1,
+                "y": 0,
+                "turns": 1,
+                "outlet": 1
+              },
+              {
+                "x": 2,
+                "y": 1,
+                "turns": 0,
+                "outlet": -1
+              },
+              {
+                "x": 3,
+                "y": 0,
+                "turns": 0,
+                "outlet": 0
+              }
+            ]
+          }
+        ],
+        "receiver_progress": [
+          0
+        ]
+      }
+    ],
+    "practice_record": null
+  }
+}

@@ -1,0 +1,31 @@
+(function () {
+  'use strict';
+  function line(ctx, points, color, width) { var i; ctx.beginPath(); ctx.moveTo(points[0].x, points[0].y); for (i = 1; i < points.length; i += 1) ctx.lineTo(points[i].x, points[i].y); ctx.strokeStyle = color; ctx.lineWidth = width; ctx.stroke(); }
+  function draw(ctx, snapshot, size, options) {
+    var s = snapshot.state, w = size.width, h = size.height, l = w * .08, t = h * .23, bw = w * .84, bh = h * .52, cw = bw / 4, ch = bh / 3;
+    var row = 1, route = [{ x: l - cw * .30, y: t + 1.5 * ch }], leaking = false, x, y, out, cx, cy, receiverX = l + bw + cw * .12, ry, selected, p, dist, seconds;
+    var reduced = options && options.reducedMotion;
+    for (x = 0; x < 4; x += 1) { route.push({ x: l + (x + .5) * cw, y: t + (row + .5) * ch }); out = s.board[row * 4 + x].outlet; row += out; route.push({ x: l + (x + 1) * cw, y: t + (row + .5) * ch }); if (row < 0 || row > 2) { leaking = true; break; } }
+    var bg = ctx.createLinearGradient(0, 0, w, h); bg.addColorStop(0, '#061126'); bg.addColorStop(1, '#171440'); ctx.fillStyle = bg; ctx.fillRect(0, 0, w, h);
+    ctx.textAlign = 'left'; ctx.fillStyle = '#eefcff'; ctx.font = '700 ' + Math.max(22, w * .058) + 'px system-ui'; ctx.fillText('PRISM RELAY', l, h * .085);
+    ctx.fillStyle = '#9dbbd0'; ctx.font = Math.max(11, w * .024) + 'px system-ui'; ctx.fillText('Route the amber beam through every gate.', l, h * .128);
+    seconds = Math.max(0, Math.ceil((2700 - s.tick) / 60)); ctx.textAlign = 'right'; ctx.fillStyle = '#ffd071'; ctx.font = '700 ' + Math.max(18, w * .045) + 'px system-ui'; ctx.fillText(seconds + 's', l + bw, h * .085);
+    ctx.fillStyle = '#b8e9df'; ctx.font = Math.max(12, w * .027) + 'px system-ui'; ctx.fillText('CIRCUITS ' + s.circuits + '/3   SCORE ' + s.score, l + bw, h * .128);
+    ctx.fillStyle = 'rgba(119,191,228,.07)'; ctx.fillRect(l, t, bw, bh); ctx.strokeStyle = 'rgba(180,238,255,.28)'; ctx.strokeRect(l, t, bw, bh);
+    for (y = 0; y < 3; y += 1) for (x = 0; x < 4; x += 1) {
+      cx = l + (x + .5) * cw; cy = t + (y + .5) * ch; selected = s.cursor.x === x && s.cursor.y === y; out = s.board[y * 4 + x].outlet;
+      ctx.save(); ctx.translate(cx, cy); ctx.fillStyle = selected ? 'rgba(101,238,219,.20)' : 'rgba(161,216,248,.10)'; ctx.strokeStyle = selected ? '#92fff0' : 'rgba(205,242,255,.52)'; ctx.lineWidth = selected ? 3 : 1;
+      ctx.beginPath(); ctx.moveTo(-cw*.29,0); ctx.lineTo(0,-ch*.30); ctx.lineTo(cw*.29,0); ctx.lineTo(0,ch*.30); ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.strokeStyle = '#c2fff5'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(-cw*.13,0); ctx.lineTo(cw*.31,out*ch*.29); ctx.stroke(); ctx.fillStyle = '#c2fff5'; ctx.beginPath(); ctx.arc(cw*.31,out*ch*.29,Math.max(3,w*.007),0,Math.PI*2); ctx.fill(); ctx.restore();
+    }
+    for (x = 0; x < s.gates.length; x += 1) { var g = s.gates[x]; cx = l + g.x * cw; cy = t + (g.y + .5) * ch; ctx.strokeStyle = '#ffdb82'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(cx, cy, Math.min(cw,ch)*.17, 0, Math.PI*2); ctx.stroke(); ctx.fillStyle = '#ffdb82'; ctx.fillRect(cx-2,cy-2,4,4); }
+    for (y = 0; y < 3; y += 1) { ry = t + (y+.5)*ch; ctx.strokeStyle = y === s.target ? '#79ffe0' : 'rgba(130,185,210,.32)'; ctx.lineWidth = y === s.target ? 4 : 2; ctx.beginPath(); ctx.arc(receiverX,ry,ch*.19,0,Math.PI*2); ctx.stroke(); if (y === s.target) { ctx.fillStyle='#79ffe0'; ctx.beginPath(); ctx.arc(receiverX,ry,4,0,Math.PI*2); ctx.fill(); } }
+    ctx.save(); ctx.shadowBlur = s.charge ? 18 : 8; ctx.shadowColor = leaking ? '#e99365' : '#72f5d8'; line(ctx,route,leaking?'#db986d':'#6ee7d0',s.charge?6:3); ctx.restore();
+    ctx.fillStyle='#ffca69'; ctx.beginPath(); ctx.arc(route[0].x,route[0].y,9,0,Math.PI*2); ctx.fill(); ry=t+(s.target+.5)*ch; ctx.strokeStyle='#ffe391'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(receiverX,ry,ch*.28,-Math.PI/2,-Math.PI/2+Math.PI*2*s.charge/45); ctx.stroke();
+    if (s.pulse && !reduced) { ctx.fillStyle='rgba(111,255,218,'+(s.pulse/80)+')'; ctx.beginPath(); ctx.arc(receiverX,ry,ch*(.25+(36-s.pulse)*.017),0,Math.PI*2); ctx.fill(); }
+    for (x=0;x<s.particles.length && !reduced;x+=1) { p=s.particles[x]; dist=(36-p.life)*ch*.009; ctx.fillStyle='rgba(157,255,226,'+(p.life/42)+')'; ctx.beginPath(); ctx.arc(receiverX+Math.cos(p.angle)*dist,ry+Math.sin(p.angle)*dist,2,0,Math.PI*2); ctx.fill(); }
+    ctx.textAlign='center'; ctx.fillStyle='#b6cedd'; ctx.font=Math.max(11,w*.023)+'px system-ui'; ctx.fillText('Amber rings are mandatory gates  •  Tap rotates  •  arrows + Space',w/2,h*.84); ctx.fillStyle='#7192b0'; ctx.fillText(s.circuits===0?'SPARK':s.circuits===1?'SURGE':'SPECTRUM',w/2,h*.885);
+    if (s.terminal) { ctx.fillStyle='rgba(3,10,28,.84)'; ctx.fillRect(0,0,w,h); ctx.fillStyle=s.circuits>=3?'#85ffe2':'#ffd28d'; ctx.font='700 '+Math.max(26,w*.07)+'px system-ui'; ctx.fillText(s.circuits>=3?'RELAY COMPLETE':'RELAY INCOMPLETE',w/2,h*.43); ctx.fillStyle='#edfaff'; ctx.font=Math.max(16,w*.038)+'px system-ui'; ctx.fillText(s.circuits+' receivers lit  •  '+s.score+' points',w/2,h*.50); ctx.fillStyle='#a8c4d8'; ctx.font=Math.max(12,w*.027)+'px system-ui'; ctx.fillText('Play Again below to relay this seed.',w/2,h*.56); }
+  }
+  globalThis.PrismRelayView={draw:draw};
+}());

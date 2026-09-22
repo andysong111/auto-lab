@@ -1,0 +1,499 @@
+[
+  {
+    "attempt": 1,
+    "version": "v2",
+    "cause": [
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 390
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 768
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 1280
+      },
+      {
+        "code": "pageerror",
+        "message": "Uncaught browser errors",
+        "viewport": null
+      }
+    ],
+    "changed_files": [
+      "README.md",
+      "app.js",
+      "core.js",
+      "index.html",
+      "manifest.json",
+      "style.css",
+      "view/art.js"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Replaced the game implementation with syntax-safe DOM-free deterministic core, robust GameKit boot handling, responsive required DOM, and procedural canvas presentation. The routing mechanics include pointer/action deduplication, deterministic solvable-then-scrambled boards, bounded particles, charging, terminal state, and repeatable restart behavior.",
+    "qa_artifact": "v2/qa.json"
+  },
+  {
+    "attempt": 2,
+    "version": "v3",
+    "cause": [
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 390
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 768
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 1280
+      },
+      {
+        "code": "pageerror",
+        "message": "Uncaught browser errors",
+        "viewport": null
+      }
+    ],
+    "changed_files": [
+      "README.md",
+      "app.js",
+      "core.js",
+      "manifest.json",
+      "view/art.js"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Replaced the game implementation files with syntax-safe browser scripts, retained deterministic DOM-free routing logic, and added explicit pointer/action de-duplication so tap rotation is counted once.",
+    "qa_artifact": "v3/qa.json"
+  },
+  {
+    "attempt": 3,
+    "version": "v4",
+    "cause": [
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 390
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 768
+      },
+      {
+        "code": "html",
+        "message": "page.waitForFunction: Timeout 3500ms exceeded.",
+        "viewport": 1280
+      },
+      {
+        "code": "pageerror",
+        "message": "Uncaught browser errors",
+        "viewport": null
+      }
+    ],
+    "changed_files": [
+      "README.md",
+      "app.js",
+      "core.js",
+      "index.html",
+      "manifest.json",
+      "view/art.js"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Replaced the affected game files with parse-safe ES5-style implementations, preserving deterministic routing, pointer/keyboard input, bounded particles, responsive UI, and GameKit lifecycle integration.",
+    "qa_artifact": "v4/qa.json"
+  },
+  {
+    "attempt": 4,
+    "version": "v5",
+    "cause": [
+      {
+        "code": "polish_goal",
+        "message": "The input did not match the regular expression /LIGHT\\s+3\\s+RECEIVERS/i. Input:\n\n'Ready · No account needed\\nScore: 0\\nProgress: 0\\nStart Relay'\n",
+        "seed": 1
+      },
+      {
+        "code": "polish_best",
+        "message": "The expression evaluated to a falsy value:\n\n  assert(await p.locator('[data-prism-best]').isVisible())\n",
+        "seed": 1
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 1: shortest solution 1, required >=2; count ALL alternative routes, not scrambled tiles",
+        "seed": 1
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 1
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 2: shortest solution 0, required >=4; count ALL alternative routes, not scrambled tiles",
+        "seed": 1
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 1
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 3: shortest solution 2, required >=6; count ALL alternative routes, not scrambled tiles",
+        "seed": 1
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 1
+      },
+      {
+        "code": "polish_receiver_targets",
+        "message": "three receivers must be distinct\n\n2 !== 3\n",
+        "seed": 1
+      },
+      {
+        "code": "polish_result",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-result]')\n",
+        "seed": 1
+      },
+      {
+        "code": "polish_goal",
+        "message": "The input did not match the regular expression /LIGHT\\s+3\\s+RECEIVERS/i. Input:\n\n'Ready · No account needed\\nScore: 0\\nProgress: 0\\nStart Relay'\n",
+        "seed": 7
+      },
+      {
+        "code": "polish_best",
+        "message": "The expression evaluated to a falsy value:\n\n  assert(await p.locator('[data-prism-best]').isVisible())\n",
+        "seed": 7
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 7
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 2: shortest solution 2, required >=4; count ALL alternative routes, not scrambled tiles",
+        "seed": 7
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 7
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 3: shortest solution 2, required >=6; count ALL alternative routes, not scrambled tiles",
+        "seed": 7
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 7
+      },
+      {
+        "code": "polish_receiver_targets",
+        "message": "three receivers must be distinct\n\n2 !== 3\n",
+        "seed": 7
+      },
+      {
+        "code": "polish_result",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-result]')\n",
+        "seed": 7
+      },
+      {
+        "code": "polish_goal",
+        "message": "The input did not match the regular expression /LIGHT\\s+3\\s+RECEIVERS/i. Input:\n\n'Ready · No account needed\\nScore: 0\\nProgress: 0\\nStart Relay'\n",
+        "seed": 23
+      },
+      {
+        "code": "polish_best",
+        "message": "The expression evaluated to a falsy value:\n\n  assert(await p.locator('[data-prism-best]').isVisible())\n",
+        "seed": 23
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 1: shortest solution 1, required >=2; count ALL alternative routes, not scrambled tiles",
+        "seed": 23
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 23
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 2: shortest solution 1, required >=4; count ALL alternative routes, not scrambled tiles",
+        "seed": 23
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 23
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 3: shortest solution 1, required >=6; count ALL alternative routes, not scrambled tiles",
+        "seed": 23
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 23
+      },
+      {
+        "code": "polish_receiver_targets",
+        "message": "three receivers must be distinct\n\n2 !== 3\n",
+        "seed": 23
+      },
+      {
+        "code": "polish_result",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-result]')\n",
+        "seed": 23
+      },
+      {
+        "code": "polish_audio",
+        "message": "false == true",
+        "seed": 23
+      },
+      {
+        "code": "polish_best_restart",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-best]')\n",
+        "seed": 23
+      },
+      {
+        "code": "polish_reduced_motion",
+        "message": "no reduced-motion presentation evidence",
+        "seed": 23
+      },
+      {
+        "code": "polish_failure",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-result]')\n",
+        "seed": 23
+      },
+      {
+        "code": "polish_goal",
+        "message": "The input did not match the regular expression /LIGHT\\s+3\\s+RECEIVERS/i. Input:\n\n'Ready · No account needed\\nScore: 0\\nProgress: 0\\nStart Relay'\n",
+        "seed": 89
+      },
+      {
+        "code": "polish_best",
+        "message": "The expression evaluated to a falsy value:\n\n  assert(await p.locator('[data-prism-best]').isVisible())\n",
+        "seed": 89
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 1: shortest solution 1, required >=2; count ALL alternative routes, not scrambled tiles",
+        "seed": 89
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 89
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 2: shortest solution 0, required >=4; count ALL alternative routes, not scrambled tiles",
+        "seed": 89
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 89
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 3: shortest solution 1, required >=6; count ALL alternative routes, not scrambled tiles",
+        "seed": 89
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 89
+      },
+      {
+        "code": "polish_result",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-result]')\n",
+        "seed": 89
+      },
+      {
+        "code": "polish_goal",
+        "message": "The input did not match the regular expression /LIGHT\\s+3\\s+RECEIVERS/i. Input:\n\n'Ready · No account needed\\nScore: 0\\nProgress: 0\\nStart Relay'\n",
+        "seed": 2026
+      },
+      {
+        "code": "polish_best",
+        "message": "The expression evaluated to a falsy value:\n\n  assert(await p.locator('[data-prism-best]').isVisible())\n",
+        "seed": 2026
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 1: shortest solution 1, required >=2; count ALL alternative routes, not scrambled tiles",
+        "seed": 2026
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 2026
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 2: shortest solution 0, required >=4; count ALL alternative routes, not scrambled tiles",
+        "seed": 2026
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 2026
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 3: shortest solution 1, required >=6; count ALL alternative routes, not scrambled tiles",
+        "seed": 2026
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 2026
+      },
+      {
+        "code": "polish_receiver_targets",
+        "message": "three receivers must be distinct\n\n2 !== 3\n",
+        "seed": 2026
+      },
+      {
+        "code": "polish_result",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-result]')\n",
+        "seed": 2026
+      },
+      {
+        "code": "polish_goal",
+        "message": "The input did not match the regular expression /LIGHT\\s+3\\s+RECEIVERS/i. Input:\n\n'Ready · No account needed\\nScore: 0\\nProgress: 0\\nStart Relay'\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "polish_best",
+        "message": "The expression evaluated to a falsy value:\n\n  assert(await p.locator('[data-prism-best]').isVisible())\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 1: shortest solution 1, required >=2; count ALL alternative routes, not scrambled tiles",
+        "seed": 4294967295
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 2: shortest solution 1, required >=4; count ALL alternative routes, not scrambled tiles",
+        "seed": 4294967295
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "polish_depth",
+        "message": "stage 3: shortest solution 2, required >=6; count ALL alternative routes, not scrambled tiles",
+        "seed": 4294967295
+      },
+      {
+        "code": "polish_progress",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "polish_receiver_targets",
+        "message": "three receivers must be distinct\n\n2 !== 3\n",
+        "seed": 4294967295
+      },
+      {
+        "code": "polish_result",
+        "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-result]')\n",
+        "seed": 4294967295
+      }
+    ],
+    "changed_files": [
+      "README.md",
+      "app.js",
+      "core.js",
+      "index.html",
+      "manifest.json",
+      "style.css",
+      "view/art.js"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Repaired Prism Relay with explicit required DOM polish hooks, deterministic gated boards with guaranteed increasing route costs, three distinct receivers, completion/failure states, local WebAudio feedback, and reduced-motion presentation.",
+    "qa_artifact": "v5/qa.json"
+  },
+  {
+    "attempt": 5,
+    "version": "v6",
+    "cause": [
+      {
+        "code": "polish_playthrough",
+        "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+        "seed": 1
+      },
+      {
+        "code": "polish_playthrough",
+        "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+        "seed": 7
+      },
+      {
+        "code": "polish_playthrough",
+        "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+        "seed": 23
+      },
+      {
+        "code": "polish_playthrough",
+        "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+        "seed": 89
+      },
+      {
+        "code": "polish_playthrough",
+        "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+        "seed": 2026
+      },
+      {
+        "code": "polish_playthrough",
+        "message": "normal input solution did not charge next receiver\n\n0 !== 1\n",
+        "seed": 4294967295
+      }
+    ],
+    "changed_files": [
+      "core.js",
+      "manifest.json"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Repaired board construction so the fourth prism has a valid final receiver outlet rather than deriving from an undefined path entry. Boards now use a seeded receiver-row permutation, valid gate-constrained routes, and literal 2/4/6 shortest rotation costs.",
+    "qa_artifact": "v6/qa.json"
+  }
+]

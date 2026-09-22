@@ -1,0 +1,20 @@
+{
+  "authorization_id": "owner-prism-polish-20260922",
+  "reason": "Owner explicitly commissioned bounded AI polish of the same verified v4 candidate; four goals in committed contract. No new game/production. Preserve lifetime six calls, five repairs and USD 2 ceiling.",
+  "started_at": 1790075330753,
+  "expires_at": 1790078030753,
+  "original_started_at": 1790062896963,
+  "starting_version": "v4",
+  "source_hash": "32c334dadddacc3d5bc337dc013c827bd5ac628aba2b2dac610549a80b4c8de8",
+  "prior_operations_hash": "c7f456387c1d76ecfa06c79e1e6c23d022c7dcc79b616bbbfe9594a9b00bddb2",
+  "prior_operation_ids": [
+    "GAME-20260922-110/build/v1",
+    "GAME-20260922-110/repair/1",
+    "GAME-20260922-110/repair/2",
+    "GAME-20260922-110/repair/3"
+  ],
+  "allowed_operations": [
+    "GAME-20260922-110/repair/4",
+    "GAME-20260922-110/repair/5"
+  ]
+}

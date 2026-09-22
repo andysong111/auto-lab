@@ -1,0 +1,37 @@
+{
+  "factory_state": "REJECTED",
+  "qa_passed": false,
+  "failures": [
+    {
+      "code": "polish_reduced_motion",
+      "message": "no reduced-motion presentation evidence",
+      "seed": 23
+    }
+  ],
+  "practice": {
+    "passed": true,
+    "best": 383,
+    "restart_retained": true,
+    "reload_retained": true,
+    "key": "playjolt_practice_GAME-20260922-110_v6",
+    "writes": 1,
+    "scope": "disposable browser-local practice storage only; capture contexts made zero writes"
+  },
+  "reduced_motion_on_load": {
+    "system": true,
+    "presentation": {
+      "reducedMotion": true,
+      "soundEnabled": true,
+      "events": {
+        "rotate": 0,
+        "charge": 0,
+        "complete": 0,
+        "fail": 0
+      }
+    }
+  },
+  "no_model_calls": true,
+  "source_unchanged": true,
+  "ledger_unchanged": true,
+  "original_qa_unchanged": true
+}

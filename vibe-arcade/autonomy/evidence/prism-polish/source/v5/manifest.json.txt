@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260922-110",
+  "generation": 1,
+  "version": "v5",
+  "title": "Prism Relay",
+  "slug": "prism-relay",
+  "genre": "spatial arcade puzzle",
+  "mechanic_family": "spatial-optical-routing",
+  "controls": [
+    "Arrow keys / WASD select a prism",
+    "Space rotates the selected prism"
+  ],
+  "mobile_controls": [
+    "Tap a prism to rotate it"
+  ],
+  "reference_quality_games": [
+    "astra-sentinel-v3",
+    "deep-descent"
+  ],
+  "created_at": "2026-09-22T07:40:56.435Z",
+  "state": "REPAIRING",
+  "repair_attempt": 4,
+  "max_repair_attempts": 5,
+  "source_path": "autonomy/games/GAME-20260922-110/v5",
+  "preview_url": null,
+  "qa_status": "PENDING",
+  "quality_status": "PENDING",
+  "release_status": "NONE",
+  "failure_reasons": [],
+  "metrics_eligibility": false,
+  "qa": {
+    "seed": 23,
+    "keyboard": {
+      "key": "ArrowRight",
+      "observation": "state.cursor.x"
+    },
+    "pointer": {
+      "observation": "state.rotations"
+    },
+    "terminal_ms": 47000
+  },
+  "revision": 24,
+  "history": []
+}

@@ -1,0 +1,170 @@
+(function () {
+  'use strict';
+
+  var COLS = 4;
+  var ROWS = 3;
+  var RUN_TICKS = 2700;
+  var CHARGE_TICKS = 45;
+  var STAGES = [
+    { rows: [1, 0, 1, 0], target: 0, cost: [1, 1, 0, 0] },
+    { rows: [1, 2, 1, 2], target: 2, cost: [1, 1, 1, 1] },
+    { rows: [1, 1, 2, 1], target: 1, cost: [2, 2, 1, 1] }
+  ];
+
+  function indexOf(x, y) { return y * COLS + x; }
+  function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
+  function nextOutlet(outlet) { return outlet === 1 ? -1 : outlet + 1; }
+
+  function randomMaker(seed) {
+    var v = (seed >>> 0) || 23;
+    return function () {
+      v = (v + 0x6D2B79F5) >>> 0;
+      var t = v;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function routeResult(state) {
+    var row = 1;
+    var x, tile, gate;
+    for (x = 0; x < COLS; x += 1) {
+      if (x > 0) {
+        gate = state.gates[x - 1];
+        if (gate && gate.y !== row) return { connected: false, gateMiss: true, row: row };
+      }
+      tile = state.board[indexOf(x, row)];
+      row += tile.outlet;
+      if (row < 0 || row >= ROWS) return { connected: false, leak: true, row: row };
+    }
+    return { connected: row === state.target, leak: false, row: row };
+  }
+
+  /* Gates make every column entry explicit, so the displayed route has one
+     bounded, independently checkable set of required rotations. */
+  function buildBoard(state) {
+    var stage = STAGES[state.boardNumber];
+    var random = randomMaker((state.seed + Math.imul(state.boardNumber + 1, 747796405)) >>> 0);
+    var x, y, desired, current, turns;
+    state.board = [];
+    state.gates = [];
+    state.target = stage.target;
+    for (y = 0; y < ROWS; y += 1) {
+      for (x = 0; x < COLS; x += 1) state.board.push({ outlet: Math.floor(random() * 3) - 1 });
+    }
+    for (x = 0; x < COLS; x += 1) {
+      desired = stage.rows[x + 1] - stage.rows[x];
+      current = desired;
+      turns = stage.cost[x];
+      while (turns > 0) { current = current === -1 ? 1 : current - 1; turns -= 1; }
+      state.board[indexOf(x, stage.rows[x])].outlet = current;
+      if (x > 0) state.gates.push({ x: x, y: stage.rows[x] });
+    }
+  }
+
+  function create(seed) {
+    var state = {
+      seed: (Number(seed) || 23) >>> 0,
+      tick: 0, score: 0, circuits: 0, boardNumber: 0,
+      cursor: { x: 0, y: 1 }, rotations: 0,
+      board: [], gates: [], target: 0, charge: 0,
+      pulse: 0, particles: [], event: 0, eventType: 'ready',
+      previousAction: false, pointerWasDown: false, ignorePointerReleaseAction: false,
+      heldX: 0, heldY: 0, repeatX: 0, repeatY: 0,
+      won: false, terminal: false
+    };
+    buildBoard(state);
+    return state;
+  }
+
+  function rotate(state, x, y) {
+    var tile = state.board[indexOf(x, y)];
+    tile.outlet = nextOutlet(tile.outlet);
+    state.rotations += 1;
+    state.event += 1;
+    state.eventType = 'rotate';
+  }
+
+  function move(state, axis, direction) {
+    var held = axis === 'x' ? 'heldX' : 'heldY';
+    var repeat = axis === 'x' ? 'repeatX' : 'repeatY';
+    var maximum = axis === 'x' ? COLS - 1 : ROWS - 1;
+    if (!direction) { state[held] = 0; state[repeat] = 0; return; }
+    if (state[held] !== direction) {
+      state.cursor[axis] = clamp(state.cursor[axis] + direction, 0, maximum);
+      state[repeat] = 12;
+    } else if (state[repeat] <= 0) {
+      state.cursor[axis] = clamp(state.cursor[axis] + direction, 0, maximum);
+      state[repeat] = 12;
+    } else state[repeat] -= 1;
+    state[held] = direction;
+  }
+
+  function hitTest(pointer) {
+    var px = Number(pointer.x), py = Number(pointer.y);
+    if (!Number.isFinite(px) || !Number.isFinite(py) || px < 0.08 || px > 0.92 || py < 0.23 || py > 0.75) return null;
+    return {
+      x: clamp(Math.floor((px - 0.08) * COLS / 0.84), 0, COLS - 1),
+      y: clamp(Math.floor((py - 0.23) * ROWS / 0.52), 0, ROWS - 1)
+    };
+  }
+
+  function burst(state) {
+    var i;
+    state.pulse = 36;
+    state.particles = [];
+    for (i = 0; i < 24; i += 1) state.particles.push({ angle: i * Math.PI * 2 / 24, life: 22 + (i % 5) * 3 });
+  }
+
+  function step(state, input) {
+    var control = input || {}, hasPointer, tapped, result, i;
+    if (state.terminal) return state;
+    move(state, 'x', control.x === 1 ? 1 : (control.x === -1 ? -1 : 0));
+    move(state, 'y', control.y === 1 ? 1 : (control.y === -1 ? -1 : 0));
+    hasPointer = control.pointer !== null && typeof control.pointer === 'object';
+    if (hasPointer && !state.pointerWasDown) {
+      tapped = hitTest(control.pointer);
+      if (tapped && !state.won) { state.cursor.x = tapped.x; state.cursor.y = tapped.y; rotate(state, tapped.x, tapped.y); }
+      state.ignorePointerReleaseAction = true;
+    } else if (!hasPointer && control.action && !state.previousAction && !state.ignorePointerReleaseAction && !state.won) {
+      rotate(state, state.cursor.x, state.cursor.y);
+    }
+    if (!hasPointer) state.ignorePointerReleaseAction = false;
+    state.pointerWasDown = hasPointer;
+    state.previousAction = !!control.action;
+
+    if (!state.won) {
+      result = routeResult(state);
+      state.charge = result.connected ? Math.min(CHARGE_TICKS, state.charge + 1) : 0;
+      if (state.charge === CHARGE_TICKS) {
+        state.circuits += 1;
+        state.score += 100 + Math.floor((RUN_TICKS - state.tick) / 90);
+        state.charge = 0;
+        burst(state);
+        state.event += 1;
+        state.eventType = state.circuits >= 3 ? 'complete' : 'charge';
+        if (state.circuits >= 3) state.won = true;
+        else { state.boardNumber += 1; buildBoard(state); }
+      }
+    }
+    if (state.pulse > 0) state.pulse -= 1;
+    for (i = state.particles.length - 1; i >= 0; i -= 1) {
+      state.particles[i].life -= 1;
+      if (state.particles[i].life <= 0) state.particles.splice(i, 1);
+    }
+    state.tick += 1;
+    if ((state.won && state.tick >= 900) || state.tick >= RUN_TICKS) {
+      state.terminal = true;
+      state.event += 1;
+      state.eventType = state.won ? 'complete' : 'fail';
+    }
+    return state;
+  }
+
+  function observe(state) {
+    return { tick: state.tick, score: state.score, progress: Math.min(100, Math.floor(state.tick * 100 / RUN_TICKS)), interactions: state.rotations + state.circuits, entities: 12 + state.particles.length };
+  }
+  function terminal(state) { return state.terminal === true; }
+  globalThis.PrismRelayCore = { create: create, step: step, observe: observe, terminal: terminal };
+}());

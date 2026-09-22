@@ -1,0 +1,135 @@
+{
+  "game_id": "GAME-20260922-110",
+  "outcome": "REJECTED",
+  "version": "v6",
+  "production_authorized": false,
+  "paid_run": 35719738363,
+  "audit_run": 35720946442,
+  "audit_execution_commit": "500a07a20d86a13df6719dbf434db1448763b36f",
+  "main_unchanged": "c64d9f10d8a0f099603e5a6a9b78f1ad1d823a2d",
+  "rc": {
+    "pr": 45,
+    "draft": true,
+    "merged": false,
+    "commit": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+    "version": "v4",
+    "disposition": "HOLD; historical preview, not v6"
+  },
+  "source_hash": "7127269016507a824d8df8726a509f3cef3c94215e68d99a56252bcc14fd0dc8",
+  "paid_artifact": {
+    "id": 10691495583,
+    "name": "prism-relay-polish-GAME-20260922-110",
+    "size_in_bytes": 10920190,
+    "url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10691495583",
+    "archive_download_url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10691495583/zip",
+    "expired": false,
+    "created_at": "2026-09-22T11:15:27Z",
+    "expires_at": "2026-10-22T11:15:27Z",
+    "updated_at": "2026-09-22T11:15:27Z",
+    "digest": "sha256:a5049502e7331228aa3dead53a4fa6853c55c092938dc9fa1fecb48312cd4b4e",
+    "workflow_run": {
+      "id": 35719738363,
+      "repository_id": 1192904955,
+      "head_repository_id": 1192904955,
+      "head_branch": "commissioning/prism-relay-polish-20260922",
+      "head_sha": "4930ea643ee661204153fde0d93be0f57801a8a1"
+    }
+  },
+  "audit_artifact": {
+    "id": 10690609503,
+    "name": "prism-relay-polish-audit",
+    "size_in_bytes": 12809845,
+    "url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10690609503",
+    "archive_download_url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10690609503/zip",
+    "expired": false,
+    "created_at": "2026-09-22T11:22:32Z",
+    "expires_at": "2026-10-22T11:22:31Z",
+    "updated_at": "2026-09-22T11:22:32Z",
+    "digest": "sha256:79d064fff11473958b4adddb3fee962ec550b1b4b002e8f5dc36588c74d6cc8a",
+    "workflow_run": {
+      "id": 35720946442,
+      "repository_id": 1192904955,
+      "head_repository_id": 1192904955,
+      "head_branch": "commissioning/prism-relay-polish-20260922",
+      "head_sha": "500a07a20d86a13df6719dbf434db1448763b36f"
+    }
+  },
+  "checks": [
+    {
+      "name": "live",
+      "conclusion": "skipped",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35720950232/job/106723934733"
+    },
+    {
+      "name": "Vercel Preview Comments",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/runs/106723510686"
+    },
+    {
+      "name": "AI worker isolated browser",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35720950188/job/106723470199"
+    },
+    {
+      "name": "AI provider worker contracts",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35720950188/job/106723468278"
+    },
+    {
+      "name": "Factory contracts",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35720950242/job/106723467599"
+    },
+    {
+      "name": "Factory browser",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35720950242/job/106723467294"
+    },
+    {
+      "name": "Factory regression",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35720950242/job/106723467075"
+    },
+    {
+      "name": "checks",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35720950178/job/106723464694"
+    },
+    {
+      "name": "arcade3",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35720950250/job/106723463542"
+    },
+    {
+      "name": "rules-and-browser",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35720950222/job/106723463190"
+    },
+    {
+      "name": "foundation",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35720950232/job/106723462702"
+    },
+    {
+      "name": "experience",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35720950273/job/106723461441"
+    },
+    {
+      "name": "smoke",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35720950179/job/106723461324"
+    },
+    {
+      "name": "audit",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35720946442/job/106723454149"
+    },
+    {
+      "name": "smoke",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35720946328/job/106723453437"
+    }
+  ],
+  "note": "Workflow success includes a valid terminal rejection. It is not a polished candidate QA PASS. Final evidence-head CI is linked from PR #46."
+}

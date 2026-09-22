@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260922-110",
+  "generation": 1,
+  "version": "v4",
+  "title": "Prism Relay",
+  "slug": "prism-relay",
+  "genre": "spatial arcade puzzle",
+  "mechanic_family": "spatial-optical-routing",
+  "controls": [
+    "Arrow keys / WASD select a prism",
+    "Space rotates the selected prism"
+  ],
+  "mobile_controls": [
+    "Tap a prism to rotate it"
+  ],
+  "reference_quality_games": [
+    "astra-sentinel-v3",
+    "deep-descent"
+  ],
+  "created_at": "2026-09-22T07:40:56.435Z",
+  "state": "READY_TO_SHIP",
+  "repair_attempt": 3,
+  "max_repair_attempts": 5,
+  "source_path": "autonomy/games/GAME-20260922-110/v4",
+  "preview_url": "https://vibe-arcade-ivrp070e0-a2bsangsa.vercel.app",
+  "qa_status": "PASS",
+  "quality_status": "PASS",
+  "release_status": "READY",
+  "failure_reasons": [],
+  "metrics_eligibility": false,
+  "qa": {
+    "seed": 23,
+    "keyboard": {
+      "key": "ArrowRight",
+      "observation": "state.cursor.x"
+    },
+    "pointer": {
+      "observation": "state.rotations"
+    },
+    "terminal_ms": 47000
+  },
+  "revision": 20,
+  "history": [
+    {
+      "from": "IDEA",
+      "to": "SPEC_READY",
+      "at": "2026-09-22T07:40:56.440Z"
+    },
+    {
+      "from": "SPEC_READY",
+      "to": "BUILDING",
+      "at": "2026-09-22T07:41:36.935Z"
+    },
+    {
+      "from": "BUILDING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T07:42:47.018Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T07:42:59.361Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T07:42:59.363Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T07:42:59.364Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T07:43:59.632Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T07:44:11.721Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T07:44:11.726Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T07:44:11.728Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T07:45:03.998Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T07:45:15.672Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T07:45:15.675Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T07:45:15.676Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T07:46:06.035Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QUALITY_GATE",
+      "at": "2026-09-22T07:46:42.830Z"
+    },
+    {
+      "from": "QUALITY_GATE",
+      "to": "RC_READY",
+      "at": "2026-09-22T07:46:42.834Z"
+    },
+    {
+      "from": "RC_READY",
+      "to": "PREVIEW_DEPLOYING",
+      "at": "2026-09-22T07:59:19.948Z"
+    },
+    {
+      "from": "PREVIEW_DEPLOYING",
+      "to": "PREVIEW_SMOKE",
+      "at": "2026-09-22T07:59:22.684Z"
+    },
+    {
+      "from": "PREVIEW_SMOKE",
+      "to": "READY_TO_SHIP",
+      "at": "2026-09-22T08:04:00.347Z"
+    }
+  ],
+  "source_hash": "32c334dadddacc3d5bc337dc013c827bd5ac628aba2b2dac610549a80b4c8de8",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0",
+  "branch": "factory/GAME-20260922-110",
+  "rc_commit": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+  "pr_number": 45,
+  "pr_url": "https://github.com/andysong111/auto-lab/pull/45",
+  "deployment_id": "6585931823"
+}

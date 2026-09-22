@@ -1,0 +1,276 @@
+{
+  "method": "Exhaustive independent valid-route oracle + normal browser inputs inside Docker",
+  "rows": [
+    {
+      "seed": 1,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "v4_min_rotations": [
+        1,
+        0,
+        2
+      ],
+      "v6_min_rotations": [
+        2,
+        4,
+        6
+      ],
+      "v6_changed_prisms": [
+        1,
+        4,
+        4
+      ],
+      "receiver_targets": [
+        1,
+        2,
+        0
+      ],
+      "actual_rotations": [
+        2,
+        4,
+        6
+      ],
+      "receiver_progress": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "terminal": {
+        "tick": 900,
+        "score": 384,
+        "best": 384
+      },
+      "input_method": "CDP touch",
+      "state_injection": false
+    },
+    {
+      "seed": 7,
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "v4_min_rotations": [
+        2,
+        2,
+        2
+      ],
+      "v6_min_rotations": [
+        2,
+        4,
+        6
+      ],
+      "v6_changed_prisms": [
+        1,
+        4,
+        4
+      ],
+      "receiver_targets": [
+        1,
+        0,
+        2
+      ],
+      "actual_rotations": [
+        2,
+        4,
+        6
+      ],
+      "receiver_progress": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "terminal": {
+        "tick": 900,
+        "score": 384,
+        "best": 384
+      },
+      "input_method": "keyboard",
+      "state_injection": false
+    },
+    {
+      "seed": 23,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "v4_min_rotations": [
+        1,
+        1,
+        1
+      ],
+      "v6_min_rotations": [
+        2,
+        4,
+        6
+      ],
+      "v6_changed_prisms": [
+        1,
+        4,
+        4
+      ],
+      "receiver_targets": [
+        1,
+        0,
+        2
+      ],
+      "actual_rotations": [
+        2,
+        4,
+        6
+      ],
+      "receiver_progress": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "terminal": {
+        "tick": 900,
+        "score": 384,
+        "best": 384
+      },
+      "input_method": "CDP touch",
+      "state_injection": false
+    },
+    {
+      "seed": 89,
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "v4_min_rotations": [
+        1,
+        0,
+        1
+      ],
+      "v6_min_rotations": [
+        2,
+        4,
+        6
+      ],
+      "v6_changed_prisms": [
+        1,
+        4,
+        4
+      ],
+      "receiver_targets": [
+        0,
+        2,
+        1
+      ],
+      "actual_rotations": [
+        2,
+        4,
+        6
+      ],
+      "receiver_progress": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "terminal": {
+        "tick": 900,
+        "score": 384,
+        "best": 384
+      },
+      "input_method": "keyboard",
+      "state_injection": false
+    },
+    {
+      "seed": 2026,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "v4_min_rotations": [
+        1,
+        0,
+        1
+      ],
+      "v6_min_rotations": [
+        2,
+        4,
+        6
+      ],
+      "v6_changed_prisms": [
+        1,
+        4,
+        4
+      ],
+      "receiver_targets": [
+        0,
+        2,
+        1
+      ],
+      "actual_rotations": [
+        2,
+        4,
+        6
+      ],
+      "receiver_progress": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "terminal": {
+        "tick": 900,
+        "score": 384,
+        "best": 384
+      },
+      "input_method": "CDP touch",
+      "state_injection": false
+    },
+    {
+      "seed": 4294967295,
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "v4_min_rotations": [
+        1,
+        1,
+        2
+      ],
+      "v6_min_rotations": [
+        2,
+        4,
+        6
+      ],
+      "v6_changed_prisms": [
+        1,
+        4,
+        4
+      ],
+      "receiver_targets": [
+        1,
+        0,
+        2
+      ],
+      "actual_rotations": [
+        2,
+        4,
+        6
+      ],
+      "receiver_progress": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "terminal": {
+        "tick": 900,
+        "score": 384,
+        "best": 384
+      },
+      "input_method": "keyboard",
+      "state_injection": false
+    }
+  ],
+  "caveat": "All stages use 3 fixed target-dependent route templates; seed changes receiver order and distractors. Rotation counts alone do not demonstrate broad puzzle diversity or fun."
+}

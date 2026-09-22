@@ -1,0 +1,1885 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260922-110",
+  "version": "v4",
+  "source_hash": "32c334dadddacc3d5bc337dc013c827bd5ac628aba2b2dac610549a80b4c8de8",
+  "policy_hash": "355491eb9adbc7237dbbf3881ef861468e93f35744036d67d6cf6f12d41cbbd4",
+  "passed": false,
+  "hard_failures": [
+    {
+      "code": "polish_goal",
+      "message": "The input did not match the regular expression /LIGHT\\s+3\\s+RECEIVERS/i. Input:\n\n'Ready · No account needed\\nScore: 0\\nProgress: 0\\nStart Relay'\n",
+      "seed": 1
+    },
+    {
+      "code": "polish_best",
+      "message": "The expression evaluated to a falsy value:\n\n  assert(await p.locator('[data-prism-best]').isVisible())\n",
+      "seed": 1
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 1: shortest solution 1, required >=2; count ALL alternative routes, not scrambled tiles",
+      "seed": 1
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 1
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 2: shortest solution 0, required >=4; count ALL alternative routes, not scrambled tiles",
+      "seed": 1
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 1
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 3: shortest solution 2, required >=6; count ALL alternative routes, not scrambled tiles",
+      "seed": 1
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 1
+    },
+    {
+      "code": "polish_receiver_targets",
+      "message": "three receivers must be distinct\n\n2 !== 3\n",
+      "seed": 1
+    },
+    {
+      "code": "polish_result",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-result]')\n",
+      "seed": 1
+    },
+    {
+      "code": "polish_goal",
+      "message": "The input did not match the regular expression /LIGHT\\s+3\\s+RECEIVERS/i. Input:\n\n'Ready · No account needed\\nScore: 0\\nProgress: 0\\nStart Relay'\n",
+      "seed": 7
+    },
+    {
+      "code": "polish_best",
+      "message": "The expression evaluated to a falsy value:\n\n  assert(await p.locator('[data-prism-best]').isVisible())\n",
+      "seed": 7
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 7
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 2: shortest solution 2, required >=4; count ALL alternative routes, not scrambled tiles",
+      "seed": 7
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 7
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 3: shortest solution 2, required >=6; count ALL alternative routes, not scrambled tiles",
+      "seed": 7
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 7
+    },
+    {
+      "code": "polish_receiver_targets",
+      "message": "three receivers must be distinct\n\n2 !== 3\n",
+      "seed": 7
+    },
+    {
+      "code": "polish_result",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-result]')\n",
+      "seed": 7
+    },
+    {
+      "code": "polish_goal",
+      "message": "The input did not match the regular expression /LIGHT\\s+3\\s+RECEIVERS/i. Input:\n\n'Ready · No account needed\\nScore: 0\\nProgress: 0\\nStart Relay'\n",
+      "seed": 23
+    },
+    {
+      "code": "polish_best",
+      "message": "The expression evaluated to a falsy value:\n\n  assert(await p.locator('[data-prism-best]').isVisible())\n",
+      "seed": 23
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 1: shortest solution 1, required >=2; count ALL alternative routes, not scrambled tiles",
+      "seed": 23
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 23
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 2: shortest solution 1, required >=4; count ALL alternative routes, not scrambled tiles",
+      "seed": 23
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 23
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 3: shortest solution 1, required >=6; count ALL alternative routes, not scrambled tiles",
+      "seed": 23
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 23
+    },
+    {
+      "code": "polish_receiver_targets",
+      "message": "three receivers must be distinct\n\n2 !== 3\n",
+      "seed": 23
+    },
+    {
+      "code": "polish_result",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-result]')\n",
+      "seed": 23
+    },
+    {
+      "code": "polish_audio",
+      "message": "false == true",
+      "seed": 23
+    },
+    {
+      "code": "polish_best_restart",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-best]')\n",
+      "seed": 23
+    },
+    {
+      "code": "polish_reduced_motion",
+      "message": "no reduced-motion presentation evidence",
+      "seed": 23
+    },
+    {
+      "code": "polish_failure",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-result]')\n",
+      "seed": 23
+    },
+    {
+      "code": "polish_goal",
+      "message": "The input did not match the regular expression /LIGHT\\s+3\\s+RECEIVERS/i. Input:\n\n'Ready · No account needed\\nScore: 0\\nProgress: 0\\nStart Relay'\n",
+      "seed": 89
+    },
+    {
+      "code": "polish_best",
+      "message": "The expression evaluated to a falsy value:\n\n  assert(await p.locator('[data-prism-best]').isVisible())\n",
+      "seed": 89
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 1: shortest solution 1, required >=2; count ALL alternative routes, not scrambled tiles",
+      "seed": 89
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 89
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 2: shortest solution 0, required >=4; count ALL alternative routes, not scrambled tiles",
+      "seed": 89
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 89
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 3: shortest solution 1, required >=6; count ALL alternative routes, not scrambled tiles",
+      "seed": 89
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 89
+    },
+    {
+      "code": "polish_result",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-result]')\n",
+      "seed": 89
+    },
+    {
+      "code": "polish_goal",
+      "message": "The input did not match the regular expression /LIGHT\\s+3\\s+RECEIVERS/i. Input:\n\n'Ready · No account needed\\nScore: 0\\nProgress: 0\\nStart Relay'\n",
+      "seed": 2026
+    },
+    {
+      "code": "polish_best",
+      "message": "The expression evaluated to a falsy value:\n\n  assert(await p.locator('[data-prism-best]').isVisible())\n",
+      "seed": 2026
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 1: shortest solution 1, required >=2; count ALL alternative routes, not scrambled tiles",
+      "seed": 2026
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 2026
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 2: shortest solution 0, required >=4; count ALL alternative routes, not scrambled tiles",
+      "seed": 2026
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 2026
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 3: shortest solution 1, required >=6; count ALL alternative routes, not scrambled tiles",
+      "seed": 2026
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 2026
+    },
+    {
+      "code": "polish_receiver_targets",
+      "message": "three receivers must be distinct\n\n2 !== 3\n",
+      "seed": 2026
+    },
+    {
+      "code": "polish_result",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-result]')\n",
+      "seed": 2026
+    },
+    {
+      "code": "polish_goal",
+      "message": "The input did not match the regular expression /LIGHT\\s+3\\s+RECEIVERS/i. Input:\n\n'Ready · No account needed\\nScore: 0\\nProgress: 0\\nStart Relay'\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "polish_best",
+      "message": "The expression evaluated to a falsy value:\n\n  assert(await p.locator('[data-prism-best]').isVisible())\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 1: shortest solution 1, required >=2; count ALL alternative routes, not scrambled tiles",
+      "seed": 4294967295
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 2: shortest solution 1, required >=4; count ALL alternative routes, not scrambled tiles",
+      "seed": 4294967295
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "polish_depth",
+      "message": "stage 3: shortest solution 2, required >=6; count ALL alternative routes, not scrambled tiles",
+      "seed": 4294967295
+    },
+    {
+      "code": "polish_progress",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-receivers]')\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "polish_receiver_targets",
+      "message": "three receivers must be distinct\n\n2 !== 3\n",
+      "seed": 4294967295
+    },
+    {
+      "code": "polish_result",
+      "message": "locator.innerText: Timeout 1800ms exceeded.\nCall log:\n  - waiting for locator('[data-prism-result]')\n",
+      "seed": 4294967295
+    }
+  ],
+  "soft_failures": [],
+  "console_errors": [],
+  "page_errors": [],
+  "browser_cases": [
+    {
+      "seed": 1,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        "polish_overflow"
+      ],
+      "boards": [
+        {
+          "stage": 1,
+          "required_rotations": 1,
+          "changed_prisms": 1,
+          "target": 2,
+          "gates": [],
+          "board": [
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 1,
+              "outlet": -1
+            },
+            {
+              "x": 1,
+              "y": 0,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 2,
+              "y": 0,
+              "turns": 0,
+              "outlet": 1
+            },
+            {
+              "x": 3,
+              "y": 1,
+              "turns": 0,
+              "outlet": 1
+            }
+          ],
+          "actual_rotations": 1,
+          "tick": 56
+        },
+        {
+          "stage": 2,
+          "required_rotations": 0,
+          "changed_prisms": 0,
+          "target": 2,
+          "gates": [],
+          "board": [
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 0,
+              "outlet": 1
+            },
+            {
+              "x": 1,
+              "y": 2,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 2,
+              "y": 2,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 3,
+              "y": 2,
+              "turns": 0,
+              "outlet": 0
+            }
+          ],
+          "actual_rotations": 0,
+          "tick": 97
+        },
+        {
+          "stage": 3,
+          "required_rotations": 2,
+          "changed_prisms": 2,
+          "target": 0,
+          "gates": [],
+          "board": [
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 0,
+              "outlet": -1
+            },
+            {
+              "x": 1,
+              "y": 0,
+              "turns": 0,
+              "outlet": 1
+            },
+            {
+              "x": 2,
+              "y": 1,
+              "turns": 1,
+              "outlet": -1
+            },
+            {
+              "x": 3,
+              "y": 0,
+              "turns": 1,
+              "outlet": 0
+            }
+          ],
+          "actual_rotations": 2,
+          "tick": 157
+        }
+      ],
+      "receiver_progress": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "input_method": "CDP touch",
+      "state_injection": false,
+      "passed": false,
+      "terminal": {
+        "tick": 2700,
+        "score": 385,
+        "best": 385
+      },
+      "audio": {
+        "contexts": 0,
+        "started": 0,
+        "ended": 0,
+        "peak": 0,
+        "frequencies": [],
+        "active": 0
+      }
+    },
+    {
+      "seed": 7,
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "checks": [
+        "polish_depth",
+        "polish_overflow"
+      ],
+      "boards": [
+        {
+          "stage": 1,
+          "required_rotations": 2,
+          "changed_prisms": 2,
+          "target": 1,
+          "gates": [],
+          "board": [
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 1,
+              "outlet": -1
+            },
+            {
+              "x": 1,
+              "y": 0,
+              "turns": 1,
+              "outlet": 0
+            },
+            {
+              "x": 2,
+              "y": 0,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 3,
+              "y": 0,
+              "turns": 0,
+              "outlet": 1
+            }
+          ],
+          "actual_rotations": 2,
+          "tick": 66
+        },
+        {
+          "stage": 2,
+          "required_rotations": 2,
+          "changed_prisms": 1,
+          "target": 0,
+          "gates": [],
+          "board": [
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 0,
+              "outlet": -1
+            },
+            {
+              "x": 1,
+              "y": 0,
+              "turns": 0,
+              "outlet": 1
+            },
+            {
+              "x": 2,
+              "y": 1,
+              "turns": 2,
+              "outlet": 0
+            },
+            {
+              "x": 3,
+              "y": 1,
+              "turns": 0,
+              "outlet": -1
+            }
+          ],
+          "actual_rotations": 2,
+          "tick": 128
+        },
+        {
+          "stage": 3,
+          "required_rotations": 2,
+          "changed_prisms": 1,
+          "target": 1,
+          "gates": [],
+          "board": [
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 0,
+              "outlet": 1
+            },
+            {
+              "x": 1,
+              "y": 2,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 2,
+              "y": 2,
+              "turns": 0,
+              "outlet": -1
+            },
+            {
+              "x": 3,
+              "y": 1,
+              "turns": 2,
+              "outlet": 0
+            }
+          ],
+          "actual_rotations": 2,
+          "tick": 184
+        }
+      ],
+      "receiver_progress": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "input_method": "keyboard",
+      "state_injection": false,
+      "passed": false,
+      "terminal": {
+        "tick": 2700,
+        "score": 384,
+        "best": 384
+      },
+      "audio": {
+        "contexts": 0,
+        "started": 0,
+        "ended": 0,
+        "peak": 0,
+        "frequencies": [],
+        "active": 0
+      }
+    },
+    {
+      "seed": 23,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        "polish_overflow"
+      ],
+      "boards": [
+        {
+          "stage": 1,
+          "required_rotations": 1,
+          "changed_prisms": 1,
+          "target": 0,
+          "gates": [],
+          "board": [
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 1,
+              "outlet": -1
+            },
+            {
+              "x": 1,
+              "y": 0,
+              "turns": 0,
+              "outlet": 1
+            },
+            {
+              "x": 2,
+              "y": 1,
+              "turns": 0,
+              "outlet": -1
+            },
+            {
+              "x": 3,
+              "y": 0,
+              "turns": 0,
+              "outlet": 0
+            }
+          ],
+          "actual_rotations": 1,
+          "tick": 50
+        },
+        {
+          "stage": 2,
+          "required_rotations": 1,
+          "changed_prisms": 1,
+          "target": 1,
+          "gates": [],
+          "board": [
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 1,
+              "y": 1,
+              "turns": 0,
+              "outlet": -1
+            },
+            {
+              "x": 2,
+              "y": 0,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 3,
+              "y": 0,
+              "turns": 1,
+              "outlet": 1
+            }
+          ],
+          "actual_rotations": 1,
+          "tick": 100
+        },
+        {
+          "stage": 3,
+          "required_rotations": 1,
+          "changed_prisms": 1,
+          "target": 1,
+          "gates": [],
+          "board": [
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 0,
+              "outlet": 1
+            },
+            {
+              "x": 1,
+              "y": 2,
+              "turns": 0,
+              "outlet": -1
+            },
+            {
+              "x": 2,
+              "y": 1,
+              "turns": 0,
+              "outlet": -1
+            },
+            {
+              "x": 3,
+              "y": 0,
+              "turns": 1,
+              "outlet": 1
+            }
+          ],
+          "actual_rotations": 1,
+          "tick": 151
+        }
+      ],
+      "receiver_progress": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "input_method": "CDP touch",
+      "state_injection": false,
+      "passed": false,
+      "terminal": {
+        "tick": 2700,
+        "score": 385,
+        "best": 385
+      },
+      "audio": {
+        "contexts": 0,
+        "started": 0,
+        "ended": 0,
+        "peak": 0,
+        "frequencies": [],
+        "active": 0
+      }
+    },
+    {
+      "seed": 89,
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "checks": [
+        "polish_receiver_targets",
+        "polish_overflow"
+      ],
+      "boards": [
+        {
+          "stage": 1,
+          "required_rotations": 1,
+          "changed_prisms": 1,
+          "target": 2,
+          "gates": [],
+          "board": [
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 0,
+              "outlet": -1
+            },
+            {
+              "x": 1,
+              "y": 0,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 2,
+              "y": 0,
+              "turns": 1,
+              "outlet": 1
+            },
+            {
+              "x": 3,
+              "y": 1,
+              "turns": 0,
+              "outlet": 1
+            }
+          ],
+          "actual_rotations": 1,
+          "tick": 67
+        },
+        {
+          "stage": 2,
+          "required_rotations": 0,
+          "changed_prisms": 0,
+          "target": 1,
+          "gates": [],
+          "board": [
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 0,
+              "outlet": 1
+            },
+            {
+              "x": 1,
+              "y": 2,
+              "turns": 0,
+              "outlet": -1
+            },
+            {
+              "x": 2,
+              "y": 1,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 3,
+              "y": 1,
+              "turns": 0,
+              "outlet": 0
+            }
+          ],
+          "actual_rotations": 0,
+          "tick": 115
+        },
+        {
+          "stage": 3,
+          "required_rotations": 1,
+          "changed_prisms": 1,
+          "target": 0,
+          "gates": [],
+          "board": [
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 1,
+              "y": 1,
+              "turns": 1,
+              "outlet": -1
+            },
+            {
+              "x": 2,
+              "y": 0,
+              "turns": 0,
+              "outlet": 1
+            },
+            {
+              "x": 3,
+              "y": 1,
+              "turns": 0,
+              "outlet": -1
+            }
+          ],
+          "actual_rotations": 1,
+          "tick": 170
+        }
+      ],
+      "receiver_progress": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "input_method": "keyboard",
+      "state_injection": false,
+      "passed": false,
+      "terminal": {
+        "tick": 2700,
+        "score": 385,
+        "best": 385
+      },
+      "audio": {
+        "contexts": 0,
+        "started": 0,
+        "ended": 0,
+        "peak": 0,
+        "frequencies": [],
+        "active": 0
+      }
+    },
+    {
+      "seed": 2026,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        "polish_overflow"
+      ],
+      "boards": [
+        {
+          "stage": 1,
+          "required_rotations": 1,
+          "changed_prisms": 1,
+          "target": 2,
+          "gates": [],
+          "board": [
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 0,
+              "outlet": -1
+            },
+            {
+              "x": 1,
+              "y": 0,
+              "turns": 0,
+              "outlet": 1
+            },
+            {
+              "x": 2,
+              "y": 1,
+              "turns": 1,
+              "outlet": 0
+            },
+            {
+              "x": 3,
+              "y": 1,
+              "turns": 0,
+              "outlet": 1
+            }
+          ],
+          "actual_rotations": 1,
+          "tick": 50
+        },
+        {
+          "stage": 2,
+          "required_rotations": 0,
+          "changed_prisms": 0,
+          "target": 1,
+          "gates": [],
+          "board": [
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": -1
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 1,
+              "y": 1,
+              "turns": 0,
+              "outlet": 1
+            },
+            {
+              "x": 2,
+              "y": 2,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 3,
+              "y": 2,
+              "turns": 0,
+              "outlet": -1
+            }
+          ],
+          "actual_rotations": 0,
+          "tick": 98
+        },
+        {
+          "stage": 3,
+          "required_rotations": 1,
+          "changed_prisms": 1,
+          "target": 1,
+          "gates": [],
+          "board": [
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 1,
+              "y": 1,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 2,
+              "y": 1,
+              "turns": 1,
+              "outlet": 0
+            },
+            {
+              "x": 3,
+              "y": 1,
+              "turns": 0,
+              "outlet": 0
+            }
+          ],
+          "actual_rotations": 1,
+          "tick": 148
+        }
+      ],
+      "receiver_progress": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "input_method": "CDP touch",
+      "state_injection": false,
+      "passed": false,
+      "terminal": {
+        "tick": 2700,
+        "score": 385,
+        "best": 385
+      },
+      "audio": {
+        "contexts": 0,
+        "started": 0,
+        "ended": 0,
+        "peak": 0,
+        "frequencies": [],
+        "active": 0
+      }
+    },
+    {
+      "seed": 4294967295,
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "checks": [
+        "polish_overflow"
+      ],
+      "boards": [
+        {
+          "stage": 1,
+          "required_rotations": 1,
+          "changed_prisms": 1,
+          "target": 2,
+          "gates": [],
+          "board": [
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 0
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 0,
+              "outlet": -1
+            },
+            {
+              "x": 1,
+              "y": 0,
+              "turns": 1,
+              "outlet": 0
+            },
+            {
+              "x": 2,
+              "y": 0,
+              "turns": 0,
+              "outlet": 1
+            },
+            {
+              "x": 3,
+              "y": 1,
+              "turns": 0,
+              "outlet": 1
+            }
+          ],
+          "actual_rotations": 1,
+          "tick": 61
+        },
+        {
+          "stage": 2,
+          "required_rotations": 1,
+          "changed_prisms": 1,
+          "target": 1,
+          "gates": [],
+          "board": [
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 0,
+              "outlet": 1
+            },
+            {
+              "x": 1,
+              "y": 2,
+              "turns": 1,
+              "outlet": -1
+            },
+            {
+              "x": 2,
+              "y": 1,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 3,
+              "y": 1,
+              "turns": 0,
+              "outlet": 0
+            }
+          ],
+          "actual_rotations": 1,
+          "tick": 118
+        },
+        {
+          "stage": 3,
+          "required_rotations": 2,
+          "changed_prisms": 1,
+          "target": 2,
+          "gates": [],
+          "board": [
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": -1
+            },
+            {
+              "outlet": 1
+            },
+            {
+              "outlet": 0
+            },
+            {
+              "outlet": 0
+            }
+          ],
+          "solution": [
+            {
+              "x": 0,
+              "y": 1,
+              "turns": 2,
+              "outlet": 0
+            },
+            {
+              "x": 1,
+              "y": 1,
+              "turns": 0,
+              "outlet": 1
+            },
+            {
+              "x": 2,
+              "y": 2,
+              "turns": 0,
+              "outlet": 0
+            },
+            {
+              "x": 3,
+              "y": 2,
+              "turns": 0,
+              "outlet": 0
+            }
+          ],
+          "actual_rotations": 2,
+          "tick": 179
+        }
+      ],
+      "receiver_progress": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "input_method": "keyboard",
+      "state_injection": false,
+      "passed": false,
+      "terminal": {
+        "tick": 2700,
+        "score": 385,
+        "best": 385
+      },
+      "audio": {
+        "contexts": 0,
+        "started": 0,
+        "ended": 0,
+        "peak": 0,
+        "frequencies": [],
+        "active": 0
+      }
+    }
+  ],
+  "screenshots": [
+    "viewport-390-entry.png",
+    "viewport-390-midgame.png",
+    "viewport-390-charged.png",
+    "viewport-390-success.png",
+    "viewport-390-reduced.png",
+    "viewport-390-failure.png",
+    "viewport-1280-entry.png",
+    "viewport-1280-midgame.png",
+    "viewport-1280-charged.png",
+    "viewport-1280-success.png"
+  ],
+  "side_effects": [],
+  "duration_ms": 124120,
+  "commissioning_contract": {
+    "schema": "prism-relay-polish/1",
+    "scope": "Polish existing Prism Relay; no new game. Implement all four owner requirements together. Preserve immutable controls, keyboard observation state.cursor.x, pointer observation state.rotations, original identity, GameKit lifecycle and capture safety. No edit to GameKit or manifest.",
+    "goal": "Prominent visible DOM heading: LIGHT 3 RECEIVERS. A compact visual trio and [data-prism-receivers] text 0/3, 1/3, 2/3, 3/3 must remain visible on entry, during play and result. Each completed board charges a distinct receiver. Explain taps rotate/arrows+Space in one short line. No long tutorial.",
+    "best": "Visible DOM [data-prism-best] is the numeric GameKit snapshot.best, adjacent to DEVICE BEST / BEST SCORE and LOCAL PRACTICE labels. Separate from CURRENT SCORE [data-game-score]. GameKit snapshot best is updated on finish and retained on restart. Do not access/write storage yourself. In qa/capture, GameKit best is memory-only; never write records, even sound preferences. Keep practice without account, no ranking implication.",
+    "routing": "Retain original 4 columns x 3 rows, beam starts row 1, board index y*4+x, outlet values -1/0/1, rotation cycles -1 -> 0 -> 1 -> -1. Preserve normalized pointer board rectangle x .08-.92, y .23-.75 so existing controls work. Keep state.board, state.target, state.circuits, state.boardNumber, state.cursor, state.rotations. Route travels one column each step; outlet changes next row. You may add clearly drawn mandatory routing gates: state.gates is an array of {x,y}, meaning the beam MUST enter column x at row y, otherwise cannot charge. If used, these gates must be visible with a concise visual legend, not invisible QA constraints. Other hidden solution constraints are forbidden.",
+    "depth": "Generate seeded ORIGINAL boards with real routing decisions. For the first three boards, the TRUE shortest rotation costs over ALL valid routes must be at least 2, 4, 6 respectively, and later stage costs must strictly rise for every tested seed. Do NOT just count the number of scrambled tiles; unintended alternate routes can trivialize the puzzle. Use a small bounded exhaustive route-cost check in generation, bounded retries and a guaranteed valid fallback with the SAME cost guarantees. Later boards need multiple meaningful prism changes and can add visible gate waypoints, changing receiver targets. Seed generalization required; never special-case test seeds. All boards solvable. Receiver order is a deterministic permutation of the three rows. Three solved boards completes the objective; stop producing extra boards after 3. Keep 15-60 second session (45s deadline, earliest final completion 15s is fine), reachable timeout failure and restart. Progress still changes with time for the existing common QA; the separate receiver counter carries goal progress.",
+    "feedback": "Original polished code-created light optics, clear active receiver and gate waypoint hierarchy. Rotate, beam connect, receiver charge, success and failure each need distinct restrained WebAudio feedback and visible feedback. Use one lazy AudioContext activated from Start/sound click; max 8 concurrent short voices, disconnect on ended, stop voices on mute/pause/hidden/pagehide. No CDN, audio file downloads, dependencies or copied art. Use [data-prism-sound] button with aria-pressed=true when enabled, false when muted, visible Sound On/Off label. Mute must stop/suppress notes; re-enable works. No sound preference writes. Prefer short oscillator envelopes <=0.5s; no oscillators created from every render. Event edge detection only. Handle unavailable AudioContext gracefully.",
+    "result": "A strong original complete/incomplete result with 3 receiver medallions, CURRENT SCORE vs DEVICE BEST and clear replay action. DOM [data-prism-result] displays RELAY COMPLETE after 3 receivers or RELAY INCOMPLETE on timeout. Use glow/pulse/board reaction for connections and celebration on success, static alternatives when prefers-reduced-motion: reduce. Respect reduced motion in CSS AND canvas; no strobing, prolonged screen shake or motion-only instructions.",
+    "runtime": "PlayJoltGameKit.create returns runtime and calls draw(ctx,snapshot,size) every frame, including idle/finished. In app.js wrap the view draw callback to update DOM and observe audio event edges using snapshots (including snapshot.best, paused, phase, capture, qa, state). This is not a second animation loop. view/art.js remains drawing only; optional 4th presentation options argument can convey reduced motion. core.js DOM-free/deterministic. Do not replace GameDiagnostics or mutate snapshots/runtime state. Reuse valid current IIFE syntax. Expose optional read-only PrismRelayFeedback.snapshot() with reducedMotion, soundEnabled, events counters for diagnostics; actual WebAudio will also be independently instrumented.",
+    "acceptance": "All original Chromium checks plus visible entry goal/best, all four progress milestones, normal-input solution at seeds 1,7,23,89,2026,4294967295, independently computed shortest rotation costs, distinct receiver targets, increasing stage complexity, success/failure/restart, best retained then reloaded in fresh local-practice context, zero capture writes, toggle/audio resources, reduced motion, overflow, errors. No model test claims substitute for Docker Chromium evidence. Suggested tests are not executed as shell commands. Return structured files; preserve all unrelated behavior. Two lifetime repair attempts remain (4 and 5)."
+  },
+  "scope": "Independent shortest-route oracle plus real browser inputs; no fun/retention claim",
+  "capture": {
+    "file": "viewport-390-playthrough.webm",
+    "kind": "accelerated normal-input diagnostic capture, not human play"
+  },
+  "isolation": {
+    "engine": "docker",
+    "image": "sha256:48131135cb51e969c3554e0c4645e1f611dd6a165fb192903ad71991654a4a08",
+    "network": "none",
+    "readonly": true,
+    "cpu": 1,
+    "memory_mb": 1024,
+    "pids": 128
+  }
+}

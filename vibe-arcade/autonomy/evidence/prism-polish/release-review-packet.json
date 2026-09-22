@@ -1,0 +1,56 @@
+{
+  "schema": "playjolt-release-review/1",
+  "passed": false,
+  "errors": [
+    "state_not_ready_to_ship",
+    "qa_not_pass",
+    "quality_not_pass",
+    "release_not_ready",
+    "preview_missing"
+  ],
+  "candidate": {
+    "game_id": "GAME-20260922-110",
+    "version": "v6",
+    "title": "Prism Relay",
+    "slug": "prism-relay",
+    "preview_url": null,
+    "source_hash": "7127269016507a824d8df8726a509f3cef3c94215e68d99a56252bcc14fd0dc8",
+    "branch": "factory/GAME-20260922-110",
+    "pr_number": 45,
+    "pr_url": "https://github.com/andysong111/auto-lab/pull/45",
+    "rc_commit": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818"
+  },
+  "evidence": {
+    "qa_status": "FAIL",
+    "quality_status": "REJECT",
+    "release_status": "REJECTED",
+    "repair_attempt": 5,
+    "failure_reasons": [
+      {
+        "code": "polish_audio",
+        "message": "feedback pitches indistinguishable",
+        "seed": 23
+      },
+      {
+        "code": "polish_reduced_motion",
+        "message": "no reduced-motion presentation evidence",
+        "seed": 23
+      }
+    ]
+  },
+  "owner_review": {
+    "decision": "PENDING",
+    "reviewed_by": null,
+    "recorded_at": null
+  },
+  "production": {
+    "authorized": false,
+    "reason": "Production adapter remains disabled until a separate reviewed release action consumes an APPROVE decision."
+  },
+  "rollback": {
+    "base_ref": "c64d9f10d8a0f099603e5a6a9b78f1ad1d823a2d",
+    "restore_commit": "c64d9f10d8a0f099603e5a6a9b78f1ad1d823a2d",
+    "source_commit": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+    "required": true
+  }
+}

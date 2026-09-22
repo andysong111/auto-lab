@@ -1,0 +1,36 @@
+{
+  "game_id": "GAME-20260922-110",
+  "generation": 1,
+  "title": "Prism Relay",
+  "slug": "prism-relay",
+  "genre": "spatial arcade puzzle",
+  "mechanic_family": "spatial-optical-routing",
+  "controls": [
+    "Arrow keys / WASD select a prism",
+    "Space rotates the selected prism"
+  ],
+  "mobile_controls": [
+    "Tap a prism to rotate it"
+  ],
+  "max_repair_attempts": 5,
+  "qa": {
+    "seed": 23,
+    "keyboard": {
+      "key": "ArrowRight",
+      "observation": "state.cursor.x"
+    },
+    "pointer": {
+      "observation": "state.rotations"
+    },
+    "terminal_ms": 47000
+  },
+  "implementation_contract": {
+    "goal": "LIGHT 3 RECEIVERS IN 45 SECONDS. Route a visible beam from the left emitter through a 4-column by 3-row prism board into the highlighted receiver at the right. The run always ends at 2700 fixed ticks (45 seconds), with success if at least three circuits were charged, otherwise a clear incomplete result. More circuits improve the practice score.",
+    "mechanic": "This is a stationary spatial routing puzzle, not a reflex/timing game. Each prism has three outlets: up-diagonal, straight, down-diagonal into the next column. A tap/Space cycles its outlet. The beam starts in the middle row on the left. Trace at most four column transitions; an out-of-board route visibly leaks. The active right-hand receiver is the target row. Matching it continuously for 45 simulation ticks charges one circuit and deals the next board. Rotations are meaningful canonical board changes, not cosmetic counters. Display both connected and unconnected paths clearly, with visible outlet arrows before a tap.",
+    "progression": "One 45-second score attack. Three visually distinct chapters: spark, surge, spectrum at 0/1/2 completed circuits; continue earning circuits after the success target. First board should need just one or two prism rotations, subsequent boards require more spatial reasoning. Derive all boards and targets from a small deterministic seeded PRNG. Construct a reachable solution first, then scramble a bounded subset of prisms so no board is unsolvable. Prevent immediately solved boards farming points with no player action. Score each charged circuit (100 base plus a modest remaining-time bonus); count real rotations and charged circuits as interactions. Progress is finite integer elapsed percentage with a visible countdown, and show completed circuits separately. Restart reproduces the seed for mastery; a new normal page visit can provide a new seed through GameKit.",
+    "presentation": "Original procedural canvas art only: deep midnight navy stage, icy translucent prism facets, warm amber emitter and mint/teal charged light. Spacious, readable interface rather than tiny debug labels. Strong title PRISM RELAY, one-sentence objective and an illustrated/animated beam preview before Start. Give the 4x3 board most of the canvas; a thin luminous beam becomes a broad pulse and a bounded spark burst when a receiver charges. Clear selected-prism outline, visible rotation direction, target receiver ring and charge arc. Put countdown and circuit count prominently on canvas; show score and best without confusing official rankings. At terminal, display success/incomplete, circuits lit, score, best and a large Play Again button. No copyrighted characters or copied game artwork. No sound is preferable to an unfinished audio control.",
+    "originality": "All eight catalog entries were compared by actual input and state changes: no moving combat avatar, auto-fire, descending tower, radial pin placement, falling column merge, runner movement, reaction cue or timing-window test. The primary skill is reconfiguring a directed spatial light path. Generic optics-puzzle concepts are not claimed as novel inventions; the 45-second receiver-charge relay, constructed boards and original prism art are this candidate implementation. Astra Sentinel V3 and Deep Descent supply lifecycle/readability/feedback quality expectations only; do not copy their code, art, names or mechanics.",
+    "runtime_details": "Use ONLY supplied GameKit create/start/loop and diagnostics. core.create(seed) returns plain JSON state including cursor:{x:0,y:1}, rotations:0, tick:0; step(state,input) receives x,y in -1/0/1, action:boolean, pointer:null or normalized{x,y}. One step is exactly 1/60 second, no dt argument. observe(state) returns finite tick,score,progress,interactions,entities; terminal returns boolean. Pointerdown sets BOTH pointer and action, so handle pointer rotation once and do not also rotate selected tile on the same tick. Debounce held keyboard navigation, ensuring ArrowRight held for 200 ms changes cursor.x. A genuine tap at normalized canvas (0.72,0.55) must land inside the board and rotate a prism; map the visual board rectangle and hit areas consistently. Increment rotations only for actual board rotations. Draw receives (ctx,snapshot,{width,height}); canonical board data is snapshot.state. Do not replace diagnostics or write local storage; kit handles local best safely. app fetches ./manifest.json and passes it as metadata. Never call an undefined start or draw helper; expose original core/view objects explicitly on globalThis. No console log/error, external dependency, network request except local manifest, analytics, login, font CDN, SVG namespace URL strings, eval or import. View draws only, core has no browser/DOM access. Use the exact required data-game DOM hooks, including error hidden. Built-in kit owns status/score/progress text each frame. Custom explanatory and result information can be drawn on canvas; do not rely on overwriting the kit status label.",
+    "layout_and_limits": "Design the board inside normalized canvas x=0.08..0.92, y=0.23..0.75, so thumb targets remain large at 390px. Responsive canvas CSS width:100% with a sensible portrait-friendly aspect ratio, max width 650px, no overflow at all three viewports. Ensure all controls and key HUD are visible or reachable without clipping; avoid viewport-fixed heights that hide start/restart. Cap procedural particles at 80; entity count reflects live objects and remains <=128. Pause/resume, tab hide, pagehide, terminal, restart and capture no-writes remain GameKit responsibilities. Return complete required files and concise README with the real controls and deterministic rules. No private animation loop."
+  }
+}

@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Prism Relay</title><link rel="stylesheet" href="./style.css"></head>
+<body><main class="game-shell">
+<header><p class="eyebrow">LOCAL PRACTICE · NO ACCOUNT</p><h1>LIGHT 3 RECEIVERS</h1><p class="instruction">Tap a prism to rotate it. Arrows/WASD select; Space rotates.</p><div class="goal-row" aria-label="Receiver objective"><span class="medals" aria-hidden="true">◉ ◉ ◉</span><strong data-prism-receivers>0/3</strong><span>RECEIVERS</span></div></header>
+<canvas data-game-canvas tabindex="0" aria-label="Prism Relay game board"></canvas>
+<section class="readout" aria-label="Game status"><span data-game-status>Ready to relay light.</span><span>CURRENT SCORE <b data-game-score>0</b></span><span>Progress <b data-game-progress>0%</b></span><span class="best">DEVICE BEST <b data-prism-best>0</b><small>LOCAL PRACTICE</small></span></section>
+<p class="result" data-prism-result aria-live="polite"></p>
+<section class="controls" aria-label="Game controls"><button type="button" data-game-start>Start Relay</button><button type="button" data-game-pause>Pause</button><button type="button" data-game-resume>Resume</button><button type="button" data-game-restart>Play Again</button><button type="button" data-prism-sound aria-pressed="true">Sound On</button></section><p data-game-error hidden role="alert"></p>
+</main><script src="./core.js"></script><script src="./view/art.js"></script><script src="./gamekit.js"></script><script src="./app.js"></script></body></html>
