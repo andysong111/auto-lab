@@ -1,0 +1,14 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: #050b1d; color: #e9f7ff; font-family: system-ui, sans-serif; }
+body { display: flex; justify-content: center; }
+.game-shell { width: min(650px, 100%); padding: 12px; overflow: hidden; }
+canvas { display: block; width: 100%; aspect-ratio: 5 / 7; max-height: 78vh; background: #071229; border: 1px solid #274568; border-radius: 14px; touch-action: none; outline: none; }
+.readout { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 10px 3px; color: #aac4d8; font-size: 14px; }
+.readout b { color: #f2d080; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; }
+.controls button { border: 1px solid #4e8a9b; border-radius: 9px; background: #12304b; color: #eaffff; padding: 10px 14px; font: 600 14px system-ui; cursor: pointer; }
+.controls button:first-child, .controls button:last-child { background: #176258; border-color: #78d9c5; }
+button:focus-visible, canvas:focus-visible { outline: 3px solid #f2c768; outline-offset: 2px; }
+[data-game-error] { color: #ffae99; }
+@media (min-width: 900px) and (max-height: 850px) { canvas { max-height: 70vh; aspect-ratio: 1.15 / 1; } }
+@media (max-width: 420px) { .game-shell { padding: 8px; } .controls button { padding: 9px 11px; } .readout { font-size: 12px; } }
