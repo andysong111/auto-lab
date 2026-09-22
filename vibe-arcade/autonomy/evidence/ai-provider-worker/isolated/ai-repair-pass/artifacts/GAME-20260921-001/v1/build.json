@@ -1,0 +1,30 @@
+{
+  "operation_id": "GAME-20260921-001/build/v1",
+  "source_hash": "c8dcfbeb2fcecc2c1b581fcc8c5b6ad53eaff359cfaebb1a5fcfff1677d7e5d9",
+  "changed_files": [
+    "README.md",
+    "app.js",
+    "core.js",
+    "gamekit.js",
+    "index.html",
+    "manifest.json",
+    "style.css",
+    "view/art.js"
+  ],
+  "cause": "Deterministic fixture response from a mock provider, no model request.",
+  "adapter_tests": [
+    "provider-suggested (not executed): existing browser acceptance contract"
+  ],
+  "provider_metadata": {
+    "provider": "mock/responses",
+    "response_id": "resp_mock_1",
+    "usage": {
+      "input_tokens": 100,
+      "output_tokens": 100,
+      "estimated_cost": 0
+    },
+    "estimated_cost": 0,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

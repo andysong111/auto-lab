@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260921-001",
+  "version": "v1",
+  "target_version": "v2",
+  "attempt": 1,
+  "max_repair_attempts": 5,
+  "source_hash": "c8dcfbeb2fcecc2c1b581fcc8c5b6ad53eaff359cfaebb1a5fcfff1677d7e5d9",
+  "qa_failures": [
+    {
+      "code": "freeze",
+      "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+      "viewport": 390
+    },
+    {
+      "code": "freeze",
+      "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+      "viewport": 768
+    },
+    {
+      "code": "freeze",
+      "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+      "viewport": 1280
+    }
+  ],
+  "allowed_scope": [
+    "core.js",
+    "app.js",
+    "view/**",
+    "style.css",
+    "index.html",
+    "README.md",
+    "assets/**"
+  ],
+  "protected_paths": [
+    "vibe-arcade/games/**",
+    "vibe-arcade/release/**",
+    "vibe-arcade/descent/**",
+    "vibe-arcade/core-pins/**",
+    "vibe-arcade/challengers/**",
+    "vibe-arcade/community/**",
+    "vibe-arcade/runtime/**",
+    "vibe-arcade/measurement/**",
+    "vibe-arcade/marketing/**",
+    "vibe-arcade/index.html",
+    "vibe-arcade/sitemap.xml",
+    "vibe-arcade/robots.txt",
+    "vibe-arcade/google*.html",
+    "loopjolt-backend/**",
+    ".github/**",
+    "**/.env*",
+    "**/secrets/**",
+    "manifest.json",
+    "gamekit.js"
+  ],
+  "acceptance_tests": [
+    "manifest schema",
+    "all three real browser viewports",
+    "no console/page errors",
+    "start/progress/input/interaction",
+    "terminal/restart/pause/resume/hidden",
+    "no side effects",
+    "source and resource bounds"
+  ],
+  "operation_id": "GAME-20260921-001/repair/1"
+}

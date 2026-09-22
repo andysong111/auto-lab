@@ -6,8 +6,8 @@ const {requestFor}=require('./repair.cjs'),{evaluate}=require('./quality.cjs');
 const {runQA}=require('../qa/runner.cjs');
 const policy=require('../policies/quality-gate.json');
 class Factory {
-  constructor({store,builder,repairer,qa=runQA,release=null,policy:configuredPolicy=policy}) {
-    this.store=store;this.builder=builder;this.repairer=repairer;this.qa=qa;this.release=release;this.policy=configuredPolicy;
+  constructor({store,builder,repairer,qa=runQA,release=null,policy:configuredPolicy=policy,beforeStep=null}) {
+    this.store=store;this.builder=builder;this.repairer=repairer;this.qa=qa;this.release=release;this.policy=configuredPolicy;this.beforeStep=beforeStep;
   }
   async create(spec) {
     const initial=create(spec);
@@ -59,7 +59,7 @@ class Factory {
       const changes=listFiles(work).filter(f=>before[f]!==hash(fs.readFileSync(path.join(work,f)).toString('base64')));
       if(fs.existsSync(this.source(m))) fs.rmSync(this.source(m),{recursive:true,force:true});
       fs.mkdirSync(path.dirname(this.source(m)),{recursive:true});fs.renameSync(work,this.source(m));
-      const evidence={operation_id:operationId,source_hash:hashTree(this.source(m)),changed_files:changes,cause:outcome?.cause||'Adapter completed',adapter_tests:outcome?.tests||[]};
+      const evidence={operation_id:operationId,source_hash:hashTree(this.source(m)),changed_files:changes,cause:outcome?.cause||'Adapter completed',adapter_tests:outcome?.tests||[],...(outcome?.provider_metadata?{provider_metadata:outcome.provider_metadata}:{})};
       atomicJSON(buildFile,evidence);return evidence;
     } finally { fs.rmSync(work,{recursive:true,force:true}); }
   }
@@ -68,6 +68,7 @@ class Factory {
       let m=this.store.get(id);
       for(let step=0;step<80;step++) {
         if(['ARCHIVED','REJECTED'].includes(m.state))return m;
+        if(this.beforeStep)await this.beforeStep(m);
         // A changed source/policy invalidates all downstream evidence, including READY.
         if(['QUALITY_GATE','RC_READY','PREVIEW_DEPLOYING','PREVIEW_SMOKE','READY_TO_SHIP'].includes(m.state)) {
           if(!fs.existsSync(this.source(m))||m.source_hash!==hashTree(this.source(m))) {
@@ -81,7 +82,7 @@ class Factory {
           case 'BUILDING': {
             if(!this.builder)throw Error('builder_adapter_not_configured');
             try { const build=await this.build(m);m=this.move(m,'QA_RUNNING',{source_hash:build.source_hash,qa_status:'RUNNING'}); }
-            catch(e) { m=this.move(m,'BUILD_FAILED',{failure_reasons:[{code:e.message.startsWith('path_isolation')?'path_isolation':'build_failed',message:e.message}]}); }
+            catch(e) { if(e.factory_pause)throw e; m=this.move(m,'BUILD_FAILED',{failure_reasons:[{code:this.policy.fatal_codes.includes(e.code)?e.code:e.message.startsWith('path_isolation')?'path_isolation':'build_failed',message:e.message}]}); }
             break;
           }
           case 'QA_RUNNING': {
@@ -120,8 +121,9 @@ class Factory {
               this.history(m,{attempt:m.repair_attempt,changed_files:build.changed_files,adapter_cause:build.cause,tests:build.adapter_tests,result:'QA_PENDING'});
               m=this.move(m,'QA_RUNNING',{source_hash:build.source_hash,qa_status:'RUNNING'});
             } catch(e) {
+              if(e.factory_pause)throw e;
               this.history(m,{attempt:m.repair_attempt,result:'BUILD_FAILED',error:e.message});
-              m=this.move(m,'BUILD_FAILED',{failure_reasons:[{code:e.message.startsWith('path_isolation')?'path_isolation':'build_failed',message:e.message}]});
+              m=this.move(m,'BUILD_FAILED',{failure_reasons:[{code:this.policy.fatal_codes.includes(e.code)?e.code:e.message.startsWith('path_isolation')?'path_isolation':'build_failed',message:e.message}]});
             }
             break;
           }

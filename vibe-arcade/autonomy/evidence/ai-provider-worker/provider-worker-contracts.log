@@ -1,0 +1,63 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> playjolt-autonomous-factory@0.2.0 test:worker
+> node --test worker/tests/providers.test.cjs worker/tests/worker.test.cjs
+
+✔ successful mock output is validated, persisted and deduplicated by immutable operation ID (116.107212ms)
+✔ reject malformed JSON (2.295796ms)
+✔ reject unexpected metadata (1.765292ms)
+✔ reject path escape (1.67649ms)
+✔ reject factory-owned kit (2.246635ms)
+✔ reject CDN (1.581219ms)
+✔ reject DOM core (1.424437ms)
+✔ reject missing files (1.443856ms)
+✔ all paths are validated before any file write; existing workspace symlinks are blocked (2.487701ms)
+✔ provider timeout is bounded and unknown submission is never re-posted (80.984143ms)
+✔ known response ID survives manager restart; retry is retrieval, not a second generation (71.160127ms)
+✔ network failure and model failure remain distinct; cached model failure is not called again (64.705591ms)
+✔ budget: game call limit (69.559458ms)
+✔ budget: daily call limit (59.398809ms)
+✔ budget: input token limit (38.574728ms)
+✔ budget: output token limit (54.97596ms)
+✔ budget: game cost limit (35.39336ms)
+✔ budget: daily cost limit (31.988821ms)
+✔ wall clock budget includes downtime and refuses new calls after expiry (66.861241ms)
+✔ reported usage exceeding reservation permanently pauses without replaying provider (64.204701ms)
+✔ prices require explicit recent estimates and invalid budgets/concurrency are rejected (0.449626ms)
+✔ repair compiler preserves original Factory request, QA identity and narrows CSS-only repairs (4.302567ms)
+✔ OpenAI is unavailable without key/model or explicit paid-call authorization; no fetch occurs (0.214798ms)
+✔ OpenAI Responses uses strict file output, durable background ID, no tools, fixed official origin and GET resumption (6.587728ms)
+✔ OpenAI HTTP 401 is classified and never SDK-retried (0.441303ms)
+✔ OpenAI HTTP 429 is classified and never SDK-retried (0.183892ms)
+✔ OpenAI HTTP 503 is classified and never SDK-retried (0.152135ms)
+✔ missing provider output is model failure, not a retryable network error (32.596696ms)
+✔ ledger storage failure pauses before any provider submission (30.905425ms)
+✔ repair scope honors additional protections in the original Factory request (3.471376ms)
+✔ maximum file/output size is rejected before applying any bytes (2.252293ms)
+✔ worker mock build reuses Factory transitions and remains unlisted RC_READY (124.668666ms)
+✔ intake_disabled blocks all provider and isolation calls (1.853693ms)
+✔ factory_kill_switch blocks all provider and isolation calls (1.906621ms)
+✔ provider unavailable and isolation unavailable both fail before reserving/charging or changing Factory (69.826709ms)
+✔ budget pause preserves BUILDING checkpoint and consumes no repair attempt (60.739733ms)
+✔ live kill switch aborts in-flight work and no second generation is submitted (288.08212ms)
+✔ global worker lock prevents overlapping jobs/calls (38.057662ms)
+✔ bounded polling backs off and stops after configured polls or intake disable (399.186974ms)
+✔ shutdown signal interrupts pending provider, preserving resumable Factory state (91.883921ms)
+✔ actual worker process crash after response checkpoint recovers stale locks and resumes GET without new submission (361.436473ms)
+✔ fatal path escape rejects with existing exception policy; no repair call (64.625107ms)
+✔ RC remains behind both worker opt-in and current Control Plane release switch (154.941364ms)
+✔ container invocation has only candidate/input/artifact mounts, no network, secrets or host execution fallback (0.842387ms)
+✔ Control Plane reads worker pause overlay without changing Factory state or raising routine owner alerts (61.400086ms)
+✔ Docker report boundary: failed game report (6.994359ms)
+✔ Docker report boundary: infrastructure report (5.697696ms)
+✔ Docker report boundary: crash after pass report (4.079166ms)
+✔ Docker report boundary: mismatched source evidence (2.905359ms)
+✔ injected real providers still require verified prices; zero-price mocks require explicit test mode (64.65121ms)
+ℹ tests 50
+ℹ suites 0
+ℹ pass 50
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1957.134281

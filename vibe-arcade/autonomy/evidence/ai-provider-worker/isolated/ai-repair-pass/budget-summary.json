@@ -1,0 +1,34 @@
+{
+  "cost_basis": "estimated; configured USD rates, no billing API",
+  "calls": 2,
+  "operations": [
+    {
+      "operation_id": "GAME-20260921-001/build/v1",
+      "state": "COMPLETE",
+      "accounted": {
+        "input_tokens": 100,
+        "output_tokens": 100,
+        "estimated_cost": 0
+      },
+      "reserved": {
+        "input_tokens": 7872,
+        "output_tokens": 16000,
+        "estimated_cost": 0
+      }
+    },
+    {
+      "operation_id": "GAME-20260921-001/repair/1",
+      "state": "COMPLETE",
+      "accounted": {
+        "input_tokens": 100,
+        "output_tokens": 100,
+        "estimated_cost": 0
+      },
+      "reserved": {
+        "input_tokens": 11304,
+        "output_tokens": 16000,
+        "estimated_cost": 0
+      }
+    }
+  ]
+}

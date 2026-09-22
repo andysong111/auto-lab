@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260921-001",
+  "generation": 1,
+  "version": "v2",
+  "title": "Factory test chamber",
+  "slug": "factory-test-chamber",
+  "genre": "commissioning-fixture",
+  "mechanic_family": "fixture-only",
+  "controls": [
+    "Arrows or WASD to move",
+    "Space to interact"
+  ],
+  "mobile_controls": [
+    "Tap or drag on the board"
+  ],
+  "reference_quality_games": [
+    "astra-sentinel-v3",
+    "deep-descent"
+  ],
+  "created_at": "2026-09-22T01:32:03.100Z",
+  "state": "RC_READY",
+  "repair_attempt": 1,
+  "max_repair_attempts": 5,
+  "source_path": "autonomy/games/GAME-20260921-001/v2",
+  "preview_url": null,
+  "qa_status": "PASS",
+  "quality_status": "PASS",
+  "release_status": "RC",
+  "failure_reasons": [],
+  "metrics_eligibility": false,
+  "qa": {
+    "seed": 7,
+    "keyboard": {
+      "key": "ArrowRight",
+      "observation": "state.x"
+    },
+    "pointer": {
+      "observation": "state.taps"
+    },
+    "terminal_ms": 12000
+  },
+  "revision": 9,
+  "history": [
+    {
+      "from": "IDEA",
+      "to": "SPEC_READY",
+      "at": "2026-09-22T01:32:03.101Z"
+    },
+    {
+      "from": "SPEC_READY",
+      "to": "BUILDING",
+      "at": "2026-09-22T01:32:03.147Z"
+    },
+    {
+      "from": "BUILDING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T01:32:03.192Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T01:32:08.503Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T01:32:08.505Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T01:32:08.506Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T01:32:08.545Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QUALITY_GATE",
+      "at": "2026-09-22T01:32:18.912Z"
+    },
+    {
+      "from": "QUALITY_GATE",
+      "to": "RC_READY",
+      "at": "2026-09-22T01:32:18.914Z"
+    }
+  ],
+  "source_hash": "b8cc55b3ba3fa7556a1e2470ee102f009f839a2a2354311364ae04201ca9733d",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0"
+}

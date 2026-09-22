@@ -1,0 +1,11 @@
+{
+  "schema": "playjolt-worker/1",
+  "status": "PAUSED_INTAKE",
+  "code": "intake_disabled",
+  "game_id": null,
+  "version": null,
+  "factory_state": null,
+  "recorded_at": "2026-09-22T00:02:43.981Z",
+  "owner_action": false,
+  "auto_production_ship": false
+}

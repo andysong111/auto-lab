@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260921-001",
+  "version": "v1",
+  "source_hash": "d0f8e53d268dc837c8c904c8d4b52a1e32d5ee83386361572bec49d978f4a878",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0",
+  "passed": false,
+  "hard_failures": [
+    {
+      "code": "timeout",
+      "message": "Isolated QA did not produce a completed report"
+    }
+  ],
+  "soft_failures": [],
+  "console_errors": [],
+  "page_errors": [],
+  "browser_cases": [],
+  "screenshots": [],
+  "side_effects": [],
+  "duration_ms": 4169,
+  "isolation": {
+    "engine": "docker",
+    "image": "sha256:895fc379e63fe422e2a8a9b87d3b080331aed406587d85c47407cead5bb56582",
+    "network": "none",
+    "readonly": true,
+    "cpu": 1,
+    "memory_mb": 1024,
+    "pids": 128
+  }
+}

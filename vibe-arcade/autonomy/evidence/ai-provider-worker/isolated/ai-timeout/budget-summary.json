@@ -1,0 +1,15 @@
+{
+  "cost_basis": "estimated; configured USD rates, no billing API",
+  "calls": 1,
+  "operations": [
+    {
+      "operation_id": "GAME-20260921-001/build/v1",
+      "state": "COMPLETE",
+      "reserved": {
+        "input_tokens": 7896,
+        "output_tokens": 16000,
+        "estimated_cost": 0
+      }
+    }
+  ]
+}
