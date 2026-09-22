@@ -1,16 +1,19 @@
 {
-  "version": "first-real-game-commissioning-1",
+  "version": "first-real-game-commissioning-2",
   "mode": "first_real_game",
   "max_public_games_before_validation": 10,
   "known_public_game_count": 8,
   "max_new_candidates": 1,
-  "quality_baselines": ["astra-sentinel-v3", "deep-descent"],
+  "quality_baselines": [
+    "astra-sentinel-v3",
+    "deep-descent"
+  ],
   "owner_review_required_before_production": true,
   "auto_production_ship": false,
   "release_candidates_enabled": true,
   "technical_budget": {
     "max_provider_calls": 6,
-    "max_estimated_model_cost_usd": 2.0,
+    "max_estimated_model_cost_usd": 2,
     "max_repair_attempts": 5
   },
   "session": {
@@ -41,5 +44,25 @@
     "owner review decision recorded",
     "rollback target recorded"
   ],
-  "notes": "This policy commissions one real launch candidate only. It does not authorize production shipping, rankings, marketing, or catalog mutation."
+  "notes": "Second-candidate commissioning incorporates lessons from rejected Prism Relay. It still does not authorize production shipping, rankings, marketing, or catalog mutation.",
+  "public_quality_contract": {
+    "required_before_paid_build": [
+      "visible first-five-second objective",
+      "visible goal progress",
+      "visible device-local best distinct from current score",
+      "multi-seed progression/depth plan",
+      "mobile readability plan",
+      "result/completion presentation",
+      "reduced-motion behavior that can respond after page load"
+    ],
+    "evidence_before_release": [
+      "entry screenshot",
+      "playing screenshot",
+      "midgame screenshot",
+      "terminal/result screenshot",
+      "multiple deterministic seed difficulty evidence",
+      "mobile readability review"
+    ],
+    "notes": "These are product-quality requirements, not numeric fun scores. Sound is optional, but if used, events must be distinct and resource-bounded."
+  }
 }
