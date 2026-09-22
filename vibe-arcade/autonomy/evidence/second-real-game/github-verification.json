@@ -1,0 +1,254 @@
+{
+  "schema": "playjolt-second-real-game-github/1",
+  "repository": "andysong111/auto-lab",
+  "base": "b4db1b3f9858eaa7f62403ab16da8085e97267a9",
+  "main_after_work": "b4db1b3f9858eaa7f62403ab16da8085e97267a9",
+  "branch": "commissioning/second-real-game-20260922",
+  "draft_pr": 49,
+  "pr_url": "https://github.com/andysong111/auto-lab/pull/49",
+  "paid_run": {
+    "id": 35726303477,
+    "job_id": 106740667500,
+    "sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649",
+    "url": "https://github.com/andysong111/auto-lab/actions/runs/35726303477",
+    "artifacts": [
+      {
+        "id": 10694135327,
+        "name": "second-real-game-GAME-20260922-121",
+        "size_in_bytes": 26160,
+        "url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10694135327",
+        "archive_download_url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10694135327/zip",
+        "expired": false,
+        "created_at": "2026-09-22T12:25:23Z",
+        "expires_at": "2026-10-22T12:25:22Z",
+        "updated_at": "2026-09-22T12:25:23Z",
+        "digest": "sha256:807dd25b3fc619bc08d78cf9254cca1aaef1bdb4fca2fac077d59102d388fd0b",
+        "workflow_run": {
+          "id": 35726303477,
+          "repository_id": 1192904955,
+          "head_repository_id": 1192904955,
+          "head_branch": "commissioning/second-real-game-20260922",
+          "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+        }
+      }
+    ]
+  },
+  "readonly_response_audit": {
+    "id": 35727344272,
+    "job_id": 106744126629,
+    "sha": "aea6b65854396ca49737482787319a1cf4e70089",
+    "new_generation_calls": 0,
+    "artifacts": [
+      {
+        "id": 10692864698,
+        "name": "second-rejected-response-audit",
+        "size_in_bytes": 68275,
+        "url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10692864698",
+        "archive_download_url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10692864698/zip",
+        "expired": false,
+        "created_at": "2026-09-22T12:28:21Z",
+        "expires_at": "2026-10-22T12:28:21Z",
+        "updated_at": "2026-09-22T12:28:21Z",
+        "digest": "sha256:7294ef7cf3a8870411c812610103de8cfb49c0ed5800be6f37a85cd9f1db01b1",
+        "workflow_run": {
+          "id": 35727344272,
+          "repository_id": 1192904955,
+          "head_repository_id": 1192904955,
+          "head_branch": "commissioning/second-real-game-20260922",
+          "head_sha": "aea6b65854396ca49737482787319a1cf4e70089"
+        }
+      }
+    ]
+  },
+  "production_regression": {
+    "run_id": 35726310124,
+    "artifacts": [
+      {
+        "id": 10693329825,
+        "name": "factory-production-regression",
+        "size_in_bytes": 9020520,
+        "url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10693329825",
+        "archive_download_url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10693329825/zip",
+        "expired": false,
+        "created_at": "2026-09-22T12:21:58Z",
+        "expires_at": "2026-10-06T12:21:56Z",
+        "updated_at": "2026-09-22T12:21:58Z",
+        "digest": "sha256:630f7ad258dac3b2582afb42b1a7c940d55a06c158f6f4705fee85e686e580b8",
+        "workflow_run": {
+          "id": 35726310124,
+          "repository_id": 1192904955,
+          "head_repository_id": 1192904955,
+          "head_branch": "commissioning/second-real-game-20260922",
+          "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+        }
+      },
+      {
+        "id": 10692978197,
+        "name": "factory-control-plane",
+        "size_in_bytes": 1554,
+        "url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10692978197",
+        "archive_download_url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10692978197/zip",
+        "expired": false,
+        "created_at": "2026-09-22T12:18:57Z",
+        "expires_at": "2026-10-06T12:18:56Z",
+        "updated_at": "2026-09-22T12:18:57Z",
+        "digest": "sha256:da22d606fbe314b48a399942474686ea1f2c87df34c2df3464033a3f23ef3188",
+        "workflow_run": {
+          "id": 35726310124,
+          "repository_id": 1192904955,
+          "head_repository_id": 1192904955,
+          "head_branch": "commissioning/second-real-game-20260922",
+          "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+        }
+      },
+      {
+        "id": 10692968380,
+        "name": "factory-browser-evidence",
+        "size_in_bytes": 2745901,
+        "url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10692968380",
+        "archive_download_url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10692968380/zip",
+        "expired": false,
+        "created_at": "2026-09-22T12:20:28Z",
+        "expires_at": "2026-10-06T12:20:27Z",
+        "updated_at": "2026-09-22T12:20:28Z",
+        "digest": "sha256:27bf12966b212009ad83ed6df9587796f7ed4baed94959a3bbd474b0e0fe07b8",
+        "workflow_run": {
+          "id": 35726310124,
+          "repository_id": 1192904955,
+          "head_repository_id": 1192904955,
+          "head_branch": "commissioning/second-real-game-20260922",
+          "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+        }
+      }
+    ]
+  },
+  "execution_checks": [
+    {
+      "name": "live",
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35726310116/job/106741546760",
+      "details_url": "https://github.com/andysong111/auto-lab/actions/runs/35726310116/job/106741546760",
+      "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+    },
+    {
+      "name": "AI provider worker contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35726310100/job/106741061203",
+      "details_url": "https://github.com/andysong111/auto-lab/actions/runs/35726310100/job/106741061203",
+      "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+    },
+    {
+      "name": "AI worker isolated browser",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35726310100/job/106741061067",
+      "details_url": "https://github.com/andysong111/auto-lab/actions/runs/35726310100/job/106741061067",
+      "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+    },
+    {
+      "name": "Factory regression",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35726310124/job/106741060271",
+      "details_url": "https://github.com/andysong111/auto-lab/actions/runs/35726310124/job/106741060271",
+      "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+    },
+    {
+      "name": "Factory contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35726310124/job/106741060151",
+      "details_url": "https://github.com/andysong111/auto-lab/actions/runs/35726310124/job/106741060151",
+      "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+    },
+    {
+      "name": "Factory browser",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35726310124/job/106741059625",
+      "details_url": "https://github.com/andysong111/auto-lab/actions/runs/35726310124/job/106741059625",
+      "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+    },
+    {
+      "name": "foundation",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35726310116/job/106741029843",
+      "details_url": "https://github.com/andysong111/auto-lab/actions/runs/35726310116/job/106741029843",
+      "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+    },
+    {
+      "name": "checks",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35726310106/job/106740868576",
+      "details_url": "https://github.com/andysong111/auto-lab/actions/runs/35726310106/job/106740868576",
+      "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+    },
+    {
+      "name": "Vercel Preview Comments",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/runs/106740738894",
+      "details_url": "https://vercel.com/github",
+      "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+    },
+    {
+      "name": "smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35726310144/job/106740690539",
+      "details_url": "https://github.com/andysong111/auto-lab/actions/runs/35726310144/job/106740690539",
+      "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+    },
+    {
+      "name": "experience",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35726310151/job/106740690448",
+      "details_url": "https://github.com/andysong111/auto-lab/actions/runs/35726310151/job/106740690448",
+      "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+    },
+    {
+      "name": "rules-and-browser",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35726310141/job/106740690404",
+      "details_url": "https://github.com/andysong111/auto-lab/actions/runs/35726310141/job/106740690404",
+      "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+    },
+    {
+      "name": "arcade3",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35726310114/job/106740690125",
+      "details_url": "https://github.com/andysong111/auto-lab/actions/runs/35726310114/job/106740690125",
+      "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+    },
+    {
+      "name": "smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35726303255/job/106740669582",
+      "details_url": "https://github.com/andysong111/auto-lab/actions/runs/35726303255/job/106740669582",
+      "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+    },
+    {
+      "name": "commissioning",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35726303477/job/106740667500",
+      "details_url": "https://github.com/andysong111/auto-lab/actions/runs/35726303477/job/106740667500",
+      "head_sha": "3e9d5fefabca3070f9026b9c3115c54fe9c69649"
+    }
+  ],
+  "final_checks": "See final PR head checks; evidence is committed after this file to avoid circular self-reference.",
+  "factory_state": "REJECTED",
+  "rc_branch": null,
+  "rc_commit": null,
+  "rc_pr": null,
+  "preview_url": null,
+  "production_authorized": false
+}

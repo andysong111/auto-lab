@@ -1,0 +1,33 @@
+{
+  "game_id": "GAME-20260922-121",
+  "disposition": "REJECTED",
+  "reason": "All six outputs failed core_dom_dependency before applyOutput and before any candidate source tree existed.",
+  "candidate_builds_accepted": 0,
+  "candidate_docker_qa_runs": 0,
+  "quality_gate_pass": false,
+  "product_quality_review": "NOT_EXECUTED_NO_ACCEPTED_BUILD",
+  "difficulty": {
+    "status": "NOT_EXECUTED",
+    "planned_seeds": [
+      1,
+      7,
+      23,
+      89,
+      2026,
+      4294967295
+    ],
+    "solution_lengths": null
+  },
+  "mobile_readability": "NOT_EXECUTED",
+  "reduced_motion": "NOT_EXECUTED",
+  "candidate_screenshots": [],
+  "candidate_video": null,
+  "source_hash": null,
+  "rc_branch": null,
+  "rc_commit": null,
+  "draft_rc_pr": null,
+  "preview_url": null,
+  "production_authorized": false,
+  "no_candidate_execution_means_no_candidate_network_or_production_writes": true,
+  "baseline_screenshots_only": "baseline-*.png are existing-game regression screenshots, not Cloud Cargo screenshots."
+}

@@ -25,7 +25,14 @@ function validateOutput(raw,request,limits) {
     seen.add(f.path);if(Buffer.byteLength(f.content)>limits.max_file_bytes||f.content.includes('\0'))throw modelError('model_file_too_large');
     // Defense in depth, not a substitute for the network-disabled execution container.
     if(f.path!=='README.md'&&(/(?:https?:|wss?:|file:|ftp:)\/\//i.test(f.content)||/(?:src|href)\s*=\s*["']\/\//i.test(f.content)||/\b(?:import\s*\(|require\s*\(|eval\s*\(|new\s+Function\s*\()/m.test(f.content)))throw modelError('external_runtime_dependency');
-    if(f.path==='core.js'&&/\b(?:document|window|localStorage|fetch)\b/.test(f.content))throw modelError('core_dom_dependency');
+    if(f.path==='core.js') {
+      const match=/\b(?:document|window|localStorage|fetch)\b/.exec(f.content);
+      if(match) {
+        const e=modelError('core_dom_dependency'),line=f.content.slice(0,match.index).split('\n').length;
+        e.message=`core_dom_dependency: core.js line ${line} uses ${match[0]}. Export the core with globalThis.YourCore = {create,step,observe,terminal}, not a browser-only window export. Core must contain no document/window/localStorage/fetch identifiers, including comments.`;
+        throw e;
+      }
+    }
   }
   if(request.mode==='build'||request.empty_workspace)for(const name of requiredFiles)if(!seen.has(name))throw modelError('model_missing_file:'+name);
   return value;

@@ -1,0 +1,15 @@
+{
+  "schema": "playjolt-second-real-game-authorization/1",
+  "game_id": "GAME-20260922-121",
+  "model": "gpt-5.6-terra",
+  "max_generations": 6,
+  "max_repair_attempts": 5,
+  "estimated_usd_ceiling": 2,
+  "owner_usd_ceiling": 3,
+  "user_authorized": true,
+  "production_authorized": false,
+  "authorized_at": "2026-09-22",
+  "base_commit": "b4db1b3f9858eaa7f62403ab16da8085e97267a9",
+  "request": "Second real candidate only. Build once, up to five lifetime AI repairs; existing user blanket paid authorization under KRW50000 per call. Keep main/production/catalog/rankings/SNS untouched. Do not clone Prism Relay or reset any job.",
+  "verified_zero_job_runs": []
+}

@@ -20,4 +20,4 @@ New trusted QA checks normal-input solutions over six seeds, meaningful mass/ene
 
 Do not rerun the paid workflow from empty state. Recover the full artifact including `autonomy/.provider/ledger.json`, original spec and all source/QA/history. Reuse existing operation IDs; uncertain submission must be reconciled rather than POSTed again. An exhausted/rejected candidate is terminal. Keep the default repository intake OFF. The run request is a commissioning instruction, not recurring scheduling or production authorization.
 
-Final state, costs, source provenance, CI and review evidence will be recorded in `../../HANDOFF_WORK_SECOND_REAL_GAME.md` and permanent `../../evidence/second-real-game/`.
+Final result: **REJECTED v6, repair5/5**, six outputs rejected before browser QA, USD0.690536 estimated. Existing response retrieval used GET only and preserved state. Post-rejection shared guidance now explicitly requires a globalThis core export; the validator remains strict. Do not rerun this job. Final state, costs, source provenance, CI and review evidence are recorded in `../../HANDOFF_WORK_SECOND_REAL_GAME.md` and permanent `../../evidence/second-real-game/`.

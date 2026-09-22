@@ -1,0 +1,1708 @@
+TAP version 13
+# Subtest: server adapter replays gyro-drop
+ok 1 - server adapter replays gyro-drop
+  ---
+  duration_ms: 12.39866
+  type: 'test'
+  ...
+# Subtest: server adapter replays core-pins
+ok 2 - server adapter replays core-pins
+  ---
+  duration_ms: 14.987343
+  type: 'test'
+  ...
+# Subtest: server adapter replays nova-merge
+ok 3 - server adapter replays nova-merge
+  ---
+  duration_ms: 11.894483
+  type: 'test'
+  ...
+# Subtest: server adapter rejects a mismatched challenger version
+ok 4 - server adapter rejects a mismatched challenger version
+  ---
+  duration_ms: 0.664953
+  type: 'test'
+  ...
+# Subtest: claimed score fields are irrelevant to canonical replay
+ok 5 - claimed score fields are irrelevant to canonical replay
+  ---
+  duration_ms: 7.387521
+  type: 'test'
+  ...
+# Subtest: new v2 replay is routed by server-owned version, not body fields
+ok 6 - new v2 replay is routed by server-owned version, not body fields
+  ---
+  duration_ms: 16.443094
+  type: 'test'
+  ...
+# Subtest: in-flight v1 runs remain valid and isolated
+ok 7 - in-flight v1 runs remain valid and isolated
+  ---
+  duration_ms: 3.517511
+  type: 'test'
+  ...
+# Subtest: a nonexistent version is rejected
+ok 8 - a nonexistent version is rejected
+  ---
+  duration_ms: 0.590707
+  type: 'test'
+  ...
+# Subtest: other games retain their original verification adapter
+ok 9 - other games retain their original verification adapter
+  ---
+  duration_ms: 9.643243
+  type: 'test'
+  ...
+# Subtest: discovery generation is byte-idempotent across repeated builds
+ok 10 - discovery generation is byte-idempotent across repeated builds
+  ---
+  duration_ms: 18.056395
+  type: 'test'
+  ...
+# Subtest: collector keeps Edge gateway JWT verification using public anon role only
+ok 11 - collector keeps Edge gateway JWT verification using public anon role only
+  ---
+  duration_ms: 3.425581
+  type: 'test'
+  ...
+# Subtest: normalizes channel ig
+ok 12 - normalizes channel ig
+  ---
+  duration_ms: 2.461813
+  type: 'test'
+  ...
+# Subtest: normalizes channel IG
+ok 13 - normalizes channel IG
+  ---
+  duration_ms: 0.336129
+  type: 'test'
+  ...
+# Subtest: normalizes channel yt
+ok 14 - normalizes channel yt
+  ---
+  duration_ms: 0.18929
+  type: 'test'
+  ...
+# Subtest: normalizes channel tt
+ok 15 - normalizes channel tt
+  ---
+  duration_ms: 0.232325
+  type: 'test'
+  ...
+# Subtest: normalizes channel th
+ok 16 - normalizes channel th
+  ---
+  duration_ms: 0.24031
+  type: 'test'
+  ...
+# Subtest: normalizes channel facebook
+ok 17 - normalizes channel facebook
+  ---
+  duration_ms: 0.139784
+  type: 'test'
+  ...
+# Subtest: route /descent
+ok 18 - route /descent
+  ---
+  duration_ms: 3.097649
+  type: 'test'
+  ...
+# Subtest: route /descent/
+ok 19 - route /descent/
+  ---
+  duration_ms: 0.277314
+  type: 'test'
+  ...
+# Subtest: route /games/core-pins
+ok 20 - route /games/core-pins
+  ---
+  duration_ms: 0.551289
+  type: 'test'
+  ...
+# Subtest: route /games/nova-merge/
+ok 21 - route /games/nova-merge/
+  ---
+  duration_ms: 0.574195
+  type: 'test'
+  ...
+# Subtest: route /challengers/play?game=core-pins
+ok 22 - route /challengers/play?game=core-pins
+  ---
+  duration_ms: 0.450333
+  type: 'test'
+  ...
+# Subtest: route /challengers/play?game=nova-merge
+ok 23 - route /challengers/play?game=nova-merge
+  ---
+  duration_ms: 0.217637
+  type: 'test'
+  ...
+# Subtest: route /games/orbit-sprint/index.html
+ok 24 - route /games/orbit-sprint/index.html
+  ---
+  duration_ms: 0.139974
+  type: 'test'
+  ...
+# Subtest: route /
+ok 25 - route /
+  ---
+  duration_ms: 0.145736
+  type: 'test'
+  ...
+# Subtest: bio tags cannot become a per-video conversion
+ok 26 - bio tags cannot become a per-video conversion
+  ---
+  duration_ms: 1.168389
+  type: 'test'
+  ...
+# Subtest: recorded Instagram link stays channel-only
+ok 27 - recorded Instagram link stays channel-only
+  ---
+  duration_ms: 0.282263
+  type: 'test'
+  ...
+# Subtest: tagged link is not an attribution proof
+ok 28 - tagged link is not an attribution proof
+  ---
+  duration_ms: 0.371137
+  type: 'test'
+  ...
+# Subtest: direct and referrer classes survive double cleaning
+ok 29 - direct and referrer classes survive double cleaning
+  ---
+  duration_ms: 0.904642
+  type: 'test'
+  ...
+# Subtest: referrer query and identity not stored
+ok 30 - referrer query and identity not stored
+  ---
+  duration_ms: 0.481313
+  type: 'test'
+  ...
+# Subtest: strips credentials, scores and personal fields
+ok 31 - strips credentials, scores and personal fields
+  ---
+  duration_ms: 0.325828
+  type: 'test'
+  ...
+# Subtest: invalid campaign strings dropped
+ok 32 - invalid campaign strings dropped
+  ---
+  duration_ms: 0.250119
+  type: 'test'
+  ...
+# Subtest: invalid event rejected []
+ok 33 - invalid event rejected []
+  ---
+  duration_ms: 0.401336
+  type: 'test'
+  ...
+# Subtest: invalid event rejected null
+ok 34 - invalid event rejected null
+  ---
+  duration_ms: 0.149623
+  type: 'test'
+  ...
+# Subtest: invalid event rejected {}
+ok 35 - invalid event rejected {}
+  ---
+  duration_ms: 0.123852
+  type: 'test'
+  ...
+# Subtest: invalid event rejected {"schema":"loopjolt-acquisition/4.1","ev
+ok 36 - invalid event rejected {"schema":"loopjolt-acquisition/4.1","ev
+  ---
+  duration_ms: 0.127871
+  type: 'test'
+  ...
+# Subtest: invalid event rejected {"schema":"loopjolt-acquisition/4.1","ev
+ok 37 - invalid event rejected {"schema":"loopjolt-acquisition/4.1","ev
+  ---
+  duration_ms: 0.131769
+  type: 'test'
+  ...
+# Subtest: invalid event rejected {"schema":"loopjolt-acquisition/4.1","ev
+ok 38 - invalid event rejected {"schema":"loopjolt-acquisition/4.1","ev
+  ---
+  duration_ms: 0.123852
+  type: 'test'
+  ...
+# Subtest: one page view across two client APIs
+ok 39 - one page view across two client APIs
+  ---
+  duration_ms: 4.356926
+  type: 'test'
+  ...
+# Subtest: replay requires a subsequent game_start
+ok 40 - replay requires a subsequent game_start
+  ---
+  duration_ms: 2.781229
+  type: 'test'
+  ...
+# Subtest: acquisition survives navigation
+ok 41 - acquisition survives navigation
+  ---
+  duration_ms: 3.694398
+  type: 'test'
+  ...
+# Subtest: new campaign clears old content
+ok 42 - new campaign clears old content
+  ---
+  duration_ms: 2.417045
+  type: 'test'
+  ...
+# Subtest: expired session resets counters
+ok 43 - expired session resets counters
+  ---
+  duration_ms: 1.218858
+  type: 'test'
+  ...
+# Subtest: excluded capture=1
+ok 44 - excluded capture=1
+  ---
+  duration_ms: 1.018425
+  type: 'test'
+  ...
+# Subtest: excluded qa=1
+ok 45 - excluded qa=1
+  ---
+  duration_ms: 0.992083
+  type: 'test'
+  ...
+# Subtest: excluded internal=1
+ok 46 - excluded internal=1
+  ---
+  duration_ms: 1.042522
+  type: 'test'
+  ...
+# Subtest: honors webdriver
+ok 47 - honors webdriver
+  ---
+  duration_ms: 0.89858
+  type: 'test'
+  ...
+# Subtest: honors globalPrivacyControl
+ok 48 - honors globalPrivacyControl
+  ---
+  duration_ms: 0.821088
+  type: 'test'
+  ...
+# Subtest: honors doNotTrack
+ok 49 - honors doNotTrack
+  ---
+  duration_ms: 0.967666
+  type: 'test'
+  ...
+# Subtest: internal exclusion persists
+ok 50 - internal exclusion persists
+  ---
+  duration_ms: 3.707643
+  type: 'test'
+  ...
+# Subtest: blocked storage cannot break setup
+ok 51 - blocked storage cannot break setup
+  ---
+  duration_ms: 1.349994
+  type: 'test'
+  ...
+# Subtest: legacy bridge drops persistent visitor ID
+ok 52 - legacy bridge drops persistent visitor ID
+  ---
+  duration_ms: 0.244489
+  type: 'test'
+  ...
+# Subtest: collector sends only cleaned data
+ok 53 - collector sends only cleaned data
+  ---
+  duration_ms: 2.294735
+  type: 'test'
+  ...
+# Subtest: failed sink is not successful storage
+ok 54 - failed sink is not successful storage
+  ---
+  duration_ms: 0.333513
+  type: 'test'
+  ...
+# Subtest: reject request {"method":"GET"}
+ok 55 - reject request {"method":"GET"}
+  ---
+  duration_ms: 0.177077
+  type: 'test'
+  ...
+# Subtest: reject request {"headers":{}}
+ok 56 - reject request {"headers":{}}
+  ---
+  duration_ms: 0.113141
+  type: 'test'
+  ...
+# Subtest: reject request {"headers":{"origin":"https://evil.invalid","content-ty
+ok 57 - reject request {"headers":{"origin":"https://evil.invalid","content-ty
+  ---
+  duration_ms: 0.114655
+  type: 'test'
+  ...
+# Subtest: reject request {"headers":{"origin":"https://vibe-arcade-dun.vercel.ap
+ok 58 - reject request {"headers":{"origin":"https://vibe-arcade-dun.vercel.ap
+  ---
+  duration_ms: 0.106198
+  type: 'test'
+  ...
+# Subtest: reject request {"body":{"schema":"loopjolt-acquisition/4.1","event_id"
+ok 59 - reject request {"body":{"schema":"loopjolt-acquisition/4.1","event_id"
+  ---
+  duration_ms: 0.13287
+  type: 'test'
+  ...
+# Subtest: legacy accepted, not persisted: page_view
+ok 60 - legacy accepted, not persisted: page_view
+  ---
+  duration_ms: 0.297753
+  type: 'test'
+  ...
+# Subtest: legacy accepted, not persisted: game_open
+ok 61 - legacy accepted, not persisted: game_open
+  ---
+  duration_ms: 0.134554
+  type: 'test'
+  ...
+# Subtest: legacy accepted, not persisted: game_start
+ok 62 - legacy accepted, not persisted: game_start
+  ---
+  duration_ms: 0.128682
+  type: 'test'
+  ...
+# Subtest: legacy accepted, not persisted: game_finish
+ok 63 - legacy accepted, not persisted: game_finish
+  ---
+  duration_ms: 0.127509
+  type: 'test'
+  ...
+# Subtest: legacy accepted, not persisted: replay
+ok 64 - legacy accepted, not persisted: replay
+  ---
+  duration_ms: 0.119745
+  type: 'test'
+  ...
+# Subtest: legacy accepted, not persisted: share
+ok 65 - legacy accepted, not persisted: share
+  ---
+  duration_ms: 0.11747
+  type: 'test'
+  ...
+# Subtest: legacy accepted, not persisted: next_game
+ok 66 - legacy accepted, not persisted: next_game
+  ---
+  duration_ms: 0.160775
+  type: 'test'
+  ...
+# Subtest: legacy accepted, not persisted: score_verified
+ok 67 - legacy accepted, not persisted: score_verified
+  ---
+  duration_ms: 0.120917
+  type: 'test'
+  ...
+# Subtest: legacy accepted, not persisted: ranked_downgrade
+ok 68 - legacy accepted, not persisted: ranked_downgrade
+  ---
+  duration_ms: 0.302182
+  type: 'test'
+  ...
+# Subtest: legacy accepted, not persisted: ranked_entry
+ok 69 - legacy accepted, not persisted: ranked_entry
+  ---
+  duration_ms: 0.24508
+  type: 'test'
+  ...
+# Subtest: regular 60, 30, 20 and 10 FPS do not discard simulation time
+ok 70 - regular 60, 30, 20 and 10 FPS do not discard simulation time
+  ---
+  duration_ms: 5.768682
+  type: 'test'
+  ...
+# Subtest: a frame stall above 250ms invalidates ranked eligibility
+ok 71 - a frame stall above 250ms invalidates ranked eligibility
+  ---
+  duration_ms: 0.349555
+  type: 'test'
+  ...
+# Subtest: repeated 8 FPS frames cannot buy extra reaction time
+ok 72 - repeated 8 FPS frames cannot buy extra reaction time
+  ---
+  duration_ms: 0.231373
+  type: 'test'
+  ...
+# Subtest: small isolated jitter is tolerated but accumulated lost time is bounded
+ok 73 - small isolated jitter is tolerated but accumulated lost time is bounded
+  ---
+  duration_ms: 0.248967
+  type: 'test'
+  ...
+# Subtest: invalid timing values fail closed
+ok 74 - invalid timing values fail closed
+  ---
+  duration_ms: 0.35193
+  type: 'test'
+  ...
+# Subtest: reaction-rush: seed is deterministic
+ok 75 - reaction-rush: seed is deterministic
+  ---
+  duration_ms: 4.135863
+  type: 'test'
+  ...
+# Subtest: reaction-rush: no-input terminal run verifies
+ok 76 - reaction-rush: no-input terminal run verifies
+  ---
+  duration_ms: 7.169787
+  type: 'test'
+  ...
+# Subtest: reaction-rush: skilled inputs replay exactly across 40 seeds
+ok 77 - reaction-rush: skilled inputs replay exactly across 40 seeds
+  ---
+  duration_ms: 120.787872
+  type: 'test'
+  ...
+# Subtest: reaction-rush: invalid duration, order, actions and types rejected
+ok 78 - reaction-rush: invalid duration, order, actions and types rejected
+  ---
+  duration_ms: 9.633353
+  type: 'test'
+  ...
+# Subtest: reaction-rush: terminal state cannot accrue more score
+ok 79 - reaction-rush: terminal state cannot accrue more score
+  ---
+  duration_ms: 1.078262
+  type: 'test'
+  ...
+# Subtest: perfect-timing: seed is deterministic
+ok 80 - perfect-timing: seed is deterministic
+  ---
+  duration_ms: 0.438279
+  type: 'test'
+  ...
+# Subtest: perfect-timing: no-input terminal run verifies
+ok 81 - perfect-timing: no-input terminal run verifies
+  ---
+  duration_ms: 10.476585
+  type: 'test'
+  ...
+# Subtest: perfect-timing: skilled inputs replay exactly across 40 seeds
+ok 82 - perfect-timing: skilled inputs replay exactly across 40 seeds
+  ---
+  duration_ms: 49.101277
+  type: 'test'
+  ...
+# Subtest: perfect-timing: invalid duration, order, actions and types rejected
+ok 83 - perfect-timing: invalid duration, order, actions and types rejected
+  ---
+  duration_ms: 0.705873
+  type: 'test'
+  ...
+# Subtest: perfect-timing: terminal state cannot accrue more score
+ok 84 - perfect-timing: terminal state cannot accrue more score
+  ---
+  duration_ms: 0.814095
+  type: 'test'
+  ...
+# Subtest: dont-press: seed is deterministic
+ok 85 - dont-press: seed is deterministic
+  ---
+  duration_ms: 0.513165
+  type: 'test'
+  ...
+# Subtest: dont-press: no-input terminal run verifies
+ok 86 - dont-press: no-input terminal run verifies
+  ---
+  duration_ms: 1.896175
+  type: 'test'
+  ...
+# Subtest: dont-press: skilled inputs replay exactly across 40 seeds
+ok 87 - dont-press: skilled inputs replay exactly across 40 seeds
+  ---
+  duration_ms: 71.176874
+  type: 'test'
+  ...
+# Subtest: dont-press: invalid duration, order, actions and types rejected
+ok 88 - dont-press: invalid duration, order, actions and types rejected
+  ---
+  duration_ms: 0.482144
+  type: 'test'
+  ...
+# Subtest: dont-press: terminal state cannot accrue more score
+ok 89 - dont-press: terminal state cannot accrue more score
+  ---
+  duration_ms: 0.452837
+  type: 'test'
+  ...
+# Subtest: unknown games and invalid seeds rejected
+ok 90 - unknown games and invalid seeds rejected
+  ---
+  duration_ms: 0.33212
+  type: 'test'
+  ...
+# Subtest: Reaction: mines damage shield and cannot reward a combo
+ok 91 - Reaction: mines damage shield and cannot reward a combo
+  ---
+  duration_ms: 0.295088
+  type: 'test'
+  ...
+# Subtest: Reaction: heat limits spraying; pulse requires energy
+ok 92 - Reaction: heat limits spraying; pulse requires energy
+  ---
+  duration_ms: 0.192988
+  type: 'test'
+  ...
+# Subtest: Reaction: boss shield has a visible, verified closed interval
+ok 93 - Reaction: boss shield has a visible, verified closed interval
+  ---
+  duration_ms: 0.206685
+  type: 'test'
+  ...
+# Subtest: Timing: full miss costs a shield, not an arbitrary score
+ok 94 - Timing: full miss costs a shield, not an arbitrary score
+  ---
+  duration_ms: 0.181125
+  type: 'test'
+  ...
+# Subtest: Timing: three perfects restore width, never exceed 400
+ok 95 - Timing: three perfects restore width, never exceed 400
+  ---
+  duration_ms: 0.176245
+  type: 'test'
+  ...
+# Subtest: Reactor: holding through the seal is penalized
+ok 96 - Reactor: holding through the seal is penalized
+  ---
+  duration_ms: 0.251032
+  type: 'test'
+  ...
+# Subtest: Reactor: WAIT never gives early points
+ok 97 - Reactor: WAIT never gives early points
+  ---
+  duration_ms: 0.21452
+  type: 'test'
+  ...
+# Subtest: Reactor: up/down type and repeated tick are strictly validated
+ok 98 - Reactor: up/down type and repeated tick are strictly validated
+  ---
+  duration_ms: 0.199661
+  type: 'test'
+  ...
+# Subtest: Reaction: pointer bounds and extra fields are rejected
+ok 99 - Reaction: pointer bounds and extra fields are rejected
+  ---
+  duration_ms: 0.23984
+  type: 'test'
+  ...
+# Subtest: Replay adapter never trusts client claimed score or game
+ok 100 - Replay adapter never trusts client claimed score or game
+  ---
+  duration_ms: 9.386109
+  type: 'test'
+  ...
+# Subtest: Replay adapter rejects a wrong server-side game version
+ok 101 - Replay adapter rejects a wrong server-side game version
+  ---
+  duration_ms: 0.451244
+  type: 'test'
+  ...
+# Subtest: ready does not move, spawn, score or consume time
+ok 102 - ready does not move, spawn, score or consume time
+  ---
+  duration_ms: 5.163826
+  type: 'test'
+  ...
+# Subtest: reject seed -1
+ok 103 - reject seed -1
+  ---
+  duration_ms: 0.536721
+  type: 'test'
+  ...
+# Subtest: reject seed 1.5
+ok 104 - reject seed 1.5
+  ---
+  duration_ms: 0.233567
+  type: 'test'
+  ...
+# Subtest: reject seed NaN
+ok 105 - reject seed NaN
+  ---
+  duration_ms: 0.190443
+  type: 'test'
+  ...
+# Subtest: reject seed Infinity
+ok 106 - reject seed Infinity
+  ---
+  duration_ms: 0.317913
+  type: 'test'
+  ...
+# Subtest: reject seed 1
+ok 107 - reject seed 1
+  ---
+  duration_ms: 0.206224
+  type: 'test'
+  ...
+# Subtest: reject seed 4294967296
+ok 108 - reject seed 4294967296
+  ---
+  duration_ms: 0.295569
+  type: 'test'
+  ...
+# Subtest: input axes are clamped, diagonal speed is bounded
+ok 109 - input axes are clamped, diagonal speed is bounded
+  ---
+  duration_ms: 0.730031
+  type: 'test'
+  ...
+# Subtest: non-finite movement cannot corrupt state
+ok 110 - non-finite movement cannot corrupt state
+  ---
+  duration_ms: 0.623992
+  type: 'test'
+  ...
+# Subtest: arena bounds hold for repeated dashes
+ok 111 - arena bounds hold for repeated dashes
+  ---
+  duration_ms: 6.534702
+  type: 'test'
+  ...
+# Subtest: dash is a finite resource with invulnerability window
+ok 112 - dash is a finite resource with invulnerability window
+  ---
+  duration_ms: 0.742064
+  type: 'test'
+  ...
+# Subtest: difficulty grows across normal gates and guardian tiers
+ok 113 - difficulty grows across normal gates and guardian tiers
+  ---
+  duration_ms: 0.230292
+  type: 'test'
+  ...
+# Subtest: projectile swept collision catches a crossed target
+ok 114 - projectile swept collision catches a crossed target
+  ---
+  duration_ms: 0.207818
+  type: 'test'
+  ...
+# Subtest: unearned upgrades cannot be installed
+ok 115 - unearned upgrades cannot be installed
+  ---
+  duration_ms: 0.483618
+  type: 'test'
+  ...
+# Subtest: real stage clear evolves body, repairs hull and pauses for a choice
+ok 116 - real stage clear evolves body, repairs hull and pauses for a choice
+  ---
+  duration_ms: 56.927276
+  type: 'test'
+  ...
+# Subtest: complete 9 gates via normal-input pilot 7
+ok 117 - complete 9 gates via normal-input pilot 7
+  ---
+  duration_ms: 838.28968
+  type: 'test'
+  ...
+# Subtest: complete 9 gates via normal-input pilot 42
+ok 118 - complete 9 gates via normal-input pilot 42
+  ---
+  duration_ms: 293.520287
+  type: 'test'
+  ...
+# Subtest: complete 9 gates via normal-input pilot 74021
+ok 119 - complete 9 gates via normal-input pilot 74021
+  ---
+  duration_ms: 192.99779
+  type: 'test'
+  ...
+# Subtest: complete 9 gates via normal-input pilot 998
+ok 120 - complete 9 gates via normal-input pilot 998
+  ---
+  duration_ms: 100.999666
+  type: 'test'
+  ...
+# Subtest: stationary strategy eventually fails 7
+ok 121 - stationary strategy eventually fails 7
+  ---
+  duration_ms: 14.98254
+  type: 'test'
+  ...
+# Subtest: stationary strategy eventually fails 42
+ok 122 - stationary strategy eventually fails 42
+  ---
+  duration_ms: 19.71293
+  type: 'test'
+  ...
+# Subtest: stationary strategy eventually fails 74021
+ok 123 - stationary strategy eventually fails 74021
+  ---
+  duration_ms: 24.58226
+  type: 'test'
+  ...
+# Subtest: stationary strategy eventually fails 998
+ok 124 - stationary strategy eventually fails 998
+  ---
+  duration_ms: 27.656321
+  type: 'test'
+  ...
+# Subtest: same seed and inputs reproduce every canonical field
+ok 125 - same seed and inputs reproduce every canonical field
+  ---
+  duration_ms: 238.521999
+  type: 'test'
+  ...
+# Subtest: tier 3 and 6 unlock actual attack drones
+ok 126 - tier 3 and 6 unlock actual attack drones
+  ---
+  duration_ms: 92.213788
+  type: 'test'
+  ...
+# Subtest: caps hold throughout a real complete campaign
+ok 127 - caps hold throughout a real complete campaign
+  ---
+  duration_ms: 92.782543
+  type: 'test'
+  ...
+# Subtest: defeated or victorious states cannot farm score or advance
+ok 128 - defeated or victorious states cannot farm score or advance
+  ---
+  duration_ms: 4.683251
+  type: 'test'
+  ...
+# Subtest: new expedition resets upgrades, tier, hull and stage
+ok 129 - new expedition resets upgrades, tier, hull and stage
+  ---
+  duration_ms: 89.867028
+  type: 'test'
+  ...
+# Subtest: reviewed local source byte identity: core.js
+ok 130 - reviewed local source byte identity: core.js
+  ---
+  duration_ms: 16.181863
+  type: 'test'
+  ...
+# Subtest: reviewed local source byte identity: art.js
+ok 131 - reviewed local source byte identity: art.js
+  ---
+  duration_ms: 0.3982
+  type: 'test'
+  ...
+# Subtest: reviewed local source byte identity: app.js
+ok 132 - reviewed local source byte identity: app.js
+  ---
+  duration_ms: 0.409151
+  type: 'test'
+  ...
+# Subtest: reviewed local source byte identity: index.html
+ok 133 - reviewed local source byte identity: index.html
+  ---
+  duration_ms: 0.352801
+  type: 'test'
+  ...
+# Subtest: reviewed local source byte identity: style.css
+ok 134 - reviewed local source byte identity: style.css
+  ---
+  duration_ms: 2.673037
+  type: 'test'
+  ...
+# Subtest: clean and slash URLs load same absolute local assets
+ok 135 - clean and slash URLs load same absolute local assets
+  ---
+  duration_ms: 1.75616
+  type: 'test'
+  ...
+# Subtest: no network, account, leaderboard or analytics writes in expedition
+ok 136 - no network, account, leaderboard or analytics writes in expedition
+  ---
+  duration_ms: 0.518025
+  type: 'test'
+  ...
+# Subtest: new homepage invitation preserves four ranked game cards
+ok 137 - new homepage invitation preserves four ranked game cards
+  ---
+  duration_ms: 0.553925
+  type: 'test'
+  ...
+# Subtest: approved release is Astra v3 with move-only controls
+ok 138 - approved release is Astra v3 with move-only controls
+  ---
+  duration_ms: 4.664529
+  type: 'test'
+  ...
+# Subtest: movement remains responsive and dash state can never be activated through production step inputs
+ok 139 - movement remains responsive and dash state can never be activated through production step inputs
+  ---
+  duration_ms: 9.307485
+  type: 'test'
+  ...
+# Subtest: P2 difficulty and safe-lane rules are retained after control simplification
+ok 140 - P2 difficulty and safe-lane rules are retained after control simplification
+  ---
+  duration_ms: 0.548484
+  type: 'test'
+  ...
+# Subtest: build is byte-idempotent
+ok 141 - build is byte-idempotent
+  ---
+  duration_ms: 16.414679
+  type: 'test'
+  ...
+# Subtest: all challenger configs are distinct and bounded
+ok 142 - all challenger configs are distinct and bounded
+  ---
+  duration_ms: 3.130514
+  type: 'test'
+  ...
+# Subtest: same seed creates identical initial states
+ok 143 - same seed creates identical initial states
+  ---
+  duration_ms: 2.374311
+  type: 'test'
+  ...
+# Subtest: different seeds change generated challenges
+ok 144 - different seeds change generated challenges
+  ---
+  duration_ms: 0.513266
+  type: 'test'
+  ...
+# Subtest: gyro controlled bot can chain falls and replay exactly
+ok 145 - gyro controlled bot can chain falls and replay exactly
+  ---
+  duration_ms: 12.317843
+  type: 'test'
+  ...
+# Subtest: core pins scores only clean throws and replay matches
+ok 146 - core pins scores only clean throws and replay matches
+  ---
+  duration_ms: 10.038197
+  type: 'test'
+  ...
+# Subtest: nova merge chains and replay matches
+ok 147 - nova merge chains and replay matches
+  ---
+  duration_ms: 4.769875
+  type: 'test'
+  ...
+# Subtest: gyro smash is consumed after one assisted fall
+ok 148 - gyro smash is consumed after one assisted fall
+  ---
+  duration_ms: 0.319957
+  type: 'test'
+  ...
+# Subtest: gyro rejects impossible turn inputs
+ok 149 - gyro rejects impossible turn inputs
+  ---
+  duration_ms: 0.426566
+  type: 'test'
+  ...
+# Subtest: pins rejects duplicate ticks and unknown actions
+ok 150 - pins rejects duplicate ticks and unknown actions
+  ---
+  duration_ms: 0.561631
+  type: 'test'
+  ...
+# Subtest: merge rejects invalid columns and out-of-order inputs
+ok 151 - merge rejects invalid columns and out-of-order inputs
+  ---
+  duration_ms: 3.627757
+  type: 'test'
+  ...
+# Subtest: unfinished runs never verify
+ok 152 - unfinished runs never verify
+  ---
+  duration_ms: 0.522443
+  type: 'test'
+  ...
+# Subtest: actions at or beyond terminal tick never verify
+ok 153 - actions at or beyond terminal tick never verify
+  ---
+  duration_ms: 12.011683
+  type: 'test'
+  ...
+# Subtest: score returned by verifier is always server-computed and bounded
+ok 154 - score returned by verifier is always server-computed and bounded
+  ---
+  duration_ms: 23.593894
+  type: 'test'
+  ...
+# Subtest: 48 deterministic rings, 12 sectors, three guardian gates
+ok 155 - 48 deterministic rings, 12 sectors, three guardian gates
+  ---
+  duration_ms: 5.314442
+  type: 'test'
+  ...
+# Subtest: invalid seeds and durations never replay
+ok 156 - invalid seeds and durations never replay
+  ---
+  duration_ms: 0.712024
+  type: 'test'
+  ...
+# Subtest: front contact is 900 and exactly matches gap boundaries
+ok 157 - front contact is 900 and exactly matches gap boundaries
+  ---
+  duration_ms: 0.600497
+  type: 'test'
+  ...
+# Subtest: red plate damage only happens on contact, not early
+ok 158 - red plate damage only happens on contact, not early
+  ---
+  duration_ms: 0.702948
+  type: 'test'
+  ...
+# Subtest: a centered clean fall charges burst and awards a perfect
+ok 159 - a centered clean fall charges burst and awards a perfect
+  ---
+  duration_ms: 0.636337
+  type: 'test'
+  ...
+# Subtest: uncharged burst cannot skip a ring
+ok 160 - uncharged burst cannot skip a ring
+  ---
+  duration_ms: 0.427297
+  type: 'test'
+  ...
+# Subtest: charged burst clears exactly three rings and never recharges itself
+ok 161 - charged burst clears exactly three rings and never recharges itself
+  ---
+  duration_ms: 0.62771
+  type: 'test'
+  ...
+# Subtest: brittle stone needs two safe contacts and does not count as perfect
+ok 162 - brittle stone needs two safe contacts and does not count as perfect
+  ---
+  duration_ms: 0.390636
+  type: 'test'
+  ...
+# Subtest: shutter opens and closes on canonical motion time
+ok 163 - shutter opens and closes on canonical motion time
+  ---
+  duration_ms: 0.642319
+  type: 'test'
+  ...
+# Subtest: focus slows obstacles but not ticks or countdown
+ok 164 - focus slows obstacles but not ticks or countdown
+  ---
+  duration_ms: 0.685293
+  type: 'test'
+  ...
+# Subtest: idle attempts earn no survival points
+ok 165 - idle attempts earn no survival points
+  ---
+  duration_ms: 7.745926
+  type: 'test'
+  ...
+# Subtest: all three regions are completable and deterministic across many seeds
+ok 166 - all three regions are completable and deterministic across many seeds
+  ---
+  duration_ms: 68.831301
+  type: 'test'
+  ...
+# Subtest: duplicate, malformed and surplus inputs are rejected
+ok 167 - duplicate, malformed and surplus inputs are rejected
+  ---
+  duration_ms: 3.434259
+  type: 'test'
+  ...
+# Subtest: terminal states cannot be extended or change their score
+ok 168 - terminal states cannot be extended or change their score
+  ---
+  duration_ms: 6.084691
+  type: 'test'
+  ...
+# Subtest: guardians have different seal counts and shift the opening after a hit
+ok 169 - guardians have different seal counts and shift the opening after a hit
+  ---
+  duration_ms: 2.444239
+  type: 'test'
+  ...
+# Subtest: one burst cannot skip a multi-seal guardian
+ok 170 - one burst cannot skip a multi-seal guardian
+  ---
+  duration_ms: 0.245552
+  type: 'test'
+  ...
+# Subtest: full playthrough breaks all six seals without inventing survival points
+ok 171 - full playthrough breaks all six seals without inventing survival points
+  ---
+  duration_ms: 2.607358
+  type: 'test'
+  ...
+# Subtest: ordinary burst is bounded even across pickup floors
+ok 172 - ordinary burst is bounded even across pickup floors
+  ---
+  duration_ms: 0.252244
+  type: 'test'
+  ...
+# Subtest: kit import does not load Phaser/audio context or mutate global game state
+ok 173 - kit import does not load Phaser/audio context or mutate global game state
+  ---
+  duration_ms: 3.112908
+  type: 'test'
+  ...
+# Subtest: scene is required, but generic scene does not need Descent
+ok 174 - scene is required, but generic scene does not need Descent
+  ---
+  duration_ms: 0.936324
+  type: 'test'
+  ...
+# Subtest: particle hard cap is shared across bursts and cleanup destroys owned sprites
+ok 175 - particle hard cap is shared across bursts and cleanup destroys owned sprites
+  ---
+  duration_ms: 0.819375
+  type: 'test'
+  ...
+# Subtest: fragment TTL frees budget, with exact legacy frame integration
+ok 176 - fragment TTL frees budget, with exact legacy frame integration
+  ---
+  duration_ms: 0.766992
+  type: 'test'
+  ...
+# Subtest: different art profiles change particle style without scoring code
+ok 177 - different art profiles change particle style without scoring code
+  ---
+  duration_ms: 0.549376
+  type: 'test'
+  ...
+# Subtest: invalid positions and giant counts cannot allocate unlimited effects
+ok 178 - invalid positions and giant counts cannot allocate unlimited effects
+  ---
+  duration_ms: 2.103631
+  type: 'test'
+  ...
+# Subtest: float text has independent cap, expiration and no markup execution
+ok 179 - float text has independent cap, expiration and no markup execution
+  ---
+  duration_ms: 0.486173
+  type: 'test'
+  ...
+# Subtest: notice replacement cancels only kit-owned tween
+ok 180 - notice replacement cancels only kit-owned tween
+  ---
+  duration_ms: 0.534627
+  type: 'test'
+  ...
+# Subtest: pulse reset restores borrowed object without destroying it
+ok 181 - pulse reset restores borrowed object without destroying it
+  ---
+  duration_ms: 0.697055
+  type: 'test'
+  ...
+# Subtest: reduced motion lowers particle count and removes shake/pulse
+ok 182 - reduced motion lowers particle count and removes shake/pulse
+  ---
+  duration_ms: 0.649733
+  type: 'test'
+  ...
+# Subtest: switching reduced-motion on settles an in-progress pulse
+ok 183 - switching reduced-motion on settles an in-progress pulse
+  ---
+  duration_ms: 0.33675
+  type: 'test'
+  ...
+# Subtest: shake is capped and does not replace an unrelated active effect
+ok 184 - shake is capped and does not replace an unrelated active effect
+  ---
+  duration_ms: 0.96446
+  type: 'test'
+  ...
+# Subtest: shutdown removes owned sprites/tweens/listeners; remount is isolated
+ok 185 - shutdown removes owned sprites/tweens/listeners; remount is isolated
+  ---
+  duration_ms: 0.652729
+  type: 'test'
+  ...
+# Subtest: 100 resets do not accumulate effect objects or tween listeners
+ok 186 - 100 resets do not accumulate effect objects or tween listeners
+  ---
+  duration_ms: 10.692208
+  type: 'test'
+  ...
+# Subtest: audio context is lazy and off produces no oscillator
+ok 187 - audio context is lazy and off produces no oscillator
+  ---
+  duration_ms: 0.987424
+  type: 'test'
+  ...
+# Subtest: audio voice cap includes future scheduled voices
+ok 188 - audio voice cap includes future scheduled voices
+  ---
+  duration_ms: 0.62276
+  type: 'test'
+  ...
+# Subtest: note parameter envelope preserves the original timbre recipe
+ok 189 - note parameter envelope preserves the original timbre recipe
+  ---
+  duration_ms: 0.324015
+  type: 'test'
+  ...
+# Subtest: silencing stops/disconnects all scheduled voices before suspend
+ok 190 - silencing stops/disconnects all scheduled voices before suspend
+  ---
+  duration_ms: 0.386888
+  type: 'test'
+  ...
+# Subtest: clear cancels old cue at replay without turning off sound preference
+ok 191 - clear cancels old cue at replay without turning off sound preference
+  ---
+  duration_ms: 0.40811
+  type: 'test'
+  ...
+# Subtest: invalid note is ignored: [null]
+ok 192 - invalid note is ignored: [null]
+  ---
+  duration_ms: 0.249699
+  type: 'test'
+  ...
+# Subtest: invalid note is ignored: [0]
+ok 193 - invalid note is ignored: [0]
+  ---
+  duration_ms: 0.148341
+  type: 'test'
+  ...
+# Subtest: invalid note is ignored: [440,0]
+ok 194 - invalid note is ignored: [440,0]
+  ---
+  duration_ms: 3.157516
+  type: 'test'
+  ...
+# Subtest: invalid note is ignored: [440,0.2,"custom"]
+ok 195 - invalid note is ignored: [440,0.2,"custom"]
+  ---
+  duration_ms: 0.292854
+  type: 'test'
+  ...
+# Subtest: invalid note is ignored: [440,0.2,"sine",0]
+ok 196 - invalid note is ignored: [440,0.2,"sine",0]
+  ---
+  duration_ms: 0.167468
+  type: 'test'
+  ...
+# Subtest: invalid note is ignored: [440,0.2,"sine",0.2,-1]
+ok 197 - invalid note is ignored: [440,0.2,"sine",0.2,-1]
+  ---
+  duration_ms: 0.184362
+  type: 'test'
+  ...
+# Subtest: invalid note is ignored: [440,0.2,"sine",0.2,0,-1]
+ok 198 - invalid note is ignored: [440,0.2,"sine",0.2,0,-1]
+  ---
+  duration_ms: 0.129954
+  type: 'test'
+  ...
+# Subtest: unsupported audio is silent without throwing
+ok 199 - unsupported audio is silent without throwing
+  ---
+  duration_ms: 0.309266
+  type: 'test'
+  ...
+# Subtest: rejected browser resume does not leak unhandled errors or voices
+ok 200 - rejected browser resume does not leak unhandled errors or voices
+  ---
+  duration_ms: 0.358031
+  type: 'test'
+  ...
+# Subtest: rapid on then off cannot unmute via late resume
+ok 201 - rapid on then off cannot unmute via late resume
+  ---
+  duration_ms: 0.311831
+  type: 'test'
+  ...
+# Subtest: rapid off then on ends running even when suspend resolves late
+ok 202 - rapid off then on ends running even when suspend resolves late
+  ---
+  duration_ms: 0.221474
+  type: 'test'
+  ...
+# Subtest: destroy during pending resume never reopens audio
+ok 203 - destroy during pending resume never reopens audio
+  ---
+  duration_ms: 0.223047
+  type: 'test'
+  ...
+# Subtest: audio destroy is idempotent and closes the owned context once
+ok 204 - audio destroy is idempotent and closes the owned context once
+  ---
+  duration_ms: 1.480363
+  type: 'test'
+  ...
+# Subtest: sequence is bounded by voice budget
+ok 205 - sequence is bounded by voice budget
+  ---
+  duration_ms: 0.370025
+  type: 'test'
+  ...
+# Subtest: presentational modules have no network, storage or canonical-rules references
+ok 206 - presentational modules have no network, storage or canonical-rules references
+  ---
+  duration_ms: 0.451585
+  type: 'test'
+  ...
+# Subtest: seeded courses are reproducible
+ok 207 - seeded courses are reproducible
+  ---
+  duration_ms: 3.183326
+  type: 'test'
+  ...
+# Subtest: different seeds produce different courses
+ok 208 - different seeds produce different courses
+  ---
+  duration_ms: 0.371585
+  type: 'test'
+  ...
+# Subtest: a completed no-input run can be replayed exactly
+ok 209 - a completed no-input run can be replayed exactly
+  ---
+  duration_ms: 2.454873
+  type: 'test'
+  ...
+# Subtest: rejects unfinished and invalid run durations
+ok 210 - rejects unfinished and invalid run durations
+  ---
+  duration_ms: 0.492722
+  type: 'test'
+  ...
+# Subtest: rejects duplicated, out of order, excessive and unknown inputs
+ok 211 - rejects duplicated, out of order, excessive and unknown inputs
+  ---
+  duration_ms: 0.442198
+  type: 'test'
+  ...
+# Subtest: jump clears a low barrier, but not a pillar
+ok 212 - jump clears a low barrier, but not a pillar
+  ---
+  duration_ms: 0.344124
+  type: 'test'
+  ...
+# Subtest: dash consumes energy and permits obstacle crossing
+ok 213 - dash consumes energy and permits obstacle crossing
+  ---
+  duration_ms: 0.450022
+  type: 'test'
+  ...
+# Subtest: uncharged dash cannot bypass obstacles
+ok 214 - uncharged dash cannot bypass obstacles
+  ---
+  duration_ms: 0.239458
+  type: 'test'
+  ...
+# Subtest: server simulation matches recorded automated controls
+ok 215 - server simulation matches recorded automated controls
+  ---
+  duration_ms: 8.697872
+  type: 'test'
+  ...
+# Subtest: input cannot move outside the three lanes
+ok 216 - input cannot move outside the three lanes
+  ---
+  duration_ms: 0.721049
+  type: 'test'
+  ...
+# Subtest: terminal states cannot gain points by replaying more ticks
+ok 217 - terminal states cannot gain points by replaying more ticks
+  ---
+  duration_ms: 0.538197
+  type: 'test'
+  ...
+# Subtest: only Core Pins loads its shared-kit bundle; all five imports are unchanged modules
+ok 218 - only Core Pins loads its shared-kit bundle; all five imports are unchanged modules
+  ---
+  duration_ms: 5.021695
+  type: 'test'
+  ...
+# Subtest: legacy dispatch retained for gyro-drop
+ok 219 - legacy dispatch retained for gyro-drop
+  ---
+  duration_ms: 2.323847
+  type: 'test'
+  ...
+# Subtest: legacy dispatch retained for nova-merge
+ok 220 - legacy dispatch retained for nova-merge
+  ---
+  duration_ms: 1.038663
+  type: 'test'
+  ...
+# Subtest: legacy dispatch retained for 
+ok 221 - legacy dispatch retained for 
+  ---
+  duration_ms: 1.09555
+  type: 'test'
+  ...
+# Subtest: legacy dispatch retained for CORE-PINS
+ok 222 - legacy dispatch retained for CORE-PINS
+  ---
+  duration_ms: 0.916956
+  type: 'test'
+  ...
+# Subtest: legacy dispatch retained for unknown
+ok 223 - legacy dispatch retained for unknown
+  ---
+  duration_ms: 1.145012
+  type: 'test'
+  ...
+# Subtest: social UTM query parameters retain the Core Pins path
+ok 224 - social UTM query parameters retain the Core Pins path
+  ---
+  duration_ms: 1.049263
+  type: 'test'
+  ...
+# Subtest: load failure stops before app boot, exposes reload, not double controllers
+ok 225 - load failure stops before app boot, exposes reload, not double controllers
+  ---
+  duration_ms: 1.327954
+  type: 'test'
+  ...
+# Subtest: game adapter contains no direct transport, credential or voice-node implementation
+ok 226 - game adapter contains no direct transport, credential or voice-node implementation
+  ---
+  duration_ms: 0.869076
+  type: 'test'
+  ...
+# Subtest: scene geometry is exactly the old Core Pins drawing, with only state passed in
+ok 227 - scene geometry is exactly the old Core Pins drawing, with only state passed in
+  ---
+  duration_ms: 0.731388
+  type: 'test'
+  ...
+# Subtest: Core Pins keeps the existing rules version, tick cap and stored-best key
+ok 228 - Core Pins keeps the existing rules version, tick cap and stored-best key
+  ---
+  duration_ms: 0.349394
+  type: 'test'
+  ...
+# Subtest: multiple-seed input runs replay to the exact canonical score
+ok 229 - multiple-seed input runs replay to the exact canonical score
+  ---
+  duration_ms: 5.603433
+  type: 'test'
+  ...
+# Subtest: Core Pins imported factory cannot become a new score authority
+ok 230 - Core Pins imported factory cannot become a new score authority
+  ---
+  duration_ms: 0.451134
+  type: 'test'
+  ...
+# Subtest: bundle contains each source verbatim in order and is valid JavaScript
+ok 231 - bundle contains each source verbatim in order and is valid JavaScript
+  ---
+  duration_ms: 4.267915
+  type: 'test'
+  ...
+# Subtest: canonical dataset matches a real document and selects the correct controller
+ok 232 - canonical dataset matches a real document and selects the correct controller
+  ---
+  duration_ms: 1.906988
+  type: 'test'
+  ...
+# Subtest: boot returns public profile only; no credential or clientID is exposed
+ok 233 - boot returns public profile only; no credential or clientID is exposed
+  ---
+  duration_ms: 3.256743
+  type: 'test'
+  ...
+# Subtest: guest practice works before or without any backend request
+ok 234 - guest practice works before or without any backend request
+  ---
+  duration_ms: 0.537786
+  type: 'test'
+  ...
+# Subtest: capture cannot start ranked or submit even through Runtime API
+ok 235 - capture cannot start ranked or submit even through Runtime API
+  ---
+  duration_ms: 1.057609
+  type: 'test'
+  ...
+# Subtest: ranked requires config eligibility and a public authenticated profile
+ok 236 - ranked requires config eligibility and a public authenticated profile
+  ---
+  duration_ms: 0.43341
+  type: 'test'
+  ...
+# Subtest: unavailable config never blocks practice and can be retried
+ok 237 - unavailable config never blocks practice and can be retried
+  ---
+  duration_ms: 0.632754
+  type: 'test'
+  ...
+# Subtest: profile request expiry is tolerated at boot while keeping practice available
+ok 238 - profile request expiry is tolerated at boot while keeping practice available
+  ---
+  duration_ms: 0.447277
+  type: 'test'
+  ...
+# Subtest: duplicate starts coalesce into one request and preserve explicit version
+ok 239 - duplicate starts coalesce into one request and preserve explicit version
+  ---
+  duration_ms: 23.336169
+  type: 'test'
+  ...
+# Subtest: failed starts never silently fall back to a ranked attempt
+ok 240 - failed starts never silently fall back to a ranked attempt
+  ---
+  duration_ms: 0.681364
+  type: 'test'
+  ...
+# Subtest: invalid ranked version fails before play
+ok 241 - invalid ranked version fails before play
+  ---
+  duration_ms: 0.752628
+  type: 'test'
+  ...
+# Subtest: invalid ranked game fails before play
+ok 242 - invalid ranked game fails before play
+  ---
+  duration_ms: 0.768929
+  type: 'test'
+  ...
+# Subtest: invalid ranked id fails before play
+ok 243 - invalid ranked id fails before play
+  ---
+  duration_ms: 0.551031
+  type: 'test'
+  ...
+# Subtest: invalid ranked seed fails before play
+ok 244 - invalid ranked seed fails before play
+  ---
+  duration_ms: 0.243014
+  type: 'test'
+  ...
+# Subtest: late start cannot restore ranked mode after downgrade or practice
+ok 245 - late start cannot restore ranked mode after downgrade or practice
+  ---
+  duration_ms: 0.344575
+  type: 'test'
+  ...
+# Subtest: identity changes during start reject that attempt
+ok 246 - identity changes during start reject that attempt
+  ---
+  duration_ms: 0.485087
+  type: 'test'
+  ...
+# Subtest: submit sends ONLY immutable runId/actions/ticks, never claimed score/country
+ok 247 - submit sends ONLY immutable runId/actions/ticks, never claimed score/country
+  ---
+  duration_ms: 0.978902
+  type: 'test'
+  ...
+# Subtest: concurrent submit and retry produce only one in-flight finish request
+ok 248 - concurrent submit and retry produce only one in-flight finish request
+  ---
+  duration_ms: 9.280041
+  type: 'test'
+  ...
+# Subtest: transient failure retries the exact same input snapshot and run ID
+ok 249 - transient failure retries the exact same input snapshot and run ID
+  ---
+  duration_ms: 0.611844
+  type: 'test'
+  ...
+# Subtest: invalid_or_expired_login never offers a futile save retry
+ok 250 - invalid_or_expired_login never offers a futile save retry
+  ---
+  duration_ms: 0.362658
+  type: 'test'
+  ...
+# Subtest: invalid_game_replay never offers a futile save retry
+ok 251 - invalid_game_replay never offers a futile save retry
+  ---
+  duration_ms: 0.29882
+  type: 'test'
+  ...
+# Subtest: excessive_elapsed_time never offers a futile save retry
+ok 252 - excessive_elapsed_time never offers a futile save retry
+  ---
+  duration_ms: 0.290594
+  type: 'test'
+  ...
+# Subtest: run_expired never offers a futile save retry
+ok 253 - run_expired never offers a futile save retry
+  ---
+  duration_ms: 0.234629
+  type: 'test'
+  ...
+# Subtest: version_mismatch never offers a futile save retry
+ok 254 - version_mismatch never offers a futile save retry
+  ---
+  duration_ms: 0.406911
+  type: 'test'
+  ...
+# Subtest: AbortError is an unconfirmed retriable result, not verified
+ok 255 - AbortError is an unconfirmed retriable result, not verified
+  ---
+  duration_ms: 3.081234
+  type: 'test'
+  ...
+# Subtest: TimeoutError is an unconfirmed retriable result, not verified
+ok 256 - TimeoutError is an unconfirmed retriable result, not verified
+  ---
+  duration_ms: 0.260237
+  type: 'test'
+  ...
+# Subtest: TypeError is an unconfirmed retriable result, not verified
+ok 257 - TypeError is an unconfirmed retriable result, not verified
+  ---
+  duration_ms: 0.221124
+  type: 'test'
+  ...
+# Subtest: invalid success payload {"saved":false,"score":123} is not verified
+ok 258 - invalid success payload {"saved":false,"score":123} is not verified
+  ---
+  duration_ms: 0.314409
+  type: 'test'
+  ...
+# Subtest: invalid success payload {"saved":true,"score":null} is not verified
+ok 259 - invalid success payload {"saved":true,"score":null} is not verified
+  ---
+  duration_ms: 0.149881
+  type: 'test'
+  ...
+# Subtest: invalid success payload {"saved":true,"score":"123"} is not verified
+ok 260 - invalid success payload {"saved":true,"score":"123"} is not verified
+  ---
+  duration_ms: 0.145452
+  type: 'test'
+  ...
+# Subtest: invalid success payload {"saved":true,"score":-1} is not verified
+ok 261 - invalid success payload {"saved":true,"score":-1} is not verified
+  ---
+  duration_ms: 2.553888
+  type: 'test'
+  ...
+# Subtest: invalid success payload {"saved":true,"score":50001} is not verified
+ok 262 - invalid success payload {"saved":true,"score":50001} is not verified
+  ---
+  duration_ms: 0.173615
+  type: 'test'
+  ...
+# Subtest: late successful finish is ignored after a new practice attempt
+ok 263 - late successful finish is ignored after a new practice attempt
+  ---
+  duration_ms: 20.309747
+  type: 'test'
+  ...
+# Subtest: late failed finish cannot overwrite the next ranked save or its busy state
+ok 264 - late failed finish cannot overwrite the next ranked save or its busy state
+  ---
+  duration_ms: 1.492883
+  type: 'test'
+  ...
+# Subtest: paused/downgraded runs never submit and cannot restore rank without a new start
+ok 265 - paused/downgraded runs never submit and cannot restore rank without a new start
+  ---
+  duration_ms: 0.331891
+  type: 'test'
+  ...
+# Subtest: runtime logout invalidates pending operations and delegates credential removal
+ok 266 - runtime logout invalidates pending operations and delegates credential removal
+  ---
+  duration_ms: 0.285013
+  type: 'test'
+  ...
+# Subtest: profile changed after play cannot submit with another player
+ok 267 - profile changed after play cannot submit with another player
+  ---
+  duration_ms: 0.361186
+  type: 'test'
+  ...
+# Subtest: malformed traces reject before network IO
+ok 268 - malformed traces reject before network IO
+  ---
+  duration_ms: 0.728543
+  type: 'test'
+  ...
+# Subtest: world/country reads preserve game/version and never change verified save state
+ok 269 - world/country reads preserve game/version and never change verified save state
+  ---
+  duration_ms: 0.511207
+  type: 'test'
+  ...
+# Subtest: board refuses different rules or malformed rows and invalid filters
+ok 270 - board refuses different rules or malformed rows and invalid filters
+  ---
+  duration_ms: 0.422831
+  type: 'test'
+  ...
+# Subtest: late boot config may change next seed but never rewrites an active ranked run
+ok 271 - late boot config may change next seed but never rewrites an active ranked run
+  ---
+  duration_ms: 0.288389
+  type: 'test'
+  ...
+# Subtest: community adapter delegates auth and writes without reading/storing credentials
+ok 272 - community adapter delegates auth and writes without reading/storing credentials
+  ---
+  duration_ms: 1.266439
+  type: 'test'
+  ...
+# Subtest: existing real Community client preserves tab session and clears it on 401 through adapter
+ok 273 - existing real Community client preserves tab session and clears it on 401 through adapter
+  ---
+  duration_ms: 26.251683
+  type: 'test'
+  ...
+# Subtest: index.html unique descriptive metadata and clean canonical
+ok 274 - index.html unique descriptive metadata and clean canonical
+  ---
+  duration_ms: 6.562888
+  type: 'test'
+  ...
+# Subtest: index.html idempotent
+ok 275 - index.html idempotent
+  ---
+  duration_ms: 2.826127
+  type: 'test'
+  ...
+# Subtest: index.html controls, scripts and route hrefs unchanged
+ok 276 - index.html controls, scripts and route hrefs unchanged
+  ---
+  duration_ms: 1.514022
+  type: 'test'
+  ...
+# Subtest: descent/index.html unique descriptive metadata and clean canonical
+ok 277 - descent/index.html unique descriptive metadata and clean canonical
+  ---
+  duration_ms: 0.390491
+  type: 'test'
+  ...
+# Subtest: descent/index.html idempotent
+ok 278 - descent/index.html idempotent
+  ---
+  duration_ms: 0.771774
+  type: 'test'
+  ...
+# Subtest: descent/index.html controls, scripts and route hrefs unchanged
+ok 279 - descent/index.html controls, scripts and route hrefs unchanged
+  ---
+  duration_ms: 0.343383
+  type: 'test'
+  ...
+# Subtest: home visible game name matches the Reel without changing game ID
+ok 280 - home visible game name matches the Reel without changing game ID
+  ---
+  duration_ms: 0.648203
+  type: 'test'
+  ...
+# Subtest: sitemap includes Astra, all 4 ranked games and preserves all 3 legacy games
+ok 281 - sitemap includes Astra, all 4 ranked games and preserves all 3 legacy games
+  ---
+  duration_ms: 0.209342
+  type: 'test'
+  ...
+# Subtest: sitemap has no tracking, private/account pages or invented lastmod
+ok 282 - sitemap has no tracking, private/account pages or invented lastmod
+  ---
+  duration_ms: 0.87673
+  type: 'test'
+  ...
+# Subtest: unknown or malformed HTML fails closed
+ok 283 - unknown or malformed HTML fails closed
+  ---
+  duration_ms: 1.871682
+  type: 'test'
+  ...
+1..283
+# tests 283
+# suites 0
+# pass 283
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2424.745072

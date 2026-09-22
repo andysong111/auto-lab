@@ -1,0 +1,19 @@
+{
+  "schema": "playjolt-worker/1",
+  "status": "REJECTED",
+  "code": null,
+  "game_id": "GAME-20260922-121",
+  "version": "v6",
+  "factory_state": "REJECTED",
+  "recorded_at": "2026-09-22T12:25:21.885Z",
+  "owner_action": false,
+  "auto_production_ship": false,
+  "budget": {
+    "calls": 6,
+    "input": 22973,
+    "output": 33258,
+    "cost": 0.690536
+  },
+  "cost_basis": "estimated",
+  "provider": "openai-responses/gpt-5.6-terra"
+}

@@ -1,0 +1,39 @@
+{
+  "version": "control-plane-1",
+  "mode": "second-real-game-one-candidate",
+  "intake_enabled": true,
+  "auto_rc_enabled": false,
+  "auto_production_ship": false,
+  "max_active_jobs": 1,
+  "max_daily_new_jobs": 1,
+  "exploration_ratio": 0.3,
+  "kill_switches": {
+    "factory": false,
+    "release_candidates": true,
+    "production_shipping": true,
+    "marketing_promotion": true
+  },
+  "owner_alerts": {
+    "critical_codes": [
+      "production_side_effect",
+      "source_tampered",
+      "path_isolation"
+    ],
+    "stale_preview_minutes": 90,
+    "stale_repair_minutes": 180
+  },
+  "phase2_metrics": {
+    "enabled": false,
+    "minimum_observed_sessions": 100,
+    "minimum_started_sessions": 30,
+    "minimum_age_hours": 72,
+    "required": [
+      "observed_sessions",
+      "starting_sessions",
+      "replaying_sessions",
+      "game_finish_sessions",
+      "error_rate"
+    ]
+  },
+  "notes": "Supervisory policy only. Phase 1 Factory productionShip remains hard-disabled independently. A READY_TO_SHIP candidate is not a production approval."
+}

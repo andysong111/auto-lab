@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260922-121",
+  "generation": 1,
+  "version": "v6",
+  "title": "Cloud Cargo",
+  "slug": "cloud-cargo",
+  "genre": "constraint allocation arcade puzzle",
+  "mechanic_family": "dual-resource-cargo-assignment",
+  "controls": [
+    "Left / Right chooses a crate or bay",
+    "Space selects crate or assigns it to a bay"
+  ],
+  "mobile_controls": [
+    "Tap a crate",
+    "Tap an airship bay to assign it"
+  ],
+  "reference_quality_games": [
+    "astra-sentinel-v3",
+    "deep-descent"
+  ],
+  "created_at": "2026-09-22T12:17:40.189Z",
+  "state": "REJECTED",
+  "repair_attempt": 5,
+  "max_repair_attempts": 5,
+  "source_path": "autonomy/games/GAME-20260922-121/v6",
+  "preview_url": null,
+  "qa_status": "PENDING",
+  "quality_status": "REJECT",
+  "release_status": "REJECTED",
+  "failure_reasons": [
+    {
+      "code": "build_failed",
+      "message": "core_dom_dependency"
+    }
+  ],
+  "metrics_eligibility": false,
+  "qa": {
+    "seed": 23,
+    "keyboard": {
+      "key": "ArrowRight",
+      "observation": "state.focus"
+    },
+    "pointer": {
+      "observation": "state.selectedCard"
+    },
+    "terminal_ms": 52000
+  },
+  "revision": 19,
+  "history": [
+    {
+      "from": "IDEA",
+      "to": "SPEC_READY",
+      "at": "2026-09-22T12:17:40.194Z"
+    },
+    {
+      "from": "SPEC_READY",
+      "to": "BUILDING",
+      "at": "2026-09-22T12:18:10.387Z"
+    },
+    {
+      "from": "BUILDING",
+      "to": "BUILD_FAILED",
+      "at": "2026-09-22T12:19:30.612Z"
+    },
+    {
+      "from": "BUILD_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T12:19:30.614Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T12:19:30.615Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "BUILD_FAILED",
+      "at": "2026-09-22T12:20:39.809Z"
+    },
+    {
+      "from": "BUILD_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T12:20:39.811Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T12:20:39.812Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "BUILD_FAILED",
+      "at": "2026-09-22T12:21:57.314Z"
+    },
+    {
+      "from": "BUILD_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T12:21:57.315Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T12:21:57.317Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "BUILD_FAILED",
+      "at": "2026-09-22T12:23:06.971Z"
+    },
+    {
+      "from": "BUILD_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T12:23:06.972Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T12:23:06.974Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "BUILD_FAILED",
+      "at": "2026-09-22T12:24:12.470Z"
+    },
+    {
+      "from": "BUILD_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T12:24:12.471Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T12:24:12.473Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "BUILD_FAILED",
+      "at": "2026-09-22T12:25:21.883Z"
+    },
+    {
+      "from": "BUILD_FAILED",
+      "to": "REJECTED",
+      "at": "2026-09-22T12:25:21.884Z"
+    }
+  ]
+}

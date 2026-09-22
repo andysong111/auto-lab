@@ -1,0 +1,49 @@
+{
+  "schema": "playjolt-release-review/1",
+  "passed": false,
+  "errors": [
+    "state_not_ready_to_ship",
+    "qa_not_pass",
+    "quality_not_pass",
+    "release_not_ready",
+    "preview_missing",
+    "source_hash_missing",
+    "rc_commit_missing",
+    "branch_missing",
+    "pr_missing"
+  ],
+  "candidate": {
+    "game_id": "GAME-20260922-121",
+    "version": "v6",
+    "title": "Cloud Cargo",
+    "slug": "cloud-cargo",
+    "preview_url": null,
+    "pr_url": null
+  },
+  "evidence": {
+    "qa_status": "PENDING",
+    "quality_status": "REJECT",
+    "release_status": "REJECTED",
+    "repair_attempt": 5,
+    "failure_reasons": [
+      {
+        "code": "build_failed",
+        "message": "core_dom_dependency"
+      }
+    ]
+  },
+  "owner_review": {
+    "decision": "PENDING",
+    "reviewed_by": null,
+    "recorded_at": null
+  },
+  "production": {
+    "authorized": false,
+    "reason": "Production adapter remains disabled until a separate reviewed release action consumes an APPROVE decision."
+  },
+  "rollback": {
+    "base_ref": "b4db1b3f9858eaa7f62403ab16da8085e97267a9",
+    "restore_commit": "b4db1b3f9858eaa7f62403ab16da8085e97267a9",
+    "required": true
+  }
+}

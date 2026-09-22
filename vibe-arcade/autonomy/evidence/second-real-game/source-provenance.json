@@ -1,0 +1,269 @@
+{
+  "schema": "playjolt-rejected-output-provenance/1",
+  "game_id": "GAME-20260922-121",
+  "version": "v6",
+  "state": "REJECTED",
+  "provenance_verified": true,
+  "accepted_candidate": false,
+  "factory_source_hash": null,
+  "accepted_source_directory_exists": false,
+  "candidate_manual_edits": 0,
+  "candidate_executions": 0,
+  "provider_generation_calls": 6,
+  "additional_audit_generation_calls": 0,
+  "responses": [
+    {
+      "operation_id": "GAME-20260922-121/build/v1",
+      "version": "v1",
+      "response_id": "resp_0a9c19505ee4cc55006ab272033b2087d0ab055ca55c8e0100",
+      "output_sha256": "04a1ee6acb34e28df84af8ddd70ae4013337ac00a24e7dacc194b0497facad69",
+      "files": [
+        {
+          "path": "core.js",
+          "sha256": "1368648a4178cb1245b191c65cf7072e19df908f59e0be9e590790d3cff2583c",
+          "bytes": 7500
+        },
+        {
+          "path": "app.js",
+          "sha256": "80de67a9377efabc6e551173a1f3110f97cc5ecffee6c1484c97de236dfa6ea1",
+          "bytes": 2208
+        },
+        {
+          "path": "view/art.js",
+          "sha256": "7553ea97e89b8885c2defea0cebae9157dce70d6de49475e7e88caed2452d196",
+          "bytes": 3656
+        },
+        {
+          "path": "index.html",
+          "sha256": "63c97f74852fac0454f8c709c3052a3a8b48ec19a52559456afc026b45315d92",
+          "bytes": 1614
+        },
+        {
+          "path": "style.css",
+          "sha256": "9aa7c300c5587dd9572a6690fd9b4e32ca87e35e484b511df807a91a015b4d66",
+          "bytes": 2222
+        },
+        {
+          "path": "README.md",
+          "sha256": "172c9d077e95e508bbd3ad99189464a80cb716401f32cbd34d5119bf4ec216ad",
+          "bytes": 1149
+        }
+      ],
+      "violation": {
+        "code": "core_dom_dependency",
+        "message": "core_dom_dependency: core.js line 157 uses window. Export the core with globalThis.YourCore = {create,step,observe,terminal}, not a browser-only window export. Core must contain no document/window/localStorage/fetch identifiers, including comments."
+      }
+    },
+    {
+      "operation_id": "GAME-20260922-121/repair/1",
+      "version": "v2",
+      "response_id": "resp_0b2730bbd6bbb194006ab27252b6bc87d08dde61fd4e32364a",
+      "output_sha256": "6ab93c2ca40fec11f6fdfcf74717ac2a8c574622d13212226b6d46a4ed8e746c",
+      "files": [
+        {
+          "path": "core.js",
+          "sha256": "731ed9e5c10ba348aa08f48ed8d1df61e14ceb0a79a6b71391351472192c0512",
+          "bytes": 4905
+        },
+        {
+          "path": "app.js",
+          "sha256": "9f1e8ac1d0f7da90dd8738ba69d27b94011f8a29126e314f0cc9ba155daf0f92",
+          "bytes": 2265
+        },
+        {
+          "path": "view/art.js",
+          "sha256": "8faa680bcd14a70c62f154c43c0b1cb3798987ce0dd94abbb9e00e2b7ca942b7",
+          "bytes": 3215
+        },
+        {
+          "path": "index.html",
+          "sha256": "2de72fd1a85d8d4eaf4531a8cf0b182bb5d98b144b4890f5348e443e352f9514",
+          "bytes": 1425
+        },
+        {
+          "path": "style.css",
+          "sha256": "f02f6d27b2bac160d727966dbe9257b69e400fc45fa3b915fda2549b49825462",
+          "bytes": 1699
+        },
+        {
+          "path": "README.md",
+          "sha256": "e26d2760789bbe36e39dfcc005923e2cd7ee652560ff1983e3c5a2b273296db1",
+          "bytes": 728
+        }
+      ],
+      "violation": {
+        "code": "core_dom_dependency",
+        "message": "core_dom_dependency: core.js line 70 uses window. Export the core with globalThis.YourCore = {create,step,observe,terminal}, not a browser-only window export. Core must contain no document/window/localStorage/fetch identifiers, including comments."
+      }
+    },
+    {
+      "operation_id": "GAME-20260922-121/repair/2",
+      "version": "v3",
+      "response_id": "resp_096a590c545c244e006ab27297ff2087d086f8a34db58e57e2",
+      "output_sha256": "a9d5a2ba23c3ea22b1ace39931143d942e06a0ac1838cb1f2f7be86d3046f7b3",
+      "files": [
+        {
+          "path": "core.js",
+          "sha256": "f77c4a81011bebd820bfc1ea464ec9c228cdf4d23a2035c581da351c5f2439fb",
+          "bytes": 5660
+        },
+        {
+          "path": "app.js",
+          "sha256": "42fab3718be248ef7872eacf2048802dd599eb243dd1c997a6d98ec75df907de",
+          "bytes": 2244
+        },
+        {
+          "path": "view/art.js",
+          "sha256": "c81878055c1c5b9935ed05c8a5a8b41e730c69daa1a2634b0b991406d630d89a",
+          "bytes": 3943
+        },
+        {
+          "path": "index.html",
+          "sha256": "18e4be8286b0e865b4ae07a89da6a1af81c850b58c4d9fa6c22c1d4140246d28",
+          "bytes": 1465
+        },
+        {
+          "path": "style.css",
+          "sha256": "7f178afbc0f2435a817f9fc97ef765739a171d5b7453ac90a8c2344e7758c40c",
+          "bytes": 1876
+        },
+        {
+          "path": "README.md",
+          "sha256": "e20e836db8dd0297c7bca8066a406431faec00278d6ecf97ddaab8ec5ebc4538",
+          "bytes": 1078
+        }
+      ],
+      "violation": {
+        "code": "core_dom_dependency",
+        "message": "core_dom_dependency: core.js line 69 uses window. Export the core with globalThis.YourCore = {create,step,observe,terminal}, not a browser-only window export. Core must contain no document/window/localStorage/fetch identifiers, including comments."
+      }
+    },
+    {
+      "operation_id": "GAME-20260922-121/repair/3",
+      "version": "v4",
+      "response_id": "resp_0f8b5a930cb3a8fe006ab272e56ecc87d0a8ca4a21c33c5f93",
+      "output_sha256": "b8f2622ab2a1e0be3d25643b3c43106089536564d6602777b5839c45f8f48dba",
+      "files": [
+        {
+          "path": "core.js",
+          "sha256": "2b9b9221cf9b82ab3f3f93afc1e32e375633bbb6939d10ae7ffd234c6d962d29",
+          "bytes": 4566
+        },
+        {
+          "path": "app.js",
+          "sha256": "68905c31232d3124befa8e7c708ce7ffc0fd69096ebf95b99af7fccff905071c",
+          "bytes": 2254
+        },
+        {
+          "path": "view/art.js",
+          "sha256": "c72630d54e265b88b553656a716f86c69afdae1ba4d0654e9a48df2cae567559",
+          "bytes": 2795
+        },
+        {
+          "path": "index.html",
+          "sha256": "90e300d6ff3b978d82a169e0ee7c73263368fd2f9d3e10e1d03a0f284d281110",
+          "bytes": 1398
+        },
+        {
+          "path": "style.css",
+          "sha256": "8955e657abe704e56f07c8652e3785e4adfcf30ea219ae5e4dea2a37e137e1d3",
+          "bytes": 1515
+        },
+        {
+          "path": "README.md",
+          "sha256": "ae5119ea45c6ce059e254e5aaff9129a3b0c681a9fa1664388ff01a1eee1e985",
+          "bytes": 1037
+        }
+      ],
+      "violation": {
+        "code": "core_dom_dependency",
+        "message": "core_dom_dependency: core.js line 81 uses window. Export the core with globalThis.YourCore = {create,step,observe,terminal}, not a browser-only window export. Core must contain no document/window/localStorage/fetch identifiers, including comments."
+      }
+    },
+    {
+      "operation_id": "GAME-20260922-121/repair/4",
+      "version": "v5",
+      "response_id": "resp_01cdcf3a688059e3006ab2732b18b487d0aca995bb3b896a7b",
+      "output_sha256": "91d829d1c8d0df6c7d24a6b744ea2f94ccbfa73a380934ea7a3459f7a2996782",
+      "files": [
+        {
+          "path": "core.js",
+          "sha256": "d3779ee6e4ee42e0eed218b40cebad663982d1f34bd8e4a70c0f54f8f4cddc58",
+          "bytes": 4488
+        },
+        {
+          "path": "app.js",
+          "sha256": "3601df16f72c6db9cca049e107b2b7c562a17bc3f23d1a606875978b86764626",
+          "bytes": 2410
+        },
+        {
+          "path": "view/art.js",
+          "sha256": "4ab330eea925d74855427ec13be951a0f92e9d06ba53fe5f234a645b53619796",
+          "bytes": 2803
+        },
+        {
+          "path": "index.html",
+          "sha256": "6a80d62758629377382acb140136d4baf1fb2f5c39254d37cf92367cb087f8de",
+          "bytes": 1391
+        },
+        {
+          "path": "style.css",
+          "sha256": "a0ec8542336c35ec7bf1b873d859a1a9f102b758c81fbe667bedd5ab50250e6c",
+          "bytes": 1661
+        },
+        {
+          "path": "README.md",
+          "sha256": "d1f8bfff7cceffdc2120c2685d69bf8ab239f33fc23be2a6728baff887bab37d",
+          "bytes": 724
+        }
+      ],
+      "violation": {
+        "code": "core_dom_dependency",
+        "message": "core_dom_dependency: core.js line 73 uses window. Export the core with globalThis.YourCore = {create,step,observe,terminal}, not a browser-only window export. Core must contain no document/window/localStorage/fetch identifiers, including comments."
+      }
+    },
+    {
+      "operation_id": "GAME-20260922-121/repair/5",
+      "version": "v6",
+      "response_id": "resp_0793308667e2b679006ab2736c9bdc87d0aed5de31839a7503",
+      "output_sha256": "fcb1a65b9422d2c30d6dec6dcc120989e19278dc0d2b9dcd9f1ef52ac18a3e56",
+      "files": [
+        {
+          "path": "core.js",
+          "sha256": "099e21845800e3aa75ce8bcccdeeae1e4bfa291ec6b4dd3758e8825e8119c24c",
+          "bytes": 4112
+        },
+        {
+          "path": "app.js",
+          "sha256": "f7d7dcece852d3932539840298dd1a9518515a8ab2871394bf8d816c41fbda31",
+          "bytes": 2112
+        },
+        {
+          "path": "view/art.js",
+          "sha256": "53ad54008bcc2c99d7dc82c958a6d78ea0ba745898db8818f65da9f48cefa857",
+          "bytes": 3073
+        },
+        {
+          "path": "index.html",
+          "sha256": "cb1a3c82222f79d019943b208bbafbff150861096fde0b252aa60175db4dc340",
+          "bytes": 1516
+        },
+        {
+          "path": "style.css",
+          "sha256": "9826adef5c0374d661530b7a21b13b985e645126f3f44d94836406255fad2bf5",
+          "bytes": 1588
+        },
+        {
+          "path": "README.md",
+          "sha256": "6757f633d10258ba6c97072cbdf4a9898b66f3fff0b6a9816cd67c3c84db58b1",
+          "bytes": 951
+        }
+      ],
+      "violation": {
+        "code": "core_dom_dependency",
+        "message": "core_dom_dependency: core.js line 33 uses window. Export the core with globalThis.YourCore = {create,step,observe,terminal}, not a browser-only window export. Core must contain no document/window/localStorage/fetch identifiers, including comments."
+      }
+    }
+  ],
+  "note": "GET-retrieved existing provider outputs are quarantined data. All six retain the original DOM-core violation; no Factory source tree, browser QA, quality PASS or release is inferred."
+}

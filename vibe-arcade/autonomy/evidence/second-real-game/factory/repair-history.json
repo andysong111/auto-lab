@@ -1,0 +1,72 @@
+[
+  {
+    "attempt": 1,
+    "version": "v2",
+    "cause": [
+      {
+        "code": "build_failed",
+        "message": "core_dom_dependency"
+      }
+    ],
+    "changed_files": [],
+    "tests": [],
+    "result": "BUILD_FAILED",
+    "error": "core_dom_dependency"
+  },
+  {
+    "attempt": 2,
+    "version": "v3",
+    "cause": [
+      {
+        "code": "build_failed",
+        "message": "core_dom_dependency"
+      }
+    ],
+    "changed_files": [],
+    "tests": [],
+    "result": "BUILD_FAILED",
+    "error": "core_dom_dependency"
+  },
+  {
+    "attempt": 3,
+    "version": "v4",
+    "cause": [
+      {
+        "code": "build_failed",
+        "message": "core_dom_dependency"
+      }
+    ],
+    "changed_files": [],
+    "tests": [],
+    "result": "BUILD_FAILED",
+    "error": "core_dom_dependency"
+  },
+  {
+    "attempt": 4,
+    "version": "v5",
+    "cause": [
+      {
+        "code": "build_failed",
+        "message": "core_dom_dependency"
+      }
+    ],
+    "changed_files": [],
+    "tests": [],
+    "result": "BUILD_FAILED",
+    "error": "core_dom_dependency"
+  },
+  {
+    "attempt": 5,
+    "version": "v6",
+    "cause": [
+      {
+        "code": "build_failed",
+        "message": "core_dom_dependency"
+      }
+    ],
+    "changed_files": [],
+    "tests": [],
+    "result": "BUILD_FAILED",
+    "error": "core_dom_dependency"
+  }
+]

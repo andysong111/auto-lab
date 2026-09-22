@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "cost_basis": "estimated; configured USD rates, no billing API",
+  "jobs": {
+    "GAME-20260922-121": {
+      "started_at": 1790079490416
+    }
+  },
+  "operations": {
+    "GAME-20260922-121/build/v1": {
+      "operation_id": "GAME-20260922-121/build/v1",
+      "game_id": "GAME-20260922-121",
+      "version": "v1",
+      "request_hash": "9498a3550a0f201bfd493df8bca523370fa6bd2caae788e6ae83e6c7c86f9d70",
+      "day": "2026-09-22",
+      "state": "MODEL_FAILED",
+      "provider": "openai-responses/gpt-5.6-terra",
+      "started_at": 1790079490416,
+      "deadline_at": 1790079790416,
+      "reserved": {
+        "input_tokens": 18646,
+        "output_tokens": 18000,
+        "estimated_cost": 0.398584
+      },
+      "prices": {
+        "input_per_million": 4,
+        "output_per_million": 18,
+        "as_of": "2026-09-22",
+        "estimated": true
+      },
+      "response_id": "resp_0a9c19505ee4cc55006ab272033b2087d0ab055ca55c8e0100",
+      "accounted": {
+        "input_tokens": 3573,
+        "output_tokens": 6608,
+        "estimated_cost": 0.133236
+      },
+      "error_code": "core_dom_dependency"
+    },
+    "GAME-20260922-121/repair/1": {
+      "operation_id": "GAME-20260922-121/repair/1",
+      "game_id": "GAME-20260922-121",
+      "version": "v2",
+      "request_hash": "610cc5f44fd87278a94e2c2156acdddf082b11645b9b6772e623c2f3e51c6471",
+      "day": "2026-09-22",
+      "state": "MODEL_FAILED",
+      "provider": "openai-responses/gpt-5.6-terra",
+      "started_at": 1790079570641,
+      "deadline_at": 1790079870641,
+      "reserved": {
+        "input_tokens": 19723,
+        "output_tokens": 18000,
+        "estimated_cost": 0.402892
+      },
+      "prices": {
+        "input_per_million": 4,
+        "output_per_million": 18,
+        "as_of": "2026-09-22",
+        "estimated": true
+      },
+      "response_id": "resp_0b2730bbd6bbb194006ab27252b6bc87d08dde61fd4e32364a",
+      "accounted": {
+        "input_tokens": 3880,
+        "output_tokens": 5552,
+        "estimated_cost": 0.115456
+      },
+      "error_code": "core_dom_dependency"
+    },
+    "GAME-20260922-121/repair/2": {
+      "operation_id": "GAME-20260922-121/repair/2",
+      "game_id": "GAME-20260922-121",
+      "version": "v3",
+      "request_hash": "8fd28873ce9b57c93a49d95bf2e996880a4f5e02f8719ac6aed274e141c349bc",
+      "day": "2026-09-22",
+      "state": "MODEL_FAILED",
+      "provider": "openai-responses/gpt-5.6-terra",
+      "started_at": 1790079639839,
+      "deadline_at": 1790079939839,
+      "reserved": {
+        "input_tokens": 19723,
+        "output_tokens": 18000,
+        "estimated_cost": 0.402892
+      },
+      "prices": {
+        "input_per_million": 4,
+        "output_per_million": 18,
+        "as_of": "2026-09-22",
+        "estimated": true
+      },
+      "response_id": "resp_096a590c545c244e006ab27297ff2087d086f8a34db58e57e2",
+      "accounted": {
+        "input_tokens": 3880,
+        "output_tokens": 6153,
+        "estimated_cost": 0.126274
+      },
+      "error_code": "core_dom_dependency"
+    },
+    "GAME-20260922-121/repair/3": {
+      "operation_id": "GAME-20260922-121/repair/3",
+      "game_id": "GAME-20260922-121",
+      "version": "v4",
+      "request_hash": "773f2eaa582b292dc5632564d895436f8638166a056b9b3e707e891200ed6e3b",
+      "day": "2026-09-22",
+      "state": "MODEL_FAILED",
+      "provider": "openai-responses/gpt-5.6-terra",
+      "started_at": 1790079717343,
+      "deadline_at": 1790080017343,
+      "reserved": {
+        "input_tokens": 19723,
+        "output_tokens": 18000,
+        "estimated_cost": 0.402892
+      },
+      "prices": {
+        "input_per_million": 4,
+        "output_per_million": 18,
+        "as_of": "2026-09-22",
+        "estimated": true
+      },
+      "response_id": "resp_0f8b5a930cb3a8fe006ab272e56ecc87d0a8ca4a21c33c5f93",
+      "accounted": {
+        "input_tokens": 3880,
+        "output_tokens": 5107,
+        "estimated_cost": 0.107446
+      },
+      "error_code": "core_dom_dependency"
+    },
+    "GAME-20260922-121/repair/4": {
+      "operation_id": "GAME-20260922-121/repair/4",
+      "game_id": "GAME-20260922-121",
+      "version": "v5",
+      "request_hash": "25b01139b786d24be1f8b997bb2117ca4d832b30b7f072c22bf638b585b409e2",
+      "day": "2026-09-22",
+      "state": "MODEL_FAILED",
+      "provider": "openai-responses/gpt-5.6-terra",
+      "started_at": 1790079786999,
+      "deadline_at": 1790080086999,
+      "reserved": {
+        "input_tokens": 19723,
+        "output_tokens": 18000,
+        "estimated_cost": 0.402892
+      },
+      "prices": {
+        "input_per_million": 4,
+        "output_per_million": 18,
+        "as_of": "2026-09-22",
+        "estimated": true
+      },
+      "response_id": "resp_01cdcf3a688059e3006ab2732b18b487d0aca995bb3b896a7b",
+      "accounted": {
+        "input_tokens": 3880,
+        "output_tokens": 4916,
+        "estimated_cost": 0.104008
+      },
+      "error_code": "core_dom_dependency"
+    },
+    "GAME-20260922-121/repair/5": {
+      "operation_id": "GAME-20260922-121/repair/5",
+      "game_id": "GAME-20260922-121",
+      "version": "v6",
+      "request_hash": "1f5dfcafaba5022365bf18f1ecea9697137497b1091007a09647d6ce22a706a0",
+      "day": "2026-09-22",
+      "state": "MODEL_FAILED",
+      "provider": "openai-responses/gpt-5.6-terra",
+      "started_at": 1790079852508,
+      "deadline_at": 1790080152508,
+      "reserved": {
+        "input_tokens": 19723,
+        "output_tokens": 18000,
+        "estimated_cost": 0.402892
+      },
+      "prices": {
+        "input_per_million": 4,
+        "output_per_million": 18,
+        "as_of": "2026-09-22",
+        "estimated": true
+      },
+      "response_id": "resp_0793308667e2b679006ab2736c9bdc87d0aed5de31839a7503",
+      "accounted": {
+        "input_tokens": 3880,
+        "output_tokens": 4922,
+        "estimated_cost": 0.104116
+      },
+      "error_code": "core_dom_dependency"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+(function(){
+'use strict';
+var reduce=false, mq=window.matchMedia?window.matchMedia('(prefers-reduced-motion: reduce)'):null;
+function setReduce(){reduce=!!(mq&&mq.matches);var shell=document.querySelector('[data-cargo-shell]');if(shell)shell.setAttribute('data-reduced-motion',String(reduce));}
+setReduce();if(mq){if(mq.addEventListener)mq.addEventListener('change',setReduce);else mq.addListener(setReduce);}
+function text(sel,v){var e=document.querySelector(sel);if(e)e.textContent=v;}
+function draw(ctx,snap,opts){var state=snap.state||{}, cloned=JSON.parse(JSON.stringify(snap));var best=(snap.best===undefined?0:snap.best);if(typeof best==='object')best=best.score||0;text('[data-cargo-goal-progress]',(state.stage||0)+'/3');text('[data-game-score]',String(state.score||0));text('[data-cargo-best]',String(best||0));text('[data-game-progress]','ELAPSED '+((snap.progress||0)|0)+'%');
+ var result=document.querySelector('[data-cargo-result]'), detail=document.querySelector('[data-cargo-result-detail]');if(state.phase==='finished'||state.phase==='incomplete'){if(result){result.hidden=false;result.textContent=state.phase==='finished'?'SKYPORT COMPLETE':'CARGO INCOMPLETE';}if(detail)detail.textContent=(state.stage||0)+'/3 dispatched · '+(state.assignments||0)+' assignments · Score '+(state.score||0)+(state.phase==='incomplete'?' — Recheck each bay’s mass and energy.':' — Fleet departure authorized.');}else if(result)result.hidden=true;
+ opts=opts||{};opts.reducedMotion=reduce;opts.width=opts.width||ctx.canvas.width;opts.height=opts.height||ctx.canvas.height;window.CloudCargoPresentation.draw(ctx,cloned,opts);
+}
+window.CargoPresentation={snapshot:function(){return {reducedMotion:reduce,particles:0,activeVoices:0};}};
+fetch('./manifest.json').then(function(r){return r.json();}).then(function(metadata){PlayJoltGameKit.create({core:window.CloudCargoCore,draw:draw,canvas:document.querySelector('[data-game-canvas]'),metadata:metadata});}).catch(function(e){var x=document.querySelector('[data-game-error]');if(x){x.hidden=false;x.textContent='Unable to prepare cargo practice.';}});
+}());

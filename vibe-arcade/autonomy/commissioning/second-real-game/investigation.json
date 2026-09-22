@@ -1,0 +1,63 @@
+{
+  "baseline_commit": "b4db1b3f9858eaa7f62403ab16da8085e97267a9",
+  "main_read": [
+    "autonomy/README.md",
+    "autonomy/HANDOFF_WORK_PHASE1_FACTORY.md",
+    "autonomy/HANDOFF_WORK_AI_PROVIDER_WORKER.md",
+    "autonomy/commissioning/README.md",
+    "autonomy/commissioning/policy.json",
+    "autonomy/commissioning/catalog.json",
+    "autonomy/commissioning/spec-gate.cjs",
+    "autonomy/providers/config.cjs",
+    "autonomy/providers/prompts.cjs",
+    "autonomy/providers/manager.cjs",
+    "autonomy/providers/openai.cjs",
+    "autonomy/worker/runtime.cjs",
+    "autonomy/worker/README.md",
+    "autonomy/control-plane/policy.json",
+    "autonomy/gamekit/gamekit.js",
+    "autonomy/qa/worker.cjs",
+    "autonomy/qa/guard.cjs",
+    "autonomy/isolation/docker-qa.cjs",
+    "autonomy/orchestrator/engine.cjs",
+    "autonomy/orchestrator/quality.cjs",
+    "autonomy/adapters/github-vercel.cjs"
+  ],
+  "historical_handoffs": {
+    "not_present_on_main": true,
+    "first": "https://github.com/andysong111/auto-lab/blob/commissioning/first-real-game-20260922/vibe-arcade/autonomy/HANDOFF_WORK_FIRST_REAL_GAME.md",
+    "prism_polish": "https://github.com/andysong111/auto-lab/blob/commissioning/prism-relay-polish-20260922/vibe-arcade/autonomy/HANDOFF_WORK_PRISM_RELAY_POLISH.md"
+  },
+  "reused": [
+    "AutonomousWorker",
+    "AIBuilderAdapter",
+    "AIRepairAdapter",
+    "ProviderManager",
+    "OpenAIProvider",
+    "FileStore",
+    "Factory",
+    "GameKit",
+    "DockerQA",
+    "Quality Gate",
+    "GitHubVercelAdapter",
+    "commissioning Spec Gate / release packet"
+  ],
+  "system_changes": [
+    "Opt-in candidate-specific normal-input browser evidence oracle",
+    "Compose common + product Docker QA via existing injected QA interface",
+    "Export existing generic phase screenshots that Docker previously discarded"
+  ],
+  "candidate_source_authorship": "Real provider output only; Work authors spec and tests, not game source",
+  "default_intake": false,
+  "production_authorized": false,
+  "prism_disposition": "REJECTED; untouched",
+  "known_quality_lessons_applied": [
+    "visible concrete goal",
+    "separate goal progress and elapsed time",
+    "actual GameKit best",
+    "mass plus energy allocation depth across six seeds",
+    "canvas text bounds + direct screenshot review",
+    "complete/incomplete result and replay",
+    "preference change while playing checked before full solve"
+  ]
+}

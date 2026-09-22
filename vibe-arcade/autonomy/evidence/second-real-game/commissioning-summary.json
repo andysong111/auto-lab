@@ -1,0 +1,111 @@
+{
+  "schema": "playjolt-second-real-game/1",
+  "game_id": "GAME-20260922-121",
+  "model": "gpt-5.6-terra",
+  "run_id": "35726303477",
+  "runner_commit": "3e9d5fefabca3070f9026b9c3115c54fe9c69649",
+  "operations": [
+    {
+      "operation_id": "GAME-20260922-121/build/v1",
+      "operation": "build",
+      "version": "v1",
+      "model": "gpt-5.6-terra",
+      "state": "MODEL_FAILED",
+      "response_id": "resp_0a9c19505ee4cc55006ab272033b2087d0ab055ca55c8e0100",
+      "input_tokens": 3573,
+      "output_tokens": 6608,
+      "estimated_cost": 0.133236,
+      "cumulative_estimated_cost": 0.133236,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": "core_dom_dependency"
+    },
+    {
+      "operation_id": "GAME-20260922-121/repair/1",
+      "operation": "repair",
+      "version": "v2",
+      "model": "gpt-5.6-terra",
+      "state": "MODEL_FAILED",
+      "response_id": "resp_0b2730bbd6bbb194006ab27252b6bc87d08dde61fd4e32364a",
+      "input_tokens": 3880,
+      "output_tokens": 5552,
+      "estimated_cost": 0.115456,
+      "cumulative_estimated_cost": 0.248692,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": "core_dom_dependency"
+    },
+    {
+      "operation_id": "GAME-20260922-121/repair/2",
+      "operation": "repair",
+      "version": "v3",
+      "model": "gpt-5.6-terra",
+      "state": "MODEL_FAILED",
+      "response_id": "resp_096a590c545c244e006ab27297ff2087d086f8a34db58e57e2",
+      "input_tokens": 3880,
+      "output_tokens": 6153,
+      "estimated_cost": 0.126274,
+      "cumulative_estimated_cost": 0.374966,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": "core_dom_dependency"
+    },
+    {
+      "operation_id": "GAME-20260922-121/repair/3",
+      "operation": "repair",
+      "version": "v4",
+      "model": "gpt-5.6-terra",
+      "state": "MODEL_FAILED",
+      "response_id": "resp_0f8b5a930cb3a8fe006ab272e56ecc87d0a8ca4a21c33c5f93",
+      "input_tokens": 3880,
+      "output_tokens": 5107,
+      "estimated_cost": 0.107446,
+      "cumulative_estimated_cost": 0.482412,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": "core_dom_dependency"
+    },
+    {
+      "operation_id": "GAME-20260922-121/repair/4",
+      "operation": "repair",
+      "version": "v5",
+      "model": "gpt-5.6-terra",
+      "state": "MODEL_FAILED",
+      "response_id": "resp_01cdcf3a688059e3006ab2732b18b487d0aca995bb3b896a7b",
+      "input_tokens": 3880,
+      "output_tokens": 4916,
+      "estimated_cost": 0.104008,
+      "cumulative_estimated_cost": 0.58642,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": "core_dom_dependency"
+    },
+    {
+      "operation_id": "GAME-20260922-121/repair/5",
+      "operation": "repair",
+      "version": "v6",
+      "model": "gpt-5.6-terra",
+      "state": "MODEL_FAILED",
+      "response_id": "resp_0793308667e2b679006ab2736c9bdc87d0aed5de31839a7503",
+      "input_tokens": 3880,
+      "output_tokens": 4922,
+      "estimated_cost": 0.104116,
+      "cumulative_estimated_cost": 0.690536,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": "core_dom_dependency"
+    }
+  ],
+  "total_calls": 6,
+  "total_estimated_cost": 0.690536,
+  "billed_cost": null,
+  "model_source": "real OpenAI provider, no injected mock",
+  "factory": {
+    "state": "REJECTED",
+    "version": "v6",
+    "repair_attempt": 5,
+    "qa_status": "PENDING",
+    "quality_status": "REJECT",
+    "failure_reasons": [
+      {
+        "code": "build_failed",
+        "message": "core_dom_dependency"
+      }
+    ]
+  },
+  "production_authorized": false
+}

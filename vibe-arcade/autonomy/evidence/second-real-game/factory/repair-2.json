@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260922-121",
+  "version": "v2",
+  "target_version": "v3",
+  "attempt": 2,
+  "max_repair_attempts": 5,
+  "source_hash": null,
+  "qa_failures": [
+    {
+      "code": "build_failed",
+      "message": "core_dom_dependency"
+    }
+  ],
+  "allowed_scope": [
+    "core.js",
+    "app.js",
+    "view/**",
+    "style.css",
+    "index.html",
+    "README.md",
+    "assets/**"
+  ],
+  "protected_paths": [
+    "vibe-arcade/games/**",
+    "vibe-arcade/release/**",
+    "vibe-arcade/descent/**",
+    "vibe-arcade/core-pins/**",
+    "vibe-arcade/challengers/**",
+    "vibe-arcade/community/**",
+    "vibe-arcade/runtime/**",
+    "vibe-arcade/measurement/**",
+    "vibe-arcade/marketing/**",
+    "vibe-arcade/index.html",
+    "vibe-arcade/sitemap.xml",
+    "vibe-arcade/robots.txt",
+    "vibe-arcade/google*.html",
+    "loopjolt-backend/**",
+    ".github/**",
+    "**/.env*",
+    "**/secrets/**",
+    "manifest.json",
+    "gamekit.js"
+  ],
+  "acceptance_tests": [
+    "manifest schema",
+    "all three real browser viewports",
+    "no console/page errors",
+    "start/progress/input/interaction",
+    "terminal/restart/pause/resume/hidden",
+    "no side effects",
+    "source and resource bounds"
+  ],
+  "operation_id": "GAME-20260922-121/repair/2"
+}
