@@ -31,6 +31,7 @@ async function execute(config) {
       p.on('pageerror',e => report.page_errors.push({viewport:width,message:e.message.slice(0,1200)}));
       p.on('response',r => { const u=new URL(r.url()); if(u.origin===server.origin) { assets.set(u.pathname,r.status()); if(r.status()>=400) broken.push(u.pathname); } });
       let current='html';
+      const capture=async phase=>{const name=`viewport-${width}-${phase}.png`;await p.screenshot({path:path.join(outDir,name),fullPage:true,animations:'disabled',timeout:5000});report.screenshots.push(name);};
       const check=async(name,fn) => { current=name; await fn(); c.checks.push(name); };
       const budget=async() => {
         const s=await snap(p), dom=await p.locator('*').count();
@@ -41,6 +42,7 @@ async function execute(config) {
       try {
         await check('html',async()=>{ const t=Date.now(), r=await p.goto(server.origin+'/?qa=1&capture=1&seed='+manifest.qa.seed,{waitUntil:'load'}); assert(r?.status()===200,'HTML status'); await p.waitForFunction(()=>!!window.GameDiagnostics); c.load_ms=Date.now()-t; assert(c.load_ms<=policy.limits.load_ms,'initial load too slow'); assert((await p.locator('body').innerText()).trim().length>30,'blank page'); });
         await check('assets',async()=>{ assert.equal(broken.length,0,'missing assets'); const urls=await p.locator('script[src],link[rel="stylesheet"]').evaluateAll(nodes=>nodes.map(n=>new URL(n.src||n.href).pathname)); assert(urls.length>=3,'missing core/app/view assets'); for(const u of urls) assert(assets.get(u)===200,'asset failed: '+u); });
+        await capture('entry');
         await check('start',async()=>{ const before=await snap(p); assert.equal(before.phase,'idle'); assert.equal(before.metadata.game_id,manifest.game_id); assert.equal(before.metadata.version,manifest.version); await p.locator('[data-game-start]').click(); assert.equal((await snap(p)).phase,'playing'); });
         await check('real_clock',async()=>{ const s=await snap(p); await p.waitForFunction(t=>GameDiagnostics.snapshot().tick>t,s.tick,{timeout:policy.limits.freeze_ms}); });
         // Keep real-clock liveness as a separate hard gate; accelerate only the subsequent full lifecycle.
@@ -49,6 +51,7 @@ async function execute(config) {
         await check('touch',async()=>{ const before=await snap(p), value=at(before,manifest.qa.pointer.observation); assert(value!==undefined,'pointer observation missing'); const box=await p.locator('[data-game-canvas]').boundingBox(); const cdp=await ctx.newCDPSession(p); await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:box.x+box.width*.72,y:box.y+box.height*.55}]}); await p.clock.runFor(80); await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]}); await cdp.detach(); const after=await snap(p); assert(after.accepted_inputs.pointer>before.accepted_inputs.pointer,'touch not accepted'); assert.notDeepEqual(at(after,manifest.qa.pointer.observation),value,'touch had no core effect'); });
         await check('progress',async()=>{ const before=await snap(p); await p.clock.runFor(200); const after=await snap(p); assert(after.score!==before.score||after.progress!==before.progress,'no score/progress change'); });
         await check('interaction',async()=>{ assert((await snap(p)).interactions>0,'no damage/collision/interaction'); });
+        await capture('playing');
         await check('pause',async()=>{ await p.locator('[data-game-pause]').click(); const before=await snap(p); assert(before.paused); await p.clock.runFor(300); assert.deepEqual((await snap(p)).state,before.state,'paused simulation changed'); });
         await check('resume',async()=>{ const before=await snap(p); await p.locator('[data-game-resume]').click(); await p.clock.runFor(100); assert((await snap(p)).tick>before.tick); });
         await check('hidden',async()=>{ await p.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,get:()=>true});document.dispatchEvent(new Event('visibilitychange'));}); const before=await snap(p); assert(before.paused,'hidden tab not paused'); await p.clock.runFor(500); assert.deepEqual((await snap(p)).state,before.state); await p.evaluate(()=>{delete document.hidden;document.dispatchEvent(new Event('visibilitychange'));}); await p.locator('[data-game-resume]').click(); });
@@ -59,6 +62,7 @@ async function execute(config) {
           for(let ms=0;ms<manifest.qa.terminal_ms;ms+=500) {
             if((await snap(p)).phase==='finished') break;
             await p.clock.runFor(500); const s=await budget();
+            if(ms===10000)await capture('midgame');
             assert(s.tick>previous||s.phase==='finished','loop freeze'); previous=s.tick;
           }
           assert.equal((await snap(p)).phase,'finished','terminal not reachable within declared bound');

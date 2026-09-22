@@ -24,6 +24,15 @@ function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.
   if(slugs.has(norm(proposal.slug)))errors.push({code:'slug_collision',slug:proposal.slug});
   if(catalog.games.length>=policy.max_public_games_before_validation)errors.push({code:'catalog_cap_reached',count:catalog.games.length});
   if(proposal.max_repair_attempts!==undefined&&proposal.max_repair_attempts>policy.technical_budget.max_repair_attempts)errors.push({code:'repair_budget_too_high'});
+  // Carry bounded declarative design data into the immutable spec. Previously the
+  // gate silently discarded the mechanic/design brief before the AI saw it.
+  let implementation;
+  if(proposal.implementation_contract!==undefined){
+    const data=proposal.implementation_contract;
+    if(!data||typeof data!=='object'||Array.isArray(data)||Buffer.byteLength(JSON.stringify(data))>16000||
+      !['goal','mechanic','progression','presentation','originality'].every(k=>typeof data[k]==='string'&&data[k].trim().length>=20))errors.push({code:'invalid_implementation_contract'});
+    else implementation=JSON.parse(JSON.stringify(data));
+  }
   const words=new Set(family.split('-').filter(Boolean));
   for(const g of catalog.games){
     const gw=new Set(norm(g.mechanic_family).split('-').filter(Boolean));
@@ -31,7 +40,8 @@ function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.
     if(overlap>=0.75)warnings.push({code:'mechanic_similarity_review',game:g.id,overlap:Number(overlap.toFixed(2))});
   }
   const factory_spec={game_id:proposal.game_id,generation:proposal.generation||1,title:proposal.title,slug:proposal.slug,genre:proposal.genre,mechanic_family:proposal.mechanic_family,
-    controls:proposal.controls,mobile_controls:proposal.mobile_controls,max_repair_attempts:proposal.max_repair_attempts??policy.technical_budget.max_repair_attempts,qa:proposal.qa};
+    controls:proposal.controls,mobile_controls:proposal.mobile_controls,max_repair_attempts:proposal.max_repair_attempts??policy.technical_budget.max_repair_attempts,qa:proposal.qa,
+    ...(implementation?{implementation_contract:implementation}:{})};
   return {passed:errors.length===0,errors,warnings,factory_spec,commissioning:{owner_review_required:true,auto_production_ship:false,max_provider_calls:policy.technical_budget.max_provider_calls,max_estimated_model_cost_usd:policy.technical_budget.max_estimated_model_cost_usd}};
 }
 module.exports={validateProposal,norm,readJSON};

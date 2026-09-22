@@ -1,0 +1,42 @@
+{
+  "schema": "playjolt-idea-selection/1",
+  "selected_game_id": "GAME-20260922-110",
+  "selected": "Prism Relay",
+  "candidates": [
+    {
+      "title": "Prism Relay",
+      "mechanic_family": "spatial-optical-routing",
+      "goal": "Rotate prisms to connect and charge three receivers in 45 seconds",
+      "inputs": "Arrows + Space / tap tile",
+      "shorts_moment": "A broken beam clicks into a continuous glowing circuit and charges the receiver",
+      "decision": "SELECT",
+      "reason": "Clear objective, stationary mobile board, visible cause/effect, bounded deterministic puzzles, strongly distinct from all eight public mechanics."
+    },
+    {
+      "title": "Balance Bloom",
+      "mechanic_family": "centroid-placement-balance",
+      "goal": "Place weighted seeds to keep a platform balanced while growing a flower",
+      "inputs": "Left/right + drop / drag and release",
+      "shorts_moment": "An asymmetric stack stabilizes then blooms",
+      "decision": "DEFER",
+      "reason": "Distinct mechanic, but readable mass/torque feedback and touch placement tuning add physics risk for the first commissioning."
+    },
+    {
+      "title": "Fold Harbor",
+      "mechanic_family": "spatial-layer-occlusion",
+      "goal": "Slide two translucent shape layers to reveal a docking silhouette",
+      "inputs": "Arrows + layer switch / drag + tap",
+      "shorts_moment": "Two fragments align into one luminous emblem",
+      "decision": "DEFER",
+      "reason": "Distinct from the catalog, but explaining two-layer selection in five seconds is less reliable than directly tapping a visible prism."
+    }
+  ],
+  "selection_basis": "Qualitative commissioning criteria, no numeric fun score. Three ideas, one actual candidate; no second generation on rejection.",
+  "compared_catalog": "../catalog.json",
+  "quality_baselines": [
+    "astra-sentinel-v3",
+    "deep-descent"
+  ],
+  "source_copying": false,
+  "production_authorized": false
+}

@@ -53,7 +53,7 @@ class DockerQA {
       if(result.game_id!==manifest.game_id||result.version!==manifest.version||result.source_hash!==source||result.policy_hash!==hash(policy)||hashTree(gameRoot)!==source)throw new ProviderPause('source_tampered');
       result.isolation={engine:'docker',image:this.image,network:'none',readonly:true,cpu:this.limits.cpus,memory_mb:this.limits.memory_mb,pids:this.limits.pids};
       fs.mkdirSync(outDir,{recursive:true});atomicJSON(path.join(outDir,'qa.json'),result);
-      for(const f of fs.readdirSync(artifacts).filter(x=>/^viewport-[0-9]+\.png$/.test(x))) {
+      for(const f of fs.readdirSync(artifacts).filter(x=>/^viewport-[0-9]+(?:-(?:entry|playing|midgame))?\.png$/.test(x))) {
         const from=path.join(artifacts,f),s=fs.lstatSync(from);if(s.isFile()&&!s.isSymbolicLink()&&s.size<8*1024*1024)fs.copyFileSync(from,path.join(outDir,f));
       }
       return result;
