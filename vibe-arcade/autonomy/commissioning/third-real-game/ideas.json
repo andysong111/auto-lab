@@ -1,0 +1,28 @@
+{
+  "game_id": "GAME-20260922-131",
+  "selected": "Ribbon Shift",
+  "prior_candidates": "Prism and Cloud Cargo stay terminal REJECTED; Cloud Cargo family is not classified as product failure. No cargo/airship/allocation or optical-routing reuse.",
+  "ideas": [
+    {
+      "title": "Ribbon Shift",
+      "mechanic_family": "toroidal-strip-permutation",
+      "selected": true,
+      "mechanic": "Tap a row to shift it right; tap a bottom arrow to shift a column down. Restore three scrambled 3x3 woven mosaics in45seconds. Every move displaces three tiles and later boards need intertwined row/column choices.",
+      "reason": "Small exact permutation search; visible sliding/wrapping motion; one tap mechanic; no aiming/timing physics, optics or cargo. Six seeds can be independently solved with normal inputs."
+    },
+    {
+      "title": "Orbit Etcher",
+      "mechanic_family": "continuous-contour-tracing",
+      "selected": false,
+      "mechanic": "Drag a brush through a scrolling contour without leaving its width, changing paths at forks.",
+      "reason": "Different from selected puzzle and banned runners, but touch precision, geometric collision and comparable keyboard tracing need more commissioning complexity."
+    },
+    {
+      "title": "Echo Loom",
+      "mechanic_family": "ordered-spatial-memory-recall",
+      "selected": false,
+      "mechanic": "Watch a short geometric constellation unfurl, then tap the remembered sequence including later reversed subsequences.",
+      "reason": "Different memory mechanic with stable core; later depth risks becoming only sequence length and the quiet recall phase is less visually legible in a short clip."
+    }
+  ]
+}

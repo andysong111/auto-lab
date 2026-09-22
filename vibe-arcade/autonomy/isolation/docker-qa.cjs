@@ -21,7 +21,7 @@ class DockerQA {
     const p=this.execSync('docker',['image','inspect','--format','{{.Id}}',this.image],{env:environment(),encoding:'utf8',timeout:10000,maxBuffer:16384});
     if(p.status!==0||p.stdout.trim()!==this.image)throw new ProviderPause('isolation_unavailable','Docker daemon/image unavailable; no host QA fallback','PAUSED_ISOLATION');
   }
-  async run({manifest,gameRoot,outDir,policy,probe=false}) {
+  async run({manifest,gameRoot,outDir,policy,probe=false,product=null}) {
     this.assertAvailable();if(this.signal?.aborted)throw this.signal.reason;
     inspectGame(gameRoot);const source=hashTree(gameRoot),started=Date.now();
     const temp=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-isolation-'));fs.chmodSync(temp,0o755);
@@ -32,7 +32,7 @@ class DockerQA {
       // Mount a data-only copy, never the repository, home, API key, or Docker socket.
       for(const f of listFiles(gameRoot)){const to=safePath(candidate,f);fs.mkdirSync(path.dirname(to),{recursive:true,mode:0o755});fs.copyFileSync(safePath(gameRoot,f),to);fs.chmodSync(to,0o444);}
 
-      atomicJSON(path.join(input,'qa.json'),{manifest,gameRoot:'/candidate',outDir:'/artifacts',policy,deadline_ms:Math.min(this.limits.timeout_ms,policy.limits.run_timeout_ms)});fs.chmodSync(path.join(input,'qa.json'),0o444);
+      atomicJSON(path.join(input,'qa.json'),{manifest,gameRoot:'/candidate',outDir:'/artifacts',policy,product,deadline_ms:Math.min(this.limits.timeout_ms,policy.limits.run_timeout_ms)});fs.chmodSync(path.join(input,'qa.json'),0o444);
       const args=dockerArgs({name,image:this.image,candidate,input,artifacts,limits:this.limits,probe});
       const outcome=await new Promise((resolve,reject)=>{
         const p=this.exec('docker',args,{env:environment(),detached:true,stdio:['ignore','ignore','pipe']});let stderr='',expired=false,aborted=false,finished=false;
@@ -53,7 +53,7 @@ class DockerQA {
       if(result.game_id!==manifest.game_id||result.version!==manifest.version||result.source_hash!==source||result.policy_hash!==hash(policy)||hashTree(gameRoot)!==source)throw new ProviderPause('source_tampered');
       result.isolation={engine:'docker',image:this.image,network:'none',readonly:true,cpu:this.limits.cpus,memory_mb:this.limits.memory_mb,pids:this.limits.pids};
       fs.mkdirSync(outDir,{recursive:true});atomicJSON(path.join(outDir,'qa.json'),result);
-      for(const f of fs.readdirSync(artifacts).filter(x=>/^viewport-[0-9]+\.png$/.test(x))) {
+      for(const f of fs.readdirSync(artifacts).filter(x=>/^viewport-[0-9]+(?:-[a-z0-9-]+)?\.(?:png|webm)$/.test(x))) {
         const from=path.join(artifacts,f),s=fs.lstatSync(from);if(s.isFile()&&!s.isSymbolicLink()&&s.size<8*1024*1024)fs.copyFileSync(from,path.join(outDir,f));
       }
       return result;

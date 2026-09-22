@@ -8,6 +8,15 @@ const {atomicJSON,readJSON}=require('../../orchestrator/files.cjs');
 const {DockerQA,dockerArgs,environment}=require('../../isolation/docker-qa.cjs');
 const {mockQA}=require('../../tests/helpers.cjs');
 const qa={assertAvailable(){},run:mockQA}; // State-machine test only: never executes generated source.
+test('trusted beforeProvider hold blocks generation and budget reservation',async t=>{
+  const e=setup(t,{worker:{qa,beforeProvider:()=>{throw new ProviderPause('review_required');}}});await e.factory.create(e.spec);
+  const result=await e.worker.runOnce();assert.equal(result.code,'review_required');assert.equal(e.provider.calls,0);assert.equal(Object.keys(e.manager.read().operations).length,0);
+});
+test('worker repairs rejected source from quarantine with precise validation context',async t=>{
+  let bad;const provider=new MockProvider({handler:async c=>{c.onResponseId('resp_context_'+c.request.version);if(c.request.mode==='build'){bad=output();bad.files.find(f=>f.path==='core.js').content+='\nwindow.ForbiddenExport = {};';return {output:bad};}
+    assert.equal(c.request.model_validation.error_context.identifier,'window');assert.match(c.request.sources['core.js'],/window.ForbiddenExport/);assert.equal(c.request.empty_workspace,true);return {output:output()};
+  }});const e=setup(t,{provider,worker:{qa}});await e.factory.create(e.spec);const result=await e.worker.runOnce();assert.equal(result.status,'RC_READY');assert.equal(provider.calls,2);const first=e.manager.read().operations[e.spec.game_id+'/build/v1'];assert.equal(first.state,'MODEL_FAILED');assert(first.rejected_output.files.length);assert.equal(e.store.get(e.spec.game_id).repair_attempt,1);
+});
 test('worker mock build reuses Factory transitions and remains unlisted RC_READY',async t=>{
   const e=setup(t,{worker:{qa}});await e.factory.create(e.spec);
   const result=await e.worker.runOnce();assert.equal(result.status,'RC_READY',JSON.stringify(result));assert.equal(e.provider.calls,1);

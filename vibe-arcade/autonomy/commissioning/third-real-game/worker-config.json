@@ -1,0 +1,42 @@
+{
+  "commissioning": true,
+  "release_candidates": false,
+  "base_ref": "main",
+  "pricing": {
+    "input_per_million": 4,
+    "output_per_million": 18,
+    "as_of": "2026-09-22"
+  },
+  "per_game": {
+    "max_provider_calls": 6,
+    "max_input_tokens": 500000,
+    "max_output_tokens": 108000,
+    "max_estimated_cost": 2,
+    "max_wall_clock_minutes": 60
+  },
+  "global": {
+    "daily_provider_call_limit": 6,
+    "daily_cost_limit": 2,
+    "max_concurrent_builds": 1
+  },
+  "request": {
+    "max_input_tokens": 100000,
+    "max_output_tokens": 18000,
+    "timeout_ms": 300000,
+    "max_response_bytes": 1048576,
+    "max_file_bytes": 131072,
+    "max_files": 24
+  },
+  "isolation": {
+    "cpus": 1,
+    "memory_mb": 1024,
+    "pids": 128,
+    "timeout_ms": 300000
+  },
+  "polling": {
+    "interval_ms": 2000,
+    "max_backoff_ms": 30000,
+    "max_polls": 20,
+    "max_jobs": 1
+  }
+}
