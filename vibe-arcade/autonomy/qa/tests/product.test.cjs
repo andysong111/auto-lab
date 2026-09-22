@@ -34,3 +34,11 @@ test('default Quality Gate fails closed for a missing product contract',()=>{
  const qa={game_id:m.game_id,version:'v1',source_hash:m.source_hash,policy_hash:hash(policy),passed:true,hard_failures:[],browser_cases:policy.required_viewports.map(([width,height])=>({viewport:{width,height},checks:policy.required_checks,passed:true}))};
  const r=evaluate(m,qa,policy);assert.equal(r.decision,'REPAIR');assert(r.hard_failures.some(f=>f.code==='product_contract_missing'));
 });
+test('archived terminal candidates remain read-only; quarantined source is statically rejected',()=>{
+ const dir=path.join(__dirname,'../../evidence/generic-product-gate/legacy');const report=require('../legacy-readonly.cjs').audit(dir);assert.equal(report.candidate_execution,false);assert.equal(report.provider_calls,0);assert(report.reports.every(r=>r.manifest_unchanged&&r.terminal_state==='REJECTED'&&r.repair_attempt===5&&r.product_qa==='UNVERIFIED'&&r.diagnostic_gate==='REJECT'));assert(report.quarantined.every(q=>q.unchanged&&q.validation.code==='core_dom_dependency'&&q.validation.detail.identifier==='window'));
+});
+test('real Worker preflight pauses an unreviewed product spec before any reservation or provider call',async t=>{
+ const {setup,MockProvider}=require('../../worker/tests/helpers.cjs');const provider=new MockProvider();provider.identity='test-only-real-provider-interface';
+ const e=setup(t,{provider,settings:{pricing:{input_per_million:1,output_per_million:1,as_of:new Date().toISOString()}},worker:{mock:false,qa:{assertAvailable(){},run(){throw Error('must not run');}}}});
+ await e.factory.create(e.spec);const r=await e.worker.runOnce();assert.equal(r.status,'PAUSED_SPEC');assert.equal(r.code,'product_contract_unreviewed');assert.equal(provider.calls,0);assert(!fs.existsSync(e.manager.file));assert.equal(e.store.get(e.spec.game_id).state,'SPEC_READY');
+});

@@ -6,6 +6,7 @@ if(defects.includes('BAD_SCORE'))ProductFixtureCore.farming=true;
 if(variant==='BAD_DEADTIME')ProductFixtureCore.terminal=s=>s.outcome==='failure'||s.outcome==='success'&&s.tick>=300;
 if(defects.includes('BAD_RESULT'))document.body.classList.add('bad-result');
 if(defects.includes('BAD_GOAL'))document.querySelector('[data-objective]').hidden=true;
+if(variant==='BAD_GOAL_OPACITY')document.querySelector('[data-objective]').style.opacity='0';
 const media=matchMedia('(prefers-reduced-motion: reduce)');
 const presentation={reduced_motion:media.matches,feedback_active:false,static_feedback:false};
 let timer;

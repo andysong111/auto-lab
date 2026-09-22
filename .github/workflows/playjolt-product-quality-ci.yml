@@ -10,9 +10,13 @@ concurrency:
   cancel-in-progress: true
 jobs:
   product:
-    name: Product contract and Docker Chromium fixtures
+    name: Product contract and Docker Chromium fixtures (${{ matrix.shard }})
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,10 +33,12 @@ jobs:
       - name: GOOD, independent BAD fixtures, bounded native media, all six seeds
         run: npm run test:product:docker --prefix vibe-arcade/autonomy
         env:
+          PRODUCT_TEST_SHARD: ${{ matrix.shard }}
+          PRODUCT_TEST_SHARDS: 3
           FACTORY_EVIDENCE_DIR: ${{ runner.temp }}/product-quality-evidence
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: generic-product-quality-evidence
+          name: generic-product-quality-evidence-${{ matrix.shard }}
           path: ${{ runner.temp }}/product-quality-evidence
           retention-days: 14

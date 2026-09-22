@@ -1,0 +1,158 @@
+{
+  "commit": "cd69ac0876df40765af9e888b4f9f0606e56bea5",
+  "workflow_run": 35745897061,
+  "artifact_id": 10703546251,
+  "artifact_zip_sha256": "4ac8ede4d689d29392b8699a0ccf942f05a516d2b2536868f4a32e104f6a7eff",
+  "fixture_results": [
+    {
+      "variant": "GOOD",
+      "expected": [],
+      "passed": false,
+      "codes": [
+        "product_completion"
+      ],
+      "duration_ms": 60187,
+      "source_hash": "4823dcf34048f94823417d18c57699a08341c354ceeeb69e9a1324ad999690c3"
+    },
+    {
+      "variant": "BAD_DEADTIME",
+      "expected": [
+        "product_completion"
+      ],
+      "passed": false,
+      "codes": [
+        "product_completion",
+        "product_replay",
+        "product_difficulty",
+        "product_practice_best"
+      ],
+      "duration_ms": 51828,
+      "source_hash": "c0d911103136d0fecd951ca94f67f5838f80b08ea1dff52f8446db2678335144"
+    },
+    {
+      "variant": "BAD_TEXT",
+      "expected": [
+        "product_mobile_readability"
+      ],
+      "passed": false,
+      "codes": [
+        "product_mobile_readability",
+        "product_completion"
+      ],
+      "duration_ms": 60841,
+      "source_hash": "c59c8cfb97329741a6c1e3ae310e76bd621f3c9fe144e99e4ed25c35be769c0a"
+    },
+    {
+      "variant": "BAD_SCORE",
+      "expected": [
+        "product_score_integrity"
+      ],
+      "passed": false,
+      "codes": [
+        "product_score_integrity",
+        "product_completion"
+      ],
+      "duration_ms": 60139,
+      "source_hash": "2146c64e5021d08e162497f260d10f0a96f3e84a1494bc0079952ea9344f7d9b"
+    },
+    {
+      "variant": "BAD_RESULT",
+      "expected": [
+        "product_replay"
+      ],
+      "passed": false,
+      "codes": [
+        "product_completion",
+        "product_replay",
+        "product_failure_result"
+      ],
+      "duration_ms": 60353,
+      "source_hash": "ac67c17c9166611e6b2d4956e448f926c6b21425f8c8511b3ce17b958bd8117f"
+    },
+    {
+      "variant": "BAD_MOTION",
+      "expected": [
+        "product_reduced_motion"
+      ],
+      "passed": false,
+      "codes": [
+        "product_reduced_motion",
+        "product_completion"
+      ],
+      "duration_ms": 62297,
+      "source_hash": "93f5b25ba6a2de7c4659f1a39e11919a92b97096bcf2acc845e7a4f318192905"
+    },
+    {
+      "variant": "BAD_GOAL",
+      "expected": [
+        "product_objective"
+      ],
+      "passed": false,
+      "codes": [
+        "product_objective",
+        "product_completion"
+      ],
+      "duration_ms": 60452,
+      "source_hash": "209269a570fb1759ba6efdb152146f2a64ee5f44f3d465b988090ed318ee07d1"
+    },
+    {
+      "variant": "BAD_FEEDBACK",
+      "expected": [
+        "product_feedback"
+      ],
+      "passed": false,
+      "codes": [
+        "product_feedback",
+        "product_completion"
+      ],
+      "duration_ms": 60155,
+      "source_hash": "078f3bea67ea34bf54de06240ab0a2f0ba1b0b7b116a6f2a186449f31557571e"
+    },
+    {
+      "variant": "DELAYED_MEDIA_GOOD",
+      "expected": [],
+      "passed": false,
+      "codes": [
+        "product_completion"
+      ],
+      "duration_ms": 61086,
+      "source_hash": "c9d810366bd7f0e3e2ac96189ca1d98c2a87b9075aa8beec99c685e85cee9105"
+    },
+    {
+      "variant": "PERMANENT_MEDIA_BAD",
+      "expected": [
+        "product_reduced_motion"
+      ],
+      "passed": false,
+      "codes": [
+        "product_reduced_motion",
+        "product_completion"
+      ],
+      "duration_ms": 62392,
+      "source_hash": "21534a2424418d14773d7e83fa9d125baef1dc850e8ad2bafeff5c7eda9ee20a"
+    },
+    {
+      "variant": "MULTI_BAD",
+      "expected": [
+        "product_score_integrity",
+        "product_replay",
+        "product_reduced_motion",
+        "product_objective",
+        "product_feedback"
+      ],
+      "passed": false,
+      "codes": [
+        "product_objective",
+        "product_reduced_motion",
+        "product_score_integrity",
+        "product_feedback",
+        "product_completion",
+        "product_replay",
+        "product_failure_result"
+      ],
+      "duration_ms": 62342,
+      "source_hash": "f9f6a63023b915660afed51310f5795099e8dc85f2691aedebb5f4be7ad07caf"
+    }
+  ],
+  "suite_result": "FAIL: normal-input branches and Factory Repair integration work; terminal frame observer installed before Playwright clock was overwritten. GOOD/DELAYED_MEDIA_GOOD false product_completion failures. Observer now installs after clock; BAD fixtures assert exact code sets to catch unrelated regressions."
+}

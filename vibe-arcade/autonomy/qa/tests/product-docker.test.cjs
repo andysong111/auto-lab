@@ -8,11 +8,11 @@ const {requestFor}=require('../../orchestrator/repair.cjs');
 const policy={...require('../../policies/quality-gate.json'),product:{...require('../../policies/quality-gate.json').product,allow_fixture_oracles:true}};
 const dir=process.env.FACTORY_EVIDENCE_DIR||fs.mkdtempSync(path.join(os.tmpdir(),'product-evidence-'));
 const qa=new DockerQA({limits:{cpus:1,memory_mb:1024,pids:128,timeout_ms:180000}});qa.assertAvailable();
-const cases={GOOD:[],BAD_DEADTIME:['product_completion'],BAD_TEXT:['product_mobile_readability'],BAD_SCORE:['product_score_integrity'],BAD_RESULT:['product_replay'],BAD_MOTION:['product_reduced_motion'],BAD_GOAL:['product_objective'],BAD_FEEDBACK:['product_feedback'],DELAYED_MEDIA_GOOD:[],PERMANENT_MEDIA_BAD:['product_reduced_motion'],MULTI_BAD:['product_score_integrity','product_replay','product_reduced_motion','product_objective','product_feedback']};
-let index=900;const results=[];
-for(const [variant,expected] of Object.entries(cases))test('Docker Chromium product fixture '+variant,{timeout:200000},async t=>{
+const cases={GOOD:[],BAD_GOAL_OPACITY:['product_objective'],BAD_DEADTIME:['product_completion'],BAD_TEXT:['product_mobile_readability'],BAD_SCORE:['product_score_integrity'],BAD_RESULT:['product_replay'],BAD_MOTION:['product_reduced_motion'],BAD_GOAL:['product_objective'],BAD_FEEDBACK:['product_feedback'],DELAYED_MEDIA_GOOD:[],PERMANENT_MEDIA_BAD:['product_reduced_motion'],MULTI_BAD:['product_score_integrity','product_replay','product_reduced_motion','product_objective','product_feedback']};
+const shard=Number(process.env.PRODUCT_TEST_SHARD||0),shards=Number(process.env.PRODUCT_TEST_SHARDS||1);assert(Number.isInteger(shards)&&shards>=1&&shards<=3&&Number.isInteger(shard)&&shard>=0&&shard<shards);const results=[];
+for(const [caseIndex,[variant,expected]] of Object.entries(cases).entries())if(caseIndex%shards===shard)test('Docker Chromium product fixture '+variant,{timeout:200000},async t=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'product-source-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));write(root,variant);
- const spec={game_id:'GAME-00000000-'+(++index),generation:1,title:'Infrastructure fixture '+variant,slug:'product-fixture',genre:'fixture',mechanic_family:'fixture-only',controls:['Arrows or Space toggle'],mobile_controls:['Tap a square'],qa:{seed:7,keyboard:{key:'ArrowRight',observation:'state.interactions'},pointer:{observation:'state.pointerActions'},terminal_ms:16000},product_contract:contract()};
+ const spec={game_id:'GAME-00000000-'+(901+caseIndex),generation:1,title:'Infrastructure fixture '+variant,slug:'product-fixture',genre:'fixture',mechanic_family:'fixture-only',controls:['Arrows or Space toggle'],mobile_controls:['Tap a square'],qa:{seed:7,keyboard:{key:'ArrowRight',observation:'state.interactions'},pointer:{observation:'state.pointerActions'},terminal_ms:16000},product_contract:contract()};
  const manifest=create(spec);atomicJSON(path.join(root,'manifest.json'),manifest);manifest.source_hash=hashTree(root);
  const out=path.join(dir,variant);let result,factory,store,current;
  if(variant==='MULTI_BAD'){
@@ -23,7 +23,7 @@ for(const [variant,expected] of Object.entries(cases))test('Docker Chromium prod
  }else result=await qa.run({manifest,gameRoot:root,outDir:out,policy,suite:'product'});
  const codes=[...new Set(result.hard_failures.map(f=>f.code))];results.push({variant,expected,passed:result.passed,codes,duration_ms:result.duration_ms,source_hash:result.source_hash});atomicJSON(path.join(dir,'fixture-results.json'),results);
  assert.equal(result.isolation.network,'none');assert.equal(result.isolation.readonly,true);assert.equal(result.side_effects.length,0,'capture writes / network attempts');
- for(const code of expected)assert(codes.includes(code),variant+' missing '+code+'; actual '+JSON.stringify(codes));
+ const expectedCodes=[...expected,...(['BAD_RESULT','MULTI_BAD'].includes(variant)?['product_failure_result']:[]),...(variant==='BAD_DEADTIME'?['product_replay','product_difficulty','product_practice_best']:[])];assert.deepEqual([...codes].sort(),expectedCodes.sort(),variant+' must fail only for its declared independent defect or direct consequence');
  if(!expected.length)assert.equal(result.passed,true,JSON.stringify(result.hard_failures));else assert.equal(result.passed,false);
  if(variant==='BAD_DEADTIME')assert.equal(result.checks.filter(c=>c.check==='difficulty').length,6,'all seeds attempted even when terminal delay fails');else assert.equal(result.seeds.length,6,'all seeds continue despite independent defects');assert(result.checks.some(c=>c.check==='practice_best'),'best test was not short-circuited');
  if(variant==='GOOD'){
