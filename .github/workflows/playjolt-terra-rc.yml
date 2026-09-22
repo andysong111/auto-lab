@@ -82,7 +82,7 @@ jobs:
           - Source evidence: GitHub Actions runs 35686518524, 35687383568, 35687897597
           DOC
 
-          git add "vibe-arcade/autonomy/games/$GAME_ID"
+          git add -f "vibe-arcade/autonomy/games/$GAME_ID"
           if ! git diff --cached --quiet; then
             git commit -m "feat(factory): add Terra canary RC $GAME_ID $VERSION"
             git push -u origin "$RC_BRANCH"
