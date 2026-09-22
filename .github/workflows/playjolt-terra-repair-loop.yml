@@ -69,7 +69,7 @@ jobs:
           c.pricing={input_per_million:2,output_per_million:12,as_of:'2026-09-22'};
           c.per_game.max_provider_calls=6;
           c.per_game.max_estimated_cost=0.50;
-          c.per_game.max_wall_clock_minutes=120;
+          c.per_game.max_wall_clock_minutes=60;
           c.global.daily_provider_call_limit=6;
           c.global.daily_cost_limit=0.50;
           c.release_candidates=false;
