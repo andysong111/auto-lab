@@ -1,0 +1,190 @@
+name: PlayJolt one-call Terra repair canary
+
+on:
+  push:
+    branches:
+      - commissioning/terra-canary-20260922
+    paths:
+      - .github/workflows/playjolt-terra-repair-canary.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: playjolt-terra-repair-canary-20260922
+  cancel-in-progress: false
+
+jobs:
+  repair-canary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      FACTORY_OPENAI_MODEL: gpt-5.6-terra
+      FACTORY_ALLOW_PAID_CALLS: "1"
+      FACTORY_WORKER_ROOT: /tmp/playjolt-terra-repair
+      PRIOR_RUN_ID: "35686518524"
+      PRIOR_ARTIFACT: terra-canary-evidence
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Factory dependencies
+        run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+
+      - name: Restore exact prior canary state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf "$FACTORY_WORKER_ROOT"
+          mkdir -p "$FACTORY_WORKER_ROOT"
+          gh run download "$PRIOR_RUN_ID" -n "$PRIOR_ARTIFACT" -D "$FACTORY_WORKER_ROOT"
+          test -f "$FACTORY_WORKER_ROOT/autonomy/jobs/GAME-20260922-901/manifest.json"
+          test -f "$FACTORY_WORKER_ROOT/autonomy/artifacts/GAME-20260922-901/repair-1.json"
+          test -d "$FACTORY_WORKER_ROOT/autonomy/games/GAME-20260922-901/v1"
+
+      - name: Restore first-call accounting and authorize exactly one repair call
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs=require('node:fs'),path=require('node:path');
+          const root=process.env.FACTORY_WORKER_ROOT;
+          const manifest=JSON.parse(fs.readFileSync(path.join(root,'autonomy/jobs/GAME-20260922-901/manifest.json'),'utf8'));
+          if(manifest.state!=='REPAIRING'||manifest.version!=='v2'||manifest.repair_attempt!==1)throw Error('unexpected restored factory checkpoint');
+
+          const configFile=path.join(root,'worker-config.json');
+          const c=JSON.parse(fs.readFileSync(configFile,'utf8'));
+          c.pricing={input_per_million:2,output_per_million:12,as_of:'2026-09-22'};
+          c.per_game.max_provider_calls=2;
+          c.per_game.max_estimated_cost=0.35;
+          c.per_game.max_wall_clock_minutes=60;
+          c.global.daily_provider_call_limit=2;
+          c.global.daily_cost_limit=0.35;
+          c.release_candidates=false;
+          fs.writeFileSync(configFile,JSON.stringify(c,null,2)+'\n');
+
+          const policyFile=path.join(root,'control-policy.json');
+          const p=JSON.parse(fs.readFileSync(policyFile,'utf8'));
+          p.mode='one-call-targeted-repair-canary';
+          p.intake_enabled=true;
+          p.auto_rc_enabled=false;
+          p.kill_switches.release_candidates=true;
+          p.kill_switches.production_shipping=true;
+          p.kill_switches.marketing_promotion=true;
+          fs.writeFileSync(policyFile,JSON.stringify(p,null,2)+'\n');
+
+          const providerDir=path.join(root,'autonomy/.provider');
+          fs.mkdirSync(providerDir,{recursive:true});
+          const firstStarted=Date.parse(manifest.created_at);
+          const ledger={
+            schema_version:1,
+            cost_basis:'estimated; restored from approved first-canary GitHub evidence',
+            jobs:{[manifest.game_id]:{started_at:firstStarted}},
+            operations:{
+              [manifest.game_id+'/build/v1']:{
+                operation_id:manifest.game_id+'/build/v1',
+                game_id:manifest.game_id,
+                version:'v1',
+                request_hash:'restored-first-canary-accounting',
+                day:'2026-09-22',
+                state:'COMPLETE',
+                provider:'openai-responses/gpt-5.6-terra',
+                started_at:firstStarted,
+                completed_at:Date.parse('2026-09-22T04:22:33.000Z'),
+                reserved:{input_tokens:7933,output_tokens:16000,estimated_cost:0.207866},
+                accounted:{input_tokens:1384,output_tokens:6722,estimated_cost:0.08343201},
+                prices:{input_per_million:2,output_per_million:12,as_of:'2026-09-22',estimated:true},
+                response_id:null,
+                result:null,
+                restored_from:'GitHub Actions run 35686518524 / terra-canary-evidence'
+              }
+            }
+          };
+          fs.writeFileSync(path.join(providerDir,'ledger.json'),JSON.stringify(ledger,null,2)+'\n');
+          NODE
+
+      - name: Build reviewed isolated QA image
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker build --iidfile /tmp/playjolt-qa-image -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat /tmp/playjolt-qa-image)" >> "$GITHUB_ENV"
+
+      - name: One approved targeted repair generation
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ "$GITHUB_RUN_ATTEMPT" != "1" ]; then
+            echo "::error::Paid repair canary is disabled on workflow reruns."
+            exit 78
+          fi
+          if [ -z "${OPENAI_API_KEY:-}" ]; then
+            echo "::error::OPENAI_API_KEY secret is not configured. No repair request was sent."
+            exit 78
+          fi
+          node vibe-arcade/autonomy/worker.cjs run-once             --root "$FACTORY_WORKER_ROOT"             --policy "$FACTORY_WORKER_ROOT/control-policy.json"             --config "$FACTORY_WORKER_ROOT/worker-config.json"             | tee "$FACTORY_WORKER_ROOT/repair-worker-result.json"
+
+      - name: Verify cumulative two-call ceiling and QA state
+        if: always()
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const fs=require('node:fs'),path=require('node:path');
+          const root=process.env.FACTORY_WORKER_ROOT;
+          const ledgerFile=path.join(root,'autonomy/.provider/ledger.json');
+          const manifestFile=path.join(root,'autonomy/jobs/GAME-20260922-901/manifest.json');
+          const out={
+            model:'gpt-5.6-terra',
+            approved_calls_total:2,
+            cumulative_estimated_cost_ceiling_usd:0.35,
+            first_call_estimated_cost_usd:0.08343201,
+            model_calls_observed:0
+          };
+          if(fs.existsSync(ledgerFile)){
+            const ledger=JSON.parse(fs.readFileSync(ledgerFile,'utf8'));
+            const ops=Object.values(ledger.operations||{});
+            out.model_calls_observed=ops.length;
+            out.operations=ops.map(o=>({
+              operation_id:o.operation_id,
+              state:o.state,
+              provider:o.provider,
+              response_id:o.response_id||null,
+              reserved:o.reserved||null,
+              accounted:o.accounted||null,
+              error_code:o.error_code||null
+            }));
+            out.cumulative_estimated_cost=ops.reduce((s,o)=>s+(o.accounted?.estimated_cost??o.reserved?.estimated_cost??0),0);
+            if(ops.length>2)out.safety_violation='more_than_two_total_provider_operations';
+            if(out.cumulative_estimated_cost>0.35+1e-9)out.safety_violation='cumulative_estimated_cost_above_ceiling';
+            const repairs=ops.filter(o=>o.operation_id.endsWith('/repair/1'));
+            if(repairs.length>1)out.safety_violation='duplicate_repair_operation';
+          }
+          if(fs.existsSync(manifestFile)){
+            const m=JSON.parse(fs.readFileSync(manifestFile,'utf8'));
+            out.factory={state:m.state,version:m.version,repair_attempt:m.repair_attempt,qa_status:m.qa_status,quality_status:m.quality_status,release_status:m.release_status,failure_reasons:m.failure_reasons};
+          }
+          const qa2=path.join(root,'autonomy/artifacts/GAME-20260922-901/v2/qa.json');
+          if(fs.existsSync(qa2)){
+            const q=JSON.parse(fs.readFileSync(qa2,'utf8'));
+            out.qa_v2={passed:q.passed,hard_failures:q.hard_failures,browser_cases:q.browser_cases,duration_ms:q.duration_ms};
+          }
+          fs.writeFileSync(path.join(root,'repair-canary-summary.json'),JSON.stringify(out,null,2)+'\n');
+          console.log(JSON.stringify(out,null,2));
+          if(out.safety_violation)process.exitCode=1;
+          NODE
+
+      - name: Upload repair canary evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terra-repair-canary-evidence
+          path: /tmp/playjolt-terra-repair
+          retention-days: 14
