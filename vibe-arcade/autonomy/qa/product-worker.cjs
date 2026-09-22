@@ -25,8 +25,12 @@ async function execute(config){
   await installGuard(ctx,server.origin,effects);await ctx.addInitScript(canvasAudit);
   const p=await ctx.newPage();p.setDefaultTimeout(1200);p.setDefaultNavigationTimeout(policy.limits.load_ms);
   p.on('console',m=>{if(m.type()==='error')r.console_errors.push(m.text().slice(0,800));});p.on('pageerror',e=>r.page_errors.push(e.message.slice(0,800)));
-  await p.clock.install();const navigation=Date.now();await p.goto(server.origin+'/?seed='+seed+(practice?'':'&qa=1&capture=1'));
-  await p.waitForFunction(()=>!!globalThis.GameDiagnostics);await p.clock.pauseAt(new Date(await p.evaluate(()=>Date.now())+50));
+  // Pause on the empty page before any game timer exists. A fixed one-day horizon
+  // exceeds the entire container deadline, so protocol latency cannot overtake it.
+  // Reading a live Date.now() then pausing 50ms later races a throttled Chromium.
+  await p.clock.install({time:new Date(0)});await p.clock.pauseAt(new Date(86400000));
+  const navigation=Date.now();await p.goto(server.origin+'/?seed='+seed+(practice?'':'&qa=1&capture=1'));
+  await p.waitForFunction(()=>!!globalThis.GameDiagnostics,null,{polling:20});await p.clock.runFor(50);
   // Install after Playwright's clock replaces requestAnimationFrame; otherwise the observer is silently overwritten.
   await p.evaluate(terminalTimeline,{statePath:contract.completion.state_path});
   const close=async()=>{await p.waitForTimeout(30);(practice?r.practice_effects:r.side_effects).push(...effects.map(e=>({...e,practice,viewport:{width,height}})));const v=p.video();await ctx.close();if(v){const old=await v.path(),file=`product-${width}-gameplay.webm`;fs.renameSync(old,path.join(outDir,file));r.artifacts.push({path:file,kind:'video',phase:'gameplay',viewport:{width,height},sha256:digest(fs.readFileSync(path.join(outDir,file)))});}};
