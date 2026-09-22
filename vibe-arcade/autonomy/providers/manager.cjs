@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path');
 const {ProcessLock}=require('../worker/lock.cjs');
 const {safePath,atomicJSON,readJSON,hash}=require('../orchestrator/files.cjs');
-const {validateOutput,responseSchema}=require('./output.cjs');
+const {validateOutput,quarantineOutput,responseSchema}=require('./output.cjs');
 const {instructions}=require('./prompts.cjs');
 const {ProviderPause,modelError}=require('./errors.cjs');
 const LOCK='GAME-00000000-000';
@@ -43,6 +43,11 @@ class ProviderManager {
     d.operations[request.operation_id]=o;this.save(d);return o;
   }
   assertWallFrom(d,id) {if(this.now()-d.jobs[id].started_at>=this.config.per_game.max_wall_clock_minutes*60000)throw new ProviderPause('game_wall_clock_limit',undefined,'PAUSED_BUDGET');}
+  rejectedContext(gameId,attempt) {
+    const prior=attempt===1?`${gameId}/build/v1`:`${gameId}/repair/${attempt-1}`,o=this.read().operations[prior];
+    if(!o||o.state!=='MODEL_FAILED')return null;
+    return {operation_id:prior,error_code:o.error_code||null,error_detail:o.error_detail||null,error_context:o.error_context||null,rejected_output:o.rejected_output||null};
+  }
   async execute(request) {
     if(!/^GAME-[0-9]{8}-[0-9]{3,6}\/(?:build|repair)\/(?:v[0-9]+|[0-9]+)$/.test(request.operation_id)||!request.operation_id.startsWith(request.game_id+'/'))throw new ProviderPause('invalid_operation_id');
     await this.guard();if(this.signal?.aborted)throw this.signal.reason;
@@ -52,7 +57,7 @@ class ProviderManager {
       if(o&&o.request_hash!==fingerprint)throw new ProviderPause('operation_id_conflict');
       if(o?.state==='COMPLETE')return o.result;
       if(o?.state==='LIMIT_BREACH')throw new ProviderPause(o.error_code,undefined,'PAUSED_BUDGET');
-      if(o?.state==='MODEL_FAILED')throw modelError(o.error_code);
+      if(o?.state==='MODEL_FAILED'){const e=modelError(o.error_code);if(o.error_detail)e.message=o.error_detail;if(o.error_context)e.detail=o.error_context;throw e;}
       if(o&&!o.response_id)throw new ProviderPause('provider_submission_uncertain','No second generation POST is allowed. Reconcile the operation with provider logs.');
       this.provider.assertAvailable();await this.guard();this.assertWall(request.game_id);
       const fresh=!o;if(fresh)o=this.reserve(d,request,fingerprint);
@@ -77,7 +82,16 @@ class ProviderManager {
             throw new ProviderPause(o.error_code,undefined,'PAUSED_BUDGET');
           }
         }
-        const value=validateOutput(response.output,request,this.config.request);
+        let value;
+        try { value=validateOutput(response.output,request,this.config.request); }
+        catch(e) {
+          if(e.model_failure) {
+            o.rejected_output=quarantineOutput(response.output,this.config.request);
+            o.error_detail=String(e.message||e.code||'model_failure').slice(0,2000);
+            o.error_context=e.detail||null;
+          }
+          throw e;
+        }
         const metadata={provider:this.provider.identity,response_id:o.response_id,usage:o.accounted||null,estimated_cost:(o.accounted||o.reserved).estimated_cost,cost_basis:'estimated',billed_cost:null};
         o.result={...value,provider_metadata:metadata};o.state='COMPLETE';o.completed_at=this.now();this.save(d);return o.result;
       } catch(e) {

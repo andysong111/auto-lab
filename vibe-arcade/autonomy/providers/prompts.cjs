@@ -7,7 +7,7 @@ const {modelError}=require('./errors.cjs');
 const {inScope}=require('./output.cjs');
 const contract=Object.freeze({
   version:'gamekit-1',factory_supplied:['gamekit.js','manifest.json'],
-  files:{'core.js':'DOM-free create(seed), step(state,input), observe(state), terminal(state); expose one global object. Mutate only the supplied state; no time/random globals.',
+  files:{'core.js':'DOM-free create(seed), step(state,input), observe(state), terminal(state). Export with globalThis.YourCore = {create,step,observe,terminal}; NEVER use window even for export. Core source is statically checked for document/window/localStorage/fetch identifiers. Mutate only supplied state; no time/random globals.',
     'app.js':"Fetch ./manifest.json, then PlayJoltGameKit.create({core,draw,canvas:document.querySelector('[data-game-canvas]'),metadata}). No private game loop or replacement diagnostics.",
     'view/art.js':'draw(ctx,snapshot,{width,height}); drawing only. snapshot.state is cloned; do not mutate canonical state.',
     'index.html':'Load ./core.js, ./view/art.js, ./gamekit.js, ./app.js in that order; local ./style.css. Include noindex,nofollow and viewport meta.',
@@ -24,10 +24,10 @@ const instructions=`Implement an ORIGINAL unlisted no-account browser practice g
 Use the supplied GameKit API exactly. Return only the structured file result; tests are suggestions, never claims of executed tests.
 Invent an original mechanic; do not clone existing arena survival, tower descent, radial timing, column merge or auto-runner games. Astra Sentinel V3 and Deep Descent are completion-quality baselines, never art/code/brand/mechanic templates.
 No copyrighted character, art or code copying. Use original procedural canvas graphics/audio or explicitly approved local assets only. No CDN, package install, network service, external runtime dependency, account, analytics, score submission or login.
-Core must be deterministic/testable and DOM-free. Implement meaningful keyboard AND mobile touch effects, progression, an interaction, reachable terminal state within spec.qa.terminal_ms, repeatable restart, pause and bounded resources.\nFor real commissioning, honor immutable_spec.implementation_contract as a product requirement: make the concrete objective obvious in the first five seconds, keep goal progress visible, expose GameKit device-local best separately from current score, make later stages meaningfully deeper across deterministic seeds, keep mobile labels readable without collisions, present a strong complete/incomplete result, and respond to prefers-reduced-motion changes during the session. Sound is optional; if used, event cues must be distinct, toggleable and resource-bounded.
+Core must be deterministic/testable and DOM-free. Export the named core object via globalThis, never window; a browser-only window export fails core_dom_dependency before QA. Implement meaningful keyboard AND mobile touch effects, progression, an interaction, reachable terminal state within spec.qa.terminal_ms, repeatable restart, pause and bounded resources.\nFor real commissioning, honor immutable_spec.implementation_contract as a product requirement: make the concrete objective obvious in the first five seconds, keep goal progress visible, expose GameKit device-local best separately from current score, make later stages meaningfully deeper across deterministic seeds, keep mobile labels readable without collisions, present a strong complete/incomplete result, and respond to prefers-reduced-motion changes during the session. Sound is optional; if used, event cues must be distinct, toggleable and resource-bounded.
 Capture/QA must have no persistence/network writes. GameKit supplies capture safety and diagnostics. Device-local best must be rendered from GameKit state rather than custom storage. Use no eval, dynamic imports, shell/tool calls, production paths or secrets.
 Repair responses replace only the allowed files and preserve unrelated game behavior. Never edit manifest.json, gamekit.js, quality policy, diagnostics probes or acceptance tests.`;
-function compile({root,workspace,manifest,spec,request,operationId,budget}) {
+function compile({root,workspace,manifest,spec,request,operationId,budget,rejected=null}) {
   const mode=request?'repair':'build';
   let qa=null,failures=request?.qa_failures||[],allowed=[...requiredFiles,'view/**','assets/**'],sources={};
   if(request) {
@@ -51,6 +51,13 @@ function compile({root,workspace,manifest,spec,request,operationId,budget}) {
     allowed=allowed.filter(a=>inScope(a,request.allowed_scope||[])&&!inScope(a,request.protected_paths||[]));
     if(!allowed.length)throw modelError('path_isolation: empty repair scope');
     for(const f of files.filter(f=>allowed.includes(f)||allowed.some(a=>a.endsWith('/**')&&f.startsWith(a.slice(0,-2)))))sources[f]=fs.readFileSync(safePath(workspace,f),'utf8');
+    // A validation-rejected provider response is untrusted data: never applied or executed.
+    // When no accepted workspace exists, expose only allowed candidate files as repair context.
+    if(!files.length&&rejected?.rejected_output?.files){
+      for(const f of rejected.rejected_output.files){
+        if((allowed.includes(f.path)||allowed.some(a=>a.endsWith('/**')&&f.path.startsWith(a.slice(0,-2))))&&!inScope(f.path,request.protected_paths||[]))sources[f.path]=f.content;
+      }
+    }
     // Contract and immutable input probes are supplied even for narrow CSS-only repairs.
   }
   return {operation_id:operationId,game_id:manifest.game_id,version:manifest.version,mode,immutable_spec:spec,
@@ -58,6 +65,6 @@ function compile({root,workspace,manifest,spec,request,operationId,budget}) {
       {game:'deep-descent',role:'quality only; mobile control, visible progression, terminal/restart, bounded effects; no copying'}],
     gamekit_contract:{...contract,source_hash:hash(fs.readFileSync(path.join(__dirname,'../gamekit/gamekit.js'),'utf8'))},
     allowed_paths:allowed,protected_paths:[...new Set([...protectedPaths,...(request?.protected_paths||[]),'manifest.json','gamekit.js'])],budget,
-    previous_failures:failures,repair_request:request||null,qa_evidence:qa,sources,empty_workspace:request?listFiles(workspace).length===0:true};
+    previous_failures:failures,repair_request:request||null,qa_evidence:qa,model_validation:rejected?{operation_id:rejected.operation_id,error_code:rejected.error_code,error_detail:rejected.error_detail,error_context:rejected.error_context}:null,sources,empty_workspace:request?listFiles(workspace).length===0:true};
 }
 module.exports={compile,instructions,contract};

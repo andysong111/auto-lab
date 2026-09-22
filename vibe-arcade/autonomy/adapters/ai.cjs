@@ -4,7 +4,8 @@ const {compile}=require('../providers/prompts.cjs');
 const {applyOutput}=require('../providers/output.cjs');
 async function implement(adapter,context) {
   const {manager,root}=adapter;
-  const request=compile({...context,root,budget:{per_game:manager.config.per_game,request:manager.config.request}});
+  const rejected=context.request?manager.rejectedContext(context.manifest.game_id,context.request.attempt):null;
+  const request=compile({...context,root,rejected,budget:{per_game:manager.config.per_game,request:manager.config.request}});
   const result=await manager.execute(request);
   await manager.guard();if(manager.signal?.aborted)throw manager.signal.reason;
   applyOutput(result,context.workspace,root,context.manifest);
