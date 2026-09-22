@@ -5,6 +5,7 @@ const {safePath,atomicJSON,readJSON,hash}=require('../orchestrator/files.cjs');
 const {validateOutput,responseSchema}=require('./output.cjs');
 const {instructions}=require('./prompts.cjs');
 const {ProviderPause,modelError}=require('./errors.cjs');
+const {assertWindow}=require('./continuation.cjs');
 const LOCK='GAME-00000000-000';
 const cost=(n,p)=>Math.ceil((n.input_tokens*p.input_per_million+n.output_tokens*p.output_per_million)/1e6*1e8)/1e8;
 class ProviderManager {
@@ -19,8 +20,7 @@ class ProviderManager {
   }
   save(d) { atomicJSON(this.file,d);const fd=fs.openSync(path.dirname(this.file),'r');try{fs.fsyncSync(fd);}finally{fs.closeSync(fd);} }
   assertWall(gameId) {
-    const j=this.read().jobs[gameId];
-    if(j&&this.now()-j.started_at>=this.config.per_game.max_wall_clock_minutes*60000)throw new ProviderPause('game_wall_clock_limit',undefined,'PAUSED_BUDGET');
+    assertWindow(this.read(),gameId,this.config.per_game.max_wall_clock_minutes,this.now());
   }
   totals(d,gameId,day) {
     const total={calls:0,input:0,output:0,cost:0};
@@ -37,12 +37,12 @@ class ProviderManager {
     const reserved={input_tokens:input,output_tokens:c.request.max_output_tokens};reserved.estimated_cost=cost(reserved,this.prices);
     const g=this.totals(d,request.game_id),daily=this.totals(d,null,day),p=c.per_game;
     if(g.calls+1>p.max_provider_calls||g.input+reserved.input_tokens>p.max_input_tokens||g.output+reserved.output_tokens>p.max_output_tokens||g.cost+reserved.estimated_cost>p.max_estimated_cost+1e-9||daily.calls+1>c.global.daily_provider_call_limit||daily.cost+reserved.estimated_cost>c.global.daily_cost_limit+1e-9)throw new ProviderPause('provider_budget_exhausted',undefined,'PAUSED_BUDGET');
-    d.jobs[request.game_id]||={started_at:this.now()};this.assertWallFrom(d,request.game_id);
+    d.jobs[request.game_id]||={started_at:this.now()};this.assertWallFrom(d,request.game_id,request.operation_id);
     const o={operation_id:request.operation_id,game_id:request.game_id,version:request.version,request_hash:fingerprint,day,state:'SUBMITTING',
       provider:this.provider.identity,started_at:this.now(),deadline_at:this.now()+c.request.timeout_ms,reserved,prices:this.prices,response_id:null};
     d.operations[request.operation_id]=o;this.save(d);return o;
   }
-  assertWallFrom(d,id) {if(this.now()-d.jobs[id].started_at>=this.config.per_game.max_wall_clock_minutes*60000)throw new ProviderPause('game_wall_clock_limit',undefined,'PAUSED_BUDGET');}
+  assertWallFrom(d,id,operationId) {assertWindow(d,id,this.config.per_game.max_wall_clock_minutes,this.now(),operationId);}
   async execute(request) {
     if(!/^GAME-[0-9]{8}-[0-9]{3,6}\/(?:build|repair)\/(?:v[0-9]+|[0-9]+)$/.test(request.operation_id)||!request.operation_id.startsWith(request.game_id+'/'))throw new ProviderPause('invalid_operation_id');
     await this.guard();if(this.signal?.aborted)throw this.signal.reason;

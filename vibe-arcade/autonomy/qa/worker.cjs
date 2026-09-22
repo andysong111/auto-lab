@@ -9,6 +9,7 @@ const sleep = ms => new Promise(r => setTimeout(r,ms));
 const at = (obj,key) => key.split('.').reduce((o,k) => o?.[k], obj);
 const snap = page => page.evaluate(() => GameDiagnostics.snapshot());
 async function execute(config) {
+  if(config.polish===true)return require('./prism-polish.cjs').execute(config);
   const {manifest, gameRoot, outDir, policy} = config; validate(manifest);
   fs.mkdirSync(outDir,{recursive:true}); const began=Date.now(), sourceHash=hashTree(gameRoot);
   const report = {schema_version:1, game_id:manifest.game_id, version:manifest.version, source_hash:sourceHash,

@@ -1,0 +1,73 @@
+name: PlayJolt Prism Relay bounded AI polish
+on:
+  push:
+    branches: [commissioning/prism-relay-polish-20260922]
+    paths: ['vibe-arcade/autonomy/commissioning/prism-polish/run-request.json']
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: playjolt-first-real-game-GAME-20260922-110
+  cancel-in-progress: false
+jobs:
+  polish:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      FACTORY_OPENAI_MODEL: gpt-5.6-terra
+      FACTORY_ALLOW_PAID_CALLS: '1'
+      AUTO_PRODUCTION_SHIP: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Reject repeated submissions before provider secret exposure
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          count=$(gh api --paginate "repos/$GITHUB_REPOSITORY/actions/workflows/playjolt-prism-polish.yml/runs?branch=commissioning%2Fprism-relay-polish-20260922&per_page=100" --jq '.workflow_runs[].id' | wc -l)
+          test "$count" -eq 1
+          test "$(gh api repos/andysong111/auto-lab/git/ref/heads/factory/GAME-20260922-110 --jq .object.sha)" = 73dd47cbc50db6825c2fcc9d6a19d60136cd5818
+          echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/prism-polish" >> "$GITHUB_ENV"
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Contracts before paid calls
+        run: |
+          npm test --prefix vibe-arcade/autonomy
+          npm run test:worker --prefix vibe-arcade/autonomy
+          node --test vibe-arcade/autonomy/commissioning/tests/prism-polish.test.cjs
+      - name: Restore exact prior source and lifetime provider ledger
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 35702212896 -n first-real-game-review-GAME-20260922-110 -D "$FACTORY_WORKER_ROOT"
+          test -f "$FACTORY_WORKER_ROOT/autonomy/.provider/ledger.json"
+          node vibe-arcade/autonomy/commissioning/first-real-game/audit-provenance.cjs "$FACTORY_WORKER_ROOT"
+      - name: Build reviewed Docker QA image
+        run: |
+          docker build --iidfile "$RUNNER_TEMP/prism-polish-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/prism-polish-image")" >> "$GITHUB_ENV"
+      - name: Existing Worker and AI Repair with lifetime remaining attempts
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          test -n "$OPENAI_API_KEY"
+          node vibe-arcade/autonomy/commissioning/prism-polish/run.cjs
+      - name: Record provenance and costs
+        if: always()
+        run: |
+          node vibe-arcade/autonomy/commissioning/first-real-game/summarize.cjs
+          node vibe-arcade/autonomy/commissioning/first-real-game/audit-provenance.cjs "$FACTORY_WORKER_ROOT"
+      - name: Preserve full candidate state and idempotency ledger
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prism-relay-polish-GAME-20260922-110
+          path: ${{ runner.temp }}/prism-polish
+          include-hidden-files: true
+          retention-days: 30

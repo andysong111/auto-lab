@@ -39,7 +39,7 @@ function compile({root,workspace,manifest,spec,request,operationId,budget}) {
     if(fs.existsSync(file)) {
       const full=readJSON(file);
       if(full.game_id!==manifest.game_id||full.version!==request.version||request.source_hash&&full.source_hash!==request.source_hash)throw modelError('source_tampered');
-      qa={passed:full.passed,hard_failures:full.hard_failures,console_errors:full.console_errors,page_errors:full.page_errors,browser_cases:full.browser_cases?.map(c=>({viewport:c.viewport,checks:c.checks,passed:c.passed}))};
+      qa={passed:full.passed,hard_failures:full.hard_failures,console_errors:full.console_errors,page_errors:full.page_errors,commissioning_contract:full.commissioning_contract||null,browser_cases:full.browser_cases?.map(c=>({viewport:c.viewport,checks:c.checks,passed:c.passed}))};
       failures=full.hard_failures;
       if(failures.some(f=>policy.fatal_codes.includes(f.code)))throw modelError(failures.find(f=>policy.fatal_codes.includes(f.code)).code);
     }
