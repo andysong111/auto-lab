@@ -35,15 +35,25 @@ jobs:
       - name: Install Factory dependencies
         run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
 
-      - name: Restore latest approved canary state
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Clear commissioning state
         shell: bash
         run: |
           set -euo pipefail
           rm -rf "$FACTORY_WORKER_ROOT"
           mkdir -p "$FACTORY_WORKER_ROOT"
-          gh run download "$PRIOR_RUN_ID" -n "$PRIOR_ARTIFACT" -D "$FACTORY_WORKER_ROOT"
+
+      - name: Restore latest approved canary artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: terra-repair-canary-evidence
+          path: /tmp/playjolt-terra-repair-loop
+          github-token: ${{ github.token }}
+          run-id: 35687383568
+
+      - name: Verify restored checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
           test -f "$FACTORY_WORKER_ROOT/autonomy/jobs/GAME-20260922-901/manifest.json"
           test -f "$FACTORY_WORKER_ROOT/autonomy/.provider/ledger.json"
 
