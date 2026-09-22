@@ -18,7 +18,7 @@ function assertWindow(d,id,minutes,now,operationId) {
   const j=d.jobs[id];if(!j)return;
   const c=j.continuation;
   if(c){
-    if(!Number.isFinite(c.started_at)||!Number.isFinite(c.expires_at)||c.expires_at-c.started_at>60*60000||c.expires_at<=c.started_at||now<c.started_at||now>=c.expires_at||!Array.isArray(c.allowed_operations)||operationId&&!c.allowed_operations.includes(operationId))throw new ProviderPause('game_wall_clock_limit',undefined,'PAUSED_BUDGET');
+    if(!Number.isFinite(c.started_at)||!Number.isFinite(c.expires_at)||c.expires_at-c.started_at>Math.min(minutes,60)*60000||c.expires_at<=c.started_at||now<c.started_at||now>=c.expires_at||!Array.isArray(c.allowed_operations)||operationId&&!c.allowed_operations.includes(operationId))throw new ProviderPause('game_wall_clock_limit',undefined,'PAUSED_BUDGET');
     const prior=Object.fromEntries(c.prior_operation_ids.map(k=>[k,d.operations[k]]));
     if(Object.values(prior).some(o=>!o||o.state!=='COMPLETE')||hash(prior)!==c.prior_operations_hash)throw new ProviderPause('continuation_ledger_changed');
   }else if(now-j.started_at>=minutes*60000)throw new ProviderPause('game_wall_clock_limit',undefined,'PAUSED_BUDGET');

@@ -1,0 +1,57 @@
+name: PlayJolt Prism polish read-only QA audit
+on:
+  push:
+    branches: [commissioning/prism-relay-polish-20260922]
+    paths: ['.github/workflows/playjolt-prism-polish-audit.yml']
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: prism-polish-qa-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Restore exact rejected v6 and full ledger; no model key or paid-call flags
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 35719738363 -n prism-relay-polish-GAME-20260922-110 -D "$RUNNER_TEMP/prism-audit"
+          echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/prism-audit" >> "$GITHUB_ENV"
+          node vibe-arcade/autonomy/commissioning/first-real-game/audit-provenance.cjs "$RUNNER_TEMP/prism-audit"
+      - name: Build corrected instrumentation image
+        run: |
+          docker build --iidfile "$RUNNER_TEMP/prism-audit-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/prism-audit-image")" >> "$GITHUB_ENV"
+      - name: Actual Docker audit without changing Factory state, candidate bytes or original QA
+        run: |
+          node - <<'NODE'
+          const path=require('node:path');
+          const {readJSON,atomicJSON,hash,hashTree}=require('./vibe-arcade/autonomy/orchestrator/files.cjs');
+          const {DockerQA}=require('./vibe-arcade/autonomy/isolation/docker-qa.cjs');
+          const root=process.env.FACTORY_WORKER_ROOT,id='GAME-20260922-110';
+          const mf=path.join(root,`autonomy/jobs/${id}/manifest.json`),lf=path.join(root,'autonomy/.provider/ledger.json');
+          const m=readJSON(mf),before={manifest:hash(readJSON(mf)),ledger:hash(readJSON(lf)),source:hashTree(path.join(root,m.source_path))};
+          if(m.version!=='v6'||m.state!=='REJECTED'||m.repair_attempt!==5||m.source_hash!=='7127269016507a824d8df8726a509f3cef3c94215e68d99a56252bcc14fd0dc8')throw Error('audit_identity');
+          const base=require('./vibe-arcade/autonomy/policies/quality-gate.json'),policy={...base,limits:{...base.limits,run_timeout_ms:300000}};
+          (async()=>{const qa=new DockerQA({limits:{cpus:1,memory_mb:1024,pids:128,timeout_ms:300000}});const result=await qa.run({manifest:m,gameRoot:path.join(root,m.source_path),outDir:path.join(root,'polish-qa-audit'),policy,polish:true});
+          if(hash(readJSON(mf))!==before.manifest||hash(readJSON(lf))!==before.ledger||hashTree(path.join(root,m.source_path))!==before.source)throw Error('audit_changed_state');
+          atomicJSON(path.join(root,'polish-audit-summary.json'),{factory_state:m.state,qa_passed:result.passed,failures:result.hard_failures,practice:result.practice_record,reduced_motion_on_load:result.reduced_motion_on_load,no_model_calls:true,source_unchanged:true,ledger_unchanged:true,original_qa_unchanged:true});
+          console.log(JSON.stringify({passed:result.passed,failures:result.hard_failures,practice:result.practice_record,reduced_motion_on_load:result.reduced_motion_on_load}));})();
+          NODE
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: prism-relay-polish-audit
+          path: ${{ runner.temp }}/prism-audit
+          include-hidden-files: true
+          retention-days: 30

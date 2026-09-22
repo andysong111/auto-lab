@@ -35,13 +35,14 @@ function prepare(root){
  atomicJSON(path.join(root,'polish-starting-manifest.json'),final);atomicJSON(path.join(root,'polish-starting-ledger.json'),ledger);
  atomicJSON(path.join(root,'polish-starting-repair-history.json'),readJSON(store.artifact(id,'repair-history.json')));
  const authorization=authorize(ledger,final,{authorization_id,reason:'Owner explicitly commissioned bounded AI polish of the same verified v4 candidate; four goals in committed contract. No new game/production. Preserve lifetime six calls, five repairs and USD 2 ceiling.',minutes:45});
- atomicJSON(ledgerFile,ledger);atomicJSON(doneFile,authorization);
+ atomicJSON(ledgerFile,ledger);
  const previous=store.artifact(id,'v4/qa.json');if(fs.existsSync(previous))fs.renameSync(previous,store.artifact(id,'v4/qa-before-polish.json'));
  const factory=new Factory({store});factory.move(final,'QA_RUNNING',{qa_status:'RUNNING',quality_status:'PENDING',release_status:'NONE',preview_url:null},{reason:'Owner-authorized stricter polish acceptance, source bytes and repair budget unchanged',authorization_id});
  const control=readJSON(path.join(__dirname,'../../control-plane/policy.json'));control.intake_enabled=true;control.auto_rc_enabled=false;
  atomicJSON(path.join(root,'control-policy.json'),control);
  const settings=readJSON(path.join(__dirname,'../first-real-game/worker-config.json'));settings.isolation={cpus:1,memory_mb:1024,pids:128,timeout_ms:300000};
  atomicJSON(path.join(root,'worker-config.json'),settings);
+ atomicJSON(doneFile,authorization);
 }
 async function main(){
  const root=path.resolve(process.env.FACTORY_WORKER_ROOT||'');

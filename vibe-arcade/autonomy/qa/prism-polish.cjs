@@ -22,12 +22,13 @@ function plan(s){
 }
 async function audioProbe(ctx){
   await ctx.addInitScript(()=>{
-    const active=new Set(),stats={contexts:0,started:0,ended:0,peak:0,frequencies:[]};
+    const active=new Set(),stats={contexts:0,started:0,ended:0,peak:0,frequencies:[],scheduled_frequencies:[]};
     Object.defineProperty(window,'__polishAudio',{value:()=>({...stats,active:active.size})});
     const Native=window.AudioContext;if(!Native)return;
     class ObservedAudio extends Native {
       constructor(...args){super(...args);stats.contexts++;}
       createOscillator(){const o=super.createOscillator(),start=o.start.bind(o),disconnect=o.disconnect.bind(o);
+        const schedule=o.frequency.setValueAtTime.bind(o.frequency);o.frequency.setValueAtTime=(value,at)=>{stats.scheduled_frequencies.push({value,at});return schedule(value,at);};
         o.start=(...args)=>{active.add(o);stats.started++;stats.peak=Math.max(stats.peak,active.size);stats.frequencies.push(o.frequency.value);return start(...args);};
         o.addEventListener('ended',()=>{active.delete(o);stats.ended++;});
         o.disconnect=(...args)=>{active.delete(o);return disconnect(...args);};return o;
@@ -86,11 +87,11 @@ async function execute(config){
     for(let i=0;i<95&&(await snap()).phase!=='finished';i++)await p.clock.runFor(500);
     const end=await snap();assert.equal(end.phase,'finished');assert(end.tick>=900&&end.tick<=3600,'session outside 15-60s');assert.equal(end.state.circuits,3);c.terminal={tick:end.tick,score:end.score,best:end.best};
     await check('polish_result',async()=>{assert.match(await p.locator('[data-prism-result]').innerText(),/RELAY COMPLETE/i);assert.equal(Number(await p.locator('[data-prism-best]').innerText()),end.best);assert(end.best>=end.score);});
-    await capture('success');c.audio=await p.evaluate(()=>__polishAudio());
+    await capture('success');c.audio=await p.evaluate(()=>__polishAudio());c.feedback=await p.evaluate(()=>globalThis.PrismRelayFeedback?.snapshot()||null);
     if(seed===23){
      await check('polish_audio',async()=>{
       const button=p.locator('[data-prism-sound]');assert(await button.isVisible());assert.equal(await button.getAttribute('aria-pressed'),'true');
-      assert(c.audio.started>5,'no real WebAudio event feedback');assert(c.audio.peak<=8,'more than 8 simultaneous voices');assert(c.audio.contexts<=1,'AudioContext leak');assert(new Set(c.audio.frequencies).size>=3,'feedback pitches indistinguishable');
+      assert(c.audio.started>5,'no real WebAudio event feedback');assert(c.audio.peak<=8,'more than 8 simultaneous voices');assert(c.audio.contexts<=1,'AudioContext leak');assert(new Set(c.audio.scheduled_frequencies.map(f=>f.value)).size>=3,'feedback pitches indistinguishable');
       await button.click();assert.equal(await button.getAttribute('aria-pressed'),'false');await p.locator('[data-game-restart]').click();await p.clock.runFor(100);
       const muted=await p.evaluate(()=>__polishAudio());await rotate(p,ctx,mobile,0,1);await p.clock.runFor(100);assert.equal((await p.evaluate(()=>__polishAudio())).started,muted.started,'mute still starts voices');
       await button.click();await p.clock.runFor(50);await rotate(p,ctx,mobile,0,1);await p.clock.runFor(100);assert((await p.evaluate(()=>__polishAudio())).started>muted.started,'unmute never restores real oscillator');
@@ -101,17 +102,18 @@ async function execute(config){
      await check('polish_best_restart',async()=>{await p.clock.runFor(100);assert.equal((await snap()).best,end.best);assert.equal(Number(await p.locator('[data-prism-best]').innerText()),end.best);});
      await p.emulateMedia({reducedMotion:'reduce'});await p.clock.runFor(100);
      await check('polish_reduced_motion',async()=>{assert(await p.evaluate(()=>matchMedia('(prefers-reduced-motion: reduce)').matches));const feedback=await p.evaluate(()=>globalThis.PrismRelayFeedback?.snapshot());assert(feedback?.reducedMotion===true,'no reduced-motion presentation evidence');const motion=await p.locator('*').evaluateAll(ns=>ns.filter(n=>{const s=getComputedStyle(n);return s.animationName!=='none'&&parseFloat(s.animationDuration)>.01;}).length);assert.equal(motion,0,'CSS continues nonessential animation under reduced motion');});
+     c.reduced_motion={system_requested:await p.evaluate(()=>matchMedia('(prefers-reduced-motion: reduce)').matches),presentation:await p.evaluate(()=>globalThis.PrismRelayFeedback?.snapshot()||null)};
      await capture('reduced');
      for(let i=0;i<100&&(await snap()).phase!=='finished';i++)await p.clock.runFor(500);
-     await check('polish_failure',async()=>{assert.equal((await snap()).phase,'finished');assert.match(await p.locator('[data-prism-result]').innerText(),/RELAY INCOMPLETE/i);});await capture('failure');
+     await check('polish_failure',async()=>{assert.equal((await snap()).phase,'finished');assert.match(await p.locator('[data-prism-result]').innerText(),/RELAY INCOMPLETE/i);});await capture('failure');c.feedback_after_failure=await p.evaluate(()=>globalThis.PrismRelayFeedback?.snapshot()||null);c.audio_after=await p.evaluate(()=>__polishAudio());
     }
     await check('polish_overflow',async()=>assert((await p.evaluate(()=>document.documentElement.scrollWidth-innerWidth))<=1));
     c.passed=!report.hard_failures.some(f=>f.seed===seed);
    }catch(e){fail('polish_playthrough',e.message,seed);}
    finally{if(effects.length){report.side_effects.push(...effects);fail('production_side_effect','Polish capture attempted network or record writes',seed);}const video=record?p.video():null;await ctx.close();if(video){const file='viewport-390-playthrough.webm';fs.renameSync(await video.path(),path.join(outDir,file));report.capture={file,kind:'accelerated normal-input diagnostic capture, not human play'};}save();}
   }
-  // A separate fresh, disposable practice origin proves GameKit persistence/reload.
-  if(!report.hard_failures.length){
+  // Independently test local practice even when another polish gate fails.
+  {
    const effects=[],ctx=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,serviceWorkers:'block'});
    await installGuard(ctx,server.origin,effects);const p=await ctx.newPage();await p.clock.install();
    p.on('pageerror',e=>report.page_errors.push({mode:'practice',message:e.message}));p.on('console',m=>{if(m.type()==='error')report.console_errors.push({mode:'practice',message:m.text()});});
@@ -122,6 +124,8 @@ async function execute(config){
     const end=await p.evaluate(()=>GameDiagnostics.snapshot());assert.equal(end.state.circuits,3);assert(end.best>0);await p.locator('[data-game-restart]').click();await p.clock.runFor(100);assert.equal(Number(await p.locator('[data-prism-best]').innerText()),end.best);
     await p.reload();await p.waitForFunction(()=>!!window.GameDiagnostics);await p.clock.runFor(100);const loaded=await p.evaluate(()=>GameDiagnostics.snapshot());assert.equal(loaded.best,end.best);assert.equal(Number(await p.locator('[data-prism-best]').innerText()),end.best);
     const key=`playjolt_practice_${manifest.game_id}_${manifest.version}`;assert(effects.length>0);assert(effects.every(e=>e.kind==='storage'&&e.key===key),'practice wrote outside GameKit local record');
+    await p.emulateMedia({reducedMotion:'reduce'});await p.reload();await p.waitForFunction(()=>!!window.GameDiagnostics);await p.clock.runFor(100);
+    report.reduced_motion_on_load=await p.evaluate(()=>({system:matchMedia('(prefers-reduced-motion: reduce)').matches,presentation:globalThis.PrismRelayFeedback?.snapshot()||null}));
     report.practice_record={passed:true,best:end.best,restart_retained:true,reload_retained:true,key,writes:effects.length,scope:'disposable browser-local practice storage only; capture contexts made zero writes'};
    }catch(e){fail('polish_practice_best',e.message,null);for(const e of effects)if(e.kind!=='storage'||e.key!==`playjolt_practice_${manifest.game_id}_${manifest.version}`){report.side_effects.push(e);fail('production_side_effect','Unexpected practice side effect',null);}}
    finally{await ctx.close();}
@@ -132,4 +136,4 @@ async function execute(config){
  }catch(e){fail('qa_infrastructure',e.message,null);}finally{if(browser)await browser.close();if(server)await server.close();save();}
  return report;
 }
-module.exports={execute,plan,seeds};
+module.exports={execute,plan,seeds,audioProbe};
