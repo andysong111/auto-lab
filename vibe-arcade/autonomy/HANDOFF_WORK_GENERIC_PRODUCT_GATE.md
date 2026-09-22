@@ -2,7 +2,7 @@
 
 Infrastructure work for `andysong111/auto-lab`, starting from exact main `deb415a968afb6fbcaa7d9c9b6855191d7024fe8`. Branch `feature/generic-product-quality-gate`, [Draft PR #53](https://github.com/andysong111/auto-lab/pull/53). No new launch candidate, paid generation, historical repair/reset, production deployment or main merge.
 
-**Verified baseline: all 12 fixture assertions pass in Docker Chromium. GOOD and delayed native media PASS; all ten negative fixtures fail only for their expected defect or direct consequences. All nine existing/new CI workflows pass at code commit `25b55ab80291272e12aeb91a1c2791cab51f1b38`.** Full indexed evidence is committed below, with no candidate disposition or production change.
+**Complete: all 12 fixture assertions pass in Docker Chromium. GOOD and delayed native media PASS; all ten negative fixtures fail only for their expected defect or direct consequences. All nine existing/new CI workflows pass at code commit `fd13b3f202fe72624bcd0596f13ca7700a5e7cb7`.** Full indexed evidence is committed below, with no candidate disposition or production change.
 
 ## Architecture and integration
 
@@ -71,11 +71,11 @@ The generic runner automatically records entry, playing, midgame, each progress 
 
 The documentation/evidence-only repeat [35750666487](https://github.com/andysong111/auto-lab/actions/runs/35750666487) passed 11/12 fixture assertions, but PERMANENT_MEDIA_BAD seed 41 exposed an intermittent harness error: reading live browser time then calling `pauseAt(now + 50ms)` could arrive after that target under scheduling delay. Its required reduced-motion failure remained correct; the unexpected difficulty failure was clock setup. [Full failure record](evidence/generic-product-gate/iterations/03.json).
 
-Product sessions now install and pause their deterministic clock on the empty page before navigation. The pause horizon exceeds the whole container deadline and advances no game timers. Native diagnostic polling and explicit frame advancement then initialize the page. The terminal observer remains installed after the clock. No product assertion, fatal policy, timeout, fixture expectation, or common QA worker is relaxed. The current PR checks are the authoritative post-correction verification.
+Product sessions now install and pause their deterministic clock on the empty page before navigation. The pause horizon exceeds the whole container deadline and advances no game timers. Native diagnostic polling and explicit frame advancement then initialize the page. The terminal observer remains installed after the clock. No product assertion, fatal policy, timeout, fixture expectation, or common QA worker is relaxed. Post-correction [run 35751765988](https://github.com/andysong111/auto-lab/actions/runs/35751765988) passes all 12 fixture assertions, and all nine workflows pass at `fd13b3f202fe72624bcd0596f13ca7700a5e7cb7`. The final indexed evidence below is refreshed from that run.
 
 ## Final verification
 
-Tested code: `25b55ab80291272e12aeb91a1c2791cab51f1b38`; [all CI records](evidence/generic-product-gate/github-verification.json). [Product run 35747812587](https://github.com/andysong111/auto-lab/actions/runs/35747812587) uses three independent fixture shards, each with the same pinned isolation requirements. Production Worker concurrency and budgets are unchanged.
+Tested code: `fd13b3f202fe72624bcd0596f13ca7700a5e7cb7`; [all CI records](evidence/generic-product-gate/github-verification.json). [Product run 35751765988](https://github.com/andysong111/auto-lab/actions/runs/35751765988) uses three independent fixture shards, each with the same pinned isolation requirements. Production Worker concurrency and budgets are unchanged.
 
 | Fixture | Product result | Exact failure codes |
 | --- | --- | --- |
@@ -96,7 +96,7 @@ MULTI_BAD produces **17 actionable viewport/check failures in one run** and ente
 
 [Verification summary](evidence/generic-product-gate/verification-summary.json), [GOOD report](evidence/generic-product-gate/final/GOOD/qa.json), [GOOD Quality Gate](evidence/generic-product-gate/final/GOOD/quality-gate.json), [artifact index](evidence/generic-product-gate/final/GOOD/artifact-index.json), [mobile result](evidence/generic-product-gate/final/GOOD/product-390-mobile-result.png), [desktop midgame](evidence/generic-product-gate/final/GOOD/product-1280-midgame.png), [gameplay WebM](evidence/generic-product-gate/final/GOOD/product-390-gameplay.webm). All declared artifact paths and available SHA-256 digests were verified after downloading the three CI ZIPs. Full fixture evidence remains in GitHub after Actions retention expires.
 
-[Production regression](evidence/generic-product-gate/production-regression.json) passes Astra V3/campaign, Deep Descent, Core Pins/Nova Merge, legacy challengers and Orbit/auth-shell plus the canonical contract suite; protected-source hashes match. The common QA worker and main's media-settlement helper have zero diff from the rollback base. The first two harness iterations are preserved and superseded, including the corrected post-clock terminal observer installation; no failure is relabeled as PASS.
+[Production regression](evidence/generic-product-gate/production-regression.json) passes Astra V3/campaign, Deep Descent, Core Pins/Nova Merge, legacy challengers and Orbit/auth-shell plus the canonical contract suite; protected-source hashes match. The common QA worker and main's media-settlement helper have zero diff from the rollback base. All three failing iterations are preserved and superseded, including the post-clock terminal observer and blank-page clock initialization corrections; no failure is relabeled as PASS.
 
 ## Control Plane
 
@@ -122,7 +122,7 @@ npm run test:product:docker --prefix vibe-arcade/autonomy
 
 CI: [product workflow](../../.github/workflows/playjolt-product-quality-ci.yml), unchanged existing Factory browser/regression workflow and AI Worker isolation workflow, plus existing project workflows. They cover real non-root network-none/read-only Docker isolation, no secret/socket/root writes, resource/deadline containment, bounded repair and fatal rejection, and Astra V3/campaign, Deep Descent, Core Pins/Nova Merge, legacy challengers and Orbit/auth-shell regressions with mocked production dependencies.
 
-Local verification currently passes 42 Factory/control/commissioning tests, 53 Provider/Worker tests and eight product contract/preflight/static-audit tests. Final Docker verification is **12/12 fixture assertions PASS**, including the real Factory/compiled Repair integration. All nine CI workflows at the tested code commit are green, including the existing Factory browser/regression and Worker Docker isolation gates. The archived full evidence above records the successful pre-correction baseline; iteration 03 and the current PR checks also track the subsequent clock initialization fix. Model generation calls: **0**, estimated model cost **USD 0**. No provider secret is required by the new workflow. CI/hosting usage is not included in that model-cost statement.
+Local verification currently passes 42 Factory/control/commissioning tests, 53 Provider/Worker tests and eight product contract/preflight/static-audit tests. Final Docker verification is **12/12 fixture assertions PASS**, including the real Factory/compiled Repair integration. All nine CI workflows at the tested code commit are green, including the existing Factory browser/regression and Worker Docker isolation gates. The final full evidence above records the successful post-correction run. The last evidence commit only updates documentation and captured artifacts; executable code is identical to the tested commit. Model generation calls: **0**, estimated model cost **USD 0**. No provider secret is required by the new workflow. CI/hosting usage is not included in that model-cost statement.
 
 ## Known limitations, next candidate and rollback
 

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "game_id": "GAME-00000000-903",
   "version": "v1",
-  "source_hash": "2026c81a31067e2646fc49f6d83071c056477948eb2b8fbddfb9a7d9da273d5e",
+  "source_hash": "169483ab9c08e3c3cf69b30363eeee59eaeebf8dc9c75995493281107567c0df",
   "contract_hash": "2437fb3dbd7e8e7027c53b62d00767e282d6faea4093075ae3c4a3cf21583bed",
   "artifacts": [
     {
@@ -34,7 +34,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "afcfdcc0ef3b8e31ed457d02fedbf1920e5e01b38456edd02768ff82de87fa79"
+      "sha256": "f6ab1360a6c39e650e60faaa3f08397c6e371774d58db79e62643d9f608bf0ea"
     },
     {
       "path": "product-390-feedback-motion-0.png",
@@ -45,7 +45,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "7cfb0f769a2543048a1803909493f1fb3bf969106cb2f1d5a9f1e156d0f6c0e4"
+      "sha256": "3a840ac779a235273a74aa8c9e9f7778aa826b774b71a200bc1a75dcc5de503e"
     },
     {
       "path": "product-390-feedback-motion-60.png",
@@ -56,7 +56,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "bf95a474f8443cf4b2a25e80602610953c5d18937aa808b70f17fde511c4868a"
+      "sha256": "ecacad3038d5dd97181ebf4e0c871afdff4c5ebf412d84a9e387cee2e8ea639d"
     },
     {
       "path": "product-390-feedback-motion-400.png",
@@ -77,7 +77,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "f83541bac8894bec9a4222e23f01f14e3d85d2a38732e3b9f70674e094b0d82a"
+      "sha256": "c804d5e46d2f22119f559851bd3ed311ed60c5a1bd16e58246df66011076df30"
     },
     {
       "path": "product-390-milestone-1.png",
@@ -87,7 +87,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "8e39848ee395b2c376e31de939b448fb2419b88708ed94690b59d82971a167ce"
+      "sha256": "70ea8659060d3ac7d2c140c5e9e1563ecad21ae542ee74ddeb94d029d4093b06"
     },
     {
       "path": "product-390-midgame.png",
@@ -97,7 +97,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "4c7cb4a91d0501046937eb4dd0658e6cfe6f89d6ff3ab827e7d3cf9f67249e43"
+      "sha256": "c1c50d22003cbfebb10040ba7844de0f88d43dbea7df34d44d85a572ee1e8a59"
     },
     {
       "path": "product-390-milestone-2.png",
@@ -107,7 +107,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "e3abc6a54b560a11c79224255605b616b16988e42c026afa3f65781f49200f20"
+      "sha256": "73e6841ce66961d43e65f5817b08289c4a1127b0028748ed07aeb57c637530b6"
     },
     {
       "path": "product-390-milestone-3.png",
@@ -202,7 +202,7 @@
         "width": 768,
         "height": 1024
       },
-      "sha256": "10d82d3970cd48c950a3fc9f710831d026682a37cb7cec0ad0815c48a9501f27"
+      "sha256": "d75f4ce80aa9594bd0eed9da28ac824198cae0ba321c0abdb82114556c26a89d"
     },
     {
       "path": "product-768-feedback-motion-0.png",
@@ -213,7 +213,7 @@
         "width": 768,
         "height": 1024
       },
-      "sha256": "f98846bbb9e1d63265643565846e61ba9ce8e75b1beb4a17752c24dd4867d6a0"
+      "sha256": "050334ae664013559db61a059716645d923179556c5984e9f5a8d3dc427b25f0"
     },
     {
       "path": "product-768-feedback-motion-60.png",
@@ -224,7 +224,7 @@
         "width": 768,
         "height": 1024
       },
-      "sha256": "74fdd01f166da805b9dbcb153bd495e4279cd27a98fe069fba3c256258bce2bd"
+      "sha256": "ab5f7a5870df5f4c0224bfbb3e651fe260dc8e40fc231c3f8cb6423a0d6bd446"
     },
     {
       "path": "product-768-feedback-motion-400.png",
@@ -265,7 +265,7 @@
         "width": 768,
         "height": 1024
       },
-      "sha256": "5777f10c79389f86eff20032f902bb417b65686e1b197ae697539561825acbdd"
+      "sha256": "7fdc73485f7c303c614af2a5b89369e0e0a1263f2a29468419cc679596a5ade8"
     },
     {
       "path": "product-768-milestone-3.png",
@@ -360,7 +360,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "d75f4ce80aa9594bd0eed9da28ac824198cae0ba321c0abdb82114556c26a89d"
+      "sha256": "2a2185c44f1a6927f13a94b1d20c21f23a73cda50aaaf62188a0cd23c7a346c8"
     },
     {
       "path": "product-1280-feedback-motion-0.png",
@@ -371,7 +371,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "050334ae664013559db61a059716645d923179556c5984e9f5a8d3dc427b25f0"
+      "sha256": "f98846bbb9e1d63265643565846e61ba9ce8e75b1beb4a17752c24dd4867d6a0"
     },
     {
       "path": "product-1280-feedback-motion-60.png",
@@ -382,7 +382,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "312dcf2a9f2b860727490d4d0b6ff820794b113084f8859e0c930423ff286e17"
+      "sha256": "ab5f7a5870df5f4c0224bfbb3e651fe260dc8e40fc231c3f8cb6423a0d6bd446"
     },
     {
       "path": "product-1280-feedback-motion-400.png",
@@ -403,7 +403,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "98bd7edb71aa80645b6d594a8d6f0383b28cc1f82443ec899973e783c975fd52"
+      "sha256": "98cdbda09fbf1dd15bec5dbed66fb27478b435069914d700ec2a16a15fe47184"
     },
     {
       "path": "product-1280-midgame.png",
@@ -413,7 +413,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "aabe1c85869e559957b81520830898fc357cbb585aa1cb3f7ec599d6eb90f20c"
+      "sha256": "e61e1788a6593fdbe138853fdd5a5d64198858494315300019fb6f098455ff97"
     },
     {
       "path": "product-1280-milestone-2.png",
@@ -433,7 +433,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "f8530688c5e96b90c1599c6c96c68d35bfd6998e7f96294852612cf09a7690dd"
+      "sha256": "c2fabf8133353917d1f0289206be2dce589bfbd1fbd8873ca57b521b9dd6313c"
     },
     {
       "path": "product-1280-feedback-reduced-before.png",

@@ -4,7 +4,7 @@
   "suite": "product",
   "game_id": "GAME-00000000-910",
   "version": "v1",
-  "source_hash": "8de1f46a7e9f233e34877b46bb64dc859a2614429cc6d067268e7be5a51d16d0",
+  "source_hash": "1afe41b3cc84df60fcd264eb31d32dc0cabd950c2184fa8f2017897a09d37039",
   "policy_hash": "57155e1fc1f3d90ad1f7d359ac1d8f90400326e95e9ce4d4a8d15b42d8f1b32a",
   "contract_hash": "2437fb3dbd7e8e7027c53b62d00767e282d6faea4093075ae3c4a3cf21583bed",
   "passed": true,
@@ -221,7 +221,7 @@
             "presentation": true
           },
           "polls": 4,
-          "wall_ms": 157
+          "wall_ms": 90
         },
         {
           "desired": false,
@@ -234,7 +234,7 @@
             "presentation": false
           },
           "polls": 4,
-          "wall_ms": 95
+          "wall_ms": 91
         },
         {
           "desired": true,
@@ -247,7 +247,7 @@
             "presentation": true
           },
           "polls": 4,
-          "wall_ms": 94
+          "wall_ms": 92
         },
         {
           "desired": false,
@@ -260,7 +260,7 @@
             "presentation": false
           },
           "polls": 4,
-          "wall_ms": 95
+          "wall_ms": 91
         }
       ],
       "status": "PASS"
@@ -306,7 +306,7 @@
       "state_path": "quality.reversible_state_key",
       "selector": "[data-game-canvas]",
       "actual": {
-        "before": "a9166cf4a3624098184b45b52c3154912efe07efba0cb1ea46f13f7991ae35b6",
+        "before": "f6ab1360a6c39e650e60faaa3f08397c6e371774d58db79e62643d9f608bf0ea",
         "frames": [
           {
             "ms": 0,
@@ -318,7 +318,7 @@
           {
             "ms": 60,
             "path": "product-390-feedback-motion-60.png",
-            "visual": "3b9da6a2e5848ca26b08226e37248600b311939b3986372ffe5575642743d50a",
+            "visual": "ecacad3038d5dd97181ebf4e0c871afdff4c5ebf412d84a9e387cee2e8ea639d",
             "active": true,
             "static": false
           },
@@ -429,17 +429,17 @@
         "latency_ms": 0,
         "timeline": [
           {
-            "time": 262,
+            "time": 51,
             "phase": "idle",
             "value": "playing"
           },
           {
-            "time": 288,
+            "time": 80,
             "phase": "playing",
             "value": "playing"
           },
           {
-            "time": 832,
+            "time": 624,
             "phase": "finished",
             "value": "success"
           }
@@ -879,7 +879,7 @@
             "presentation": true
           },
           "polls": 4,
-          "wall_ms": 94
+          "wall_ms": 88
         },
         {
           "desired": false,
@@ -892,7 +892,7 @@
             "presentation": false
           },
           "polls": 4,
-          "wall_ms": 89
+          "wall_ms": 87
         },
         {
           "desired": true,
@@ -905,7 +905,7 @@
             "presentation": true
           },
           "polls": 4,
-          "wall_ms": 93
+          "wall_ms": 90
         },
         {
           "desired": false,
@@ -918,7 +918,7 @@
             "presentation": false
           },
           "polls": 4,
-          "wall_ms": 92
+          "wall_ms": 87
         }
       ],
       "status": "PASS"
@@ -1087,17 +1087,17 @@
         "latency_ms": 0,
         "timeline": [
           {
-            "time": 246,
+            "time": 51,
             "phase": "idle",
             "value": "playing"
           },
           {
-            "time": 272,
+            "time": 80,
             "phase": "playing",
             "value": "playing"
           },
           {
-            "time": 816,
+            "time": 624,
             "phase": "finished",
             "value": "success"
           }
@@ -1537,7 +1537,7 @@
             "presentation": true
           },
           "polls": 4,
-          "wall_ms": 93
+          "wall_ms": 86
         },
         {
           "desired": false,
@@ -1550,7 +1550,7 @@
             "presentation": false
           },
           "polls": 4,
-          "wall_ms": 91
+          "wall_ms": 87
         },
         {
           "desired": true,
@@ -1563,7 +1563,7 @@
             "presentation": true
           },
           "polls": 4,
-          "wall_ms": 90
+          "wall_ms": 87
         },
         {
           "desired": false,
@@ -1576,7 +1576,7 @@
             "presentation": false
           },
           "polls": 4,
-          "wall_ms": 90
+          "wall_ms": 85
         }
       ],
       "status": "PASS"
@@ -1745,17 +1745,17 @@
         "latency_ms": 0,
         "timeline": [
           {
-            "time": 247,
+            "time": 50,
             "phase": "idle",
             "value": "playing"
           },
           {
-            "time": 272,
+            "time": 80,
             "phase": "playing",
             "value": "playing"
           },
           {
-            "time": 816,
+            "time": 624,
             "phase": "finished",
             "value": "success"
           }
@@ -2843,7 +2843,7 @@
                 "presentation": true
               },
               "polls": 4,
-              "wall_ms": 157
+              "wall_ms": 90
             },
             {
               "desired": false,
@@ -2856,7 +2856,7 @@
                 "presentation": false
               },
               "polls": 4,
-              "wall_ms": 95
+              "wall_ms": 91
             },
             {
               "desired": true,
@@ -2869,7 +2869,7 @@
                 "presentation": true
               },
               "polls": 4,
-              "wall_ms": 94
+              "wall_ms": 92
             },
             {
               "desired": false,
@@ -2882,7 +2882,7 @@
                 "presentation": false
               },
               "polls": 4,
-              "wall_ms": 95
+              "wall_ms": 91
             }
           ],
           "status": "PASS"
@@ -2928,7 +2928,7 @@
           "state_path": "quality.reversible_state_key",
           "selector": "[data-game-canvas]",
           "actual": {
-            "before": "a9166cf4a3624098184b45b52c3154912efe07efba0cb1ea46f13f7991ae35b6",
+            "before": "f6ab1360a6c39e650e60faaa3f08397c6e371774d58db79e62643d9f608bf0ea",
             "frames": [
               {
                 "ms": 0,
@@ -2940,7 +2940,7 @@
               {
                 "ms": 60,
                 "path": "product-390-feedback-motion-60.png",
-                "visual": "3b9da6a2e5848ca26b08226e37248600b311939b3986372ffe5575642743d50a",
+                "visual": "ecacad3038d5dd97181ebf4e0c871afdff4c5ebf412d84a9e387cee2e8ea639d",
                 "active": true,
                 "static": false
               },
@@ -3051,17 +3051,17 @@
             "latency_ms": 0,
             "timeline": [
               {
-                "time": 262,
+                "time": 51,
                 "phase": "idle",
                 "value": "playing"
               },
               {
-                "time": 288,
+                "time": 80,
                 "phase": "playing",
                 "value": "playing"
               },
               {
-                "time": 832,
+                "time": 624,
                 "phase": "finished",
                 "value": "success"
               }
@@ -3510,7 +3510,7 @@
                 "presentation": true
               },
               "polls": 4,
-              "wall_ms": 94
+              "wall_ms": 88
             },
             {
               "desired": false,
@@ -3523,7 +3523,7 @@
                 "presentation": false
               },
               "polls": 4,
-              "wall_ms": 89
+              "wall_ms": 87
             },
             {
               "desired": true,
@@ -3536,7 +3536,7 @@
                 "presentation": true
               },
               "polls": 4,
-              "wall_ms": 93
+              "wall_ms": 90
             },
             {
               "desired": false,
@@ -3549,7 +3549,7 @@
                 "presentation": false
               },
               "polls": 4,
-              "wall_ms": 92
+              "wall_ms": 87
             }
           ],
           "status": "PASS"
@@ -3718,17 +3718,17 @@
             "latency_ms": 0,
             "timeline": [
               {
-                "time": 246,
+                "time": 51,
                 "phase": "idle",
                 "value": "playing"
               },
               {
-                "time": 272,
+                "time": 80,
                 "phase": "playing",
                 "value": "playing"
               },
               {
-                "time": 816,
+                "time": 624,
                 "phase": "finished",
                 "value": "success"
               }
@@ -4177,7 +4177,7 @@
                 "presentation": true
               },
               "polls": 4,
-              "wall_ms": 93
+              "wall_ms": 86
             },
             {
               "desired": false,
@@ -4190,7 +4190,7 @@
                 "presentation": false
               },
               "polls": 4,
-              "wall_ms": 91
+              "wall_ms": 87
             },
             {
               "desired": true,
@@ -4203,7 +4203,7 @@
                 "presentation": true
               },
               "polls": 4,
-              "wall_ms": 90
+              "wall_ms": 87
             },
             {
               "desired": false,
@@ -4216,7 +4216,7 @@
                 "presentation": false
               },
               "polls": 4,
-              "wall_ms": 90
+              "wall_ms": 85
             }
           ],
           "status": "PASS"
@@ -4385,17 +4385,17 @@
             "latency_ms": 0,
             "timeline": [
               {
-                "time": 247,
+                "time": 50,
                 "phase": "idle",
                 "value": "playing"
               },
               {
-                "time": 272,
+                "time": 80,
                 "phase": "playing",
                 "value": "playing"
               },
               {
-                "time": 816,
+                "time": 624,
                 "phase": "finished",
                 "value": "success"
               }
@@ -7945,7 +7945,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "a9166cf4a3624098184b45b52c3154912efe07efba0cb1ea46f13f7991ae35b6"
+      "sha256": "f6ab1360a6c39e650e60faaa3f08397c6e371774d58db79e62643d9f608bf0ea"
     },
     {
       "path": "product-390-feedback-motion-0.png",
@@ -7967,7 +7967,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "3b9da6a2e5848ca26b08226e37248600b311939b3986372ffe5575642743d50a"
+      "sha256": "ecacad3038d5dd97181ebf4e0c871afdff4c5ebf412d84a9e387cee2e8ea639d"
     },
     {
       "path": "product-390-feedback-motion-400.png",
@@ -7988,7 +7988,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "8316ab4043af56bd0c9d8954b2c370fa8a56abc41145f509f4ae4a9381268367"
+      "sha256": "2a17c2081d7fdf186c71cb01f8382dc4422af5a2c85373247811d3d3c400f9e6"
     },
     {
       "path": "product-390-milestone-1.png",
@@ -7998,7 +7998,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "8e39848ee395b2c376e31de939b448fb2419b88708ed94690b59d82971a167ce"
+      "sha256": "70ea8659060d3ac7d2c140c5e9e1563ecad21ae542ee74ddeb94d029d4093b06"
     },
     {
       "path": "product-390-midgame.png",
@@ -8008,7 +8008,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "4c7cb4a91d0501046937eb4dd0658e6cfe6f89d6ff3ab827e7d3cf9f67249e43"
+      "sha256": "c1c50d22003cbfebb10040ba7844de0f88d43dbea7df34d44d85a572ee1e8a59"
     },
     {
       "path": "product-390-milestone-2.png",
@@ -8018,7 +8018,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "e3abc6a54b560a11c79224255605b616b16988e42c026afa3f65781f49200f20"
+      "sha256": "73e6841ce66961d43e65f5817b08289c4a1127b0028748ed07aeb57c637530b6"
     },
     {
       "path": "product-390-milestone-3.png",
@@ -8176,7 +8176,7 @@
         "width": 768,
         "height": 1024
       },
-      "sha256": "ddc1a82ac4a640b170739d94df472301aa79703dd49933aa855b3c54f3fedb30"
+      "sha256": "da2856bbf4e4d7de88801ec7659f71e1d940ad96da6883dc7937635856c8d4dd"
     },
     {
       "path": "product-768-midgame.png",
@@ -8186,7 +8186,7 @@
         "width": 768,
         "height": 1024
       },
-      "sha256": "bc239e53ba9e4ed11f1fd9c24ec7048959c8a53062af5c37c4159e4f609c4554"
+      "sha256": "6b57dd10802eca35979dca7a2957cbca523928c0cfa2805268a413504182f58c"
     },
     {
       "path": "product-768-milestone-2.png",
@@ -8196,7 +8196,7 @@
         "width": 768,
         "height": 1024
       },
-      "sha256": "7fdc73485f7c303c614af2a5b89369e0e0a1263f2a29468419cc679596a5ade8"
+      "sha256": "5777f10c79389f86eff20032f902bb417b65686e1b197ae697539561825acbdd"
     },
     {
       "path": "product-768-milestone-3.png",
@@ -8344,7 +8344,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "59b2a3e3eed8bd482a1e64d1b126c3a430d2d61bac63ffb70adb83930a0dc3c7"
+      "sha256": "98cdbda09fbf1dd15bec5dbed66fb27478b435069914d700ec2a16a15fe47184"
     },
     {
       "path": "product-1280-midgame.png",
@@ -8354,7 +8354,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "93c92bb892c308ebb34243789256900b06f39fc821db22c486ea4e83de49ccd1"
+      "sha256": "e61e1788a6593fdbe138853fdd5a5d64198858494315300019fb6f098455ff97"
     },
     {
       "path": "product-1280-milestone-2.png",
@@ -8364,7 +8364,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "b75c7627af456e761e6f8bd51d857e0c0219a0b284c01ba90ae8c730a5329e06"
+      "sha256": "bf8445528c3b7b4f661a81bd14f64d5bac06e13019bbc5954ecee4dc8f4f0265"
     },
     {
       "path": "product-1280-milestone-3.png",
@@ -8441,7 +8441,7 @@
       "sha256": "9dceed2989c1b741642c03e35a03a3b97fe0526b7fbc4eb2c9c0383ffdecb0a5"
     }
   ],
-  "duration_ms": 61901,
+  "duration_ms": 58271,
   "scope": "Reviewed finite-model conformance and sampled normal-input product evidence; not proof of fun or all possible seeds.",
   "oracle_approval": {
     "id": "fixture-switches-v1",
@@ -8454,7 +8454,7 @@
   },
   "isolation": {
     "engine": "docker",
-    "image": "sha256:cbca45faa006f2e0739f587fe7199d8f9fe4ad2e137a797cb58a7cfd0c04acc7",
+    "image": "sha256:f938e727398480d853c7bddd2e2658dd9038ff1b71b5feeebfa709d872124685",
     "network": "none",
     "readonly": true,
     "cpu": 1,

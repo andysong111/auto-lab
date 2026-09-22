@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "tested_commit": "25b55ab80291272e12aeb91a1c2791cab51f1b38",
+  "tested_commit": "fd13b3f202fe72624bcd0596f13ca7700a5e7cb7",
   "fixtures": [
     {
       "variant": "GOOD",
       "expected": [],
       "passed": true,
       "codes": [],
-      "duration_ms": 60999,
-      "source_hash": "fae24c5b375b70a372feaf4f4b4192775822002e411e48dbc02837bc6ce112c1"
+      "duration_ms": 58313,
+      "source_hash": "fa721b72e79f0a4d84dc6f5bdb0a73dac4b32cfc5acbff1d5e3332c4761ecd11"
     },
     {
       "variant": "BAD_TEXT",
@@ -19,8 +19,8 @@
       "codes": [
         "product_mobile_readability"
       ],
-      "duration_ms": 61068,
-      "source_hash": "50ef70c24ba42e41d6581c409f09978db78d8c5c8f99846408afb8582dd57a1f"
+      "duration_ms": 58429,
+      "source_hash": "fc74f41e2ebbd05e2f42dadefca4403a8c7c5640dcfd03577aae94c93f79b11d"
     },
     {
       "variant": "BAD_MOTION",
@@ -31,16 +31,16 @@
       "codes": [
         "product_reduced_motion"
       ],
-      "duration_ms": 62959,
-      "source_hash": "ebf76fae4bd4a45543fb93e4e98f8cb86a4bbae35d01321ca683d2eca8c3ceeb"
+      "duration_ms": 60254,
+      "source_hash": "7e58241d311ef502d833ccc7ec5cbcb20e03941808313a89c33d14043599f25f"
     },
     {
       "variant": "DELAYED_MEDIA_GOOD",
       "expected": [],
       "passed": true,
       "codes": [],
-      "duration_ms": 61901,
-      "source_hash": "8de1f46a7e9f233e34877b46bb64dc859a2614429cc6d067268e7be5a51d16d0"
+      "duration_ms": 58271,
+      "source_hash": "1afe41b3cc84df60fcd264eb31d32dc0cabd950c2184fa8f2017897a09d37039"
     },
     {
       "variant": "BAD_GOAL_OPACITY",
@@ -51,8 +51,8 @@
       "codes": [
         "product_objective"
       ],
-      "duration_ms": 58462,
-      "source_hash": "c5134c4ff47a13da122d0b08621ab640707789d3c82e352890734301902534b8"
+      "duration_ms": 60585,
+      "source_hash": "f3802a8910f702a97b4c73d3d454b33044d66bc1f474017f4ea620d04ccfac33"
     },
     {
       "variant": "BAD_SCORE",
@@ -63,8 +63,8 @@
       "codes": [
         "product_score_integrity"
       ],
-      "duration_ms": 58361,
-      "source_hash": "a994b60a39aa3bb4e0acf3fa9379f186f6ece7a7c22f1dc5be8dc35afd39ef65"
+      "duration_ms": 60184,
+      "source_hash": "d1ceeaf087c370391d484c39ca0a7dabb5146a181e615e3481207b2cf7231e88"
     },
     {
       "variant": "BAD_GOAL",
@@ -75,8 +75,8 @@
       "codes": [
         "product_objective"
       ],
-      "duration_ms": 58494,
-      "source_hash": "55dc513661f0b7e2dda54751823201186a1eceb83bce41ac9cf90c27e5db261a"
+      "duration_ms": 60545,
+      "source_hash": "0c330d8b15b700cef13456c2fac424b5f286953905ae5fa98409ef0f9b236a61"
     },
     {
       "variant": "PERMANENT_MEDIA_BAD",
@@ -87,8 +87,8 @@
       "codes": [
         "product_reduced_motion"
       ],
-      "duration_ms": 61564,
-      "source_hash": "824cdb789e28433d05e8fd9cd7315a455090ea18268351e6c926b98c434c2bd6"
+      "duration_ms": 63842,
+      "source_hash": "9dc315eff567ba806b6494abc851508f53443253068ef250e07d1555d4b165e3"
     },
     {
       "variant": "BAD_DEADTIME",
@@ -102,8 +102,8 @@
         "product_difficulty",
         "product_practice_best"
       ],
-      "duration_ms": 53443,
-      "source_hash": "2026c81a31067e2646fc49f6d83071c056477948eb2b8fbddfb9a7d9da273d5e"
+      "duration_ms": 52676,
+      "source_hash": "169483ab9c08e3c3cf69b30363eeee59eaeebf8dc9c75995493281107567c0df"
     },
     {
       "variant": "BAD_RESULT",
@@ -115,8 +115,8 @@
         "product_replay",
         "product_failure_result"
       ],
-      "duration_ms": 61619,
-      "source_hash": "d166a67667dd093aecec71a23e3c4cfab2799a88e1d7f95498944d4880a289ec"
+      "duration_ms": 61173,
+      "source_hash": "4647e92d06a80a921c5525b3e60623fab5591be297f8bae698a169ad958e7627"
     },
     {
       "variant": "BAD_FEEDBACK",
@@ -127,8 +127,8 @@
       "codes": [
         "product_feedback"
       ],
-      "duration_ms": 61663,
-      "source_hash": "0bf0256befd81a251a4b6c0400df5d6fc501f1d1d55473248433342ce7a06c52"
+      "duration_ms": 61144,
+      "source_hash": "7fc3277ec89499b052d586c04c044ab98025318f5a87f4681792cb48f6a2e496"
     },
     {
       "variant": "MULTI_BAD",
@@ -148,8 +148,8 @@
         "product_replay",
         "product_failure_result"
       ],
-      "duration_ms": 64395,
-      "source_hash": "6d44e462cf0ec2aca56301935a49c83862aaa56f428052633d0e1d6ae4182407"
+      "duration_ms": 63911,
+      "source_hash": "6a66a2313b7a7c9e620c632e2beae158a1a43dfb33f452c7b060c8c6270eb49d"
     }
   ],
   "fixture_assertions_passed": 12,
@@ -370,5 +370,6 @@
   ],
   "model_calls": 0,
   "estimated_model_cost_usd": 0,
-  "production_writes": 0
+  "production_writes": 0,
+  "clock_setup_race_regression": "PASS: 12 fixtures, six seeds, all sessions paused before navigation; original failure preserved in iterations/03.json"
 }

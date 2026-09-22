@@ -11,8 +11,8 @@
       "product_difficulty",
       "product_practice_best"
     ],
-    "duration_ms": 53443,
-    "source_hash": "2026c81a31067e2646fc49f6d83071c056477948eb2b8fbddfb9a7d9da273d5e"
+    "duration_ms": 52676,
+    "source_hash": "169483ab9c08e3c3cf69b30363eeee59eaeebf8dc9c75995493281107567c0df"
   },
   {
     "variant": "BAD_RESULT",
@@ -24,8 +24,8 @@
       "product_replay",
       "product_failure_result"
     ],
-    "duration_ms": 61619,
-    "source_hash": "d166a67667dd093aecec71a23e3c4cfab2799a88e1d7f95498944d4880a289ec"
+    "duration_ms": 61173,
+    "source_hash": "4647e92d06a80a921c5525b3e60623fab5591be297f8bae698a169ad958e7627"
   },
   {
     "variant": "BAD_FEEDBACK",
@@ -36,8 +36,8 @@
     "codes": [
       "product_feedback"
     ],
-    "duration_ms": 61663,
-    "source_hash": "0bf0256befd81a251a4b6c0400df5d6fc501f1d1d55473248433342ce7a06c52"
+    "duration_ms": 61144,
+    "source_hash": "7fc3277ec89499b052d586c04c044ab98025318f5a87f4681792cb48f6a2e496"
   },
   {
     "variant": "MULTI_BAD",
@@ -57,7 +57,7 @@
       "product_replay",
       "product_failure_result"
     ],
-    "duration_ms": 64395,
-    "source_hash": "6d44e462cf0ec2aca56301935a49c83862aaa56f428052633d0e1d6ae4182407"
+    "duration_ms": 63911,
+    "source_hash": "6a66a2313b7a7c9e620c632e2beae158a1a43dfb33f452c7b060c8c6270eb49d"
   }
 ]

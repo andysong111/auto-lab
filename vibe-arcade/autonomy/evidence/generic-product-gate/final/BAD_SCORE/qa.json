@@ -4,7 +4,7 @@
   "suite": "product",
   "game_id": "GAME-00000000-905",
   "version": "v1",
-  "source_hash": "a994b60a39aa3bb4e0acf3fa9379f186f6ece7a7c22f1dc5be8dc35afd39ef65",
+  "source_hash": "d1ceeaf087c370391d484c39ca0a7dabb5146a181e615e3481207b2cf7231e88",
   "policy_hash": "57155e1fc1f3d90ad1f7d359ac1d8f90400326e95e9ce4d4a8d15b42d8f1b32a",
   "contract_hash": "2437fb3dbd7e8e7027c53b62d00767e282d6faea4093075ae3c4a3cf21583bed",
   "passed": false,
@@ -287,6 +287,32 @@
           "desired": true,
           "initial": {
             "native": true,
+            "presentation": true
+          },
+          "settled": {
+            "native": true,
+            "presentation": true
+          },
+          "polls": 0,
+          "wall_ms": 2
+        },
+        {
+          "desired": false,
+          "initial": {
+            "native": false,
+            "presentation": false
+          },
+          "settled": {
+            "native": false,
+            "presentation": false
+          },
+          "polls": 0,
+          "wall_ms": 1
+        },
+        {
+          "desired": true,
+          "initial": {
+            "native": true,
             "presentation": false
           },
           "settled": {
@@ -308,32 +334,6 @@
           },
           "polls": 1,
           "wall_ms": 23
-        },
-        {
-          "desired": true,
-          "initial": {
-            "native": true,
-            "presentation": false
-          },
-          "settled": {
-            "native": true,
-            "presentation": true
-          },
-          "polls": 1,
-          "wall_ms": 24
-        },
-        {
-          "desired": false,
-          "initial": {
-            "native": false,
-            "presentation": true
-          },
-          "settled": {
-            "native": false,
-            "presentation": false
-          },
-          "polls": 2,
-          "wall_ms": 47
         }
       ],
       "status": "PASS"
@@ -367,7 +367,7 @@
       "state_path": "quality.reversible_state_key",
       "selector": "[data-game-canvas]",
       "actual": {
-        "before": "d5254c07fcabaa8e1da40baf560e27b853c69d6ce2f4075a7f3047c99a7beddf",
+        "before": "63a3efe026c09c0e91f80d535c0d4206d719cf650e8913dc59bc83651c909e47",
         "frames": [
           {
             "ms": 0,
@@ -379,7 +379,7 @@
           {
             "ms": 60,
             "path": "product-390-feedback-motion-60.png",
-            "visual": "3b9da6a2e5848ca26b08226e37248600b311939b3986372ffe5575642743d50a",
+            "visual": "ecacad3038d5dd97181ebf4e0c871afdff4c5ebf412d84a9e387cee2e8ea639d",
             "active": true,
             "static": false
           },
@@ -490,17 +490,17 @@
         "latency_ms": 0,
         "timeline": [
           {
-            "time": 233,
+            "time": 51,
             "phase": "idle",
             "value": "playing"
           },
           {
-            "time": 256,
+            "time": 80,
             "phase": "playing",
             "value": "playing"
           },
           {
-            "time": 800,
+            "time": 624,
             "phase": "finished",
             "value": "success"
           }
@@ -933,14 +933,14 @@
           "desired": true,
           "initial": {
             "native": true,
-            "presentation": false
+            "presentation": true
           },
           "settled": {
             "native": true,
             "presentation": true
           },
-          "polls": 1,
-          "wall_ms": 24
+          "polls": 0,
+          "wall_ms": 1
         },
         {
           "desired": false,
@@ -953,7 +953,7 @@
             "presentation": false
           },
           "polls": 1,
-          "wall_ms": 24
+          "wall_ms": 23
         },
         {
           "desired": true,
@@ -966,7 +966,7 @@
             "presentation": true
           },
           "polls": 1,
-          "wall_ms": 23
+          "wall_ms": 25
         },
         {
           "desired": false,
@@ -979,7 +979,7 @@
             "presentation": false
           },
           "polls": 1,
-          "wall_ms": 24
+          "wall_ms": 23
         }
       ],
       "status": "PASS"
@@ -1018,7 +1018,7 @@
           {
             "ms": 0,
             "path": "product-768-feedback-motion-0.png",
-            "visual": "050334ae664013559db61a059716645d923179556c5984e9f5a8d3dc427b25f0",
+            "visual": "f98846bbb9e1d63265643565846e61ba9ce8e75b1beb4a17752c24dd4867d6a0",
             "active": true,
             "static": false
           },
@@ -1136,17 +1136,17 @@
         "latency_ms": 0,
         "timeline": [
           {
-            "time": 233,
+            "time": 52,
             "phase": "idle",
             "value": "playing"
           },
           {
-            "time": 256,
+            "time": 80,
             "phase": "playing",
             "value": "playing"
           },
           {
-            "time": 800,
+            "time": 624,
             "phase": "finished",
             "value": "success"
           }
@@ -1586,7 +1586,7 @@
             "presentation": true
           },
           "polls": 1,
-          "wall_ms": 21
+          "wall_ms": 23
         },
         {
           "desired": false,
@@ -1599,7 +1599,7 @@
             "presentation": false
           },
           "polls": 1,
-          "wall_ms": 23
+          "wall_ms": 22
         },
         {
           "desired": true,
@@ -1611,8 +1611,8 @@
             "native": true,
             "presentation": true
           },
-          "polls": 2,
-          "wall_ms": 45
+          "polls": 1,
+          "wall_ms": 22
         },
         {
           "desired": false,
@@ -1624,8 +1624,8 @@
             "native": false,
             "presentation": false
           },
-          "polls": 1,
-          "wall_ms": 21
+          "polls": 2,
+          "wall_ms": 46
         }
       ],
       "status": "PASS"
@@ -1659,12 +1659,12 @@
       "state_path": "quality.reversible_state_key",
       "selector": "[data-game-canvas]",
       "actual": {
-        "before": "2102336f3a7b9a4ec79aa859c9ce0bde35046e75490350d7d83b034c0521f5e5",
+        "before": "6bdf54e7814b13e42fe18907482c11b29a4e023336848e69fee4847d37529244",
         "frames": [
           {
             "ms": 0,
             "path": "product-1280-feedback-motion-0.png",
-            "visual": "050334ae664013559db61a059716645d923179556c5984e9f5a8d3dc427b25f0",
+            "visual": "f98846bbb9e1d63265643565846e61ba9ce8e75b1beb4a17752c24dd4867d6a0",
             "active": true,
             "static": false
           },
@@ -1782,17 +1782,17 @@
         "latency_ms": 0,
         "timeline": [
           {
-            "time": 199,
+            "time": 51,
             "phase": "idle",
             "value": "playing"
           },
           {
-            "time": 224,
+            "time": 80,
             "phase": "playing",
             "value": "playing"
           },
           {
-            "time": 768,
+            "time": 624,
             "phase": "finished",
             "value": "success"
           }
@@ -2873,6 +2873,32 @@
               "desired": true,
               "initial": {
                 "native": true,
+                "presentation": true
+              },
+              "settled": {
+                "native": true,
+                "presentation": true
+              },
+              "polls": 0,
+              "wall_ms": 2
+            },
+            {
+              "desired": false,
+              "initial": {
+                "native": false,
+                "presentation": false
+              },
+              "settled": {
+                "native": false,
+                "presentation": false
+              },
+              "polls": 0,
+              "wall_ms": 1
+            },
+            {
+              "desired": true,
+              "initial": {
+                "native": true,
                 "presentation": false
               },
               "settled": {
@@ -2894,32 +2920,6 @@
               },
               "polls": 1,
               "wall_ms": 23
-            },
-            {
-              "desired": true,
-              "initial": {
-                "native": true,
-                "presentation": false
-              },
-              "settled": {
-                "native": true,
-                "presentation": true
-              },
-              "polls": 1,
-              "wall_ms": 24
-            },
-            {
-              "desired": false,
-              "initial": {
-                "native": false,
-                "presentation": true
-              },
-              "settled": {
-                "native": false,
-                "presentation": false
-              },
-              "polls": 2,
-              "wall_ms": 47
             }
           ],
           "status": "PASS"
@@ -2953,7 +2953,7 @@
           "state_path": "quality.reversible_state_key",
           "selector": "[data-game-canvas]",
           "actual": {
-            "before": "d5254c07fcabaa8e1da40baf560e27b853c69d6ce2f4075a7f3047c99a7beddf",
+            "before": "63a3efe026c09c0e91f80d535c0d4206d719cf650e8913dc59bc83651c909e47",
             "frames": [
               {
                 "ms": 0,
@@ -2965,7 +2965,7 @@
               {
                 "ms": 60,
                 "path": "product-390-feedback-motion-60.png",
-                "visual": "3b9da6a2e5848ca26b08226e37248600b311939b3986372ffe5575642743d50a",
+                "visual": "ecacad3038d5dd97181ebf4e0c871afdff4c5ebf412d84a9e387cee2e8ea639d",
                 "active": true,
                 "static": false
               },
@@ -3076,17 +3076,17 @@
             "latency_ms": 0,
             "timeline": [
               {
-                "time": 233,
+                "time": 51,
                 "phase": "idle",
                 "value": "playing"
               },
               {
-                "time": 256,
+                "time": 80,
                 "phase": "playing",
                 "value": "playing"
               },
               {
-                "time": 800,
+                "time": 624,
                 "phase": "finished",
                 "value": "success"
               }
@@ -3528,14 +3528,14 @@
               "desired": true,
               "initial": {
                 "native": true,
-                "presentation": false
+                "presentation": true
               },
               "settled": {
                 "native": true,
                 "presentation": true
               },
-              "polls": 1,
-              "wall_ms": 24
+              "polls": 0,
+              "wall_ms": 1
             },
             {
               "desired": false,
@@ -3548,7 +3548,7 @@
                 "presentation": false
               },
               "polls": 1,
-              "wall_ms": 24
+              "wall_ms": 23
             },
             {
               "desired": true,
@@ -3561,7 +3561,7 @@
                 "presentation": true
               },
               "polls": 1,
-              "wall_ms": 23
+              "wall_ms": 25
             },
             {
               "desired": false,
@@ -3574,7 +3574,7 @@
                 "presentation": false
               },
               "polls": 1,
-              "wall_ms": 24
+              "wall_ms": 23
             }
           ],
           "status": "PASS"
@@ -3613,7 +3613,7 @@
               {
                 "ms": 0,
                 "path": "product-768-feedback-motion-0.png",
-                "visual": "050334ae664013559db61a059716645d923179556c5984e9f5a8d3dc427b25f0",
+                "visual": "f98846bbb9e1d63265643565846e61ba9ce8e75b1beb4a17752c24dd4867d6a0",
                 "active": true,
                 "static": false
               },
@@ -3731,17 +3731,17 @@
             "latency_ms": 0,
             "timeline": [
               {
-                "time": 233,
+                "time": 52,
                 "phase": "idle",
                 "value": "playing"
               },
               {
-                "time": 256,
+                "time": 80,
                 "phase": "playing",
                 "value": "playing"
               },
               {
-                "time": 800,
+                "time": 624,
                 "phase": "finished",
                 "value": "success"
               }
@@ -4190,7 +4190,7 @@
                 "presentation": true
               },
               "polls": 1,
-              "wall_ms": 21
+              "wall_ms": 23
             },
             {
               "desired": false,
@@ -4203,7 +4203,7 @@
                 "presentation": false
               },
               "polls": 1,
-              "wall_ms": 23
+              "wall_ms": 22
             },
             {
               "desired": true,
@@ -4215,8 +4215,8 @@
                 "native": true,
                 "presentation": true
               },
-              "polls": 2,
-              "wall_ms": 45
+              "polls": 1,
+              "wall_ms": 22
             },
             {
               "desired": false,
@@ -4228,8 +4228,8 @@
                 "native": false,
                 "presentation": false
               },
-              "polls": 1,
-              "wall_ms": 21
+              "polls": 2,
+              "wall_ms": 46
             }
           ],
           "status": "PASS"
@@ -4263,12 +4263,12 @@
           "state_path": "quality.reversible_state_key",
           "selector": "[data-game-canvas]",
           "actual": {
-            "before": "2102336f3a7b9a4ec79aa859c9ce0bde35046e75490350d7d83b034c0521f5e5",
+            "before": "6bdf54e7814b13e42fe18907482c11b29a4e023336848e69fee4847d37529244",
             "frames": [
               {
                 "ms": 0,
                 "path": "product-1280-feedback-motion-0.png",
-                "visual": "050334ae664013559db61a059716645d923179556c5984e9f5a8d3dc427b25f0",
+                "visual": "f98846bbb9e1d63265643565846e61ba9ce8e75b1beb4a17752c24dd4867d6a0",
                 "active": true,
                 "static": false
               },
@@ -4386,17 +4386,17 @@
             "latency_ms": 0,
             "timeline": [
               {
-                "time": 199,
+                "time": 51,
                 "phase": "idle",
                 "value": "playing"
               },
               {
-                "time": 224,
+                "time": 80,
                 "phase": "playing",
                 "value": "playing"
               },
               {
-                "time": 768,
+                "time": 624,
                 "phase": "finished",
                 "value": "success"
               }
@@ -7946,7 +7946,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "d5254c07fcabaa8e1da40baf560e27b853c69d6ce2f4075a7f3047c99a7beddf"
+      "sha256": "63a3efe026c09c0e91f80d535c0d4206d719cf650e8913dc59bc83651c909e47"
     },
     {
       "path": "product-390-feedback-motion-0.png",
@@ -7968,7 +7968,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "3b9da6a2e5848ca26b08226e37248600b311939b3986372ffe5575642743d50a"
+      "sha256": "ecacad3038d5dd97181ebf4e0c871afdff4c5ebf412d84a9e387cee2e8ea639d"
     },
     {
       "path": "product-390-feedback-motion-400.png",
@@ -7989,7 +7989,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "3ca34d10f62e13b3e6103368a85efbd2cde199b4945f78ae28993904c00d36c4"
+      "sha256": "10a635f34016306f75900be13b8a6b7d929ba3f4349d03fc088a2d5d21ff8e29"
     },
     {
       "path": "product-390-milestone-1.png",
@@ -7999,7 +7999,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "3e570da4b5ee8a08a7284035274f6bea41796a913541e7d5238265e63dfa001c"
+      "sha256": "8f826e113edd3eea830f9a9bde6257411111129845a8ad6224fe65090c847a9a"
     },
     {
       "path": "product-390-midgame.png",
@@ -8009,7 +8009,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "41f5723dbee41d94d023875cf7ecdbb1b5afb8538473476d8cc85844273f668c"
+      "sha256": "645ea61be13557e59569bb9ab6020f30eeb081b783c3def17b5523de1aadc35e"
     },
     {
       "path": "product-390-milestone-2.png",
@@ -8145,7 +8145,7 @@
         "width": 768,
         "height": 1024
       },
-      "sha256": "050334ae664013559db61a059716645d923179556c5984e9f5a8d3dc427b25f0"
+      "sha256": "f98846bbb9e1d63265643565846e61ba9ce8e75b1beb4a17752c24dd4867d6a0"
     },
     {
       "path": "product-768-feedback-motion-60.png",
@@ -8187,7 +8187,7 @@
         "width": 768,
         "height": 1024
       },
-      "sha256": "0e98b2b82f571f151c57e69c6ce37bd46631dc0111f9ae753e48fd3d34cb7b38"
+      "sha256": "f21ef975b01a4f1b81324e1a2487a9c4227e6ad063543e1be41ec11532a12822"
     },
     {
       "path": "product-768-milestone-2.png",
@@ -8302,7 +8302,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "2102336f3a7b9a4ec79aa859c9ce0bde35046e75490350d7d83b034c0521f5e5"
+      "sha256": "6bdf54e7814b13e42fe18907482c11b29a4e023336848e69fee4847d37529244"
     },
     {
       "path": "product-1280-feedback-motion-0.png",
@@ -8313,7 +8313,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "050334ae664013559db61a059716645d923179556c5984e9f5a8d3dc427b25f0"
+      "sha256": "f98846bbb9e1d63265643565846e61ba9ce8e75b1beb4a17752c24dd4867d6a0"
     },
     {
       "path": "product-1280-feedback-motion-60.png",
@@ -8345,7 +8345,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "a55abebdcce49284a443abca891ad46b971097040ad267db67c8f601e5744106"
+      "sha256": "ad199f3e8137252e124a6e399460aeaca749e58904b4d4cd25ba905532ee7205"
     },
     {
       "path": "product-1280-midgame.png",
@@ -8355,7 +8355,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "f8597f6b0cd6876cfd148b54894ca47f9adc12be91012d6edbb47fc909a63223"
+      "sha256": "7091df9f5d0b6f973659644ab150bf66b774c654b2b3752cec09bca098ebe0bb"
     },
     {
       "path": "product-1280-milestone-2.png",
@@ -8365,7 +8365,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "c8cb22d95c370e6c02011280f0d849e515b50b8d93a49140522d8bb5efaa99e1"
+      "sha256": "af2c77cce1c2bc8a60869c129eabd686a60d37c2ba81140fe0d9f40be964de71"
     },
     {
       "path": "product-1280-milestone-3.png",
@@ -8442,7 +8442,7 @@
       "sha256": "c35cb1d9719a8661407eabb7d23166eef43144876bd3dea05ca7fe1e65801380"
     }
   ],
-  "duration_ms": 58361,
+  "duration_ms": 60184,
   "scope": "Reviewed finite-model conformance and sampled normal-input product evidence; not proof of fun or all possible seeds.",
   "oracle_approval": {
     "id": "fixture-switches-v1",
@@ -8455,7 +8455,7 @@
   },
   "isolation": {
     "engine": "docker",
-    "image": "sha256:338e187b49b5153d54f5d8d4cba7ac28a400deb27207cc6421c58c56c49f3a3f",
+    "image": "sha256:d85637072a63d2b236ebf3f739b36feb997e9573ddd6ee8d43fc3a7a732988b9",
     "network": "none",
     "readonly": true,
     "cpu": 1,

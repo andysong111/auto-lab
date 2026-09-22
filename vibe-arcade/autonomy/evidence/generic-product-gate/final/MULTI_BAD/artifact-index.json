@@ -1,5 +1,5 @@
 {
-  "source_hash": "6d44e462cf0ec2aca56301935a49c83862aaa56f428052633d0e1d6ae4182407",
+  "source_hash": "6a66a2313b7a7c9e620c632e2beae158a1a43dfb33f452c7b060c8c6270eb49d",
   "artifacts": [
     {
       "path": "technical/viewport-390-entry.png",
@@ -121,7 +121,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "2d90056e5e7d001ffe7891c7dc7d5f4eb1ca5996dfe29eafef9fc2a156490ad6"
+      "sha256": "3b8d3c1f57ceb164d16e3ccaf73a93fb9cb4389f66f5a8eee9d631a18663f93d"
     },
     {
       "path": "product/product-390-milestone-1.png",
@@ -487,7 +487,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "ccb715b4e683dd8354a667ccec2570edbfc999138b355cbbdaac07b8da1864bf"
+      "sha256": "a77d95009310dc56bddb2ba6fd57181d7725250fafed34af24b3d837dfec9caf"
     },
     {
       "path": "product/product-1280-milestone-2.png",

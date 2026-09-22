@@ -4,7 +4,7 @@
   "suite": "product",
   "game_id": "GAME-00000000-912",
   "version": "v1",
-  "source_hash": "6d44e462cf0ec2aca56301935a49c83862aaa56f428052633d0e1d6ae4182407",
+  "source_hash": "6a66a2313b7a7c9e620c632e2beae158a1a43dfb33f452c7b060c8c6270eb49d",
   "policy_hash": "57155e1fc1f3d90ad1f7d359ac1d8f90400326e95e9ce4d4a8d15b42d8f1b32a",
   "contract_hash": "2437fb3dbd7e8e7027c53b62d00767e282d6faea4093075ae3c4a3cf21583bed",
   "passed": false,
@@ -822,17 +822,17 @@
         "latency_ms": 0,
         "timeline": [
           {
-            "time": 161,
+            "time": 51,
             "phase": "idle",
             "value": "playing"
           },
           {
-            "time": 192,
+            "time": 80,
             "phase": "playing",
             "value": "playing"
           },
           {
-            "time": 736,
+            "time": 624,
             "phase": "finished",
             "value": "success"
           }
@@ -1415,17 +1415,17 @@
         "latency_ms": 0,
         "timeline": [
           {
-            "time": 159,
+            "time": 51,
             "phase": "idle",
             "value": "playing"
           },
           {
-            "time": 176,
+            "time": 80,
             "phase": "playing",
             "value": "playing"
           },
           {
-            "time": 720,
+            "time": 624,
             "phase": "finished",
             "value": "success"
           }
@@ -1579,7 +1579,7 @@
       },
       "selector": "[data-game-restart]",
       "actual": {
-        "before_tick": 33,
+        "before_tick": 34,
         "after_tick": 0
       },
       "status": "PASS"
@@ -1988,17 +1988,17 @@
         "latency_ms": 0,
         "timeline": [
           {
-            "time": 152,
+            "time": 51,
             "phase": "idle",
             "value": "playing"
           },
           {
-            "time": 176,
+            "time": 80,
             "phase": "playing",
             "value": "playing"
           },
           {
-            "time": 720,
+            "time": 624,
             "phase": "finished",
             "value": "success"
           }
@@ -3209,17 +3209,17 @@
             "latency_ms": 0,
             "timeline": [
               {
-                "time": 161,
+                "time": 51,
                 "phase": "idle",
                 "value": "playing"
               },
               {
-                "time": 192,
+                "time": 80,
                 "phase": "playing",
                 "value": "playing"
               },
               {
-                "time": 736,
+                "time": 624,
                 "phase": "finished",
                 "value": "success"
               }
@@ -3811,17 +3811,17 @@
             "latency_ms": 0,
             "timeline": [
               {
-                "time": 159,
+                "time": 51,
                 "phase": "idle",
                 "value": "playing"
               },
               {
-                "time": 176,
+                "time": 80,
                 "phase": "playing",
                 "value": "playing"
               },
               {
-                "time": 720,
+                "time": 624,
                 "phase": "finished",
                 "value": "success"
               }
@@ -3975,7 +3975,7 @@
           },
           "selector": "[data-game-restart]",
           "actual": {
-            "before_tick": 33,
+            "before_tick": 34,
             "after_tick": 0
           },
           "status": "PASS"
@@ -4393,17 +4393,17 @@
             "latency_ms": 0,
             "timeline": [
               {
-                "time": 152,
+                "time": 51,
                 "phase": "idle",
                 "value": "playing"
               },
               {
-                "time": 176,
+                "time": 80,
                 "phase": "playing",
                 "value": "playing"
               },
               {
-                "time": 720,
+                "time": 624,
                 "phase": "finished",
                 "value": "success"
               }
@@ -7985,7 +7985,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "2d90056e5e7d001ffe7891c7dc7d5f4eb1ca5996dfe29eafef9fc2a156490ad6"
+      "sha256": "3b8d3c1f57ceb164d16e3ccaf73a93fb9cb4389f66f5a8eee9d631a18663f93d"
     },
     {
       "path": "product-390-milestone-1.png",
@@ -8351,7 +8351,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "ccb715b4e683dd8354a667ccec2570edbfc999138b355cbbdaac07b8da1864bf"
+      "sha256": "a77d95009310dc56bddb2ba6fd57181d7725250fafed34af24b3d837dfec9caf"
     },
     {
       "path": "product-1280-milestone-2.png",
@@ -8438,7 +8438,7 @@
       "sha256": "6bce0f6d347b9f166765bac217f12481b5c9099037c6515b97aea099863653ad"
     }
   ],
-  "duration_ms": 64395,
+  "duration_ms": 63911,
   "scope": "Reviewed finite-model conformance and sampled normal-input product evidence; not proof of fun or all possible seeds.",
   "oracle_approval": {
     "id": "fixture-switches-v1",
@@ -8451,7 +8451,7 @@
   },
   "isolation": {
     "engine": "docker",
-    "image": "sha256:b0ffe1ed9827e18de4c96089262c19f2503275ac1c8faa7d4c7308029abc8c3d",
+    "image": "sha256:2a4f65d7676beb86517c5ef8fba7953bc2572534b4646aab7e3565ffd6f93e6c",
     "network": "none",
     "readonly": true,
     "cpu": 1,

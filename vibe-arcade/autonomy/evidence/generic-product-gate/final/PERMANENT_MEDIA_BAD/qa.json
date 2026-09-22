@@ -4,7 +4,7 @@
   "suite": "product",
   "game_id": "GAME-00000000-911",
   "version": "v1",
-  "source_hash": "824cdb789e28433d05e8fd9cd7315a455090ea18268351e6c926b98c434c2bd6",
+  "source_hash": "9dc315eff567ba806b6494abc851508f53443253068ef250e07d1555d4b165e3",
   "policy_hash": "57155e1fc1f3d90ad1f7d359ac1d8f90400326e95e9ce4d4a8d15b42d8f1b32a",
   "contract_hash": "2437fb3dbd7e8e7027c53b62d00767e282d6faea4093075ae3c4a3cf21583bed",
   "passed": false,
@@ -312,7 +312,7 @@
           {
             "ms": 60,
             "path": "product-390-feedback-motion-60.png",
-            "visual": "3b9da6a2e5848ca26b08226e37248600b311939b3986372ffe5575642743d50a",
+            "visual": "ecacad3038d5dd97181ebf4e0c871afdff4c5ebf412d84a9e387cee2e8ea639d",
             "active": true,
             "static": false
           },
@@ -423,17 +423,17 @@
         "latency_ms": 0,
         "timeline": [
           {
-            "time": 188,
+            "time": 51,
             "phase": "idle",
             "value": "playing"
           },
           {
-            "time": 208,
+            "time": 80,
             "phase": "playing",
             "value": "playing"
           },
           {
-            "time": 752,
+            "time": 624,
             "phase": "finished",
             "value": "success"
           }
@@ -596,7 +596,7 @@
       },
       "selector": "[data-game-restart]",
       "actual": {
-        "before_tick": 33,
+        "before_tick": 34,
         "after_tick": 0
       },
       "status": "PASS"
@@ -906,7 +906,7 @@
       "state_path": "quality.reversible_state_key",
       "selector": "[data-game-canvas]",
       "actual": {
-        "before": "2a2185c44f1a6927f13a94b1d20c21f23a73cda50aaaf62188a0cd23c7a346c8",
+        "before": "10d82d3970cd48c950a3fc9f710831d026682a37cb7cec0ad0815c48a9501f27",
         "frames": [
           {
             "ms": 0,
@@ -1029,17 +1029,17 @@
         "latency_ms": 0,
         "timeline": [
           {
-            "time": 238,
+            "time": 51,
             "phase": "idle",
             "value": "playing"
           },
           {
-            "time": 256,
+            "time": 80,
             "phase": "playing",
             "value": "playing"
           },
           {
-            "time": 800,
+            "time": 624,
             "phase": "finished",
             "value": "success"
           }
@@ -1202,7 +1202,7 @@
       },
       "selector": "[data-game-restart]",
       "actual": {
-        "before_tick": 33,
+        "before_tick": 34,
         "after_tick": 0
       },
       "status": "PASS"
@@ -1635,17 +1635,17 @@
         "latency_ms": 0,
         "timeline": [
           {
-            "time": 250,
+            "time": 51,
             "phase": "idle",
             "value": "playing"
           },
           {
-            "time": 272,
+            "time": 80,
             "phase": "playing",
             "value": "playing"
           },
           {
-            "time": 816,
+            "time": 624,
             "phase": "finished",
             "value": "success"
           }
@@ -1808,7 +1808,7 @@
       },
       "selector": "[data-game-restart]",
       "actual": {
-        "before_tick": 33,
+        "before_tick": 34,
         "after_tick": 0
       },
       "status": "PASS"
@@ -2778,7 +2778,7 @@
               {
                 "ms": 60,
                 "path": "product-390-feedback-motion-60.png",
-                "visual": "3b9da6a2e5848ca26b08226e37248600b311939b3986372ffe5575642743d50a",
+                "visual": "ecacad3038d5dd97181ebf4e0c871afdff4c5ebf412d84a9e387cee2e8ea639d",
                 "active": true,
                 "static": false
               },
@@ -2889,17 +2889,17 @@
             "latency_ms": 0,
             "timeline": [
               {
-                "time": 188,
+                "time": 51,
                 "phase": "idle",
                 "value": "playing"
               },
               {
-                "time": 208,
+                "time": 80,
                 "phase": "playing",
                 "value": "playing"
               },
               {
-                "time": 752,
+                "time": 624,
                 "phase": "finished",
                 "value": "success"
               }
@@ -3062,7 +3062,7 @@
           },
           "selector": "[data-game-restart]",
           "actual": {
-            "before_tick": 33,
+            "before_tick": 34,
             "after_tick": 0
           },
           "status": "PASS"
@@ -3381,7 +3381,7 @@
           "state_path": "quality.reversible_state_key",
           "selector": "[data-game-canvas]",
           "actual": {
-            "before": "2a2185c44f1a6927f13a94b1d20c21f23a73cda50aaaf62188a0cd23c7a346c8",
+            "before": "10d82d3970cd48c950a3fc9f710831d026682a37cb7cec0ad0815c48a9501f27",
             "frames": [
               {
                 "ms": 0,
@@ -3504,17 +3504,17 @@
             "latency_ms": 0,
             "timeline": [
               {
-                "time": 238,
+                "time": 51,
                 "phase": "idle",
                 "value": "playing"
               },
               {
-                "time": 256,
+                "time": 80,
                 "phase": "playing",
                 "value": "playing"
               },
               {
-                "time": 800,
+                "time": 624,
                 "phase": "finished",
                 "value": "success"
               }
@@ -3677,7 +3677,7 @@
           },
           "selector": "[data-game-restart]",
           "actual": {
-            "before_tick": 33,
+            "before_tick": 34,
             "after_tick": 0
           },
           "status": "PASS"
@@ -4119,17 +4119,17 @@
             "latency_ms": 0,
             "timeline": [
               {
-                "time": 250,
+                "time": 51,
                 "phase": "idle",
                 "value": "playing"
               },
               {
-                "time": 272,
+                "time": 80,
                 "phase": "playing",
                 "value": "playing"
               },
               {
-                "time": 816,
+                "time": 624,
                 "phase": "finished",
                 "value": "success"
               }
@@ -4292,7 +4292,7 @@
           },
           "selector": "[data-game-restart]",
           "actual": {
-            "before_tick": 33,
+            "before_tick": 34,
             "after_tick": 0
           },
           "status": "PASS"
@@ -7701,7 +7701,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "3b9da6a2e5848ca26b08226e37248600b311939b3986372ffe5575642743d50a"
+      "sha256": "ecacad3038d5dd97181ebf4e0c871afdff4c5ebf412d84a9e387cee2e8ea639d"
     },
     {
       "path": "product-390-feedback-motion-400.png",
@@ -7722,7 +7722,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "f9bfd81146fe2c63635b6997ea253e4f973739d5170d4ae94e3001abd1c0900e"
+      "sha256": "b197ae428e37051856040431243dca5ba6148eeb05af8ba2ba22462b276c78e1"
     },
     {
       "path": "product-390-milestone-1.png",
@@ -7732,7 +7732,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "08743c361a3db9e0241058544c2dfc3af6297ff7ea2e51253dbac762057d8126"
+      "sha256": "70ea8659060d3ac7d2c140c5e9e1563ecad21ae542ee74ddeb94d029d4093b06"
     },
     {
       "path": "product-390-midgame.png",
@@ -7742,7 +7742,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "888828cdc003c0a5036d03692573a6d72edba155a6d1ef67da215eb5a49ac9ac"
+      "sha256": "c1c50d22003cbfebb10040ba7844de0f88d43dbea7df34d44d85a572ee1e8a59"
     },
     {
       "path": "product-390-milestone-2.png",
@@ -7867,7 +7867,7 @@
         "width": 768,
         "height": 1024
       },
-      "sha256": "2a2185c44f1a6927f13a94b1d20c21f23a73cda50aaaf62188a0cd23c7a346c8"
+      "sha256": "10d82d3970cd48c950a3fc9f710831d026682a37cb7cec0ad0815c48a9501f27"
     },
     {
       "path": "product-768-feedback-motion-0.png",
@@ -8088,7 +8088,7 @@
         "width": 1280,
         "height": 800
       },
-      "sha256": "fefbed9ec7e368bf27ed47588eac3eb84165d73c68e23d9631d37a2a2a09e6ec"
+      "sha256": "e61e1788a6593fdbe138853fdd5a5d64198858494315300019fb6f098455ff97"
     },
     {
       "path": "product-1280-milestone-2.png",
@@ -8175,7 +8175,7 @@
       "sha256": "9dceed2989c1b741642c03e35a03a3b97fe0526b7fbc4eb2c9c0383ffdecb0a5"
     }
   ],
-  "duration_ms": 61564,
+  "duration_ms": 63842,
   "scope": "Reviewed finite-model conformance and sampled normal-input product evidence; not proof of fun or all possible seeds.",
   "oracle_approval": {
     "id": "fixture-switches-v1",
@@ -8188,7 +8188,7 @@
   },
   "isolation": {
     "engine": "docker",
-    "image": "sha256:338e187b49b5153d54f5d8d4cba7ac28a400deb27207cc6421c58c56c49f3a3f",
+    "image": "sha256:d85637072a63d2b236ebf3f739b36feb997e9573ddd6ee8d43fc3a7a732988b9",
     "network": "none",
     "readonly": true,
     "cpu": 1,

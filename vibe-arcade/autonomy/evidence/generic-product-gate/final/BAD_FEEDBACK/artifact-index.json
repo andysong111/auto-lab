@@ -2,7 +2,7 @@
   "schema_version": 1,
   "game_id": "GAME-00000000-909",
   "version": "v1",
-  "source_hash": "0bf0256befd81a251a4b6c0400df5d6fc501f1d1d55473248433342ce7a06c52",
+  "source_hash": "7fc3277ec89499b052d586c04c044ab98025318f5a87f4681792cb48f6a2e496",
   "contract_hash": "2437fb3dbd7e8e7027c53b62d00767e282d6faea4093075ae3c4a3cf21583bed",
   "artifacts": [
     {
@@ -77,7 +77,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "df21d85a5e0cd6fad6e82f985d33b73e66c92ea605310941236014ab8b5ff384"
+      "sha256": "9f6c5bad59a40aa88eaadb051fbddbfd4f64fd4e6644f04259caba36695480d4"
     },
     {
       "path": "product-390-milestone-1.png",
@@ -97,7 +97,7 @@
         "width": 390,
         "height": 844
       },
-      "sha256": "45626fd11615f0b48fa70a3f2438d0def64c3599a0e3f0bed9b40f0730a93455"
+      "sha256": "37af6b092cf61dac1679ffb1eb4964357cfe1599489b59e387dfb53336e28c21"
     },
     {
       "path": "product-390-milestone-2.png",
