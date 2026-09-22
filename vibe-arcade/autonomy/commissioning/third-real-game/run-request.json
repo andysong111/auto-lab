@@ -1,0 +1,12 @@
+{
+  "schema": "playjolt-third-real-game-authorization/1",
+  "game_id": "GAME-20260922-131",
+  "model": "gpt-5.6-terra",
+  "max_generations": 6,
+  "estimated_usd_ceiling": 2,
+  "user_authorized": true,
+  "production_authorized": false,
+  "authorized_at": "2026-09-22",
+  "basis": "User approved PlayJolt calls estimated below KRW50000 and third commissioning up to USD3; retain stricter main USD2. One candidate only.",
+  "verified_zero_job_runs": []
+}
