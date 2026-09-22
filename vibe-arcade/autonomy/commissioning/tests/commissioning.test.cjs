@@ -8,7 +8,10 @@ originality:'Use an original spatial-routing mechanic and original code-created 
 difficulty:'Verify several deterministic seeds and ensure later stages require more meaningful decisions than early stages.',
 mobile_readability:'Keep critical objective, score and controls legible at 390px without text collisions inside the canvas or DOM.',
 result:'Show a clear complete or incomplete result, current score, device-local best and an obvious replay action.',
-reduced_motion:'Respond to prefers-reduced-motion both at initial load and when the media preference changes during a session.'
+reduced_motion:'Respond to prefers-reduced-motion both at initial load and when the media preference changes during a session.',
+scoring:'Reward objective progress and efficiency while preventing reversible no-progress action loops from increasing score.',
+completion_timing:'End promptly when the objective is complete; achieve target session length through meaningful play, never forced waiting.',
+action_feedback:'Make each meaningful state change visually legible with an appropriate transition or static reduced-motion alternative.'
 }};
 test('a distinct 45-second proposal keeps its public-quality brief in the factory spec',()=>{const r=validateProposal(proposal);assert.equal(r.passed,true);assert.equal(r.factory_spec.game_id,proposal.game_id);assert.deepEqual(r.factory_spec.implementation_contract,proposal.implementation_contract);assert.equal(r.commissioning.auto_production_ship,false);});
 for(const family of ['arena-survival-autofire','tower-descent-rotation','radial-pin-timing','column-merge','auto-runner','single-button-reaction'])test('known mechanic family is blocked: '+family,()=>{const r=validateProposal({...proposal,mechanic_family:family,title:'Different '+family,slug:'different-'+family});assert.equal(r.passed,false);assert(r.errors.some(e=>e.code==='mechanic_family_blocked'));});
