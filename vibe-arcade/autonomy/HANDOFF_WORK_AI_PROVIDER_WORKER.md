@@ -1,67 +1,115 @@
 # AI Provider / Autonomous Worker handoff
 
-Local implementation commit: `4467bb2c25f26a99d2121d31d0a9c474395216f3`; subsequent local commit records final lock hardening/evidence. Both are on the branch below.
+PR: [#41 — AI Builder/Repair provider and isolated autonomous worker](https://github.com/andysong111/auto-lab/pull/41)
 
-Implementation branch: `feature/autonomous-ai-provider-worker`, based on main `d0763f7c47a0f801cc82e49b1fd1d7a42c780e9e` (Factory #38 and supervisory #40 integrated).
+Branch: `feature/autonomous-ai-provider-worker`. Base: main `d0763f7c47a0f801cc82e49b1fd1d7a42c780e9e` (Factory #38 and Control Plane #40 merged). Main is not modified or merged by this task.
 
-Status: **REMOTE_COMMISSIONING_IN_PROGRESS.** GitHub account and main access recovered on 2026-09-22. Local implementation and regressions are preserved; branch/PR publication and actual isolated Docker CI are now being commissioned. Real paid provider calls remain disabled.
+Status: **implementation and mock commissioning complete; real paid provider activation remains owner-gated.** GitHub transport recovered on 2026-09-22. Code, operations, test evidence and this handoff are now in the repository. Approval requires [current-head CI green](https://github.com/andysong111/auto-lab/pull/41/checks); the final PR description records the final checked head. No AI paid canary was performed. Production intake stays OFF and `AUTO_PRODUCTION_SHIP=false`.
 
-## Architecture and files
+## Architecture
 
-- Existing Factory is reused: `orchestrator/engine.cjs` adds a before-step policy hook, operational pause propagation and provider metadata only. State graph, quality policy, five-repair budget, QA checks and RC adapter are preserved.
-- `adapters/ai.cjs`: `AIBuilderAdapter` / `AIRepairAdapter` implement the existing interfaces.
-- `providers/{prompts,output,manager,openai,config,errors}.cjs`: immutable implementation contract, actual repair request/QA compiler, validated file schema, durable operation/cost ledger, official OpenAI Responses adapter, limits and typed holds.
-- `worker.cjs`, `worker/{runtime,status,lock}.cjs`: Control Plane-gated single-host job acquisition, bounded loop/backoff, shutdown/crash recovery, worker state overlay.
-- `isolation/`: trusted Playwright Docker image and read-only/network-none/resource-limited execution adapter. No generated code is executed on the host.
-- `worker/tests/`: provider/worker contracts and real isolated browser integration; `.github/workflows/playjolt-ai-worker-ci.yml` adds CI with read-only repository permissions and no provider credentials.
-- Control Plane snapshot/dashboard displays worker pause/status; production policy stays OFF. Its CLI now correctly reads options immediately following `snapshot`/`dashboard`.
+The existing `Factory`, state graph, quality policy, five-repair budget, GameKit, browser acceptance checks and GitHub/Vercel RC adapter are reused. `orchestrator/engine.cjs` adds only a before-step supervisory hook, propagation of operational holds, and provider metadata in build evidence. Infrastructure failures do not create a new game failure/retry state machine.
 
-## Provider, secrets and cost
+| Files | Responsibility |
+| --- | --- |
+| `adapters/ai.cjs` | `AIBuilderAdapter` and `AIRepairAdapter`, implementing existing adapter interfaces |
+| `providers/prompts.cjs` | Immutable Spec → Implementation Contract and actual Factory repair request/qa.json compiler; narrow CSS/core scopes, original-mechanic/no-copy/no-CDN/GameKit rules |
+| `providers/output.cjs` | Strict file response validation, size/type/path allowlists, candidate-only writes; factory-owned manifest/kit excluded |
+| `providers/manager.cjs` | Durable operation journal and conservative cost reservations before submission; cached output and response-ID recovery |
+| `providers/openai.cjs` | Official OpenAI Responses HTTP adapter, background mode, strict JSON output, no tools/SDK retries |
+| `providers/config.cjs`, `errors.cjs` | Bounded configuration, explicit recent prices, operational holds vs model failures |
+| `worker.cjs`, `worker/{runtime,status,lock}.cjs` | run-once/loop, Control Plane gates, kernel worker/ledger locks, shutdown/crash recovery, status overlay |
+| `isolation/` | Reviewed Playwright Docker runtime and no-network/read-only/resource-bounded QA adapter |
+| `worker/tests/`, `.github/workflows/playjolt-ai-worker-ci.yml` | Provider/worker contracts plus real isolated browser commissioning; no provider secrets in CI |
 
-OpenAI Responses API is implemented via built-in `fetch`, with configurable model, strict JSON files, background response IDs, durable reservations before POST, GET recovery and no SDK retries/tools. `X-Client-Request-Id` is for tracing only. Unknown submission status never causes an automatic second generation.
+The Control Plane snapshot/dashboard reads worker status (`PAUSED_BUDGET`, provider/isolation holds, etc.) alongside the unchanged Factory state. Only existing configured critical codes require owner attention. Routine holds do not send notifications. CLI option parsing after `snapshot`/`dashboard` is corrected. Existing production policy values and exception policy are unchanged.
 
-Required when explicitly authorized later: existing `OPENAI_API_KEY`, selected `FACTORY_OPENAI_MODEL`, `FACTORY_ALLOW_PAID_CALLS=1`, freshly verified configured USD token rates and immutable `FACTORY_QA_IMAGE`. Optional RC secrets remain existing GitHub/Preview tokens. No production secret was created or modified.
+## Provider and secrets
 
-No real-provider canary has been performed. No OpenAI API calls or API charges were initiated by this work. There is no API key/free API entitlement available in this Work environment. Existing CI/hosting usage is governed by the owner's existing plans; it is not claimed to be free.
+No model name is embedded in Factory. The real provider uses fixed official OpenAI Responses endpoints via built-in `fetch`, `background:true`, `store:true`, structured file output and no tool execution. Model failures and network/auth/rate-limit/protocol failures are distinguished. Secrets and environment values never enter model prompts or candidate containers.
 
-Default per-game limits: 6 generation calls / 240k input / 96k output / **$0.50 estimated** / 15 elapsed minutes. Default global UTC-day limits: 6 generations / **$0.50 estimated** / one concurrent build. Every request reserves conservative input plus max output before submission; known usage refines the estimate. Unknown usage keeps the full reservation. Billing is not queried or asserted. See `worker/README.md` for accounting and recovery details.
+Required only for an explicitly approved real call:
 
-## Isolation and commands
+- Existing secret-store `OPENAI_API_KEY`.
+- `FACTORY_OPENAI_MODEL`, selected by the owner for background Responses + strict structured-output support.
+- `FACTORY_ALLOW_PAID_CALLS=1` after paid-call approval; disabled by default.
+- Explicit model-appropriate `pricing.input_per_million`, `output_per_million`, and `as_of` verified within 30 days. `pricing:null` fails closed.
+- `FACTORY_QA_IMAGE=sha256:...` for the locally built reviewed runtime.
 
-Linux Docker and host `flock` are required; worker/ledger use kernel advisory locks with automatic crash release and abort on lock loss; runtime requires a pinned local image ID, network none, no secrets, no production mounts, read-only candidate/root, non-root user, dropped capabilities, 1 CPU, 1 GiB, 128 PIDs and deadlines. A missing isolation runtime pauses before a provider call; no bwrap/host fallback is added. Existing CommandAdapter remains unchanged.
+Optional RC-only existing secrets: `GITHUB_TOKEN` and `VERCEL_AUTOMATION_BYPASS_SECRET`. No production secret was created/changed, and Supabase credentials are not needed. Injecting another provider does not bypass pricing; zero-price mocks require an explicit trusted test constructor flag and a mock identity. The CLI exposes no mock bypass.
 
-Default safe command: `node autonomy/worker.cjs run-once` → `PAUSED_INTAKE`. Operational commands and complete preparation steps are in [worker/README.md](worker/README.md). Use a dedicated directory outside the checkout with a copied commissioning-only policy, the existing `cli.cjs create`, then worker `run-once`/`loop`. The default never enables production intake. RC is additionally opt-in and reuses existing branch/PR/Preview/smoke logic.
+There were **0 real model-generation calls and 0 model API charges initiated by this work**. Mock usage/cost figures are synthetic test evidence. ChatGPT access is not treated as free API entitlement. Existing CI/Vercel plan usage is not asserted to be free or included in the model-cost figure.
 
-## Validation
+## Budgets and recovery
 
-Actual local results, 2026-09-22 UTC:
+Per-game defaults: 6 generation calls (build + at most 5 repairs), 240k input tokens, 96k output tokens, **$0.50 estimated**, 15 elapsed minutes including downtime. Global UTC-day defaults: 6 generations, **$0.50 estimated**, one concurrent build. Per request: 60k input bound, 16k max output, 120 seconds, 512 KiB response, 64 KiB/file, 24 files. Hard configuration maxima apply.
+
+The ledger reserves conservative UTF-8-byte input bounds plus framing margin and the full output cap before POST. File and containing-directory fsync protect reservation persistence. Known usage refines the estimate; uncertain/missing usage keeps the reservation. Billing is not queried, so amounts remain estimated. Provider-side limits are necessary for an absolute billed-currency ceiling. A limit produces `PAUSED_BUDGET`, preserving the Factory checkpoint.
+
+`operation_id` + immutable request/provider hash prevents changed retries. COMPLETE uses cached validated output. A saved response ID resumes via GET. An ambiguous submission without an ID **never automatically posts again**; reconcile provider logs before authorizing a replacement. `X-Client-Request-Id` is tracing, not a documented billing idempotency guarantee. Preserve `autonomy/.provider/ledger.json` across restarts; never erase unresolved reservations to retry.
+
+## Isolation
+
+Trusted host: Linux, Node 22+, `flock`, Docker. Kernel advisory locks serialize worker and ledger operations, including competing crash recovery. Missing locks/isolation fail closed; no unsafe fallback. Existing Factory job locks remain unchanged.
+
+Candidate execution: immutable local image ID, no pulls at runtime, `--network none`, read-only root/candidate, non-root UID, all capabilities dropped, no-new-privileges, no host home/repository/Docker socket/secret mounts. Default 1 CPU, 1 GiB memory with no extra swap, 128 PIDs, bounded descriptors/temp storage and deadlines. Only QA artifacts and ephemeral browser storage are writable. Both host cleanup and an inner deadline end child processes. The unchanged browser guard records blocked side effects; production-write attempts remain fatal and never enter AI repair.
+
+Verified commissioning image: `sha256:895fc379e63fe422e2a8a9b87d3b080331aed406587d85c47407cead5bb56582` from the reviewed Dockerfile. Rebuild on the chosen worker and record its own immutable ID. Docker is unavailable in this local Work runtime; actual container commissioning was performed in GitHub CI, with no skip or host execution fallback. This is dedicated-host containment, not a claim against kernel vulnerabilities.
+
+## Commands
+
+From `vibe-arcade`:
+
+```sh
+node autonomy/worker.cjs run-once
+# Default: PAUSED_INTAKE, zero provider calls.
+
+node autonomy/cli.cjs create --root "$FACTORY_WORKER_ROOT" --spec autonomy/examples/dummy-spec.json
+node autonomy/worker.cjs run-once --root "$FACTORY_WORKER_ROOT" --policy "$FACTORY_WORKER_ROOT/control-policy.json" --config "$FACTORY_WORKER_ROOT/worker-config.json"
+node autonomy/worker.cjs loop --root "$FACTORY_WORKER_ROOT" --policy "$FACTORY_WORKER_ROOT/control-policy.json" --config "$FACTORY_WORKER_ROOT/worker-config.json"
+```
+
+Use a durable dedicated state directory outside the checkout. Only its copied commissioning policy may enable intake; repository production intake stays OFF. The worker acquires existing Factory jobs; it does not autonomously create batches. Defaults stop at RC_READY. RC needs both `release_candidates:true` and live Control Plane permission; it reuses the existing branch/PR/checks/Preview/smoke adapter and cannot merge/ship. A killed or intake-disabled worker starts no new calls. Loop defaults: 2-second polling, backoff capped at 30 seconds, 20 polls and one completed job, with no overlaps.
+
+Complete setup, provider contract, official references and recovery instructions: [worker/README.md](worker/README.md).
+
+## Actual validation and evidence
 
 | Check | Result |
 | --- | --- |
-| Existing Factory / Control Plane | 26 / 26 PASS |
-| New provider / worker contracts | 49 / 49 PASS; mock HTTP only |
-| Existing Factory real Chromium | 9 / 9 PASS; trusted existing fixtures |
+| Existing Factory / Control Plane | 26 / 26 PASS locally and CI |
+| New provider / worker contracts | 50 / 50 PASS locally; initial commissioning CI passed 49 before adding the explicit custom-provider pricing test; current-head CI runs all 50 |
+| New real Docker / Chromium integration | 5 / 5 PASS, 0 skipped |
+| Existing Factory real Chromium | 9 / 9 PASS locally and CI |
 | Existing production canonical contracts | 283 / 283 PASS |
 | Production browser suites | 6 / 6 PASS: Astra V3 + campaign, Deep Descent, Core Pins/Nova Merge, legacy Challengers, Orbit Sprint/auth shell |
-| New AI-worker Docker integration | BLOCKED locally: all 5 cases fail closed at isolation preflight; no AI output executes on host |
-| GitHub PR / CI | Publication and CI commissioning in progress; exact results to follow |
-| Real provider canary | NOT RUN; 0 paid API calls |
+| Existing additional CI | All executed checks passed; existing opt-in `live` check was skipped, without production-account writes |
+| Real paid provider canary | NOT RUN; owner approval required |
 
-Machine-readable status and logs are under [`evidence/ai-provider-worker/`](evidence/ai-provider-worker/). Existing real-browser fixture repair/rejection passed; this does **not** substitute for the pending new AI-adapter + Docker end-to-end suite. Production network writes are blocked and existing account/ranking responses are mocked locally by the existing regression harness. Generated build outputs are excluded from the feature commit.
+Initial complete commissioning head: `de1d8320020a09648f58c733b20e8bc63be37588`. [AI worker CI](https://github.com/andysong111/auto-lab/actions/runs/35676070212), [Factory/browser/regression CI](https://github.com/andysong111/auto-lab/actions/runs/35676070157), [current-head PR checks](https://github.com/andysong111/auto-lab/pull/41/checks). Final PR description records the final-head results after the additional pricing guard and documentation commit.
 
-PR and CI links will be recorded after creation and validation. No paid canary or new RC game is included in commissioning. `.github/workflows/playjolt-ai-worker-ci.yml` performs the new container integration using mock model responses.
+Permanent JSON/log snapshots are committed under [`evidence/ai-provider-worker/`](evidence/ai-provider-worker/), including 52 JSON files extracted from real isolated CI. [Full CI artifact including screenshots](https://github.com/andysong111/auto-lab/actions/runs/35676070212/artifacts/10673420186) expires 2026-10-06; the committed JSON/log evidence remains available.
+
+Observed outcomes:
+
+- Broken mock build → real freeze QA → actual Factory repair request → core/app-scoped AI mock repair → **RC_READY v2**, 2 generation calls, all 3 viewports PASS.
+- Permanently broken mock → exactly 5 repairs / 6 generations → **REJECTED v6**.
+- Obfuscated production POST → blocked and fatal **REJECTED**, 1 generation, no repair.
+- Infinite loop → **timeout / REJECTED**; named containers and child processes removed.
+- Probe → no secrets, no candidate/root writes, no raw outbound access, no socket, non-root execution.
+
+[Feature PR Preview](https://vibe-arcade-git-feature-autonomous-ai-provider-worker-a2bsangsa.vercel.app) was provisioned by the existing Vercel integration. Its GitHub deployment status passed. Unauthenticated root GET returned 302; authenticated HTTP smoke is **not claimed** and no bypass secret was added. This is a preview of the worker-code PR, not a released AI game. No new game RC branch, live account/score or production deployment was created.
 
 ## Known limits and next supervising-team actions
 
-- Production shipping is unsupported/disabled; no intake enable, new production game, DB change, auth/ranking/country/marketing change was performed.
-- FileStore/ledger is single-host. Multiple hosts require transactional leases/shared budget accounting before any scaling. Do not create multiple roots to bypass a budget.
-- Model design quality and compatibility are not established by mock tests. Mechanical PASS is an RC, not proof of originality/fun or production approval.
-- Response background storage is explicit (`store:true`); owner must ensure it fits the account's data policy. No ZDR claim.
-- Container isolation requires a maintained dedicated Linux host and reviewed runtime images. It does not claim protection against host-kernel vulnerabilities.
-- Ambiguous submissions require provider-log reconciliation; this is intentionally not automated by a second POST. The state/ledger must be retained across worker restarts.
-- GitHub transport is restored. Before approval require `AI provider worker contracts`, `AI worker isolated browser` and all existing Factory/production checks green. The new Docker suite must actually execute successfully; do not skip it or switch it to host execution. Save the resulting CI run/artifact URLs here. No new service, payment or production secret is needed for this step.
-- A real paid canary remains owner-gated. After isolated CI passes and the PR is reviewed/merged, supply an existing scoped API key through the secret store, choose a supported model, verify rates, and explicitly approve one bounded fixture run. Keep production intake OFF. Set commissioning policy only in the dedicated state directory. Do not give the candidate any secrets. Record the actual response/usage/estimated cost and quality results before considering further intake.
+1. Review PR #41 and its current-head CI. This task does not merge main or enable production shipping/intake. All handoff/evidence is readable from GitHub; no chat-copy transfer is needed.
+2. If commissioning the actual model, approve **one generation call** and its cost ceiling first. Use [config.canary.example.json](worker/config.canary.example.json): one per-game/daily generation, $0.50 estimated ceiling, 5 minutes, one job, RC disabled. Add verified prices and an existing scoped key through the secret store. Leave production intake OFF. Enable only the isolated copied commissioning policy and run `run-once` on the unlisted fixture. If QA fails, the next provider call pauses on budget; do not raise limits without reviewing that result.
+3. Record actual model/response ID, token usage, estimated cost, QA and original-game quality evidence. Mock success proves wiring and containment, not model compatibility, originality, fun or Astra/Descent-level design quality. No automatic production approval follows mechanical PASS.
+4. Background storage (`store:true`) must fit the owner's account/data policy; no ZDR claim. Provider availability, model-specific support and actual billing remain unverified until the approved canary.
+5. File state/ledger supports one host. Multi-host scaling requires transactional leases/shared budget accounting. Do not use multiple roots to bypass global limits. Maintain the reviewed isolation runtime and retain unresolved ledger records.
+
+No SNS, ads, Winner/Loser, DB migration, authentication/country/ranking policy, production game rules or score validation changes were made. Source changes are confined to autonomy plus its new CI workflow; existing CommandAdapter remains fail-closed and unchanged.
 
 ## Rollback
 
-Stop the worker, set its copied policy `intake_enabled:false` or `kill_switches.factory:true`, unset paid-call authorization, and retain state/ledger for reconciliation. Revert this feature PR if code rollback is needed. No DB migration, production game or credential change needs rollback. Never delete unresolved cost records as a retry mechanism.
+Stop the worker, set its copied policy `intake_enabled:false` or `kill_switches.factory:true`, unset paid-call authorization and retain state/ledger for reconciliation. Close/revert PR #41 if code rollback is required. No production DB, game or secret changes need reversal. No force push, production merge or ship is part of rollback.

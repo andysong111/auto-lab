@@ -1,16 +1,16 @@
 {
   "schema": "playjolt-ai-worker-verification/1",
-  "recorded_at": "2026-09-22T00:10:39.448403+00:00",
+  "recorded_at": "2026-09-22T01:40:54.663019+00:00",
   "baseline_commit": "d0763f7c47a0f801cc82e49b1fd1d7a42c780e9e",
   "branch": "feature/autonomous-ai-provider-worker",
-  "completion": "REMOTE_COMMISSIONING_IN_PROGRESS",
+  "completion": "IMPLEMENTED_MOCK_COMMISSIONED_REAL_PROVIDER_NOT_ACTIVATED",
   "tests": {
     "factory_control_plane": {
       "passed": 26,
       "failed": 0
     },
     "provider_worker_contracts": {
-      "passed": 49,
+      "passed": 50,
       "failed": 0,
       "provider": "mock; no paid HTTP"
     },
@@ -28,9 +28,14 @@
       "failed": 0
     },
     "ai_worker_real_container_browser": {
-      "status": "BLOCKED",
-      "cases": 5,
-      "reason": "Docker daemon/image unavailable locally; no unsafe fallback or skipped tests"
+      "status": "PASS",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "provider": "mock",
+      "execution": "real network-disabled Docker and Chromium",
+      "ci_run": "https://github.com/andysong111/auto-lab/actions/runs/35676070212",
+      "image": "sha256:895fc379e63fe422e2a8a9b87d3b080331aed406587d85c47407cead5bb56582"
     }
   },
   "real_provider_canary": {
@@ -41,9 +46,15 @@
   },
   "github": {
     "connection": "RESTORED",
-    "branch_created": false,
-    "pr": null,
-    "ci": "PENDING_PUBLICATION"
+    "branch_created": true,
+    "pr": 41,
+    "url": "https://github.com/andysong111/auto-lab/pull/41",
+    "commissioning_ci": "PASS",
+    "snapshot_commit": "de1d8320020a09648f58c733b20e8bc63be37588",
+    "current_head_checks": "https://github.com/andysong111/auto-lab/pull/41/checks",
+    "final_head_results": "See final PR description and current-head checks",
+    "preview_url": "https://vibe-arcade-git-feature-autonomous-ai-provider-worker-a2bsangsa.vercel.app",
+    "preview_http_smoke": "NOT_CLAIMED: unauthenticated GET returns 302; no bypass secret provided"
   },
   "intake_enabled": false,
   "auto_production_ship": false,

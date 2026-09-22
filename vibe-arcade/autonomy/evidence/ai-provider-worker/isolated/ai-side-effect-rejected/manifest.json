@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260921-001",
+  "generation": 1,
+  "version": "v1",
+  "title": "Factory test chamber",
+  "slug": "factory-test-chamber",
+  "genre": "commissioning-fixture",
+  "mechanic_family": "fixture-only",
+  "controls": [
+    "Arrows or WASD to move",
+    "Space to interact"
+  ],
+  "mobile_controls": [
+    "Tap or drag on the board"
+  ],
+  "reference_quality_games": [
+    "astra-sentinel-v3",
+    "deep-descent"
+  ],
+  "created_at": "2026-09-22T01:32:50.807Z",
+  "state": "REJECTED",
+  "repair_attempt": 0,
+  "max_repair_attempts": 5,
+  "source_path": "autonomy/games/GAME-20260921-001/v1",
+  "preview_url": null,
+  "qa_status": "FAIL",
+  "quality_status": "REJECT",
+  "release_status": "REJECTED",
+  "failure_reasons": [
+    {
+      "code": "capture_no_writes",
+      "message": "capture attempted side effects\n\n1 !== 0\n",
+      "viewport": 390
+    },
+    {
+      "code": "production_side_effect",
+      "message": "Attempted network or persistence effects were blocked/audited",
+      "viewport": 390
+    },
+    {
+      "code": "capture_no_writes",
+      "message": "capture attempted side effects\n\n1 !== 0\n",
+      "viewport": 768
+    },
+    {
+      "code": "production_side_effect",
+      "message": "Attempted network or persistence effects were blocked/audited",
+      "viewport": 768
+    },
+    {
+      "code": "capture_no_writes",
+      "message": "capture attempted side effects\n\n1 !== 0\n",
+      "viewport": 1280
+    },
+    {
+      "code": "production_side_effect",
+      "message": "Attempted network or persistence effects were blocked/audited",
+      "viewport": 1280
+    },
+    {
+      "code": "console_error",
+      "message": "Browser console errors",
+      "viewport": null
+    }
+  ],
+  "metrics_eligibility": false,
+  "qa": {
+    "seed": 7,
+    "keyboard": {
+      "key": "ArrowRight",
+      "observation": "state.x"
+    },
+    "pointer": {
+      "observation": "state.taps"
+    },
+    "terminal_ms": 12000
+  },
+  "revision": 5,
+  "history": [
+    {
+      "from": "IDEA",
+      "to": "SPEC_READY",
+      "at": "2026-09-22T01:32:50.808Z"
+    },
+    {
+      "from": "SPEC_READY",
+      "to": "BUILDING",
+      "at": "2026-09-22T01:32:50.848Z"
+    },
+    {
+      "from": "BUILDING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T01:32:50.882Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T01:33:01.200Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REJECTED",
+      "at": "2026-09-22T01:33:01.201Z"
+    }
+  ],
+  "source_hash": "bceb87407824de3ad4d39dd51317fd20966e90201465907734c8dff4d837ff3a",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0"
+}

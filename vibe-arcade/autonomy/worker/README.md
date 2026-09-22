@@ -4,7 +4,7 @@ The worker connects the existing `Factory`, `AIBuilderAdapter` and `AIRepairAdap
 
 ## Provider and configuration
 
-`providers/openai.cjs` implements the official OpenAI Responses API with background responses, strict JSON file output and no tools. No SDK or model name is embedded in Factory. A different trusted provider implements `identity`, `assertAvailable()`, `generate({request,instructions,schema,max_output_tokens,max_response_bytes,response_id,onResponseId,signal})`, and optionally `cancel(id)`. `generate` returns `{output,usage}`; the manager validates it and attaches provider metadata. Call `onResponseId` as soon as the service accepts a request. Never execute a provider-suggested test or command.
+`providers/openai.cjs` implements the official OpenAI Responses API with background responses, strict JSON file output and no tools. No SDK or model name is embedded in Factory. A different trusted provider implements `identity`, `assertAvailable()`, `generate({request,instructions,schema,max_output_tokens,max_response_bytes,response_id,onResponseId,signal})`, and optionally `cancel(id)`. `generate` returns `{output,usage}`; the manager validates it and attaches provider metadata. Call `onResponseId` as soon as the service accepts a request. Never execute a provider-suggested test or command. Injecting a provider does not disable pricing checks. Zero-price mocks require an explicit trusted-constructor `mock:true` and a `mock/` provider identity; the CLI exposes no mock bypass option.
 
 Required operator environment, only after approval for paid calls:
 
@@ -86,3 +86,5 @@ The isolated suite has no skip/fallback when Docker is missing. It uses a mock p
 CI: `.github/workflows/playjolt-ai-worker-ci.yml`; artifacts: `ai-worker-isolation-evidence` (14 days). Existing Factory and production regression workflows remain in place. See `../HANDOFF_WORK_AI_PROVIDER_WORKER.md` for actual results and activation actions.
 
 Official references: [Responses background mode](https://developers.openai.com/api/docs/guides/background), [structured outputs](https://developers.openai.com/api/docs/guides/structured-outputs), [request tracing](https://developers.openai.com/api/reference/overview), [current pricing](https://developers.openai.com/api/docs/pricing), [Playwright Docker](https://playwright.dev/docs/docker), [Docker runtime constraints](https://docs.docker.com/engine/containers/run/).
+
+For the first owner-approved real canary, use `config.canary.example.json`: exactly one allowed generation per game/day, $0.50 estimated ceilings, five elapsed minutes and RC disabled. Configure verified model prices and explicitly approve the paid call first. Run `run-once`; a failed build/QA cannot trigger a second paid generation within this canary budget.

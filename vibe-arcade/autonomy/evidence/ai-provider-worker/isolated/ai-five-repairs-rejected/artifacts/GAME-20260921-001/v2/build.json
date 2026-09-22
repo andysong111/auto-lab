@@ -1,0 +1,23 @@
+{
+  "operation_id": "GAME-20260921-001/repair/1",
+  "source_hash": "85ec8702a1ca2d0726060143e7e055b8eedd4e6fc05f1d51af02c48d526e7bcd",
+  "changed_files": [
+    "manifest.json"
+  ],
+  "cause": "Deterministic fixture response from a mock provider, no model request.",
+  "adapter_tests": [
+    "provider-suggested (not executed): existing browser acceptance contract"
+  ],
+  "provider_metadata": {
+    "provider": "mock/responses",
+    "response_id": "resp_mock_2",
+    "usage": {
+      "input_tokens": 100,
+      "output_tokens": 100,
+      "estimated_cost": 0
+    },
+    "estimated_cost": 0,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

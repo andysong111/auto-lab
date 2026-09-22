@@ -53,7 +53,7 @@ test('actual worker process crash after response checkpoint recovers stale locks
   const e=setup(t,{worker:{qa}});await e.factory.create(e.spec);
   const script=`const {AutonomousWorker}=require(${JSON.stringify(path.resolve(__dirname,'../runtime.cjs'))});
     const provider={identity:'mock/responses',assertAvailable(){},async generate(c){c.onResponseId('resp_crash');process.exit(73);}};
-    new AutonomousWorker({root:${JSON.stringify(e.root)},policyFile:${JSON.stringify(e.policyFile)},settings:{commissioning:true},provider,qa:{assertAvailable(){}}}).runOnce();`;
+    new AutonomousWorker({root:${JSON.stringify(e.root)},policyFile:${JSON.stringify(e.policyFile)},settings:{commissioning:true},provider,mock:true,qa:{assertAvailable(){}}}).runOnce();`;
   const child=spawnSync(process.execPath,['-e',script],{timeout:10000,encoding:'utf8',env:{PATH:process.env.PATH}});assert.equal(child.status,73,child.stderr);
   assert.equal(e.store.get(e.spec.game_id).state,'BUILDING');assert.equal(e.manager.read().operations[e.spec.game_id+'/build/v1'].response_id,'resp_crash');
   e.worker.provider=new MockProvider({handler:async c=>{assert.equal(c.response_id,'resp_crash');return {output:output()};}});
@@ -99,4 +99,10 @@ for(const [name,exitCode,kind,expected] of [
   const args={manifest:m,gameRoot,outDir:e.store.artifact(m.game_id,'v1'),policy};
   if(['infra','tamper'].includes(kind))await assert.rejects(()=>docker.run(args),{code:expected});else{const r=await docker.run(args);assert.equal(r.passed,false);assert.equal(r.hard_failures[0].code,expected);}
   assert.equal(removals,1);
+});
+test('injected real providers still require verified prices; zero-price mocks require explicit test mode',async t=>{
+  const provider=new MockProvider();provider.identity='custom-provider/configured-model';
+  const e=setup(t,{provider,worker:{qa,mock:false}});await e.factory.create(e.spec);
+  assert.equal((await e.worker.runOnce()).code,'pricing_not_verified');assert.equal(provider.calls,0);
+  e.worker.mock=true;assert.equal((await e.worker.runOnce()).code,'invalid_mock_provider');assert.equal(provider.calls,0);
 });

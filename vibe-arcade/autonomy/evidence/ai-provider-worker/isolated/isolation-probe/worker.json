@@ -1,0 +1,8 @@
+{
+  "secret_absent": true,
+  "root_read_only": true,
+  "candidate_read_only": true,
+  "outbound_blocked": true,
+  "socket_absent": true,
+  "non_root": true
+}

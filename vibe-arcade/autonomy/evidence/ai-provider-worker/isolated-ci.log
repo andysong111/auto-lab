@@ -1,0 +1,21 @@
+2026-09-22T01:32:02.5295463Z #13 writing image sha256:895fc379e63fe422e2a8a9b87d3b080331aed406587d85c47407cead5bb56582 done
+2026-09-22T01:32:03.1064348Z # Subtest: container probe: no production secrets, no candidate/root write, no socket, non-root, raw egress blocked
+2026-09-22T01:32:03.1069240Z ok 1 - container probe: no production secrets, no candidate/root write, no socket, non-root, raw egress blocked
+2026-09-22T01:32:03.1070653Z   duration_ms: 259.691085
+2026-09-22T01:32:18.9767608Z # Subtest: AI mock files -> isolated Chromium failure -> compiled targeted repair -> three viewport PASS
+2026-09-22T01:32:18.9769030Z ok 2 - AI mock files -> isolated Chromium failure -> compiled targeted repair -> three viewport PASS
+2026-09-22T01:32:18.9770079Z   duration_ms: 15871.962994
+2026-09-22T01:32:50.8117521Z # Subtest: AI mock repair fails five times -> existing Factory REJECTED; exactly six total provider generations
+2026-09-22T01:32:50.8118822Z ok 3 - AI mock repair fails five times -> existing Factory REJECTED; exactly six total provider generations
+2026-09-22T01:32:50.8120054Z   duration_ms: 31836.00222
+2026-09-22T01:33:01.2272888Z # Subtest: obfuscated production POST is contained and fatal; never fed to AI repair
+2026-09-22T01:33:01.2274407Z ok 4 - obfuscated production POST is contained and fatal; never fed to AI repair
+2026-09-22T01:33:01.2276644Z   duration_ms: 10414.944714
+2026-09-22T01:33:05.5229343Z # Subtest: runaway candidate is stopped by container deadline and child processes removed
+2026-09-22T01:33:05.5230472Z ok 5 - runaway candidate is stopped by container deadline and child processes removed
+2026-09-22T01:33:05.5231189Z   duration_ms: 4313.156318
+2026-09-22T01:33:05.5324270Z # tests 5
+2026-09-22T01:33:05.5325112Z # pass 5
+2026-09-22T01:33:05.5325435Z # fail 0
+2026-09-22T01:33:05.5326118Z # skipped 0
+2026-09-22T01:33:05.5328176Z # duration_ms 62846.983804

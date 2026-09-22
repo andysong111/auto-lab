@@ -3,7 +3,7 @@ on:
   pull_request:
     paths: ['vibe-arcade/autonomy/**', '.github/workflows/playjolt-ai-worker-ci.yml']
   push:
-    branches: [main, feature/autonomous-ai-provider-worker]
+    branches: [main]
     paths: ['vibe-arcade/autonomy/**', '.github/workflows/playjolt-ai-worker-ci.yml']
   workflow_dispatch:
 permissions:

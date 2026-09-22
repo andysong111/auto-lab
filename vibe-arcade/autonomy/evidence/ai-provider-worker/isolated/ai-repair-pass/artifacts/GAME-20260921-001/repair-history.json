@@ -1,0 +1,33 @@
+[
+  {
+    "attempt": 1,
+    "version": "v2",
+    "cause": [
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 390
+      },
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 768
+      },
+      {
+        "code": "freeze",
+        "message": "page.waitForFunction: Timeout 1200ms exceeded.",
+        "viewport": 1280
+      }
+    ],
+    "changed_files": [
+      "core.js",
+      "manifest.json"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "PASS",
+    "adapter_cause": "Deterministic fixture response from a mock provider, no model request.",
+    "qa_artifact": "v2/qa.json"
+  }
+]

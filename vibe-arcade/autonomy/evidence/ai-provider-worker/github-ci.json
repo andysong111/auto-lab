@@ -1,0 +1,131 @@
+{
+  "implementation_commit": "de1d8320020a09648f58c733b20e8bc63be37588",
+  "pr": 41,
+  "pr_url": "https://github.com/andysong111/auto-lab/pull/41",
+  "recorded_at": "2026-09-22T01:40:53.117Z",
+  "checks": [
+    {
+      "name": "live",
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35676070110/job/106583029539"
+    },
+    {
+      "name": "Vercel Preview Comments",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/runs/106582791947"
+    },
+    {
+      "name": "AI worker isolated browser",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35676070212/job/106582759456"
+    },
+    {
+      "name": "Factory contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35676070157/job/106582759336"
+    },
+    {
+      "name": "Factory regression",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35676070157/job/106582759274"
+    },
+    {
+      "name": "AI provider worker contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35676070212/job/106582759257"
+    },
+    {
+      "name": "Factory browser",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35676070157/job/106582759118"
+    },
+    {
+      "name": "experience",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35676070211/job/106582759097"
+    },
+    {
+      "name": "foundation",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35676070110/job/106582758978"
+    },
+    {
+      "name": "smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35676070179/job/106582758879"
+    },
+    {
+      "name": "rules-and-browser",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35676070186/job/106582758838"
+    },
+    {
+      "name": "checks",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35676070158/job/106582758804"
+    },
+    {
+      "name": "arcade3",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35676070088/job/106582758748"
+    },
+    {
+      "name": "AI provider worker contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35676067619/job/106582752551"
+    },
+    {
+      "name": "AI worker isolated browser",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35676067619/job/106582752382"
+    },
+    {
+      "name": "smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35676067584/job/106582751928"
+    }
+  ],
+  "statuses": [
+    {
+      "context": "Vercel",
+      "state": "success",
+      "url": "https://vercel.com/a2bsangsa/vibe-arcade/FWFQRSVvfXUo7GJZiCruoPuohTzG"
+    }
+  ],
+  "isolation_artifact": {
+    "id": 10673420186,
+    "name": "ai-worker-isolation-evidence",
+    "size_in_bytes": 250966,
+    "url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10673420186",
+    "archive_download_url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10673420186/zip",
+    "expired": false,
+    "created_at": "2026-09-22T01:33:06Z",
+    "expires_at": "2026-10-06T01:33:05Z",
+    "updated_at": "2026-09-22T01:33:06Z",
+    "digest": "sha256:79b8c641c6c318dac5287ed1b2511e825c0cb2aba61ef63258edf7a958c1bc44",
+    "workflow_run": {
+      "id": 35676070212,
+      "repository_id": 1192904955,
+      "head_repository_id": 1192904955,
+      "head_branch": "feature/autonomous-ai-provider-worker",
+      "head_sha": "de1d8320020a09648f58c733b20e8bc63be37588"
+    }
+  },
+  "note": "Commissioning snapshot for the initial implementation. Current head results are on PR #41 checks; final PR body records final verification."
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "decision": "PASS",
+  "hard_failures": [],
+  "soft_failures": [],
+  "heuristics": [
+    {
+      "name": "first_five_seconds",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "mechanic_overlap",
+      "status": "UNVERIFIED",
+      "evidence": {
+        "declared_family": "fixture-only"
+      }
+    },
+    {
+      "name": "information_density",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "control_count",
+      "status": "OBSERVED",
+      "evidence": {
+        "desktop": 2,
+        "mobile": 1
+      }
+    },
+    {
+      "name": "repeatability",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "visual_completeness",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "progression_visibility",
+      "status": "UNVERIFIED",
+      "evidence": null
+    }
+  ],
+  "source_hash": "b8cc55b3ba3fa7556a1e2470ee102f009f839a2a2354311364ae04201ca9733d",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0",
+  "production_approved": false,
+  "metrics_eligibility": false,
+  "meaning": "Mechanical release candidate only; baseline-level visual/design quality still requires evidence"
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "playjolt-worker/1",
+  "status": "REJECTED",
+  "code": "production_side_effect",
+  "game_id": "GAME-20260921-001",
+  "version": "v1",
+  "factory_state": "REJECTED",
+  "recorded_at": "2026-09-22T01:33:01.201Z",
+  "owner_action": true,
+  "auto_production_ship": false,
+  "budget": {
+    "calls": 1,
+    "input": 7872,
+    "output": 16000,
+    "cost": 0
+  },
+  "cost_basis": "estimated",
+  "provider": "mock/responses"
+}

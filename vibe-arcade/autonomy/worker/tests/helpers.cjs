@@ -27,7 +27,7 @@ function setup(t,options={}) {
   const factory=new Factory({store});
   const manager=new ProviderManager({root,provider,config:limits,prices:pricing(null,{mock:true}),...options.manager});
   const settings={commissioning:true,...options.limits,...options.settings};
-  const worker=new AutonomousWorker({root,policyFile,settings,provider,...options.worker});
+  const worker=new AutonomousWorker({root,policyFile,settings,provider,mock:true,...options.worker});
   return {root,store,spec,factory,provider,manager,limits,policy,policyFile,worker};
 }
 async function request(env) {

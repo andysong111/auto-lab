@@ -25,8 +25,8 @@ function gate(p,{rc=false}={}) {
 }
 class AutonomousWorker {
   // Dependencies are injected by trusted tests, never loaded from model output or config scripts.
-  constructor({root=APP,policyFile=DEFAULT_POLICY,settings={},provider=null,qa=null,release=null,signal,now=Date.now}={}) {
-    this.root=path.resolve(root);this.policyFile=path.resolve(policyFile);this.settings=settings;this.limits=config(settings);this.provider=provider;this.qa=qa;this.release=release;this.signal=signal;this.now=now;
+  constructor({root=APP,policyFile=DEFAULT_POLICY,settings={},provider=null,mock=false,qa=null,release=null,signal,now=Date.now}={}) {
+    this.root=path.resolve(root);this.policyFile=path.resolve(policyFile);this.settings=settings;this.limits=config(settings);this.provider=provider;this.mock=mock;this.qa=qa;this.release=release;this.signal=signal;this.now=now;
     this.store=new FileStore(this.root);this.locks=new ProcessLock(safePath(this.root,'autonomy/.worker'));
   }
   validateCommissioning() {
@@ -70,7 +70,8 @@ class AutonomousWorker {
         await guard();
         const provider=this.provider||new OpenAIProvider();provider.assertAvailable();
         const qa=this.qa||new DockerQA({limits:this.limits.isolation,signal:controller.signal});qa.assertAvailable();
-        const prices=pricing(this.settings.pricing,{mock:!!this.provider,now:this.now()});
+        if(this.mock&&(!this.provider||!/^mock\//.test(provider.identity)))throw new ProviderPause('invalid_mock_provider');
+        const prices=pricing(this.settings.pricing,{mock:this.mock,now:this.now()});
         manager=new ProviderManager({root:this.root,provider,config:this.limits,prices,guard,signal:controller.signal,now:this.now});
         await guard();
         monitor=setInterval(()=>{guard().catch(e=>controller.abort(e.factory_pause?e:new ProviderPause('invalid_control_policy')));},250);
