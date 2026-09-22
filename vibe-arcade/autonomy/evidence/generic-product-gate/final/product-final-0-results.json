@@ -1,0 +1,42 @@
+[
+  {
+    "variant": "GOOD",
+    "expected": [],
+    "passed": true,
+    "codes": [],
+    "duration_ms": 60999,
+    "source_hash": "fae24c5b375b70a372feaf4f4b4192775822002e411e48dbc02837bc6ce112c1"
+  },
+  {
+    "variant": "BAD_TEXT",
+    "expected": [
+      "product_mobile_readability"
+    ],
+    "passed": false,
+    "codes": [
+      "product_mobile_readability"
+    ],
+    "duration_ms": 61068,
+    "source_hash": "50ef70c24ba42e41d6581c409f09978db78d8c5c8f99846408afb8582dd57a1f"
+  },
+  {
+    "variant": "BAD_MOTION",
+    "expected": [
+      "product_reduced_motion"
+    ],
+    "passed": false,
+    "codes": [
+      "product_reduced_motion"
+    ],
+    "duration_ms": 62959,
+    "source_hash": "ebf76fae4bd4a45543fb93e4e98f8cb86a4bbae35d01321ca683d2eca8c3ceeb"
+  },
+  {
+    "variant": "DELAYED_MEDIA_GOOD",
+    "expected": [],
+    "passed": true,
+    "codes": [],
+    "duration_ms": 61901,
+    "source_hash": "8de1f46a7e9f233e34877b46bb64dc859a2614429cc6d067268e7be5a51d16d0"
+  }
+]

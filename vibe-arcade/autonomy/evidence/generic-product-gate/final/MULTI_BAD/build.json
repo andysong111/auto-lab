@@ -1,0 +1,17 @@
+{
+  "operation_id": "GAME-00000000-912/build/v1",
+  "source_hash": "6d44e462cf0ec2aca56301935a49c83862aaa56f428052633d0e1d6ae4182407",
+  "changed_files": [
+    "README.md",
+    "app.js",
+    "core.js",
+    "fixture.json",
+    "gamekit.js",
+    "index.html",
+    "manifest.json",
+    "style.css",
+    "view/art.js"
+  ],
+  "cause": "Adapter completed",
+  "adapter_tests": []
+}

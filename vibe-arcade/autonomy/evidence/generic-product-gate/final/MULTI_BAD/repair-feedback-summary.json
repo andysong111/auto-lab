@@ -1,0 +1,1400 @@
+{
+  "failures": [
+    {
+      "code": "product_objective",
+      "message": "Expected \"visible [data-objective]\"; actual false",
+      "check": "objective",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-objective]",
+      "expected": "visible [data-objective]",
+      "actual": false,
+      "evidence": [
+        "product/product-390-entry.png"
+      ]
+    },
+    {
+      "code": "product_reduced_motion",
+      "message": "media preference/presentation did not settle within bounded native delivery wait: {\"native\":true,\"presentation\":false}",
+      "check": "reduced_motion",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state_path": "presentation.reduced_motion",
+      "expected": "contract requirement",
+      "actual": "media preference/presentation did not settle within bounded native delivery wait: {\"native\":true,\"presentation\":false}",
+      "evidence": [
+        "product/product-390-playing.png"
+      ]
+    },
+    {
+      "code": "product_score_integrity",
+      "message": "Expected \"no score gain for no objective progress\"; actual {\"kind\":\"reversible\",\"actions\":[\"a0\",\"a0\"],\"before\":0,\"after\":2}",
+      "check": "score_integrity",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state_path": "quality.reversible_state_key",
+      "selector": "[data-game-score]",
+      "expected": "no score gain for no objective progress",
+      "actual": {
+        "kind": "reversible",
+        "actions": [
+          "a0",
+          "a0"
+        ],
+        "before": 0,
+        "after": 2
+      },
+      "evidence": [
+        "product/product-390-playing.png"
+      ]
+    },
+    {
+      "code": "product_feedback",
+      "message": "Expected \"visible intermediate transition and settled state (not a final-state teleport)\"; actual [{\"ms\":0,\"path\":\"product-390-feedback-motion-0.png\",\"visual\":\"896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919\",\"active\":false,\"static\":false},{\"ms\":60,\"path\":\"product-390-feedback-motion-60.png\",\"visual\":\"896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919\",\"active\":false,\"static\":false},{\"ms\":400,\"path\":\"product-390-feedback-motion-400.png\",\"visual\":\"896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919\",\"active\":false,\"static\":false}]",
+      "check": "feedback",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state_path": "quality.reversible_state_key",
+      "selector": "[data-game-canvas]",
+      "expected": "visible intermediate transition and settled state (not a final-state teleport)",
+      "actual": [
+        {
+          "ms": 0,
+          "path": "product-390-feedback-motion-0.png",
+          "visual": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919",
+          "active": false,
+          "static": false
+        },
+        {
+          "ms": 60,
+          "path": "product-390-feedback-motion-60.png",
+          "visual": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919",
+          "active": false,
+          "static": false
+        },
+        {
+          "ms": 400,
+          "path": "product-390-feedback-motion-400.png",
+          "visual": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919",
+          "active": false,
+          "static": false
+        }
+      ],
+      "evidence": [
+        "product/product-390-feedback-motion-before.png",
+        "product/product-390-feedback-motion-0.png",
+        "product/product-390-feedback-motion-60.png",
+        "product/product-390-feedback-motion-400.png"
+      ]
+    },
+    {
+      "code": "product_replay",
+      "message": "Expected \"inside initial viewport\"; actual {\"selector\":\"[data-game-restart]\",\"box\":{\"x\":16,\"y\":1268.953125,\"width\":137.765625,\"height\":48},\"viewport\":{\"width\":390,\"height\":844}}",
+      "check": "replay",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-game-restart]",
+      "expected": "inside initial viewport",
+      "actual": {
+        "selector": "[data-game-restart]",
+        "box": {
+          "x": 16,
+          "y": 1268.953125,
+          "width": 137.765625,
+          "height": 48
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "evidence": [
+        "product/product-390-mobile-result.png"
+      ]
+    },
+    {
+      "code": "product_feedback",
+      "message": "Expected \"visible static reduced-motion feedback\"; actual [{\"ms\":0,\"path\":\"product-390-feedback-reduced-0.png\",\"visual\":\"896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919\",\"active\":false,\"static\":false},{\"ms\":60,\"path\":\"product-390-feedback-reduced-60.png\",\"visual\":\"896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919\",\"active\":false,\"static\":false},{\"ms\":400,\"path\":\"product-390-feedback-reduced-400.png\",\"visual\":\"896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919\",\"active\":false,\"static\":false}]",
+      "check": "feedback",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "phase": "static_reduce",
+      "state_path": "presentation.static_feedback",
+      "selector": "[data-game-canvas]",
+      "expected": "visible static reduced-motion feedback",
+      "actual": [
+        {
+          "ms": 0,
+          "path": "product-390-feedback-reduced-0.png",
+          "visual": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919",
+          "active": false,
+          "static": false
+        },
+        {
+          "ms": 60,
+          "path": "product-390-feedback-reduced-60.png",
+          "visual": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919",
+          "active": false,
+          "static": false
+        },
+        {
+          "ms": 400,
+          "path": "product-390-feedback-reduced-400.png",
+          "visual": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919",
+          "active": false,
+          "static": false
+        }
+      ],
+      "evidence": [
+        "product/product-390-feedback-reduced-before.png",
+        "product/product-390-feedback-reduced-0.png",
+        "product/product-390-feedback-reduced-60.png",
+        "product/product-390-feedback-reduced-400.png"
+      ]
+    },
+    {
+      "code": "product_failure_result",
+      "message": "Expected \"inside initial viewport\"; actual {\"selector\":\"[data-game-restart]\",\"box\":{\"x\":16,\"y\":1268.953125,\"width\":137.765625,\"height\":48},\"viewport\":{\"width\":390,\"height\":844}}",
+      "check": "failure_result",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state_path": "state.outcome",
+      "selector": "[data-game-restart]",
+      "expected": "inside initial viewport",
+      "actual": {
+        "selector": "[data-game-restart]",
+        "box": {
+          "x": 16,
+          "y": 1268.953125,
+          "width": 137.765625,
+          "height": 48
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "evidence": [
+        "product/product-390-failure.png"
+      ]
+    },
+    {
+      "code": "product_objective",
+      "message": "Expected \"visible [data-objective]\"; actual false",
+      "check": "objective",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "selector": "[data-objective]",
+      "expected": "visible [data-objective]",
+      "actual": false,
+      "evidence": [
+        "product/product-768-entry.png"
+      ]
+    },
+    {
+      "code": "product_reduced_motion",
+      "message": "media preference/presentation did not settle within bounded native delivery wait: {\"native\":true,\"presentation\":false}",
+      "check": "reduced_motion",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "state_path": "presentation.reduced_motion",
+      "expected": "contract requirement",
+      "actual": "media preference/presentation did not settle within bounded native delivery wait: {\"native\":true,\"presentation\":false}",
+      "evidence": [
+        "product/product-768-playing.png"
+      ]
+    },
+    {
+      "code": "product_score_integrity",
+      "message": "Expected \"no score gain for no objective progress\"; actual {\"kind\":\"reversible\",\"actions\":[\"a0\",\"a0\"],\"before\":0,\"after\":2}",
+      "check": "score_integrity",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "state_path": "quality.reversible_state_key",
+      "selector": "[data-game-score]",
+      "expected": "no score gain for no objective progress",
+      "actual": {
+        "kind": "reversible",
+        "actions": [
+          "a0",
+          "a0"
+        ],
+        "before": 0,
+        "after": 2
+      },
+      "evidence": [
+        "product/product-768-playing.png"
+      ]
+    },
+    {
+      "code": "product_feedback",
+      "message": "Expected \"visible intermediate transition and settled state (not a final-state teleport)\"; actual [{\"ms\":0,\"path\":\"product-768-feedback-motion-0.png\",\"visual\":\"4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07\",\"active\":false,\"static\":false},{\"ms\":60,\"path\":\"product-768-feedback-motion-60.png\",\"visual\":\"4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07\",\"active\":false,\"static\":false},{\"ms\":400,\"path\":\"product-768-feedback-motion-400.png\",\"visual\":\"4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07\",\"active\":false,\"static\":false}]",
+      "check": "feedback",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "state_path": "quality.reversible_state_key",
+      "selector": "[data-game-canvas]",
+      "expected": "visible intermediate transition and settled state (not a final-state teleport)",
+      "actual": [
+        {
+          "ms": 0,
+          "path": "product-768-feedback-motion-0.png",
+          "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+          "active": false,
+          "static": false
+        },
+        {
+          "ms": 60,
+          "path": "product-768-feedback-motion-60.png",
+          "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+          "active": false,
+          "static": false
+        },
+        {
+          "ms": 400,
+          "path": "product-768-feedback-motion-400.png",
+          "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+          "active": false,
+          "static": false
+        }
+      ],
+      "evidence": [
+        "product/product-768-feedback-motion-before.png",
+        "product/product-768-feedback-motion-0.png",
+        "product/product-768-feedback-motion-60.png",
+        "product/product-768-feedback-motion-400.png"
+      ]
+    },
+    {
+      "code": "product_feedback",
+      "message": "Expected \"visible static reduced-motion feedback\"; actual [{\"ms\":0,\"path\":\"product-768-feedback-reduced-0.png\",\"visual\":\"4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07\",\"active\":false,\"static\":false},{\"ms\":60,\"path\":\"product-768-feedback-reduced-60.png\",\"visual\":\"4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07\",\"active\":false,\"static\":false},{\"ms\":400,\"path\":\"product-768-feedback-reduced-400.png\",\"visual\":\"4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07\",\"active\":false,\"static\":false}]",
+      "check": "feedback",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "phase": "static_reduce",
+      "state_path": "presentation.static_feedback",
+      "selector": "[data-game-canvas]",
+      "expected": "visible static reduced-motion feedback",
+      "actual": [
+        {
+          "ms": 0,
+          "path": "product-768-feedback-reduced-0.png",
+          "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+          "active": false,
+          "static": false
+        },
+        {
+          "ms": 60,
+          "path": "product-768-feedback-reduced-60.png",
+          "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+          "active": false,
+          "static": false
+        },
+        {
+          "ms": 400,
+          "path": "product-768-feedback-reduced-400.png",
+          "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+          "active": false,
+          "static": false
+        }
+      ],
+      "evidence": [
+        "product/product-768-feedback-reduced-before.png",
+        "product/product-768-feedback-reduced-0.png",
+        "product/product-768-feedback-reduced-60.png",
+        "product/product-768-feedback-reduced-400.png"
+      ]
+    },
+    {
+      "code": "product_objective",
+      "message": "Expected \"visible [data-objective]\"; actual false",
+      "check": "objective",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "selector": "[data-objective]",
+      "expected": "visible [data-objective]",
+      "actual": false,
+      "evidence": [
+        "product/product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_reduced_motion",
+      "message": "media preference/presentation did not settle within bounded native delivery wait: {\"native\":true,\"presentation\":false}",
+      "check": "reduced_motion",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "state_path": "presentation.reduced_motion",
+      "expected": "contract requirement",
+      "actual": "media preference/presentation did not settle within bounded native delivery wait: {\"native\":true,\"presentation\":false}",
+      "evidence": [
+        "product/product-1280-playing.png"
+      ]
+    },
+    {
+      "code": "product_score_integrity",
+      "message": "Expected \"no score gain for no objective progress\"; actual {\"kind\":\"reversible\",\"actions\":[\"a0\",\"a0\"],\"before\":0,\"after\":2}",
+      "check": "score_integrity",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "state_path": "quality.reversible_state_key",
+      "selector": "[data-game-score]",
+      "expected": "no score gain for no objective progress",
+      "actual": {
+        "kind": "reversible",
+        "actions": [
+          "a0",
+          "a0"
+        ],
+        "before": 0,
+        "after": 2
+      },
+      "evidence": [
+        "product/product-1280-playing.png"
+      ]
+    },
+    {
+      "code": "product_feedback",
+      "message": "Expected \"visible intermediate transition and settled state (not a final-state teleport)\"; actual [{\"ms\":0,\"path\":\"product-1280-feedback-motion-0.png\",\"visual\":\"4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07\",\"active\":false,\"static\":false},{\"ms\":60,\"path\":\"product-1280-feedback-motion-60.png\",\"visual\":\"4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07\",\"active\":false,\"static\":false},{\"ms\":400,\"path\":\"product-1280-feedback-motion-400.png\",\"visual\":\"4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07\",\"active\":false,\"static\":false}]",
+      "check": "feedback",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "state_path": "quality.reversible_state_key",
+      "selector": "[data-game-canvas]",
+      "expected": "visible intermediate transition and settled state (not a final-state teleport)",
+      "actual": [
+        {
+          "ms": 0,
+          "path": "product-1280-feedback-motion-0.png",
+          "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+          "active": false,
+          "static": false
+        },
+        {
+          "ms": 60,
+          "path": "product-1280-feedback-motion-60.png",
+          "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+          "active": false,
+          "static": false
+        },
+        {
+          "ms": 400,
+          "path": "product-1280-feedback-motion-400.png",
+          "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+          "active": false,
+          "static": false
+        }
+      ],
+      "evidence": [
+        "product/product-1280-feedback-motion-before.png",
+        "product/product-1280-feedback-motion-0.png",
+        "product/product-1280-feedback-motion-60.png",
+        "product/product-1280-feedback-motion-400.png"
+      ]
+    },
+    {
+      "code": "product_feedback",
+      "message": "Expected \"visible static reduced-motion feedback\"; actual [{\"ms\":0,\"path\":\"product-1280-feedback-reduced-0.png\",\"visual\":\"4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07\",\"active\":false,\"static\":false},{\"ms\":60,\"path\":\"product-1280-feedback-reduced-60.png\",\"visual\":\"4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07\",\"active\":false,\"static\":false},{\"ms\":400,\"path\":\"product-1280-feedback-reduced-400.png\",\"visual\":\"4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07\",\"active\":false,\"static\":false}]",
+      "check": "feedback",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "phase": "static_reduce",
+      "state_path": "presentation.static_feedback",
+      "selector": "[data-game-canvas]",
+      "expected": "visible static reduced-motion feedback",
+      "actual": [
+        {
+          "ms": 0,
+          "path": "product-1280-feedback-reduced-0.png",
+          "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+          "active": false,
+          "static": false
+        },
+        {
+          "ms": 60,
+          "path": "product-1280-feedback-reduced-60.png",
+          "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+          "active": false,
+          "static": false
+        },
+        {
+          "ms": 400,
+          "path": "product-1280-feedback-reduced-400.png",
+          "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+          "active": false,
+          "static": false
+        }
+      ],
+      "evidence": [
+        "product/product-1280-feedback-reduced-before.png",
+        "product/product-1280-feedback-reduced-0.png",
+        "product/product-1280-feedback-reduced-60.png",
+        "product/product-1280-feedback-reduced-400.png"
+      ]
+    }
+  ],
+  "product": {
+    "passed": false,
+    "checks": [
+      {
+        "check": "objective",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "selector": "[data-objective]",
+        "status": "FAIL",
+        "expected": "visible [data-objective]",
+        "actual": false
+      },
+      {
+        "check": "reduced_motion",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "state_path": "presentation.reduced_motion",
+        "status": "FAIL",
+        "expected": "contract requirement",
+        "actual": "media preference/presentation did not settle within bounded native delivery wait: {\"native\":true,\"presentation\":false}"
+      },
+      {
+        "check": "score_integrity",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "state_path": "quality.reversible_state_key",
+        "selector": "[data-game-score]",
+        "status": "FAIL",
+        "expected": "no score gain for no objective progress",
+        "actual": {
+          "kind": "reversible",
+          "actions": [
+            "a0",
+            "a0"
+          ],
+          "before": 0,
+          "after": 2
+        }
+      },
+      {
+        "check": "feedback",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "state_path": "quality.reversible_state_key",
+        "selector": "[data-game-canvas]",
+        "status": "FAIL",
+        "expected": "visible intermediate transition and settled state (not a final-state teleport)",
+        "actual": [
+          {
+            "ms": 0,
+            "path": "product-390-feedback-motion-0.png",
+            "visual": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919",
+            "active": false,
+            "static": false
+          },
+          {
+            "ms": 60,
+            "path": "product-390-feedback-motion-60.png",
+            "visual": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919",
+            "active": false,
+            "static": false
+          },
+          {
+            "ms": 400,
+            "path": "product-390-feedback-motion-400.png",
+            "visual": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919",
+            "active": false,
+            "static": false
+          }
+        ]
+      },
+      {
+        "check": "replay",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "selector": "[data-game-restart]",
+        "status": "FAIL",
+        "expected": "inside initial viewport",
+        "actual": {
+          "selector": "[data-game-restart]",
+          "box": {
+            "x": 16,
+            "y": 1268.953125,
+            "width": 137.765625,
+            "height": 48
+          },
+          "viewport": {
+            "width": 390,
+            "height": 844
+          }
+        }
+      },
+      {
+        "check": "feedback",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "phase": "static_reduce",
+        "state_path": "presentation.static_feedback",
+        "selector": "[data-game-canvas]",
+        "status": "FAIL",
+        "expected": "visible static reduced-motion feedback",
+        "actual": [
+          {
+            "ms": 0,
+            "path": "product-390-feedback-reduced-0.png",
+            "visual": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919",
+            "active": false,
+            "static": false
+          },
+          {
+            "ms": 60,
+            "path": "product-390-feedback-reduced-60.png",
+            "visual": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919",
+            "active": false,
+            "static": false
+          },
+          {
+            "ms": 400,
+            "path": "product-390-feedback-reduced-400.png",
+            "visual": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919",
+            "active": false,
+            "static": false
+          }
+        ]
+      },
+      {
+        "check": "failure_result",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "state_path": "state.outcome",
+        "selector": "[data-result]",
+        "status": "FAIL",
+        "expected": "inside initial viewport",
+        "actual": {
+          "selector": "[data-game-restart]",
+          "box": {
+            "x": 16,
+            "y": 1268.953125,
+            "width": 137.765625,
+            "height": 48
+          },
+          "viewport": {
+            "width": 390,
+            "height": 844
+          }
+        }
+      },
+      {
+        "check": "objective",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "selector": "[data-objective]",
+        "status": "FAIL",
+        "expected": "visible [data-objective]",
+        "actual": false
+      },
+      {
+        "check": "reduced_motion",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "state_path": "presentation.reduced_motion",
+        "status": "FAIL",
+        "expected": "contract requirement",
+        "actual": "media preference/presentation did not settle within bounded native delivery wait: {\"native\":true,\"presentation\":false}"
+      },
+      {
+        "check": "score_integrity",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "state_path": "quality.reversible_state_key",
+        "selector": "[data-game-score]",
+        "status": "FAIL",
+        "expected": "no score gain for no objective progress",
+        "actual": {
+          "kind": "reversible",
+          "actions": [
+            "a0",
+            "a0"
+          ],
+          "before": 0,
+          "after": 2
+        }
+      },
+      {
+        "check": "feedback",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "state_path": "quality.reversible_state_key",
+        "selector": "[data-game-canvas]",
+        "status": "FAIL",
+        "expected": "visible intermediate transition and settled state (not a final-state teleport)",
+        "actual": [
+          {
+            "ms": 0,
+            "path": "product-768-feedback-motion-0.png",
+            "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+            "active": false,
+            "static": false
+          },
+          {
+            "ms": 60,
+            "path": "product-768-feedback-motion-60.png",
+            "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+            "active": false,
+            "static": false
+          },
+          {
+            "ms": 400,
+            "path": "product-768-feedback-motion-400.png",
+            "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+            "active": false,
+            "static": false
+          }
+        ]
+      },
+      {
+        "check": "feedback",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "phase": "static_reduce",
+        "state_path": "presentation.static_feedback",
+        "selector": "[data-game-canvas]",
+        "status": "FAIL",
+        "expected": "visible static reduced-motion feedback",
+        "actual": [
+          {
+            "ms": 0,
+            "path": "product-768-feedback-reduced-0.png",
+            "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+            "active": false,
+            "static": false
+          },
+          {
+            "ms": 60,
+            "path": "product-768-feedback-reduced-60.png",
+            "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+            "active": false,
+            "static": false
+          },
+          {
+            "ms": 400,
+            "path": "product-768-feedback-reduced-400.png",
+            "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+            "active": false,
+            "static": false
+          }
+        ]
+      },
+      {
+        "check": "objective",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "selector": "[data-objective]",
+        "status": "FAIL",
+        "expected": "visible [data-objective]",
+        "actual": false
+      },
+      {
+        "check": "reduced_motion",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "state_path": "presentation.reduced_motion",
+        "status": "FAIL",
+        "expected": "contract requirement",
+        "actual": "media preference/presentation did not settle within bounded native delivery wait: {\"native\":true,\"presentation\":false}"
+      },
+      {
+        "check": "score_integrity",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "state_path": "quality.reversible_state_key",
+        "selector": "[data-game-score]",
+        "status": "FAIL",
+        "expected": "no score gain for no objective progress",
+        "actual": {
+          "kind": "reversible",
+          "actions": [
+            "a0",
+            "a0"
+          ],
+          "before": 0,
+          "after": 2
+        }
+      },
+      {
+        "check": "feedback",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "state_path": "quality.reversible_state_key",
+        "selector": "[data-game-canvas]",
+        "status": "FAIL",
+        "expected": "visible intermediate transition and settled state (not a final-state teleport)",
+        "actual": [
+          {
+            "ms": 0,
+            "path": "product-1280-feedback-motion-0.png",
+            "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+            "active": false,
+            "static": false
+          },
+          {
+            "ms": 60,
+            "path": "product-1280-feedback-motion-60.png",
+            "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+            "active": false,
+            "static": false
+          },
+          {
+            "ms": 400,
+            "path": "product-1280-feedback-motion-400.png",
+            "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+            "active": false,
+            "static": false
+          }
+        ]
+      },
+      {
+        "check": "feedback",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "phase": "static_reduce",
+        "state_path": "presentation.static_feedback",
+        "selector": "[data-game-canvas]",
+        "status": "FAIL",
+        "expected": "visible static reduced-motion feedback",
+        "actual": [
+          {
+            "ms": 0,
+            "path": "product-1280-feedback-reduced-0.png",
+            "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+            "active": false,
+            "static": false
+          },
+          {
+            "ms": 60,
+            "path": "product-1280-feedback-reduced-60.png",
+            "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+            "active": false,
+            "static": false
+          },
+          {
+            "ms": 400,
+            "path": "product-1280-feedback-reduced-400.png",
+            "visual": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07",
+            "active": false,
+            "static": false
+          }
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "path": "product-390-entry.png",
+        "kind": "screenshot",
+        "phase": "entry",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "5d83d92640d8780f4a3dd2ef2597541b30696dd5045f98d14852e022fcefe0a5"
+      },
+      {
+        "path": "product-390-playing.png",
+        "kind": "screenshot",
+        "phase": "playing",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "f2ae851f0f3204d955c68844e8fb8e05ecc1d19fb022c3591d0804b36699e1c1"
+      },
+      {
+        "path": "product-390-feedback-motion-before.png",
+        "kind": "screenshot",
+        "phase": "feedback-motion-before",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "e584bd8631a18abbc23c9eebcb02db9a373dff6b11120589555940cd0a1b6fa7"
+      },
+      {
+        "path": "product-390-feedback-motion-0.png",
+        "kind": "screenshot",
+        "phase": "feedback-motion-0",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919"
+      },
+      {
+        "path": "product-390-feedback-motion-60.png",
+        "kind": "screenshot",
+        "phase": "feedback-motion-60",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919"
+      },
+      {
+        "path": "product-390-feedback-motion-400.png",
+        "kind": "screenshot",
+        "phase": "feedback-motion-400",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919"
+      },
+      {
+        "path": "product-390-gameplay.webm",
+        "kind": "video",
+        "phase": "gameplay",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "2d90056e5e7d001ffe7891c7dc7d5f4eb1ca5996dfe29eafef9fc2a156490ad6"
+      },
+      {
+        "path": "product-390-milestone-1.png",
+        "kind": "screenshot",
+        "phase": "milestone-1",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "cb4c5a5ee9f349551abd35eb4d3c13ec4d8a4b5edf600d0a81663178893b0701"
+      },
+      {
+        "path": "product-390-midgame.png",
+        "kind": "screenshot",
+        "phase": "midgame",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "29f0d0563efdc1801d72840f642a082ca680c7b423f6b59c83cdb4b3aa3d6cf3"
+      },
+      {
+        "path": "product-390-milestone-2.png",
+        "kind": "screenshot",
+        "phase": "milestone-2",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "c187475a45c9564c31b33d2051b2194c07be69b4060b18154c70781de8f9f232"
+      },
+      {
+        "path": "product-390-milestone-3.png",
+        "kind": "screenshot",
+        "phase": "milestone-3",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "74e1abdd3e55867e89899ea03ad84ad068cef10b05919faa3307df421ffde93a"
+      },
+      {
+        "path": "product-390-success.png",
+        "kind": "screenshot",
+        "phase": "success",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "74e1abdd3e55867e89899ea03ad84ad068cef10b05919faa3307df421ffde93a"
+      },
+      {
+        "path": "product-390-mobile-result.png",
+        "kind": "screenshot",
+        "phase": "mobile-result",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "74e1abdd3e55867e89899ea03ad84ad068cef10b05919faa3307df421ffde93a"
+      },
+      {
+        "path": "product-390-feedback-reduced-before.png",
+        "kind": "screenshot",
+        "phase": "feedback-reduced-before",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "e584bd8631a18abbc23c9eebcb02db9a373dff6b11120589555940cd0a1b6fa7"
+      },
+      {
+        "path": "product-390-feedback-reduced-0.png",
+        "kind": "screenshot",
+        "phase": "feedback-reduced-0",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919"
+      },
+      {
+        "path": "product-390-feedback-reduced-60.png",
+        "kind": "screenshot",
+        "phase": "feedback-reduced-60",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919"
+      },
+      {
+        "path": "product-390-feedback-reduced-400.png",
+        "kind": "screenshot",
+        "phase": "feedback-reduced-400",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919"
+      },
+      {
+        "path": "product-390-failure.png",
+        "kind": "screenshot",
+        "phase": "failure",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sha256": "edb9d1d7c49f6ecefa26372a8f6c6c0ebf391d1f0c4454ba116c497b37ebc81c"
+      },
+      {
+        "path": "product-768-entry.png",
+        "kind": "screenshot",
+        "phase": "entry",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "c7eaf551d0e5585480e771558aad245f6e79592a0323b394d59d364f271922d7"
+      },
+      {
+        "path": "product-768-playing.png",
+        "kind": "screenshot",
+        "phase": "playing",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "819a9328f49d0c8a2f9e96c68531cc18d47cf452f2e3e1f443edf19a27be856a"
+      },
+      {
+        "path": "product-768-feedback-motion-before.png",
+        "kind": "screenshot",
+        "phase": "feedback-motion-before",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "f8ba180c55ff3c4c5342d7c06c3e5e0080f23c2c560db0f0c4aba86522863cb9"
+      },
+      {
+        "path": "product-768-feedback-motion-0.png",
+        "kind": "screenshot",
+        "phase": "feedback-motion-0",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07"
+      },
+      {
+        "path": "product-768-feedback-motion-60.png",
+        "kind": "screenshot",
+        "phase": "feedback-motion-60",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07"
+      },
+      {
+        "path": "product-768-feedback-motion-400.png",
+        "kind": "screenshot",
+        "phase": "feedback-motion-400",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07"
+      },
+      {
+        "path": "product-768-milestone-1.png",
+        "kind": "screenshot",
+        "phase": "milestone-1",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "d39e4d3de4f5459295e46dd0f76f60b524d60d340739e2e8311494803aea0572"
+      },
+      {
+        "path": "product-768-midgame.png",
+        "kind": "screenshot",
+        "phase": "midgame",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "884ef10cdb985c0ba7d23162856884f2943fbad9f8978ecb4392a952df525675"
+      },
+      {
+        "path": "product-768-milestone-2.png",
+        "kind": "screenshot",
+        "phase": "milestone-2",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "08f6d6bdf4601a9c80bf4cc42c1a5fbbe050cc7d4924175fe7241775dc679962"
+      },
+      {
+        "path": "product-768-milestone-3.png",
+        "kind": "screenshot",
+        "phase": "milestone-3",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "31de5ac068982a76d4397edd4bb64b4184927aa8e88494335dea42407acbaa47"
+      },
+      {
+        "path": "product-768-success.png",
+        "kind": "screenshot",
+        "phase": "success",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "31de5ac068982a76d4397edd4bb64b4184927aa8e88494335dea42407acbaa47"
+      },
+      {
+        "path": "product-768-feedback-reduced-before.png",
+        "kind": "screenshot",
+        "phase": "feedback-reduced-before",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "dee393d230ccbd91276e2e17ef02f5e6b710bcd31133a398ede2efea658dc436"
+      },
+      {
+        "path": "product-768-feedback-reduced-0.png",
+        "kind": "screenshot",
+        "phase": "feedback-reduced-0",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07"
+      },
+      {
+        "path": "product-768-feedback-reduced-60.png",
+        "kind": "screenshot",
+        "phase": "feedback-reduced-60",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07"
+      },
+      {
+        "path": "product-768-feedback-reduced-400.png",
+        "kind": "screenshot",
+        "phase": "feedback-reduced-400",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07"
+      },
+      {
+        "path": "product-768-failure.png",
+        "kind": "screenshot",
+        "phase": "failure",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "sha256": "9e0bcf2d4c51afc89e9c8064b7c40a27d13a4146b0af7f7e2720b6e0137e0cce"
+      },
+      {
+        "path": "product-1280-entry.png",
+        "kind": "screenshot",
+        "phase": "entry",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "7bf58bbec84c386f57e0744beed079b8d5c3d1415df5c1bfee111881ba859da3"
+      },
+      {
+        "path": "product-1280-playing.png",
+        "kind": "screenshot",
+        "phase": "playing",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "3f50ddd2c55909b3581a4d0561df3d26e331f5b8fc19ca2ae4f9988fbb4bc99e"
+      },
+      {
+        "path": "product-1280-feedback-motion-before.png",
+        "kind": "screenshot",
+        "phase": "feedback-motion-before",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "f8ba180c55ff3c4c5342d7c06c3e5e0080f23c2c560db0f0c4aba86522863cb9"
+      },
+      {
+        "path": "product-1280-feedback-motion-0.png",
+        "kind": "screenshot",
+        "phase": "feedback-motion-0",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07"
+      },
+      {
+        "path": "product-1280-feedback-motion-60.png",
+        "kind": "screenshot",
+        "phase": "feedback-motion-60",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07"
+      },
+      {
+        "path": "product-1280-feedback-motion-400.png",
+        "kind": "screenshot",
+        "phase": "feedback-motion-400",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07"
+      },
+      {
+        "path": "product-1280-milestone-1.png",
+        "kind": "screenshot",
+        "phase": "milestone-1",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "f82ea24c5adce36eb92ccd82509197e6b57893d5eb67ffba6754fa315e3ca4b8"
+      },
+      {
+        "path": "product-1280-midgame.png",
+        "kind": "screenshot",
+        "phase": "midgame",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "ccb715b4e683dd8354a667ccec2570edbfc999138b355cbbdaac07b8da1864bf"
+      },
+      {
+        "path": "product-1280-milestone-2.png",
+        "kind": "screenshot",
+        "phase": "milestone-2",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "82f42ea11e0b5da031bef8215bd91150b5bb0522308fa5d304834970999387a8"
+      },
+      {
+        "path": "product-1280-milestone-3.png",
+        "kind": "screenshot",
+        "phase": "milestone-3",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "853b1125e06e487d701c7b1b6e2f4b8d9bc8577b567f3f7280413cc06a5952f1"
+      },
+      {
+        "path": "product-1280-success.png",
+        "kind": "screenshot",
+        "phase": "success",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "853b1125e06e487d701c7b1b6e2f4b8d9bc8577b567f3f7280413cc06a5952f1"
+      },
+      {
+        "path": "product-1280-feedback-reduced-before.png",
+        "kind": "screenshot",
+        "phase": "feedback-reduced-before",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "dee393d230ccbd91276e2e17ef02f5e6b710bcd31133a398ede2efea658dc436"
+      },
+      {
+        "path": "product-1280-feedback-reduced-0.png",
+        "kind": "screenshot",
+        "phase": "feedback-reduced-0",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07"
+      },
+      {
+        "path": "product-1280-feedback-reduced-60.png",
+        "kind": "screenshot",
+        "phase": "feedback-reduced-60",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07"
+      },
+      {
+        "path": "product-1280-feedback-reduced-400.png",
+        "kind": "screenshot",
+        "phase": "feedback-reduced-400",
+        "selector": "[data-game-canvas]",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07"
+      },
+      {
+        "path": "product-1280-failure.png",
+        "kind": "screenshot",
+        "phase": "failure",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "sha256": "6bce0f6d347b9f166765bac217f12481b5c9099037c6515b97aea099863653ad"
+      }
+    ],
+    "oracle_approval": {
+      "id": "fixture-switches-v1",
+      "file": "fixture-switches-v1.json",
+      "sha256": "5bb8c877d21d7459efe83d4fe408ea6f90310b977bed21b0fb37cea99f826a1a",
+      "scope": "fixture",
+      "contract_sha256": "2437fb3dbd7e8e7027c53b62d00767e282d6faea4093075ae3c4a3cf21583bed",
+      "reviewed_by": "Factory infrastructure fixture review",
+      "rationale": "Toggle truth table; target has 2, 3, 4 set bits; 3, 4, 5 consequential choices. Test-only approval cannot commission a public candidate."
+    }
+  },
+  "allowed_paths": [
+    "core.js",
+    "app.js",
+    "view/art.js",
+    "style.css",
+    "index.html",
+    "README.md",
+    "view/**",
+    "assets/**"
+  ]
+}

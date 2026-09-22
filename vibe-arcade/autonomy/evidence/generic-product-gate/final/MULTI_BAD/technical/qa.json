@@ -1,0 +1,580 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-00000000-912",
+  "version": "v1",
+  "source_hash": "6d44e462cf0ec2aca56301935a49c83862aaa56f428052633d0e1d6ae4182407",
+  "policy_hash": "57155e1fc1f3d90ad1f7d359ac1d8f90400326e95e9ce4d4a8d15b42d8f1b32a",
+  "passed": true,
+  "hard_failures": [],
+  "soft_failures": [],
+  "console_errors": [],
+  "page_errors": [],
+  "browser_cases": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow",
+        "terminal",
+        "resources",
+        "restart",
+        "pagehide",
+        "capture_no_writes"
+      ],
+      "passed": true,
+      "load_ms": 119,
+      "resources": [
+        {
+          "tick": 69,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 99,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 129,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 159,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 189,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 219,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 249,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 279,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 309,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 339,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 369,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 399,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 429,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 459,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 489,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 519,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 549,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 579,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 609,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 639,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 669,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 699,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 729,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 759,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 789,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 819,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 849,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 879,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 900,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 900,
+          "entities": 5,
+          "dom": 33
+        }
+      ],
+      "heap_growth": -734472
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow",
+        "terminal",
+        "resources",
+        "restart",
+        "pagehide",
+        "capture_no_writes"
+      ],
+      "passed": true,
+      "load_ms": 100,
+      "resources": [
+        {
+          "tick": 70,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 100,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 130,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 160,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 190,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 220,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 250,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 280,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 310,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 340,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 370,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 400,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 430,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 460,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 490,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 520,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 550,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 580,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 610,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 640,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 670,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 700,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 730,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 760,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 790,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 820,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 850,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 880,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 900,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 900,
+          "entities": 5,
+          "dom": 33
+        }
+      ],
+      "heap_growth": -659780
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "checks": [
+        "html",
+        "assets",
+        "start",
+        "real_clock",
+        "keyboard",
+        "touch",
+        "progress",
+        "interaction",
+        "pause",
+        "resume",
+        "hidden",
+        "overflow",
+        "terminal",
+        "resources",
+        "restart",
+        "pagehide",
+        "capture_no_writes"
+      ],
+      "passed": true,
+      "load_ms": 94,
+      "resources": [
+        {
+          "tick": 70,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 100,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 130,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 160,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 190,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 220,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 250,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 280,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 310,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 340,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 370,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 400,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 430,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 460,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 490,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 520,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 550,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 580,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 610,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 640,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 670,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 700,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 730,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 760,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 790,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 820,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 850,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 880,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 900,
+          "entities": 5,
+          "dom": 33
+        },
+        {
+          "tick": 900,
+          "entities": 5,
+          "dom": 33
+        }
+      ],
+      "heap_growth": -729556
+    }
+  ],
+  "screenshots": [
+    "viewport-390-entry.png",
+    "viewport-390-playing.png",
+    "viewport-390-midgame.png",
+    "viewport-390.png",
+    "viewport-768-entry.png",
+    "viewport-768-playing.png",
+    "viewport-768-midgame.png",
+    "viewport-768.png",
+    "viewport-1280-entry.png",
+    "viewport-1280-playing.png",
+    "viewport-1280-midgame.png",
+    "viewport-1280.png"
+  ],
+  "side_effects": [],
+  "duration_ms": 13566,
+  "scope": "isolated browser verification; no claim of fun, retention or production approval",
+  "isolation": {
+    "engine": "docker",
+    "image": "sha256:b0ffe1ed9827e18de4c96089262c19f2503275ac1c8faa7d4c7308029abc8c3d",
+    "network": "none",
+    "readonly": true,
+    "cpu": 1,
+    "memory_mb": 1024,
+    "pids": 128
+  }
+}

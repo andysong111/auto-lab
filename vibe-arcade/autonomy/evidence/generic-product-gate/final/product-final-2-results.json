@@ -1,0 +1,63 @@
+[
+  {
+    "variant": "BAD_DEADTIME",
+    "expected": [
+      "product_completion"
+    ],
+    "passed": false,
+    "codes": [
+      "product_completion",
+      "product_replay",
+      "product_difficulty",
+      "product_practice_best"
+    ],
+    "duration_ms": 53443,
+    "source_hash": "2026c81a31067e2646fc49f6d83071c056477948eb2b8fbddfb9a7d9da273d5e"
+  },
+  {
+    "variant": "BAD_RESULT",
+    "expected": [
+      "product_replay"
+    ],
+    "passed": false,
+    "codes": [
+      "product_replay",
+      "product_failure_result"
+    ],
+    "duration_ms": 61619,
+    "source_hash": "d166a67667dd093aecec71a23e3c4cfab2799a88e1d7f95498944d4880a289ec"
+  },
+  {
+    "variant": "BAD_FEEDBACK",
+    "expected": [
+      "product_feedback"
+    ],
+    "passed": false,
+    "codes": [
+      "product_feedback"
+    ],
+    "duration_ms": 61663,
+    "source_hash": "0bf0256befd81a251a4b6c0400df5d6fc501f1d1d55473248433342ce7a06c52"
+  },
+  {
+    "variant": "MULTI_BAD",
+    "expected": [
+      "product_score_integrity",
+      "product_replay",
+      "product_reduced_motion",
+      "product_objective",
+      "product_feedback"
+    ],
+    "passed": false,
+    "codes": [
+      "product_objective",
+      "product_reduced_motion",
+      "product_score_integrity",
+      "product_feedback",
+      "product_replay",
+      "product_failure_result"
+    ],
+    "duration_ms": 64395,
+    "source_hash": "6d44e462cf0ec2aca56301935a49c83862aaa56f428052633d0e1d6ae4182407"
+  }
+]
