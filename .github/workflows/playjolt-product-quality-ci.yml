@@ -1,0 +1,38 @@
+name: PlayJolt Generic Product Quality
+on:
+  pull_request:
+    paths: ['vibe-arcade/autonomy/**', '.github/workflows/playjolt-product-quality-ci.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: product-quality-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+jobs:
+  product:
+    name: Product contract and Docker Chromium fixtures
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - run: npm run test:product --prefix vibe-arcade/autonomy
+      - name: Build trusted runtime without candidate code or provider secrets
+        run: |
+          docker build --iidfile "$RUNNER_TEMP/product-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/product-image")" >> "$GITHUB_ENV"
+      - name: GOOD, independent BAD fixtures, bounded native media, all six seeds
+        run: npm run test:product:docker --prefix vibe-arcade/autonomy
+        env:
+          FACTORY_EVIDENCE_DIR: ${{ runner.temp }}/product-quality-evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: generic-product-quality-evidence
+          path: ${{ runner.temp }}/product-quality-evidence
+          retention-days: 14

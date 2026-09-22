@@ -1,6 +1,8 @@
 'use strict';
-const test=require('node:test'),assert=require('node:assert/strict'),{validateProposal}=require('../spec-gate.cjs'),{buildPacket}=require('../release-packet.cjs');
-const proposal={game_id:'GAME-20260922-120',generation:1,title:'Signal Loom',slug:'signal-loom',genre:'arcade puzzle',mechanic_family:'spatial-routing-chain',controls:['Arrows move cursor','Space commits link'],mobile_controls:['Drag to route','Tap to commit'],max_repair_attempts:5,qa:{seed:7,keyboard:{key:'ArrowRight',observation:'state.cursor.x'},pointer:{observation:'state.pointerMoves'},terminal_ms:45000},implementation_contract:{
+const test=require('node:test'),assert=require('node:assert/strict'),{validateProposal:validateRealProposal}=require('../spec-gate.cjs'),{buildPacket}=require('../release-packet.cjs');
+const fixturePolicy={...require('../policy.json'),product_quality:{allow_fixture_oracles:true}};
+const validateProposal=p=>validateRealProposal(p,{policy:fixturePolicy});
+const proposal={product_contract:require('../../qa/fixtures/product/contract.json'),game_id:'GAME-20260922-120',generation:1,title:'Signal Loom',slug:'signal-loom',genre:'arcade puzzle',mechanic_family:'spatial-routing-chain',controls:['Arrows move cursor','Space commits link'],mobile_controls:['Drag to route','Tap to commit'],max_repair_attempts:5,qa:{seed:7,keyboard:{key:'ArrowRight',observation:'state.cursor.x'},pointer:{observation:'state.pointerMoves'},terminal_ms:45000},implementation_contract:{
 goal:'Show the concrete objective prominently before play begins and keep it visible during the run.',
 progression:'Expose visible goal progress and make later decisions require more meaningful actions across multiple seeds.',
 presentation:'Use a readable mobile-first visual hierarchy with clear active state, feedback, and no overlapping labels.',
@@ -23,3 +25,5 @@ test('READY_TO_SHIP packet still does not authorize production without owner rev
 test('paid commissioning rejects a missing or vague public-quality implementation contract',()=>{const {implementation_contract,...missing}=proposal;let r=validateProposal(missing);assert.equal(r.passed,false);assert(r.errors.some(e=>e.code==='missing_field'));r=validateProposal({...proposal,implementation_contract:{goal:'too short'}});assert.equal(r.passed,false);assert(r.errors.some(e=>e.code==='invalid_implementation_contract'));});
 
 test('previously rejected Prism mechanic family cannot consume the second commissioning slot',()=>{const r=validateProposal({...proposal,game_id:'GAME-20260922-121',title:'Not Prism',slug:'not-prism',mechanic_family:'spatial-optical-routing'});assert.equal(r.passed,false);assert(r.errors.some(e=>e.code==='rejected_mechanic_family'));});
+
+test('production commissioning rejects test-only oracle approval',()=>{const r=validateRealProposal(proposal);assert.equal(r.passed,false);assert(r.errors.some(e=>e.code==='invalid_product_contract'));});

@@ -1,0 +1,1 @@
+Infrastructure fixture only. A finite toggle truth table provides independently enumerated transitions and shortest paths. No public candidate, paid generation, deployment or historical game is involved.

@@ -16,7 +16,7 @@ const contract=Object.freeze({
   required_dom:['canvas[data-game-canvas][tabindex="0"]','button[data-game-start]','button[data-game-pause]','button[data-game-resume]','button[data-game-restart]',
     '[data-game-status]','[data-game-score]','[data-game-progress]','[data-game-error][hidden]'],
   input:{x:'-1/0/1 from arrows or A/D',y:'-1/0/1 from arrows or W/S',action:'one simulation tick from Space or touch/pointer',pointer:'null or normalized {x,y} while touching canvas'},
-  observe:'Return finite {tick,score,progress,interactions,entities}; tick advances each 1/60 step. Count actual gameplay interaction/collision/damage. Respect the immutable spec.qa keyboard/pointer observation paths.',
+  observe:'Return finite {tick,score,progress,interactions,entities}; tick advances each 1/60 step. Count actual gameplay interaction/collision/damage. Respect immutable spec.qa paths. With product_contract, also return quality:{stage,complexity,objective_progress,meaningful_actions,reversible_state_key} matching the reviewed data oracle. GameKit clones quality and presentation() into read-only snapshots. Supply presentation() returning the declared reduced-motion/feedback probes; no diagnostic setters or private QA input APIs.',
   lifecycle:'GameKit owns boot/start/pause/resume/finish/restart, responsive canvas, visibility/pagehide, error boundary, local practice best and GameDiagnostics.snapshot(). Do not override GameDiagnostics or GameKit.',
   limits:policy.limits
 });
@@ -39,7 +39,7 @@ function compile({root,workspace,manifest,spec,request,operationId,budget,reject
     if(fs.existsSync(file)) {
       const full=readJSON(file);
       if(full.game_id!==manifest.game_id||full.version!==request.version||request.source_hash&&full.source_hash!==request.source_hash)throw modelError('source_tampered');
-      qa={passed:full.passed,hard_failures:full.hard_failures,console_errors:full.console_errors,page_errors:full.page_errors,browser_cases:full.browser_cases?.map(c=>({viewport:c.viewport,checks:c.checks,passed:c.passed}))};
+      qa={passed:full.passed,hard_failures:full.hard_failures,console_errors:full.console_errors,page_errors:full.page_errors,browser_cases:full.browser_cases?.map(c=>({viewport:c.viewport,checks:c.checks,passed:c.passed})),technical_qa:full.technical_qa?.passed,product_qa:full.product_qa?{passed:full.product_qa.passed,checks:full.product_qa.checks.filter(c=>c.status!=='PASS'),artifacts:full.product_qa.artifacts,oracle_approval:full.product_qa.oracle_approval}:null};
       failures=full.hard_failures;
       if(failures.some(f=>policy.fatal_codes.includes(f.code)))throw modelError(failures.find(f=>policy.fatal_codes.includes(f.code)).code);
     }

@@ -87,10 +87,10 @@ class Factory {
           }
           case 'QA_RUNNING': {
             const file=this.artifact(m,'qa.json');let result;
-            if(fs.existsSync(file)) { const prior=readJSON(file);if(prior.source_hash===m.source_hash&&prior.policy_hash===hash(this.policy)&&prior.version===m.version&&prior.game_id===id)result=prior; }
+            if(fs.existsSync(file)) { const prior=readJSON(file);if(prior.source_hash===m.source_hash&&prior.policy_hash===hash(this.policy)&&prior.version===m.version&&prior.game_id===id&&(!m.product_contract||prior.contract_hash===hash(m.product_contract)&&prior.product_qa?.runner_version==='product-quality-1'))result=prior; }
             if(!result)result=await this.qa({manifest:m,gameRoot:this.source(m),outDir:path.dirname(file),policy:this.policy});
             atomicJSON(file,result);
-            m=this.move(m,result.passed?'QUALITY_GATE':'QA_FAILED',{qa_status:result.passed?'PASS':'FAIL',policy_hash:hash(this.policy),failure_reasons:result.hard_failures});
+            m=this.move(m,result.passed?'QUALITY_GATE':'QA_FAILED',{qa_status:result.passed?'PASS':'FAIL',technical_qa_status:(result.technical_qa||result).passed?'PASS':'FAIL',product_qa_status:result.product_qa?(result.product_qa.passed?'PASS':'FAIL'):'UNVERIFIED',policy_hash:hash(this.policy),failure_reasons:result.hard_failures});
             if(m.repair_attempt)this.history(m,{attempt:m.repair_attempt,version:m.version,tests:['browser QA (390x844,768x1024,1280x800)'],result:result.passed?'PASS':'FAIL',qa_artifact:`${m.version}/qa.json`});
             if(stopAfterQA)return m;
             break;
@@ -112,7 +112,7 @@ class Factory {
             const request=readJSON(this.store.artifact(id,`repair-${m.repair_attempt+1}.json`));
             if(!this.repairer||this.repairer.available?.(request)===false)throw Error('repair_workspace_unavailable: provide the next reviewed revision or RepairAdapter, then rerun');
             this.history(m,{attempt:request.attempt,version:request.target_version,cause:request.qa_failures,changed_files:[],tests:[],result:'RUNNING'});
-            m=this.move(m,'REPAIRING',{repair_attempt:request.attempt,version:request.target_version,source_path:`autonomy/games/${id}/${request.target_version}`,qa_status:'PENDING',quality_status:'PENDING',release_status:'NONE',preview_url:null});break;
+            m=this.move(m,'REPAIRING',{repair_attempt:request.attempt,version:request.target_version,source_path:`autonomy/games/${id}/${request.target_version}`,qa_status:'PENDING',technical_qa_status:'PENDING',product_qa_status:'PENDING',quality_status:'PENDING',release_status:'NONE',preview_url:null});break;
           }
           case 'REPAIRING': {
             const request=readJSON(this.store.artifact(id,`repair-${m.repair_attempt}.json`));

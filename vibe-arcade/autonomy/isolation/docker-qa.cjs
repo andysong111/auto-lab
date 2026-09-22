@@ -21,7 +21,24 @@ class DockerQA {
     const p=this.execSync('docker',['image','inspect','--format','{{.Id}}',this.image],{env:environment(),encoding:'utf8',timeout:10000,maxBuffer:16384});
     if(p.status!==0||p.stdout.trim()!==this.image)throw new ProviderPause('isolation_unavailable','Docker daemon/image unavailable; no host QA fallback','PAUSED_ISOLATION');
   }
-  async run({manifest,gameRoot,outDir,policy,probe=false}) {
+  async run(config) {
+    if(config.probe||config.suite||!config.manifest.product_contract)return this.runIsolated(config);
+    const technical=await this.runIsolated({...config,outDir:path.join(config.outDir,'technical'),suite:'technical'});
+    // Fatal source/policy failures never execute another candidate check.
+    const fatal=technical.hard_failures.some(f=>config.policy.fatal_codes.includes(f.code));
+    const product=fatal?null:await this.runIsolated({...config,outDir:path.join(config.outDir,'product'),suite:'product'});
+    const combined={...technical,passed:technical.passed&&product?.passed===true,technical_qa:technical,product_qa:product,
+      contract_hash:hash(config.manifest.product_contract),hard_failures:[...technical.hard_failures,...(product?.hard_failures||[])],
+      screenshots:[...technical.screenshots.map(p=>'technical/'+p),...(product?.screenshots||[]).map(p=>'product/'+p)],
+      console_errors:[...technical.console_errors,...(product?.console_errors||[])],page_errors:[...technical.page_errors,...(product?.page_errors||[])],
+      side_effects:[...technical.side_effects,...(product?.side_effects||[])],duration_ms:technical.duration_ms+(product?.duration_ms||0)};
+    for(const f of combined.hard_failures)if(f.evidence)f.evidence=f.evidence.map(p=>'product/'+p);
+    atomicJSON(path.join(config.outDir,'qa.json'),combined);
+    atomicJSON(path.join(config.outDir,'artifact-index.json'),{source_hash:technical.source_hash,artifacts:[...technical.screenshots.map(p=>({path:'technical/'+p,kind:'screenshot'})),...(product?.artifacts||[]).map(a=>({...a,path:'product/'+a.path}))]});
+    return combined;
+  }
+  async runIsolated({manifest,gameRoot,outDir,policy,probe=false,suite='technical'}) {
+    if(!['technical','product'].includes(suite))throw Error('invalid QA suite');
     this.assertAvailable();if(this.signal?.aborted)throw this.signal.reason;
     inspectGame(gameRoot);const source=hashTree(gameRoot),started=Date.now();
     const temp=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-isolation-'));fs.chmodSync(temp,0o755);
@@ -32,7 +49,7 @@ class DockerQA {
       // Mount a data-only copy, never the repository, home, API key, or Docker socket.
       for(const f of listFiles(gameRoot)){const to=safePath(candidate,f);fs.mkdirSync(path.dirname(to),{recursive:true,mode:0o755});fs.copyFileSync(safePath(gameRoot,f),to);fs.chmodSync(to,0o444);}
 
-      atomicJSON(path.join(input,'qa.json'),{manifest,gameRoot:'/candidate',outDir:'/artifacts',policy,deadline_ms:Math.min(this.limits.timeout_ms,policy.limits.run_timeout_ms)});fs.chmodSync(path.join(input,'qa.json'),0o444);
+      atomicJSON(path.join(input,'qa.json'),{manifest,gameRoot:'/candidate',outDir:'/artifacts',policy,suite,deadline_ms:Math.min(this.limits.timeout_ms,suite==='product'?(policy.product?.run_timeout_ms||150000):policy.limits.run_timeout_ms)});fs.chmodSync(path.join(input,'qa.json'),0o444);
       const args=dockerArgs({name,image:this.image,candidate,input,artifacts,limits:this.limits,probe});
       const outcome=await new Promise((resolve,reject)=>{
         const p=this.exec('docker',args,{env:environment(),detached:true,stdio:['ignore','ignore','pipe']});let stderr='',expired=false,aborted=false,finished=false;
@@ -53,8 +70,9 @@ class DockerQA {
       if(result.game_id!==manifest.game_id||result.version!==manifest.version||result.source_hash!==source||result.policy_hash!==hash(policy)||hashTree(gameRoot)!==source)throw new ProviderPause('source_tampered');
       result.isolation={engine:'docker',image:this.image,network:'none',readonly:true,cpu:this.limits.cpus,memory_mb:this.limits.memory_mb,pids:this.limits.pids};
       fs.mkdirSync(outDir,{recursive:true});atomicJSON(path.join(outDir,'qa.json'),result);
-      for(const f of fs.readdirSync(artifacts).filter(x=>/^viewport-[0-9]+\.png$/.test(x))) {
-        const from=path.join(artifacts,f),s=fs.lstatSync(from);if(s.isFile()&&!s.isSymbolicLink()&&s.size<8*1024*1024)fs.copyFileSync(from,path.join(outDir,f));
+      let exported=0,count=0;
+      for(const f of fs.readdirSync(artifacts).filter(x=>/^(?:viewport-[0-9]+(?:-[a-z0-9-]+)?\.png|product-[0-9]+-[a-z0-9-]+\.(?:png|webm)|artifact-index\.json)$/.test(x))) {
+        const from=path.join(artifacts,f),s=fs.lstatSync(from);if(s.isFile()&&!s.isSymbolicLink()&&s.size<16*1024*1024&&exported+s.size<128*1024*1024&&count<256){fs.copyFileSync(from,path.join(outDir,f));exported+=s.size;count++;}
       }
       return result;
     } finally {this.execSync('docker',['rm','-f',name],{env:environment(),stdio:'ignore',timeout:10000});fs.rmSync(temp,{recursive:true,force:true});}

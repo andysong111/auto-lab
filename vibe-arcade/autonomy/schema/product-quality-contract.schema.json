@@ -1,0 +1,554 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://playjolt.invalid/schema/product-quality-contract-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "objective",
+    "progress",
+    "score",
+    "best",
+    "completion",
+    "replay",
+    "difficulty",
+    "mobile",
+    "reduced_motion",
+    "feedback",
+    "actions"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "objective": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "visible_selector",
+        "expected_text"
+      ],
+      "properties": {
+        "visible_selector": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "pattern": "^[a-zA-Z0-9_#\\[\\]=\"\\- .:]+$"
+        },
+        "expected_text": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 200
+        }
+      }
+    },
+    "progress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selector",
+        "state_path",
+        "format",
+        "milestones"
+      ],
+      "properties": {
+        "selector": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "pattern": "^[a-zA-Z0-9_#\\[\\]=\"\\- .:]+$"
+        },
+        "state_path": {
+          "type": "string",
+          "maxLength": 100,
+          "pattern": "^(state|quality|presentation)\\.[a-zA-Z][a-zA-Z0-9_.]*$"
+        },
+        "format": {
+          "type": "string",
+          "pattern": "^[^{}]*\\{value\\}[^{}]*$",
+          "maxLength": 100
+        },
+        "milestones": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100000
+          }
+        }
+      }
+    },
+    "score": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selector",
+        "label_selector",
+        "expected_label",
+        "reversible_probes",
+        "no_progress_probes"
+      ],
+      "properties": {
+        "selector": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "pattern": "^[a-zA-Z0-9_#\\[\\]=\"\\- .:]+$"
+        },
+        "label_selector": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "pattern": "^[a-zA-Z0-9_#\\[\\]=\"\\- .:]+$"
+        },
+        "expected_label": {
+          "const": "CURRENT SCORE"
+        },
+        "reversible_probes": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 12,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]{0,20}$"
+            }
+          }
+        },
+        "no_progress_probes": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 12,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]{0,20}$"
+            }
+          }
+        }
+      }
+    },
+    "best": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selector",
+        "label_selector",
+        "expected_label",
+        "source"
+      ],
+      "properties": {
+        "selector": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "pattern": "^[a-zA-Z0-9_#\\[\\]=\"\\- .:]+$"
+        },
+        "label_selector": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "pattern": "^[a-zA-Z0-9_#\\[\\]=\"\\- .:]+$"
+        },
+        "expected_label": {
+          "const": "DEVICE BEST"
+        },
+        "source": {
+          "const": "GameKit.best"
+        }
+      }
+    },
+    "completion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_path",
+        "success_value",
+        "failure_value",
+        "result_selector",
+        "success_text",
+        "failure_text",
+        "max_terminal_latency_ms",
+        "failure_wait_ms",
+        "failure_actions"
+      ],
+      "properties": {
+        "state_path": {
+          "type": "string",
+          "maxLength": 100,
+          "pattern": "^(state|quality|presentation)\\.[a-zA-Z][a-zA-Z0-9_.]*$"
+        },
+        "success_value": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "null"
+          ]
+        },
+        "failure_value": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "null"
+          ]
+        },
+        "result_selector": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "pattern": "^[a-zA-Z0-9_#\\[\\]=\"\\- .:]+$"
+        },
+        "success_text": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 200
+        },
+        "failure_text": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 200
+        },
+        "max_terminal_latency_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "failure_wait_ms": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 60000
+        },
+        "failure_actions": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 32,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{0,20}$"
+          }
+        }
+      }
+    },
+    "replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selector",
+        "must_be_in_initial_mobile_viewport"
+      ],
+      "properties": {
+        "selector": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "pattern": "^[a-zA-Z0-9_#\\[\\]=\"\\- .:]+$"
+        },
+        "must_be_in_initial_mobile_viewport": {
+          "const": true
+        }
+      }
+    },
+    "difficulty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deterministic_seeds",
+        "oracle_id",
+        "oracle_sha256",
+        "projection",
+        "stage_path",
+        "complexity_path",
+        "meaningful_actions_path",
+        "reversible_state_path",
+        "required_monotonicity",
+        "max_actions"
+      ],
+      "properties": {
+        "deterministic_seeds": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          }
+        },
+        "oracle_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]{3,64}$"
+        },
+        "oracle_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "projection": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "maxLength": 100,
+            "pattern": "^(state|quality|presentation)\\.[a-zA-Z][a-zA-Z0-9_.]*$"
+          }
+        },
+        "stage_path": {
+          "type": "string",
+          "maxLength": 100,
+          "pattern": "^(state|quality|presentation)\\.[a-zA-Z][a-zA-Z0-9_.]*$"
+        },
+        "complexity_path": {
+          "type": "string",
+          "maxLength": 100,
+          "pattern": "^(state|quality|presentation)\\.[a-zA-Z][a-zA-Z0-9_.]*$"
+        },
+        "meaningful_actions_path": {
+          "type": "string",
+          "maxLength": 100,
+          "pattern": "^(state|quality|presentation)\\.[a-zA-Z][a-zA-Z0-9_.]*$"
+        },
+        "reversible_state_path": {
+          "type": "string",
+          "maxLength": 100,
+          "pattern": "^(state|quality|presentation)\\.[a-zA-Z][a-zA-Z0-9_.]*$"
+        },
+        "required_monotonicity": {
+          "const": "later_strictly_greater"
+        },
+        "max_actions": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 64
+        }
+      }
+    },
+    "mobile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "critical_selectors",
+        "control_selectors",
+        "canvas_selector",
+        "canvas_control_regions",
+        "min_font_px",
+        "min_hit_target_px"
+      ],
+      "properties": {
+        "critical_selectors": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 120,
+            "pattern": "^[a-zA-Z0-9_#\\[\\]=\"\\- .:]+$"
+          }
+        },
+        "control_selectors": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 120,
+            "pattern": "^[a-zA-Z0-9_#\\[\\]=\"\\- .:]+$"
+          }
+        },
+        "canvas_selector": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "pattern": "^[a-zA-Z0-9_#\\[\\]=\"\\- .:]+$"
+        },
+        "canvas_control_regions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "x",
+              "y",
+              "width",
+              "height"
+            ],
+            "properties": {
+              "x": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "y": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "width": {
+                "type": "number",
+                "minimum": 0.01,
+                "maximum": 1
+              },
+              "height": {
+                "type": "number",
+                "minimum": 0.01,
+                "maximum": 1
+              }
+            }
+          }
+        },
+        "min_font_px": {
+          "type": "number",
+          "minimum": 12,
+          "maximum": 24
+        },
+        "min_hit_target_px": {
+          "type": "number",
+          "minimum": 44,
+          "maximum": 64
+        }
+      }
+    },
+    "reduced_motion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "presentation_probe_path",
+        "dynamic_change_required"
+      ],
+      "properties": {
+        "presentation_probe_path": {
+          "type": "string",
+          "maxLength": 100,
+          "pattern": "^(state|quality|presentation)\\.[a-zA-Z][a-zA-Z0-9_.]*$"
+        },
+        "dynamic_change_required": {
+          "const": true
+        }
+      }
+    },
+    "feedback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_change_path",
+        "visual_probe",
+        "active_probe_path",
+        "static_probe_path",
+        "settle_ms",
+        "action"
+      ],
+      "properties": {
+        "state_change_path": {
+          "type": "string",
+          "maxLength": 100,
+          "pattern": "^(state|quality|presentation)\\.[a-zA-Z][a-zA-Z0-9_.]*$"
+        },
+        "visual_probe": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "pattern": "^[a-zA-Z0-9_#\\[\\]=\"\\- .:]+$"
+        },
+        "active_probe_path": {
+          "type": "string",
+          "maxLength": 100,
+          "pattern": "^(state|quality|presentation)\\.[a-zA-Z][a-zA-Z0-9_.]*$"
+        },
+        "static_probe_path": {
+          "type": "string",
+          "maxLength": 100,
+          "pattern": "^(state|quality|presentation)\\.[a-zA-Z][a-zA-Z0-9_.]*$"
+        },
+        "settle_ms": {
+          "type": "integer",
+          "minimum": 150,
+          "maximum": 800
+        },
+        "action": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{0,20}$"
+        }
+      }
+    },
+    "actions": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 8,
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9_]{0,20}$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "key",
+          "touch",
+          "hold_ms",
+          "settle_ms"
+        ],
+        "properties": {
+          "key": {
+            "enum": [
+              "ArrowLeft",
+              "ArrowRight",
+              "ArrowUp",
+              "ArrowDown",
+              "Space"
+            ]
+          },
+          "touch": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "x",
+              "y"
+            ],
+            "properties": {
+              "x": {
+                "type": "number",
+                "minimum": 0.02,
+                "maximum": 0.98
+              },
+              "y": {
+                "type": "number",
+                "minimum": 0.02,
+                "maximum": 0.98
+              }
+            }
+          },
+          "hold_ms": {
+            "type": "integer",
+            "minimum": 20,
+            "maximum": 120
+          },
+          "settle_ms": {
+            "type": "integer",
+            "minimum": 20,
+            "maximum": 200
+          }
+        }
+      }
+    }
+  }
+}
