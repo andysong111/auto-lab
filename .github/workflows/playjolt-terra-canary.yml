@@ -1,4 +1,5 @@
 name: PlayJolt one-call Terra canary
+# secret-registered canary trigger 2026-09-22
 
 on:
   push:
