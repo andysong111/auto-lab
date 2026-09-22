@@ -55,7 +55,7 @@ jobs:
         run: |
           set -euo pipefail
           test -f "$FACTORY_WORKER_ROOT/autonomy/jobs/GAME-20260922-901/manifest.json"
-          test -f "$FACTORY_WORKER_ROOT/autonomy/.provider/ledger.json"
+          test -f "$FACTORY_WORKER_ROOT/autonomy/artifacts/GAME-20260922-901/repair-2.json"
 
       - name: Apply standing owner approval inside existing conservative factory budget
         shell: bash
@@ -86,6 +86,42 @@ jobs:
           p.kill_switches.production_shipping=true;
           p.kill_switches.marketing_promotion=true;
           fs.writeFileSync(policyFile,JSON.stringify(p,null,2)+'\n');
+
+          const manifest=JSON.parse(fs.readFileSync(path.join(root,'autonomy/jobs/GAME-20260922-901/manifest.json'),'utf8'));
+          if(manifest.state!=='REPAIRING'||manifest.version!=='v3'||manifest.repair_attempt!==2)throw Error('unexpected restored factory checkpoint');
+          const providerDir=path.join(root,'autonomy/.provider');
+          fs.mkdirSync(providerDir,{recursive:true});
+          const firstStarted=Date.parse(manifest.created_at);
+          const ledger={
+            schema_version:1,
+            cost_basis:'estimated; restored from approved GitHub canary evidence',
+            jobs:{[manifest.game_id]:{started_at:firstStarted}},
+            operations:{
+              [manifest.game_id+'/build/v1']:{
+                operation_id:manifest.game_id+'/build/v1',game_id:manifest.game_id,version:'v1',
+                request_hash:'restored-build-accounting',day:'2026-09-22',state:'COMPLETE',
+                provider:'openai-responses/gpt-5.6-terra',started_at:firstStarted,
+                completed_at:Date.parse('2026-09-22T04:22:33.000Z'),
+                reserved:{input_tokens:7933,output_tokens:16000,estimated_cost:0.207866},
+                accounted:{input_tokens:1384,output_tokens:6722,estimated_cost:0.08343201},
+                prices:{input_per_million:2,output_per_million:12,as_of:'2026-09-22',estimated:true},
+                response_id:'resp_03cb860aa3a999f7006ab20238c3d087d288f2ab2f9b3ef37a',
+                result:null
+              },
+              [manifest.game_id+'/repair/1']:{
+                operation_id:manifest.game_id+'/repair/1',game_id:manifest.game_id,version:'v2',
+                request_hash:'restored-repair-1-accounting',day:'2026-09-22',state:'COMPLETE',
+                provider:'openai-responses/gpt-5.6-terra',started_at:Date.parse('2026-09-22T04:34:57.000Z'),
+                completed_at:Date.parse('2026-09-22T04:35:24.000Z'),
+                reserved:{input_tokens:15668,output_tokens:16000,estimated_cost:0.223336},
+                accounted:{input_tokens:3769,output_tokens:2494,estimated_cost:0.037466},
+                prices:{input_per_million:2,output_per_million:12,as_of:'2026-09-22',estimated:true},
+                response_id:'resp_000ba3551ecad9f7006ab20572268887d2b0bbcf63dc8c4687',
+                result:null
+              }
+            }
+          };
+          fs.writeFileSync(path.join(providerDir,'ledger.json'),JSON.stringify(ledger,null,2)+'\n');
           NODE
 
       - name: Build reviewed isolated QA image
