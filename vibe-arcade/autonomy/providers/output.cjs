@@ -25,10 +25,31 @@ function validateOutput(raw,request,limits) {
     seen.add(f.path);if(Buffer.byteLength(f.content)>limits.max_file_bytes||f.content.includes('\0'))throw modelError('model_file_too_large');
     // Defense in depth, not a substitute for the network-disabled execution container.
     if(f.path!=='README.md'&&(/(?:https?:|wss?:|file:|ftp:)\/\//i.test(f.content)||/(?:src|href)\s*=\s*["']\/\//i.test(f.content)||/\b(?:import\s*\(|require\s*\(|eval\s*\(|new\s+Function\s*\()/m.test(f.content)))throw modelError('external_runtime_dependency');
-    if(f.path==='core.js'&&/\b(?:document|window|localStorage|fetch)\b/.test(f.content))throw modelError('core_dom_dependency');
+    if(f.path==='core.js') {
+      const match=/\b(?:document|window|localStorage|fetch)\b/.exec(f.content);
+      if(match) {
+        const e=modelError('core_dom_dependency'),line=f.content.slice(0,match.index).split('\n').length;
+        e.message=`core_dom_dependency: core.js line ${line} uses ${match[0]}. Export with globalThis.YourCore = {create,step,observe,terminal}; core must contain no document/window/localStorage/fetch identifiers.`;
+        e.detail={file:'core.js',line,identifier:match[0],allowed_export:'globalThis.YourCore = {create,step,observe,terminal}'};
+        throw e;
+      }
+    }
   }
   if(request.mode==='build'||request.empty_workspace)for(const name of requiredFiles)if(!seen.has(name))throw modelError('model_missing_file:'+name);
   return value;
+}
+function quarantineOutput(raw,limits) {
+  let serialized;try{serialized=typeof raw==='string'?raw:JSON.stringify(raw);}catch{return null;}
+  if(typeof serialized!=='string'||Buffer.byteLength(serialized)>limits.max_response_bytes)return null;
+  let value;try{value=typeof raw==='string'?JSON.parse(raw):raw;}catch{return null;}
+  if(!value||typeof value!=='object'||!Array.isArray(value.files))return null;
+  const files=[];
+  for(const f of value.files) {
+    if(!f||typeof f.path!=='string'||typeof f.content!=='string')continue;
+    if(!allowedFile(f.path)||f.path.includes('..')||f.path.includes('\\')||Buffer.byteLength(f.content)>limits.max_file_bytes)continue;
+    files.push({path:f.path,content:f.content});
+  }
+  return {status:typeof value.status==='string'?value.status:null,summary:typeof value.summary==='string'?value.summary.slice(0,2000):'',files};
 }
 function applyOutput(value,workspace,root,manifest) {
   const expected=safePath(root,`autonomy/.work/${manifest.game_id}/${manifest.version}`);
@@ -37,4 +58,4 @@ function applyOutput(value,workspace,root,manifest) {
   const destinations=value.files.map(f=>({file:safePath(workspace,f.path),content:f.content}));
   for(const d of destinations){fs.mkdirSync(path.dirname(d.file),{recursive:true});fs.writeFileSync(d.file,d.content,{mode:0o600});}
 }
-module.exports={responseSchema,validateOutput,applyOutput,allowedFile,inScope};
+module.exports={responseSchema,validateOutput,quarantineOutput,applyOutput,allowedFile,inScope};
