@@ -1,0 +1,52 @@
+{
+  "schema": "playjolt-ai-worker-verification/1",
+  "recorded_at": "2026-09-22T00:10:39.448403+00:00",
+  "baseline_commit": "d0763f7c47a0f801cc82e49b1fd1d7a42c780e9e",
+  "branch": "feature/autonomous-ai-provider-worker",
+  "completion": "REMOTE_COMMISSIONING_IN_PROGRESS",
+  "tests": {
+    "factory_control_plane": {
+      "passed": 26,
+      "failed": 0
+    },
+    "provider_worker_contracts": {
+      "passed": 49,
+      "failed": 0,
+      "provider": "mock; no paid HTTP"
+    },
+    "existing_factory_browser": {
+      "passed": 9,
+      "failed": 0,
+      "source": "existing trusted fixtures, not AI output"
+    },
+    "production_canonical": {
+      "passed": 283,
+      "failed": 0
+    },
+    "production_browser_suites": {
+      "passed": 6,
+      "failed": 0
+    },
+    "ai_worker_real_container_browser": {
+      "status": "BLOCKED",
+      "cases": 5,
+      "reason": "Docker daemon/image unavailable locally; no unsafe fallback or skipped tests"
+    }
+  },
+  "real_provider_canary": {
+    "performed": false,
+    "generation_calls": 0,
+    "api_cost_incurred_by_task": 0,
+    "billing_note": "No real provider calls; mock cost estimates are not billed costs"
+  },
+  "github": {
+    "connection": "RESTORED",
+    "branch_created": false,
+    "pr": null,
+    "ci": "PENDING_PUBLICATION"
+  },
+  "intake_enabled": false,
+  "auto_production_ship": false,
+  "production_changes": false,
+  "local_implementation_commit": "4467bb2c25f26a99d2121d31d0a9c474395216f3"
+}

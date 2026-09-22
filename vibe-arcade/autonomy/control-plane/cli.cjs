@@ -2,7 +2,7 @@
 'use strict';
 const path=require('node:path'),fs=require('node:fs');
 const {loadPolicy,listJobs,decision,snapshot}=require('./control.cjs'),{write}=require('./render.cjs');
-function args(argv){const [command,id]=argv,out={command,id};for(let i=2;i<argv.length;i++)if(argv[i].startsWith('--')){const k=argv[i].slice(2);out[k]=argv[i+1]&&!argv[i+1].startsWith('--')?argv[++i]:true;}return out;}
+function args(argv){const [command,id]=argv,out={command,id};for(let i=command==='decision'?2:1;i<argv.length;i++)if(argv[i].startsWith('--')){const k=argv[i].slice(2);out[k]=argv[i+1]&&!argv[i+1].startsWith('--')?argv[++i]:true;}return out;}
 function main(argv=process.argv.slice(2)){
  const a=args(argv),root=path.resolve(a.root||path.join(__dirname,'../..')),policy=loadPolicy(a.policy?path.resolve(a.policy):undefined);
  if(a.command==='decision'){const m=listJobs(root).find(x=>x.game_id===a.id);if(!m)throw Error('job_not_found');console.log(JSON.stringify(decision(m,policy),null,2));return;}

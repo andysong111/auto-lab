@@ -1,0 +1,56 @@
+name: PlayJolt AI Provider Worker
+on:
+  pull_request:
+    paths: ['vibe-arcade/autonomy/**', '.github/workflows/playjolt-ai-worker-ci.yml']
+  push:
+    branches: [main, feature/autonomous-ai-provider-worker]
+    paths: ['vibe-arcade/autonomy/**', '.github/workflows/playjolt-ai-worker-ci.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ai-worker-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+jobs:
+  contracts:
+    name: AI provider worker contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - run: npm test --prefix vibe-arcade/autonomy
+      - run: npm run test:worker --prefix vibe-arcade/autonomy
+      - name: Default policy must hold without credentials or paid calls
+        run: node vibe-arcade/autonomy/worker.cjs run-once
+  isolated:
+    name: AI worker isolated browser
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Build reviewed QA runtime and pin its immutable local image ID
+        run: |
+          docker build --iidfile "$RUNNER_TEMP/factory-qa-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/factory-qa-image")" >> "$GITHUB_ENV"
+      - name: Mock provider, real isolated Chromium, repair and fatal rejection
+        run: npm run test:worker:isolated --prefix vibe-arcade/autonomy
+        env:
+          FACTORY_EVIDENCE_DIR: ${{ runner.temp }}/ai-worker-evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ai-worker-isolation-evidence
+          path: ${{ runner.temp }}/ai-worker-evidence
+          retention-days: 14

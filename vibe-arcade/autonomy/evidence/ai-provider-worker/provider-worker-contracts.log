@@ -1,0 +1,62 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> playjolt-autonomous-factory@0.2.0 test:worker
+> node --test worker/tests/providers.test.cjs worker/tests/worker.test.cjs
+
+✔ successful mock output is validated, persisted and deduplicated by immutable operation ID (101.793193ms)
+✔ reject malformed JSON (2.553271ms)
+✔ reject unexpected metadata (1.525699ms)
+✔ reject path escape (1.780186ms)
+✔ reject factory-owned kit (1.703593ms)
+✔ reject CDN (1.639708ms)
+✔ reject DOM core (1.355467ms)
+✔ reject missing files (1.349659ms)
+✔ all paths are validated before any file write; existing workspace symlinks are blocked (2.455856ms)
+✔ provider timeout is bounded and unknown submission is never re-posted (86.148972ms)
+✔ known response ID survives manager restart; retry is retrieval, not a second generation (65.798222ms)
+✔ network failure and model failure remain distinct; cached model failure is not called again (55.762792ms)
+✔ budget: game call limit (60.948015ms)
+✔ budget: daily call limit (58.976787ms)
+✔ budget: input token limit (29.975257ms)
+✔ budget: output token limit (32.723596ms)
+✔ budget: game cost limit (31.870904ms)
+✔ budget: daily cost limit (30.076712ms)
+✔ wall clock budget includes downtime and refuses new calls after expiry (61.727344ms)
+✔ reported usage exceeding reservation permanently pauses without replaying provider (67.286777ms)
+✔ prices require explicit recent estimates and invalid budgets/concurrency are rejected (0.448984ms)
+✔ repair compiler preserves original Factory request, QA identity and narrows CSS-only repairs (4.731306ms)
+✔ OpenAI is unavailable without key/model or explicit paid-call authorization; no fetch occurs (0.279183ms)
+✔ OpenAI Responses uses strict file output, durable background ID, no tools, fixed official origin and GET resumption (5.002879ms)
+✔ OpenAI HTTP 401 is classified and never SDK-retried (0.385721ms)
+✔ OpenAI HTTP 429 is classified and never SDK-retried (0.183922ms)
+✔ OpenAI HTTP 503 is classified and never SDK-retried (0.165094ms)
+✔ missing provider output is model failure, not a retryable network error (31.411103ms)
+✔ ledger storage failure pauses before any provider submission (29.334508ms)
+✔ repair scope honors additional protections in the original Factory request (2.953634ms)
+✔ maximum file/output size is rejected before applying any bytes (1.905972ms)
+✔ worker mock build reuses Factory transitions and remains unlisted RC_READY (119.010908ms)
+✔ intake_disabled blocks all provider and isolation calls (2.024318ms)
+✔ factory_kill_switch blocks all provider and isolation calls (1.795489ms)
+✔ provider unavailable and isolation unavailable both fail before reserving/charging or changing Factory (60.275705ms)
+✔ budget pause preserves BUILDING checkpoint and consumes no repair attempt (65.767227ms)
+✔ live kill switch aborts in-flight work and no second generation is submitted (287.223654ms)
+✔ global worker lock prevents overlapping jobs/calls (36.007244ms)
+✔ bounded polling backs off and stops after configured polls or intake disable (389.647476ms)
+✔ shutdown signal interrupts pending provider, preserving resumable Factory state (76.470766ms)
+✔ actual worker process crash after response checkpoint recovers stale locks and resumes GET without new submission (346.469724ms)
+✔ fatal path escape rejects with existing exception policy; no repair call (59.931696ms)
+✔ RC remains behind both worker opt-in and current Control Plane release switch (155.718354ms)
+✔ container invocation has only candidate/input/artifact mounts, no network, secrets or host execution fallback (0.893363ms)
+✔ Control Plane reads worker pause overlay without changing Factory state or raising routine owner alerts (67.973032ms)
+✔ Docker report boundary: failed game report (6.100574ms)
+✔ Docker report boundary: infrastructure report (6.330108ms)
+✔ Docker report boundary: crash after pass report (5.076998ms)
+✔ Docker report boundary: mismatched source evidence (3.934966ms)
+ℹ tests 49
+ℹ suites 0
+ℹ pass 49
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1847.127659

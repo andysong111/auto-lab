@@ -1,0 +1,15 @@
+**
+!package.json
+!package-lock.json
+!qa/
+!qa/**
+!orchestrator/
+!orchestrator/**
+!schema/
+!schema/**
+!policies/
+!policies/**
+!isolation/
+!isolation/entry.cjs
+!isolation/probe.cjs
+!isolation/Dockerfile

@@ -78,3 +78,9 @@ See `HANDOFF_WORK_PHASE1_FACTORY.md` for the current actual evidence and PR/Prev
 There is intentionally no Phase 1 production activation command. Setting `AUTO_PRODUCTION_SHIP=true` alone cannot ship. The supervising team must add a reviewed production adapter, quality evidence policy, server replay/version registry for any ranked game, real metric eligibility, deployment/rollback criteria and a budgeted worker/provider. Until then all fixtures/candidates remain unlisted and `metrics_eligibility=false`.
 
 Rollback: close the factory PR or stop its worker; production is unaffected. If Phase 1 engine code is later merged, revert that engine PR. No production DB changes or migrations need reversal. Archive local jobs instead of deleting production data. A future namespace can be `loopjolt_factory.{jobs,attempts,qa_runs,repair_runs,releases}` with private grants/RLS; no live migration is required or applied here.
+
+## AI Builder / Repair and autonomous worker
+
+The provider-neutral adapters and OpenAI Responses implementation are in `adapters/ai.cjs` and `providers/`. Use `node autonomy/worker.cjs run-once` or `loop` for AI output; the default reports `PAUSED_INTAKE` and makes no calls. Autonomous candidate QA requires the pinned Docker isolation runtime; there is no host fallback. Cost/provider/isolation holds appear in the existing Control Plane as a worker overlay without changing the Factory state machine.
+
+See [worker operations](worker/README.md) for explicit paid-call authorization, model/pricing/secret configuration, dedicated commissioning state, budgets, crash recovery and tests. See [AI provider worker handoff](HANDOFF_WORK_AI_PROVIDER_WORKER.md) for the PR, actual CI evidence and remaining owner actions. Production intake and `AUTO_PRODUCTION_SHIP=false` remain unchanged.

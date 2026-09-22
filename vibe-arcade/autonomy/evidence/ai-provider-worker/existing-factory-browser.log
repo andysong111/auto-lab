@@ -1,0 +1,22 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> playjolt-autonomous-factory@0.2.0 test:browser
+> node --test --test-concurrency=1 tests/browser.test.cjs
+
+✔ real Chromium: successful factory run covers desktop/tablet/mobile and capture lifecycle (10254.640648ms)
+✔ real Chromium: deliberately frozen fixture -> repair request -> actual repaired QA PASS (14339.337353ms)
+✔ real Chromium: irreparable fixture exhausts exactly five repairs and rejects automatically (28154.013287ms)
+✔ real Chromium catches write without production side effects (10766.931712ms)
+✔ real Chromium catches missing without production side effects (1125.353786ms)
+✔ real Chromium catches no-touch without production side effects (2715.628819ms)
+✔ real Chromium catches no-keyboard without production side effects (1323.133594ms)
+✔ real Chromium catches runaway without production side effects (5112.471529ms)
+✔ infinite game loop is stopped at process deadline and records timeout evidence (3259.702919ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 77243.241843
