@@ -1,0 +1,152 @@
+name: PlayJolt one-call Terra canary
+
+on:
+  push:
+    branches: ['commissioning/terra-canary-20260922']
+    paths:
+      - '.github/workflows/playjolt-terra-canary.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: playjolt-terra-canary-20260922
+  cancel-in-progress: false
+
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      FACTORY_OPENAI_MODEL: gpt-5.6-terra
+      FACTORY_ALLOW_PAID_CALLS: '1'
+      FACTORY_WORKER_ROOT: ${{ runner.temp }}/playjolt-terra-canary
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Factory dependencies
+        run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+
+      - name: Build reviewed isolated QA image
+        run: |
+          set -euo pipefail
+          docker build --iidfile "$RUNNER_TEMP/playjolt-qa-image"             -f vibe-arcade/autonomy/isolation/Dockerfile             vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/playjolt-qa-image")" >> "$GITHUB_ENV"
+
+      - name: Prepare one-call commissioning state
+        run: |
+          set -euo pipefail
+          mkdir -p "$FACTORY_WORKER_ROOT"
+          cp vibe-arcade/autonomy/worker/config.canary.example.json "$FACTORY_WORKER_ROOT/worker-config.json"
+          cp vibe-arcade/autonomy/control-plane/policy.json "$FACTORY_WORKER_ROOT/control-policy.json"
+          node - <<'NODE'
+          const fs=require('node:fs'),path=require('node:path');
+          const root=process.env.FACTORY_WORKER_ROOT;
+          const configFile=path.join(root,'worker-config.json');
+          const c=JSON.parse(fs.readFileSync(configFile,'utf8'));
+          c.pricing={input_per_million:2,output_per_million:12,as_of:'2026-09-22'};
+          c.per_game.max_provider_calls=1;
+          c.per_game.max_estimated_cost=0.35;
+          c.global.daily_provider_call_limit=1;
+          c.global.daily_cost_limit=0.35;
+          c.release_candidates=false;
+          fs.writeFileSync(configFile,JSON.stringify(c,null,2)+'\n');
+
+          const policyFile=path.join(root,'control-policy.json');
+          const p=JSON.parse(fs.readFileSync(policyFile,'utf8'));
+          p.mode='one-call-provider-canary';
+          p.intake_enabled=true;
+          p.auto_rc_enabled=false;
+          p.kill_switches.release_candidates=true;
+          p.kill_switches.production_shipping=true;
+          p.kill_switches.marketing_promotion=true;
+          fs.writeFileSync(policyFile,JSON.stringify(p,null,2)+'\n');
+
+          const spec={
+            game_id:'GAME-20260922-901',
+            generation:1,
+            title:'Terra Provider Canary Chamber',
+            slug:'terra-provider-canary-chamber',
+            genre:'commissioning-fixture',
+            mechanic_family:'fixture-only',
+            controls:['Arrow keys or WASD to move','Space to interact'],
+            mobile_controls:['Tap or drag on the board'],
+            max_repair_attempts:5,
+            qa:{
+              seed:7,
+              keyboard:{key:'ArrowRight',observation:'state.x'},
+              pointer:{observation:'state.taps'},
+              terminal_ms:12000
+            }
+          };
+          fs.writeFileSync(path.join(root,'canary-spec.json'),JSON.stringify(spec,null,2)+'\n');
+          NODE
+          node vibe-arcade/autonomy/cli.cjs create             --root "$FACTORY_WORKER_ROOT"             --spec "$FACTORY_WORKER_ROOT/canary-spec.json"
+
+      - name: Secret preflight — no API call if missing
+        if: ${{ github.run_attempt == 1 }}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${OPENAI_API_KEY:-}" ]; then
+            echo "::error::OPENAI_API_KEY repository/environment secret is not configured. No model request was sent."
+            exit 78
+          fi
+
+      - name: One approved paid generation — max one call, estimated ceiling $0.35
+        if: ${{ github.run_attempt == 1 }}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          set -euo pipefail
+          node vibe-arcade/autonomy/worker.cjs run-once             --root "$FACTORY_WORKER_ROOT"             --policy "$FACTORY_WORKER_ROOT/control-policy.json"             --config "$FACTORY_WORKER_ROOT/worker-config.json"             | tee "$FACTORY_WORKER_ROOT/worker-result.json"
+
+      - name: Validate single-call accounting
+        if: ${{ always() && github.run_attempt == 1 }}
+        run: |
+          node - <<'NODE'
+          const fs=require('node:fs'),path=require('node:path');
+          const root=process.env.FACTORY_WORKER_ROOT;
+          const ledgerFile=path.join(root,'autonomy/.provider/ledger.json');
+          const resultFile=path.join(root,'worker-result.json');
+          const summary={model:'gpt-5.6-terra',pricing:{input_per_million:2,output_per_million:12,as_of:'2026-09-22'},max_generation_calls:1,max_estimated_cost_usd:0.35,run_attempt:Number(process.env.GITHUB_RUN_ATTEMPT||1),model_call_observed:false};
+          if(fs.existsSync(resultFile)){
+            try{summary.worker_result=JSON.parse(fs.readFileSync(resultFile,'utf8'));}catch{summary.worker_result_parse_error=true;}
+          }
+          if(fs.existsSync(ledgerFile)){
+            const ledger=JSON.parse(fs.readFileSync(ledgerFile,'utf8'));
+            const ops=Object.values(ledger.operations||{});
+            summary.model_call_observed=ops.length>0;
+            summary.operation_count=ops.length;
+            summary.operations=ops.map(o=>({
+              operation_id:o.operation_id,
+              state:o.state,
+              provider:o.provider,
+              response_id:o.response_id||null,
+              reserved:o.reserved||null,
+              accounted:o.accounted||null,
+              error_code:o.error_code||null
+            }));
+            if(ops.length>1)throw Error('canary exceeded one provider operation');
+            if(ops[0]&&ops[0].provider!=='openai-responses/gpt-5.6-terra')throw Error('unexpected provider identity');
+            const estimate=ops[0]?.accounted?.estimated_cost ?? ops[0]?.reserved?.estimated_cost ?? 0;
+            if(estimate>0.35+1e-9)throw Error('canary estimated cost exceeded configured ceiling');
+          } else {
+            summary.note='No provider ledger exists; secret preflight or provider setup stopped before submission.';
+          }
+          fs.writeFileSync(path.join(root,'canary-summary.json'),JSON.stringify(summary,null,2)+'\n');
+          console.log(JSON.stringify(summary,null,2));
+          NODE
+
+      - name: Upload canary evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terra-canary-evidence-attempt-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/playjolt-terra-canary
+          retention-days: 14
