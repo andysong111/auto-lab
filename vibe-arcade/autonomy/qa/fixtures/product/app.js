@@ -3,6 +3,7 @@ const variant=(await (await fetch('fixture.json')).json()).variant;
 const manifest=await (await fetch('manifest.json')).json();
 const defects=variant==='MULTI_BAD'?['BAD_SCORE','BAD_RESULT','BAD_MOTION','BAD_GOAL','BAD_FEEDBACK']:[variant];
 if(defects.includes('BAD_SCORE'))ProductFixtureCore.farming=true;
+if(variant==='BAD_DEADTIME')ProductFixtureCore.terminal=s=>s.outcome==='failure'||s.outcome==='success'&&s.tick>=300;
 if(defects.includes('BAD_RESULT'))document.body.classList.add('bad-result');
 if(defects.includes('BAD_GOAL'))document.querySelector('[data-objective]').hidden=true;
 const media=matchMedia('(prefers-reduced-motion: reduce)');

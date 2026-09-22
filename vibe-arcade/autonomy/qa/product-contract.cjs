@@ -9,6 +9,7 @@ function validate(contract){
   if(!check(contract))throw Error('product_contract: '+JSON.stringify(check.errors));
   for(const p of [contract.difficulty.stage_path,contract.difficulty.complexity_path,...contract.difficulty.projection])
     if(/(?:^|\.)(?:score|best|tick|time|elapsed|hp|health|timer|duration)(?:_|\.|$)/i.test(p))throw Error('product_contract: time, HP and score are not decision depth');
+  for(const action of [contract.feedback.action,...contract.completion.failure_actions,...contract.score.reversible_probes.flat(),...contract.score.no_progress_probes.flat()])if(!contract.actions[action])throw Error('product_contract: undeclared action '+action);
   const serialized=JSON.stringify(contract);
   if(/__proto__|constructor|prototype/.test(serialized))throw Error('product_contract: unsafe path');
   if(contract.score.selector===contract.best.selector)throw Error('product_contract: score and best must be separate');
@@ -21,13 +22,22 @@ function review(contract,{allowFixture=false}={}){
   const registry=JSON.parse(fs.readFileSync(path.join(__dirname,'reviewed/registry.json'),'utf8'));
   const entry=registry.entries.find(x=>x.id===contract.difficulty.oracle_id);
   if(!entry||entry.sha256!==contract.difficulty.oracle_sha256)throw Error('product_difficulty_unreviewed: exact oracle approval missing');
+  if(entry.contract_sha256!==hash(contract))throw Error('product_difficulty_unreviewed: reviewed contract digest mismatch');
   if(entry.scope==='fixture'&&!allowFixture)throw Error('product_difficulty_unreviewed: test oracle is not a candidate approval');
   if(!/^[a-z0-9-]+\.json$/.test(entry.file))throw Error('unsafe oracle file');
   const model=JSON.parse(fs.readFileSync(path.join(__dirname,'reviewed',entry.file),'utf8'));
   if(hash(model)!==entry.sha256)throw Error('product_difficulty_unreviewed: oracle digest mismatch');
   if(JSON.stringify(model.projection)!==JSON.stringify(contract.difficulty.projection))throw Error('oracle projection mismatch');
   validateModel(model);
-  for(const seed of contract.difficulty.deterministic_seeds)if(!model.seeds[String(seed)])throw Error('oracle seed missing: '+seed);
+  for(const g of Object.values(model.seeds))for(const n of Object.values(g.nodes))for(const e of n.edges)if(!contract.actions[e.action])throw Error('oracle action absent from contract');
+  for(const seed of contract.difficulty.deterministic_seeds){
+    const g=model.seeds[String(seed)];if(!g)throw Error('oracle seed missing: '+seed);
+    const plan=shortest(g,g.initial,n=>n.success),seen=new Set();let actions=plan.length;
+    for(const step of plan){const n=g.nodes[step.from];if(seen.has(n.stage))continue;seen.add(n.stage);
+      for(const edge of n.edges){const back=shortest(g,edge.to,node=>node===n);if(!back)throw Error('product_difficulty_unverified: v1 requires bounded return paths to cross-check stage-entry choices');actions+=1+back.length;}
+    }
+    if(actions>contract.difficulty.max_actions)throw Error('product_difficulty_unverified: branch conformance exceeds normal-input bound');
+  }
   return {model,approval:entry};
 }
 function validateModel(m){

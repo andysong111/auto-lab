@@ -29,3 +29,8 @@ test('product contract can never pass with only technical evidence or stale repo
 test('dashboard separates technical PASS, product FAIL and Factory repairs, escapes evidence',()=>{
  const output=html({counts:{},automation:{},jobs:[{game_id:'test',title:'fixture',state:'REPAIRING',repair_attempt:3,max_repair_attempts:5,technical_qa:{status:'PASS'},product_qa:{status:'FAIL',failures:['score_integrity','<script>']},quality_gate:{status:'REPAIR'},decision:{action:'RESUME_REPAIR'},metrics:{state:'HOLD'}}]});assert(output.includes('Technical QA'));assert(output.includes('Product QA'));assert(output.includes('3 / 5'));assert(output.includes('score_integrity'));assert(!output.includes('<script>'));assert(output.includes('does not establish product quality'));
 });
+test('default Quality Gate fails closed for a missing product contract',()=>{
+ const policy=require('../../policies/quality-gate.json'),m={game_id:'GAME-00000000-901',version:'v1',repair_attempt:0,max_repair_attempts:5,controls:['arrows'],mobile_controls:['tap'],mechanic_family:'fixture',source_hash:'a'.repeat(64)};
+ const qa={game_id:m.game_id,version:'v1',source_hash:m.source_hash,policy_hash:hash(policy),passed:true,hard_failures:[],browser_cases:policy.required_viewports.map(([width,height])=>({viewport:{width,height},checks:policy.required_checks,passed:true}))};
+ const r=evaluate(m,qa,policy);assert.equal(r.decision,'REPAIR');assert(r.hard_failures.some(f=>f.code==='product_contract_missing'));
+});

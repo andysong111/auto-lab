@@ -11,12 +11,14 @@ function evaluate(manifest,qa,p=policy) {
   if(qa?.console_errors?.length||qa?.page_errors?.length||qa?.side_effects?.length) failures.push({code:qa.side_effects?.length?'production_side_effect':'browser_errors',message:'Browser errors or side effects present'});
   if(qa?.passed!==true&&!failures.length) failures.push({code:'qa_failed',message:'QA did not pass'});
   const product=qa?.product_qa;
+  if(!manifest.product_contract&&!p.product?.allow_legacy_technical_fixtures)failures.push({code:'product_contract_missing',message:'Technical PASS alone cannot approve a candidate; a reviewed product contract and Docker product evidence are required'});
   if(manifest.product_contract){
+    try{const approved=require('../qa/product-contract.cjs').review(manifest.product_contract,{allowFixture:p.product?.allow_fixture_oracles===true}).approval;if(product&&hash(approved)!==hash(product.oracle_approval))failures.push({code:'product_review_changed',message:'Oracle/contract approval changed after QA'});}catch(e){failures.push({code:'product_review_invalid',message:e.message});}
     if(!product||product.source_hash!==manifest.source_hash||product.policy_hash!==hash(p)||product.contract_hash!==hash(manifest.product_contract)||product.game_id!==manifest.game_id||product.version!==manifest.version||product.runner_version!=='product-quality-1'||product.isolation?.engine!=='docker')
       failures.push({code:'product_stale_evidence',message:'Product evidence must match the exact contract, source, policy, runner and Docker isolation'});
     const required=require('../qa/product-worker.cjs').REQUIRED;
-    for(const check of required)if(!product?.checks?.some(c=>c.check===check&&c.status==='PASS'))failures.push({code:'product_missing_check',message:'Product requirement missing or failed: '+check,check});
-    if(!product?.passed||product?.checks?.some(c=>c.status!=='PASS'))failures.push({code:'product_failed',message:'Generic product checks did not pass'});
+    for(const check of required)if(!product?.checks?.some(c=>c.check===check))failures.push({code:'product_missing_check',message:'Product requirement missing or failed: '+check,check});
+    if((!product?.passed||product?.checks?.some(c=>c.status!=='PASS'))&&!product?.hard_failures?.length)failures.push({code:'product_failed',message:'Generic product checks did not pass'});
     for(const f of product?.hard_failures||[])if(!failures.some(x=>hash(x)===hash(f)))failures.push(f);
     const seeds=manifest.product_contract.difficulty.deterministic_seeds;
     if(seeds.some(seed=>!product?.seeds?.some(s=>s.seed===seed&&s.passed&&s.runs?.length===2)))failures.push({code:'product_seed_coverage',message:'Every declared deterministic seed requires two normal-input runs'});

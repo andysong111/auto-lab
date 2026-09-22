@@ -30,10 +30,10 @@ test('symlinks, absolute paths and traversal cannot be imported',t=>{
 test('quality gate requires fresh exhaustive hard evidence; heuristics alone cannot pass',async t=>{
   const {factory,spec,store}=setup(t,{qa:mockQA});await factory.create(spec);const m=await factory.run(spec.game_id);
   const qa=require('node:fs').readFileSync(store.artifact(m.game_id,'v1/qa.json'),'utf8');
-  const good=JSON.parse(qa);assert.equal(evaluate(m,good).decision,'PASS');assert.equal(evaluate(m,good).production_approved,false);
-  assert.equal(evaluate(m,{...good,browser_cases:[]}).decision,'REPAIR');assert.equal(evaluate(m,{...good,source_hash:'stale'}).decision,'REPAIR');
-  assert.equal(evaluate(m,{...good,hard_failures:[{code:'production_side_effect',message:'blocked POST'}]}).decision,'REJECT');
-  assert.equal(evaluate({...m,repair_attempt:5},{...good,passed:false}).decision,'REJECT');
+  const good=JSON.parse(qa);assert.equal(evaluate(m,good,policy).decision,'PASS');assert.equal(evaluate(m,good,policy).production_approved,false);
+  assert.equal(evaluate(m,{...good,browser_cases:[]},policy).decision,'REPAIR');assert.equal(evaluate(m,{...good,source_hash:'stale'},policy).decision,'REPAIR');
+  assert.equal(evaluate(m,{...good,hard_failures:[{code:'production_side_effect',message:'blocked POST'}]},policy).decision,'REJECT');
+  assert.equal(evaluate({...m,repair_attempt:5},{...good,passed:false},policy).decision,'REJECT');
 });
 test('fixture core is DOM independent and deterministic for the same seed/input sequence',()=>{
   const core=require('../fixtures/dummy/core.js'),a=core.create(7),b=core.create(7);

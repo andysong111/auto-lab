@@ -27,4 +27,12 @@ async function geometry(page,contract){
 }
 function overlap(a,b){return Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x)>1&&Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y)>1;}
 function collisions(rows){const out=[];for(let i=0;i<rows.length;i++)for(let j=i+1;j<rows.length;j++)if(overlap(rows[i],rows[j]))out.push([rows[i],rows[j]]);return out;}
-module.exports={canvasAudit,geometry,collisions};
+function terminalTimeline({statePath}){
+ const rows=[],raf=globalThis.requestAnimationFrame;
+ globalThis.requestAnimationFrame=function(callback){return raf.call(this,time=>{
+  callback(time);
+  if(globalThis.GameDiagnostics){const s=GameDiagnostics.snapshot(),value=statePath.split('.').reduce((a,k)=>a?.[k],s);if(rows.length===0||rows.at(-1).phase!==s.phase||rows.at(-1).value!==value){rows.push({time,phase:s.phase,value});if(rows.length>128)rows.shift();}}
+ });};
+ Object.defineProperty(globalThis,'__ProductTerminalTimeline',{value:()=>JSON.parse(JSON.stringify(rows))});
+}
+module.exports={canvasAudit,geometry,collisions,terminalTimeline};

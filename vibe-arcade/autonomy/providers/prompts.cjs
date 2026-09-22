@@ -40,7 +40,7 @@ function compile({root,workspace,manifest,spec,request,operationId,budget,reject
       const full=readJSON(file);
       if(full.game_id!==manifest.game_id||full.version!==request.version||request.source_hash&&full.source_hash!==request.source_hash)throw modelError('source_tampered');
       qa={passed:full.passed,hard_failures:full.hard_failures,console_errors:full.console_errors,page_errors:full.page_errors,browser_cases:full.browser_cases?.map(c=>({viewport:c.viewport,checks:c.checks,passed:c.passed})),technical_qa:full.technical_qa?.passed,product_qa:full.product_qa?{passed:full.product_qa.passed,checks:full.product_qa.checks.filter(c=>c.status!=='PASS'),artifacts:full.product_qa.artifacts,oracle_approval:full.product_qa.oracle_approval}:null};
-      failures=full.hard_failures;
+      failures=[...failures,...full.hard_failures.filter(f=>!failures.some(prior=>hash(prior)===hash(f)))];
       if(failures.some(f=>policy.fatal_codes.includes(f.code)))throw modelError(failures.find(f=>policy.fatal_codes.includes(f.code)).code);
     }
     const codes=new Set(failures.map(f=>f.code));

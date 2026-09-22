@@ -74,6 +74,12 @@ class DockerQA {
       for(const f of fs.readdirSync(artifacts).filter(x=>/^(?:viewport-[0-9]+(?:-[a-z0-9-]+)?\.png|product-[0-9]+-[a-z0-9-]+\.(?:png|webm)|artifact-index\.json)$/.test(x))) {
         const from=path.join(artifacts,f),s=fs.lstatSync(from);if(s.isFile()&&!s.isSymbolicLink()&&s.size<16*1024*1024&&exported+s.size<128*1024*1024&&count<256){fs.copyFileSync(from,path.join(outDir,f));exported+=s.size;count++;}
       }
+      for(const f of new Set([...(result.screenshots||[]),...(result.artifacts||[]).map(a=>a.path)])){
+        if(!/^(?:viewport-[0-9]+(?:-[a-z0-9-]+)?\.png|product-[0-9]+-[a-z0-9-]+\.(?:png|webm))$/.test(f)||!fs.existsSync(path.join(outDir,f))){
+          result.passed=false;result.hard_failures.push({code:'evidence_export_failed',message:'A declared QA artifact was not safely exported',expected:f,actual:'missing or outside artifact limits'});
+        }
+      }
+      atomicJSON(path.join(outDir,'qa.json'),result);
       return result;
     } finally {this.execSync('docker',['rm','-f',name],{env:environment(),stdio:'ignore',timeout:10000});fs.rmSync(temp,{recursive:true,force:true});}
   }
