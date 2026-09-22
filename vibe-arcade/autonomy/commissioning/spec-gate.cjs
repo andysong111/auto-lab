@@ -29,7 +29,7 @@ function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.
   let implementation;
   const data=proposal.implementation_contract;
   if(data!==undefined){
-    const keys=['goal','progression','presentation','originality','difficulty','mobile_readability','result','reduced_motion'];
+    const keys=['goal','progression','presentation','originality','difficulty','mobile_readability','result','reduced_motion','scoring','completion_timing','action_feedback'];
     if(!data||typeof data!=='object'||Array.isArray(data)||Buffer.byteLength(JSON.stringify(data))>20000||
       !keys.every(k=>typeof data[k]==='string'&&data[k].trim().length>=20))errors.push({code:'invalid_implementation_contract'});
     else implementation=JSON.parse(JSON.stringify(data));
