@@ -40,7 +40,10 @@ async function execute(config) {
         c.resources.push({tick:s.tick,entities:s.entities,dom}); return s;
       };
       try {
-        await check('html',async()=>{ const t=Date.now(), r=await p.goto(server.origin+'/?qa=1&capture=1&seed='+manifest.qa.seed,{waitUntil:'load'}); assert(r?.status()===200,'HTML status'); await p.waitForFunction(()=>!!window.GameDiagnostics); c.load_ms=Date.now()-t; assert(c.load_ms<=policy.limits.load_ms,'initial load too slow'); assert((await p.locator('body').innerText()).trim().length>30,'blank page'); });
+        await check('html',async()=>{ const t=Date.now(), r=await p.goto(server.origin+'/?qa=1&capture=1&seed='+manifest.qa.seed,{waitUntil:'load'}); assert(r?.status()===200,'HTML status');
+          try { await p.waitForFunction(()=>!!window.GameDiagnostics); }
+          catch(e) { const visible=await p.locator('[data-game-error]').textContent().catch(()=>null); throw Error('diagnostics boot timeout'+(visible&&visible.trim()?': '+visible.trim():'')); }
+          c.load_ms=Date.now()-t; assert(c.load_ms<=policy.limits.load_ms,'initial load too slow'); assert((await p.locator('body').innerText()).trim().length>30,'blank page'); });
         await check('assets',async()=>{ assert.equal(broken.length,0,'missing assets'); const urls=await p.locator('script[src],link[rel="stylesheet"]').evaluateAll(nodes=>nodes.map(n=>new URL(n.src||n.href).pathname)); assert(urls.length>=3,'missing core/app/view assets'); for(const u of urls) assert(assets.get(u)===200,'asset failed: '+u); });
         await capture('entry');
         await check('start',async()=>{ const before=await snap(p); assert.equal(before.phase,'idle'); assert.equal(before.metadata.game_id,manifest.game_id); assert.equal(before.metadata.version,manifest.version); await p.locator('[data-game-start]').click(); assert.equal((await snap(p)).phase,'playing'); });
