@@ -1,6 +1,6 @@
 # First real game commissioning
 
-This directory is the safety layer between the proven Factory and the first **actual PlayJolt launch candidate**.
+This directory is the safety layer between the proven Factory and **real PlayJolt launch candidates**.
 
 ## What it does
 
@@ -32,3 +32,12 @@ Rollback metadata is mandatory before that later adapter exists.
 ## Current catalog cap
 
 The snapshot records eight public or legacy-public games. The project rule is a maximum of ten meaningfully different public games before validation, so this milestone commissions only one additional candidate and leaves one slot unallocated.
+
+
+## Learned quality loop
+
+The first autonomous launch candidate, Prism Relay, correctly ended **REJECTED** after exhausting its five-repair lifetime budget. The Factory itself succeeded: it prevented a technically functional but under-polished game from shipping.
+
+That rejection is now used as generation input, not as permission to reset the same job. New paid commissioning must include an implementation contract covering first-five-second objective clarity, visible goal progress, visible device-local best, multi-seed depth, mobile readability, result presentation and dynamic reduced-motion behavior. Generic QA now preserves entry/playing/midgame screenshots before release review.
+
+A rejected candidate remains terminal. Start a new GAME ID for the next original candidate; never clone the rejected job merely to regain repair calls.
