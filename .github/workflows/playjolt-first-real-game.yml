@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      FACTORY_WORKER_ROOT: ${{ runner.temp }}/playjolt-first-real-game
       FACTORY_OPENAI_MODEL: gpt-5.6-terra
       FACTORY_ALLOW_PAID_CALLS: '1'
       AUTO_PRODUCTION_SHIP: 'false'
@@ -26,6 +25,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Set dedicated state directory
+        run: echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/playjolt-first-real-game" >> "$GITHUB_ENV"
       - name: Reject duplicate commissioning submissions before exposing the provider secret
         env:
           GH_TOKEN: ${{ github.token }}
@@ -33,7 +34,7 @@ jobs:
           set -euo pipefail
           test "$GITHUB_RUN_ATTEMPT" = 1
           gh api --paginate "repos/$GITHUB_REPOSITORY/actions/workflows/playjolt-first-real-game.yml/runs?branch=commissioning%2Ffirst-real-game-20260922&per_page=100" --jq '.workflow_runs[].id' > "$RUNNER_TEMP/prior-commissioning-runs"
-          node -e 'const fs=require("node:fs");const ids=fs.readFileSync(process.env.RUNNER_TEMP+"/prior-commissioning-runs","utf8").trim().split(/\s+/);if(ids.some(id=>id!==process.env.GITHUB_RUN_ID))throw Error("prior_commissioning_exists_restore_ledger_do_not_resubmit");'
+          node vibe-arcade/autonomy/commissioning/first-real-game/preflight.cjs
       - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
       - name: Verify commissioning contracts before paid generation
         run: node --test vibe-arcade/autonomy/commissioning/tests/*.test.cjs
