@@ -1,0 +1,14 @@
+{
+  "schema": "playjolt-sixth-resume/1",
+  "game_id": "GAME-20260923-161",
+  "source_run_id": 35855886886,
+  "source_artifact_id": 10747786249,
+  "expected_state": "REPAIRING",
+  "expected_version": "v3",
+  "expected_repair_attempt": 2,
+  "lifetime_provider_calls_before_resume": 2,
+  "reset_repair_budget": false,
+  "reset_provider_ledger": false,
+  "production_authorized": false,
+  "reason": "Resume exact checkpoint after reviewed-registry file mode and oversized repair-context infrastructure faults are corrected."
+}
