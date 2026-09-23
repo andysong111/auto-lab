@@ -165,6 +165,24 @@ function reviews(){
  installReviewData(model,productContract,commercialContract);
  console.log(JSON.stringify({reviews:'PASS',game_id:GAME_ID,oracle_hash:hash(model),product_hash:hash(productContract),commercial_hash:hash(commercialContract),permissions:'0644'},null,2));
 }
+function continuation(){
+ const root=path.resolve(process.env.FACTORY_WORKER_ROOT||''),ledgerFile=path.join(root,'autonomy/.provider/ledger.json');
+ const workerFile=path.join(root,'worker-result.json'),manifestFile=path.join(root,'autonomy/jobs',GAME_ID,'manifest.json');
+ if(!fs.existsSync(ledgerFile)||!fs.existsSync(workerFile)||!fs.existsSync(manifestFile))throw Error('continuation_checkpoint_missing');
+ const ledger=readJSON(ledgerFile),worker=readJSON(workerFile),manifest=readJSON(manifestFile),job=ledger.jobs?.[GAME_ID];
+ if(!job||worker.game_id!==GAME_ID||worker.factory_state!=='REPAIRING'||worker.version!=='v3'||manifest.repair_attempt!==2)throw Error('unexpected_continuation_checkpoint');
+ if(!['request_input_token_limit','game_wall_clock_limit'].includes(worker.code))throw Error('unexpected_continuation_reason');
+ const started=Date.parse(worker.recorded_at),ended=Date.now(),checkpoint=hash(manifest),commit=process.env.GITHUB_SHA||'';
+ if(!Number.isSafeInteger(started)||!Number.isSafeInteger(ended)||ended<=started||!/^[a-f0-9]{64}$/.test(commit))throw Error('invalid_continuation_metadata');
+ const ops=Object.values(ledger.operations||{}).filter(o=>o.game_id===GAME_ID);
+ if(ops.some(o=>(o.started_at||0)>started))throw Error('provider_activity_during_infrastructure_hold');
+ job.infrastructure_pauses=[...(job.infrastructure_pauses||[]).filter(p=>p.checkpoint_manifest_sha256!==checkpoint),{
+   reason:'infrastructure_repair_hold',system_reviewed:true,owner_authorized:true,
+   started_at:started,ended_at:ended,checkpoint_manifest_sha256:checkpoint,resume_commit:commit
+ }];
+ atomicJSON(ledgerFile,ledger);
+ console.log(JSON.stringify({continuation:'PASS',game_id:GAME_ID,paused_ms:ended-started,repair_attempt:manifest.repair_attempt,lifetime_provider_calls:ops.length,checkpoint_manifest_sha256:checkpoint},null,2));
+}
 async function run(){
  const root=process.env.FACTORY_WORKER_ROOT,settings=readJSON(path.join(root,'worker-config.json')),policyFile=path.join(root,'control-policy.json');
  const docker=new DockerQA({limits:settings.isolation});
@@ -179,4 +197,4 @@ function summarize(){
  const summary={schema:'playjolt-sixth-real-game/1',game_id:GAME_ID,title:TITLE,runner_commit:process.env.GITHUB_SHA,run_id:process.env.GITHUB_RUN_ID,operations:ops,total_calls:ops.length,total_estimated_cost:Number(total.toFixed(8)),factory:{state:m.state,version:m.version,repair_attempt:m.repair_attempt,technical_qa_status:m.technical_qa_status,product_qa_status:m.product_qa_status,commercial_qa_status:m.commercial_qa_status,quality_status:m.quality_status,source_hash:m.source_hash,failure_reasons:m.failure_reasons},production_authorized:false};
  atomicJSON(path.join(root,'commissioning-summary.json'),summary);console.log(JSON.stringify(summary,null,2));
 }
-const cmd=process.argv[2];Promise.resolve(cmd==='prepare'?prepare():cmd==='reviews'?reviews():cmd==='run'?run():cmd==='summarize'?summarize():(()=>{throw Error('usage prepare|reviews|run|summarize')})()).catch(e=>{console.error(e.stack);process.exitCode=1});
+const cmd=process.argv[2];Promise.resolve(cmd==='prepare'?prepare():cmd==='reviews'?reviews():cmd==='continuation'?continuation():cmd==='run'?run():cmd==='summarize'?summarize():(()=>{throw Error('usage prepare|reviews|continuation|run|summarize')})()).catch(e=>{console.error(e.stack);process.exitCode=1});
