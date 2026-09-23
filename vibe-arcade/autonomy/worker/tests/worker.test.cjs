@@ -67,6 +67,8 @@ test('fatal path escape rejects with existing exception policy; no repair call',
 test('RC remains behind both worker opt-in and current Control Plane release switch',async t=>{
   let releases=0;const e=setup(t,{settings:{release_candidates:true},worker:{qa,release:{prepare:async()=>{releases++;return {};}}}});await e.factory.create(e.spec);
   assert.equal((await e.worker.runOnce()).status,'RC_READY');assert.equal(releases,0);
+  // Explicit reviewed-state fixture: the test below isolates the two RC switches.
+  e.store.put({...e.store.get(e.spec.game_id),commercial_contract:require('../../qa/commercial/fixtures/contract.json'),commercial_qa_status:'PASS'});
   e.policy.auto_rc_enabled=true;e.policy.kill_switches.release_candidates=true;atomicJSON(e.policyFile,e.policy);
   assert.equal((await e.worker.runOnce()).status,'IDLE');assert.equal(releases,0);
   e.policy.kill_switches.release_candidates=false;atomicJSON(e.policyFile,e.policy);

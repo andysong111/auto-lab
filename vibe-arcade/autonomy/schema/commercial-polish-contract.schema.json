@@ -1,0 +1,417 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://playjolt.invalid/schema/commercial-polish-contract-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "review_id",
+    "seed",
+    "visual_legibility",
+    "state_distinction",
+    "action_feedback",
+    "motion",
+    "progression_spectacle",
+    "result_presentation",
+    "audio",
+    "mobile_hierarchy",
+    "replay_motivation",
+    "performance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "visual_legibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pairs"
+      ],
+      "properties": {
+        "pairs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/definitions/pair"
+          }
+        }
+      }
+    },
+    "state_distinction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pairs"
+      ],
+      "properties": {
+        "pairs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/definitions/pair"
+          }
+        }
+      }
+    },
+    "action_feedback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "probes"
+      ],
+      "properties": {
+        "probes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/definitions/probe"
+          }
+        }
+      }
+    },
+    "motion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "intermediate_ms",
+        "settle_ms"
+      ],
+      "properties": {
+        "intermediate_ms": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 40,
+            "maximum": 250
+          }
+        },
+        "settle_ms": {
+          "type": "integer",
+          "minimum": 300,
+          "maximum": 1000
+        }
+      }
+    },
+    "progression_spectacle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoints",
+        "marker"
+      ],
+      "properties": {
+        "checkpoints": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/definitions/anchor"
+          }
+        },
+        "marker": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 400
+        }
+      }
+    },
+    "result_presentation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "region",
+        "success_title",
+        "failure_title"
+      ],
+      "properties": {
+        "region": {
+          "$ref": "#/definitions/region"
+        },
+        "success_title": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 150
+        },
+        "failure_title": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 150
+        }
+      }
+    },
+    "audio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "required",
+            "reviewed_silence"
+          ]
+        },
+        "mute_selector": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "primary_probe": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "progress_probe": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "exception": {
+          "type": "string",
+          "minLength": 30,
+          "maxLength": 500
+        }
+      }
+    },
+    "mobile_hierarchy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gameplay_selector",
+        "roles"
+      ],
+      "properties": {
+        "gameplay_selector": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "roles": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "role",
+              "foreground",
+              "background"
+            ],
+            "properties": {
+              "role": {
+                "enum": [
+                  "danger",
+                  "reward",
+                  "goal",
+                  "player",
+                  "active"
+                ]
+              },
+              "foreground": {
+                "$ref": "#/definitions/region"
+              },
+              "background": {
+                "$ref": "#/definitions/region"
+              }
+            }
+          }
+        }
+      }
+    },
+    "replay_motivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selector",
+        "reason"
+      ],
+      "properties": {
+        "selector": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 400
+        }
+      }
+    },
+    "performance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sample_ms"
+      ],
+      "properties": {
+        "sample_ms": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 3000
+        }
+      }
+    }
+  },
+  "definitions": {
+    "region": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selector",
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "properties": {
+        "selector": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "x": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "y": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "width": {
+          "type": "number",
+          "minimum": 0.01,
+          "maximum": 1
+        },
+        "height": {
+          "type": "number",
+          "minimum": 0.01,
+          "maximum": 1
+        }
+      }
+    },
+    "anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node",
+        "region"
+      ],
+      "properties": {
+        "node": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "region": {
+          "$ref": "#/definitions/region"
+        }
+      }
+    },
+    "pair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "a",
+        "b",
+        "marker"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,40}$"
+        },
+        "kind": {
+          "enum": [
+            "action_availability",
+            "state"
+          ]
+        },
+        "a": {
+          "$ref": "#/definitions/anchor"
+        },
+        "b": {
+          "$ref": "#/definitions/anchor"
+        },
+        "action_a": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "action_b": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "state_path": {
+          "type": "string",
+          "pattern": "^state\\.[a-zA-Z0-9_.]+$"
+        },
+        "marker": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 400
+        }
+      }
+    },
+    "probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "node",
+        "action",
+        "kind",
+        "region"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,40}$"
+        },
+        "node": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "action": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "kind": {
+          "enum": [
+            "movement",
+            "pickup",
+            "attack",
+            "unlock",
+            "merge",
+            "upgrade",
+            "progress"
+          ]
+        },
+        "region": {
+          "$ref": "#/definitions/region"
+        }
+      }
+    }
+  }
+}

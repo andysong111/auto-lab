@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "id": "commercial-fixture-v1",
+      "scope": "fixture",
+      "contract_sha256": "6d142887a7e906199620c3534b4a0457efcb169a564c53cda5c7b317849acb7c",
+      "product_contract_sha256": "2437fb3dbd7e8e7027c53b62d00767e282d6faea4093075ae3c4a3cf21583bed",
+      "reviewed_by": "Work trusted fixture review",
+      "rationale": "Authored switch oracle: legal a0 vs disabled a4; mask state pair; three increasing stages; local non-text regions and movement/progress probes. All core fixture decisions covered; fixture-only, never candidate approval."
+    }
+  ]
+}

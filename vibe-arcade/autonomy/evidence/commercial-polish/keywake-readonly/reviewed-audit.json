@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "mode": "archived_pixels_only",
+  "game_id": "GAME-20260923-141",
+  "version": "v6",
+  "seed": 1,
+  "stage": 1,
+  "terminal_state": "REJECTED",
+  "repair_attempt": 5,
+  "max_repair_attempts": 5,
+  "provider_calls_lifetime": 6,
+  "production_authorized": false,
+  "source_hash": "b6d1cfe671f88687dc289aa0eb38dc3972d5de638b99175f78166f98403fd629",
+  "evidence_commit": "52235734dd9769a257c814f2b128615b1ec1e806",
+  "source_commit": "67623d8f6132e40f41208bde38776e89ce06c23d",
+  "reviewed_by": "Work read-only archived topology/region review",
+  "reviewed_layout_sha256": "c0f252ddd907d07f12fffbab6b4c5eee863c9c34b272f0d7d819242cbb2e6c88",
+  "prior_visual_review_sha256": "9d6a6fa3598ca6e75d87888a4f18f8bda54ccbb7c7706ae8a28b622d33697b72",
+  "topology": {
+    "width": 4,
+    "height": 4,
+    "start": 5,
+    "cells": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      7,
+      9,
+      10,
+      11,
+      13,
+      14
+    ],
+    "edges": [
+      [
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        4,
+        0
+      ],
+      [
+        1,
+        2,
+        0
+      ],
+      [
+        4,
+        5,
+        0
+      ],
+      [
+        5,
+        9,
+        0
+      ],
+      [
+        7,
+        11,
+        0
+      ],
+      [
+        9,
+        10,
+        0
+      ],
+      [
+        9,
+        13,
+        1
+      ],
+      [
+        10,
+        11,
+        0
+      ],
+      [
+        10,
+        14,
+        0
+      ],
+      [
+        13,
+        14,
+        0
+      ]
+    ],
+    "keys": [
+      13
+    ],
+    "exit": 11
+  },
+  "pair": {
+    "id": "open-blocked-parallel-floor-edge",
+    "state_path": "room.edges / key_mask=0",
+    "a": {
+      "edge": [
+        0,
+        4
+      ],
+      "legal": true,
+      "file": "archived-entry.png",
+      "sha256": "ebc5d52ddaaf2f077a6bc04bf70a509e46342c15c64ee0d549b7f67d9ab988f2",
+      "region": {
+        "x": 114,
+        "y": 343,
+        "width": 18,
+        "height": 10
+      }
+    },
+    "b": {
+      "edge": [
+        1,
+        5
+      ],
+      "legal": false,
+      "file": "archived-entry.png",
+      "sha256": "ebc5d52ddaaf2f077a6bc04bf70a509e46342c15c64ee0d549b7f67d9ab988f2",
+      "region": {
+        "x": 162,
+        "y": 343,
+        "width": 18,
+        "height": 10
+      }
+    },
+    "expected": "Parallel open and blocked boundaries between adjacent floor tiles should be visually distinct before a move."
+  },
+  "limitations": [
+    "Uses archived real player-view screenshot and reviewed layout data; no fresh candidate execution or full Commercial PASS claim.",
+    "Same-orientation boundaries isolate route markers from orientation. Source review confirms mask-0 passages are omitted and absent-edge walls are never drawn.",
+    "Historical native player input proof remains in prior terminal evidence; no gameplay action performed by this audit."
+  ]
+}

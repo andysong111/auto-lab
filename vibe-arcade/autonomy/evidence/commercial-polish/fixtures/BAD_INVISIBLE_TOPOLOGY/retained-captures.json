@@ -1,0 +1,178 @@
+{
+  "source_hash": "e745d4bbe08e2d91a068a56ee985cf859aca8ce73d7f74a87272d827852986f7",
+  "retained_artifacts": [
+    {
+      "path": "commercial-390-pair-after-2.png",
+      "kind": "screenshot",
+      "phase": "pair-after",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "16009dc69e3c1cff9761aff14603cb706b4647610f4f3b1b7e11190677149a12",
+      "regions": [
+        {
+          "x": 313.95,
+          "y": 330.38515625,
+          "width": 54.9,
+          "height": 79.36796875
+        }
+      ],
+      "text_masks": [
+        {
+          "x": 12,
+          "y": 13,
+          "width": 123.703125,
+          "height": 26
+        },
+        {
+          "x": 12,
+          "y": 47,
+          "width": 237.390625,
+          "height": 20
+        },
+        {
+          "x": 12,
+          "y": 74.796875,
+          "width": 91.140625,
+          "height": 18
+        },
+        {
+          "x": 12,
+          "y": 103.296875,
+          "width": 106.296875,
+          "height": 17
+        },
+        {
+          "x": 12,
+          "y": 122.296875,
+          "width": 13.796875,
+          "height": 29
+        },
+        {
+          "x": 296.59375,
+          "y": 103.296875,
+          "width": 81.40625,
+          "height": 17
+        },
+        {
+          "x": 296.59375,
+          "y": 122.296875,
+          "width": 13.796875,
+          "height": 29
+        },
+        {
+          "x": 12,
+          "y": 513.375,
+          "width": 346.109375,
+          "height": 17
+        },
+        {
+          "x": 30,
+          "y": 556.0625,
+          "width": 40.453125,
+          "height": 18
+        },
+        {
+          "x": 112.453125,
+          "y": 556.0625,
+          "width": 62.3125,
+          "height": 18
+        },
+        {
+          "x": 12,
+          "y": 594.5625,
+          "width": 191.71875,
+          "height": 18
+        }
+      ]
+    },
+    {
+      "path": "commercial-390-pair-before-1.png",
+      "kind": "screenshot",
+      "phase": "pair-before",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "16009dc69e3c1cff9761aff14603cb706b4647610f4f3b1b7e11190677149a12",
+      "regions": [
+        {
+          "x": 21.15,
+          "y": 330.38515625,
+          "width": 54.9,
+          "height": 79.36796875
+        }
+      ],
+      "text_masks": [
+        {
+          "x": 12,
+          "y": 13,
+          "width": 123.703125,
+          "height": 26
+        },
+        {
+          "x": 12,
+          "y": 47,
+          "width": 237.390625,
+          "height": 20
+        },
+        {
+          "x": 12,
+          "y": 74.796875,
+          "width": 91.140625,
+          "height": 18
+        },
+        {
+          "x": 12,
+          "y": 103.296875,
+          "width": 106.296875,
+          "height": 17
+        },
+        {
+          "x": 12,
+          "y": 122.296875,
+          "width": 13.796875,
+          "height": 29
+        },
+        {
+          "x": 296.59375,
+          "y": 103.296875,
+          "width": 81.40625,
+          "height": 17
+        },
+        {
+          "x": 296.59375,
+          "y": 122.296875,
+          "width": 13.796875,
+          "height": 29
+        },
+        {
+          "x": 12,
+          "y": 513.375,
+          "width": 346.109375,
+          "height": 17
+        },
+        {
+          "x": 30,
+          "y": 556.0625,
+          "width": 40.453125,
+          "height": 18
+        },
+        {
+          "x": 112.453125,
+          "y": 556.0625,
+          "width": 62.3125,
+          "height": 18
+        },
+        {
+          "x": 12,
+          "y": 594.5625,
+          "width": 191.71875,
+          "height": 18
+        }
+      ]
+    }
+  ],
+  "full_capture_location": "CI artifact archive; see ../ci-results.json"
+}

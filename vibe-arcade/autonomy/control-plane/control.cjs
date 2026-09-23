@@ -14,6 +14,7 @@ function decision(manifest,policy){
   validate(manifest);
   if(policy.kill_switches.factory)return {action:'HOLD',reason:'factory_kill_switch'};
   if(['REJECTED','ARCHIVED'].includes(manifest.state))return {action:'NONE',reason:manifest.state.toLowerCase()};
+  if(['RC_READY','PREVIEW_DEPLOYING','PREVIEW_SMOKE','READY_TO_SHIP'].includes(manifest.state)&&(!manifest.commercial_contract||manifest.commercial_qa_status!=='PASS'))return {action:'HOLD_RC',reason:'commercial_polish_unverified'};
   if(manifest.state==='READY_TO_SHIP')return {action:'HOLD_RC',reason:'production_shipping_disabled'};
   if(manifest.state==='RC_READY')return policy.auto_rc_enabled&&!policy.kill_switches.release_candidates?{action:'RUN_PREVIEW_RC',reason:'rc_enabled'}:{action:'HOLD_RC',reason:'rc_disabled'};
   if(['PREVIEW_DEPLOYING','PREVIEW_SMOKE'].includes(manifest.state))return {action:'RESUME_RC',reason:'preview_in_progress'};
@@ -34,7 +35,7 @@ function snapshot({root,policy=loadPolicy(),provider_ready=false,metrics_by_game
   else if(active.length>=policy.max_active_jobs)intakeReason='active_job_limit';
   else if(createdToday>=policy.max_daily_new_jobs)intakeReason='daily_create_limit';
   const canCreate=intakeReason==='ready';
-  const rows=jobs.map(j=>({game_id:j.game_id,title:j.title,version:j.version,state:j.state,repair_attempt:j.repair_attempt,max_repair_attempts:j.max_repair_attempts,technical_qa:{status:j.technical_qa_status||j.qa_status},product_qa:{status:j.product_qa_status||'UNVERIFIED',failures:j.failure_reasons.filter(f=>f.code.startsWith('product_')).map(f=>f.check||f.code)},quality_gate:{status:j.quality_status},qa_status:j.qa_status,quality_status:j.quality_status,release_status:j.release_status,preview_url:j.preview_url||null,worker:readStatus(root,j),decision:decision(j,policy),metrics:readiness(metrics_by_game[j.game_id]||{},policy)}));
+  const rows=jobs.map(j=>({game_id:j.game_id,title:j.title,version:j.version,state:j.state,repair_attempt:j.repair_attempt,max_repair_attempts:j.max_repair_attempts,technical_qa:{status:j.technical_qa_status||j.qa_status},product_qa:{status:j.product_qa_status||'UNVERIFIED',failures:j.failure_reasons.filter(f=>f.code.startsWith('product_')&&f.code!=='product_route_topology_not_visible').map(f=>f.check||f.code)},commercial_polish:{status:j.commercial_qa_status||'UNVERIFIED',failures:j.failure_reasons.filter(f=>f.code.startsWith('commercial_')||f.code==='product_route_topology_not_visible').map(f=>f.check||f.code)},quality_gate:{status:j.quality_status},qa_status:j.qa_status,quality_status:j.quality_status,release_status:j.release_status,preview_url:j.preview_url||null,worker:readStatus(root,j),decision:decision(j,policy),metrics:readiness(metrics_by_game[j.game_id]||{},policy)}));
   return {schema:'playjolt-control-plane/1',generated_at:new Date(now).toISOString(),policy_version:policy.version,mode:policy.mode,worker:readStatus(root),automation:{can_create:canCreate,reason:intakeReason,provider_ready,active_jobs:active.length,created_today:createdToday,auto_rc_enabled:policy.auto_rc_enabled,auto_production_ship:false,kill_switches:policy.kill_switches},counts,total_jobs:jobs.length,incidents,owner_action_required:incidents.some(x=>x.owner_action),jobs:rows};
 }
 module.exports={loadPolicy,listJobs,decision,snapshot};

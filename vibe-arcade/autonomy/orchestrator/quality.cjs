@@ -24,6 +24,7 @@ function evaluate(manifest,qa,p=policy) {
     if(seeds.some(seed=>!product?.seeds?.some(s=>s.seed===seed&&s.passed&&s.runs?.length===2)))failures.push({code:'product_seed_coverage',message:'Every declared deterministic seed requires two normal-input runs'});
     if(product?.oracle_approval?.scope!=='candidate'&&!p.product?.allow_fixture_oracles)failures.push({code:'product_review_scope',message:'A test fixture oracle cannot approve a public candidate'});
   }
+  for(const f of require('../qa/commercial/evidence.cjs').failures(manifest,qa,p))if(!failures.some(x=>hash(x)===hash(f)))failures.push(f);
   const fatal=failures.some(f=>p.fatal_codes.includes(f.code));
   const decision=failures.length?(fatal||manifest.repair_attempt>=manifest.max_repair_attempts?'REJECT':'REPAIR'):'PASS';
   const heuristics=p.heuristics.map(name=>({name,status:'UNVERIFIED',evidence:null}));
@@ -31,6 +32,6 @@ function evaluate(manifest,qa,p=policy) {
   const mechanic=heuristics.find(h=>h.name==='mechanic_overlap'); Object.assign(mechanic,{status:['arena-survival','tower-descent','radial-timing','column-merge','auto-runner'].includes(manifest.mechanic_family)?'REVIEW':'UNVERIFIED',evidence:{declared_family:manifest.mechanic_family}});
   return {schema_version:1,decision,hard_failures:failures,soft_failures:qa?.soft_failures||[],heuristics,source_hash:manifest.source_hash,policy_hash:hash(p),
     technical_qa:qa?.technical_qa?.passed===true||(!qa?.technical_qa&&qa?.passed===true)?'PASS':'FAIL',product_qa:product?.passed?'PASS':manifest.product_contract?'FAIL':'UNVERIFIED',
-    production_approved:false,metrics_eligibility:false,meaning:manifest.product_contract?'Technical and generic product evidence; no production authorization or claim of fun.':'Legacy technical-only fixture path; product quality UNVERIFIED. New commissioning requires a reviewed product contract.'};
+    commercial_polish:qa?.commercial_qa?.passed?'PASS':manifest.commercial_contract?'FAIL':'UNVERIFIED',production_approved:false,metrics_eligibility:false,meaning:manifest.product_contract?'Technical, generic product and commercial machine evidence; aesthetic quality, fun and real-phone FPS remain unverified; no production authorization.':'Legacy technical-only fixture path; product quality UNVERIFIED. New commissioning requires a reviewed product contract.'};
 }
 module.exports={evaluate};

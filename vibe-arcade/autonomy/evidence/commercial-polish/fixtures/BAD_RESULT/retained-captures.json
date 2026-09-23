@@ -1,0 +1,98 @@
+{
+  "source_hash": "d344d080c9930e15f7dfc8d5310696e58c2670736e67db355dbec138fb4a58a0",
+  "retained_artifacts": [
+    {
+      "path": "commercial-390-success-27.png",
+      "kind": "screenshot",
+      "phase": "success",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "2d24e4974b5a5f66c12b90f8f6bee99377fb8eea2b134140efed848226a1d83e",
+      "regions": [
+        {
+          "x": 12,
+          "y": 444.2609375,
+          "width": 366,
+          "height": 62.114062499999996
+        }
+      ],
+      "text_masks": [
+        {
+          "x": 12,
+          "y": 13,
+          "width": 123.703125,
+          "height": 26
+        },
+        {
+          "x": 12,
+          "y": 47,
+          "width": 237.390625,
+          "height": 20
+        },
+        {
+          "x": 12,
+          "y": 74.796875,
+          "width": 91.140625,
+          "height": 18
+        },
+        {
+          "x": 12,
+          "y": 103.296875,
+          "width": 106.296875,
+          "height": 17
+        },
+        {
+          "x": 12,
+          "y": 122.296875,
+          "width": 41.375,
+          "height": 29
+        },
+        {
+          "x": 296.59375,
+          "y": 103.296875,
+          "width": 81.40625,
+          "height": 17
+        },
+        {
+          "x": 296.59375,
+          "y": 122.296875,
+          "width": 41.375,
+          "height": 29
+        },
+        {
+          "x": 12,
+          "y": 513.375,
+          "width": 162.765625,
+          "height": 24
+        },
+        {
+          "x": 12,
+          "y": 545.0625,
+          "width": 346.109375,
+          "height": 17
+        },
+        {
+          "x": 30,
+          "y": 587.75,
+          "width": 91.65625,
+          "height": 18
+        },
+        {
+          "x": 30,
+          "y": 636.75,
+          "width": 62.3125,
+          "height": 18
+        },
+        {
+          "x": 12,
+          "y": 675.25,
+          "width": 146.484375,
+          "height": 18
+        }
+      ]
+    }
+  ],
+  "full_capture_location": "CI artifact archive; see ../ci-results.json"
+}

@@ -1,0 +1,92 @@
+{
+  "source_hash": "fdf772b8254f8758de2f93b39472292ce214a51ee56b7be9dd721821cca20db1",
+  "retained_artifacts": [
+    {
+      "path": "commercial-390-mid-22.png",
+      "kind": "screenshot",
+      "phase": "mid",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "f0f64d6e9f91b0aa37a86159d87ca184223f9794d169833a41dd01d062d9e4e5",
+      "regions": [
+        {
+          "x": 12,
+          "y": 168.1984375,
+          "width": 366,
+          "height": 138.03125
+        }
+      ],
+      "text_masks": [
+        {
+          "x": 12,
+          "y": 13,
+          "width": 123.703125,
+          "height": 26
+        },
+        {
+          "x": 12,
+          "y": 47,
+          "width": 237.390625,
+          "height": 20
+        },
+        {
+          "x": 12,
+          "y": 74.796875,
+          "width": 91.140625,
+          "height": 18
+        },
+        {
+          "x": 12,
+          "y": 103.296875,
+          "width": 106.296875,
+          "height": 17
+        },
+        {
+          "x": 12,
+          "y": 122.296875,
+          "width": 41.375,
+          "height": 29
+        },
+        {
+          "x": 296.59375,
+          "y": 103.296875,
+          "width": 81.40625,
+          "height": 17
+        },
+        {
+          "x": 296.59375,
+          "y": 122.296875,
+          "width": 13.796875,
+          "height": 29
+        },
+        {
+          "x": 12,
+          "y": 513.375,
+          "width": 346.109375,
+          "height": 17
+        },
+        {
+          "x": 30,
+          "y": 556.0625,
+          "width": 40.453125,
+          "height": 18
+        },
+        {
+          "x": 112.453125,
+          "y": 556.0625,
+          "width": 62.3125,
+          "height": 18
+        },
+        {
+          "x": 12,
+          "y": 594.5625,
+          "width": 191.71875,
+          "height": 18
+        }
+      ]
+    }
+  ],
+  "full_capture_location": "CI artifact archive; see ../ci-results.json"
+}

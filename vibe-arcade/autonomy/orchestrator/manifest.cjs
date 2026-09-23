@@ -1,7 +1,7 @@
 'use strict';
 const Ajv = require('ajv');
 const schema = require('../schema/game-manifest.schema.json');
-const validateSchema = new Ajv({allErrors: true, strict: false}).addSchema(require('../schema/product-quality-contract.schema.json')).compile(schema);
+const validateSchema = new Ajv({allErrors: true, strict: false}).addSchema(require('../schema/product-quality-contract.schema.json')).addSchema(require('../schema/commercial-polish-contract.schema.json')).compile(schema);
 const transitions = Object.freeze({
   IDEA: ['SPEC_READY', 'REJECTED'], SPEC_READY: ['BUILDING', 'REJECTED'],
   BUILDING: ['QA_RUNNING', 'BUILD_FAILED', 'REJECTED'], BUILD_FAILED: ['REPAIR_PENDING', 'REJECTED'],
@@ -15,6 +15,7 @@ const transitions = Object.freeze({
 });
 function validate(m) {
   if (!validateSchema(m)) throw Error('invalid_manifest: ' + JSON.stringify(validateSchema.errors));
+  if (m.commercial_contract) require('../qa/commercial/contract.cjs').validate(m.commercial_contract);
   if (m.product_contract) require('../qa/product-contract.cjs').validate(m.product_contract);
   if (m.source_path !== `autonomy/games/${m.game_id}/${m.version}`) throw Error('invalid_manifest: source identity');
   if (m.repair_attempt > m.max_repair_attempts) throw Error('invalid_manifest: repair budget');
@@ -38,6 +39,6 @@ function create(spec) {
     state: 'IDEA', repair_attempt: 0, max_repair_attempts: spec.max_repair_attempts ?? 5,
     source_path: `autonomy/games/${id}/v1`, preview_url: null, qa_status: 'PENDING', quality_status: 'PENDING',
     release_status: 'NONE', failure_reasons: [], metrics_eligibility: false,
-    qa: spec.qa, ...(spec.product_contract?{product_contract:spec.product_contract,technical_qa_status:'PENDING',product_qa_status:'PENDING'}:{}), revision: 0, history: []});
+    qa: spec.qa, ...(spec.commercial_contract?{commercial_contract:spec.commercial_contract,commercial_qa_status:'PENDING'}:{}), ...(spec.product_contract?{product_contract:spec.product_contract,technical_qa_status:'PENDING',product_qa_status:'PENDING'}:{}), revision: 0, history: []});
 }
 module.exports = {validate, transition, create, transitions};

@@ -293,6 +293,18 @@
         "FAIL",
         "UNVERIFIED"
       ]
+    },
+    "commercial_contract": {
+      "$ref": "https://playjolt.invalid/schema/commercial-polish-contract-v1"
+    },
+    "commercial_qa_status": {
+      "enum": [
+        "PENDING",
+        "RUNNING",
+        "PASS",
+        "FAIL",
+        "UNVERIFIED"
+      ]
     }
   },
   "definitions": {
