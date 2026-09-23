@@ -21,6 +21,8 @@ for(const [i,variant] of variants.entries())if(i%shards===shard)test('isolated C
  const allowed=new Set([...expected,...(expected.some(x=>x!=='commercial_audio')?['commercial_visual_review']:[])]);if(variant!=='MULTI_COMMERCIAL_BAD')assert(codes.every(c=>allowed.has(c)),JSON.stringify(q.hard_failures));
  assert(q.checks.some(c=>c.check==='performance'),'independent checks complete after defects');assert(q.evidence_complete,'all seven phases captured');
  if(variant==='COMMERCIAL_GOOD'){
+  assert.equal(q.checks.find(c=>c.check==='audio'&&c.event==='success').actual.starts,1,'only the final success cue can satisfy success audio');
+  assert(q.checks.find(c=>c.check==='audio'&&c.event==='mute').actual.peak_voices>=1,'mute exercised after a sound was active');
   assert(q.checks.filter(c=>c.check==='reduced_motion').every(c=>c.status==='PASS'));assert(q.checks.some(c=>c.viewport.width===1280));assert.equal(q.visual_review.aesthetics,'UNVERIFIED');
   const technical=await qa.run({manifest:m,gameRoot:root,outDir:path.join(out,'technical'),policy,suite:'technical'}),prod=await qa.run({manifest:m,gameRoot:root,outDir:path.join(out,'product'),policy,suite:'product'});
   const gate=require('../../orchestrator/quality.cjs').evaluate(m,{...technical,passed:technical.passed&&prod.passed&&q.passed,technical_qa:technical,product_qa:prod,commercial_qa:q},policy);atomicJSON(path.join(out,'quality-gate.json'),gate);assert.equal(gate.decision,'PASS',JSON.stringify(gate.hard_failures));

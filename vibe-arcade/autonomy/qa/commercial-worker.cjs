@@ -105,9 +105,12 @@ async function execute({manifest,gameRoot,outDir,policy},reviewer=new visual.Mac
     await start(s);
     const probe=c.action_feedback.probes.find(p=>p.id===c.audio[event==='progress'?'progress_probe':'primary_probe']);
     const pathTo=shortest(oracle.graph,oracle.graph.initial,n=>n===oracle.graph.nodes[probe.node]);for(const e of pathTo)await input(s,e.action,{settle:150});
-    if(event==='mute'){await visible(s.page,c.audio.mute_selector);await s.page.locator(c.audio.mute_selector).click();await s.advance(180);}
+    let terminalAction=null;
+    if(event==='success'){const current=identify(oracle.model,oracle.graph,await snap(s.page)),route=shortest(oracle.graph,current,n=>n.success);expect(route?.length>0,'normal-input success audio route',current);for(const e of route.slice(0,-1))await input(s,e.action,{settle:240});terminalAction=route.at(-1).action;}
+    if(event==='mute'){await input(s,probe.action);await visible(s.page,c.audio.mute_selector);await s.page.locator(c.audio.mute_selector).click();await s.advance(180);}
+    // Isolate the final success input: earlier route SFX cannot satisfy this event.
     const before=await s.page.evaluate(()=>__CommercialAudioAudit()),time=await s.page.evaluate(()=>performance.now());
-    if(event==='success'){await s.page.locator('[data-game-pause]').click();await s.page.locator('[data-game-resume]').click();const current=identify(oracle.model,oracle.graph,await snap(s.page));for(const e of shortest(oracle.graph,current,n=>n.success))await input(s,e.action,{settle:130});}
+    if(event==='success'){await input(s,terminalAction);expect(at(await snap(s.page),p.completion.state_path)===p.completion.success_value,'success SFX follows real completion',await snap(s.page));}
     else if(event==='failure')await s.advance(p.completion.failure_wait_ms);
     else await input(s,probe.action);
     if(event==='pause')await s.page.locator('[data-game-pause]').click();
