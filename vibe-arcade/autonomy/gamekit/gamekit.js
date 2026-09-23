@@ -4,7 +4,7 @@
 (function (root) {
   'use strict';
   const clone = x => JSON.parse(JSON.stringify(x));
-  function create({core, draw, canvas, metadata, rankedAdapter = null, seed, capture, qa}) {
+  function create({core, draw, canvas, metadata, rankedAdapter = null, seed, capture, qa, presentation = () => ({})}) {
     const query = new URLSearchParams(location.search);
     capture = capture === true || query.get('capture') === '1';
     qa = qa === true || query.get('qa') === '1';
@@ -26,7 +26,8 @@
       const o = core.observe(state);
       return clone({schema_version: 1, metadata, seed, phase, paused, disposed, capture, qa, ranked: false,
         state, tick: o.tick, progress: o.progress, score: o.score, interactions: o.interactions,
-        entities: o.entities, accepted_inputs: accepted, error, best, effects});
+        entities: o.entities, accepted_inputs: accepted, error, best, effects,
+        quality: o.quality || null, presentation: presentation()});
     }
     function render() {
       const s = snapshot(); draw(canvas.getContext('2d'), s, {width: canvas.width, height: canvas.height});

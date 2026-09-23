@@ -3,6 +3,8 @@ function buildPacket(manifest,{base_ref='main',reviewed_by=null,decision='PENDIN
   const errors=[];
   if(manifest.state!=='READY_TO_SHIP')errors.push('state_not_ready_to_ship');
   if(manifest.qa_status!=='PASS')errors.push('qa_not_pass');
+  if(!manifest.product_contract||manifest.product_qa_status!=='PASS')errors.push('product_qa_not_pass');
+  if(manifest.technical_qa_status!=='PASS')errors.push('technical_qa_not_pass');
   if(manifest.quality_status!=='PASS')errors.push('quality_not_pass');
   if(manifest.release_status!=='READY')errors.push('release_not_ready');
   if(!manifest.preview_url)errors.push('preview_missing');

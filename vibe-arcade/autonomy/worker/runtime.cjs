@@ -72,12 +72,14 @@ class AutonomousWorker {
         const qa=this.qa||new DockerQA({limits:this.limits.isolation,signal:controller.signal});qa.assertAvailable();
         if(this.mock&&(!this.provider||!/^mock\//.test(provider.identity)))throw new ProviderPause('invalid_mock_provider');
         const prices=pricing(this.settings.pricing,{mock:this.mock,now:this.now()});
+        if(!this.mock){try{require('../qa/product-contract.cjs').review(job.product_contract);}catch(e){throw new ProviderPause('product_contract_unreviewed',e.message,'PAUSED_SPEC');}}
         manager=new ProviderManager({root:this.root,provider,config:this.limits,prices,guard,signal:controller.signal,now:this.now});
         await guard();
         monitor=setInterval(()=>{guard().catch(e=>controller.abort(e.factory_pause?e:new ProviderPause('invalid_control_policy')));},250);
         const release=this.release||new GitHubVercelAdapter({baseRef:this.settings.base_ref||'main'});
         const guardedRelease={prepare:async c=>{await guard({rc:true});return release.prepare(c);},smoke:async c=>{await guard({rc:true});return release.smoke(c);}};
-        const factory=new Factory({store:this.store,builder:new AIBuilderAdapter({root:this.root,manager}),repairer:new AIRepairAdapter({root:this.root,manager}),
+        const qualityPolicy=require('../policies/quality-gate.json');
+        const factory=new Factory({store:this.store,policy:this.mock?{...qualityPolicy,product:{...qualityPolicy.product,allow_legacy_technical_fixtures:true}}:qualityPolicy,builder:new AIBuilderAdapter({root:this.root,manager}),repairer:new AIRepairAdapter({root:this.root,manager}),
           qa:c=>qa.run(c),release:guardedRelease,beforeStep:async m=>{await guard({rc:['PREVIEW_DEPLOYING','PREVIEW_SMOKE'].includes(m.state)});}});
         this.record('RUNNING',{game:job,policy:p});
         const rc=this.settings.release_candidates===true&&p.auto_rc_enabled&&!p.kill_switches.release_candidates;

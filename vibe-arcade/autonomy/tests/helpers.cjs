@@ -3,13 +3,14 @@ const fs=require('node:fs'),path=require('node:path'),os=require('node:os');
 const {FileStore}=require('../orchestrator/store.cjs'),{Factory}=require('../orchestrator/engine.cjs');
 const {WorkspaceBuilder,WorkspaceRepair}=require('../adapters/workspace.cjs');
 const {copyGame,hash,hashTree,atomicJSON}=require('../orchestrator/files.cjs');
-const policy=require('../policies/quality-gate.json');
+const productionPolicy=require('../policies/quality-gate.json');
+const policy={...productionPolicy,product:{...productionPolicy.product,allow_legacy_technical_fixtures:true}};
 const source=path.resolve(__dirname,'../fixtures/dummy');
 function setup(t,options={}) {
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-factory-'));
   t.after(()=>{if(process.env.KEEP_FACTORY_TESTS!=='1')fs.rmSync(root,{recursive:true,force:true});});
   const store=new FileStore(root), spec={...require('../examples/dummy-spec.json'),...(options.spec||{})};
-  const factory=new Factory({store,builder:new WorkspaceBuilder(options.source||source),repairer:new WorkspaceRepair(options.repairs||[]),...options});
+  const factory=new Factory({store,policy,builder:new WorkspaceBuilder(options.source||source),repairer:new WorkspaceRepair(options.repairs||[]),...options});
   return {root,store,spec,factory};
 }
 function fixture(root,kind) {

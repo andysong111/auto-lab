@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "id": "fixture-switches-v1",
+      "file": "fixture-switches-v1.json",
+      "sha256": "5bb8c877d21d7459efe83d4fe408ea6f90310b977bed21b0fb37cea99f826a1a",
+      "scope": "fixture",
+      "contract_sha256": "2437fb3dbd7e8e7027c53b62d00767e282d6faea4093075ae3c4a3cf21583bed",
+      "reviewed_by": "Factory infrastructure fixture review",
+      "rationale": "Toggle truth table; target has 2, 3, 4 set bits; 3, 4, 5 consequential choices. Test-only approval cannot commission a public candidate."
+    }
+  ]
+}
