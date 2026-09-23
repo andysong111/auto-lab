@@ -1,7 +1,7 @@
 name: Sixth real candidate — bounded autonomous commissioning
 on:
-  push:
-    branches: [commissioning/sixth-real-game-20260923]
+  pull_request:
+    branches: [main]
     paths:
       - 'vibe-arcade/autonomy/commissioning/sixth-real-game/**'
       - '.github/workflows/playjolt-sixth-real-game.yml'
@@ -14,6 +14,7 @@ concurrency:
 
 jobs:
   commission:
+    if: github.head_ref == 'commissioning/sixth-real-game-20260923'
     runs-on: ubuntu-latest
     timeout-minutes: 75
     env:
