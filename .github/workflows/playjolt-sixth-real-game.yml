@@ -1,0 +1,53 @@
+name: Sixth real candidate — bounded autonomous commissioning
+on:
+  push:
+    branches: [commissioning/sixth-real-game-20260923]
+    paths:
+      - 'vibe-arcade/autonomy/commissioning/sixth-real-game/**'
+      - '.github/workflows/playjolt-sixth-real-game.yml'
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: playjolt-sixth-real-game-GAME-20260923-161
+  cancel-in-progress: false
+
+jobs:
+  commission:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    env:
+      AUTO_PRODUCTION_SHIP: 'false'
+      FACTORY_WORKER_ROOT: ${{ runner.temp }}/sixth-state
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Trusted design, oracle, Product and Commercial preflight
+        run: node vibe-arcade/autonomy/commissioning/sixth-real-game/commission.cjs prepare
+      - name: Pin trusted Docker QA image after reviewed registries are installed
+        run: |
+          docker build --iidfile "$RUNNER_TEMP/sixth-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/sixth-image")" >> "$GITHUB_ENV"
+      - name: Actual provider plus unchanged Technical Product Commercial Quality repair loop
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FACTORY_OPENAI_MODEL: gpt-5.6-terra
+          FACTORY_ALLOW_PAID_CALLS: '1'
+        run: node vibe-arcade/autonomy/commissioning/sixth-real-game/commission.cjs run
+      - name: Preserve lifetime accounting
+        if: always()
+        run: |
+          node vibe-arcade/autonomy/commissioning/sixth-real-game/commission.cjs summarize || true
+          node vibe-arcade/autonomy/control-plane/cli.cjs dashboard --root "$FACTORY_WORKER_ROOT" --policy "$FACTORY_WORKER_ROOT/control-policy.json" --provider-ready true || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sixth-real-game-lifetime-checkpoint
+          path: ${{ runner.temp }}/sixth-state
+          include-hidden-files: true
+          retention-days: 30
