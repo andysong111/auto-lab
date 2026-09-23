@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   resume:
-    if: github.event.head_commit.message == 'chore(factory): resume sixth exact checkpoint'
+    if: contains(github.event.head_commit.message, 'resume sixth exact checkpoint')
     runs-on: ubuntu-latest
     timeout-minutes: 75
     env:
