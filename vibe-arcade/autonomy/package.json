@@ -11,7 +11,7 @@
     "test:regression": "node tests/regression.cjs",
     "control:snapshot": "node control-plane/cli.cjs snapshot",
     "control:dashboard": "node control-plane/cli.cjs dashboard",
-    "test:worker": "node --test worker/tests/providers.test.cjs worker/tests/worker.test.cjs",
+    "test:worker": "node --test worker/tests/providers.test.cjs worker/tests/worker.test.cjs worker/tests/owner-continuation.test.cjs",
     "test:worker:isolated": "node --test --test-concurrency=1 worker/tests/isolated.test.cjs",
     "test:product": "node --test qa/tests/product.test.cjs",
     "test:product:docker": "node --test --test-concurrency=1 qa/tests/product-docker.test.cjs"
