@@ -27,6 +27,35 @@ No copyrighted character, art or code copying. Use original procedural canvas gr
 Core must be deterministic/testable and DOM-free. Export the named core object via globalThis, never window; a browser-only window export fails core_dom_dependency before QA. Implement meaningful keyboard AND mobile touch effects, progression, an interaction, reachable terminal state within spec.qa.terminal_ms, repeatable restart, pause and bounded resources.\nFor real commissioning, honor immutable_spec.implementation_contract as a product requirement: make the concrete objective obvious in the first five seconds, keep goal progress visible, expose GameKit device-local best separately from current score, make later stages meaningfully deeper across deterministic seeds, keep mobile labels readable without collisions, present a strong complete/incomplete result with the primary replay action visible on mobile, respond to prefers-reduced-motion changes during the session, reward skill/progress rather than reversible no-progress input farming, terminate promptly after actual success instead of waiting out a minimum clock, and visibly communicate meaningful state changes with transitions or reduced-motion-safe alternatives. Honor immutable_spec.commercial_contract: decision states must be visually distinct; actions need before/intermediate/settled feedback or a reduced-motion static alternative; early/mid/late need non-text visual progression; results need clear completion feedback. Fix every concrete commercial issue using its region/state pair and frame evidence. Audio follows the reviewed contract: required SFX after a player gesture with mute, pause/pagehide cleanup and bounded voices, or explicitly reviewed intentional silence.
 Target session duration must come from meaningful decisions; never insert dead time after success solely to satisfy a duration target. Capture/QA must have no persistence/network writes. GameKit supplies capture safety and diagnostics. Device-local best must be rendered from GameKit state rather than custom storage. Use no eval, dynamic imports, shell/tool calls, production paths or secrets.
 Repair responses replace only the allowed files and preserve unrelated game behavior. Never edit manifest.json, gamekit.js, quality policy, diagnostics probes or acceptance tests.`;
+function compactCommercialSuite(suite) {
+  if(!suite)return null;
+  const checks=Array.isArray(suite.checks)?suite.checks.filter(c=>c?.status!=='PASS'):[];
+  const artifacts=Array.isArray(suite.artifacts)?suite.artifacts.map(a=>{
+    if(!a||typeof a!=='object')return a;
+    const {path,kind,phase,viewport,sha256}=a;return {path,kind,phase,viewport,sha256};
+  }):[];
+  return {passed:suite.passed===true,checks,artifacts,
+    hard_failures:Array.isArray(suite.hard_failures)?suite.hard_failures:[],
+    screenshots:Array.isArray(suite.screenshots)?suite.screenshots:[],
+    console_errors:Array.isArray(suite.console_errors)?suite.console_errors:[],
+    page_errors:Array.isArray(suite.page_errors)?suite.page_errors:[],
+    visual_review:suite.visual_review||null,
+    ...(Number.isFinite(suite.duration_ms)?{duration_ms:suite.duration_ms}:{}),
+    ...(suite.isolation?{isolation:suite.isolation}:{})};
+}
+function compactProductSuite(suite) {
+  if(!suite)return null;
+  return {passed:suite.passed===true,
+    checks:Array.isArray(suite.checks)?suite.checks.filter(c=>c?.status!=='PASS'):[],
+    artifacts:Array.isArray(suite.artifacts)?suite.artifacts:[],
+    hard_failures:Array.isArray(suite.hard_failures)?suite.hard_failures:[],
+    screenshots:Array.isArray(suite.screenshots)?suite.screenshots:[],
+    console_errors:Array.isArray(suite.console_errors)?suite.console_errors:[],
+    page_errors:Array.isArray(suite.page_errors)?suite.page_errors:[],
+    oracle_approval:suite.oracle_approval||null,
+    ...(Number.isFinite(suite.duration_ms)?{duration_ms:suite.duration_ms}:{}),
+    ...(suite.isolation?{isolation:suite.isolation}:{})};
+}
 function compile({root,workspace,manifest,spec,request,operationId,budget,rejected=null}) {
   const mode=request?'repair':'build';
   let qa=null,failures=request?.qa_failures||[],allowed=[...requiredFiles,'view/**','assets/**'],sources={};
@@ -39,8 +68,9 @@ function compile({root,workspace,manifest,spec,request,operationId,budget,reject
     if(fs.existsSync(file)) {
       const full=readJSON(file);
       if(full.game_id!==manifest.game_id||full.version!==request.version||request.source_hash&&full.source_hash!==request.source_hash)throw modelError('source_tampered');
-      qa={passed:full.passed,hard_failures:full.hard_failures,console_errors:full.console_errors,page_errors:full.page_errors,browser_cases:full.browser_cases?.map(c=>({viewport:c.viewport,checks:c.checks,passed:c.passed})),technical_qa:full.technical_qa?.passed,commercial_qa:full.commercial_qa?{passed:full.commercial_qa.passed,checks:full.commercial_qa.checks.filter(c=>c.status!=='PASS'),artifacts:full.commercial_qa.artifacts.map(({path,kind,phase,viewport,sha256})=>({path,kind,phase,viewport,sha256})),visual_review:full.commercial_qa.visual_review}:null,product_qa:full.product_qa?{passed:full.product_qa.passed,checks:full.product_qa.checks.filter(c=>c.status!=='PASS'),artifacts:full.product_qa.artifacts,oracle_approval:full.product_qa.oracle_approval}:null};
-      failures=[...failures,...full.hard_failures.filter(f=>!failures.some(prior=>hash(prior)===hash(f)))];
+      const hardFailures=Array.isArray(full.hard_failures)?full.hard_failures:[];
+      qa={passed:full.passed,hard_failures:hardFailures,console_errors:Array.isArray(full.console_errors)?full.console_errors:[],page_errors:Array.isArray(full.page_errors)?full.page_errors:[],browser_cases:Array.isArray(full.browser_cases)?full.browser_cases.map(c=>({viewport:c.viewport,checks:c.checks,passed:c.passed})):[],technical_qa:full.technical_qa?.passed,commercial_qa:compactCommercialSuite(full.commercial_qa),product_qa:compactProductSuite(full.product_qa)};
+      failures=[...failures,...hardFailures.filter(f=>!failures.some(prior=>hash(prior)===hash(f)))];
       if(failures.some(f=>policy.fatal_codes.includes(f.code)))throw modelError(failures.find(f=>policy.fatal_codes.includes(f.code)).code);
     }
     const codes=new Set(failures.map(f=>f.code));
