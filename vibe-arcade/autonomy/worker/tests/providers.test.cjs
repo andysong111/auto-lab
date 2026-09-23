@@ -8,9 +8,10 @@ const {OpenAIProvider}=require('../../providers/openai.cjs');
 const {compile,instructions}=require('../../providers/prompts.cjs');
 const {requestFor}=require('../../orchestrator/repair.cjs');
 const {AIRepairAdapter}=require('../../adapters/ai.cjs');
-const {copyGame,atomicJSON,hashTree}=require('../../orchestrator/files.cjs');
+const {copyGame,atomicJSON,hashTree,hash}=require('../../orchestrator/files.cjs');
 const {config,pricing}=require('../../providers/config.cjs');
 const policy=require('../../policies/quality-gate.json');
+const {normalizeIsolatedResult}=require('../../isolation/docker-qa.cjs');
 test('successful mock output is validated, persisted and deduplicated by immutable operation ID',async t=>{
   const e=setup(t),r=await request(e),a=await e.manager.execute(r);
   assert.equal(a.status,'complete');assert.equal(a.provider_metadata.cost_basis,'estimated');assert.equal(a.provider_metadata.billed_cost,null);
@@ -180,4 +181,14 @@ test('unexpected trusted repair-context compiler fault pauses before provider su
   await assert.rejects(()=>adapter.repair({workspace:old,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id}),
     e=>e.factory_pause===true&&e.code==='provider_context_compilation_failed'&&e.worker_status==='PAUSED_ERROR');
   assert.equal(calls,0);
+});
+
+test('isolated timeout preserves trusted partial QA evidence instead of collapsing it to a bare timeout',()=>{
+  const manifest={game_id:'GAME-20260923-999',version:'v5'},source='abc123',started=1000;
+  const partial={schema_version:1,game_id:manifest.game_id,version:manifest.version,source_hash:source,policy_hash:hash(policy),passed:false,
+    hard_failures:[{code:'commercial_action_feedback',message:'partial defect'}],checks:[{check:'action_feedback',status:'FAIL'}],artifacts:[{path:'commercial-390-before.png'}],
+    screenshots:['commercial-390-before.png'],side_effects:[],console_errors:[],page_errors:[],browser_cases:[],duration_ms:239000};
+  const result=normalizeIsolatedResult({result:partial,outcome:{code:124,expired:true},manifest,source,policy,started,now:()=>241500});
+  assert.equal(result.passed,false);assert.equal(result.checks.length,1);assert.equal(result.artifacts.length,1);assert(result.hard_failures.some(f=>f.code==='commercial_action_feedback'));
+  assert(result.hard_failures.some(f=>f.code==='timeout'&&f.partial_report===true));assert.equal(result.duration_ms,240500);
 });
