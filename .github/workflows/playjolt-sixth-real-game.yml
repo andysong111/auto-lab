@@ -24,7 +24,8 @@ jobs:
       - name: Announce commissioning run
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh api "repos/$GITHUB_REPOSITORY/issues/67/comments" -f body="Sixth commissioning run started: run_id=$GITHUB_RUN_ID head=$GITHUB_SHA. Production authorization=false."
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/issues/67/comments" -f body="Sixth commissioning run started: run_id=$GITHUB_RUN_ID head=$GITHUB_SHA. Production authorization=false."
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
