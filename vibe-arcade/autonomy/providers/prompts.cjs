@@ -27,32 +27,58 @@ No copyrighted character, art or code copying. Use original procedural canvas gr
 Core must be deterministic/testable and DOM-free. Export the named core object via globalThis, never window; a browser-only window export fails core_dom_dependency before QA. Implement meaningful keyboard AND mobile touch effects, progression, an interaction, reachable terminal state within spec.qa.terminal_ms, repeatable restart, pause and bounded resources.\nFor real commissioning, honor immutable_spec.implementation_contract as a product requirement: make the concrete objective obvious in the first five seconds, keep goal progress visible, expose GameKit device-local best separately from current score, make later stages meaningfully deeper across deterministic seeds, keep mobile labels readable without collisions, present a strong complete/incomplete result with the primary replay action visible on mobile, respond to prefers-reduced-motion changes during the session, reward skill/progress rather than reversible no-progress input farming, terminate promptly after actual success instead of waiting out a minimum clock, and visibly communicate meaningful state changes with transitions or reduced-motion-safe alternatives. Honor immutable_spec.commercial_contract: decision states must be visually distinct; actions need before/intermediate/settled feedback or a reduced-motion static alternative; early/mid/late need non-text visual progression; results need clear completion feedback. Fix every concrete commercial issue using its region/state pair and frame evidence. Audio follows the reviewed contract: required SFX after a player gesture with mute, pause/pagehide cleanup and bounded voices, or explicitly reviewed intentional silence.
 Target session duration must come from meaningful decisions; never insert dead time after success solely to satisfy a duration target. Capture/QA must have no persistence/network writes. GameKit supplies capture safety and diagnostics. Device-local best must be rendered from GameKit state rather than custom storage. Use no eval, dynamic imports, shell/tool calls, production paths or secrets.
 Repair responses replace only the allowed files and preserve unrelated game behavior. Never edit manifest.json, gamekit.js, quality policy, diagnostics probes or acceptance tests.`;
+function clip(value,depth=0){
+  if(value===null||value===undefined||typeof value==='number'||typeof value==='boolean')return value;
+  if(typeof value==='string')return value.length>320?value.slice(0,320)+'…':value;
+  if(depth>=3)return Array.isArray(value)?'[array omitted]':'[object omitted]';
+  if(Array.isArray(value)){
+    const rows=value.slice(0,8).map(v=>clip(v,depth+1));
+    if(value.length>8)rows.push('… '+(value.length-8)+' more');
+    return rows;
+  }
+  const out={};for(const [k,v] of Object.entries(value).slice(0,14))out[k]=clip(v,depth+1);return out;
+}
+function compactIssue(row){
+  if(!row||typeof row!=='object')return clip(row);
+  const out={};for(const k of ['code','message','check','viewport','phase','selector','state_path','probe','event','outcome','expected','actual','evidence']){
+    if(row[k]!==undefined)out[k]=clip(row[k]);
+  }
+  if(row.state_pair?.id)out.state_pair={id:row.state_pair.id};
+  return out;
+}
+function compactIssues(rows,limit=40){
+  if(!Array.isArray(rows))return [];
+  const seen=new Set(),out=[];
+  for(const row of rows){
+    const key=JSON.stringify([row?.code,row?.check,row?.probe,row?.event,row?.outcome,row?.selector,row?.state_path,row?.state_pair?.id,row?.viewport?.width,row?.viewport?.height]);
+    if(seen.has(key))continue;seen.add(key);out.push(compactIssue(row));if(out.length>=limit)break;
+  }
+  if(rows.length>out.length)out.push({code:'additional_failure_instances_compacted',actual:{reported:rows.length,retained:out.length}});
+  return out;
+}
 function compactCommercialSuite(suite) {
   if(!suite)return null;
-  const checks=Array.isArray(suite.checks)?suite.checks.filter(c=>c?.status!=='PASS'):[];
-  const artifacts=Array.isArray(suite.artifacts)?suite.artifacts.map(a=>{
-    if(!a||typeof a!=='object')return a;
+  const artifacts=Array.isArray(suite.artifacts)?suite.artifacts.slice(0,12).map(a=>{
+    if(!a||typeof a!=='object')return clip(a);
     const {path,kind,phase,viewport,sha256}=a;return {path,kind,phase,viewport,sha256};
   }):[];
-  return {passed:suite.passed===true,checks,artifacts,
-    hard_failures:Array.isArray(suite.hard_failures)?suite.hard_failures:[],
-    screenshots:Array.isArray(suite.screenshots)?suite.screenshots:[],
-    console_errors:Array.isArray(suite.console_errors)?suite.console_errors:[],
-    page_errors:Array.isArray(suite.page_errors)?suite.page_errors:[],
-    visual_review:suite.visual_review||null,
+  return {passed:suite.passed===true,checks:compactIssues(Array.isArray(suite.checks)?suite.checks.filter(c=>c?.status!=='PASS'):[],24),artifacts,
+    screenshots:Array.isArray(suite.screenshots)?suite.screenshots.slice(0,8):[],
+    console_errors:Array.isArray(suite.console_errors)?suite.console_errors.slice(0,8).map(x=>clip(x)):[],
+    page_errors:Array.isArray(suite.page_errors)?suite.page_errors.slice(0,8).map(x=>clip(x)):[],
+    visual_review:suite.visual_review?clip(suite.visual_review):null,
     ...(Number.isFinite(suite.duration_ms)?{duration_ms:suite.duration_ms}:{}),
     ...(suite.isolation?{isolation:suite.isolation}:{})};
 }
 function compactProductSuite(suite) {
   if(!suite)return null;
   return {passed:suite.passed===true,
-    checks:Array.isArray(suite.checks)?suite.checks.filter(c=>c?.status!=='PASS'):[],
-    artifacts:Array.isArray(suite.artifacts)?suite.artifacts:[],
-    hard_failures:Array.isArray(suite.hard_failures)?suite.hard_failures:[],
-    screenshots:Array.isArray(suite.screenshots)?suite.screenshots:[],
-    console_errors:Array.isArray(suite.console_errors)?suite.console_errors:[],
-    page_errors:Array.isArray(suite.page_errors)?suite.page_errors:[],
-    oracle_approval:suite.oracle_approval||null,
+    checks:compactIssues(Array.isArray(suite.checks)?suite.checks.filter(c=>c?.status!=='PASS'):[],24),
+    artifacts:Array.isArray(suite.artifacts)?suite.artifacts.slice(0,12).map(x=>clip(x)):[],
+    screenshots:Array.isArray(suite.screenshots)?suite.screenshots.slice(0,8):[],
+    console_errors:Array.isArray(suite.console_errors)?suite.console_errors.slice(0,8).map(x=>clip(x)):[],
+    page_errors:Array.isArray(suite.page_errors)?suite.page_errors.slice(0,8).map(x=>clip(x)):[],
+    oracle_approval:suite.oracle_approval?clip(suite.oracle_approval):null,
     ...(Number.isFinite(suite.duration_ms)?{duration_ms:suite.duration_ms}:{}),
     ...(suite.isolation?{isolation:suite.isolation}:{})};
 }
@@ -95,6 +121,6 @@ function compile({root,workspace,manifest,spec,request,operationId,budget,reject
       {game:'deep-descent',role:'quality only; mobile control, visible progression, terminal/restart, bounded effects; no copying'}],
     gamekit_contract:{...contract,source_hash:hash(fs.readFileSync(path.join(__dirname,'../gamekit/gamekit.js'),'utf8'))},
     allowed_paths:allowed,protected_paths:[...new Set([...protectedPaths,...(request?.protected_paths||[]),'manifest.json','gamekit.js'])],budget,
-    previous_failures:failures,repair_request:request||null,qa_evidence:qa,model_validation:rejected?{operation_id:rejected.operation_id,error_code:rejected.error_code,error_detail:rejected.error_detail,error_context:rejected.error_context}:null,sources,empty_workspace:request?listFiles(workspace).length===0:true};
+    previous_failures:compactIssues(failures),repair_request:request?{...request,qa_failures:compactIssues(request.qa_failures)}:null,qa_evidence:qa,model_validation:rejected?{operation_id:rejected.operation_id,error_code:rejected.error_code,error_detail:clip(rejected.error_detail),error_context:clip(rejected.error_context)}:null,sources,empty_workspace:request?listFiles(workspace).length===0:true};
 }
 module.exports={compile,instructions,contract};
