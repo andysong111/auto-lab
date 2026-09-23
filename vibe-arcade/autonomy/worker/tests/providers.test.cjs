@@ -12,6 +12,7 @@ const {copyGame,atomicJSON,hashTree,hash}=require('../../orchestrator/files.cjs'
 const {config,pricing}=require('../../providers/config.cjs');
 const policy=require('../../policies/quality-gate.json');
 const {normalizeIsolatedResult}=require('../../isolation/docker-qa.cjs');
+const {activeElapsed}=require('../../providers/active-wall-clock.cjs');
 test('successful mock output is validated, persisted and deduplicated by immutable operation ID',async t=>{
   const e=setup(t),r=await request(e),a=await e.manager.execute(r);
   assert.equal(a.status,'complete');assert.equal(a.provider_metadata.cost_basis,'estimated');assert.equal(a.provider_metadata.billed_cost,null);
@@ -198,4 +199,10 @@ test('request input budget is token-estimated, not raw UTF-8 bytes',()=>{
   const e=estimateInputTokens(payload);
   assert(e.bytes>100000);
   assert(e.tokens<100000);
+});
+
+test('reviewed infrastructure repair hold excludes only verified stopped time from active wall clock',()=>{
+  const sha='a'.repeat(64),job={started_at:1000,infrastructure_pauses:[{reason:'infrastructure_repair_hold',system_reviewed:true,owner_authorized:true,started_at:2000,ended_at:62000,checkpoint_manifest_sha256:sha,resume_commit:sha}]};
+  assert.equal(activeElapsed(job,65000),4000);
+  assert.throws(()=>activeElapsed({...job,infrastructure_pauses:[{...job.infrastructure_pauses[0],system_reviewed:false}]},65000),/invalid_infrastructure_pause/);
 });
