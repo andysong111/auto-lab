@@ -1,0 +1,41 @@
+name: Keywake depth protected RC verification
+on:
+  push:
+    branches: [commissioning/keywake-depth-polish-20260923]
+    paths: ['vibe-arcade/autonomy/commissioning/keywake-depth-polish/protected-rc-request.json']
+permissions:
+  contents: read
+  actions: read
+  deployments: read
+jobs:
+  verify:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Ephemeral transport public key
+        run: node vibe-arcade/autonomy/commissioning/keywake-depth-polish/protected-rc.cjs key "$RUNNER_TEMP/protected-rc"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: keywake-depth-transport-public-key
+          path: ${{ runner.temp }}/protected-rc/public.json
+          retention-days: 1
+      - name: Exact source, authenticated GET smoke, existing Factory release adapter
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
+        run: node vibe-arcade/autonomy/commissioning/keywake-depth-polish/protected-rc.cjs verify "$RUNNER_TEMP/protected-rc"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: keywake-depth-release-evidence
+          path: ${{ runner.temp }}/protected-rc/state
+          include-hidden-files: true
+          retention-days: 30

@@ -1,0 +1,10 @@
+{
+  "game_id": "GAME-20260923-141",
+  "version": "v5",
+  "rc_commit": "3b42af0c0451b093aab0d7e8781f4779577fba97",
+  "source_hash": "4fa6ce75df98aee19bf60080dbd2c38ac71b656151c2bc391e59c39c29da0e4c",
+  "artifact_id": 10731172803,
+  "artifact_sha256": "91bce4fb95cb3ccc49e2bd971ff70930708b2c259b53f70398f9cc5939ed7254",
+  "provider_calls_allowed": 0,
+  "production_authorized": false
+}
