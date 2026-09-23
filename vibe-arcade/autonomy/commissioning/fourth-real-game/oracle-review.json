@@ -1,0 +1,542 @@
+{
+  "trusted_infrastructure": true,
+  "candidate_code_authored": false,
+  "scope": "Offline reviewed model only. Actual browser conformance is still required.",
+  "oracle_sha256": "900064dbd2df228aab94c7c02d33c9df9575560486dbbcf0f9e8f11dc5660bbc",
+  "contract_sha256": "95db87d940a0c860aca7164045fe3c3e0ba6048ab5b41a67f9bbb710ae5c6031",
+  "bounds": {
+    "max_nodes_per_seed": 128,
+    "max_actions": 64,
+    "seeds": 6
+  },
+  "evidence": [
+    {
+      "seed": 1,
+      "nodes": 47,
+      "normal_inputs": 12,
+      "stages": [
+        {
+          "stage": 1,
+          "complexity": 2,
+          "required_actions": 2,
+          "plan": [
+            {
+              "from": "1:4:0:playing",
+              "action": "left",
+              "to": "1:3:0:playing"
+            },
+            {
+              "from": "1:3:0:playing",
+              "action": "down",
+              "to": "2:4:0:playing"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "complexity": 3,
+          "required_actions": 4,
+          "plan": [
+            {
+              "from": "2:4:0:playing",
+              "action": "left",
+              "to": "2:3:0:playing"
+            },
+            {
+              "from": "2:3:0:playing",
+              "action": "up",
+              "to": "2:0:1:playing"
+            },
+            {
+              "from": "2:0:1:playing",
+              "action": "right",
+              "to": "2:1:1:playing"
+            },
+            {
+              "from": "2:1:1:playing",
+              "action": "right",
+              "to": "3:4:0:playing"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "complexity": 4,
+          "required_actions": 6,
+          "plan": [
+            {
+              "from": "3:4:0:playing",
+              "action": "left",
+              "to": "3:3:0:playing"
+            },
+            {
+              "from": "3:3:0:playing",
+              "action": "down",
+              "to": "3:6:2:playing"
+            },
+            {
+              "from": "3:6:2:playing",
+              "action": "up",
+              "to": "3:3:2:playing"
+            },
+            {
+              "from": "3:3:2:playing",
+              "action": "up",
+              "to": "3:0:3:playing"
+            },
+            {
+              "from": "3:0:3:playing",
+              "action": "right",
+              "to": "3:1:3:playing"
+            },
+            {
+              "from": "3:1:3:playing",
+              "action": "right",
+              "to": "4:4:0:success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "nodes": 47,
+      "normal_inputs": 12,
+      "stages": [
+        {
+          "stage": 1,
+          "complexity": 2,
+          "required_actions": 2,
+          "plan": [
+            {
+              "from": "1:4:0:playing",
+              "action": "right",
+              "to": "1:5:0:playing"
+            },
+            {
+              "from": "1:5:0:playing",
+              "action": "down",
+              "to": "2:4:0:playing"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "complexity": 3,
+          "required_actions": 4,
+          "plan": [
+            {
+              "from": "2:4:0:playing",
+              "action": "left",
+              "to": "2:3:0:playing"
+            },
+            {
+              "from": "2:3:0:playing",
+              "action": "up",
+              "to": "2:0:1:playing"
+            },
+            {
+              "from": "2:0:1:playing",
+              "action": "right",
+              "to": "2:1:1:playing"
+            },
+            {
+              "from": "2:1:1:playing",
+              "action": "right",
+              "to": "3:4:0:playing"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "complexity": 4,
+          "required_actions": 6,
+          "plan": [
+            {
+              "from": "3:4:0:playing",
+              "action": "left",
+              "to": "3:3:0:playing"
+            },
+            {
+              "from": "3:3:0:playing",
+              "action": "down",
+              "to": "3:6:2:playing"
+            },
+            {
+              "from": "3:6:2:playing",
+              "action": "up",
+              "to": "3:3:2:playing"
+            },
+            {
+              "from": "3:3:2:playing",
+              "action": "up",
+              "to": "3:0:3:playing"
+            },
+            {
+              "from": "3:0:3:playing",
+              "action": "right",
+              "to": "3:1:3:playing"
+            },
+            {
+              "from": "3:1:3:playing",
+              "action": "right",
+              "to": "4:4:0:success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 23,
+      "nodes": 47,
+      "normal_inputs": 12,
+      "stages": [
+        {
+          "stage": 1,
+          "complexity": 2,
+          "required_actions": 2,
+          "plan": [
+            {
+              "from": "1:4:0:playing",
+              "action": "right",
+              "to": "1:5:0:playing"
+            },
+            {
+              "from": "1:5:0:playing",
+              "action": "down",
+              "to": "2:4:0:playing"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "complexity": 3,
+          "required_actions": 4,
+          "plan": [
+            {
+              "from": "2:4:0:playing",
+              "action": "right",
+              "to": "2:5:0:playing"
+            },
+            {
+              "from": "2:5:0:playing",
+              "action": "down",
+              "to": "2:8:1:playing"
+            },
+            {
+              "from": "2:8:1:playing",
+              "action": "left",
+              "to": "2:7:1:playing"
+            },
+            {
+              "from": "2:7:1:playing",
+              "action": "left",
+              "to": "3:4:0:playing"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "complexity": 4,
+          "required_actions": 6,
+          "plan": [
+            {
+              "from": "3:4:0:playing",
+              "action": "left",
+              "to": "3:3:0:playing"
+            },
+            {
+              "from": "3:3:0:playing",
+              "action": "down",
+              "to": "3:6:2:playing"
+            },
+            {
+              "from": "3:6:2:playing",
+              "action": "up",
+              "to": "3:3:2:playing"
+            },
+            {
+              "from": "3:3:2:playing",
+              "action": "up",
+              "to": "3:0:3:playing"
+            },
+            {
+              "from": "3:0:3:playing",
+              "action": "right",
+              "to": "3:1:3:playing"
+            },
+            {
+              "from": "3:1:3:playing",
+              "action": "right",
+              "to": "4:4:0:success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 89,
+      "nodes": 47,
+      "normal_inputs": 12,
+      "stages": [
+        {
+          "stage": 1,
+          "complexity": 2,
+          "required_actions": 2,
+          "plan": [
+            {
+              "from": "1:4:0:playing",
+              "action": "left",
+              "to": "1:3:0:playing"
+            },
+            {
+              "from": "1:3:0:playing",
+              "action": "down",
+              "to": "2:4:0:playing"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "complexity": 3,
+          "required_actions": 4,
+          "plan": [
+            {
+              "from": "2:4:0:playing",
+              "action": "left",
+              "to": "2:3:0:playing"
+            },
+            {
+              "from": "2:3:0:playing",
+              "action": "down",
+              "to": "2:6:1:playing"
+            },
+            {
+              "from": "2:6:1:playing",
+              "action": "up",
+              "to": "2:3:1:playing"
+            },
+            {
+              "from": "2:3:1:playing",
+              "action": "up",
+              "to": "3:4:0:playing"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "complexity": 4,
+          "required_actions": 6,
+          "plan": [
+            {
+              "from": "3:4:0:playing",
+              "action": "left",
+              "to": "3:3:0:playing"
+            },
+            {
+              "from": "3:3:0:playing",
+              "action": "up",
+              "to": "3:0:2:playing"
+            },
+            {
+              "from": "3:0:2:playing",
+              "action": "right",
+              "to": "3:1:2:playing"
+            },
+            {
+              "from": "3:1:2:playing",
+              "action": "right",
+              "to": "3:2:3:playing"
+            },
+            {
+              "from": "3:2:3:playing",
+              "action": "down",
+              "to": "3:5:3:playing"
+            },
+            {
+              "from": "3:5:3:playing",
+              "action": "down",
+              "to": "4:4:0:success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 2026,
+      "nodes": 47,
+      "normal_inputs": 12,
+      "stages": [
+        {
+          "stage": 1,
+          "complexity": 2,
+          "required_actions": 2,
+          "plan": [
+            {
+              "from": "1:4:0:playing",
+              "action": "left",
+              "to": "1:3:0:playing"
+            },
+            {
+              "from": "1:3:0:playing",
+              "action": "up",
+              "to": "2:4:0:playing"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "complexity": 3,
+          "required_actions": 4,
+          "plan": [
+            {
+              "from": "2:4:0:playing",
+              "action": "right",
+              "to": "2:5:0:playing"
+            },
+            {
+              "from": "2:5:0:playing",
+              "action": "down",
+              "to": "2:8:1:playing"
+            },
+            {
+              "from": "2:8:1:playing",
+              "action": "up",
+              "to": "2:5:1:playing"
+            },
+            {
+              "from": "2:5:1:playing",
+              "action": "up",
+              "to": "3:4:0:playing"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "complexity": 4,
+          "required_actions": 6,
+          "plan": [
+            {
+              "from": "3:4:0:playing",
+              "action": "up",
+              "to": "3:1:0:playing"
+            },
+            {
+              "from": "3:1:0:playing",
+              "action": "right",
+              "to": "3:2:2:playing"
+            },
+            {
+              "from": "3:2:2:playing",
+              "action": "left",
+              "to": "3:1:2:playing"
+            },
+            {
+              "from": "3:1:2:playing",
+              "action": "left",
+              "to": "3:0:3:playing"
+            },
+            {
+              "from": "3:0:3:playing",
+              "action": "down",
+              "to": "3:3:3:playing"
+            },
+            {
+              "from": "3:3:3:playing",
+              "action": "down",
+              "to": "4:4:0:success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 4294967295,
+      "nodes": 47,
+      "normal_inputs": 12,
+      "stages": [
+        {
+          "stage": 1,
+          "complexity": 2,
+          "required_actions": 2,
+          "plan": [
+            {
+              "from": "1:4:0:playing",
+              "action": "right",
+              "to": "1:5:0:playing"
+            },
+            {
+              "from": "1:5:0:playing",
+              "action": "down",
+              "to": "2:4:0:playing"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "complexity": 3,
+          "required_actions": 4,
+          "plan": [
+            {
+              "from": "2:4:0:playing",
+              "action": "left",
+              "to": "2:3:0:playing"
+            },
+            {
+              "from": "2:3:0:playing",
+              "action": "up",
+              "to": "2:0:1:playing"
+            },
+            {
+              "from": "2:0:1:playing",
+              "action": "down",
+              "to": "2:3:1:playing"
+            },
+            {
+              "from": "2:3:1:playing",
+              "action": "down",
+              "to": "3:4:0:playing"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "complexity": 4,
+          "required_actions": 6,
+          "plan": [
+            {
+              "from": "3:4:0:playing",
+              "action": "up",
+              "to": "3:1:0:playing"
+            },
+            {
+              "from": "3:1:0:playing",
+              "action": "right",
+              "to": "3:2:2:playing"
+            },
+            {
+              "from": "3:2:2:playing",
+              "action": "left",
+              "to": "3:1:2:playing"
+            },
+            {
+              "from": "3:1:2:playing",
+              "action": "left",
+              "to": "3:0:3:playing"
+            },
+            {
+              "from": "3:0:3:playing",
+              "action": "down",
+              "to": "3:3:3:playing"
+            },
+            {
+              "from": "3:3:3:playing",
+              "action": "down",
+              "to": "4:4:0:success"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

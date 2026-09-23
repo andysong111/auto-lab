@@ -1,0 +1,34 @@
+{
+  "selected": "Keywake",
+  "game_id": "GAME-20260923-141",
+  "ideas": [
+    {
+      "title": "Keywake",
+      "family": "discrete-key-collection-navigation",
+      "mechanic": "Walk stationary rooms, collect persistent keys, choose efficient key order, exit.",
+      "decision": "SELECTED: finite observable projection, 47 states per seed, reversible entry alternatives, visual key and hatch goal.",
+      "human_session_seconds": [
+        15,
+        40
+      ]
+    },
+    {
+      "title": "Ember Mosaic",
+      "family": "linked-parity-toggle",
+      "mechanic": "Flip a tile and fixed neighbors to restore a small colored emblem.",
+      "decision": "NOT SELECTED: feedback must explain indirect toggles; more fixture-like and less immediate goal readability."
+    },
+    {
+      "title": "Gear Bloom",
+      "family": "coupled-discrete-dial-alignment",
+      "mechanic": "Turn one of two linked gear clusters to align petal marks.",
+      "decision": "NOT SELECTED: arithmetic coupling and visual overlap make first-five-second understanding harder."
+    }
+  ],
+  "one_candidate_only": true,
+  "prior_candidates_terminal": [
+    "GAME-20260922-110",
+    "GAME-20260922-121",
+    "GAME-20260922-131"
+  ]
+}
