@@ -20,7 +20,6 @@ jobs:
     timeout-minutes: 75
     env:
       AUTO_PRODUCTION_SHIP: 'false'
-      FACTORY_WORKER_ROOT: ${{ runner.temp }}/sixth-state
     steps:
       - name: Announce commissioning run
         env:
@@ -33,6 +32,8 @@ jobs:
         with:
           node-version: '22'
       - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Bind isolated worker root
+        run: echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/sixth-state" >> "$GITHUB_ENV"
       - name: Trusted design, oracle, Product and Commercial preflight
         run: node vibe-arcade/autonomy/commissioning/sixth-real-game/commission.cjs prepare
       - name: Pin trusted Docker QA image after reviewed registries are installed
