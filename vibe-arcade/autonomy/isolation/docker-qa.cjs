@@ -3,6 +3,18 @@ const fs=require('node:fs'),path=require('node:path'),os=require('node:os'),cryp
 const {safePath,atomicJSON,readJSON,hashTree,hash,listFiles,inspectGame}=require('../orchestrator/files.cjs');
 const {ProviderPause}=require('../providers/errors.cjs');
 function environment() {return {PATH:process.env.PATH||'/usr/bin:/bin',HOME:os.tmpdir()};}
+function normalizeIsolatedResult({result,outcome,manifest,source,policy,started,now=Date.now}) {
+  const elapsed=now()-started,timedOut=outcome.expired||outcome.code===124,policyHash=hash(policy);
+  const sameIdentity=result&&result.game_id===manifest.game_id&&result.version===manifest.version&&result.source_hash===source&&result.policy_hash===policyHash;
+  if(timedOut&&sameIdentity) {
+    const hard=Array.isArray(result.hard_failures)?result.hard_failures:[];
+    if(!hard.some(f=>f.code==='timeout'))hard.push({code:'timeout',message:'Isolated QA exceeded its deadline; trusted partial report preserved',partial_report:true});
+    return {...result,passed:false,hard_failures:hard,duration_ms:Math.max(Number(result.duration_ms)||0,elapsed)};
+  }
+  if(timedOut||!result||(outcome.code!==0&&result.passed))return {schema_version:1,game_id:manifest.game_id,version:manifest.version,source_hash:source,policy_hash:policyHash,passed:false,
+    hard_failures:[{code:timedOut?'timeout':'qa_crash',message:'Isolated QA did not produce a completed report'}],soft_failures:[],console_errors:[],page_errors:[],browser_cases:[],screenshots:[],side_effects:[],duration_ms:elapsed};
+  return result;
+}
 function dockerArgs({name,image,candidate,input,artifacts,limits,probe=false}) {
   if(!/^sha256:[a-f0-9]{64}$/.test(image))throw new ProviderPause('isolation_image_not_pinned');
   for(const p of [candidate,input,artifacts])if(!path.isAbsolute(p)||/[\n,]/.test(p))throw new ProviderPause('invalid_isolation_path');
@@ -68,8 +80,7 @@ class DockerQA {
       const file=path.join(artifacts,probe?'probe.json':'qa.json');let result;
       if(fs.existsSync(file)&&fs.lstatSync(file).isFile()&&!fs.lstatSync(file).isSymbolicLink()&&fs.statSync(file).size<4*1024*1024)result=readJSON(file);
       if(probe){if(outcome.code!==0||!result)throw Error('isolation_probe_failed');return result;}
-      if(outcome.expired||outcome.code===124||!result||(outcome.code!==0&&result.passed))result={schema_version:1,game_id:manifest.game_id,version:manifest.version,source_hash:source,policy_hash:hash(policy),passed:false,
-        hard_failures:[{code:outcome.expired||outcome.code===124?'timeout':'qa_crash',message:'Isolated QA did not produce a completed report'}],soft_failures:[],console_errors:[],page_errors:[],browser_cases:[],screenshots:[],side_effects:[],duration_ms:Date.now()-started};
+      result=normalizeIsolatedResult({result,outcome,manifest,source,policy,started});
       if(result.hard_failures?.some(f=>f.code==='qa_infrastructure'))throw new ProviderPause('qa_infrastructure','Isolated browser infrastructure failed','PAUSED_ISOLATION');
       if(result.game_id!==manifest.game_id||result.version!==manifest.version||result.source_hash!==source||result.policy_hash!==hash(policy)||hashTree(gameRoot)!==source)throw new ProviderPause('source_tampered');
       result.isolation={engine:'docker',image:this.image,network:'none',readonly:true,cpu:this.limits.cpus,memory_mb:this.limits.memory_mb,pids:this.limits.pids};
@@ -88,4 +99,4 @@ class DockerQA {
     } finally {this.execSync('docker',['rm','-f',name],{env:environment(),stdio:'ignore',timeout:10000});fs.rmSync(temp,{recursive:true,force:true});}
   }
 }
-module.exports={DockerQA,dockerArgs,environment};
+module.exports={DockerQA,dockerArgs,environment,normalizeIsolatedResult};
