@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   commission:
-    if: github.head_ref == 'commissioning/sixth-real-game-20260923'
+    if: github.head_ref == 'commissioning/sixth-real-game-20260923-r2'
     runs-on: ubuntu-latest
     timeout-minutes: 75
     env:
