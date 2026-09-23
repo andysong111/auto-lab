@@ -72,7 +72,7 @@
   },
   "commercial": {
     "runner_version": "commercial-polish-1",
-    "run_timeout_ms": 240000,
+    "run_timeout_ms": 300000,
     "new_commissioning_requires_contract": true
   }
 }
