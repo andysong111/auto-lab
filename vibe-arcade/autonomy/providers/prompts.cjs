@@ -46,7 +46,7 @@ function compactIssue(row){
   if(row.state_pair?.id)out.state_pair={id:row.state_pair.id};
   return out;
 }
-function compactIssues(rows,limit=40){
+function compactIssues(rows,limit=24){
   if(!Array.isArray(rows))return [];
   const seen=new Set(),out=[];
   for(const row of rows){
@@ -56,13 +56,19 @@ function compactIssues(rows,limit=40){
   if(rows.length>out.length)out.push({code:'additional_failure_instances_compacted',actual:{reported:rows.length,retained:out.length}});
   return out;
 }
+function compactRepairRequest(request){
+  if(!request)return null;
+  const out={};
+  for(const k of ['schema_version','game_id','version','target_version','attempt','max_repair_attempts','source_hash','product_evidence_index','product_acceptance','commercial_evidence_index','commercial_acceptance','operation_id'])if(request[k]!==undefined)out[k]=request[k];
+  return out;
+}
 function compactCommercialSuite(suite) {
   if(!suite)return null;
   const artifacts=Array.isArray(suite.artifacts)?suite.artifacts.slice(0,12).map(a=>{
     if(!a||typeof a!=='object')return clip(a);
     const {path,kind,phase,viewport,sha256}=a;return {path,kind,phase,viewport,sha256};
   }):[];
-  return {passed:suite.passed===true,checks:compactIssues(Array.isArray(suite.checks)?suite.checks.filter(c=>c?.status!=='PASS'):[],24),artifacts,
+  return {passed:suite.passed===true,checks:compactIssues(Array.isArray(suite.checks)?suite.checks.filter(c=>c?.status!=='PASS'):[],12),artifacts,
     screenshots:Array.isArray(suite.screenshots)?suite.screenshots.slice(0,8):[],
     console_errors:Array.isArray(suite.console_errors)?suite.console_errors.slice(0,8).map(x=>clip(x)):[],
     page_errors:Array.isArray(suite.page_errors)?suite.page_errors.slice(0,8).map(x=>clip(x)):[],
@@ -73,7 +79,7 @@ function compactCommercialSuite(suite) {
 function compactProductSuite(suite) {
   if(!suite)return null;
   return {passed:suite.passed===true,
-    checks:compactIssues(Array.isArray(suite.checks)?suite.checks.filter(c=>c?.status!=='PASS'):[],24),
+    checks:compactIssues(Array.isArray(suite.checks)?suite.checks.filter(c=>c?.status!=='PASS'):[],12),
     artifacts:Array.isArray(suite.artifacts)?suite.artifacts.slice(0,12).map(x=>clip(x)):[],
     screenshots:Array.isArray(suite.screenshots)?suite.screenshots.slice(0,8):[],
     console_errors:Array.isArray(suite.console_errors)?suite.console_errors.slice(0,8).map(x=>clip(x)):[],
@@ -95,7 +101,7 @@ function compile({root,workspace,manifest,spec,request,operationId,budget,reject
       const full=readJSON(file);
       if(full.game_id!==manifest.game_id||full.version!==request.version||request.source_hash&&full.source_hash!==request.source_hash)throw modelError('source_tampered');
       const hardFailures=Array.isArray(full.hard_failures)?full.hard_failures:[];
-      qa={passed:full.passed,hard_failures:hardFailures,console_errors:Array.isArray(full.console_errors)?full.console_errors:[],page_errors:Array.isArray(full.page_errors)?full.page_errors:[],browser_cases:Array.isArray(full.browser_cases)?full.browser_cases.map(c=>({viewport:c.viewport,checks:c.checks,passed:c.passed})):[],technical_qa:full.technical_qa?.passed,commercial_qa:compactCommercialSuite(full.commercial_qa),product_qa:compactProductSuite(full.product_qa)};
+      qa={passed:full.passed,hard_failures:compactIssues(hardFailures,18),console_errors:Array.isArray(full.console_errors)?full.console_errors.slice(0,6).map(x=>clip(x)):[],page_errors:Array.isArray(full.page_errors)?full.page_errors.slice(0,6).map(x=>clip(x)):[],browser_cases:Array.isArray(full.browser_cases)?full.browser_cases.slice(0,6).map(c=>({viewport:c.viewport,checks:Array.isArray(c.checks)?c.checks.slice(0,20):c.checks,passed:c.passed})):[],technical_qa:full.technical_qa?.passed,commercial_qa:compactCommercialSuite(full.commercial_qa),product_qa:compactProductSuite(full.product_qa)};
       failures=[...failures,...hardFailures.filter(f=>!failures.some(prior=>hash(prior)===hash(f)))];
       if(failures.some(f=>policy.fatal_codes.includes(f.code)))throw modelError(failures.find(f=>policy.fatal_codes.includes(f.code)).code);
     }
@@ -121,6 +127,6 @@ function compile({root,workspace,manifest,spec,request,operationId,budget,reject
       {game:'deep-descent',role:'quality only; mobile control, visible progression, terminal/restart, bounded effects; no copying'}],
     gamekit_contract:{...contract,source_hash:hash(fs.readFileSync(path.join(__dirname,'../gamekit/gamekit.js'),'utf8'))},
     allowed_paths:allowed,protected_paths:[...new Set([...protectedPaths,...(request?.protected_paths||[]),'manifest.json','gamekit.js'])],budget,
-    previous_failures:compactIssues(failures),repair_request:request?{...request,qa_failures:compactIssues(request.qa_failures)}:null,qa_evidence:qa,model_validation:rejected?{operation_id:rejected.operation_id,error_code:rejected.error_code,error_detail:clip(rejected.error_detail),error_context:clip(rejected.error_context)}:null,sources,empty_workspace:request?listFiles(workspace).length===0:true};
+    previous_failures:compactIssues(failures,24),repair_request:compactRepairRequest(request),qa_evidence:qa,model_validation:rejected?{operation_id:rejected.operation_id,error_code:rejected.error_code,error_detail:clip(rejected.error_detail),error_context:clip(rejected.error_context)}:null,sources,empty_workspace:request?listFiles(workspace).length===0:true};
 }
 module.exports={compile,instructions,contract};
