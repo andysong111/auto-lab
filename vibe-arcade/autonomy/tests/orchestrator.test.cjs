@@ -2,6 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),os=require('node:os');
 const {setup,mockQA,source,atomicJSON}=require('./helpers.cjs');
 const {WorkspaceBuilder,WorkspaceRepair}=require('../adapters/workspace.cjs');
+const {ProviderPause}=require('../providers/errors.cjs');
 test('successful run is idempotent and resumption skips already verified build/QA',async t=>{
   let builds=0,runs=0;const original=new WorkspaceBuilder(source);
   const {factory,store,spec}=setup(t,{builder:{build:async c=>{builds++;return original.build(c);}},qa:async c=>{runs++;return mockQA(c);}});
@@ -49,4 +50,21 @@ test('published build descriptor satisfies the shared manifest schema',async t=>
   const {factory,spec}=setup(t,{qa:mockQA});await factory.create(spec);const m=await factory.run(spec.game_id);
   const descriptor=JSON.parse(fs.readFileSync(path.join(factory.source(m),'manifest.json')));
   require('../orchestrator/manifest.cjs').validate(descriptor);assert.equal(descriptor.version,m.version);assert(!descriptor.source_hash);
+});
+
+test('trusted repair infrastructure pause retries the same attempt instead of consuming the next budget slot',async t=>{
+  let first=true,repairs=0;
+  const {factory,store,spec}=setup(t,{
+    repairer:{repair:async()=>{repairs++;throw new ProviderPause('provider_context_compilation_failed','trusted compiler fault','PAUSED_ERROR');}},
+    qa:async c=>first?(first=false,{...await mockQA(c),passed:false,hard_failures:[{code:'freeze',message:'initial QA failure'}]}):mockQA(c)
+  });
+  await factory.create(spec);
+  await assert.rejects(()=>factory.run(spec.game_id),e=>e.factory_pause===true&&e.code==='provider_context_compilation_failed');
+  let m=store.get(spec.game_id);
+  assert.equal(m.state,'REPAIRING');assert.equal(m.repair_attempt,1);assert.equal(m.version,'v2');assert.equal(repairs,1);
+  assert(fs.existsSync(store.artifact(m.game_id,'repair-1.json')));assert(!fs.existsSync(store.artifact(m.game_id,'repair-2.json')));
+  await assert.rejects(()=>factory.run(spec.game_id),e=>e.factory_pause===true&&e.code==='provider_context_compilation_failed');
+  m=store.get(spec.game_id);
+  assert.equal(m.state,'REPAIRING');assert.equal(m.repair_attempt,1);assert.equal(m.version,'v2');assert.equal(repairs,2);
+  assert(!fs.existsSync(store.artifact(m.game_id,'repair-2.json')));
 });
