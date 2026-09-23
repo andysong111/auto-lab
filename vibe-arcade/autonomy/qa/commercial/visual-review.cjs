@@ -6,7 +6,11 @@ const PHASES=['entry','early','mid','late','success','failure','gameplay'];
 // A provider receives immutable evidence DATA only. No browser, source tools,
 // candidate mutation, factory transition or production authority is exposed.
 class VisualReviewAdapter{async review(_packet){throw Error('visual_review_provider_not_configured');}}
-function packet(report,contract){return {schema_version:1,source_hash:report.source_hash,contract_hash:hash(contract),artifacts:report.artifacts,checks:report.checks,rubric:CATEGORIES};}
+function packet(report,contract){
+ const data=JSON.parse(JSON.stringify({schema_version:1,source_hash:report.source_hash,contract_hash:hash(contract),contract,artifacts:report.artifacts,checks:report.checks,rubric:CATEGORIES}));
+ const freeze=x=>{if(x&&typeof x==='object'){for(const v of Object.values(x))freeze(v);Object.freeze(x);}return x;};
+ return freeze(data);
+}
 function validateResponse(response,input){
  if(!response||response.schema_version!==1||response.evidence_hash!==hash(input)||!Array.isArray(response.issues)||response.issues.length>64||!['COMPLETE','UNVERIFIED'].includes(response.status))throw Error('invalid_visual_review_response');
  for(const i of response.issues)if(!CATEGORIES.includes(i.category)||!['critical','major','minor'].includes(i.severity)||typeof i.message!=='string'||i.message.length<10||!Array.isArray(i.evidence)||!i.evidence.length||i.evidence.some(p=>!input.artifacts.some(a=>a.path===p)))throw Error('unbound_visual_review_issue');
