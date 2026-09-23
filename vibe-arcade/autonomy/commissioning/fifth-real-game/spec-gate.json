@@ -1,0 +1,571 @@
+{
+  "passed": true,
+  "errors": [],
+  "warnings": [],
+  "factory_spec": {
+    "game_id": "GAME-20260923-151",
+    "generation": 1,
+    "title": "Shard Armada",
+    "slug": "shard-armada",
+    "genre": "tactical salvo assault",
+    "mechanic_family": "aimed-salvo-recruitment-siege",
+    "controls": [
+      "Arrow keys aim at a target; repeat to cancel.",
+      "Space fires the volley or breaches the exposed core."
+    ],
+    "mobile_controls": [
+      "Tap a target to aim.",
+      "Tap VOLLEY to fire; tap BREACH when the core opens."
+    ],
+    "max_repair_attempts": 5,
+    "qa": {
+      "seed": 1,
+      "keyboard": {
+        "key": "ArrowLeft",
+        "observation": "state.focus"
+      },
+      "pointer": {
+        "observation": "state.pointer_actions"
+      },
+      "terminal_ms": 47000
+    },
+    "implementation_contract": {
+      "goal": "Show exact objective \"Break 3 dreadnoughts. Recruit their shards.\" before Start. Original Shard Armada is an aimed broadside assault, NOT movement/grid navigation, autofire, runner, timing or switch parity. Mobile: tap an enemy to aim; tap the wide bottom VOLLEY bar to fire. Keyboard: arrows select the corresponding world target; Space fires. No timing window, no extra mechanic button. Same seed Replay rewards better target order and fewer shield-bounced volleys. Human target 20–45 seconds, immediate early success allowed.",
+      "progression": "Canonical stage=1,captured=0,focus=-1,polarity=0,outcome=\"playing\",completed=0. At stage s there are n=s+1 enemy escort modules indexed LEFT=0,RIGHT=1,UP=2,DOWN=3. captured is a permanent per-stage bitmask. Direction selecting an uncaptured present module toggles focus to that index, or back to -1 if already focused. Selecting absent/captured module is a no-op. FIRE with no focus and captured not full is a no-op. FIRE with focus always clears focus; check its requirements mask against captured. In stages 1/2 it captures the focused module iff requirements are met; otherwise shield bounce. In stage3 it captures iff requirements met AND target polarity equals current polarity; every focused volley toggles polarity 0<->1 even if bounced. On capture set that bit permanently. FIRE when all modules captured breaches central dreadnought: immediately completed++, next stage with captured=0,focus=-1,polarity=0; after stage3 canonical success state is stage=4,captured=0,focus=-1,polarity=0,outcome=\"success\",completed=3. Fire bar visibly switches from aim-required to volley to BREACH, with core opening before breach. Modules supply shields via visible tethers; give readable filled armor vs exposed silhouette, and clear strike prediction. No invisible constraints. Present module index positions are fixed at normalized (.25,.34),(.75,.34),(.5,.16),(.5,.53). Point input within y>=.85 maps FIRE; otherwise choose nearest of all four fixed target centers even if absent, then apply rules. Absent targets remain visible as empty broken outlines so selecting them is visibly disabled. Pointer actions increment pointer_actions even if invalid; keyboard uses edge latch cleared on neutral and pointer action; no repeat while held. Input never blocked by animation.",
+      "presentation": "Original handcrafted procedural sci-fi navy and warm coral artwork with bright ivory/teal recruited shards and gold breach cores. Vertical battlefield is the focal point, NOT flat colored tiles or a control dashboard. Make tangible ships with hull facets, engines, shield plates and geometric depth. Draw enemy structure at center (.5,.44), escort targets at fixed coordinates, player flagship centered (.5,.745), and full-width fire bar in bottom .85..1. Stage1 one scout in a sparse frontier; stage2 five distinct ships in a broad V wing with dual guns and a larger dreadnought; stage3 thirteen visible ships in layered formations around a larger flagship, broadside battery and enormous segmented storm citadel. Growth must affect number, silhouette, footprint and projectile fan, not only text or background hue. Captures add visible shard recruits around fleet between stages too. Keep all decision markers unambiguous against backdrop. Telegraph polarity with narrow spear silhouette for 0, broad fan for 1 and matching open/crossed armor on each target. Draw original weapon trails, impact debris and bounded upgrade assembly. The field must remain stable at settled checkpoints: no perpetual animated text/stars masking action-feedback differences. Use the declared crop geometry for real objects, never dedicated test swatches. Core export globalThis.ShardArmadaCore, DOM-free, no window identifier. App forwards draw(ctx,snapshot,{width,height}) ALL arguments to art; GameKit is sole loop/lifecycle and supplies snapshot. Before loading relative assets, set a version-independent HTML base that retains the full current directory even when Vercel canonical URL omits trailing slash; append slash to pathname when no extension. No external assets.",
+      "originality": "New family aimed-salvo-recruitment-siege: deliberate target selection, support shielding and alternating firing formations. Three original dreadnought assaults and fleet evolution. No reuse of any source, character, art, UI, wording or mechanic from Top Lords or rejected Prism Relay, Cloud Cargo, Ribbon Shift, Keywake. No arena survival/autofire, tower descent/rotation, radial pins, column merge, auto-runner, single-button reaction/timing or optical routing. Quality references only mean mobile hierarchy, strong response and visible power growth.",
+      "difficulty": "Apply this exact compact RULE DATA (not oracle node scripts): {\"seed_mapping\":\"h=Math.imul((seed>>>0)^(seed>>>16),1177)>>>0; pack=((h^(h>>>13))>>>0)%6\",\"packs\":[{\"requirements\":[[0,0],[0,0,1],[0,0,1,2]],\"polarity\":[0,0,1,0]},{\"requirements\":[[0,0],[0,4,0],[0,0,2,1]],\"polarity\":[0,1,0,0]},{\"requirements\":[[0,0],[2,0,0],[0,0,3,0]],\"polarity\":[1,0,0,1]},{\"requirements\":[[0,0],[0,0,2],[0,0,1,4]],\"polarity\":[1,0,1,0]},{\"requirements\":[[0,0],[0,1,0],[0,0,0,5]],\"polarity\":[0,1,0,1]},{\"requirements\":[[0,0],[4,0,0],[0,0,2,5]],\"polarity\":[1,0,0,1]}]}. requirements[stage-1][target] is prerequisite captured-bitmask. polarity[] used only stage3. pack mapping works for every uint32 seed. Data reviewed samples span all six packs with different support relations and polarity assignments. No random/time dependence in transitions. quality.stage=state.stage, quality.complexity=number of DISTINCT immediately reachable changed projection states under five actions (same as graph edge count), quality.objective_progress=completed, quality.meaningful_actions=cumulative count of projection-changing inputs (including aim/cancel/failed focused volley that clears focus); no-op does not increment. reversible_state_key joins stage,captured,focus,polarity,outcome ONLY. tick/score/time not decision depth. Independent shortest meaningful actions stages 5,7,9–11; stage-entry legal aim choices2,3,4. Those are aiming choices, not proof of four equally good attacks: the support/polarity constraints make bad first volleys cost one or two extra shots. All reachable projections solvable. Never add per-frame automatic attacks or time-driven projection changes before timeout.",
+      "mobile_readability": "At 390x844 keep everything, including result and Replay, inside first viewport. Canvas roughly 354x420 CSS pixels; enough vertical room for 44px target hit regions and fire bar; max width about420 on larger screens, responsive height. Use >=14px CSS text (canvas fonts scaled to device pixels); no tiny canvas labels, no stacked fillText/strokeText, no collision. Prefer symbols inside battlefield and concise DOM instruction line. Header, current score/device best, goal progress, battlefield, single result hint, lifecycle row and mute. Do not nest critical selector text boxes. Respect [hidden] display:none even buttons. Total visible text <650 characters, concise HUD. Required selectors from product contract must be real visible semantic content. [data-game-progress] mandatory; format observe.progress as finite integer elapsed seconds, not long decimals. [data-product-progress] exact BREACHED {completed} / 3. Muted label and accessible state must be visible. Match normalized target/fire regions in contracts.",
+      "result": "Immediate success exact ARMADA ASCENDANT and failure exact STORM OVERTOOK YOU in [data-result]. Result canvas itself must transform: success a big celebratory geometric crown formed by the whole fleet, broad gold rays and intact citadel reclaimed; failure broken flagship silhouettes and a desaturated fractured storm eclipse. Not just the same scene with text. Final score, GameKit best and primary Replay are visible on mobile. Display [data-replay-reason] with concrete route-improvement reason (shield order and wasted volleys); include Perfect Breach / Efficient / Wasted volleys result tier. CURRENT SCORE at [data-score-label], numeric value [data-game-score]; DEVICE BEST at [data-best-label] and snapshot.best at [data-best]. Use GameKit restart. No custom persistence. Muted/reduced preferences may be in memory only.",
+      "reduced_motion": "Honor initial and live matchMedia prefers-reduced-motion in both directions. presentation() returns reduced_motion,feedback_active,static_feedback from actual visible behavior. Reduced mode disables travel, recoil, shake, particles and expanding shapes, but retains a large static aim corridor, impact burst silhouette, reinforced target outline or fleet assembly silhouette for ~300ms after input. Same settled tactical information as normal. Use no endless decoration animation. Clean listeners/audio on final pagehide. Rendering-only state must not mutate core snapshots.",
+      "scoring": "Start0. Points ONLY on dreadnought breach: max(50,300-25*max(0,stage_volleys-par[stage-1])). stage_volleys counts each focused volley (hit or bounced) AND final core breach, never aiming/noop. Per-pack par arrays in index order0..5 are [3,4,6],[3,4,6],[3,4,5],[3,4,6],[3,4,5],[3,4,5]. Reset per-stage volleys on breach, retain total and meaningful_actions. Maximum900, no points on aiming, returning, waiting, pickup, mute or ordinary shield hits. Reversible focus cycles and no-target fire cannot farm score. Wrong order/shield mismatch costs final efficiency; player can improve same seed. No score for polarity cycles. observe finite tick,score,progress=Math.floor(tick/60),interactions=meaningful_actions,entities=actual bounded count,quality. Core state includes pointer_actions for technical touch probe.",
+      "completion_timing": "45 second shared storm timer=2700 ticks at60Hz. Tick each step; only GameKit steps simulation. At tick>=2700 failure unless success completed on that step. core.terminal true immediately on success/failure; no minimum duration, no post-success animation barrier. Keep declarative initial state unchanged until player inputs; storm is a visible diminishing rim/compact clock, never auto movement. Pause/hidden stops time and sound. Deadline creates pressure while wrong volleys consume time and efficiency; not a timing-only mechanic.",
+      "action_feedback": "Every aim change: immediate targeting acknowledgement, visibly moving large aim corridor/reticle with 280ms settlement. Every volley: recoil, physically extending bright multi-beam fan (~60ms launch), broad impact/shards (~140ms), recruited symbol/updated shields by300ms. Every breach: distinct fleet assembly across substantial battlefield area and changed flagship. All three probes must have before / 60ms / 140ms / settled500ms frames with real pixel differences; small 2px sparkle is insufficient. Reduced uses static alternative. Update canonical outcome immediately, animate previous/current presentation only. Audio REQUIRED with distinct short procedural WebAudio cues for target selection, primary volley, recruitment/breach, success and failure, no background music. Create/resume one AudioContext only from trusted Start/Resume/Replay or gameplay gesture, not load/render. Bound to <=6 concurrent oscillators, eachstop<=220ms; success/failure mayuse short3-note chord. Audible cues must actually reach destination with gain envelope; no diagnostics-only claims. Mute button [data-mute] stops active voices and blocks future sources; on pause/hidden/pagehide stop voices and suspend/close native context immediately. GameKit listener ordering must not leave stale playing audio. Reuse/clean one context, do not create per render; no external audio. Draw detects actual core action/phase/stage changes and emits cues once, including final success/failure even when GameKit finishes in same frame. Reset trackers on Replay. Do not overwrite diagnostics or mutate DOM for QA."
+    },
+    "product_contract": {
+      "schema_version": 1,
+      "objective": {
+        "visible_selector": "[data-objective]",
+        "expected_text": "Break 3 dreadnoughts. Recruit their shards."
+      },
+      "progress": {
+        "selector": "[data-product-progress]",
+        "state_path": "state.completed",
+        "format": "BREACHED {value} / 3",
+        "milestones": [
+          1,
+          2,
+          3
+        ]
+      },
+      "score": {
+        "selector": "[data-game-score]",
+        "label_selector": "[data-score-label]",
+        "expected_label": "CURRENT SCORE",
+        "reversible_probes": [
+          [
+            "left",
+            "left"
+          ],
+          [
+            "right",
+            "right"
+          ]
+        ],
+        "no_progress_probes": [
+          [
+            "fire"
+          ],
+          [
+            "up"
+          ],
+          [
+            "down"
+          ]
+        ]
+      },
+      "best": {
+        "selector": "[data-best]",
+        "label_selector": "[data-best-label]",
+        "expected_label": "DEVICE BEST",
+        "source": "GameKit.best"
+      },
+      "completion": {
+        "state_path": "state.outcome",
+        "success_value": "success",
+        "failure_value": "failure",
+        "result_selector": "[data-result]",
+        "success_text": "ARMADA ASCENDANT",
+        "failure_text": "STORM OVERTOOK YOU",
+        "max_terminal_latency_ms": 100,
+        "failure_wait_ms": 46000,
+        "failure_actions": []
+      },
+      "replay": {
+        "selector": "[data-game-restart]",
+        "must_be_in_initial_mobile_viewport": true
+      },
+      "difficulty": {
+        "deterministic_seeds": [
+          1,
+          7,
+          23,
+          89,
+          2026,
+          4294967295
+        ],
+        "oracle_id": "shard-armada-v1",
+        "oracle_sha256": "dd7d8974311b5c31cbf8d0fc51761525817b651caa8c6b80160c3e85ec055048",
+        "projection": [
+          "state.stage",
+          "state.captured",
+          "state.focus",
+          "state.polarity",
+          "state.outcome"
+        ],
+        "stage_path": "quality.stage",
+        "complexity_path": "quality.complexity",
+        "meaningful_actions_path": "quality.meaningful_actions",
+        "reversible_state_path": "quality.reversible_state_key",
+        "required_monotonicity": "later_strictly_greater",
+        "max_actions": 64
+      },
+      "mobile": {
+        "critical_selectors": [
+          "[data-objective]",
+          "[data-product-progress]",
+          "[data-score-label]",
+          "[data-game-score]",
+          "[data-best-label]",
+          "[data-best]",
+          "[data-result]"
+        ],
+        "control_selectors": [
+          "[data-game-start]",
+          "[data-game-pause]",
+          "[data-game-resume]",
+          "[data-game-restart]",
+          "[data-mute]"
+        ],
+        "canvas_selector": "[data-game-canvas]",
+        "canvas_control_regions": [
+          {
+            "x": 0.14,
+            "y": 0.265,
+            "width": 0.22,
+            "height": 0.15
+          },
+          {
+            "x": 0.64,
+            "y": 0.265,
+            "width": 0.22,
+            "height": 0.15
+          },
+          {
+            "x": 0.39,
+            "y": 0.085,
+            "width": 0.22,
+            "height": 0.15
+          },
+          {
+            "x": 0.39,
+            "y": 0.455,
+            "width": 0.22,
+            "height": 0.15
+          },
+          {
+            "x": 0.39,
+            "y": 0.8550000000000001,
+            "width": 0.22,
+            "height": 0.15
+          }
+        ],
+        "min_font_px": 14,
+        "min_hit_target_px": 44
+      },
+      "reduced_motion": {
+        "presentation_probe_path": "presentation.reduced_motion",
+        "dynamic_change_required": true
+      },
+      "feedback": {
+        "action": "left",
+        "state_change_path": "quality.reversible_state_key",
+        "visual_probe": "[data-game-canvas]",
+        "active_probe_path": "presentation.feedback_active",
+        "static_probe_path": "presentation.static_feedback",
+        "settle_ms": 400
+      },
+      "actions": {
+        "left": {
+          "key": "ArrowLeft",
+          "touch": {
+            "x": 0.25,
+            "y": 0.34
+          },
+          "hold_ms": 35,
+          "settle_ms": 35
+        },
+        "right": {
+          "key": "ArrowRight",
+          "touch": {
+            "x": 0.75,
+            "y": 0.34
+          },
+          "hold_ms": 35,
+          "settle_ms": 35
+        },
+        "up": {
+          "key": "ArrowUp",
+          "touch": {
+            "x": 0.5,
+            "y": 0.16
+          },
+          "hold_ms": 35,
+          "settle_ms": 35
+        },
+        "down": {
+          "key": "ArrowDown",
+          "touch": {
+            "x": 0.5,
+            "y": 0.53
+          },
+          "hold_ms": 35,
+          "settle_ms": 35
+        },
+        "fire": {
+          "key": "Space",
+          "touch": {
+            "x": 0.5,
+            "y": 0.93
+          },
+          "hold_ms": 35,
+          "settle_ms": 35
+        }
+      }
+    },
+    "commercial_contract": {
+      "schema_version": 1,
+      "review_id": "shard-armada-commercial-v1",
+      "seed": 1,
+      "visual_legibility": {
+        "pairs": [
+          {
+            "id": "active-dormant-target",
+            "kind": "action_availability",
+            "a": {
+              "node": "1:0:-1:0:playing",
+              "region": {
+                "selector": "[data-game-canvas]",
+                "x": 0.14,
+                "y": 0.25,
+                "width": 0.22,
+                "height": 0.18
+              }
+            },
+            "b": {
+              "node": "1:0:-1:0:playing",
+              "region": {
+                "selector": "[data-game-canvas]",
+                "x": 0.39,
+                "y": 0.07,
+                "width": 0.22,
+                "height": 0.18
+              }
+            },
+            "action_a": "left",
+            "action_b": "up",
+            "marker": "Active target is a solid angular red vessel; absent target is a visibly empty broken docking outline, not an identical card."
+          },
+          {
+            "id": "shield-link-exposed",
+            "kind": "state",
+            "a": {
+              "node": "2:0:-1:0:playing",
+              "region": {
+                "selector": "[data-game-canvas]",
+                "x": 0.64,
+                "y": 0.25,
+                "width": 0.22,
+                "height": 0.18
+              }
+            },
+            "b": {
+              "node": "2:4:-1:0:playing",
+              "region": {
+                "selector": "[data-game-canvas]",
+                "x": 0.64,
+                "y": 0.25,
+                "width": 0.22,
+                "height": 0.18
+              }
+            },
+            "state_path": "state.captured",
+            "marker": "Right target has opaque segmented armor and a support tether until upper generator is captured; then an open bright core and broken tether are visible."
+          },
+          {
+            "id": "phase-resistant-vulnerable",
+            "kind": "state",
+            "a": {
+              "node": "3:0:-1:0:playing",
+              "region": {
+                "selector": "[data-game-canvas]",
+                "x": 0.64,
+                "y": 0.25,
+                "width": 0.22,
+                "height": 0.18
+              }
+            },
+            "b": {
+              "node": "3:0:-1:1:playing",
+              "region": {
+                "selector": "[data-game-canvas]",
+                "x": 0.64,
+                "y": 0.25,
+                "width": 0.22,
+                "height": 0.18
+              }
+            },
+            "state_path": "state.polarity",
+            "marker": "Right target is resistant to initial narrow volley and exposed to spread volley. Use crossed solid shield vs open chevrons plus colors; target silhouette visibly changes."
+          }
+        ]
+      },
+      "state_distinction": {
+        "pairs": [
+          {
+            "id": "target-focused",
+            "kind": "state",
+            "a": {
+              "node": "1:0:-1:0:playing",
+              "region": {
+                "selector": "[data-game-canvas]",
+                "x": 0.14,
+                "y": 0.25,
+                "width": 0.22,
+                "height": 0.18
+              }
+            },
+            "b": {
+              "node": "1:0:0:0:playing",
+              "region": {
+                "selector": "[data-game-canvas]",
+                "x": 0.14,
+                "y": 0.25,
+                "width": 0.22,
+                "height": 0.18
+              }
+            },
+            "state_path": "state.focus",
+            "marker": "Selection adds a large filled reticle and target-to-fleet aiming corridor."
+          },
+          {
+            "id": "enemy-recruited",
+            "kind": "state",
+            "a": {
+              "node": "1:0:-1:0:playing",
+              "region": {
+                "selector": "[data-game-canvas]",
+                "x": 0.14,
+                "y": 0.25,
+                "width": 0.22,
+                "height": 0.18
+              }
+            },
+            "b": {
+              "node": "1:1:-1:0:playing",
+              "region": {
+                "selector": "[data-game-canvas]",
+                "x": 0.14,
+                "y": 0.25,
+                "width": 0.22,
+                "height": 0.18
+              }
+            },
+            "state_path": "state.captured",
+            "marker": "Enemy hull becomes a bright reclaimed shard emblem with a distinct filled silhouette, not only a numeric count."
+          },
+          {
+            "id": "core-locked-open",
+            "kind": "state",
+            "a": {
+              "node": "1:0:-1:0:playing",
+              "region": {
+                "selector": "[data-game-canvas]",
+                "x": 0.4,
+                "y": 0.36,
+                "width": 0.2,
+                "height": 0.17
+              }
+            },
+            "b": {
+              "node": "1:3:-1:0:playing",
+              "region": {
+                "selector": "[data-game-canvas]",
+                "x": 0.4,
+                "y": 0.36,
+                "width": 0.2,
+                "height": 0.17
+              }
+            },
+            "state_path": "state.captured",
+            "marker": "Closed armored hexagon becomes a luminous exposed geometric core after all escorts are captured."
+          }
+        ]
+      },
+      "action_feedback": {
+        "probes": [
+          {
+            "id": "aim",
+            "node": "1:0:-1:0:playing",
+            "action": "left",
+            "kind": "movement",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.03,
+              "y": 0.03,
+              "width": 0.94,
+              "height": 0.8
+            }
+          },
+          {
+            "id": "volley",
+            "node": "1:0:0:0:playing",
+            "action": "fire",
+            "kind": "attack",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.03,
+              "y": 0.03,
+              "width": 0.94,
+              "height": 0.8
+            }
+          },
+          {
+            "id": "evolve",
+            "node": "1:3:-1:0:playing",
+            "action": "fire",
+            "kind": "upgrade",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.03,
+              "y": 0.03,
+              "width": 0.94,
+              "height": 0.8
+            }
+          }
+        ]
+      },
+      "motion": {
+        "intermediate_ms": [
+          60,
+          140
+        ],
+        "settle_ms": 500
+      },
+      "progression_spectacle": {
+        "checkpoints": [
+          {
+            "node": "1:0:-1:0:playing",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.03,
+              "y": 0.03,
+              "width": 0.94,
+              "height": 0.8
+            }
+          },
+          {
+            "node": "2:0:-1:0:playing",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.03,
+              "y": 0.03,
+              "width": 0.94,
+              "height": 0.8
+            }
+          },
+          {
+            "node": "3:0:-1:0:playing",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.03,
+              "y": 0.03,
+              "width": 0.94,
+              "height": 0.8
+            }
+          }
+        ],
+        "marker": "One scout becomes a five-vessel wing then thirteen-vessel armada; hull size, fleet footprint, gun count, enemy silhouette and storm architecture visibly escalate. Text is masked."
+      },
+      "result_presentation": {
+        "region": {
+          "selector": "[data-game-canvas]",
+          "x": 0.03,
+          "y": 0.03,
+          "width": 0.94,
+          "height": 0.8
+        },
+        "success_title": "ARMADA ASCENDANT",
+        "failure_title": "STORM OVERTOOK YOU"
+      },
+      "audio": {
+        "mode": "required",
+        "mute_selector": "[data-mute]",
+        "primary_probe": "volley",
+        "progress_probe": "evolve"
+      },
+      "mobile_hierarchy": {
+        "gameplay_selector": "[data-game-canvas]",
+        "roles": [
+          {
+            "role": "player",
+            "foreground": {
+              "selector": "[data-game-canvas]",
+              "x": 0.45,
+              "y": 0.7,
+              "width": 0.1,
+              "height": 0.09
+            },
+            "background": {
+              "selector": "[data-game-canvas]",
+              "x": 0.02,
+              "y": 0.7,
+              "width": 0.1,
+              "height": 0.09
+            }
+          },
+          {
+            "role": "danger",
+            "foreground": {
+              "selector": "[data-game-canvas]",
+              "x": 0.21,
+              "y": 0.3,
+              "width": 0.08,
+              "height": 0.08
+            },
+            "background": {
+              "selector": "[data-game-canvas]",
+              "x": 0.02,
+              "y": 0.3,
+              "width": 0.08,
+              "height": 0.08
+            }
+          }
+        ]
+      },
+      "replay_motivation": {
+        "selector": "[data-replay-reason]",
+        "reason": "Replay this seed to read the shield links, choose the right volley order, and reach Perfect Breach with fewer wasted shots."
+      },
+      "performance": {
+        "sample_ms": 1600
+      }
+    }
+  },
+  "commissioning": {
+    "owner_review_required": true,
+    "auto_production_ship": false,
+    "max_provider_calls": 6,
+    "max_estimated_model_cost_usd": 3
+  }
+}

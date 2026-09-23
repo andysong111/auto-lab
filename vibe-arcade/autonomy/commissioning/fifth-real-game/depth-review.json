@@ -1,0 +1,1103 @@
+{
+  "scope": "Independent finite data graph; not browser evidence",
+  "rows": [
+    {
+      "seed": 1,
+      "pack": 1,
+      "nodes": 77,
+      "stages": [
+        {
+          "stage": 1,
+          "complexity": 2,
+          "required_actions": 5,
+          "plan": [
+            {
+              "from": "1:0:-1:0:playing",
+              "action": "left",
+              "to": "1:0:0:0:playing"
+            },
+            {
+              "from": "1:0:0:0:playing",
+              "action": "fire",
+              "to": "1:1:-1:0:playing"
+            },
+            {
+              "from": "1:1:-1:0:playing",
+              "action": "right",
+              "to": "1:1:1:0:playing"
+            },
+            {
+              "from": "1:1:1:0:playing",
+              "action": "fire",
+              "to": "1:3:-1:0:playing"
+            },
+            {
+              "from": "1:3:-1:0:playing",
+              "action": "fire",
+              "to": "2:0:-1:0:playing"
+            }
+          ],
+          "minimum_volleys": 3,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 3
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 3
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "complexity": 3,
+          "required_actions": 7,
+          "plan": [
+            {
+              "from": "2:0:-1:0:playing",
+              "action": "left",
+              "to": "2:0:0:0:playing"
+            },
+            {
+              "from": "2:0:0:0:playing",
+              "action": "fire",
+              "to": "2:1:-1:0:playing"
+            },
+            {
+              "from": "2:1:-1:0:playing",
+              "action": "up",
+              "to": "2:1:2:0:playing"
+            },
+            {
+              "from": "2:1:2:0:playing",
+              "action": "fire",
+              "to": "2:5:-1:0:playing"
+            },
+            {
+              "from": "2:5:-1:0:playing",
+              "action": "right",
+              "to": "2:5:1:0:playing"
+            },
+            {
+              "from": "2:5:1:0:playing",
+              "action": "fire",
+              "to": "2:7:-1:0:playing"
+            },
+            {
+              "from": "2:7:-1:0:playing",
+              "action": "fire",
+              "to": "3:0:-1:0:playing"
+            }
+          ],
+          "minimum_volleys": 4,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 4
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 5
+            },
+            {
+              "first_target": 2,
+              "minimum_total_volleys": 4
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "complexity": 4,
+          "required_actions": 11,
+          "plan": [
+            {
+              "from": "3:0:-1:0:playing",
+              "action": "left",
+              "to": "3:0:0:0:playing"
+            },
+            {
+              "from": "3:0:0:0:playing",
+              "action": "fire",
+              "to": "3:1:-1:1:playing"
+            },
+            {
+              "from": "3:1:-1:1:playing",
+              "action": "right",
+              "to": "3:1:1:1:playing"
+            },
+            {
+              "from": "3:1:1:1:playing",
+              "action": "fire",
+              "to": "3:3:-1:0:playing"
+            },
+            {
+              "from": "3:3:-1:0:playing",
+              "action": "up",
+              "to": "3:3:2:0:playing"
+            },
+            {
+              "from": "3:3:2:0:playing",
+              "action": "fire",
+              "to": "3:7:-1:1:playing"
+            },
+            {
+              "from": "3:7:-1:1:playing",
+              "action": "down",
+              "to": "3:7:3:1:playing"
+            },
+            {
+              "from": "3:7:3:1:playing",
+              "action": "fire",
+              "to": "3:7:-1:0:playing"
+            },
+            {
+              "from": "3:7:-1:0:playing",
+              "action": "down",
+              "to": "3:7:3:0:playing"
+            },
+            {
+              "from": "3:7:3:0:playing",
+              "action": "fire",
+              "to": "3:15:-1:1:playing"
+            },
+            {
+              "from": "3:15:-1:1:playing",
+              "action": "fire",
+              "to": "4:0:-1:0:success"
+            }
+          ],
+          "minimum_volleys": 6,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 6
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 8
+            },
+            {
+              "first_target": 2,
+              "minimum_total_volleys": 8
+            },
+            {
+              "first_target": 3,
+              "minimum_total_volleys": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "pack": 0,
+      "nodes": 76,
+      "stages": [
+        {
+          "stage": 1,
+          "complexity": 2,
+          "required_actions": 5,
+          "plan": [
+            {
+              "from": "1:0:-1:0:playing",
+              "action": "left",
+              "to": "1:0:0:0:playing"
+            },
+            {
+              "from": "1:0:0:0:playing",
+              "action": "fire",
+              "to": "1:1:-1:0:playing"
+            },
+            {
+              "from": "1:1:-1:0:playing",
+              "action": "right",
+              "to": "1:1:1:0:playing"
+            },
+            {
+              "from": "1:1:1:0:playing",
+              "action": "fire",
+              "to": "1:3:-1:0:playing"
+            },
+            {
+              "from": "1:3:-1:0:playing",
+              "action": "fire",
+              "to": "2:0:-1:0:playing"
+            }
+          ],
+          "minimum_volleys": 3,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 3
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 3
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "complexity": 3,
+          "required_actions": 7,
+          "plan": [
+            {
+              "from": "2:0:-1:0:playing",
+              "action": "left",
+              "to": "2:0:0:0:playing"
+            },
+            {
+              "from": "2:0:0:0:playing",
+              "action": "fire",
+              "to": "2:1:-1:0:playing"
+            },
+            {
+              "from": "2:1:-1:0:playing",
+              "action": "right",
+              "to": "2:1:1:0:playing"
+            },
+            {
+              "from": "2:1:1:0:playing",
+              "action": "fire",
+              "to": "2:3:-1:0:playing"
+            },
+            {
+              "from": "2:3:-1:0:playing",
+              "action": "up",
+              "to": "2:3:2:0:playing"
+            },
+            {
+              "from": "2:3:2:0:playing",
+              "action": "fire",
+              "to": "2:7:-1:0:playing"
+            },
+            {
+              "from": "2:7:-1:0:playing",
+              "action": "fire",
+              "to": "3:0:-1:0:playing"
+            }
+          ],
+          "minimum_volleys": 4,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 4
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 4
+            },
+            {
+              "first_target": 2,
+              "minimum_total_volleys": 5
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "complexity": 4,
+          "required_actions": 11,
+          "plan": [
+            {
+              "from": "3:0:-1:0:playing",
+              "action": "left",
+              "to": "3:0:0:0:playing"
+            },
+            {
+              "from": "3:0:0:0:playing",
+              "action": "fire",
+              "to": "3:1:-1:1:playing"
+            },
+            {
+              "from": "3:1:-1:1:playing",
+              "action": "right",
+              "to": "3:1:1:1:playing"
+            },
+            {
+              "from": "3:1:1:1:playing",
+              "action": "fire",
+              "to": "3:1:-1:0:playing"
+            },
+            {
+              "from": "3:1:-1:0:playing",
+              "action": "right",
+              "to": "3:1:1:0:playing"
+            },
+            {
+              "from": "3:1:1:0:playing",
+              "action": "fire",
+              "to": "3:3:-1:1:playing"
+            },
+            {
+              "from": "3:3:-1:1:playing",
+              "action": "up",
+              "to": "3:3:2:1:playing"
+            },
+            {
+              "from": "3:3:2:1:playing",
+              "action": "fire",
+              "to": "3:7:-1:0:playing"
+            },
+            {
+              "from": "3:7:-1:0:playing",
+              "action": "down",
+              "to": "3:7:3:0:playing"
+            },
+            {
+              "from": "3:7:3:0:playing",
+              "action": "fire",
+              "to": "3:15:-1:1:playing"
+            },
+            {
+              "from": "3:15:-1:1:playing",
+              "action": "fire",
+              "to": "4:0:-1:0:success"
+            }
+          ],
+          "minimum_volleys": 6,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 6
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 6
+            },
+            {
+              "first_target": 2,
+              "minimum_total_volleys": 8
+            },
+            {
+              "first_target": 3,
+              "minimum_total_volleys": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 23,
+      "pack": 2,
+      "nodes": 84,
+      "stages": [
+        {
+          "stage": 1,
+          "complexity": 2,
+          "required_actions": 5,
+          "plan": [
+            {
+              "from": "1:0:-1:0:playing",
+              "action": "left",
+              "to": "1:0:0:0:playing"
+            },
+            {
+              "from": "1:0:0:0:playing",
+              "action": "fire",
+              "to": "1:1:-1:0:playing"
+            },
+            {
+              "from": "1:1:-1:0:playing",
+              "action": "right",
+              "to": "1:1:1:0:playing"
+            },
+            {
+              "from": "1:1:1:0:playing",
+              "action": "fire",
+              "to": "1:3:-1:0:playing"
+            },
+            {
+              "from": "1:3:-1:0:playing",
+              "action": "fire",
+              "to": "2:0:-1:0:playing"
+            }
+          ],
+          "minimum_volleys": 3,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 3
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 3
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "complexity": 3,
+          "required_actions": 7,
+          "plan": [
+            {
+              "from": "2:0:-1:0:playing",
+              "action": "right",
+              "to": "2:0:1:0:playing"
+            },
+            {
+              "from": "2:0:1:0:playing",
+              "action": "fire",
+              "to": "2:2:-1:0:playing"
+            },
+            {
+              "from": "2:2:-1:0:playing",
+              "action": "left",
+              "to": "2:2:0:0:playing"
+            },
+            {
+              "from": "2:2:0:0:playing",
+              "action": "fire",
+              "to": "2:3:-1:0:playing"
+            },
+            {
+              "from": "2:3:-1:0:playing",
+              "action": "up",
+              "to": "2:3:2:0:playing"
+            },
+            {
+              "from": "2:3:2:0:playing",
+              "action": "fire",
+              "to": "2:7:-1:0:playing"
+            },
+            {
+              "from": "2:7:-1:0:playing",
+              "action": "fire",
+              "to": "3:0:-1:0:playing"
+            }
+          ],
+          "minimum_volleys": 4,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 5
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 4
+            },
+            {
+              "first_target": 2,
+              "minimum_total_volleys": 4
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "complexity": 4,
+          "required_actions": 9,
+          "plan": [
+            {
+              "from": "3:0:-1:0:playing",
+              "action": "right",
+              "to": "3:0:1:0:playing"
+            },
+            {
+              "from": "3:0:1:0:playing",
+              "action": "fire",
+              "to": "3:2:-1:1:playing"
+            },
+            {
+              "from": "3:2:-1:1:playing",
+              "action": "left",
+              "to": "3:2:0:1:playing"
+            },
+            {
+              "from": "3:2:0:1:playing",
+              "action": "fire",
+              "to": "3:3:-1:0:playing"
+            },
+            {
+              "from": "3:3:-1:0:playing",
+              "action": "up",
+              "to": "3:3:2:0:playing"
+            },
+            {
+              "from": "3:3:2:0:playing",
+              "action": "fire",
+              "to": "3:7:-1:1:playing"
+            },
+            {
+              "from": "3:7:-1:1:playing",
+              "action": "down",
+              "to": "3:7:3:1:playing"
+            },
+            {
+              "from": "3:7:3:1:playing",
+              "action": "fire",
+              "to": "3:15:-1:0:playing"
+            },
+            {
+              "from": "3:15:-1:0:playing",
+              "action": "fire",
+              "to": "4:0:-1:0:success"
+            }
+          ],
+          "minimum_volleys": 5,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 6
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 5
+            },
+            {
+              "first_target": 2,
+              "minimum_total_volleys": 6
+            },
+            {
+              "first_target": 3,
+              "minimum_total_volleys": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 89,
+      "pack": 5,
+      "nodes": 67,
+      "stages": [
+        {
+          "stage": 1,
+          "complexity": 2,
+          "required_actions": 5,
+          "plan": [
+            {
+              "from": "1:0:-1:0:playing",
+              "action": "left",
+              "to": "1:0:0:0:playing"
+            },
+            {
+              "from": "1:0:0:0:playing",
+              "action": "fire",
+              "to": "1:1:-1:0:playing"
+            },
+            {
+              "from": "1:1:-1:0:playing",
+              "action": "right",
+              "to": "1:1:1:0:playing"
+            },
+            {
+              "from": "1:1:1:0:playing",
+              "action": "fire",
+              "to": "1:3:-1:0:playing"
+            },
+            {
+              "from": "1:3:-1:0:playing",
+              "action": "fire",
+              "to": "2:0:-1:0:playing"
+            }
+          ],
+          "minimum_volleys": 3,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 3
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 3
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "complexity": 3,
+          "required_actions": 7,
+          "plan": [
+            {
+              "from": "2:0:-1:0:playing",
+              "action": "right",
+              "to": "2:0:1:0:playing"
+            },
+            {
+              "from": "2:0:1:0:playing",
+              "action": "fire",
+              "to": "2:2:-1:0:playing"
+            },
+            {
+              "from": "2:2:-1:0:playing",
+              "action": "up",
+              "to": "2:2:2:0:playing"
+            },
+            {
+              "from": "2:2:2:0:playing",
+              "action": "fire",
+              "to": "2:6:-1:0:playing"
+            },
+            {
+              "from": "2:6:-1:0:playing",
+              "action": "left",
+              "to": "2:6:0:0:playing"
+            },
+            {
+              "from": "2:6:0:0:playing",
+              "action": "fire",
+              "to": "2:7:-1:0:playing"
+            },
+            {
+              "from": "2:7:-1:0:playing",
+              "action": "fire",
+              "to": "3:0:-1:0:playing"
+            }
+          ],
+          "minimum_volleys": 4,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 5
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 4
+            },
+            {
+              "first_target": 2,
+              "minimum_total_volleys": 4
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "complexity": 4,
+          "required_actions": 9,
+          "plan": [
+            {
+              "from": "3:0:-1:0:playing",
+              "action": "right",
+              "to": "3:0:1:0:playing"
+            },
+            {
+              "from": "3:0:1:0:playing",
+              "action": "fire",
+              "to": "3:2:-1:1:playing"
+            },
+            {
+              "from": "3:2:-1:1:playing",
+              "action": "left",
+              "to": "3:2:0:1:playing"
+            },
+            {
+              "from": "3:2:0:1:playing",
+              "action": "fire",
+              "to": "3:3:-1:0:playing"
+            },
+            {
+              "from": "3:3:-1:0:playing",
+              "action": "up",
+              "to": "3:3:2:0:playing"
+            },
+            {
+              "from": "3:3:2:0:playing",
+              "action": "fire",
+              "to": "3:7:-1:1:playing"
+            },
+            {
+              "from": "3:7:-1:1:playing",
+              "action": "down",
+              "to": "3:7:3:1:playing"
+            },
+            {
+              "from": "3:7:3:1:playing",
+              "action": "fire",
+              "to": "3:15:-1:0:playing"
+            },
+            {
+              "from": "3:15:-1:0:playing",
+              "action": "fire",
+              "to": "4:0:-1:0:success"
+            }
+          ],
+          "minimum_volleys": 5,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 7
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 5
+            },
+            {
+              "first_target": 2,
+              "minimum_total_volleys": 7
+            },
+            {
+              "first_target": 3,
+              "minimum_total_volleys": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 2026,
+      "pack": 3,
+      "nodes": 68,
+      "stages": [
+        {
+          "stage": 1,
+          "complexity": 2,
+          "required_actions": 5,
+          "plan": [
+            {
+              "from": "1:0:-1:0:playing",
+              "action": "left",
+              "to": "1:0:0:0:playing"
+            },
+            {
+              "from": "1:0:0:0:playing",
+              "action": "fire",
+              "to": "1:1:-1:0:playing"
+            },
+            {
+              "from": "1:1:-1:0:playing",
+              "action": "right",
+              "to": "1:1:1:0:playing"
+            },
+            {
+              "from": "1:1:1:0:playing",
+              "action": "fire",
+              "to": "1:3:-1:0:playing"
+            },
+            {
+              "from": "1:3:-1:0:playing",
+              "action": "fire",
+              "to": "2:0:-1:0:playing"
+            }
+          ],
+          "minimum_volleys": 3,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 3
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 3
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "complexity": 3,
+          "required_actions": 7,
+          "plan": [
+            {
+              "from": "2:0:-1:0:playing",
+              "action": "left",
+              "to": "2:0:0:0:playing"
+            },
+            {
+              "from": "2:0:0:0:playing",
+              "action": "fire",
+              "to": "2:1:-1:0:playing"
+            },
+            {
+              "from": "2:1:-1:0:playing",
+              "action": "right",
+              "to": "2:1:1:0:playing"
+            },
+            {
+              "from": "2:1:1:0:playing",
+              "action": "fire",
+              "to": "2:3:-1:0:playing"
+            },
+            {
+              "from": "2:3:-1:0:playing",
+              "action": "up",
+              "to": "2:3:2:0:playing"
+            },
+            {
+              "from": "2:3:2:0:playing",
+              "action": "fire",
+              "to": "2:7:-1:0:playing"
+            },
+            {
+              "from": "2:7:-1:0:playing",
+              "action": "fire",
+              "to": "3:0:-1:0:playing"
+            }
+          ],
+          "minimum_volleys": 4,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 4
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 4
+            },
+            {
+              "first_target": 2,
+              "minimum_total_volleys": 5
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "complexity": 4,
+          "required_actions": 11,
+          "plan": [
+            {
+              "from": "3:0:-1:0:playing",
+              "action": "left",
+              "to": "3:0:0:0:playing"
+            },
+            {
+              "from": "3:0:0:0:playing",
+              "action": "fire",
+              "to": "3:0:-1:1:playing"
+            },
+            {
+              "from": "3:0:-1:1:playing",
+              "action": "left",
+              "to": "3:0:0:1:playing"
+            },
+            {
+              "from": "3:0:0:1:playing",
+              "action": "fire",
+              "to": "3:1:-1:0:playing"
+            },
+            {
+              "from": "3:1:-1:0:playing",
+              "action": "right",
+              "to": "3:1:1:0:playing"
+            },
+            {
+              "from": "3:1:1:0:playing",
+              "action": "fire",
+              "to": "3:3:-1:1:playing"
+            },
+            {
+              "from": "3:3:-1:1:playing",
+              "action": "up",
+              "to": "3:3:2:1:playing"
+            },
+            {
+              "from": "3:3:2:1:playing",
+              "action": "fire",
+              "to": "3:7:-1:0:playing"
+            },
+            {
+              "from": "3:7:-1:0:playing",
+              "action": "down",
+              "to": "3:7:3:0:playing"
+            },
+            {
+              "from": "3:7:3:0:playing",
+              "action": "fire",
+              "to": "3:15:-1:1:playing"
+            },
+            {
+              "from": "3:15:-1:1:playing",
+              "action": "fire",
+              "to": "4:0:-1:0:success"
+            }
+          ],
+          "minimum_volleys": 6,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 6
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 6
+            },
+            {
+              "first_target": 2,
+              "minimum_total_volleys": 6
+            },
+            {
+              "first_target": 3,
+              "minimum_total_volleys": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 4294967295,
+      "pack": 4,
+      "nodes": 82,
+      "stages": [
+        {
+          "stage": 1,
+          "complexity": 2,
+          "required_actions": 5,
+          "plan": [
+            {
+              "from": "1:0:-1:0:playing",
+              "action": "left",
+              "to": "1:0:0:0:playing"
+            },
+            {
+              "from": "1:0:0:0:playing",
+              "action": "fire",
+              "to": "1:1:-1:0:playing"
+            },
+            {
+              "from": "1:1:-1:0:playing",
+              "action": "right",
+              "to": "1:1:1:0:playing"
+            },
+            {
+              "from": "1:1:1:0:playing",
+              "action": "fire",
+              "to": "1:3:-1:0:playing"
+            },
+            {
+              "from": "1:3:-1:0:playing",
+              "action": "fire",
+              "to": "2:0:-1:0:playing"
+            }
+          ],
+          "minimum_volleys": 3,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 3
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 3
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "complexity": 3,
+          "required_actions": 7,
+          "plan": [
+            {
+              "from": "2:0:-1:0:playing",
+              "action": "left",
+              "to": "2:0:0:0:playing"
+            },
+            {
+              "from": "2:0:0:0:playing",
+              "action": "fire",
+              "to": "2:1:-1:0:playing"
+            },
+            {
+              "from": "2:1:-1:0:playing",
+              "action": "right",
+              "to": "2:1:1:0:playing"
+            },
+            {
+              "from": "2:1:1:0:playing",
+              "action": "fire",
+              "to": "2:3:-1:0:playing"
+            },
+            {
+              "from": "2:3:-1:0:playing",
+              "action": "up",
+              "to": "2:3:2:0:playing"
+            },
+            {
+              "from": "2:3:2:0:playing",
+              "action": "fire",
+              "to": "2:7:-1:0:playing"
+            },
+            {
+              "from": "2:7:-1:0:playing",
+              "action": "fire",
+              "to": "3:0:-1:0:playing"
+            }
+          ],
+          "minimum_volleys": 4,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 4
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 5
+            },
+            {
+              "first_target": 2,
+              "minimum_total_volleys": 4
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "complexity": 4,
+          "required_actions": 9,
+          "plan": [
+            {
+              "from": "3:0:-1:0:playing",
+              "action": "left",
+              "to": "3:0:0:0:playing"
+            },
+            {
+              "from": "3:0:0:0:playing",
+              "action": "fire",
+              "to": "3:1:-1:1:playing"
+            },
+            {
+              "from": "3:1:-1:1:playing",
+              "action": "right",
+              "to": "3:1:1:1:playing"
+            },
+            {
+              "from": "3:1:1:1:playing",
+              "action": "fire",
+              "to": "3:3:-1:0:playing"
+            },
+            {
+              "from": "3:3:-1:0:playing",
+              "action": "up",
+              "to": "3:3:2:0:playing"
+            },
+            {
+              "from": "3:3:2:0:playing",
+              "action": "fire",
+              "to": "3:7:-1:1:playing"
+            },
+            {
+              "from": "3:7:-1:1:playing",
+              "action": "down",
+              "to": "3:7:3:1:playing"
+            },
+            {
+              "from": "3:7:3:1:playing",
+              "action": "fire",
+              "to": "3:15:-1:0:playing"
+            },
+            {
+              "from": "3:15:-1:0:playing",
+              "action": "fire",
+              "to": "4:0:-1:0:success"
+            }
+          ],
+          "minimum_volleys": 5,
+          "first_shot_options": [
+            {
+              "first_target": 0,
+              "minimum_total_volleys": 5
+            },
+            {
+              "first_target": 1,
+              "minimum_total_volleys": 7
+            },
+            {
+              "first_target": 2,
+              "minimum_total_volleys": 5
+            },
+            {
+              "first_target": 3,
+              "minimum_total_volleys": 7
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

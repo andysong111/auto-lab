@@ -1,0 +1,46 @@
+{
+  "selected": "Shard Armada",
+  "ideas": [
+    {
+      "title": "Shard Armada",
+      "family": "aimed-salvo-recruitment-siege",
+      "inputs": [
+        "aim",
+        "volley"
+      ],
+      "growth": "scout -> five-ship wing -> thirteen-ship armada; broader weapons and larger enemy citadels",
+      "depth": "support shield dependencies plus alternating volley polarity change efficient target order",
+      "decision": "SELECTED",
+      "reason": "Direct, visible attack response and power growth; bounded state does not require automatic movement or a shallow toggle board."
+    },
+    {
+      "title": "Forge Tides",
+      "family": "resource-conversion-frontline",
+      "inputs": [
+        "select zone",
+        "convert reserve"
+      ],
+      "growth": "small foundry expands weapons and fortifications",
+      "decision": "DEFERRED",
+      "reason": "Explaining reserve conversion and simultaneous front pressure risks crowding the first mobile viewport."
+    },
+    {
+      "title": "Bloom Colossus",
+      "family": "modular-body-assimilation",
+      "inputs": [
+        "steer",
+        "absorb"
+      ],
+      "growth": "small creature absorbs limbs and changes reach",
+      "decision": "DEFERRED",
+      "reason": "Continuous collision/body configurations would not fit the reviewed v1 finite-state structure without hiding important behavior."
+    }
+  ],
+  "rejected_candidates_untouched": [
+    "GAME-20260922-110",
+    "GAME-20260922-121",
+    "GAME-20260922-131",
+    "GAME-20260923-141"
+  ],
+  "comparison": "Top Lords only generic presentation qualities. No brand/art/UI/mechanic reference material copied."
+}

@@ -8,6 +8,14 @@
       "product_contract_sha256": "2437fb3dbd7e8e7027c53b62d00767e282d6faea4093075ae3c4a3cf21583bed",
       "reviewed_by": "Work trusted fixture review",
       "rationale": "Authored switch oracle: legal a0 vs disabled a4; mask state pair; three increasing stages; local non-text regions and movement/progress probes. All core fixture decisions covered; fixture-only, never candidate approval."
+    },
+    {
+      "id": "shard-armada-commercial-v1",
+      "scope": "candidate",
+      "contract_sha256": "b4aae09bbba88d87b448877b6964787c013a6458ab283a27f014c767adf3a90c",
+      "product_contract_sha256": "9c8a74478d7fb0bb5cc2fad999a094336e5c684ed0c47fa369ef55413116904e",
+      "reviewed_by": "Work trusted pre-generation design review 2026-09-23",
+      "rationale": "Coverage review includes present/absent targets, shielding support, firing polarity, focus, enemy/recruited and core lock; aim, volley and evolution response; 1/5/13 vessel progression; success/failure, all required audio, mute/cleanup, foreground hierarchy and bounded effects. Regions are real battlefield objects. No silence exception; no aesthetic score or candidate self-approval."
     }
   ]
 }

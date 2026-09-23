@@ -1,0 +1,318 @@
+{
+  "schema_version": 1,
+  "review_id": "shard-armada-commercial-v1",
+  "seed": 1,
+  "visual_legibility": {
+    "pairs": [
+      {
+        "id": "active-dormant-target",
+        "kind": "action_availability",
+        "a": {
+          "node": "1:0:-1:0:playing",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.14,
+            "y": 0.25,
+            "width": 0.22,
+            "height": 0.18
+          }
+        },
+        "b": {
+          "node": "1:0:-1:0:playing",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.39,
+            "y": 0.07,
+            "width": 0.22,
+            "height": 0.18
+          }
+        },
+        "action_a": "left",
+        "action_b": "up",
+        "marker": "Active target is a solid angular red vessel; absent target is a visibly empty broken docking outline, not an identical card."
+      },
+      {
+        "id": "shield-link-exposed",
+        "kind": "state",
+        "a": {
+          "node": "2:0:-1:0:playing",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.64,
+            "y": 0.25,
+            "width": 0.22,
+            "height": 0.18
+          }
+        },
+        "b": {
+          "node": "2:4:-1:0:playing",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.64,
+            "y": 0.25,
+            "width": 0.22,
+            "height": 0.18
+          }
+        },
+        "state_path": "state.captured",
+        "marker": "Right target has opaque segmented armor and a support tether until upper generator is captured; then an open bright core and broken tether are visible."
+      },
+      {
+        "id": "phase-resistant-vulnerable",
+        "kind": "state",
+        "a": {
+          "node": "3:0:-1:0:playing",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.64,
+            "y": 0.25,
+            "width": 0.22,
+            "height": 0.18
+          }
+        },
+        "b": {
+          "node": "3:0:-1:1:playing",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.64,
+            "y": 0.25,
+            "width": 0.22,
+            "height": 0.18
+          }
+        },
+        "state_path": "state.polarity",
+        "marker": "Right target is resistant to initial narrow volley and exposed to spread volley. Use crossed solid shield vs open chevrons plus colors; target silhouette visibly changes."
+      }
+    ]
+  },
+  "state_distinction": {
+    "pairs": [
+      {
+        "id": "target-focused",
+        "kind": "state",
+        "a": {
+          "node": "1:0:-1:0:playing",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.14,
+            "y": 0.25,
+            "width": 0.22,
+            "height": 0.18
+          }
+        },
+        "b": {
+          "node": "1:0:0:0:playing",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.14,
+            "y": 0.25,
+            "width": 0.22,
+            "height": 0.18
+          }
+        },
+        "state_path": "state.focus",
+        "marker": "Selection adds a large filled reticle and target-to-fleet aiming corridor."
+      },
+      {
+        "id": "enemy-recruited",
+        "kind": "state",
+        "a": {
+          "node": "1:0:-1:0:playing",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.14,
+            "y": 0.25,
+            "width": 0.22,
+            "height": 0.18
+          }
+        },
+        "b": {
+          "node": "1:1:-1:0:playing",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.14,
+            "y": 0.25,
+            "width": 0.22,
+            "height": 0.18
+          }
+        },
+        "state_path": "state.captured",
+        "marker": "Enemy hull becomes a bright reclaimed shard emblem with a distinct filled silhouette, not only a numeric count."
+      },
+      {
+        "id": "core-locked-open",
+        "kind": "state",
+        "a": {
+          "node": "1:0:-1:0:playing",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.4,
+            "y": 0.36,
+            "width": 0.2,
+            "height": 0.17
+          }
+        },
+        "b": {
+          "node": "1:3:-1:0:playing",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.4,
+            "y": 0.36,
+            "width": 0.2,
+            "height": 0.17
+          }
+        },
+        "state_path": "state.captured",
+        "marker": "Closed armored hexagon becomes a luminous exposed geometric core after all escorts are captured."
+      }
+    ]
+  },
+  "action_feedback": {
+    "probes": [
+      {
+        "id": "aim",
+        "node": "1:0:-1:0:playing",
+        "action": "left",
+        "kind": "movement",
+        "region": {
+          "selector": "[data-game-canvas]",
+          "x": 0.03,
+          "y": 0.03,
+          "width": 0.94,
+          "height": 0.8
+        }
+      },
+      {
+        "id": "volley",
+        "node": "1:0:0:0:playing",
+        "action": "fire",
+        "kind": "attack",
+        "region": {
+          "selector": "[data-game-canvas]",
+          "x": 0.03,
+          "y": 0.03,
+          "width": 0.94,
+          "height": 0.8
+        }
+      },
+      {
+        "id": "evolve",
+        "node": "1:3:-1:0:playing",
+        "action": "fire",
+        "kind": "upgrade",
+        "region": {
+          "selector": "[data-game-canvas]",
+          "x": 0.03,
+          "y": 0.03,
+          "width": 0.94,
+          "height": 0.8
+        }
+      }
+    ]
+  },
+  "motion": {
+    "intermediate_ms": [
+      60,
+      140
+    ],
+    "settle_ms": 500
+  },
+  "progression_spectacle": {
+    "checkpoints": [
+      {
+        "node": "1:0:-1:0:playing",
+        "region": {
+          "selector": "[data-game-canvas]",
+          "x": 0.03,
+          "y": 0.03,
+          "width": 0.94,
+          "height": 0.8
+        }
+      },
+      {
+        "node": "2:0:-1:0:playing",
+        "region": {
+          "selector": "[data-game-canvas]",
+          "x": 0.03,
+          "y": 0.03,
+          "width": 0.94,
+          "height": 0.8
+        }
+      },
+      {
+        "node": "3:0:-1:0:playing",
+        "region": {
+          "selector": "[data-game-canvas]",
+          "x": 0.03,
+          "y": 0.03,
+          "width": 0.94,
+          "height": 0.8
+        }
+      }
+    ],
+    "marker": "One scout becomes a five-vessel wing then thirteen-vessel armada; hull size, fleet footprint, gun count, enemy silhouette and storm architecture visibly escalate. Text is masked."
+  },
+  "result_presentation": {
+    "region": {
+      "selector": "[data-game-canvas]",
+      "x": 0.03,
+      "y": 0.03,
+      "width": 0.94,
+      "height": 0.8
+    },
+    "success_title": "ARMADA ASCENDANT",
+    "failure_title": "STORM OVERTOOK YOU"
+  },
+  "audio": {
+    "mode": "required",
+    "mute_selector": "[data-mute]",
+    "primary_probe": "volley",
+    "progress_probe": "evolve"
+  },
+  "mobile_hierarchy": {
+    "gameplay_selector": "[data-game-canvas]",
+    "roles": [
+      {
+        "role": "player",
+        "foreground": {
+          "selector": "[data-game-canvas]",
+          "x": 0.45,
+          "y": 0.7,
+          "width": 0.1,
+          "height": 0.09
+        },
+        "background": {
+          "selector": "[data-game-canvas]",
+          "x": 0.02,
+          "y": 0.7,
+          "width": 0.1,
+          "height": 0.09
+        }
+      },
+      {
+        "role": "danger",
+        "foreground": {
+          "selector": "[data-game-canvas]",
+          "x": 0.21,
+          "y": 0.3,
+          "width": 0.08,
+          "height": 0.08
+        },
+        "background": {
+          "selector": "[data-game-canvas]",
+          "x": 0.02,
+          "y": 0.3,
+          "width": 0.08,
+          "height": 0.08
+        }
+      }
+    ]
+  },
+  "replay_motivation": {
+    "selector": "[data-replay-reason]",
+    "reason": "Replay this seed to read the shield links, choose the right volley order, and reach Perfect Breach with fewer wasted shots."
+  },
+  "performance": {
+    "sample_ms": 1600
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "before_paid_call": true,
+  "candidate_source_exists": false,
+  "commissioning_spec": "PASS",
+  "product_contract": "PASS",
+  "commercial_contract": "PASS",
+  "reviewed_product_oracle": "PASS",
+  "reviewed_commercial_contract": "PASS",
+  "product_approval": {
+    "id": "shard-armada-v1",
+    "file": "shard-armada-v1.json",
+    "scope": "candidate",
+    "sha256": "dd7d8974311b5c31cbf8d0fc51761525817b651caa8c6b80160c3e85ec055048",
+    "contract_sha256": "9c8a74478d7fb0bb5cc2fad999a094336e5c684ed0c47fa369ef55413116904e",
+    "reviewed_by": "Work trusted pre-generation design review 2026-09-23",
+    "rationale": "Independent data graph for aimed salvo/recruitment rules. Six distinct support/polarity packs, 67–84 reachable nodes, all solvable, increasing stage entry aiming choices 2/3/4 and minimum actions 5/7/9–11. Aim choices are reversible; attack order incurs real extra volleys. Not a claim of human fun. Candidate cannot approve or edit this oracle."
+  },
+  "commercial_approval": {
+    "id": "shard-armada-commercial-v1",
+    "scope": "candidate",
+    "contract_sha256": "b4aae09bbba88d87b448877b6964787c013a6458ab283a27f014c767adf3a90c",
+    "product_contract_sha256": "9c8a74478d7fb0bb5cc2fad999a094336e5c684ed0c47fa369ef55413116904e",
+    "reviewed_by": "Work trusted pre-generation design review 2026-09-23",
+    "rationale": "Coverage review includes present/absent targets, shielding support, firing polarity, focus, enemy/recruited and core lock; aim, volley and evolution response; 1/5/13 vessel progression; success/failure, all required audio, mute/cleanup, foreground hierarchy and bounded effects. Regions are real battlefield objects. No silence exception; no aesthetic score or candidate self-approval."
+  },
+  "depth": [
+    {
+      "seed": 1,
+      "pack": 1,
+      "nodes": 77,
+      "shortest_actions": [
+        5,
+        7,
+        11
+      ],
+      "aim_choices": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "seed": 7,
+      "pack": 0,
+      "nodes": 76,
+      "shortest_actions": [
+        5,
+        7,
+        11
+      ],
+      "aim_choices": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "seed": 23,
+      "pack": 2,
+      "nodes": 84,
+      "shortest_actions": [
+        5,
+        7,
+        9
+      ],
+      "aim_choices": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "seed": 89,
+      "pack": 5,
+      "nodes": 67,
+      "shortest_actions": [
+        5,
+        7,
+        9
+      ],
+      "aim_choices": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "seed": 2026,
+      "pack": 3,
+      "nodes": 68,
+      "shortest_actions": [
+        5,
+        7,
+        11
+      ],
+      "aim_choices": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "seed": 4294967295,
+      "pack": 4,
+      "nodes": 82,
+      "shortest_actions": [
+        5,
+        7,
+        9
+      ],
+      "aim_choices": [
+        2,
+        3,
+        4
+      ]
+    }
+  ],
+  "scope": "Data review only. Browser conformance, pixels, audio and owner play remain unverified."
+}
