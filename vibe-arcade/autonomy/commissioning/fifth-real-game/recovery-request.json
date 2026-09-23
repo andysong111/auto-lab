@@ -1,0 +1,8 @@
+{
+  "schema": "playjolt-fifth-recovery-request/1",
+  "game_id": "GAME-20260923-151",
+  "purpose": "Recover the already-triggered original commissioning workflow state without making provider calls or altering terminal budgets.",
+  "paid_provider_calls_allowed": false,
+  "production_authorized": false,
+  "created_from_head": "03a864688e024cdf1f95128f08e0557f25976b1b"
+}
