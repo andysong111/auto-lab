@@ -1,0 +1,56 @@
+name: Keywake same-ID owner depth polish
+on:
+  push:
+    branches: [commissioning/keywake-depth-polish-20260923]
+    paths: ['vibe-arcade/autonomy/commissioning/keywake-depth-polish/run-request.json']
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: playjolt-fourth-real-game-GAME-20260923-141
+  cancel-in-progress: false
+jobs:
+  polish:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      AUTO_PRODUCTION_SHIP: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Trusted design and continuation gates before paid calls
+        run: node --test vibe-arcade/autonomy/commissioning/keywake-depth-polish/design.test.cjs vibe-arcade/autonomy/worker/tests/owner-continuation.test.cjs vibe-arcade/autonomy/worker/tests/providers.test.cjs
+      - name: Unchanged Technical and Generic Product Docker suites
+        run: |
+          docker build --iidfile "$RUNNER_TEMP/keywake-depth-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/keywake-depth-image")" >> "$GITHUB_ENV"
+          echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/keywake-depth-state" >> "$GITHUB_ENV"
+      - name: Exact v3 checkpoint, owner quality failure, same lifetime ledger
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node vibe-arcade/autonomy/commissioning/keywake-depth-polish/prepare.cjs
+      - name: Existing provider and worker, at most repairs 3 through 5
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FACTORY_OPENAI_MODEL: gpt-5.6-terra
+          FACTORY_ALLOW_PAID_CALLS: '1'
+        run: node vibe-arcade/autonomy/commissioning/fourth-real-game/run.cjs
+      - name: Preserve source provenance and lifetime cost evidence
+        if: always()
+        run: |
+          node vibe-arcade/autonomy/commissioning/fourth-real-game/summarize.cjs
+          node vibe-arcade/autonomy/commissioning/fourth-real-game/audit-provenance.cjs "$FACTORY_WORKER_ROOT"
+          node vibe-arcade/autonomy/control-plane/cli.cjs dashboard --root "$FACTORY_WORKER_ROOT" --policy "$FACTORY_WORKER_ROOT/control-policy.json" --provider-ready true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: keywake-depth-lifetime-checkpoint
+          path: ${{ runner.temp }}/keywake-depth-state
+          include-hidden-files: true
+          retention-days: 30

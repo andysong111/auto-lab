@@ -1,0 +1,48 @@
+✔ same-ID depth contract fits unchanged Generic v1 bounds and all states can finish (27.463389ms)
+✔ route choices and key-order regret are consequential and later rooms strictly deepen (0.369048ms)
+✔ six seeds select six genuinely different layouts beyond rotation/mirroring (1.772869ms)
+✔ score probes return to identical objective projection and feedback starts with legal movement (5.976349ms)
+✔ owner review excludes only a closed authorized pause; original active budget remains consumed (2.02526ms)
+✔ open, overlapping, future, unapproved and unbound pause data are rejected (0.362107ms)
+✔ successful mock output is validated, persisted and deduplicated by immutable operation ID (110.572402ms)
+✔ reject malformed JSON (3.032081ms)
+✔ reject unexpected metadata (1.905679ms)
+✔ reject path escape (1.814281ms)
+✔ reject factory-owned kit (1.808933ms)
+✔ reject CDN (1.460677ms)
+✔ reject DOM core (1.501559ms)
+✔ reject missing files (1.593978ms)
+✔ all paths are validated before any file write; existing workspace symlinks are blocked (2.562361ms)
+✔ provider timeout is bounded and unknown submission is never re-posted (90.196151ms)
+✔ known response ID survives manager restart; retry is retrieval, not a second generation (66.692057ms)
+✔ network failure and model failure remain distinct; cached model failure is not called again (67.238863ms)
+✔ budget: game call limit (61.083544ms)
+✔ budget: daily call limit (66.913637ms)
+✔ budget: input token limit (30.590554ms)
+✔ budget: output token limit (34.718259ms)
+✔ budget: game cost limit (29.870816ms)
+✔ budget: daily cost limit (32.019957ms)
+✔ wall clock budget includes downtime and refuses new calls after expiry (63.942433ms)
+✔ reported usage exceeding reservation permanently pauses without replaying provider (67.364168ms)
+✔ prices require explicit recent estimates and invalid budgets/concurrency are rejected (0.452564ms)
+✔ repair compiler preserves original Factory request, QA identity and narrows CSS-only repairs (5.463774ms)
+✔ OpenAI is unavailable without key/model or explicit paid-call authorization; no fetch occurs (0.371441ms)
+✔ OpenAI Responses uses strict file output, durable background ID, no tools, fixed official origin and GET resumption (5.483083ms)
+✔ OpenAI HTTP 401 is classified and never SDK-retried (0.478242ms)
+✔ OpenAI HTTP 429 is classified and never SDK-retried (0.191289ms)
+✔ OpenAI HTTP 503 is classified and never SDK-retried (0.23162ms)
+✔ missing provider output is model failure, not a retryable network error (33.181918ms)
+✔ ledger storage failure pauses before any provider submission (36.033557ms)
+✔ repair scope honors additional protections in the original Factory request (3.053573ms)
+✔ maximum file/output size is rejected before applying any bytes (2.08508ms)
+✔ DOM-core rejection records exact line and quarantines files without applying them (31.108515ms)
+✔ repair compiler receives quarantined rejected source and validation guidance when no accepted workspace exists (29.811246ms)
+✔ quarantine excludes unsafe output paths from future repair context (30.941674ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1176.337613

@@ -1,0 +1,19 @@
+{"stage": 1, "selected": 1, "attempts": 1059, "states": 24, "shortest": 8, "order_gap": 0, "consequential_decisions": 3}
+{"stage": 1, "selected": 2, "attempts": 1630, "states": 18, "shortest": 7, "order_gap": 0, "consequential_decisions": 3}
+{"stage": 1, "selected": 3, "attempts": 2026, "states": 19, "shortest": 8, "order_gap": 0, "consequential_decisions": 3}
+{"stage": 1, "selected": 4, "attempts": 2033, "states": 18, "shortest": 6, "order_gap": 0, "consequential_decisions": 3}
+{"stage": 1, "selected": 5, "attempts": 3488, "states": 20, "shortest": 7, "order_gap": 0, "consequential_decisions": 3}
+{"stage": 1, "selected": 6, "attempts": 3664, "states": 22, "shortest": 8, "order_gap": 0, "consequential_decisions": 3}
+{"stage": 2, "selected": 1, "attempts": 4082, "states": 37, "shortest": 10, "order_gap": 4, "consequential_decisions": 4}
+{"stage": 2, "selected": 2, "attempts": 4622, "states": 41, "shortest": 12, "order_gap": 4, "consequential_decisions": 4}
+{"stage": 2, "selected": 3, "attempts": 9278, "states": 41, "shortest": 10, "order_gap": 4, "consequential_decisions": 4}
+{"stage": 2, "selected": 4, "attempts": 16507, "states": 37, "shortest": 11, "order_gap": 4, "consequential_decisions": 4}
+{"stage": 2, "selected": 5, "attempts": 19263, "states": 41, "shortest": 12, "order_gap": 4, "consequential_decisions": 4}
+{"stage": 2, "selected": 6, "attempts": 24287, "states": 41, "shortest": 10, "order_gap": 4, "consequential_decisions": 4}
+{"stage": 3, "selected": 1, "attempts": 25620, "states": 48, "shortest": 14, "order_gap": 4, "consequential_decisions": 10}
+{"stage": 3, "selected": 2, "attempts": 26331, "states": 45, "shortest": 15, "order_gap": 4, "consequential_decisions": 7}
+{"stage": 3, "selected": 3, "attempts": 27117, "states": 41, "shortest": 14, "order_gap": 4, "consequential_decisions": 6}
+{"stage": 3, "selected": 4, "attempts": 27250, "states": 42, "shortest": 15, "order_gap": 4, "consequential_decisions": 5}
+{"stage": 3, "selected": 5, "attempts": 28137, "states": 47, "shortest": 15, "order_gap": 4, "consequential_decisions": 7}
+{"stage": 3, "selected": 6, "attempts": 33479, "states": 41, "shortest": 15, "order_gap": 4, "consequential_decisions": 5}
+{"done": true, "attempts": 33479, "multiplier": 1177, "seed_packs": {"1": 1, "7": 0, "23": 2, "89": 5, "2026": 3, "4294967295": 4}}

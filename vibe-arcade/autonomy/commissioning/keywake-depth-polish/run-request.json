@@ -1,0 +1,18 @@
+{
+  "game_id": "GAME-20260923-141",
+  "model": "gpt-5.6-terra",
+  "checkpoint_artifact_id": 10729540989,
+  "checkpoint_zip_sha256": "6c02775dde2bbd2e906e375f7dd6b3ca88254e0064c9703709f75b2c67288157",
+  "checkpoint_ledger_sha256": "501d1046434a6f703c6f28971d6a157d6f39eb1df451afd6e346ca84278a9a77",
+  "checkpoint_manifest_sha256": "4c58a5887ff4a49263e333b72aa0b83d1ce68b7f5b7d47ae6271d35d6a6f6f4a",
+  "checkpoint_source_hash": "adca43ffe1238625b32cb30c01b0093f4d94c9a9b117916c1edd997f7d6c07de",
+  "owner_feedback": "게임이 너무 단순하고 너무 쉽다.",
+  "failure_code": "owner_difficulty_too_low",
+  "user_authorized": true,
+  "max_additional_calls": 3,
+  "max_lifetime_calls": 6,
+  "max_lifetime_repairs": 5,
+  "estimated_usd_ceiling": 2,
+  "production_authorized": false,
+  "base_main": "feeed4ffde39872714f473803a0158ba3700fb08"
+}
