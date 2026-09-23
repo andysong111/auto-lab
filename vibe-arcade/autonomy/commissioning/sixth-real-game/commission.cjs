@@ -135,17 +135,20 @@ function proposal(model,productContract,commercialContract){
  };
 }
 function appendRegistry(file,entry){
- const data=readJSON(file);data.entries=data.entries.filter(x=>x.id!==entry.id);data.entries.push(entry);atomicJSON(file,data);
+ const data=readJSON(file);data.entries=data.entries.filter(x=>x.id!==entry.id);data.entries.push(entry);atomicJSON(file,data);fs.chmodSync(file,0o644);
+}
+function installReviewData(model,productContract,commercialContract){
+ const oracleFile=path.join(ROOT,'qa/reviewed/ember-choir-v1.json');atomicJSON(oracleFile,model);fs.chmodSync(oracleFile,0o644);
+ appendRegistry(path.join(ROOT,'qa/reviewed/registry.json'),{id:'ember-choir-v1',file:'ember-choir-v1.json',sha256:hash(model),scope:'candidate',game_id:GAME_ID,contract_sha256:hash(productContract),reviewed_by:'ChatGPT trusted pre-generation design review 2026-09-23',rationale:'Independent reversible XOR forge graph across six deterministic packs. Stage-entry legal choices increase 2/3/4; each directional branch has an immediate inverse; target beats require increasing 3/7/12 normal inputs including quench. All reachable projections are finite and solvable. Candidate code cannot edit this reviewed data.'});
+ appendRegistry(path.join(ROOT,'qa/commercial/reviewed/registry.json'),{id:'ember-choir-commercial-v1',scope:'candidate',contract_sha256:hash(commercialContract),product_contract_sha256:hash(productContract),reviewed_by:'ChatGPT trusted pre-generation commercial review 2026-09-23',rationale:'Reviewed visible present/absent sigils, cold/lit state, beat reset, toggle/quench/ascent feedback, three-stage forge scale growth, result spectacle, audio, mobile hierarchy and bounded performance. These are concrete normal-player regions; no aesthetic score or candidate self-approval.'});
+ product.review(productContract);commercial.review(commercialContract,productContract);
 }
 async function prepare(){
  const root=path.resolve(process.env.FACTORY_WORKER_ROOT||'');
  if(!root||!process.env.RUNNER_TEMP||!root.startsWith(path.resolve(process.env.RUNNER_TEMP)+path.sep))throw Error('dedicated_runner_root_required');
  fs.rmSync(root,{recursive:true,force:true});fs.mkdirSync(root,{recursive:true});
  const model=oracle(),{productContract,commercialContract}=contracts(model),p=proposal(model,productContract,commercialContract);
- const oracleFile=path.join(ROOT,'qa/reviewed/ember-choir-v1.json');atomicJSON(oracleFile,model);
- appendRegistry(path.join(ROOT,'qa/reviewed/registry.json'),{id:'ember-choir-v1',file:'ember-choir-v1.json',sha256:hash(model),scope:'candidate',game_id:GAME_ID,contract_sha256:hash(productContract),reviewed_by:'ChatGPT trusted pre-generation design review 2026-09-23',rationale:'Independent reversible XOR forge graph across six deterministic packs. Stage-entry legal choices increase 2/3/4; each directional branch has an immediate inverse; target beats require increasing 3/7/12 normal inputs including quench. All reachable projections are finite and solvable. Candidate code cannot edit this reviewed data.'});
- appendRegistry(path.join(ROOT,'qa/commercial/reviewed/registry.json'),{id:'ember-choir-commercial-v1',scope:'candidate',contract_sha256:hash(commercialContract),product_contract_sha256:hash(productContract),reviewed_by:'ChatGPT trusted pre-generation commercial review 2026-09-23',rationale:'Reviewed visible present/absent sigils, cold/lit state, beat reset, toggle/quench/ascent feedback, three-stage forge scale growth, result spectacle, audio, mobile hierarchy and bounded performance. These are concrete normal-player regions; no aesthetic score or candidate self-approval.'});
- product.review(productContract);commercial.review(commercialContract,productContract);
+ installReviewData(model,productContract,commercialContract);
  const commissioningPolicy=readJSON(path.join(__dirname,'../policy.json'));
  const gate=validateProposal(p,{policy:commissioningPolicy,catalog:readJSON(path.join(__dirname,'../catalog.json'))});
  if(!gate.passed)throw Error('spec_gate_failed '+JSON.stringify(gate.errors));
@@ -154,6 +157,13 @@ async function prepare(){
  const auth={schema:'playjolt-sixth-run/1',game_id:GAME_ID,model:'gpt-5.6-terra',user_authorized:true,authorization_basis:'Owner explicitly said to continue immediately after fifth candidate; one new sixth candidate, build1 + repair5 maximum, <=USD3 estimated. Production remains unauthorized.',max_generations:6,max_repairs:5,estimated_usd_ceiling:3,production_authorized:false,base_commit:'db4a2ef2e93e622b17068b564cd7b06bb84473b8'};
  for(const [n,d] of Object.entries({'proposal.json':p,'spec-gate.json':gate,'worker-config.json':settings,'control-policy.json':cp,'authorization.json':auth,'oracle.json':model}))atomicJSON(path.join(root,n),d);
  await new Factory({store:new FileStore(root)}).create(gate.factory_spec);console.log(JSON.stringify({preflight:'PASS',game_id:GAME_ID,title:TITLE,oracle_hash:hash(model),product_hash:hash(productContract),commercial_hash:hash(commercialContract),warnings:gate.warnings},null,2));
+}
+function reviews(){
+ const root=path.resolve(process.env.FACTORY_WORKER_ROOT||'');if(!root||!fs.existsSync(path.join(root,'proposal.json')))throw Error('recovered_worker_root_required');
+ const model=oracle(),{productContract,commercialContract}=contracts(model),stored=readJSON(path.join(root,'proposal.json'));
+ if(stored.game_id!==GAME_ID||hash(readJSON(path.join(root,'oracle.json')))!==hash(model)||hash(stored.product_contract)!==hash(productContract)||hash(stored.commercial_contract)!==hash(commercialContract))throw Error('recovery_contract_mismatch');
+ installReviewData(model,productContract,commercialContract);
+ console.log(JSON.stringify({reviews:'PASS',game_id:GAME_ID,oracle_hash:hash(model),product_hash:hash(productContract),commercial_hash:hash(commercialContract),permissions:'0644'},null,2));
 }
 async function run(){
  const root=process.env.FACTORY_WORKER_ROOT,settings=readJSON(path.join(root,'worker-config.json')),policyFile=path.join(root,'control-policy.json');
@@ -169,4 +179,4 @@ function summarize(){
  const summary={schema:'playjolt-sixth-real-game/1',game_id:GAME_ID,title:TITLE,runner_commit:process.env.GITHUB_SHA,run_id:process.env.GITHUB_RUN_ID,operations:ops,total_calls:ops.length,total_estimated_cost:Number(total.toFixed(8)),factory:{state:m.state,version:m.version,repair_attempt:m.repair_attempt,technical_qa_status:m.technical_qa_status,product_qa_status:m.product_qa_status,commercial_qa_status:m.commercial_qa_status,quality_status:m.quality_status,source_hash:m.source_hash,failure_reasons:m.failure_reasons},production_authorized:false};
  atomicJSON(path.join(root,'commissioning-summary.json'),summary);console.log(JSON.stringify(summary,null,2));
 }
-const cmd=process.argv[2];Promise.resolve(cmd==='prepare'?prepare():cmd==='run'?run():cmd==='summarize'?summarize():(()=>{throw Error('usage prepare|run|summarize')})()).catch(e=>{console.error(e.stack);process.exitCode=1});
+const cmd=process.argv[2];Promise.resolve(cmd==='prepare'?prepare():cmd==='reviews'?reviews():cmd==='run'?run():cmd==='summarize'?summarize():(()=>{throw Error('usage prepare|reviews|run|summarize')})()).catch(e=>{console.error(e.stack);process.exitCode=1});
