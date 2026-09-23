@@ -68,7 +68,7 @@ function compactCommercialSuite(suite) {
     if(!a||typeof a!=='object')return clip(a);
     const {path,kind,phase,viewport,sha256}=a;return {path,kind,phase,viewport,sha256};
   }):[];
-  return {passed:suite.passed===true,checks:compactIssues(Array.isArray(suite.checks)?suite.checks.filter(c=>c?.status!=='PASS'):[],12),artifacts,
+  return {passed:suite.passed===true,checks:compactIssues(Array.isArray(suite.checks)?suite.checks.filter(c=>c?.status!=='PASS'):[],12),hard_failures:compactIssues(suite.hard_failures,12),artifacts,
     screenshots:Array.isArray(suite.screenshots)?suite.screenshots.slice(0,8):[],
     console_errors:Array.isArray(suite.console_errors)?suite.console_errors.slice(0,8).map(x=>clip(x)):[],
     page_errors:Array.isArray(suite.page_errors)?suite.page_errors.slice(0,8).map(x=>clip(x)):[],
@@ -79,7 +79,7 @@ function compactCommercialSuite(suite) {
 function compactProductSuite(suite) {
   if(!suite)return null;
   return {passed:suite.passed===true,
-    checks:compactIssues(Array.isArray(suite.checks)?suite.checks.filter(c=>c?.status!=='PASS'):[],12),
+    checks:compactIssues(Array.isArray(suite.checks)?suite.checks.filter(c=>c?.status!=='PASS'):[],12),hard_failures:compactIssues(suite.hard_failures,12),
     artifacts:Array.isArray(suite.artifacts)?suite.artifacts.slice(0,12).map(x=>clip(x)):[],
     screenshots:Array.isArray(suite.screenshots)?suite.screenshots.slice(0,8):[],
     console_errors:Array.isArray(suite.console_errors)?suite.console_errors.slice(0,8).map(x=>clip(x)):[],
