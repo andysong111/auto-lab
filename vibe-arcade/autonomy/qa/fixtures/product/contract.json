@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "objective": {
+    "visible_selector": "[data-objective]",
+    "expected_text": "Match the lit target in all 3 panels"
+  },
+  "progress": {
+    "selector": "[data-product-progress]",
+    "state_path": "state.completed",
+    "format": "PANELS {value} / 3",
+    "milestones": [
+      1,
+      2,
+      3
+    ]
+  },
+  "score": {
+    "selector": "[data-game-score]",
+    "label_selector": "[data-score-label]",
+    "expected_label": "CURRENT SCORE",
+    "reversible_probes": [
+      [
+        "a0",
+        "a0"
+      ]
+    ],
+    "no_progress_probes": [
+      [
+        "a4"
+      ]
+    ]
+  },
+  "best": {
+    "selector": "[data-best]",
+    "label_selector": "[data-best-label]",
+    "expected_label": "DEVICE BEST",
+    "source": "GameKit.best"
+  },
+  "completion": {
+    "state_path": "state.outcome",
+    "success_value": "success",
+    "failure_value": "failure",
+    "result_selector": "[data-result]",
+    "success_text": "All panels complete",
+    "failure_text": "Panels incomplete",
+    "max_terminal_latency_ms": 100,
+    "failure_wait_ms": 15500,
+    "failure_actions": []
+  },
+  "replay": {
+    "selector": "[data-game-restart]",
+    "must_be_in_initial_mobile_viewport": true
+  },
+  "difficulty": {
+    "deterministic_seeds": [
+      7,
+      19,
+      41,
+      73,
+      101,
+      137
+    ],
+    "oracle_id": "fixture-switches-v1",
+    "oracle_sha256": "5bb8c877d21d7459efe83d4fe408ea6f90310b977bed21b0fb37cea99f826a1a",
+    "projection": [
+      "state.stage",
+      "state.mask",
+      "state.target",
+      "state.outcome"
+    ],
+    "stage_path": "quality.stage",
+    "complexity_path": "quality.complexity",
+    "meaningful_actions_path": "quality.meaningful_actions",
+    "reversible_state_path": "quality.reversible_state_key",
+    "required_monotonicity": "later_strictly_greater",
+    "max_actions": 64
+  },
+  "mobile": {
+    "critical_selectors": [
+      "[data-objective]",
+      "[data-product-progress]",
+      "[data-score-label]",
+      "[data-game-score]",
+      "[data-best-label]",
+      "[data-best]",
+      "[data-result]"
+    ],
+    "control_selectors": [
+      "[data-game-start]",
+      "[data-game-pause]",
+      "[data-game-resume]",
+      "[data-game-restart]"
+    ],
+    "canvas_selector": "[data-game-canvas]",
+    "canvas_control_regions": [
+      {
+        "x": 0,
+        "y": 0.48,
+        "width": 0.2,
+        "height": 0.35
+      },
+      {
+        "x": 0.2,
+        "y": 0.48,
+        "width": 0.2,
+        "height": 0.35
+      },
+      {
+        "x": 0.4,
+        "y": 0.48,
+        "width": 0.2,
+        "height": 0.35
+      },
+      {
+        "x": 0.6000000000000001,
+        "y": 0.48,
+        "width": 0.2,
+        "height": 0.35
+      },
+      {
+        "x": 0.8,
+        "y": 0.48,
+        "width": 0.2,
+        "height": 0.35
+      }
+    ],
+    "min_font_px": 12,
+    "min_hit_target_px": 44
+  },
+  "reduced_motion": {
+    "presentation_probe_path": "presentation.reduced_motion",
+    "dynamic_change_required": true
+  },
+  "feedback": {
+    "action": "a0",
+    "state_change_path": "quality.reversible_state_key",
+    "visual_probe": "[data-game-canvas]",
+    "active_probe_path": "presentation.feedback_active",
+    "static_probe_path": "presentation.static_feedback",
+    "settle_ms": 400
+  },
+  "actions": {
+    "a0": {
+      "key": "ArrowLeft",
+      "touch": {
+        "x": 0.1,
+        "y": 0.65
+      },
+      "hold_ms": 35,
+      "settle_ms": 35
+    },
+    "a1": {
+      "key": "ArrowRight",
+      "touch": {
+        "x": 0.3,
+        "y": 0.65
+      },
+      "hold_ms": 35,
+      "settle_ms": 35
+    },
+    "a2": {
+      "key": "ArrowUp",
+      "touch": {
+        "x": 0.5,
+        "y": 0.65
+      },
+      "hold_ms": 35,
+      "settle_ms": 35
+    },
+    "a3": {
+      "key": "ArrowDown",
+      "touch": {
+        "x": 0.7,
+        "y": 0.65
+      },
+      "hold_ms": 35,
+      "settle_ms": 35
+    },
+    "a4": {
+      "key": "Space",
+      "touch": {
+        "x": 0.9,
+        "y": 0.65
+      },
+      "hold_ms": 35,
+      "settle_ms": 35
+    }
+  }
+}
