@@ -14,7 +14,10 @@ function audioAudit(){
     const connect=AudioNode.prototype.connect;
     if(!globalThis.__CommercialAudioConnect){Object.defineProperty(globalThis,'__CommercialAudioConnect',{value:true});AudioNode.prototype.connect=function(dest,...a){const result=connect.call(this,dest,...a);const t=contexts.find(c=>c.destination===dest)?.__commercialTap;if(t&&this!==t)originalConnect.call(this,t);return result;};}
     Object.defineProperty(this,'__commercialTap',{value:tap});
-    const timer=setInterval(()=>{if(ctx.state==='closed'){clearInterval(timer);return;}tap.getFloatTimeDomainData(buf);record({kind:'energy',rms:Math.sqrt(buf.reduce((s,v)=>s+v*v,0)/buf.length)});},20);
+    const timer=setInterval(()=>{if(ctx.state==='closed'){clearInterval(timer);return;}tap.getFloatTimeDomainData(buf);const raw_rms=Math.sqrt(buf.reduce((s,v)=>s+v*v,0)/buf.length);
+     // Web Audio suspend preserves analyser data; retained samples are not output.
+     // https://www.w3.org/TR/webaudio/#dom-audiocontext-suspend
+     record({kind:'energy',rms:ctx.state==='running'?raw_rms:0,raw_rms,context_state:ctx.state});},20);
    }
    resume(){shutdown.delete(this);record({kind:'resume',after_gesture:gesture});const p=super.resume();publish();return p;}
    suspend(){const p=super.suspend();if(unloading)shutdown.add(this);record({kind:'suspend',during_pagehide:unloading,native_cleanup_requested:true});publish();return p;}
