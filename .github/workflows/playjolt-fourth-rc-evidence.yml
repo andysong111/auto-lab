@@ -1,0 +1,27 @@
+name: PlayJolt fourth RC read-only evidence
+on:
+  push:
+    branches: [commissioning/fourth-real-game-20260923]
+    paths: ['vibe-arcade/autonomy/commissioning/fourth-real-game/rc-evidence-request.json']
+permissions:
+  contents: read
+  deployments: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Read exact RC GitHub deployment metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/rc-evidence"
+          node vibe-arcade/autonomy/commissioning/fourth-real-game/rc-evidence.cjs "$RUNNER_TEMP/rc-evidence"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fourth-rc-github-deployments
+          path: ${{ runner.temp }}/rc-evidence
+          retention-days: 30
