@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260923-141",
+  "version": "v1",
+  "source_hash": "0baf3fa1da271e32590a824f747b43bef0376338b1854b1dbe007e52169a7041",
+  "contract_hash": "95db87d940a0c860aca7164045fe3c3e0ba6048ab5b41a67f9bbb710ae5c6031",
+  "artifacts": [
+    {
+      "path": "product-390-entry.png",
+      "kind": "screenshot",
+      "phase": "entry",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "4088dee01f8613e593c8547106093359749d2d32ad69aac7015031049db9f05d"
+    },
+    {
+      "path": "product-390-gameplay.webm",
+      "kind": "video",
+      "phase": "gameplay",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "bb0766d9b798cd647d73b3637dd94e66eb39376ebd4970cf246c70a4a73bfed0"
+    },
+    {
+      "path": "product-768-entry.png",
+      "kind": "screenshot",
+      "phase": "entry",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "e36654e2484a85609aa45d25122a9eea8455028a2d05e3b5e4124278e530505f"
+    },
+    {
+      "path": "product-1280-entry.png",
+      "kind": "screenshot",
+      "phase": "entry",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "26cd6e494f6cc2247092c196ed8919a6734f2ac769b1b27d0623054618bd145d"
+    }
+  ]
+}

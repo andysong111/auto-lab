@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Keywake</title>
+  <script>
+    (function () {
+      var path = location.pathname;
+      if (/\/[^/]*\.html$/i.test(path)) path = path.slice(0, path.lastIndexOf('/') + 1);
+      else if (path.charAt(path.length - 1) !== '/') path += '/';
+      document.write('<base href="' + path.replace(/"/g, '') + '">');
+    }());
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <p class="eyebrow">THREE-ROOM WALKING PUZZLE</p>
+      <h1>Keywake</h1>
+      <p data-objective class="objective">Collect every key. Reach the exit in all 3 rooms.</p>
+      <p class="instruction">One move per arrow press or pad tap. Walls and locked hatches hold fast.</p>
+    </header>
+    <section class="stats" aria-label="Game progress">
+      <div><span data-product-progress>ROOMS 0 / 3</span><strong data-room-keys>ROOM 1 · KEYS 0 / 0</strong></div>
+      <div><span data-score-label>CURRENT SCORE</span><strong data-game-score>0</strong></div>
+      <div><span data-best-label>DEVICE BEST</span><strong data-best>0</strong></div>
+      <div><span>ELAPSED TIME</span><strong data-game-progress>0.0</strong></div>
+    </section>
+    <canvas data-game-canvas tabindex="0" aria-label="Keywake board and four touch arrow pads"></canvas>
+    <p data-game-status class="status">Ready to explore</p>
+    <p data-result class="result">Find every brass key before entering the gold hatch.</p>
+    <nav class="controls" aria-label="Game controls">
+      <button data-game-start>Start</button>
+      <button data-game-pause>Pause</button>
+      <button data-game-resume>Resume</button>
+      <button data-game-restart class="replay">Replay</button>
+    </nav>
+    <p data-game-error hidden role="alert"></p>
+  </main>
+  <script src="core.js"></script>
+  <script src="view/art.js"></script>
+  <script src="gamekit.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

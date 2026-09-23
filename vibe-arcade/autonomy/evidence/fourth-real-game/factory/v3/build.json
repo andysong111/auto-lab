@@ -1,0 +1,26 @@
+{
+  "operation_id": "GAME-20260923-141/repair/2",
+  "source_hash": "adca43ffe1238625b32cb30c01b0093f4d94c9a9b117916c1edd997f7d6c07de",
+  "changed_files": [
+    "app.js",
+    "index.html",
+    "manifest.json"
+  ],
+  "cause": "Repaired clean-URL asset resolution by establishing a version-directory base before stylesheet and script parsing. The manifest request now shares that base, while root-mounted previews continue to resolve locally.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Open the clean-URL version route without a trailing slash and verify that the computed base makes style.css, core.js, view/art.js, gamekit.js, app.js, and manifest.json resolve inside that version directory.",
+    "provider-suggested (not executed): Open the root-mounted Docker preview and verify that the computed base remains the root directory and GameKit boots normally."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_0cd960b759657abe006ab3342d6a5c87d0beddca85c273c1d9",
+    "usage": {
+      "input_tokens": 17661,
+      "output_tokens": 1889,
+      "estimated_cost": 0.104646
+    },
+    "estimated_cost": 0.104646,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

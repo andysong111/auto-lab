@@ -1,0 +1,14 @@
+{
+  "schema": "PASS",
+  "review": "PASS",
+  "approval": {
+    "id": "keywake-rooms-v1",
+    "file": "keywake-rooms-v1.json",
+    "sha256": "900064dbd2df228aab94c7c02d33c9df9575560486dbbcf0f9e8f11dc5660bbc",
+    "contract_sha256": "95db87d940a0c860aca7164045fe3c3e0ba6048ab5b41a67f9bbb710ae5c6031",
+    "scope": "candidate",
+    "game_id": "GAME-20260923-141",
+    "reviewed_by": "Work trusted infrastructure design review, 2026-09-23",
+    "rationale": "Small walking graph; persistent key masks; D4 seed transforms; room-entry legal choices 2/3/4 and independent shortest normal inputs 2/4/6. Every entry alternative returns without collecting keys. No candidate code, DOM, eval or mutation adapter."
+  }
+}

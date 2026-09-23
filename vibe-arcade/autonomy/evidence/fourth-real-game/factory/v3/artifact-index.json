@@ -1,0 +1,577 @@
+{
+  "source_hash": "adca43ffe1238625b32cb30c01b0093f4d94c9a9b117916c1edd997f7d6c07de",
+  "artifacts": [
+    {
+      "path": "technical/viewport-390-entry.png",
+      "kind": "screenshot"
+    },
+    {
+      "path": "technical/viewport-390-playing.png",
+      "kind": "screenshot"
+    },
+    {
+      "path": "technical/viewport-390-midgame.png",
+      "kind": "screenshot"
+    },
+    {
+      "path": "technical/viewport-390.png",
+      "kind": "screenshot"
+    },
+    {
+      "path": "technical/viewport-768-entry.png",
+      "kind": "screenshot"
+    },
+    {
+      "path": "technical/viewport-768-playing.png",
+      "kind": "screenshot"
+    },
+    {
+      "path": "technical/viewport-768-midgame.png",
+      "kind": "screenshot"
+    },
+    {
+      "path": "technical/viewport-768.png",
+      "kind": "screenshot"
+    },
+    {
+      "path": "technical/viewport-1280-entry.png",
+      "kind": "screenshot"
+    },
+    {
+      "path": "technical/viewport-1280-playing.png",
+      "kind": "screenshot"
+    },
+    {
+      "path": "technical/viewport-1280-midgame.png",
+      "kind": "screenshot"
+    },
+    {
+      "path": "technical/viewport-1280.png",
+      "kind": "screenshot"
+    },
+    {
+      "path": "product/product-390-entry.png",
+      "kind": "screenshot",
+      "phase": "entry",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "dae923eb2dfff12337d8b3c6d2fbb72762a6e36b692d296e070c6af8986cae41"
+    },
+    {
+      "path": "product/product-390-playing.png",
+      "kind": "screenshot",
+      "phase": "playing",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "7e468b62270320ec0393b82d19045890de4418c15fb9f516a4425f22d35be7a6"
+    },
+    {
+      "path": "product/product-390-feedback-motion-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "755ffa2590c14706fe7e2ab58e7c59583aaf71fc2656596935950969878d9ce2"
+    },
+    {
+      "path": "product/product-390-feedback-motion-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "37e30157826a7da31619a1791b9c89bd8995f7e87e4d0251ec0bdd50a4b449c9"
+    },
+    {
+      "path": "product/product-390-feedback-motion-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "46bd07a8298c59f74d78cf48c9948625d5df1053d1b74cbb1d77f2ff8a2e3d1f"
+    },
+    {
+      "path": "product/product-390-feedback-motion-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "811ad6b32b341bb2e4c608b96dd7a550c7147adf86f50d61b222fba392003425"
+    },
+    {
+      "path": "product/product-390-gameplay.webm",
+      "kind": "video",
+      "phase": "gameplay",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "d499ca8bc77003a76d257e8cd84500183bf532dbaf86cf5888c4ff7abf1d4ac6"
+    },
+    {
+      "path": "product/product-390-milestone-1.png",
+      "kind": "screenshot",
+      "phase": "milestone-1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "0ee34f088db98f1963cfcd0f9669bf7b5aa74d9282bbeb98967bf6807ad440aa"
+    },
+    {
+      "path": "product/product-390-midgame.png",
+      "kind": "screenshot",
+      "phase": "midgame",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "157fab81887df49010bddd6e135b341d4cdc3f87af3ccd5d3fac5216e82a63ae"
+    },
+    {
+      "path": "product/product-390-milestone-2.png",
+      "kind": "screenshot",
+      "phase": "milestone-2",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "cc969d50abeffcfa4c5501b1480ca4e9e8c048e774fd412a2146fc52a4714369"
+    },
+    {
+      "path": "product/product-390-milestone-3.png",
+      "kind": "screenshot",
+      "phase": "milestone-3",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "4693f73fef17110944a3cdbc03094a58a688cfb7e7da26fc7c1a316e347650c9"
+    },
+    {
+      "path": "product/product-390-success.png",
+      "kind": "screenshot",
+      "phase": "success",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "4693f73fef17110944a3cdbc03094a58a688cfb7e7da26fc7c1a316e347650c9"
+    },
+    {
+      "path": "product/product-390-mobile-result.png",
+      "kind": "screenshot",
+      "phase": "mobile-result",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "4693f73fef17110944a3cdbc03094a58a688cfb7e7da26fc7c1a316e347650c9"
+    },
+    {
+      "path": "product/product-390-feedback-reduced-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "e5b812c6e9e08a7b02eb29bdfde1c6c87907547cd26efed038ad768612e488ff"
+    },
+    {
+      "path": "product/product-390-feedback-reduced-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "ec70054aa37d66de85a9b627f03f1e54c4bbaa82e4e46635d22a689c236db932"
+    },
+    {
+      "path": "product/product-390-feedback-reduced-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "ec70054aa37d66de85a9b627f03f1e54c4bbaa82e4e46635d22a689c236db932"
+    },
+    {
+      "path": "product/product-390-feedback-reduced-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "811ad6b32b341bb2e4c608b96dd7a550c7147adf86f50d61b222fba392003425"
+    },
+    {
+      "path": "product/product-390-failure.png",
+      "kind": "screenshot",
+      "phase": "failure",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "de58a53fd1b514c9704a925de2adb8ecff9580af53ff1a1062bf3e1377b52d27"
+    },
+    {
+      "path": "product/product-768-entry.png",
+      "kind": "screenshot",
+      "phase": "entry",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "fd5002a194c18790d26bf20613b71d331b84d7350b8598ec92ba5c400686379a"
+    },
+    {
+      "path": "product/product-768-playing.png",
+      "kind": "screenshot",
+      "phase": "playing",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "cbe5593bea40825751950fcd9dae3985dacef6731f3664dc8272a158150b6f54"
+    },
+    {
+      "path": "product/product-768-feedback-motion-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "d3936bcb3f0a553ace0ad137361322721d0cffa92a385b25641bcbe5bd5eb116"
+    },
+    {
+      "path": "product/product-768-feedback-motion-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "7e737352ab816add5ddd86d7de848c5c5bae0df14a415ed81b61842ba516cb92"
+    },
+    {
+      "path": "product/product-768-feedback-motion-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "8ba09ab1be5a6167f4ddaf83650ffe2145fa0caea38de952d54c936b4813fb2a"
+    },
+    {
+      "path": "product/product-768-feedback-motion-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "4c9696a5e1538e1262a8d1f906355038cc58ad7f474301ae09858d39338d6a0a"
+    },
+    {
+      "path": "product/product-768-milestone-1.png",
+      "kind": "screenshot",
+      "phase": "milestone-1",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "a45532d6aea3e6428b6af7ad2ce99002016afacf2188e1ba9d9f35525b9d9448"
+    },
+    {
+      "path": "product/product-768-midgame.png",
+      "kind": "screenshot",
+      "phase": "midgame",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "d65a04b26b6a0a06c23930360854d9bbb493315823bba6e0168dd59f0f29e55c"
+    },
+    {
+      "path": "product/product-768-milestone-2.png",
+      "kind": "screenshot",
+      "phase": "milestone-2",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "591a40eb12facc2c037b7ad6423ed42e100ac30a006ef071f2cec4d7e34c4e5a"
+    },
+    {
+      "path": "product/product-768-milestone-3.png",
+      "kind": "screenshot",
+      "phase": "milestone-3",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "a62bcc33a2771ab5b520b2b1abd4ee2ce6fde0ce4f64317b92f915b4467d0b74"
+    },
+    {
+      "path": "product/product-768-success.png",
+      "kind": "screenshot",
+      "phase": "success",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "a62bcc33a2771ab5b520b2b1abd4ee2ce6fde0ce4f64317b92f915b4467d0b74"
+    },
+    {
+      "path": "product/product-768-feedback-reduced-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "0a92795a21c14190aa375dedb8b91b20a663ad214cccf0a206b23c1795d2d1c9"
+    },
+    {
+      "path": "product/product-768-feedback-reduced-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "f4e84a046f51b8e8a81390db7af4e3be9be7c9296a4ec8bac5bd38229575680b"
+    },
+    {
+      "path": "product/product-768-feedback-reduced-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "f4e84a046f51b8e8a81390db7af4e3be9be7c9296a4ec8bac5bd38229575680b"
+    },
+    {
+      "path": "product/product-768-feedback-reduced-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "4c9696a5e1538e1262a8d1f906355038cc58ad7f474301ae09858d39338d6a0a"
+    },
+    {
+      "path": "product/product-768-failure.png",
+      "kind": "screenshot",
+      "phase": "failure",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "b9d2d00e74243cb8bb8f1478706029c643dfb8393ee5237811aacd3b7400de0d"
+    },
+    {
+      "path": "product/product-1280-entry.png",
+      "kind": "screenshot",
+      "phase": "entry",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "90ec727f48b6e217c2c09c81a88c8db3137da84ee106bec9e604eaf6627f1a4a"
+    },
+    {
+      "path": "product/product-1280-playing.png",
+      "kind": "screenshot",
+      "phase": "playing",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "80dcd1af8082fb7b745a499cb48355c1ed53e0f4c86e619174945dc23ac85443"
+    },
+    {
+      "path": "product/product-1280-feedback-motion-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "d25eedfaba1a7ae7f4ab7df126b14cfaa43bcd25bf3700c71b2dc5b0cf4c5d97"
+    },
+    {
+      "path": "product/product-1280-feedback-motion-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "9271e997b295c047acf27025440c0655549a7759b1485becfd6bd08178e95109"
+    },
+    {
+      "path": "product/product-1280-feedback-motion-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "ca5e478ef92c8c38856436292716e66fe186a4122ad90fd82fccbd182ca8a17d"
+    },
+    {
+      "path": "product/product-1280-feedback-motion-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "60b76ef2b496f403647e00dcdf06aa363c7b2c1edc30387914e52d1f220fb87f"
+    },
+    {
+      "path": "product/product-1280-milestone-1.png",
+      "kind": "screenshot",
+      "phase": "milestone-1",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "d2f2dcd73f1fdfe3c57af83da8dbe70c1efff59d1b1a57417ee6292b20bf8a3e"
+    },
+    {
+      "path": "product/product-1280-midgame.png",
+      "kind": "screenshot",
+      "phase": "midgame",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "8b879a8a1643bb390b89feda69e7da6d75a36b9e1e931cd457a720cbdac8e26e"
+    },
+    {
+      "path": "product/product-1280-milestone-2.png",
+      "kind": "screenshot",
+      "phase": "milestone-2",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "1385a60667496761a5f60a2a0d5c5fbd7626c0f915907b751da19c5846064ea6"
+    },
+    {
+      "path": "product/product-1280-milestone-3.png",
+      "kind": "screenshot",
+      "phase": "milestone-3",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "3416203bed7f3ab06026726dbc8746cc9e54952ea470815da8a0d08cc909b443"
+    },
+    {
+      "path": "product/product-1280-success.png",
+      "kind": "screenshot",
+      "phase": "success",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "3416203bed7f3ab06026726dbc8746cc9e54952ea470815da8a0d08cc909b443"
+    },
+    {
+      "path": "product/product-1280-feedback-reduced-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "5ccec27cd588c8c5781e781294f45e224c989972cab303fe9d19c7b1a0855a69"
+    },
+    {
+      "path": "product/product-1280-feedback-reduced-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "de33e3580b673fa2248e275c76e2a2f33120076ad07cfff26b2fbce53189bc6f"
+    },
+    {
+      "path": "product/product-1280-feedback-reduced-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "de33e3580b673fa2248e275c76e2a2f33120076ad07cfff26b2fbce53189bc6f"
+    },
+    {
+      "path": "product/product-1280-feedback-reduced-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "60b76ef2b496f403647e00dcdf06aa363c7b2c1edc30387914e52d1f220fb87f"
+    },
+    {
+      "path": "product/product-1280-failure.png",
+      "kind": "screenshot",
+      "phase": "failure",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "d85486c527a1b30a58f78734c31b31d2b7e2ba55d78a34932b19ed0f007ef8b8"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "file": "app.js",
+      "status": 200,
+      "sha256": "f750bdd11f9b96665e20229591139401b6d80b28f1a32d322da09cf0bff91f31"
+    },
+    {
+      "file": "core.js",
+      "status": 200,
+      "sha256": "6fc137404ad243be2aa7b1d3e659c4b3c55afc05c065f9a6f3cb5f53465b2b6b"
+    },
+    {
+      "file": "gamekit.js",
+      "status": 200,
+      "sha256": "9e694500a04aa528965557605d15e50b29ab65a8be41ca851876ffc84f1ab7d1"
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "1af3573cf15d498153517b0e7eba0cdd408026c8da81e1bb58c08d4da6f91c79"
+    },
+    {
+      "file": "manifest.json",
+      "status": 200,
+      "sha256": "94df1db420c873d25c1aab630cd6dfb8982d6ca7ad2b7cea588ee89c59ae52ef"
+    },
+    {
+      "file": "style.css",
+      "status": 200,
+      "sha256": "363c77cce04a02bdab7cff4b914ba4d63dea7a6dd25b3e3c34148ce704504848"
+    },
+    {
+      "file": "view/art.js",
+      "status": 200,
+      "sha256": "cd41af9a742189d24741fe43775b72940e83cf2d7d93fa5e3afbf1c2fc3abc62"
+    }
+  ],
+  "hard_failures": [],
+  "method": "GET only; byte identity of all candidate runtime assets",
+  "duration_ms": 1042
+}

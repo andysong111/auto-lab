@@ -1,0 +1,33 @@
+{
+  "operation_id": "GAME-20260923-141/build/v1",
+  "source_hash": "0baf3fa1da271e32590a824f747b43bef0376338b1854b1dbe007e52169a7041",
+  "changed_files": [
+    "README.md",
+    "app.js",
+    "core.js",
+    "gamekit.js",
+    "index.html",
+    "manifest.json",
+    "style.css",
+    "view/art.js"
+  ],
+  "cause": "Implemented Keywake as an original deterministic three-room key collection navigation puzzle with DOM-free core, responsive canvas presentation, GameKit lifecycle integration, progress/score/best UI, replay controls, and live reduced-motion feedback.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Load index.html through a local static server with supplied gamekit.js and manifest.json; confirm Start initializes KeywakeCore and canvas input works.",
+    "provider-suggested (not executed): For seeds 1, 7, 23, 89, 2026, and 4294967295, inspect core projections and verify transformed room routes, entry complexities 2/3/4, and terminal success.",
+    "provider-suggested (not executed): Verify touch columns increment pointer_actions and arrow key edges produce one attempted move until released.",
+    "provider-suggested (not executed): Toggle prefers-reduced-motion during a move and inspect KeywakeArt.presentation()."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_0c8b55db8877090a006ab32e6ba8c887d094c8e6ba98d79a42",
+    "usage": {
+      "input_tokens": 4315,
+      "output_tokens": 7928,
+      "estimated_cost": 0.159964
+    },
+    "estimated_cost": 0.159964,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

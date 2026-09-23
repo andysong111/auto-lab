@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260923-141",
+  "version": "v2",
+  "target_version": "v3",
+  "attempt": 2,
+  "max_repair_attempts": 5,
+  "source_hash": "d76dcf5228bf978e54e80b599b6f4c33d6a0708cc06d551a94a9e568eaac0d29",
+  "qa_failures": [
+    {
+      "code": "preview_asset_resolution",
+      "check": "preview_asset_resolution",
+      "selector": "script[src], link[rel=\"stylesheet\"]",
+      "state_path": "document.baseURI",
+      "message": "Vercel cleanUrls=true and trailingSlash=false canonicalizes the version directory without a trailing slash. Relative scripts/styles resolve outside the version and GameKit never boots. Fix version-independent HTML base resolution before loading styles/scripts, and keep root Docker QA working. Manifest fetch must share the correct base. Do not change the deployment config, GameKit, tests or core gameplay.",
+      "expected": [
+        "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v2/style.css",
+        "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v2/core.js",
+        "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v2/view/art.js",
+        "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v2/gamekit.js",
+        "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v2/app.js"
+      ],
+      "actual": [
+        "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/style.css",
+        "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/core.js",
+        "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/view/art.js",
+        "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/gamekit.js",
+        "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/app.js"
+      ],
+      "evidence": [
+        "preview-route.json"
+      ]
+    }
+  ],
+  "product_contract": {
+    "schema_version": 1,
+    "objective": {
+      "visible_selector": "[data-objective]",
+      "expected_text": "Collect every key. Reach the exit in all 3 rooms."
+    },
+    "progress": {
+      "selector": "[data-product-progress]",
+      "state_path": "state.objective_progress",
+      "format": "ROOMS {value} / 3",
+      "milestones": [
+        1,
+        2,
+        3
+      ]
+    },
+    "score": {
+      "selector": "[data-game-score]",
+      "label_selector": "[data-score-label]",
+      "expected_label": "CURRENT SCORE",
+      "reversible_probes": [
+        [
+          "left",
+          "right"
+        ],
+        [
+          "down",
+          "up"
+        ]
+      ],
+      "no_progress_probes": [
+        [
+          "up"
+        ],
+        [
+          "right"
+        ]
+      ]
+    },
+    "best": {
+      "selector": "[data-best]",
+      "label_selector": "[data-best-label]",
+      "expected_label": "DEVICE BEST",
+      "source": "GameKit.best"
+    },
+    "completion": {
+      "state_path": "state.outcome",
+      "success_value": "success",
+      "failure_value": "failure",
+      "result_selector": "[data-result]",
+      "success_text": "ALL ROOMS CLEARED",
+      "failure_text": "TIME UP",
+      "max_terminal_latency_ms": 100,
+      "failure_wait_ms": 41000,
+      "failure_actions": []
+    },
+    "replay": {
+      "selector": "[data-game-restart]",
+      "must_be_in_initial_mobile_viewport": true
+    },
+    "difficulty": {
+      "deterministic_seeds": [
+        1,
+        7,
+        23,
+        89,
+        2026,
+        4294967295
+      ],
+      "oracle_id": "keywake-rooms-v1",
+      "oracle_sha256": "900064dbd2df228aab94c7c02d33c9df9575560486dbbcf0f9e8f11dc5660bbc",
+      "projection": [
+        "state.stage",
+        "state.cell",
+        "state.key_mask",
+        "state.outcome"
+      ],
+      "stage_path": "quality.stage",
+      "complexity_path": "quality.complexity",
+      "meaningful_actions_path": "quality.meaningful_actions",
+      "reversible_state_path": "quality.reversible_state_key",
+      "required_monotonicity": "later_strictly_greater",
+      "max_actions": 64
+    },
+    "mobile": {
+      "critical_selectors": [
+        "[data-objective]",
+        "[data-product-progress]",
+        "[data-score-label]",
+        "[data-game-score]",
+        "[data-best-label]",
+        "[data-best]",
+        "[data-result]"
+      ],
+      "control_selectors": [
+        "[data-game-start]",
+        "[data-game-pause]",
+        "[data-game-resume]",
+        "[data-game-restart]"
+      ],
+      "canvas_selector": "[data-game-canvas]",
+      "canvas_control_regions": [
+        {
+          "x": 0,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        },
+        {
+          "x": 0.25,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        },
+        {
+          "x": 0.5,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        },
+        {
+          "x": 0.75,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        }
+      ],
+      "min_font_px": 14,
+      "min_hit_target_px": 44
+    },
+    "reduced_motion": {
+      "presentation_probe_path": "presentation.reduced_motion",
+      "dynamic_change_required": true
+    },
+    "feedback": {
+      "action": "left",
+      "state_change_path": "quality.reversible_state_key",
+      "visual_probe": "[data-game-canvas]",
+      "active_probe_path": "presentation.feedback_active",
+      "static_probe_path": "presentation.static_feedback",
+      "settle_ms": 400
+    },
+    "actions": {
+      "left": {
+        "key": "ArrowLeft",
+        "touch": {
+          "x": 0.125,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "up": {
+        "key": "ArrowUp",
+        "touch": {
+          "x": 0.375,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "right": {
+        "key": "ArrowRight",
+        "touch": {
+          "x": 0.625,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "down": {
+        "key": "ArrowDown",
+        "touch": {
+          "x": 0.875,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      }
+    }
+  },
+  "product_evidence_index": "v2/artifact-index.json",
+  "product_acceptance": "Fix every independent product failure. Preserve exact selectors, diagnostic paths and reviewed oracle. Use expected/actual and evidence references; never alter tests or lower the contract.",
+  "allowed_scope": [
+    "core.js",
+    "app.js",
+    "view/**",
+    "style.css",
+    "index.html",
+    "README.md",
+    "assets/**"
+  ],
+  "protected_paths": [
+    "vibe-arcade/games/**",
+    "vibe-arcade/release/**",
+    "vibe-arcade/descent/**",
+    "vibe-arcade/core-pins/**",
+    "vibe-arcade/challengers/**",
+    "vibe-arcade/community/**",
+    "vibe-arcade/runtime/**",
+    "vibe-arcade/measurement/**",
+    "vibe-arcade/marketing/**",
+    "vibe-arcade/index.html",
+    "vibe-arcade/sitemap.xml",
+    "vibe-arcade/robots.txt",
+    "vibe-arcade/google*.html",
+    "loopjolt-backend/**",
+    ".github/**",
+    "**/.env*",
+    "**/secrets/**",
+    "manifest.json",
+    "gamekit.js"
+  ],
+  "acceptance_tests": [
+    "manifest schema",
+    "all three real browser viewports",
+    "no console/page errors",
+    "start/progress/input/interaction",
+    "terminal/restart/pause/resume/hidden",
+    "no side effects",
+    "source and resource bounds"
+  ],
+  "operation_id": "GAME-20260923-141/repair/2"
+}

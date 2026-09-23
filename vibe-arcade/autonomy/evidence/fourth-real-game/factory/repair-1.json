@@ -1,0 +1,634 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260923-141",
+  "version": "v1",
+  "target_version": "v2",
+  "attempt": 1,
+  "max_repair_attempts": 5,
+  "source_hash": "0baf3fa1da271e32590a824f747b43bef0376338b1854b1dbe007e52169a7041",
+  "qa_failures": [
+    {
+      "code": "start",
+      "message": "Expected values to be strictly equal:\n\n'error' !== 'idle'\n",
+      "viewport": 390
+    },
+    {
+      "code": "start",
+      "message": "Expected values to be strictly equal:\n\n'error' !== 'idle'\n",
+      "viewport": 768
+    },
+    {
+      "code": "start",
+      "message": "Expected values to be strictly equal:\n\n'error' !== 'idle'\n",
+      "viewport": 1280
+    },
+    {
+      "code": "product_mobile_readability",
+      "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"font\",\"selector\":\"[data-product-progress]\",\"text\":\"ROOMS 0 / 3\",\"font_px\":11,\"x\":22,\"y\":144,\"width\":162,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-score-label]\",\"text\":\"CURRENT SCORE\",\"font_px\":11,\"x\":206,\"y\":144,\"width\":162,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-best-label]\",\"text\":\"DEVICE BEST\",\"font_px\":11,\"x\":22,\"y\":198,\"width\":162,\"height\":12.640625}]",
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "expected": "readable text, non-colliding labels, >=44px controls",
+      "actual": [
+        {
+          "kind": "font",
+          "selector": "[data-product-progress]",
+          "text": "ROOMS 0 / 3",
+          "font_px": 11,
+          "x": 22,
+          "y": 144,
+          "width": 162,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-score-label]",
+          "text": "CURRENT SCORE",
+          "font_px": 11,
+          "x": 206,
+          "y": 144,
+          "width": 162,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-best-label]",
+          "text": "DEVICE BEST",
+          "font_px": 11,
+          "x": 22,
+          "y": 198,
+          "width": 162,
+          "height": 12.640625
+        }
+      ],
+      "evidence": [
+        "product/product-390-entry.png"
+      ]
+    },
+    {
+      "code": "product_lifecycle",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "lifecycle",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "blocked": true,
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product/product-390-entry.png"
+      ]
+    },
+    {
+      "code": "product_failure_path",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "failure_path",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "blocked": true,
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product/product-390-entry.png"
+      ]
+    },
+    {
+      "code": "product_mobile_readability",
+      "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"font\",\"selector\":\"[data-product-progress]\",\"text\":\"ROOMS 0 / 3\",\"font_px\":11,\"x\":37.359375,\"y\":90.5,\"width\":156.8125,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-score-label]\",\"text\":\"CURRENT SCORE\",\"font_px\":11,\"x\":216.171875,\"y\":90.5,\"width\":156.8125,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-best-label]\",\"text\":\"DEVICE BEST\",\"font_px\":11,\"x\":394.984375,\"y\":90.5,\"width\":156.8125,\"height\":12.640625}]",
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "expected": "readable text, non-colliding labels, >=44px controls",
+      "actual": [
+        {
+          "kind": "font",
+          "selector": "[data-product-progress]",
+          "text": "ROOMS 0 / 3",
+          "font_px": 11,
+          "x": 37.359375,
+          "y": 90.5,
+          "width": 156.8125,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-score-label]",
+          "text": "CURRENT SCORE",
+          "font_px": 11,
+          "x": 216.171875,
+          "y": 90.5,
+          "width": 156.8125,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-best-label]",
+          "text": "DEVICE BEST",
+          "font_px": 11,
+          "x": 394.984375,
+          "y": 90.5,
+          "width": 156.8125,
+          "height": 12.640625
+        }
+      ],
+      "evidence": [
+        "product/product-768-entry.png"
+      ]
+    },
+    {
+      "code": "product_lifecycle",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "lifecycle",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "blocked": true,
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product/product-768-entry.png"
+      ]
+    },
+    {
+      "code": "product_failure_path",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "failure_path",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "blocked": true,
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product/product-768-entry.png"
+      ]
+    },
+    {
+      "code": "product_mobile_readability",
+      "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"font\",\"selector\":\"[data-product-progress]\",\"text\":\"ROOMS 0 / 3\",\"font_px\":11,\"x\":282,\"y\":90.5,\"width\":162.5,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-score-label]\",\"text\":\"CURRENT SCORE\",\"font_px\":11,\"x\":466.5,\"y\":90.5,\"width\":162.5,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-best-label]\",\"text\":\"DEVICE BEST\",\"font_px\":11,\"x\":651,\"y\":90.5,\"width\":162.5,\"height\":12.640625}]",
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "expected": "readable text, non-colliding labels, >=44px controls",
+      "actual": [
+        {
+          "kind": "font",
+          "selector": "[data-product-progress]",
+          "text": "ROOMS 0 / 3",
+          "font_px": 11,
+          "x": 282,
+          "y": 90.5,
+          "width": 162.5,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-score-label]",
+          "text": "CURRENT SCORE",
+          "font_px": 11,
+          "x": 466.5,
+          "y": 90.5,
+          "width": 162.5,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-best-label]",
+          "text": "DEVICE BEST",
+          "font_px": 11,
+          "x": 651,
+          "y": 90.5,
+          "width": 162.5,
+          "height": 12.640625
+        }
+      ],
+      "evidence": [
+        "product/product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_lifecycle",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "lifecycle",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "blocked": true,
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product/product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_failure_path",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "failure_path",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "blocked": true,
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product/product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 1,
+      "state_path": "quality.complexity",
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product/product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 7,
+      "state_path": "quality.complexity",
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product/product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 23,
+      "state_path": "quality.complexity",
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product/product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 89,
+      "state_path": "quality.complexity",
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product/product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 2026,
+      "state_path": "quality.complexity",
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product/product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 4294967295,
+      "state_path": "quality.complexity",
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product/product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_practice_best",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "practice_best",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-best]",
+      "state_path": "best",
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product/product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_missing_check",
+      "message": "Physically blocked or missing check: completion",
+      "check": "completion",
+      "expected": "executed",
+      "actual": "blocked"
+    },
+    {
+      "code": "product_missing_check",
+      "message": "Physically blocked or missing check: score_integrity",
+      "check": "score_integrity",
+      "expected": "executed",
+      "actual": "blocked"
+    },
+    {
+      "code": "product_missing_check",
+      "message": "Physically blocked or missing check: replay",
+      "check": "replay",
+      "expected": "executed",
+      "actual": "blocked"
+    },
+    {
+      "code": "product_missing_check",
+      "message": "Physically blocked or missing check: feedback",
+      "check": "feedback",
+      "expected": "executed",
+      "actual": "blocked"
+    },
+    {
+      "code": "product_missing_check",
+      "message": "Physically blocked or missing check: failure_result",
+      "check": "failure_result",
+      "expected": "executed",
+      "actual": "blocked"
+    },
+    {
+      "code": "product_missing_check",
+      "message": "Physically blocked or missing check: capture_no_writes",
+      "check": "capture_no_writes",
+      "expected": "executed",
+      "actual": "blocked"
+    }
+  ],
+  "product_contract": {
+    "schema_version": 1,
+    "objective": {
+      "visible_selector": "[data-objective]",
+      "expected_text": "Collect every key. Reach the exit in all 3 rooms."
+    },
+    "progress": {
+      "selector": "[data-product-progress]",
+      "state_path": "state.objective_progress",
+      "format": "ROOMS {value} / 3",
+      "milestones": [
+        1,
+        2,
+        3
+      ]
+    },
+    "score": {
+      "selector": "[data-game-score]",
+      "label_selector": "[data-score-label]",
+      "expected_label": "CURRENT SCORE",
+      "reversible_probes": [
+        [
+          "left",
+          "right"
+        ],
+        [
+          "down",
+          "up"
+        ]
+      ],
+      "no_progress_probes": [
+        [
+          "up"
+        ],
+        [
+          "right"
+        ]
+      ]
+    },
+    "best": {
+      "selector": "[data-best]",
+      "label_selector": "[data-best-label]",
+      "expected_label": "DEVICE BEST",
+      "source": "GameKit.best"
+    },
+    "completion": {
+      "state_path": "state.outcome",
+      "success_value": "success",
+      "failure_value": "failure",
+      "result_selector": "[data-result]",
+      "success_text": "ALL ROOMS CLEARED",
+      "failure_text": "TIME UP",
+      "max_terminal_latency_ms": 100,
+      "failure_wait_ms": 41000,
+      "failure_actions": []
+    },
+    "replay": {
+      "selector": "[data-game-restart]",
+      "must_be_in_initial_mobile_viewport": true
+    },
+    "difficulty": {
+      "deterministic_seeds": [
+        1,
+        7,
+        23,
+        89,
+        2026,
+        4294967295
+      ],
+      "oracle_id": "keywake-rooms-v1",
+      "oracle_sha256": "900064dbd2df228aab94c7c02d33c9df9575560486dbbcf0f9e8f11dc5660bbc",
+      "projection": [
+        "state.stage",
+        "state.cell",
+        "state.key_mask",
+        "state.outcome"
+      ],
+      "stage_path": "quality.stage",
+      "complexity_path": "quality.complexity",
+      "meaningful_actions_path": "quality.meaningful_actions",
+      "reversible_state_path": "quality.reversible_state_key",
+      "required_monotonicity": "later_strictly_greater",
+      "max_actions": 64
+    },
+    "mobile": {
+      "critical_selectors": [
+        "[data-objective]",
+        "[data-product-progress]",
+        "[data-score-label]",
+        "[data-game-score]",
+        "[data-best-label]",
+        "[data-best]",
+        "[data-result]"
+      ],
+      "control_selectors": [
+        "[data-game-start]",
+        "[data-game-pause]",
+        "[data-game-resume]",
+        "[data-game-restart]"
+      ],
+      "canvas_selector": "[data-game-canvas]",
+      "canvas_control_regions": [
+        {
+          "x": 0,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        },
+        {
+          "x": 0.25,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        },
+        {
+          "x": 0.5,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        },
+        {
+          "x": 0.75,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        }
+      ],
+      "min_font_px": 14,
+      "min_hit_target_px": 44
+    },
+    "reduced_motion": {
+      "presentation_probe_path": "presentation.reduced_motion",
+      "dynamic_change_required": true
+    },
+    "feedback": {
+      "action": "left",
+      "state_change_path": "quality.reversible_state_key",
+      "visual_probe": "[data-game-canvas]",
+      "active_probe_path": "presentation.feedback_active",
+      "static_probe_path": "presentation.static_feedback",
+      "settle_ms": 400
+    },
+    "actions": {
+      "left": {
+        "key": "ArrowLeft",
+        "touch": {
+          "x": 0.125,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "up": {
+        "key": "ArrowUp",
+        "touch": {
+          "x": 0.375,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "right": {
+        "key": "ArrowRight",
+        "touch": {
+          "x": 0.625,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "down": {
+        "key": "ArrowDown",
+        "touch": {
+          "x": 0.875,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      }
+    }
+  },
+  "product_evidence_index": "v1/artifact-index.json",
+  "product_acceptance": "Fix every independent product failure. Preserve exact selectors, diagnostic paths and reviewed oracle. Use expected/actual and evidence references; never alter tests or lower the contract.",
+  "allowed_scope": [
+    "core.js",
+    "app.js",
+    "view/**",
+    "style.css",
+    "index.html",
+    "README.md",
+    "assets/**"
+  ],
+  "protected_paths": [
+    "vibe-arcade/games/**",
+    "vibe-arcade/release/**",
+    "vibe-arcade/descent/**",
+    "vibe-arcade/core-pins/**",
+    "vibe-arcade/challengers/**",
+    "vibe-arcade/community/**",
+    "vibe-arcade/runtime/**",
+    "vibe-arcade/measurement/**",
+    "vibe-arcade/marketing/**",
+    "vibe-arcade/index.html",
+    "vibe-arcade/sitemap.xml",
+    "vibe-arcade/robots.txt",
+    "vibe-arcade/google*.html",
+    "loopjolt-backend/**",
+    ".github/**",
+    "**/.env*",
+    "**/secrets/**",
+    "manifest.json",
+    "gamekit.js"
+  ],
+  "acceptance_tests": [
+    "manifest schema",
+    "all three real browser viewports",
+    "no console/page errors",
+    "start/progress/input/interaction",
+    "terminal/restart/pause/resume/hidden",
+    "no side effects",
+    "source and resource bounds"
+  ],
+  "operation_id": "GAME-20260923-141/repair/1"
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "playjolt-release-review/1",
+  "passed": true,
+  "errors": [],
+  "candidate": {
+    "game_id": "GAME-20260923-141",
+    "version": "v3",
+    "title": "Keywake",
+    "slug": "keywake",
+    "preview_url": "https://vibe-arcade-n6l8axiv8-a2bsangsa.vercel.app",
+    "source_hash": "adca43ffe1238625b32cb30c01b0093f4d94c9a9b117916c1edd997f7d6c07de",
+    "branch": "factory/GAME-20260923-141",
+    "pr_number": 56,
+    "pr_url": "https://github.com/andysong111/auto-lab/pull/56",
+    "rc_commit": "90bfac0349e4219e3e28f37ac948371afff98157"
+  },
+  "evidence": {
+    "qa_status": "PASS",
+    "quality_status": "PASS",
+    "release_status": "READY",
+    "repair_attempt": 2,
+    "failure_reasons": []
+  },
+  "owner_review": {
+    "decision": "PENDING",
+    "reviewed_by": null,
+    "recorded_at": null
+  },
+  "production": {
+    "authorized": false,
+    "reason": "Production adapter remains disabled until a separate reviewed release action consumes an APPROVE decision."
+  },
+  "rollback": {
+    "base_ref": "e3203597e414ee258b7816f189eed3f4cff1392b",
+    "restore_commit": "e3203597e414ee258b7816f189eed3f4cff1392b",
+    "source_commit": "90bfac0349e4219e3e28f37ac948371afff98157",
+    "required": true
+  }
+}

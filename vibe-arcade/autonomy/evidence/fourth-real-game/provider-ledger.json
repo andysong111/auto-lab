@@ -1,0 +1,208 @@
+{
+  "schema_version": 1,
+  "cost_basis": "estimated; configured USD rates, no billing API",
+  "jobs": {
+    "GAME-20260923-141": {
+      "started_at": 1790127722659
+    }
+  },
+  "operations": {
+    "GAME-20260923-141/build/v1": {
+      "operation_id": "GAME-20260923-141/build/v1",
+      "game_id": "GAME-20260923-141",
+      "version": "v1",
+      "request_hash": "41045f642407bc6a1e65ce096c0fec9faa35da7f062b4390940e3ea6943f2195",
+      "day": "2026-09-23",
+      "state": "COMPLETE",
+      "provider": "openai-responses/gpt-5.6-terra",
+      "started_at": 1790127722659,
+      "deadline_at": 1790128022659,
+      "reserved": {
+        "input_tokens": 21011,
+        "output_tokens": 18000,
+        "estimated_cost": 0.408044
+      },
+      "prices": {
+        "input_per_million": 4,
+        "output_per_million": 18,
+        "as_of": "2026-09-23",
+        "estimated": true
+      },
+      "response_id": "resp_0c8b55db8877090a006ab32e6ba8c887d094c8e6ba98d79a42",
+      "accounted": {
+        "input_tokens": 4315,
+        "output_tokens": 7928,
+        "estimated_cost": 0.159964
+      },
+      "result": {
+        "files": [
+          {
+            "content": "(() => {\n  'use strict';\n\n  const BASE_ROOMS = [\n    { walls: [1, 3], keys: [], exit: 8, optimal: 2 },\n    { walls: [7], keys: [0], exit: 2, optimal: 4 },\n    { walls: [], keys: [0, 6], exit: 2, optimal: 6 }\n  ];\n  const DIRS = [[-1, 0], [0, -1], [1, 0], [0, 1]];\n\n  function transformCell(cell, variant) {\n    let x = cell % 3;\n    let y = Math.floor(cell / 3);\n    if (variant & 4) x = 2 - x;\n    for (let i = 0; i < (variant & 3); i += 1) {\n      const nextX = 2 - y;\n      y = x;\n      x = nextX;\n    }\n    return y * 3 + x;\n  }\n\n  function roomFor(seed, roomIndex) {\n    const base = BASE_ROOMS[roomIndex];\n    const variant = (seed >>> (3 * roomIndex)) & 7;\n    return {\n      walls: base.walls.map((cell) => transformCell(cell, variant)),\n      keys: base.keys.map((cell) => transformCell(cell, variant)),\n      exit: transformCell(base.exit, variant),\n      optimal: base.optimal\n    };\n  }\n\n  function has(list, cell) {\n    return list.indexOf(cell) !== -1;\n  }\n\n  function heldDirection(input) {\n    if (input.x < 0) return 0;\n    if (input.y < 0) return 1;\n    if (input.x > 0) return 2;\n    if (input.y > 0) return 3;\n    return -1;\n  }\n\n  function allKeysHeld(state, room) {\n    return state.key_mask === ((1 << room.keys.length) - 1);\n  }\n\n  function destination(state, room, direction) {\n    const x = state.cell % 3 + DIRS[direction][0];\n    const y = Math.floor(state.cell / 3) + DIRS[direction][1];\n    if (x < 0 || x > 2 || y < 0 || y > 2) return -1;\n    const cell = y * 3 + x;\n    if (has(room.walls, cell)) return -1;\n    if (cell === room.exit && !allKeysHeld(state, room)) return -1;\n    return cell;\n  }\n\n  function attempt(state, direction) {\n    const room = roomFor(state.seed, state.stage - 1);\n    const next = destination(state, room, direction);\n    state.feedback_token += 1;\n    state.feedback_from = state.cell;\n    state.feedback_to = next < 0 ? state.cell : next;\n    state.feedback_kind = next < 0 ? 'blocked' : 'step';\n    if (next < 0) return;\n\n    state.cell = next;\n    state.moves += 1;\n    state.room_moves += 1;\n    state.meaningful_actions += 1;\n\n    const keyIndex = room.keys.indexOf(next);\n    if (keyIndex !== -1 && (state.key_mask & (1 << keyIndex)) === 0) {\n      state.key_mask |= (1 << keyIndex);\n      state.feedback_kind = 'key';\n    }\n\n    if (next === room.exit) {\n      const points = Math.max(100, 200 - 20 * Math.max(0, state.room_moves - room.optimal));\n      state.score += points;\n      state.objective_progress += 1;\n      state.stage += 1;\n      state.cell = 4;\n      state.key_mask = 0;\n      state.room_moves = 0;\n      state.feedback_kind = state.stage === 4 ? 'success' : 'door';\n      state.feedback_to = 4;\n      if (state.stage === 4) state.outcome = 'success';\n    }\n  }\n\n  function create(seed) {\n    return {\n      seed: seed >>> 0,\n      tick: 0,\n      score: 0,\n      stage: 1,\n      cell: 4,\n      key_mask: 0,\n      outcome: 'playing',\n      objective_progress: 0,\n      meaningful_actions: 0,\n      moves: 0,\n      room_moves: 0,\n      pointer_actions: 0,\n      latch: -1,\n      feedback_token: 0,\n      feedback_from: 4,\n      feedback_to: 4,\n      feedback_kind: 'none'\n    };\n  }\n\n  function step(state, input) {\n    if (state.outcome !== 'playing') return;\n    state.tick += 1;\n    let direction = -1;\n    const touching = !!(input.action && input.pointer);\n    if (touching) {\n      direction = Math.max(0, Math.min(3, Math.floor(input.pointer.x * 4)));\n      state.pointer_actions += 1;\n      state.latch = -1;\n      attempt(state, direction);\n    } else {\n      direction = heldDirection(input);\n      if (direction < 0) {\n        state.latch = -1;\n      } else if (direction !== state.latch) {\n        state.latch = direction;\n        attempt(state, direction);\n      }\n    }\n    if (state.outcome === 'playing' && state.tick >= 2400) state.outcome = 'failure';\n  }\n\n  function legalCount(state) {\n    if (state.outcome !== 'playing') return 0;\n    const room = roomFor(state.seed, state.stage - 1);\n    let count = 0;\n    for (let direction = 0; direction < 4; direction += 1) {\n      if (destination(state, room, direction) >= 0) count += 1;\n    }\n    return count;\n  }\n\n  function observe(state) {\n    return {\n      tick: state.tick,\n      score: state.score,\n      progress: state.tick / 60,\n      interactions: state.meaningful_actions,\n      entities: 9,\n      quality: {\n        stage: state.stage,\n        complexity: legalCount(state),\n        objective_progress: state.objective_progress,\n        meaningful_actions: state.meaningful_actions,\n        reversible_state_key: state.stage + ':' + state.cell + ':' + state.key_mask + ':' + state.outcome\n      }\n    };\n  }\n\n  function terminal(state) {\n    return state.outcome !== 'playing';\n  }\n\n  globalThis.KeywakeCore = { create, step, observe, terminal };\n})();\n",
+            "path": "core.js"
+          },
+          {
+            "content": "(() => {\n  'use strict';\n  const canvas = document.querySelector('[data-game-canvas]');\n  const roomProgress = document.querySelector('[data-product-progress]');\n  const roomKeys = document.querySelector('[data-room-keys]');\n  const result = document.querySelector('[data-result]');\n  const score = document.querySelector('[data-game-score]');\n  const best = document.querySelector('[data-best]');\n  const status = document.querySelector('[data-game-status]');\n\n  function updateUi(snapshot) {\n    const state = snapshot.state;\n    const keys = KeywakeArt.keyCount(state);\n    roomProgress.textContent = 'ROOMS ' + state.objective_progress + ' / 3';\n    roomKeys.textContent = state.stage <= 3 ? 'ROOM ' + state.stage + ' · KEYS ' + keys.held + ' / ' + keys.total : 'ROOMS COMPLETE';\n    score.textContent = String(state.score);\n    if (Number.isFinite(snapshot.best)) best.textContent = String(snapshot.best);\n    if (state.outcome === 'success') {\n      result.textContent = 'ALL ROOMS CLEARED · ' + state.score + ' POINTS · ' + state.moves + ' MOVES · ' + (state.score === 600 ? 'Perfect route.' : 'Efficient routes earn more.');\n      status.textContent = 'Complete';\n    } else if (state.outcome === 'failure') {\n      result.textContent = 'TIME UP · ROOMS CLEARED ' + state.objective_progress + ' / 3';\n      status.textContent = 'Time expired';\n    } else {\n      result.textContent = 'Find every brass key before entering the gold hatch.';\n      status.textContent = 'Exploring room ' + state.stage;\n    }\n  }\n\n  const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');\n  const onMotion = () => KeywakeArt.setReducedMotion(motionQuery.matches);\n  KeywakeArt.setReducedMotion(motionQuery.matches);\n  motionQuery.addEventListener('change', onMotion);\n  addEventListener('pagehide', (event) => {\n    if (!event.persisted) motionQuery.removeEventListener('change', onMotion);\n  });\n\n  fetch('./manifest.json')\n    .then((response) => response.json())\n    .then((metadata) => {\n      PlayJoltGameKit.create({\n        core: globalThis.KeywakeCore,\n        canvas,\n        metadata,\n        draw(snapshot, size) {\n          KeywakeArt.draw(canvas.getContext('2d'), snapshot, size);\n          updateUi(snapshot);\n        },\n        presentation: KeywakeArt.presentation\n      });\n    })\n    .catch((error) => {\n      document.querySelector('[data-game-error]').hidden = false;\n      document.querySelector('[data-game-error]').textContent = 'Unable to start Keywake: ' + error.message;\n    });\n})();\n",
+            "path": "app.js"
+          },
+          {
+            "content": "(() => {\n  'use strict';\n  let reduced = false;\n  let token = -1;\n  let began = 0;\n  let lastTick = -1;\n  let lastState = null;\n  const DURATION = 260;\n  const STATIC_DURATION = 410;\n\n  function roomData(state) {\n    const base = [\n      { walls: [1, 3], keys: [], exit: 8 },\n      { walls: [7], keys: [0], exit: 2 },\n      { walls: [], keys: [0, 6], exit: 2 }\n    ][Math.min(2, Math.max(0, state.stage - 1))];\n    const variant = (state.seed >>> (3 * Math.min(2, Math.max(0, state.stage - 1)))) & 7;\n    const transform = (cell) => {\n      let x = cell % 3;\n      let y = Math.floor(cell / 3);\n      if (variant & 4) x = 2 - x;\n      for (let i = 0; i < (variant & 3); i += 1) {\n        const nx = 2 - y;\n        y = x;\n        x = nx;\n      }\n      return y * 3 + x;\n    };\n    return { walls: base.walls.map(transform), keys: base.keys.map(transform), exit: transform(base.exit) };\n  }\n\n  function keyCount(state) {\n    if (state.stage > 3) return { held: 0, total: 0 };\n    const room = roomData(state);\n    let held = 0;\n    for (let i = 0; i < room.keys.length; i += 1) if (state.key_mask & (1 << i)) held += 1;\n    return { held, total: room.keys.length };\n  }\n\n  function presentation() {\n    const elapsed = performance.now() - began;\n    const active = token >= 0 && elapsed < (reduced ? STATIC_DURATION : DURATION);\n    return { reduced_motion: reduced, feedback_active: active, static_feedback: !!(reduced && active) };\n  }\n\n  function setReducedMotion(value) { reduced = !!value; }\n  function cellCenter(cell, left, top, side) {\n    return [left + (cell % 3 + 0.5) * side / 3, top + (Math.floor(cell / 3) + 0.5) * side / 3];\n  }\n  function rounded(ctx, x, y, w, h, r) {\n    ctx.beginPath();\n    ctx.roundRect(x, y, w, h, r);\n  }\n\n  function draw(ctx, snapshot, size) {\n    const state = snapshot.state;\n    const width = size.width;\n    const height = size.height;\n    const now = performance.now();\n    if (state.tick < lastTick || (lastState && state.stage === 1 && state.tick < 3)) {\n      token = -1;\n      began = now;\n    }\n    if (state.feedback_token !== token) {\n      token = state.feedback_token;\n      began = now;\n    }\n    lastTick = state.tick;\n    lastState = state;\n\n    const scale = Math.min(width / 390, height / 350);\n    const font = (n) => Math.max(14, Math.round(n * scale));\n    ctx.clearRect(0, 0, width, height);\n    const bg = ctx.createLinearGradient(0, 0, width, height);\n    bg.addColorStop(0, '#17232d'); bg.addColorStop(1, '#0b1016');\n    ctx.fillStyle = bg; ctx.fillRect(0, 0, width, height);\n\n    const boardSide = Math.min(width * 0.62, height * 0.55, 215 * scale);\n    const boardLeft = (width - boardSide) / 2;\n    const boardTop = 53 * scale;\n    const room = roomData(state);\n    ctx.fillStyle = '#a9c8ce'; ctx.font = '700 ' + font(16) + 'px system-ui'; ctx.textAlign = 'center';\n    ctx.fillText(state.stage <= 3 ? 'ROOM ' + state.stage : 'KEYWAKE OPEN', width / 2, 25 * scale);\n    ctx.fillStyle = '#7d959b'; ctx.font = '600 ' + font(12) + 'px system-ui';\n    const kc = keyCount(state);\n    ctx.fillText(state.stage <= 3 ? 'BRASS KEYS  ' + kc.held + ' / ' + kc.total : 'ALL THREE HATCHES OPEN', width / 2, 43 * scale);\n\n    rounded(ctx, boardLeft - 8 * scale, boardTop - 8 * scale, boardSide + 16 * scale, boardSide + 16 * scale, 13 * scale);\n    ctx.fillStyle = '#22323a'; ctx.fill();\n    for (let cell = 0; cell < 9; cell += 1) {\n      const x = boardLeft + (cell % 3) * boardSide / 3;\n      const y = boardTop + Math.floor(cell / 3) * boardSide / 3;\n      const s = boardSide / 3;\n      rounded(ctx, x + 3 * scale, y + 3 * scale, s - 6 * scale, s - 6 * scale, 8 * scale);\n      ctx.fillStyle = room.walls.indexOf(cell) >= 0 ? '#10171d' : '#38505a'; ctx.fill();\n      ctx.strokeStyle = room.walls.indexOf(cell) >= 0 ? '#5b7379' : '#59717a'; ctx.lineWidth = Math.max(1, 1.5 * scale); ctx.stroke();\n      if (room.walls.indexOf(cell) >= 0) {\n        ctx.strokeStyle = '#789197'; ctx.lineWidth = 3 * scale;\n        ctx.beginPath(); ctx.moveTo(x + s * .27, y + s * .27); ctx.lineTo(x + s * .73, y + s * .73); ctx.moveTo(x + s * .73, y + s * .27); ctx.lineTo(x + s * .27, y + s * .73); ctx.stroke();\n      }\n    }\n    if (state.stage <= 3) {\n      const [ex, ey] = cellCenter(room.exit, boardLeft, boardTop, boardSide);\n      const hatchOpen = kc.held === kc.total;\n      ctx.fillStyle = hatchOpen ? '#e4b75d' : '#8a6a2d';\n      rounded(ctx, ex - boardSide / 10, ey - boardSide / 8, boardSide / 5, boardSide / 4, 5 * scale); ctx.fill();\n      ctx.fillStyle = '#153c3d'; ctx.fillRect(ex - boardSide / 17, ey - boardSide / 15, boardSide / 8.5, boardSide / 6);\n      for (let i = 0; i < room.keys.length; i += 1) {\n        if (state.key_mask & (1 << i)) continue;\n        const [kx, ky] = cellCenter(room.keys[i], boardLeft, boardTop, boardSide);\n        ctx.strokeStyle = '#f2cb65'; ctx.lineWidth = 4 * scale;\n        ctx.beginPath(); ctx.arc(kx - 7 * scale, ky, 7 * scale, 0, Math.PI * 2); ctx.moveTo(kx, ky); ctx.lineTo(kx + 15 * scale, ky); ctx.moveTo(kx + 10 * scale, ky); ctx.lineTo(kx + 10 * scale, ky + 6 * scale); ctx.stroke();\n      }\n    }\n\n    const active = token >= 0 && now - began < (reduced ? STATIC_DURATION : DURATION);\n    let drawCell = state.cell;\n    let interp = 1;\n    if (active && !reduced && state.feedback_kind !== 'blocked') interp = Math.min(1, (now - began) / DURATION);\n    const from = state.feedback_from;\n    const to = state.feedback_to;\n    const [fx, fy] = cellCenter(from, boardLeft, boardTop, boardSide);\n    const [tx, ty] = cellCenter(to, boardLeft, boardTop, boardSide);\n    let px = tx, py = ty;\n    if (active && !reduced && state.feedback_kind !== 'blocked') { px = fx + (tx - fx) * interp; py = fy + (ty - fy) * interp; }\n    if (active && (reduced || state.feedback_kind === 'blocked')) {\n      const [rx, ry] = cellCenter(drawCell, boardLeft, boardTop, boardSide);\n      ctx.strokeStyle = state.feedback_kind === 'blocked' ? '#ff8979' : '#d8f5ed'; ctx.lineWidth = 4 * scale;\n      ctx.strokeRect(rx - boardSide / 7, ry - boardSide / 7, boardSide * 2 / 7, boardSide * 2 / 7);\n    }\n    ctx.fillStyle = '#ff7d6e'; ctx.beginPath(); ctx.arc(px, py, boardSide / 8, 0, Math.PI * 2); ctx.fill();\n    ctx.fillStyle = '#ffe0c9'; ctx.beginPath(); ctx.arc(px - boardSide / 25, py - boardSide / 30, boardSide / 28, 0, Math.PI * 2); ctx.fill();\n\n    const padY = height * .80; const padH = height * .18;\n    const labels = ['LEFT', 'UP', 'RIGHT', 'DOWN'];\n    for (let i = 0; i < 4; i += 1) {\n      const x = i * width / 4 + 4 * scale; const w = width / 4 - 8 * scale;\n      rounded(ctx, x, padY, w, padH, 10 * scale); ctx.fillStyle = '#27404a'; ctx.fill(); ctx.strokeStyle = '#5e8790'; ctx.lineWidth = 1.5 * scale; ctx.stroke();\n      ctx.fillStyle = '#e4f0ee'; ctx.textAlign = 'center'; ctx.font = '800 ' + font(13) + 'px system-ui'; ctx.fillText(labels[i], x + w / 2, padY + padH * .58);\n    }\n  }\n\n  globalThis.KeywakeArt = { draw, presentation, setReducedMotion, keyCount };\n})();\n",
+            "path": "view/art.js"
+          },
+          {
+            "content": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\">\n  <meta name=\"robots\" content=\"noindex,nofollow\">\n  <title>Keywake</title>\n  <link rel=\"stylesheet\" href=\"./style.css\">\n</head>\n<body>\n  <main class=\"shell\">\n    <header>\n      <p class=\"eyebrow\">THREE-ROOM WALKING PUZZLE</p>\n      <h1>Keywake</h1>\n      <p data-objective class=\"objective\">Collect every key. Reach the exit in all 3 rooms.</p>\n      <p class=\"instruction\">One move per arrow press or pad tap. Walls and locked hatches hold fast.</p>\n    </header>\n    <section class=\"stats\" aria-label=\"Game progress\">\n      <div><span data-product-progress>ROOMS 0 / 3</span><strong data-room-keys>ROOM 1 · KEYS 0 / 0</strong></div>\n      <div><span data-score-label>CURRENT SCORE</span><strong data-game-score>0</strong></div>\n      <div><span data-best-label>DEVICE BEST</span><strong data-best>0</strong></div>\n      <div><span>ELAPSED TIME</span><strong data-game-progress>0.0</strong></div>\n    </section>\n    <canvas data-game-canvas tabindex=\"0\" aria-label=\"Keywake board and four touch arrow pads\"></canvas>\n    <p data-game-status class=\"status\">Ready to explore</p>\n    <p data-result class=\"result\">Find every brass key before entering the gold hatch.</p>\n    <nav class=\"controls\" aria-label=\"Game controls\">\n      <button data-game-start>Start</button>\n      <button data-game-pause>Pause</button>\n      <button data-game-resume>Resume</button>\n      <button data-game-restart class=\"replay\">Replay</button>\n    </nav>\n    <p data-game-error hidden role=\"alert\"></p>\n  </main>\n  <script src=\"./core.js\"></script>\n  <script src=\"./view/art.js\"></script>\n  <script src=\"./gamekit.js\"></script>\n  <script src=\"./app.js\"></script>\n</body>\n</html>\n",
+            "path": "index.html"
+          },
+          {
+            "content": ":root{color-scheme:dark;background:#0b1016;font-family:system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#1c2e38,#0b1016 58%);color:#edf6f2}.shell{width:min(100%,620px);margin:0 auto;padding:12px 14px 16px;text-align:center}header{margin:0 auto 8px}.eyebrow{margin:0;color:#e6ba60;font-size:12px;font-weight:800;letter-spacing:.12em}h1{font-size:30px;line-height:1;margin:3px 0 7px}.objective{font-size:16px;line-height:1.25;font-weight:800;margin:0 auto 4px;max-width:500px}.instruction{color:#b9cbd0;font-size:14px;line-height:1.25;margin:0}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:10px 0 8px}.stats div{background:#17262f;border:1px solid #38535d;border-radius:9px;min-height:48px;padding:5px 7px;text-align:left}.stats span{display:block;color:#9eb9bf;font-size:11px;font-weight:800;line-height:1.15}.stats strong{display:block;color:#f3f7e9;font-size:15px;line-height:1.35;white-space:nowrap}canvas{display:block;width:min(100%,390px);height:350px;margin:0 auto;border:1px solid #46616a;border-radius:14px;touch-action:none;outline:none;background:#101a21}.status,.result{margin:7px auto 0;font-size:14px;line-height:1.25;min-height:18px}.status{color:#afd1ce;font-weight:700}.result{color:#f3d995;font-weight:800;max-width:580px}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:9px}button{min-height:44px;border:1px solid #60828c;border-radius:9px;background:#203841;color:#eff9f5;font-size:14px;font-weight:800;padding:6px;touch-action:manipulation}.replay{background:#c9814e;border-color:#ffd17b;color:#17120e}[data-game-error]{color:#ff9c91;margin:8px auto;font-weight:800}@media (min-width:700px){.shell{width:min(96vw,760px);padding-top:10px}header{display:grid;grid-template-columns:auto 1fr;column-gap:14px;text-align:left;align-items:center}.eyebrow{grid-column:1}h1{grid-column:1;margin:0}.objective{grid-column:2;grid-row:1/3;text-align:left}.instruction{grid-column:1/3;text-align:center}.stats{grid-template-columns:repeat(4,1fr)}canvas{height:350px}}@media (max-height:720px) and (min-width:700px){.shell{padding-top:5px}.instruction{display:none}.stats{margin:5px 0}.stats div{min-height:40px}canvas{height:310px}.status,.result{margin-top:4px}.controls{margin-top:5px}}@media (max-width:389px){.shell{padding-left:8px;padding-right:8px}h1{font-size:27px}.stats{gap:4px}.stats strong{font-size:14px}canvas{height:340px}}\n",
+            "path": "style.css"
+          },
+          {
+            "content": "# Keywake\n\nKeywake is an original deterministic three-room navigation puzzle. The coral explorer walks one stationary tile at a time: collect each room's brass keys, then enter its gold hatch. The third room rewards choosing the short key order.\n\n## Controls\n\n- Arrow keys: one tile per press.\n- Touch: tap one of the four labeled canvas pad columns (LEFT, UP, RIGHT, DOWN).\n- Start, Pause, Resume, and Replay use the supplied GameKit lifecycle controls.\n\nEvery seed transforms each 3×3 room through rotations and a mirror while preserving its puzzle structure. Legal walking moves are counted for room-clear efficiency; only clearing a room awards score. Replay resets the same deterministic seed through GameKit. Device best is displayed from GameKit's device-local practice state.\n\nThe game has no account, network service, external assets, or sound. Reduced-motion preference is observed live: travel interpolation becomes a clear static destination outline.\n",
+            "path": "README.md"
+          }
+        ],
+        "tests": [
+          "Load index.html through a local static server with supplied gamekit.js and manifest.json; confirm Start initializes KeywakeCore and canvas input works.",
+          "For seeds 1, 7, 23, 89, 2026, and 4294967295, inspect core projections and verify transformed room routes, entry complexities 2/3/4, and terminal success.",
+          "Verify touch columns increment pointer_actions and arrow key edges produce one attempted move until released.",
+          "Toggle prefers-reduced-motion during a move and inspect KeywakeArt.presentation()."
+        ],
+        "summary": "Implemented Keywake as an original deterministic three-room key collection navigation puzzle with DOM-free core, responsive canvas presentation, GameKit lifecycle integration, progress/score/best UI, replay controls, and live reduced-motion feedback.",
+        "status": "complete",
+        "provider_metadata": {
+          "provider": "openai-responses/gpt-5.6-terra",
+          "response_id": "resp_0c8b55db8877090a006ab32e6ba8c887d094c8e6ba98d79a42",
+          "usage": {
+            "input_tokens": 4315,
+            "output_tokens": 7928,
+            "estimated_cost": 0.159964
+          },
+          "estimated_cost": 0.159964,
+          "cost_basis": "estimated",
+          "billed_cost": null
+        }
+      },
+      "completed_at": 1790127780711
+    },
+    "GAME-20260923-141/repair/1": {
+      "operation_id": "GAME-20260923-141/repair/1",
+      "game_id": "GAME-20260923-141",
+      "version": "v2",
+      "request_hash": "6a954acab2e1d28fb77a00adc8bea66f7062d7623edb8b60e1c6fd18c038c00b",
+      "day": "2026-09-23",
+      "state": "COMPLETE",
+      "provider": "openai-responses/gpt-5.6-terra",
+      "started_at": 1790127788489,
+      "deadline_at": 1790128088489,
+      "reserved": {
+        "input_tokens": 77458,
+        "output_tokens": 18000,
+        "estimated_cost": 0.633832
+      },
+      "prices": {
+        "input_per_million": 4,
+        "output_per_million": 18,
+        "as_of": "2026-09-23",
+        "estimated": true
+      },
+      "response_id": "resp_00e234c52f481580006ab32eacbe2087d0a019991553c1515d",
+      "accounted": {
+        "input_tokens": 20326,
+        "output_tokens": 2273,
+        "estimated_cost": 0.122218
+      },
+      "result": {
+        "files": [
+          {
+            "content": "(() => {\n  'use strict';\n\n  const canvas = document.querySelector('[data-game-canvas]');\n  const roomProgress = document.querySelector('[data-product-progress]');\n  const roomKeys = document.querySelector('[data-room-keys]');\n  const result = document.querySelector('[data-result]');\n  const score = document.querySelector('[data-game-score]');\n  const best = document.querySelector('[data-best]');\n  const status = document.querySelector('[data-game-status]');\n  const errorNode = document.querySelector('[data-game-error]');\n\n  function updateUi(snapshot) {\n    const state = snapshot.state;\n    const keys = globalThis.KeywakeArt.keyCount(state);\n    roomProgress.textContent = 'ROOMS ' + state.objective_progress + ' / 3';\n    roomKeys.textContent = state.stage <= 3\n      ? 'ROOM ' + state.stage + ' · KEYS ' + keys.held + ' / ' + keys.total\n      : 'ROOMS COMPLETE';\n    score.textContent = String(state.score);\n    if (Number.isFinite(snapshot.best)) best.textContent = String(snapshot.best);\n\n    if (state.outcome === 'success') {\n      result.textContent = 'ALL ROOMS CLEARED · ' + state.score + ' POINTS · ' + state.moves + ' MOVES · ' + (state.score === 600 ? 'Perfect route.' : 'Efficient routes earn more.');\n      status.textContent = 'Complete';\n    } else if (state.outcome === 'failure') {\n      result.textContent = 'TIME UP · ROOMS CLEARED ' + state.objective_progress + ' / 3';\n      status.textContent = 'Time expired';\n    } else {\n      result.textContent = 'Find every brass key before entering the gold hatch.';\n      status.textContent = 'Exploring room ' + state.stage;\n    }\n  }\n\n  const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');\n  const onMotion = () => globalThis.KeywakeArt.setReducedMotion(motionQuery.matches);\n  globalThis.KeywakeArt.setReducedMotion(motionQuery.matches);\n  motionQuery.addEventListener('change', onMotion);\n  addEventListener('pagehide', (event) => {\n    if (!event.persisted) motionQuery.removeEventListener('change', onMotion);\n  });\n\n  fetch('./manifest.json')\n    .then((response) => {\n      if (!response.ok) throw new Error('manifest unavailable');\n      return response.json();\n    })\n    .then((metadata) => {\n      PlayJoltGameKit.create({\n        core: globalThis.KeywakeCore,\n        canvas,\n        metadata,\n        draw(ctx, snapshot, size) {\n          globalThis.KeywakeArt.draw(ctx, snapshot, size);\n          updateUi(snapshot);\n        },\n        presentation: globalThis.KeywakeArt.presentation\n      });\n    })\n    .catch((error) => {\n      errorNode.hidden = false;\n      errorNode.textContent = 'Unable to start Keywake: ' + error.message;\n    });\n})();\n",
+            "path": "app.js"
+          },
+          {
+            "content": ":root{color-scheme:dark;background:#0b1016;font-family:system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#1c2e38,#0b1016 58%);color:#edf6f2;overflow-x:hidden}.shell{width:min(100%,620px);margin:0 auto;padding:12px 14px 16px;text-align:center}header{margin:0 auto 8px}.eyebrow{margin:0;color:#e6ba60;font-size:14px;font-weight:800;letter-spacing:.1em}h1{font-size:30px;line-height:1;margin:3px 0 7px}.objective{font-size:16px;line-height:1.25;font-weight:800;margin:0 auto 4px;max-width:500px}.instruction{color:#b9cbd0;font-size:14px;line-height:1.25;margin:0}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:10px 0 8px}.stats div{background:#17262f;border:1px solid #38535d;border-radius:9px;min-height:54px;padding:6px 8px;text-align:left}.stats span{display:block;color:#b9d0d4;font-size:14px;font-weight:800;line-height:1.15}.stats strong{display:block;color:#f3f7e9;font-size:15px;line-height:1.35;white-space:nowrap}canvas{display:block;width:min(100%,390px);height:350px;margin:0 auto;border:1px solid #46616a;border-radius:14px;touch-action:none;outline:none;background:#101a21}.status,.result{margin:7px auto 0;font-size:14px;line-height:1.25;min-height:18px}.status{color:#afd1ce;font-weight:700}.result{color:#f3d995;font-weight:800;max-width:580px}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:9px}button{min-height:44px;border:1px solid #60828c;border-radius:9px;background:#203841;color:#eff9f5;font-size:14px;font-weight:800;padding:6px;touch-action:manipulation}.replay{background:#c9814e;border-color:#ffd17b;color:#17120e}[data-game-error]{color:#ff9c91;margin:8px auto;font-weight:800}@media (min-width:700px){.shell{width:min(96vw,760px);padding-top:10px}header{display:grid;grid-template-columns:auto 1fr;column-gap:14px;text-align:left;align-items:center}.eyebrow{grid-column:1}h1{grid-column:1;margin:0}.objective{grid-column:2;grid-row:1/3;text-align:left}.instruction{grid-column:1/3;text-align:center}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}canvas{height:350px}}@media (max-height:720px) and (min-width:700px){.shell{padding-top:5px}.instruction{display:none}.stats{margin:5px 0}.stats div{min-height:48px}canvas{height:310px}.status,.result{margin-top:4px}.controls{margin-top:5px}}@media (max-width:389px){.shell{padding-left:8px;padding-right:8px}h1{font-size:27px}.stats{gap:4px}.stats strong{font-size:14px}canvas{height:340px}}\n",
+            "path": "style.css"
+          }
+        ],
+        "tests": [
+          "Load index.html at 390×844, 768×1024, and 1280×800; confirm GameKit remains idle before Start and enters playing after Start.",
+          "Use a keyboard arrow and each of the four canvas pointer columns; confirm one-tile movement behavior and pointer_actions increment for touch actions.",
+          "Verify the DOM labels have computed font sizes of at least 14px and that all lifecycle buttons remain at least 44px high.",
+          "Complete all three transformed rooms for each reviewed seed and verify immediate success/replay behavior."
+        ],
+        "summary": "Corrected the GameKit draw callback signature so the supplied context, snapshot, and responsive size are forwarded in their required order. Increased critical stats label sizing to the required readable 14px minimum while retaining the compact layout.",
+        "status": "complete",
+        "provider_metadata": {
+          "provider": "openai-responses/gpt-5.6-terra",
+          "response_id": "resp_00e234c52f481580006ab32eacbe2087d0a019991553c1515d",
+          "usage": {
+            "input_tokens": 20326,
+            "output_tokens": 2273,
+            "estimated_cost": 0.122218
+          },
+          "estimated_cost": 0.122218,
+          "cost_basis": "estimated",
+          "billed_cost": null
+        }
+      },
+      "completed_at": 1790127825309
+    },
+    "GAME-20260923-141/repair/2": {
+      "operation_id": "GAME-20260923-141/repair/2",
+      "game_id": "GAME-20260923-141",
+      "version": "v3",
+      "request_hash": "2eab66a7ac092eac004154bc1d0a27f081a0b884d63389025d59552f6f02f660",
+      "day": "2026-09-23",
+      "state": "COMPLETE",
+      "provider": "openai-responses/gpt-5.6-terra",
+      "started_at": 1790129197131,
+      "deadline_at": 1790129497131,
+      "reserved": {
+        "input_tokens": 62508,
+        "output_tokens": 18000,
+        "estimated_cost": 0.574032
+      },
+      "prices": {
+        "input_per_million": 4,
+        "output_per_million": 18,
+        "as_of": "2026-09-23",
+        "estimated": true
+      },
+      "response_id": "resp_0cd960b759657abe006ab3342d6a5c87d0beddca85c273c1d9",
+      "accounted": {
+        "input_tokens": 17661,
+        "output_tokens": 1889,
+        "estimated_cost": 0.104646
+      },
+      "result": {
+        "files": [
+          {
+            "content": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\">\n  <meta name=\"robots\" content=\"noindex,nofollow\">\n  <title>Keywake</title>\n  <script>\n    (function () {\n      var path = location.pathname;\n      if (/\\/[^/]*\\.html$/i.test(path)) path = path.slice(0, path.lastIndexOf('/') + 1);\n      else if (path.charAt(path.length - 1) !== '/') path += '/';\n      document.write('<base href=\"' + path.replace(/\"/g, '') + '\">');\n    }());\n  </script>\n  <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n<body>\n  <main class=\"shell\">\n    <header>\n      <p class=\"eyebrow\">THREE-ROOM WALKING PUZZLE</p>\n      <h1>Keywake</h1>\n      <p data-objective class=\"objective\">Collect every key. Reach the exit in all 3 rooms.</p>\n      <p class=\"instruction\">One move per arrow press or pad tap. Walls and locked hatches hold fast.</p>\n    </header>\n    <section class=\"stats\" aria-label=\"Game progress\">\n      <div><span data-product-progress>ROOMS 0 / 3</span><strong data-room-keys>ROOM 1 · KEYS 0 / 0</strong></div>\n      <div><span data-score-label>CURRENT SCORE</span><strong data-game-score>0</strong></div>\n      <div><span data-best-label>DEVICE BEST</span><strong data-best>0</strong></div>\n      <div><span>ELAPSED TIME</span><strong data-game-progress>0.0</strong></div>\n    </section>\n    <canvas data-game-canvas tabindex=\"0\" aria-label=\"Keywake board and four touch arrow pads\"></canvas>\n    <p data-game-status class=\"status\">Ready to explore</p>\n    <p data-result class=\"result\">Find every brass key before entering the gold hatch.</p>\n    <nav class=\"controls\" aria-label=\"Game controls\">\n      <button data-game-start>Start</button>\n      <button data-game-pause>Pause</button>\n      <button data-game-resume>Resume</button>\n      <button data-game-restart class=\"replay\">Replay</button>\n    </nav>\n    <p data-game-error hidden role=\"alert\"></p>\n  </main>\n  <script src=\"core.js\"></script>\n  <script src=\"view/art.js\"></script>\n  <script src=\"gamekit.js\"></script>\n  <script src=\"app.js\"></script>\n</body>\n</html>\n",
+            "path": "index.html"
+          },
+          {
+            "content": "(() => {\n  'use strict';\n\n  const canvas = document.querySelector('[data-game-canvas]');\n  const roomProgress = document.querySelector('[data-product-progress]');\n  const roomKeys = document.querySelector('[data-room-keys]');\n  const result = document.querySelector('[data-result]');\n  const score = document.querySelector('[data-game-score]');\n  const best = document.querySelector('[data-best]');\n  const status = document.querySelector('[data-game-status]');\n  const errorNode = document.querySelector('[data-game-error]');\n\n  function updateUi(snapshot) {\n    const state = snapshot.state;\n    const keys = globalThis.KeywakeArt.keyCount(state);\n    roomProgress.textContent = 'ROOMS ' + state.objective_progress + ' / 3';\n    roomKeys.textContent = state.stage <= 3\n      ? 'ROOM ' + state.stage + ' · KEYS ' + keys.held + ' / ' + keys.total\n      : 'ROOMS COMPLETE';\n    score.textContent = String(state.score);\n    if (Number.isFinite(snapshot.best)) best.textContent = String(snapshot.best);\n\n    if (state.outcome === 'success') {\n      result.textContent = 'ALL ROOMS CLEARED · ' + state.score + ' POINTS · ' + state.moves + ' MOVES · ' + (state.score === 600 ? 'Perfect route.' : 'Efficient routes earn more.');\n      status.textContent = 'Complete';\n    } else if (state.outcome === 'failure') {\n      result.textContent = 'TIME UP · ROOMS CLEARED ' + state.objective_progress + ' / 3';\n      status.textContent = 'Time expired';\n    } else {\n      result.textContent = 'Find every brass key before entering the gold hatch.';\n      status.textContent = 'Exploring room ' + state.stage;\n    }\n  }\n\n  const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');\n  const onMotion = () => globalThis.KeywakeArt.setReducedMotion(motionQuery.matches);\n  globalThis.KeywakeArt.setReducedMotion(motionQuery.matches);\n  motionQuery.addEventListener('change', onMotion);\n  addEventListener('pagehide', (event) => {\n    if (!event.persisted) motionQuery.removeEventListener('change', onMotion);\n  });\n\n  fetch('manifest.json')\n    .then((response) => {\n      if (!response.ok) throw new Error('manifest unavailable');\n      return response.json();\n    })\n    .then((metadata) => {\n      PlayJoltGameKit.create({\n        core: globalThis.KeywakeCore,\n        canvas,\n        metadata,\n        draw(ctx, snapshot, size) {\n          globalThis.KeywakeArt.draw(ctx, snapshot, size);\n          updateUi(snapshot);\n        },\n        presentation: globalThis.KeywakeArt.presentation\n      });\n    })\n    .catch((error) => {\n      errorNode.hidden = false;\n      errorNode.textContent = 'Unable to start Keywake: ' + error.message;\n    });\n})();\n",
+            "path": "app.js"
+          }
+        ],
+        "tests": [
+          "Open the clean-URL version route without a trailing slash and verify that the computed base makes style.css, core.js, view/art.js, gamekit.js, app.js, and manifest.json resolve inside that version directory.",
+          "Open the root-mounted Docker preview and verify that the computed base remains the root directory and GameKit boots normally."
+        ],
+        "summary": "Repaired clean-URL asset resolution by establishing a version-directory base before stylesheet and script parsing. The manifest request now shares that base, while root-mounted previews continue to resolve locally.",
+        "status": "complete",
+        "provider_metadata": {
+          "provider": "openai-responses/gpt-5.6-terra",
+          "response_id": "resp_0cd960b759657abe006ab3342d6a5c87d0beddca85c273c1d9",
+          "usage": {
+            "input_tokens": 17661,
+            "output_tokens": 1889,
+            "estimated_cost": 0.104646
+          },
+          "estimated_cost": 0.104646,
+          "cost_basis": "estimated",
+          "billed_cost": null
+        }
+      },
+      "completed_at": 1790129217828
+    }
+  }
+}

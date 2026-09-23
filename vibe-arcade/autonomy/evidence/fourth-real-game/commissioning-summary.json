@@ -1,0 +1,68 @@
+{
+  "schema": "playjolt-fourth-real-game/1",
+  "game_id": "GAME-20260923-141",
+  "model": "gpt-5.6-terra",
+  "run_id": "35809197340",
+  "runner_commit": "753996ae21e9da8872960d9d7ce85aa90987a71b",
+  "operations": [
+    {
+      "operation_id": "GAME-20260923-141/build/v1",
+      "operation": "build",
+      "version": "v1",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_0c8b55db8877090a006ab32e6ba8c887d094c8e6ba98d79a42",
+      "input_tokens": 4315,
+      "output_tokens": 7928,
+      "estimated_cost": 0.159964,
+      "cumulative_estimated_cost": 0.159964,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    },
+    {
+      "operation_id": "GAME-20260923-141/repair/1",
+      "operation": "repair",
+      "version": "v2",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_00e234c52f481580006ab32eacbe2087d0a019991553c1515d",
+      "input_tokens": 20326,
+      "output_tokens": 2273,
+      "estimated_cost": 0.122218,
+      "cumulative_estimated_cost": 0.282182,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    },
+    {
+      "operation_id": "GAME-20260923-141/repair/2",
+      "operation": "repair",
+      "version": "v3",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_0cd960b759657abe006ab3342d6a5c87d0beddca85c273c1d9",
+      "input_tokens": 17661,
+      "output_tokens": 1889,
+      "estimated_cost": 0.104646,
+      "cumulative_estimated_cost": 0.386828,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    }
+  ],
+  "total_calls": 3,
+  "total_estimated_cost": 0.386828,
+  "billed_cost": null,
+  "model_source": "real OpenAI provider, no injected mock",
+  "factory": {
+    "state": "READY_TO_SHIP",
+    "version": "v3",
+    "repair_attempt": 2,
+    "qa_status": "PASS",
+    "technical_qa_status": "PASS",
+    "product_qa_status": "PASS",
+    "quality_gate_status": "PASS",
+    "quality_status": "PASS",
+    "source_hash": "adca43ffe1238625b32cb30c01b0093f4d94c9a9b117916c1edd997f7d6c07de",
+    "failure_reasons": []
+  },
+  "production_authorized": false
+}

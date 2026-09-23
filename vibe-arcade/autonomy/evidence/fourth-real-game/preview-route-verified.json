@@ -1,0 +1,46 @@
+{
+  "source_hash": "adca43ffe1238625b32cb30c01b0093f4d94c9a9b117916c1edd997f7d6c07de",
+  "observation": {
+    "entry_url": "https://vibe-arcade-n6l8axiv8-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v3",
+    "assets": [
+      {
+        "attribute": "style.css",
+        "resolved_url": "https://vibe-arcade-n6l8axiv8-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v3/style.css",
+        "selector": "link[rel=\"stylesheet\"]"
+      },
+      {
+        "attribute": "core.js",
+        "resolved_url": "https://vibe-arcade-n6l8axiv8-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v3/core.js",
+        "selector": "script[src]"
+      },
+      {
+        "attribute": "view/art.js",
+        "resolved_url": "https://vibe-arcade-n6l8axiv8-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v3/view/art.js",
+        "selector": "script[src]"
+      },
+      {
+        "attribute": "gamekit.js",
+        "resolved_url": "https://vibe-arcade-n6l8axiv8-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v3/gamekit.js",
+        "selector": "script[src]"
+      },
+      {
+        "attribute": "app.js",
+        "resolved_url": "https://vibe-arcade-n6l8axiv8-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v3/app.js",
+        "selector": "script[src]"
+      },
+      {
+        "attribute": "https://vercel.live/_next-live/feedback/feedback.js",
+        "resolved_url": "https://vercel.live/_next-live/feedback/feedback.js",
+        "selector": "script[src]"
+      }
+    ]
+  },
+  "result": {
+    "passed": true,
+    "check": "preview_asset_resolution",
+    "entry_url": "https://vibe-arcade-n6l8axiv8-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v3",
+    "checked": 5,
+    "failures": []
+  },
+  "normal_start_observed": true
+}

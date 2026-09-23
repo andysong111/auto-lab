@@ -1,0 +1,88 @@
+{
+  "schema": "playjolt-control-plane/1",
+  "generated_at": "2026-09-23T02:17:43.701Z",
+  "policy_version": "control-plane-1",
+  "mode": "fourth-real-game-one-candidate",
+  "worker": {
+    "schema": "playjolt-worker/1",
+    "status": "RC_READY",
+    "code": null,
+    "game_id": "GAME-20260923-141",
+    "version": "v3",
+    "factory_state": "RC_READY",
+    "recorded_at": "2026-09-23T02:08:54.341Z",
+    "owner_action": false,
+    "auto_production_ship": false,
+    "budget": {
+      "calls": 3,
+      "input": 42302,
+      "output": 12090,
+      "cost": 0.386828
+    },
+    "cost_basis": "estimated",
+    "provider": "openai-responses/gpt-5.6-terra"
+  },
+  "automation": {
+    "can_create": false,
+    "reason": "daily_create_limit",
+    "provider_ready": true,
+    "active_jobs": 0,
+    "created_today": 1,
+    "auto_rc_enabled": false,
+    "auto_production_ship": false,
+    "kill_switches": {
+      "factory": false,
+      "release_candidates": true,
+      "production_shipping": true,
+      "marketing_promotion": true
+    }
+  },
+  "counts": {
+    "READY_TO_SHIP": 1
+  },
+  "total_jobs": 1,
+  "incidents": [],
+  "owner_action_required": false,
+  "jobs": [
+    {
+      "game_id": "GAME-20260923-141",
+      "title": "Keywake",
+      "version": "v3",
+      "state": "READY_TO_SHIP",
+      "repair_attempt": 2,
+      "max_repair_attempts": 5,
+      "technical_qa": {
+        "status": "PASS"
+      },
+      "product_qa": {
+        "status": "PASS",
+        "failures": []
+      },
+      "quality_gate": {
+        "status": "PASS"
+      },
+      "qa_status": "PASS",
+      "quality_status": "PASS",
+      "release_status": "READY",
+      "preview_url": "https://vibe-arcade-n6l8axiv8-a2bsangsa.vercel.app",
+      "worker": null,
+      "decision": {
+        "action": "HOLD_RC",
+        "reason": "production_shipping_disabled"
+      },
+      "metrics": {
+        "state": "DISABLED",
+        "reason": "Phase 2 metrics are not commissioned.",
+        "metrics": {
+          "observed_sessions": null,
+          "starting_sessions": null,
+          "replaying_sessions": null,
+          "game_finish_sessions": null,
+          "error_rate": null,
+          "observed_at": null,
+          "age_hours": null
+        }
+      }
+    }
+  ]
+}

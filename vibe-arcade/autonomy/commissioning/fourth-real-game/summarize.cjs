@@ -10,4 +10,4 @@ const mf=path.join(root,`autonomy/jobs/${id}/manifest.json`),m=fs.existsSync(mf)
 const summary={schema:'playjolt-fourth-real-game/1',game_id:id,model:'gpt-5.6-terra',run_id:process.env.GITHUB_RUN_ID,runner_commit:process.env.GITHUB_SHA,operations,total_calls:operations.length,total_estimated_cost:Number(cumulative.toFixed(8)),billed_cost:null,model_source:'real OpenAI provider, no injected mock',factory:m?{state:m.state,version:m.version,repair_attempt:m.repair_attempt,qa_status:m.qa_status,technical_qa_status:m.technical_qa_status,product_qa_status:m.product_qa_status,quality_gate_status:m.quality_status,quality_status:m.quality_status,source_hash:m.source_hash,failure_reasons:m.failure_reasons}:null,production_authorized:false};
 if(operations.length>6||cumulative>2+1e-9)throw Error('commissioning_budget_violation');
 atomicJSON(path.join(root,'commissioning-summary.json'),summary);console.log(JSON.stringify(summary,null,2));
-if(!m||!['RC_READY','REJECTED'].includes(m.state))process.exitCode=2;
+if(!m||!['RC_READY','READY_TO_SHIP','REJECTED'].includes(m.state))process.exitCode=2;

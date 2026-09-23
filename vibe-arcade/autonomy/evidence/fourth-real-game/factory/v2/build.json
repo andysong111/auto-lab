@@ -1,0 +1,28 @@
+{
+  "operation_id": "GAME-20260923-141/repair/1",
+  "source_hash": "d76dcf5228bf978e54e80b599b6f4c33d6a0708cc06d551a94a9e568eaac0d29",
+  "changed_files": [
+    "app.js",
+    "manifest.json",
+    "style.css"
+  ],
+  "cause": "Corrected the GameKit draw callback signature so the supplied context, snapshot, and responsive size are forwarded in their required order. Increased critical stats label sizing to the required readable 14px minimum while retaining the compact layout.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Load index.html at 390×844, 768×1024, and 1280×800; confirm GameKit remains idle before Start and enters playing after Start.",
+    "provider-suggested (not executed): Use a keyboard arrow and each of the four canvas pointer columns; confirm one-tile movement behavior and pointer_actions increment for touch actions.",
+    "provider-suggested (not executed): Verify the DOM labels have computed font sizes of at least 14px and that all lifecycle buttons remain at least 44px high.",
+    "provider-suggested (not executed): Complete all three transformed rooms for each reviewed seed and verify immediate success/replay behavior."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_00e234c52f481580006ab32eacbe2087d0a019991553c1515d",
+    "usage": {
+      "input_tokens": 20326,
+      "output_tokens": 2273,
+      "estimated_cost": 0.122218
+    },
+    "estimated_cost": 0.122218,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

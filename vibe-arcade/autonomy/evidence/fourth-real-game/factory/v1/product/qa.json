@@ -1,0 +1,1311 @@
+{
+  "schema_version": 1,
+  "runner_version": "product-quality-1",
+  "suite": "product",
+  "game_id": "GAME-20260923-141",
+  "version": "v1",
+  "source_hash": "0baf3fa1da271e32590a824f747b43bef0376338b1854b1dbe007e52169a7041",
+  "policy_hash": "092539c5ffb8707a8c7a177eadc3aad83896d0c3f34da272db1bfb1c7d90569e",
+  "contract_hash": "95db87d940a0c860aca7164045fe3c3e0ba6048ab5b41a67f9bbb710ae5c6031",
+  "passed": false,
+  "hard_failures": [
+    {
+      "code": "product_mobile_readability",
+      "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"font\",\"selector\":\"[data-product-progress]\",\"text\":\"ROOMS 0 / 3\",\"font_px\":11,\"x\":22,\"y\":144,\"width\":162,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-score-label]\",\"text\":\"CURRENT SCORE\",\"font_px\":11,\"x\":206,\"y\":144,\"width\":162,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-best-label]\",\"text\":\"DEVICE BEST\",\"font_px\":11,\"x\":22,\"y\":198,\"width\":162,\"height\":12.640625}]",
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "expected": "readable text, non-colliding labels, >=44px controls",
+      "actual": [
+        {
+          "kind": "font",
+          "selector": "[data-product-progress]",
+          "text": "ROOMS 0 / 3",
+          "font_px": 11,
+          "x": 22,
+          "y": 144,
+          "width": 162,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-score-label]",
+          "text": "CURRENT SCORE",
+          "font_px": 11,
+          "x": 206,
+          "y": 144,
+          "width": 162,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-best-label]",
+          "text": "DEVICE BEST",
+          "font_px": 11,
+          "x": 22,
+          "y": 198,
+          "width": 162,
+          "height": 12.640625
+        }
+      ],
+      "evidence": [
+        "product-390-entry.png"
+      ]
+    },
+    {
+      "code": "product_lifecycle",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "lifecycle",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "blocked": true,
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product-390-entry.png"
+      ]
+    },
+    {
+      "code": "product_failure_path",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "failure_path",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "blocked": true,
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product-390-entry.png"
+      ]
+    },
+    {
+      "code": "product_mobile_readability",
+      "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"font\",\"selector\":\"[data-product-progress]\",\"text\":\"ROOMS 0 / 3\",\"font_px\":11,\"x\":37.359375,\"y\":90.5,\"width\":156.8125,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-score-label]\",\"text\":\"CURRENT SCORE\",\"font_px\":11,\"x\":216.171875,\"y\":90.5,\"width\":156.8125,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-best-label]\",\"text\":\"DEVICE BEST\",\"font_px\":11,\"x\":394.984375,\"y\":90.5,\"width\":156.8125,\"height\":12.640625}]",
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "expected": "readable text, non-colliding labels, >=44px controls",
+      "actual": [
+        {
+          "kind": "font",
+          "selector": "[data-product-progress]",
+          "text": "ROOMS 0 / 3",
+          "font_px": 11,
+          "x": 37.359375,
+          "y": 90.5,
+          "width": 156.8125,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-score-label]",
+          "text": "CURRENT SCORE",
+          "font_px": 11,
+          "x": 216.171875,
+          "y": 90.5,
+          "width": 156.8125,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-best-label]",
+          "text": "DEVICE BEST",
+          "font_px": 11,
+          "x": 394.984375,
+          "y": 90.5,
+          "width": 156.8125,
+          "height": 12.640625
+        }
+      ],
+      "evidence": [
+        "product-768-entry.png"
+      ]
+    },
+    {
+      "code": "product_lifecycle",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "lifecycle",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "blocked": true,
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product-768-entry.png"
+      ]
+    },
+    {
+      "code": "product_failure_path",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "failure_path",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "blocked": true,
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product-768-entry.png"
+      ]
+    },
+    {
+      "code": "product_mobile_readability",
+      "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"font\",\"selector\":\"[data-product-progress]\",\"text\":\"ROOMS 0 / 3\",\"font_px\":11,\"x\":282,\"y\":90.5,\"width\":162.5,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-score-label]\",\"text\":\"CURRENT SCORE\",\"font_px\":11,\"x\":466.5,\"y\":90.5,\"width\":162.5,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-best-label]\",\"text\":\"DEVICE BEST\",\"font_px\":11,\"x\":651,\"y\":90.5,\"width\":162.5,\"height\":12.640625}]",
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "expected": "readable text, non-colliding labels, >=44px controls",
+      "actual": [
+        {
+          "kind": "font",
+          "selector": "[data-product-progress]",
+          "text": "ROOMS 0 / 3",
+          "font_px": 11,
+          "x": 282,
+          "y": 90.5,
+          "width": 162.5,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-score-label]",
+          "text": "CURRENT SCORE",
+          "font_px": 11,
+          "x": 466.5,
+          "y": 90.5,
+          "width": 162.5,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-best-label]",
+          "text": "DEVICE BEST",
+          "font_px": 11,
+          "x": 651,
+          "y": 90.5,
+          "width": 162.5,
+          "height": 12.640625
+        }
+      ],
+      "evidence": [
+        "product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_lifecycle",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "lifecycle",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "blocked": true,
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_failure_path",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "failure_path",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "blocked": true,
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 1,
+      "state_path": "quality.complexity",
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 7,
+      "state_path": "quality.complexity",
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 23,
+      "state_path": "quality.complexity",
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 89,
+      "state_path": "quality.complexity",
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 2026,
+      "state_path": "quality.complexity",
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 4294967295,
+      "state_path": "quality.complexity",
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_practice_best",
+      "message": "Expected \"playing after normal start\"; actual \"error\"",
+      "check": "practice_best",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-best]",
+      "state_path": "best",
+      "expected": "playing after normal start",
+      "actual": "error",
+      "evidence": [
+        "product-1280-entry.png"
+      ]
+    },
+    {
+      "code": "product_missing_check",
+      "message": "Physically blocked or missing check: completion",
+      "check": "completion",
+      "expected": "executed",
+      "actual": "blocked"
+    },
+    {
+      "code": "product_missing_check",
+      "message": "Physically blocked or missing check: score_integrity",
+      "check": "score_integrity",
+      "expected": "executed",
+      "actual": "blocked"
+    },
+    {
+      "code": "product_missing_check",
+      "message": "Physically blocked or missing check: replay",
+      "check": "replay",
+      "expected": "executed",
+      "actual": "blocked"
+    },
+    {
+      "code": "product_missing_check",
+      "message": "Physically blocked or missing check: feedback",
+      "check": "feedback",
+      "expected": "executed",
+      "actual": "blocked"
+    },
+    {
+      "code": "product_missing_check",
+      "message": "Physically blocked or missing check: failure_result",
+      "check": "failure_result",
+      "expected": "executed",
+      "actual": "blocked"
+    },
+    {
+      "code": "product_missing_check",
+      "message": "Physically blocked or missing check: capture_no_writes",
+      "check": "capture_no_writes",
+      "expected": "executed",
+      "actual": "blocked"
+    }
+  ],
+  "soft_failures": [],
+  "checks": [
+    {
+      "check": "difficulty_review",
+      "viewport": null,
+      "state_path": "difficulty.oracle_sha256",
+      "actual": {
+        "id": "keywake-rooms-v1",
+        "file": "keywake-rooms-v1.json",
+        "sha256": "900064dbd2df228aab94c7c02d33c9df9575560486dbbcf0f9e8f11dc5660bbc",
+        "contract_sha256": "95db87d940a0c860aca7164045fe3c3e0ba6048ab5b41a67f9bbb710ae5c6031",
+        "scope": "candidate",
+        "game_id": "GAME-20260923-141",
+        "reviewed_by": "Work trusted infrastructure design review, 2026-09-23",
+        "rationale": "Small walking graph; persistent key masks; D4 seed transforms; room-entry legal choices 2/3/4 and independent shortest normal inputs 2/4/6. Every entry alternative returns without collecting keys. No candidate code, DOM, eval or mutation adapter."
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "objective",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-objective]",
+      "actual": "Collect every key. Reach the exit in all 3 rooms.",
+      "status": "PASS"
+    },
+    {
+      "check": "progress",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-product-progress]",
+      "state_path": "state.objective_progress",
+      "actual": {
+        "state": 0,
+        "text": "ROOMS 0 / 3"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "score_best",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-best]",
+      "state_path": "best",
+      "actual": {
+        "score": "0",
+        "best": "0"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "status": "FAIL",
+      "expected": "readable text, non-colliding labels, >=44px controls",
+      "actual": [
+        {
+          "kind": "font",
+          "selector": "[data-product-progress]",
+          "text": "ROOMS 0 / 3",
+          "font_px": 11,
+          "x": 22,
+          "y": 144,
+          "width": 162,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-score-label]",
+          "text": "CURRENT SCORE",
+          "font_px": 11,
+          "x": 206,
+          "y": 144,
+          "width": 162,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-best-label]",
+          "text": "DEVICE BEST",
+          "font_px": 11,
+          "x": 22,
+          "y": 198,
+          "width": 162,
+          "height": 12.640625
+        }
+      ]
+    },
+    {
+      "check": "lifecycle",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "blocked": true,
+      "status": "FAIL",
+      "expected": "playing after normal start",
+      "actual": "error"
+    },
+    {
+      "check": "reduced_motion",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "phase": "initial_reduce",
+      "state_path": "presentation.reduced_motion",
+      "actual": {
+        "reduced_motion": true,
+        "feedback_active": false,
+        "static_feedback": false
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "failure_path",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "blocked": true,
+      "status": "FAIL",
+      "expected": "playing after normal start",
+      "actual": "error"
+    },
+    {
+      "check": "objective",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "selector": "[data-objective]",
+      "actual": "Collect every key. Reach the exit in all 3 rooms.",
+      "status": "PASS"
+    },
+    {
+      "check": "progress",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "selector": "[data-product-progress]",
+      "state_path": "state.objective_progress",
+      "actual": {
+        "state": 0,
+        "text": "ROOMS 0 / 3"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "score_best",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "selector": "[data-best]",
+      "state_path": "best",
+      "actual": {
+        "score": "0",
+        "best": "0"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "status": "FAIL",
+      "expected": "readable text, non-colliding labels, >=44px controls",
+      "actual": [
+        {
+          "kind": "font",
+          "selector": "[data-product-progress]",
+          "text": "ROOMS 0 / 3",
+          "font_px": 11,
+          "x": 37.359375,
+          "y": 90.5,
+          "width": 156.8125,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-score-label]",
+          "text": "CURRENT SCORE",
+          "font_px": 11,
+          "x": 216.171875,
+          "y": 90.5,
+          "width": 156.8125,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-best-label]",
+          "text": "DEVICE BEST",
+          "font_px": 11,
+          "x": 394.984375,
+          "y": 90.5,
+          "width": 156.8125,
+          "height": 12.640625
+        }
+      ]
+    },
+    {
+      "check": "lifecycle",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "blocked": true,
+      "status": "FAIL",
+      "expected": "playing after normal start",
+      "actual": "error"
+    },
+    {
+      "check": "reduced_motion",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "phase": "initial_reduce",
+      "state_path": "presentation.reduced_motion",
+      "actual": {
+        "reduced_motion": true,
+        "feedback_active": false,
+        "static_feedback": false
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "failure_path",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "blocked": true,
+      "status": "FAIL",
+      "expected": "playing after normal start",
+      "actual": "error"
+    },
+    {
+      "check": "objective",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "selector": "[data-objective]",
+      "actual": "Collect every key. Reach the exit in all 3 rooms.",
+      "status": "PASS"
+    },
+    {
+      "check": "progress",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "selector": "[data-product-progress]",
+      "state_path": "state.objective_progress",
+      "actual": {
+        "state": 0,
+        "text": "ROOMS 0 / 3"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "score_best",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "selector": "[data-best]",
+      "state_path": "best",
+      "actual": {
+        "score": "0",
+        "best": "0"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "status": "FAIL",
+      "expected": "readable text, non-colliding labels, >=44px controls",
+      "actual": [
+        {
+          "kind": "font",
+          "selector": "[data-product-progress]",
+          "text": "ROOMS 0 / 3",
+          "font_px": 11,
+          "x": 282,
+          "y": 90.5,
+          "width": 162.5,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-score-label]",
+          "text": "CURRENT SCORE",
+          "font_px": 11,
+          "x": 466.5,
+          "y": 90.5,
+          "width": 162.5,
+          "height": 12.640625
+        },
+        {
+          "kind": "font",
+          "selector": "[data-best-label]",
+          "text": "DEVICE BEST",
+          "font_px": 11,
+          "x": 651,
+          "y": 90.5,
+          "width": 162.5,
+          "height": 12.640625
+        }
+      ]
+    },
+    {
+      "check": "lifecycle",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "blocked": true,
+      "status": "FAIL",
+      "expected": "playing after normal start",
+      "actual": "error"
+    },
+    {
+      "check": "reduced_motion",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "phase": "initial_reduce",
+      "state_path": "presentation.reduced_motion",
+      "actual": {
+        "reduced_motion": true,
+        "feedback_active": false,
+        "static_feedback": false
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "failure_path",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "blocked": true,
+      "status": "FAIL",
+      "expected": "playing after normal start",
+      "actual": "error"
+    },
+    {
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 1,
+      "state_path": "quality.complexity",
+      "status": "FAIL",
+      "expected": "playing after normal start",
+      "actual": "error"
+    },
+    {
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 7,
+      "state_path": "quality.complexity",
+      "status": "FAIL",
+      "expected": "playing after normal start",
+      "actual": "error"
+    },
+    {
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 23,
+      "state_path": "quality.complexity",
+      "status": "FAIL",
+      "expected": "playing after normal start",
+      "actual": "error"
+    },
+    {
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 89,
+      "state_path": "quality.complexity",
+      "status": "FAIL",
+      "expected": "playing after normal start",
+      "actual": "error"
+    },
+    {
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 2026,
+      "state_path": "quality.complexity",
+      "status": "FAIL",
+      "expected": "playing after normal start",
+      "actual": "error"
+    },
+    {
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 4294967295,
+      "state_path": "quality.complexity",
+      "status": "FAIL",
+      "expected": "playing after normal start",
+      "actual": "error"
+    },
+    {
+      "check": "practice_best",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-best]",
+      "state_path": "best",
+      "status": "FAIL",
+      "expected": "playing after normal start",
+      "actual": "error"
+    }
+  ],
+  "browser_cases": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "passed": false,
+      "checks": [
+        {
+          "check": "objective",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "selector": "[data-objective]",
+          "actual": "Collect every key. Reach the exit in all 3 rooms.",
+          "status": "PASS"
+        },
+        {
+          "check": "progress",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "selector": "[data-product-progress]",
+          "state_path": "state.objective_progress",
+          "actual": {
+            "state": 0,
+            "text": "ROOMS 0 / 3"
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "score_best",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "selector": "[data-best]",
+          "state_path": "best",
+          "actual": {
+            "score": "0",
+            "best": "0"
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "mobile_readability",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "phase": "entry",
+          "selector": "[data-game-canvas]",
+          "status": "FAIL",
+          "expected": "readable text, non-colliding labels, >=44px controls",
+          "actual": [
+            {
+              "kind": "font",
+              "selector": "[data-product-progress]",
+              "text": "ROOMS 0 / 3",
+              "font_px": 11,
+              "x": 22,
+              "y": 144,
+              "width": 162,
+              "height": 12.640625
+            },
+            {
+              "kind": "font",
+              "selector": "[data-score-label]",
+              "text": "CURRENT SCORE",
+              "font_px": 11,
+              "x": 206,
+              "y": 144,
+              "width": 162,
+              "height": 12.640625
+            },
+            {
+              "kind": "font",
+              "selector": "[data-best-label]",
+              "text": "DEVICE BEST",
+              "font_px": 11,
+              "x": 22,
+              "y": 198,
+              "width": 162,
+              "height": 12.640625
+            }
+          ]
+        },
+        {
+          "check": "lifecycle",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "blocked": true,
+          "status": "FAIL",
+          "expected": "playing after normal start",
+          "actual": "error"
+        },
+        {
+          "check": "reduced_motion",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "phase": "initial_reduce",
+          "state_path": "presentation.reduced_motion",
+          "actual": {
+            "reduced_motion": true,
+            "feedback_active": false,
+            "static_feedback": false
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "failure_path",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "blocked": true,
+          "status": "FAIL",
+          "expected": "playing after normal start",
+          "actual": "error"
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "passed": false,
+      "checks": [
+        {
+          "check": "objective",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "selector": "[data-objective]",
+          "actual": "Collect every key. Reach the exit in all 3 rooms.",
+          "status": "PASS"
+        },
+        {
+          "check": "progress",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "selector": "[data-product-progress]",
+          "state_path": "state.objective_progress",
+          "actual": {
+            "state": 0,
+            "text": "ROOMS 0 / 3"
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "score_best",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "selector": "[data-best]",
+          "state_path": "best",
+          "actual": {
+            "score": "0",
+            "best": "0"
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "mobile_readability",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "phase": "entry",
+          "selector": "[data-game-canvas]",
+          "status": "FAIL",
+          "expected": "readable text, non-colliding labels, >=44px controls",
+          "actual": [
+            {
+              "kind": "font",
+              "selector": "[data-product-progress]",
+              "text": "ROOMS 0 / 3",
+              "font_px": 11,
+              "x": 37.359375,
+              "y": 90.5,
+              "width": 156.8125,
+              "height": 12.640625
+            },
+            {
+              "kind": "font",
+              "selector": "[data-score-label]",
+              "text": "CURRENT SCORE",
+              "font_px": 11,
+              "x": 216.171875,
+              "y": 90.5,
+              "width": 156.8125,
+              "height": 12.640625
+            },
+            {
+              "kind": "font",
+              "selector": "[data-best-label]",
+              "text": "DEVICE BEST",
+              "font_px": 11,
+              "x": 394.984375,
+              "y": 90.5,
+              "width": 156.8125,
+              "height": 12.640625
+            }
+          ]
+        },
+        {
+          "check": "lifecycle",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "blocked": true,
+          "status": "FAIL",
+          "expected": "playing after normal start",
+          "actual": "error"
+        },
+        {
+          "check": "reduced_motion",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "phase": "initial_reduce",
+          "state_path": "presentation.reduced_motion",
+          "actual": {
+            "reduced_motion": true,
+            "feedback_active": false,
+            "static_feedback": false
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "failure_path",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "blocked": true,
+          "status": "FAIL",
+          "expected": "playing after normal start",
+          "actual": "error"
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "passed": false,
+      "checks": [
+        {
+          "check": "objective",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "selector": "[data-objective]",
+          "actual": "Collect every key. Reach the exit in all 3 rooms.",
+          "status": "PASS"
+        },
+        {
+          "check": "progress",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "selector": "[data-product-progress]",
+          "state_path": "state.objective_progress",
+          "actual": {
+            "state": 0,
+            "text": "ROOMS 0 / 3"
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "score_best",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "selector": "[data-best]",
+          "state_path": "best",
+          "actual": {
+            "score": "0",
+            "best": "0"
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "mobile_readability",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "phase": "entry",
+          "selector": "[data-game-canvas]",
+          "status": "FAIL",
+          "expected": "readable text, non-colliding labels, >=44px controls",
+          "actual": [
+            {
+              "kind": "font",
+              "selector": "[data-product-progress]",
+              "text": "ROOMS 0 / 3",
+              "font_px": 11,
+              "x": 282,
+              "y": 90.5,
+              "width": 162.5,
+              "height": 12.640625
+            },
+            {
+              "kind": "font",
+              "selector": "[data-score-label]",
+              "text": "CURRENT SCORE",
+              "font_px": 11,
+              "x": 466.5,
+              "y": 90.5,
+              "width": 162.5,
+              "height": 12.640625
+            },
+            {
+              "kind": "font",
+              "selector": "[data-best-label]",
+              "text": "DEVICE BEST",
+              "font_px": 11,
+              "x": 651,
+              "y": 90.5,
+              "width": 162.5,
+              "height": 12.640625
+            }
+          ]
+        },
+        {
+          "check": "lifecycle",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "blocked": true,
+          "status": "FAIL",
+          "expected": "playing after normal start",
+          "actual": "error"
+        },
+        {
+          "check": "reduced_motion",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "phase": "initial_reduce",
+          "state_path": "presentation.reduced_motion",
+          "actual": {
+            "reduced_motion": true,
+            "feedback_active": false,
+            "static_feedback": false
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "failure_path",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "blocked": true,
+          "status": "FAIL",
+          "expected": "playing after normal start",
+          "actual": "error"
+        }
+      ]
+    }
+  ],
+  "seeds": [],
+  "console_errors": [],
+  "page_errors": [],
+  "side_effects": [],
+  "practice_effects": [],
+  "screenshots": [
+    "product-390-entry.png",
+    "product-768-entry.png",
+    "product-1280-entry.png"
+  ],
+  "artifacts": [
+    {
+      "path": "product-390-entry.png",
+      "kind": "screenshot",
+      "phase": "entry",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "4088dee01f8613e593c8547106093359749d2d32ad69aac7015031049db9f05d"
+    },
+    {
+      "path": "product-390-gameplay.webm",
+      "kind": "video",
+      "phase": "gameplay",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "bb0766d9b798cd647d73b3637dd94e66eb39376ebd4970cf246c70a4a73bfed0"
+    },
+    {
+      "path": "product-768-entry.png",
+      "kind": "screenshot",
+      "phase": "entry",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "e36654e2484a85609aa45d25122a9eea8455028a2d05e3b5e4124278e530505f"
+    },
+    {
+      "path": "product-1280-entry.png",
+      "kind": "screenshot",
+      "phase": "entry",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "26cd6e494f6cc2247092c196ed8919a6734f2ac769b1b27d0623054618bd145d"
+    }
+  ],
+  "duration_ms": 4977,
+  "scope": "Reviewed finite-model conformance and sampled normal-input product evidence; not proof of fun or all possible seeds.",
+  "oracle_approval": {
+    "id": "keywake-rooms-v1",
+    "file": "keywake-rooms-v1.json",
+    "sha256": "900064dbd2df228aab94c7c02d33c9df9575560486dbbcf0f9e8f11dc5660bbc",
+    "contract_sha256": "95db87d940a0c860aca7164045fe3c3e0ba6048ab5b41a67f9bbb710ae5c6031",
+    "scope": "candidate",
+    "game_id": "GAME-20260923-141",
+    "reviewed_by": "Work trusted infrastructure design review, 2026-09-23",
+    "rationale": "Small walking graph; persistent key masks; D4 seed transforms; room-entry legal choices 2/3/4 and independent shortest normal inputs 2/4/6. Every entry alternative returns without collecting keys. No candidate code, DOM, eval or mutation adapter."
+  },
+  "isolation": {
+    "engine": "docker",
+    "image": "sha256:a2eeac91a67a918d6a514b4b069c1cf3b61ae3941b7e1c2d04cd7c1f9d914285",
+    "network": "none",
+    "readonly": true,
+    "cpu": 1,
+    "memory_mb": 1024,
+    "pids": 128
+  }
+}

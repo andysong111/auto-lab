@@ -1,0 +1,14 @@
+✔ paid preflight: spec/schema/pinned data oracle, six seeds, true choices and path depth (11.926451ms)
+✔ reviewed seed-one farming probes return without progress and feedback action changes state (2.438402ms)
+✔ canonical directory without slash is valid when assets resolve inside exact version (1.263958ms)
+✔ bare relative paths receive the same check as dot-prefixed paths (0.260202ms)
+✔ all independently misresolved resources are reported, with exact expected/actual (0.170217ms)
+✔ unrelated identity and incomplete observations cannot enter preview repair (0.494046ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 169.93907

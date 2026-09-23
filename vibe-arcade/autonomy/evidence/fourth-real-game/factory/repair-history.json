@@ -1,0 +1,460 @@
+[
+  {
+    "attempt": 1,
+    "version": "v2",
+    "cause": [
+      {
+        "code": "start",
+        "message": "Expected values to be strictly equal:\n\n'error' !== 'idle'\n",
+        "viewport": 390
+      },
+      {
+        "code": "start",
+        "message": "Expected values to be strictly equal:\n\n'error' !== 'idle'\n",
+        "viewport": 768
+      },
+      {
+        "code": "start",
+        "message": "Expected values to be strictly equal:\n\n'error' !== 'idle'\n",
+        "viewport": 1280
+      },
+      {
+        "code": "product_mobile_readability",
+        "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"font\",\"selector\":\"[data-product-progress]\",\"text\":\"ROOMS 0 / 3\",\"font_px\":11,\"x\":22,\"y\":144,\"width\":162,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-score-label]\",\"text\":\"CURRENT SCORE\",\"font_px\":11,\"x\":206,\"y\":144,\"width\":162,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-best-label]\",\"text\":\"DEVICE BEST\",\"font_px\":11,\"x\":22,\"y\":198,\"width\":162,\"height\":12.640625}]",
+        "check": "mobile_readability",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "phase": "entry",
+        "selector": "[data-game-canvas]",
+        "expected": "readable text, non-colliding labels, >=44px controls",
+        "actual": [
+          {
+            "kind": "font",
+            "selector": "[data-product-progress]",
+            "text": "ROOMS 0 / 3",
+            "font_px": 11,
+            "x": 22,
+            "y": 144,
+            "width": 162,
+            "height": 12.640625
+          },
+          {
+            "kind": "font",
+            "selector": "[data-score-label]",
+            "text": "CURRENT SCORE",
+            "font_px": 11,
+            "x": 206,
+            "y": 144,
+            "width": 162,
+            "height": 12.640625
+          },
+          {
+            "kind": "font",
+            "selector": "[data-best-label]",
+            "text": "DEVICE BEST",
+            "font_px": 11,
+            "x": 22,
+            "y": 198,
+            "width": 162,
+            "height": 12.640625
+          }
+        ],
+        "evidence": [
+          "product/product-390-entry.png"
+        ]
+      },
+      {
+        "code": "product_lifecycle",
+        "message": "Expected \"playing after normal start\"; actual \"error\"",
+        "check": "lifecycle",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "blocked": true,
+        "expected": "playing after normal start",
+        "actual": "error",
+        "evidence": [
+          "product/product-390-entry.png"
+        ]
+      },
+      {
+        "code": "product_failure_path",
+        "message": "Expected \"playing after normal start\"; actual \"error\"",
+        "check": "failure_path",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "blocked": true,
+        "expected": "playing after normal start",
+        "actual": "error",
+        "evidence": [
+          "product/product-390-entry.png"
+        ]
+      },
+      {
+        "code": "product_mobile_readability",
+        "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"font\",\"selector\":\"[data-product-progress]\",\"text\":\"ROOMS 0 / 3\",\"font_px\":11,\"x\":37.359375,\"y\":90.5,\"width\":156.8125,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-score-label]\",\"text\":\"CURRENT SCORE\",\"font_px\":11,\"x\":216.171875,\"y\":90.5,\"width\":156.8125,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-best-label]\",\"text\":\"DEVICE BEST\",\"font_px\":11,\"x\":394.984375,\"y\":90.5,\"width\":156.8125,\"height\":12.640625}]",
+        "check": "mobile_readability",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "phase": "entry",
+        "selector": "[data-game-canvas]",
+        "expected": "readable text, non-colliding labels, >=44px controls",
+        "actual": [
+          {
+            "kind": "font",
+            "selector": "[data-product-progress]",
+            "text": "ROOMS 0 / 3",
+            "font_px": 11,
+            "x": 37.359375,
+            "y": 90.5,
+            "width": 156.8125,
+            "height": 12.640625
+          },
+          {
+            "kind": "font",
+            "selector": "[data-score-label]",
+            "text": "CURRENT SCORE",
+            "font_px": 11,
+            "x": 216.171875,
+            "y": 90.5,
+            "width": 156.8125,
+            "height": 12.640625
+          },
+          {
+            "kind": "font",
+            "selector": "[data-best-label]",
+            "text": "DEVICE BEST",
+            "font_px": 11,
+            "x": 394.984375,
+            "y": 90.5,
+            "width": 156.8125,
+            "height": 12.640625
+          }
+        ],
+        "evidence": [
+          "product/product-768-entry.png"
+        ]
+      },
+      {
+        "code": "product_lifecycle",
+        "message": "Expected \"playing after normal start\"; actual \"error\"",
+        "check": "lifecycle",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "blocked": true,
+        "expected": "playing after normal start",
+        "actual": "error",
+        "evidence": [
+          "product/product-768-entry.png"
+        ]
+      },
+      {
+        "code": "product_failure_path",
+        "message": "Expected \"playing after normal start\"; actual \"error\"",
+        "check": "failure_path",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "blocked": true,
+        "expected": "playing after normal start",
+        "actual": "error",
+        "evidence": [
+          "product/product-768-entry.png"
+        ]
+      },
+      {
+        "code": "product_mobile_readability",
+        "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"font\",\"selector\":\"[data-product-progress]\",\"text\":\"ROOMS 0 / 3\",\"font_px\":11,\"x\":282,\"y\":90.5,\"width\":162.5,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-score-label]\",\"text\":\"CURRENT SCORE\",\"font_px\":11,\"x\":466.5,\"y\":90.5,\"width\":162.5,\"height\":12.640625},{\"kind\":\"font\",\"selector\":\"[data-best-label]\",\"text\":\"DEVICE BEST\",\"font_px\":11,\"x\":651,\"y\":90.5,\"width\":162.5,\"height\":12.640625}]",
+        "check": "mobile_readability",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "phase": "entry",
+        "selector": "[data-game-canvas]",
+        "expected": "readable text, non-colliding labels, >=44px controls",
+        "actual": [
+          {
+            "kind": "font",
+            "selector": "[data-product-progress]",
+            "text": "ROOMS 0 / 3",
+            "font_px": 11,
+            "x": 282,
+            "y": 90.5,
+            "width": 162.5,
+            "height": 12.640625
+          },
+          {
+            "kind": "font",
+            "selector": "[data-score-label]",
+            "text": "CURRENT SCORE",
+            "font_px": 11,
+            "x": 466.5,
+            "y": 90.5,
+            "width": 162.5,
+            "height": 12.640625
+          },
+          {
+            "kind": "font",
+            "selector": "[data-best-label]",
+            "text": "DEVICE BEST",
+            "font_px": 11,
+            "x": 651,
+            "y": 90.5,
+            "width": 162.5,
+            "height": 12.640625
+          }
+        ],
+        "evidence": [
+          "product/product-1280-entry.png"
+        ]
+      },
+      {
+        "code": "product_lifecycle",
+        "message": "Expected \"playing after normal start\"; actual \"error\"",
+        "check": "lifecycle",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "blocked": true,
+        "expected": "playing after normal start",
+        "actual": "error",
+        "evidence": [
+          "product/product-1280-entry.png"
+        ]
+      },
+      {
+        "code": "product_failure_path",
+        "message": "Expected \"playing after normal start\"; actual \"error\"",
+        "check": "failure_path",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "blocked": true,
+        "expected": "playing after normal start",
+        "actual": "error",
+        "evidence": [
+          "product/product-1280-entry.png"
+        ]
+      },
+      {
+        "code": "product_difficulty",
+        "message": "Expected \"playing after normal start\"; actual \"error\"",
+        "check": "difficulty",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "seed": 1,
+        "state_path": "quality.complexity",
+        "expected": "playing after normal start",
+        "actual": "error",
+        "evidence": [
+          "product/product-1280-entry.png"
+        ]
+      },
+      {
+        "code": "product_difficulty",
+        "message": "Expected \"playing after normal start\"; actual \"error\"",
+        "check": "difficulty",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "seed": 7,
+        "state_path": "quality.complexity",
+        "expected": "playing after normal start",
+        "actual": "error",
+        "evidence": [
+          "product/product-1280-entry.png"
+        ]
+      },
+      {
+        "code": "product_difficulty",
+        "message": "Expected \"playing after normal start\"; actual \"error\"",
+        "check": "difficulty",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "seed": 23,
+        "state_path": "quality.complexity",
+        "expected": "playing after normal start",
+        "actual": "error",
+        "evidence": [
+          "product/product-1280-entry.png"
+        ]
+      },
+      {
+        "code": "product_difficulty",
+        "message": "Expected \"playing after normal start\"; actual \"error\"",
+        "check": "difficulty",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "seed": 89,
+        "state_path": "quality.complexity",
+        "expected": "playing after normal start",
+        "actual": "error",
+        "evidence": [
+          "product/product-1280-entry.png"
+        ]
+      },
+      {
+        "code": "product_difficulty",
+        "message": "Expected \"playing after normal start\"; actual \"error\"",
+        "check": "difficulty",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "seed": 2026,
+        "state_path": "quality.complexity",
+        "expected": "playing after normal start",
+        "actual": "error",
+        "evidence": [
+          "product/product-1280-entry.png"
+        ]
+      },
+      {
+        "code": "product_difficulty",
+        "message": "Expected \"playing after normal start\"; actual \"error\"",
+        "check": "difficulty",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "seed": 4294967295,
+        "state_path": "quality.complexity",
+        "expected": "playing after normal start",
+        "actual": "error",
+        "evidence": [
+          "product/product-1280-entry.png"
+        ]
+      },
+      {
+        "code": "product_practice_best",
+        "message": "Expected \"playing after normal start\"; actual \"error\"",
+        "check": "practice_best",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "selector": "[data-best]",
+        "state_path": "best",
+        "expected": "playing after normal start",
+        "actual": "error",
+        "evidence": [
+          "product/product-1280-entry.png"
+        ]
+      },
+      {
+        "code": "product_missing_check",
+        "message": "Physically blocked or missing check: completion",
+        "check": "completion",
+        "expected": "executed",
+        "actual": "blocked"
+      },
+      {
+        "code": "product_missing_check",
+        "message": "Physically blocked or missing check: score_integrity",
+        "check": "score_integrity",
+        "expected": "executed",
+        "actual": "blocked"
+      },
+      {
+        "code": "product_missing_check",
+        "message": "Physically blocked or missing check: replay",
+        "check": "replay",
+        "expected": "executed",
+        "actual": "blocked"
+      },
+      {
+        "code": "product_missing_check",
+        "message": "Physically blocked or missing check: feedback",
+        "check": "feedback",
+        "expected": "executed",
+        "actual": "blocked"
+      },
+      {
+        "code": "product_missing_check",
+        "message": "Physically blocked or missing check: failure_result",
+        "check": "failure_result",
+        "expected": "executed",
+        "actual": "blocked"
+      },
+      {
+        "code": "product_missing_check",
+        "message": "Physically blocked or missing check: capture_no_writes",
+        "check": "capture_no_writes",
+        "expected": "executed",
+        "actual": "blocked"
+      }
+    ],
+    "changed_files": [
+      "app.js",
+      "manifest.json",
+      "style.css"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "FAIL",
+    "adapter_cause": "Corrected the GameKit draw callback signature so the supplied context, snapshot, and responsive size are forwarded in their required order. Increased critical stats label sizing to the required readable 14px minimum while retaining the compact layout.",
+    "qa_artifact": "v2/qa.json"
+  },
+  {
+    "attempt": 2,
+    "version": "v3",
+    "cause": [
+      {
+        "code": "preview_asset_resolution",
+        "check": "preview_asset_resolution",
+        "selector": "script[src], link[rel=\"stylesheet\"]",
+        "state_path": "document.baseURI",
+        "message": "Vercel cleanUrls=true and trailingSlash=false canonicalizes the version directory without a trailing slash. Relative scripts/styles resolve outside the version and GameKit never boots. Fix version-independent HTML base resolution before loading styles/scripts, and keep root Docker QA working. Manifest fetch must share the correct base. Do not change the deployment config, GameKit, tests or core gameplay.",
+        "expected": [
+          "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v2/style.css",
+          "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v2/core.js",
+          "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v2/view/art.js",
+          "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v2/gamekit.js",
+          "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v2/app.js"
+        ],
+        "actual": [
+          "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/style.css",
+          "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/core.js",
+          "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/view/art.js",
+          "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/gamekit.js",
+          "https://vibe-arcade-ij1zyjozt-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/app.js"
+        ],
+        "evidence": [
+          "preview-route.json"
+        ]
+      }
+    ],
+    "changed_files": [
+      "app.js",
+      "index.html",
+      "manifest.json"
+    ],
+    "tests": [
+      "browser QA (390x844,768x1024,1280x800)"
+    ],
+    "result": "PASS",
+    "adapter_cause": "Repaired clean-URL asset resolution by establishing a version-directory base before stylesheet and script parsing. The manifest request now shares that base, while root-mounted previews continue to resolve locally.",
+    "qa_artifact": "v3/qa.json"
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "game_id": "GAME-20260923-141",
+  "run_id": "35809197340",
+  "public_key_sha256": "bd3c17cfa238045c97e736283c13597dcfc1456313186b541c1be8f68806fa67",
+  "ciphertext_sha256": "49ca3d34332e855dce7a959be63826cbb2de68b494242dd9388333086fc0abd8",
+  "preview_origin": "https://vibe-arcade-n6l8axiv8-a2bsangsa.vercel.app",
+  "rc_commit": "90bfac0349e4219e3e28f37ac948371afff98157",
+  "source_archive_id": 10728917480,
+  "source_archive_sha256": "42bdc2b01f8410e0dad5989533d10a130bb32fc0156dced92e50ee659b5ec87d",
+  "methods": "GET only; host-scoped temporary authentication cookies; unchanged smokePreview byte comparison",
+  "provider_calls": 0,
+  "production_authorized": false
+}
