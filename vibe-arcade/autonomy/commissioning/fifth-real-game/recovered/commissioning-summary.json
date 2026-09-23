@@ -1,0 +1,74 @@
+{
+  "schema": "playjolt-fifth-real-game/1",
+  "game_id": "GAME-20260923-151",
+  "model": "gpt-5.6-terra",
+  "run_id": "35836436847",
+  "runner_commit": "23d781e8c707f86f0067c0eb2d50256da73f9766",
+  "operations": [
+    {
+      "operation_id": "GAME-20260923-151/build/v1",
+      "operation": "build",
+      "version": "v1",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_07a460b91b82a0fa006ab38ba22f9887d1815c683f4bd2ab5c",
+      "input_tokens": 6846,
+      "output_tokens": 5705,
+      "estimated_cost": 0.130074,
+      "cumulative_estimated_cost": 0.130074,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    },
+    {
+      "operation_id": "GAME-20260923-151/repair/2",
+      "operation": "repair",
+      "version": "v3",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_0287c69a29af51b5006ab38d4d754c87d19f85c588984b0b70",
+      "input_tokens": 9795,
+      "output_tokens": 6917,
+      "estimated_cost": 0.163686,
+      "cumulative_estimated_cost": 0.29376,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    },
+    {
+      "operation_id": "GAME-20260923-151/repair/4",
+      "operation": "repair",
+      "version": "v5",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_08ac8e585337691f006ab38ec6769c87d18c1fa7536e722261",
+      "input_tokens": 9796,
+      "output_tokens": 5567,
+      "estimated_cost": 0.13939,
+      "cumulative_estimated_cost": 0.43315,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    }
+  ],
+  "total_calls": 3,
+  "total_estimated_cost": 0.43315,
+  "billed_cost": null,
+  "model_source": "real OpenAI provider, no injected mock",
+  "factory": {
+    "state": "REJECTED",
+    "version": "v6",
+    "repair_attempt": 5,
+    "qa_status": "PENDING",
+    "technical_qa_status": "PENDING",
+    "product_qa_status": "PENDING",
+    "commercial_qa_status": "PENDING",
+    "quality_gate_status": "REJECT",
+    "quality_status": "REJECT",
+    "source_hash": "4f049cca182a8fe6f7e5bc8adc64ebc4e03f507dcf93115b2e5c017406bbfeef",
+    "failure_reasons": [
+      {
+        "code": "build_failed",
+        "message": "Cannot read properties of undefined (reading 'filter')"
+      }
+    ]
+  },
+  "production_authorized": false
+}

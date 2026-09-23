@@ -1,0 +1,686 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260923-151",
+  "generation": 1,
+  "version": "v6",
+  "title": "Shard Armada",
+  "slug": "shard-armada",
+  "genre": "tactical salvo assault",
+  "mechanic_family": "aimed-salvo-recruitment-siege",
+  "controls": [
+    "Arrow keys aim at a target; repeat to cancel.",
+    "Space fires the volley or breaches the exposed core."
+  ],
+  "mobile_controls": [
+    "Tap a target to aim.",
+    "Tap VOLLEY to fire; tap BREACH when the core opens."
+  ],
+  "reference_quality_games": [
+    "astra-sentinel-v3",
+    "deep-descent"
+  ],
+  "created_at": "2026-09-23T08:19:44.749Z",
+  "state": "REJECTED",
+  "repair_attempt": 5,
+  "max_repair_attempts": 5,
+  "source_path": "autonomy/games/GAME-20260923-151/v6",
+  "preview_url": null,
+  "qa_status": "PENDING",
+  "quality_status": "REJECT",
+  "release_status": "REJECTED",
+  "failure_reasons": [
+    {
+      "code": "build_failed",
+      "message": "Cannot read properties of undefined (reading 'filter')"
+    }
+  ],
+  "metrics_eligibility": false,
+  "qa": {
+    "seed": 1,
+    "keyboard": {
+      "key": "ArrowLeft",
+      "observation": "state.focus"
+    },
+    "pointer": {
+      "observation": "state.pointer_actions"
+    },
+    "terminal_ms": 47000
+  },
+  "commercial_contract": {
+    "schema_version": 1,
+    "review_id": "shard-armada-commercial-v1",
+    "seed": 1,
+    "visual_legibility": {
+      "pairs": [
+        {
+          "id": "active-dormant-target",
+          "kind": "action_availability",
+          "a": {
+            "node": "1:0:-1:0:playing",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.14,
+              "y": 0.25,
+              "width": 0.22,
+              "height": 0.18
+            }
+          },
+          "b": {
+            "node": "1:0:-1:0:playing",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.39,
+              "y": 0.07,
+              "width": 0.22,
+              "height": 0.18
+            }
+          },
+          "action_a": "left",
+          "action_b": "up",
+          "marker": "Active target is a solid angular red vessel; absent target is a visibly empty broken docking outline, not an identical card."
+        },
+        {
+          "id": "shield-link-exposed",
+          "kind": "state",
+          "a": {
+            "node": "2:0:-1:0:playing",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.64,
+              "y": 0.25,
+              "width": 0.22,
+              "height": 0.18
+            }
+          },
+          "b": {
+            "node": "2:4:-1:0:playing",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.64,
+              "y": 0.25,
+              "width": 0.22,
+              "height": 0.18
+            }
+          },
+          "state_path": "state.captured",
+          "marker": "Right target has opaque segmented armor and a support tether until upper generator is captured; then an open bright core and broken tether are visible."
+        },
+        {
+          "id": "phase-resistant-vulnerable",
+          "kind": "state",
+          "a": {
+            "node": "3:0:-1:0:playing",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.64,
+              "y": 0.25,
+              "width": 0.22,
+              "height": 0.18
+            }
+          },
+          "b": {
+            "node": "3:0:-1:1:playing",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.64,
+              "y": 0.25,
+              "width": 0.22,
+              "height": 0.18
+            }
+          },
+          "state_path": "state.polarity",
+          "marker": "Right target is resistant to initial narrow volley and exposed to spread volley. Use crossed solid shield vs open chevrons plus colors; target silhouette visibly changes."
+        }
+      ]
+    },
+    "state_distinction": {
+      "pairs": [
+        {
+          "id": "target-focused",
+          "kind": "state",
+          "a": {
+            "node": "1:0:-1:0:playing",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.14,
+              "y": 0.25,
+              "width": 0.22,
+              "height": 0.18
+            }
+          },
+          "b": {
+            "node": "1:0:0:0:playing",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.14,
+              "y": 0.25,
+              "width": 0.22,
+              "height": 0.18
+            }
+          },
+          "state_path": "state.focus",
+          "marker": "Selection adds a large filled reticle and target-to-fleet aiming corridor."
+        },
+        {
+          "id": "enemy-recruited",
+          "kind": "state",
+          "a": {
+            "node": "1:0:-1:0:playing",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.14,
+              "y": 0.25,
+              "width": 0.22,
+              "height": 0.18
+            }
+          },
+          "b": {
+            "node": "1:1:-1:0:playing",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.14,
+              "y": 0.25,
+              "width": 0.22,
+              "height": 0.18
+            }
+          },
+          "state_path": "state.captured",
+          "marker": "Enemy hull becomes a bright reclaimed shard emblem with a distinct filled silhouette, not only a numeric count."
+        },
+        {
+          "id": "core-locked-open",
+          "kind": "state",
+          "a": {
+            "node": "1:0:-1:0:playing",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.4,
+              "y": 0.36,
+              "width": 0.2,
+              "height": 0.17
+            }
+          },
+          "b": {
+            "node": "1:3:-1:0:playing",
+            "region": {
+              "selector": "[data-game-canvas]",
+              "x": 0.4,
+              "y": 0.36,
+              "width": 0.2,
+              "height": 0.17
+            }
+          },
+          "state_path": "state.captured",
+          "marker": "Closed armored hexagon becomes a luminous exposed geometric core after all escorts are captured."
+        }
+      ]
+    },
+    "action_feedback": {
+      "probes": [
+        {
+          "id": "aim",
+          "node": "1:0:-1:0:playing",
+          "action": "left",
+          "kind": "movement",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.03,
+            "y": 0.03,
+            "width": 0.94,
+            "height": 0.8
+          }
+        },
+        {
+          "id": "volley",
+          "node": "1:0:0:0:playing",
+          "action": "fire",
+          "kind": "attack",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.03,
+            "y": 0.03,
+            "width": 0.94,
+            "height": 0.8
+          }
+        },
+        {
+          "id": "evolve",
+          "node": "1:3:-1:0:playing",
+          "action": "fire",
+          "kind": "upgrade",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.03,
+            "y": 0.03,
+            "width": 0.94,
+            "height": 0.8
+          }
+        }
+      ]
+    },
+    "motion": {
+      "intermediate_ms": [
+        60,
+        140
+      ],
+      "settle_ms": 500
+    },
+    "progression_spectacle": {
+      "checkpoints": [
+        {
+          "node": "1:0:-1:0:playing",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.03,
+            "y": 0.03,
+            "width": 0.94,
+            "height": 0.8
+          }
+        },
+        {
+          "node": "2:0:-1:0:playing",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.03,
+            "y": 0.03,
+            "width": 0.94,
+            "height": 0.8
+          }
+        },
+        {
+          "node": "3:0:-1:0:playing",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.03,
+            "y": 0.03,
+            "width": 0.94,
+            "height": 0.8
+          }
+        }
+      ],
+      "marker": "One scout becomes a five-vessel wing then thirteen-vessel armada; hull size, fleet footprint, gun count, enemy silhouette and storm architecture visibly escalate. Text is masked."
+    },
+    "result_presentation": {
+      "region": {
+        "selector": "[data-game-canvas]",
+        "x": 0.03,
+        "y": 0.03,
+        "width": 0.94,
+        "height": 0.8
+      },
+      "success_title": "ARMADA ASCENDANT",
+      "failure_title": "STORM OVERTOOK YOU"
+    },
+    "audio": {
+      "mode": "required",
+      "mute_selector": "[data-mute]",
+      "primary_probe": "volley",
+      "progress_probe": "evolve"
+    },
+    "mobile_hierarchy": {
+      "gameplay_selector": "[data-game-canvas]",
+      "roles": [
+        {
+          "role": "player",
+          "foreground": {
+            "selector": "[data-game-canvas]",
+            "x": 0.45,
+            "y": 0.7,
+            "width": 0.1,
+            "height": 0.09
+          },
+          "background": {
+            "selector": "[data-game-canvas]",
+            "x": 0.02,
+            "y": 0.7,
+            "width": 0.1,
+            "height": 0.09
+          }
+        },
+        {
+          "role": "danger",
+          "foreground": {
+            "selector": "[data-game-canvas]",
+            "x": 0.21,
+            "y": 0.3,
+            "width": 0.08,
+            "height": 0.08
+          },
+          "background": {
+            "selector": "[data-game-canvas]",
+            "x": 0.02,
+            "y": 0.3,
+            "width": 0.08,
+            "height": 0.08
+          }
+        }
+      ]
+    },
+    "replay_motivation": {
+      "selector": "[data-replay-reason]",
+      "reason": "Replay this seed to read the shield links, choose the right volley order, and reach Perfect Breach with fewer wasted shots."
+    },
+    "performance": {
+      "sample_ms": 1600
+    }
+  },
+  "commercial_qa_status": "PENDING",
+  "product_contract": {
+    "schema_version": 1,
+    "objective": {
+      "visible_selector": "[data-objective]",
+      "expected_text": "Break 3 dreadnoughts. Recruit their shards."
+    },
+    "progress": {
+      "selector": "[data-product-progress]",
+      "state_path": "state.completed",
+      "format": "BREACHED {value} / 3",
+      "milestones": [
+        1,
+        2,
+        3
+      ]
+    },
+    "score": {
+      "selector": "[data-game-score]",
+      "label_selector": "[data-score-label]",
+      "expected_label": "CURRENT SCORE",
+      "reversible_probes": [
+        [
+          "left",
+          "left"
+        ],
+        [
+          "right",
+          "right"
+        ]
+      ],
+      "no_progress_probes": [
+        [
+          "fire"
+        ],
+        [
+          "up"
+        ],
+        [
+          "down"
+        ]
+      ]
+    },
+    "best": {
+      "selector": "[data-best]",
+      "label_selector": "[data-best-label]",
+      "expected_label": "DEVICE BEST",
+      "source": "GameKit.best"
+    },
+    "completion": {
+      "state_path": "state.outcome",
+      "success_value": "success",
+      "failure_value": "failure",
+      "result_selector": "[data-result]",
+      "success_text": "ARMADA ASCENDANT",
+      "failure_text": "STORM OVERTOOK YOU",
+      "max_terminal_latency_ms": 100,
+      "failure_wait_ms": 46000,
+      "failure_actions": []
+    },
+    "replay": {
+      "selector": "[data-game-restart]",
+      "must_be_in_initial_mobile_viewport": true
+    },
+    "difficulty": {
+      "deterministic_seeds": [
+        1,
+        7,
+        23,
+        89,
+        2026,
+        4294967295
+      ],
+      "oracle_id": "shard-armada-v1",
+      "oracle_sha256": "dd7d8974311b5c31cbf8d0fc51761525817b651caa8c6b80160c3e85ec055048",
+      "projection": [
+        "state.stage",
+        "state.captured",
+        "state.focus",
+        "state.polarity",
+        "state.outcome"
+      ],
+      "stage_path": "quality.stage",
+      "complexity_path": "quality.complexity",
+      "meaningful_actions_path": "quality.meaningful_actions",
+      "reversible_state_path": "quality.reversible_state_key",
+      "required_monotonicity": "later_strictly_greater",
+      "max_actions": 64
+    },
+    "mobile": {
+      "critical_selectors": [
+        "[data-objective]",
+        "[data-product-progress]",
+        "[data-score-label]",
+        "[data-game-score]",
+        "[data-best-label]",
+        "[data-best]",
+        "[data-result]"
+      ],
+      "control_selectors": [
+        "[data-game-start]",
+        "[data-game-pause]",
+        "[data-game-resume]",
+        "[data-game-restart]",
+        "[data-mute]"
+      ],
+      "canvas_selector": "[data-game-canvas]",
+      "canvas_control_regions": [
+        {
+          "x": 0.14,
+          "y": 0.265,
+          "width": 0.22,
+          "height": 0.15
+        },
+        {
+          "x": 0.64,
+          "y": 0.265,
+          "width": 0.22,
+          "height": 0.15
+        },
+        {
+          "x": 0.39,
+          "y": 0.085,
+          "width": 0.22,
+          "height": 0.15
+        },
+        {
+          "x": 0.39,
+          "y": 0.455,
+          "width": 0.22,
+          "height": 0.15
+        },
+        {
+          "x": 0.39,
+          "y": 0.8550000000000001,
+          "width": 0.22,
+          "height": 0.15
+        }
+      ],
+      "min_font_px": 14,
+      "min_hit_target_px": 44
+    },
+    "reduced_motion": {
+      "presentation_probe_path": "presentation.reduced_motion",
+      "dynamic_change_required": true
+    },
+    "feedback": {
+      "action": "left",
+      "state_change_path": "quality.reversible_state_key",
+      "visual_probe": "[data-game-canvas]",
+      "active_probe_path": "presentation.feedback_active",
+      "static_probe_path": "presentation.static_feedback",
+      "settle_ms": 400
+    },
+    "actions": {
+      "left": {
+        "key": "ArrowLeft",
+        "touch": {
+          "x": 0.25,
+          "y": 0.34
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "right": {
+        "key": "ArrowRight",
+        "touch": {
+          "x": 0.75,
+          "y": 0.34
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "up": {
+        "key": "ArrowUp",
+        "touch": {
+          "x": 0.5,
+          "y": 0.16
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "down": {
+        "key": "ArrowDown",
+        "touch": {
+          "x": 0.5,
+          "y": 0.53
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "fire": {
+        "key": "Space",
+        "touch": {
+          "x": 0.5,
+          "y": 0.93
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      }
+    }
+  },
+  "technical_qa_status": "PENDING",
+  "product_qa_status": "PENDING",
+  "revision": 22,
+  "history": [
+    {
+      "from": "IDEA",
+      "to": "SPEC_READY",
+      "at": "2026-09-23T08:19:44.766Z"
+    },
+    {
+      "from": "SPEC_READY",
+      "to": "BUILDING",
+      "at": "2026-09-23T08:19:45.137Z"
+    },
+    {
+      "from": "BUILDING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-23T08:20:53.533Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-23T08:26:53.206Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-23T08:26:53.210Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-23T08:26:53.213Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "BUILD_FAILED",
+      "at": "2026-09-23T08:26:53.224Z"
+    },
+    {
+      "from": "BUILD_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-23T08:26:53.227Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-23T08:26:53.230Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-23T08:28:12.825Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-23T08:33:10.159Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-23T08:33:10.164Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-23T08:33:10.167Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "BUILD_FAILED",
+      "at": "2026-09-23T08:33:10.176Z"
+    },
+    {
+      "from": "BUILD_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-23T08:33:10.179Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-23T08:33:10.183Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-23T08:34:17.256Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-23T08:39:10.395Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-23T08:39:10.400Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-23T08:39:10.404Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "BUILD_FAILED",
+      "at": "2026-09-23T08:39:10.413Z"
+    },
+    {
+      "from": "BUILD_FAILED",
+      "to": "REJECTED",
+      "at": "2026-09-23T08:39:10.414Z"
+    }
+  ],
+  "source_hash": "4f049cca182a8fe6f7e5bc8adc64ebc4e03f507dcf93115b2e5c017406bbfeef",
+  "policy_hash": "0b49f06796e7dea2c7d96f4ec3dae7ff17ea79af39f8161e3671558f685cc068"
+}
