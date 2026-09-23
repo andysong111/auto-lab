@@ -1,3 +1,5 @@
+> **Slim-main integration note (supervising chat):** executable code, schemas, fixtures, tests and this handoff are integrated without the hundreds of generated PNG/WebM evidence files. The full immutable evidence set remains preserved on branch `feature/generic-product-quality-gate` / Draft PR #53 and its GitHub Actions artifacts. Relative `evidence/generic-product-gate/...` links below refer to that archived Work branch, not a required runtime dependency on main.
+
 # Generic Product Quality Gate v1
 
 Infrastructure work for `andysong111/auto-lab`, starting from exact main `deb415a968afb6fbcaa7d9c9b6855191d7024fe8`. Branch `feature/generic-product-quality-gate`, [Draft PR #53](https://github.com/andysong111/auto-lab/pull/53). No new launch candidate, paid generation, historical repair/reset, production deployment or main merge.
