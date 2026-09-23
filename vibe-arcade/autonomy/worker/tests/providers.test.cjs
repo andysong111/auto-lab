@@ -1,7 +1,7 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const {setup,request,MockProvider,output}=require('./helpers.cjs');
-const {ProviderManager}=require('../../providers/manager.cjs');
+const {ProviderManager,estimateInputTokens}=require('../../providers/manager.cjs');
 const {ProviderPause,modelError}=require('../../providers/errors.cjs');
 const {validateOutput,applyOutput,responseSchema}=require('../../providers/output.cjs');
 const {OpenAIProvider}=require('../../providers/openai.cjs');
@@ -191,4 +191,11 @@ test('isolated timeout preserves trusted partial QA evidence instead of collapsi
   const result=normalizeIsolatedResult({result:partial,outcome:{code:124,expired:true},manifest,source,policy,started,now:()=>241500});
   assert.equal(result.passed,false);assert.equal(result.checks.length,1);assert.equal(result.artifacts.length,1);assert(result.hard_failures.some(f=>f.code==='commercial_action_feedback'));
   assert(result.hard_failures.some(f=>f.code==='timeout'&&f.partial_report===true));assert.equal(result.duration_ms,240500);
+});
+
+test('request input budget is token-estimated, not raw UTF-8 bytes',()=>{
+  const payload={instructions:'x'.repeat(60000),request:{blob:'y'.repeat(40000)},schema:{type:'object'}};
+  const e=estimateInputTokens(payload);
+  assert(e.bytes>100000);
+  assert(e.tokens<100000);
 });
