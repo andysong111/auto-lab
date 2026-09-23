@@ -1,0 +1,14 @@
+{
+  "schema": "playjolt-sixth-run/1",
+  "game_id": "GAME-20260923-161",
+  "request_id": "sixth-GAME-20260923-161-build-and-bounded-repair-1",
+  "user_authorized": true,
+  "max_generations": 6,
+  "max_repairs": 5,
+  "estimated_usd_ceiling": 3,
+  "production_authorized": false,
+  "base_commit": "db4a2ef2e93e622b17068b564cd7b06bb84473b8",
+  "trigger_revision": 5,
+  "workflow_base_commit": "d7f61b9e4644375f8e2ae0ff6c7aafa32595762f",
+  "continuation_branch": true
+}
