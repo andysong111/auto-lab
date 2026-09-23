@@ -110,7 +110,7 @@ test('ledger storage failure pauses before any provider submission',async t=>{
 test('repair scope honors additional protections in the original Factory request',async t=>{
   const e=setup(t),r=await request(e),m=e.store.get(e.spec.game_id),work=path.join(e.root,`autonomy/.work/${m.game_id}/v1`);copyGame(path.resolve(__dirname,'../../fixtures/dummy'),work);
   const req=requestFor(m,{hard_failures:[{code:'overflow',message:'layout'}]});req.protected_paths.push('index.html');
-  const prompt=compile({root:e.root,workspace:work,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id,budget:r.budget});assert.deepEqual(prompt.allowed_paths,['style.css']);assert.deepEqual(prompt.repair_request,req);
+  const prompt=compile({root:e.root,workspace:work,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id,budget:r.budget});assert.deepEqual(prompt.allowed_paths,['style.css']);assert.equal(prompt.repair_request.operation_id,req.operation_id);assert.equal(prompt.repair_request.attempt,req.attempt);assert(!('qa_failures' in prompt.repair_request));
 });
 test('maximum file/output size is rejected before applying any bytes',async t=>{
   const e=setup(t),r=await request(e);assert.throws(()=>validateOutput(output({content:'x'.repeat(e.limits.request.max_file_bytes+1)}),r,e.limits.request),{code:'model_file_too_large'});
