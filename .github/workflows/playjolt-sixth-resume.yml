@@ -1,0 +1,82 @@
+name: Sixth real candidate — resume exact checkpoint
+on:
+  push:
+    branches: [commissioning/sixth-real-game-20260923-r2]
+    paths: ['vibe-arcade/autonomy/commissioning/sixth-real-game/resume-request.json']
+permissions:
+  contents: read
+  actions: read
+  issues: write
+  pull-requests: write
+concurrency:
+  group: playjolt-sixth-real-game-GAME-20260923-161
+  cancel-in-progress: false
+
+jobs:
+  resume:
+    if: github.event.head_commit.message == 'chore(factory): resume sixth exact checkpoint'
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    env:
+      AUTO_PRODUCTION_SHIP: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Bind exact recovered worker root
+        run: echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/sixth-state" >> "$GITHUB_ENV"
+      - name: Download prior immutable lifetime checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: sixth-real-game-lifetime-checkpoint
+          path: ${{ runner.temp }}/sixth-recovered
+          github-token: ${{ github.token }}
+          run-id: 35855886886
+      - name: Restore exact candidate state without repair reset
+        run: |
+          set -euo pipefail
+          mkdir -p "$FACTORY_WORKER_ROOT"
+          cp -a "$RUNNER_TEMP/sixth-recovered/." "$FACTORY_WORKER_ROOT/"
+          node -e "const m=require(process.env.FACTORY_WORKER_ROOT+'/autonomy/jobs/GAME-20260923-161/manifest.json'); const w=require(process.env.FACTORY_WORKER_ROOT+'/worker-result.json'); if(m.state!=='REPAIRING'||m.version!=='v3'||m.repair_attempt!==2||w.code!=='request_input_token_limit') throw Error('unexpected_checkpoint'); console.log(JSON.stringify({state:m.state,version:m.version,repair_attempt:m.repair_attempt,source_hash:m.source_hash}))"
+      - name: Reinstall exact reviewed data with runtime-readable permissions
+        run: node vibe-arcade/autonomy/commissioning/sixth-real-game/commission.cjs reviews
+      - name: Pin corrected trusted Docker QA image
+        run: |
+          docker build --iidfile "$RUNNER_TEMP/sixth-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/sixth-image")" >> "$GITHUB_ENV"
+      - name: Resume same repair attempt and lifetime provider ledger
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FACTORY_OPENAI_MODEL: gpt-5.6-terra
+          FACTORY_ALLOW_PAID_CALLS: '1'
+        run: node vibe-arcade/autonomy/commissioning/sixth-real-game/commission.cjs run
+      - name: Preserve resumed lifetime accounting
+        if: always()
+        run: |
+          node vibe-arcade/autonomy/commissioning/sixth-real-game/commission.cjs summarize || true
+          node vibe-arcade/autonomy/control-plane/cli.cjs dashboard --root "$FACTORY_WORKER_ROOT" --policy "$FACTORY_WORKER_ROOT/control-policy.json" --provider-ready true || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sixth-real-game-resumed-checkpoint
+          path: ${{ runner.temp }}/sixth-state
+          include-hidden-files: true
+          retention-days: 30
+      - name: Report resumed checkpoint
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          FILE="$FACTORY_WORKER_ROOT/commissioning-summary.json"
+          if [ -f "$FILE" ]; then
+            STATE="$(jq -r '.factory.state // "UNKNOWN"' "$FILE")"
+            VERSION="$(jq -r '.factory.version // "?"' "$FILE")"
+            REPAIRS="$(jq -r '.factory.repair_attempt // "?"' "$FILE")"
+            CALLS="$(jq -r '.total_calls // "?"' "$FILE")"
+            COST="$(jq -r '.total_estimated_cost // "?"' "$FILE")"
+            gh api "repos/$GITHUB_REPOSITORY/issues/67/comments" -f body="Sixth resumed checkpoint: run_id=$GITHUB_RUN_ID state=$STATE version=$VERSION repair=$REPAIRS/5 lifetime_provider_calls=$CALLS estimated_cost_usd=$COST production_authorization=false."
+          fi
