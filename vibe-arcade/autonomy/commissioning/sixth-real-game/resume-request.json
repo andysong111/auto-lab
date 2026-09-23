@@ -11,5 +11,6 @@
   "reset_provider_ledger": false,
   "production_authorized": false,
   "reason": "Resume exact checkpoint after reviewed-registry file mode and oversized repair-context infrastructure faults are corrected.",
-  "resume_revision": 1
+  "resume_revision": 2,
+  "prompt_context_fix_head": "f2752240eb60e7191b619faa5730c3e104ef4212"
 }
