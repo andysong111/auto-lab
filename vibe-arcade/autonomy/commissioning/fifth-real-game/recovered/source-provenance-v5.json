@@ -1,0 +1,55 @@
+{
+  "schema": "playjolt-ai-source-provenance/1",
+  "game_id": "GAME-20260923-151",
+  "audited_version": "v5",
+  "terminal_manifest_version": "v6",
+  "terminal_state": "REJECTED",
+  "terminal_repair_attempt": 5,
+  "source_hash": "4f049cca182a8fe6f7e5bc8adc64ebc4e03f507dcf93115b2e5c017406bbfeef",
+  "passed": true,
+  "audit_basis": "Recovered immutable GitHub Actions artifact 10740625919 from original commissioning run 35836436847. Terminal v6 never materialized because repair attempt 5 failed before provider submission; audit therefore binds the latest successfully materialized source, v5, to the latest COMPLETE provider operation.",
+  "provider_operation": "GAME-20260923-151/repair/4",
+  "response_id": "resp_08ac8e585337691f006ab38ec6769c87d18c1fa7536e722261",
+  "files": [
+    {
+      "file": "core.js",
+      "sha256": "e9533380e36c7c995e91e50a360cf49380ca684bc3ee369a8ce06d746b7e88cb",
+      "byte_identical_to_provider": true
+    },
+    {
+      "file": "app.js",
+      "sha256": "aaf63e79b5539a8a36228b9aa17d969e5c57da47d928d190f6cb53c2c141b556",
+      "byte_identical_to_provider": true
+    },
+    {
+      "file": "view/art.js",
+      "sha256": "7cc3fa11dc3c39e197344a88efa1d6e552474e78dfc7d2905ca8bdea41e90791",
+      "byte_identical_to_provider": true
+    },
+    {
+      "file": "index.html",
+      "sha256": "7a4d55d11dd22d89ba000258522bc9ca78c63535d3dacd2ded21ef88ec3a1129",
+      "byte_identical_to_provider": true
+    },
+    {
+      "file": "style.css",
+      "sha256": "e8106d27e4249db649a0f1fb6ba3927bbbd429e36504f90c30e35e90985dc2ef",
+      "byte_identical_to_provider": true
+    },
+    {
+      "file": "README.md",
+      "sha256": "4855f535028546ca063f8434dd3837a31027f44be40265509ddf376eab248083",
+      "byte_identical_to_provider": true
+    }
+  ],
+  "factory_supplied": [
+    "gamekit.js",
+    "manifest.json"
+  ],
+  "candidate_manual_edits": 0,
+  "production_authorized": false,
+  "notes": [
+    "Original post-terminal provenance script failed because it followed the terminal target version v6 even though v6 source never materialized.",
+    "This read-only recovery does not revive the candidate, alter repair accounting, or authorize production."
+  ]
+}
