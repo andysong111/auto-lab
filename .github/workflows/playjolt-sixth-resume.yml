@@ -46,6 +46,8 @@ jobs:
           node -e "const m=require(process.env.FACTORY_WORKER_ROOT+'/autonomy/jobs/GAME-20260923-161/manifest.json'); const w=require(process.env.FACTORY_WORKER_ROOT+'/worker-result.json'); if(m.state!=='REPAIRING'||m.version!=='v3'||m.repair_attempt!==2||w.code!=='request_input_token_limit') throw Error('unexpected_checkpoint'); console.log(JSON.stringify({state:m.state,version:m.version,repair_attempt:m.repair_attempt,source_hash:m.source_hash}))"
       - name: Reinstall exact reviewed data with runtime-readable permissions
         run: node vibe-arcade/autonomy/commissioning/sixth-real-game/commission.cjs reviews
+      - name: Register reviewed infrastructure hold without resetting budgets
+        run: node vibe-arcade/autonomy/commissioning/sixth-real-game/commission.cjs continuation
       - name: Pin corrected trusted Docker QA image
         run: |
           docker build --iidfile "$RUNNER_TEMP/sixth-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
