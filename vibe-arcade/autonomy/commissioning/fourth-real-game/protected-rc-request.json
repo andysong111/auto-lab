@@ -1,0 +1,5 @@
+{
+  "game_id": "GAME-20260923-141",
+  "purpose": "Read-only exact Preview release verification. A temporary share grant is encrypted to this runner's ephemeral public key, never committed in plaintext. No provider credential, generation or production operation.",
+  "production_authorized": false
+}
