@@ -1,0 +1,45 @@
+{
+  "base_commit": "417c7e2ee2760ec7541ac57489d6c2e7ae56f57a",
+  "files": [
+    {
+      "path": "vibe-arcade/autonomy/qa/product-worker.cjs",
+      "git_blob_sha": "51d31cb0ada8f7ef88a14e9fd822197ea705b967",
+      "unchanged": true
+    },
+    {
+      "path": "vibe-arcade/autonomy/qa/product-contract.cjs",
+      "git_blob_sha": "5dcd2c48f244c9dad4e295eab6e8518628de6dbe",
+      "unchanged": true
+    },
+    {
+      "path": "vibe-arcade/autonomy/qa/product-browser.cjs",
+      "git_blob_sha": "d1a4c3a0b86dfecd81133a68f4b4fdb85b27d5bc",
+      "unchanged": true
+    },
+    {
+      "path": "vibe-arcade/autonomy/schema/product-quality-contract.schema.json",
+      "git_blob_sha": "d679b34da36043d22d3141d5031280cd7890c5a8",
+      "unchanged": true
+    },
+    {
+      "path": "vibe-arcade/autonomy/qa/reviewed/registry.json",
+      "git_blob_sha": "6ba41062495651462f17addbacc80f5bcb9dc265",
+      "unchanged": true
+    },
+    {
+      "path": "vibe-arcade/autonomy/providers/config.cjs",
+      "git_blob_sha": "a7185a067839455f60173265a98c993ee120618b",
+      "unchanged": true
+    },
+    {
+      "path": "vibe-arcade/autonomy/commissioning/catalog.json",
+      "git_blob_sha": "d2025ecfdf2272f113933420169264387c2d2a2d",
+      "unchanged": true
+    },
+    {
+      "path": "vibe-arcade/autonomy/control-plane/policy.json",
+      "git_blob_sha": "46ee0071d25e9001b0027b49cb04f328a0323e99",
+      "unchanged": true
+    }
+  ]
+}

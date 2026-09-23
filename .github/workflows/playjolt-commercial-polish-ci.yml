@@ -9,7 +9,7 @@ concurrency:
   group: commercial-polish-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 jobs:
-  product:
+  commercial:
     name: Commercial contract and Docker Chromium fixtures (${{ matrix.shard }})
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -39,6 +39,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: generic-commercial-polish-evidence-${{ matrix.shard }}
+          name: commercial-polish-evidence-${{ matrix.shard }}
           path: ${{ runner.temp }}/commercial-polish-evidence
           retention-days: 14

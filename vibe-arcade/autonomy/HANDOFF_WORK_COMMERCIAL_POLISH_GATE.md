@@ -25,3 +25,15 @@ Next candidate: author product and commercial data contracts together; independe
 Rollback: revert this infrastructure PR as a unit. Never rewrite candidate manifests, provider ledgers or terminal dispositions to roll it back. Keep production shipping disabled.
 
 Known limits: fixed thresholds are conservative visual guards, not complete aesthetic judgment. Review quality and coverage matter; numeric text is masked but complex image-rendered typography cannot be semantically recognized. Canvas 2D/DOM/WebAudio are instrumented; native/device-specific performance and human perception still need owner review. Live visual AI remains optional and unconfigured.
+
+## Keywake read-only audit
+
+Archived v6 entry PNG (390×844) and independently reviewed seed 1 / room 1 layout are preserved under `evidence/commercial-polish/keywake-readonly/`. The open `[0,4]` edge and absent `[1,5]` edge are parallel boundaries between adjacent floor tiles. Reviewed 18×10 pixel regions contain the relevant boundary marker, excluding labels and player/key sprites. The generic archive comparator found mean pixel delta **0**, changed fraction **0**, structural delta **0**, unmasked fraction **1**. It emits `product_route_topology_not_visible` with the same machine thresholds as live capture. Source review corroborates that mask-0 passages are skipped and absent-edge walls are never drawn.
+
+This is an archived-pixel diagnostic, not a fresh full candidate run. Source `b6d1cfe671f88687dc289aa0eb38dc3972d5de638b99175f78166f98403fd629`, candidate commit `67623d8f6132e40f41208bde38776e89ce06c23d`, evidence commit `52235734dd9769a257c814f2b128615b1ec1e806`. Keywake remains REJECTED at repair 5/5 and lifetime calls 6/6. No source execution, provider call, state mutation, new ID or production authorization.
+
+## Verification scope
+
+Local unit results: Factory 46/46, Worker 55/55, Generic Product 8/8, Commercial 12/12. Commercial tests cover schema strictness, reviewed semantics, raster/text-mask behavior, bound visual-review response, fail-closed evidence, all-issue repair handoff, terminal budget, Control Plane holds, Docker argument isolation, archived Keywake detection, combined suite ordering and real commissioning rejection of missing/self-approved contracts.
+
+`evidence/commercial-polish/protected-baseline.json` records exact unchanged Git blob SHAs for the Generic Product worker/contract/browser/schema/registry, provider lifetime budget configuration, catalog and production Control Plane policy. Historical infrastructure tests retain their explicit trusted fixture exemptions; real commissioning has no missing-contract exemption.

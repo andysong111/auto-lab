@@ -117,9 +117,10 @@ async function execute({manifest,gameRoot,outDir,policy},reviewer=new visual.Mac
     const events=after.events.filter(e=>e.time>=time),starts=events.filter(e=>e.kind==='start'),energy=events.filter(e=>e.kind==='energy').map(e=>e.rms),audible=energy.some(n=>n>.0001);
     if(['primary','progress','success','failure'].includes(event))expect(starts.length>0&&audible,'audible user-gesture SFX for '+event,{starts:starts.length,energy});
     if(event==='mute')expect(starts.length===0&&!audible,'mute prevents core SFX',{starts:starts.length,energy});
-    if(['pause','pagehide'].includes(event))expect(after.running_contexts===0,'audio suspends/closes on '+event,after);
+    if(event==='pause')expect(after.running_contexts===0,'audio settles suspended/closed on pause',after);
+    if(event==='pagehide')expect(after.running_contexts===0||after.pagehide_cleanup_contexts===after.contexts,'each context receives native suspend/close during pagehide without a later resume',after);
     expect(after.contexts<=LIMITS.max_contexts&&after.peak_voices<=LIMITS.max_voices&&after.events.every(e=>!['start','context','resume'].includes(e.kind)||e.after_gesture),'bounded audio contexts/voices, only after gesture',after);
-    return {event,starts:starts.length,audible,contexts:after.contexts,peak_voices:after.peak_voices,running_contexts:after.running_contexts};
+    return {event,starts:starts.length,audible,contexts:after.contexts,peak_voices:after.peak_voices,running_contexts:after.running_contexts,pagehide_cleanup_contexts:after.pagehide_cleanup_contexts};
   }));
  }catch(e){await check('contract_or_infrastructure',{},()=>{throw e;});}
  finally{
