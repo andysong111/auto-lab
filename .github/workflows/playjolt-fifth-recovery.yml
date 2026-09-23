@@ -1,0 +1,87 @@
+name: Recover fifth commissioning checkpoint
+on:
+  push:
+    branches: [commissioning/fifth-real-game-20260923]
+    paths: ['vibe-arcade/autonomy/commissioning/fifth-real-game/recovery-request.json']
+permissions:
+  actions: read
+  contents: write
+concurrency:
+  group: playjolt-fifth-recovery-GAME-20260923-151
+  cancel-in-progress: false
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Locate original commissioning run and recover its immutable artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          OUT="vibe-arcade/autonomy/commissioning/fifth-real-game/recovered"
+          TMP="$RUNNER_TEMP/fifth-recovery"
+          mkdir -p "$OUT" "$TMP"
+
+          RUNS="$TMP/runs.json"
+          gh api --method GET "/repos/$GITHUB_REPOSITORY/actions/runs"             -f branch="$GITHUB_REF_NAME" -f event=push -f per_page=100 > "$RUNS"
+
+          RUN_ID="$(jq -r --arg current "$GITHUB_RUN_ID"             '.workflow_runs[] | select(.name=="Fifth real candidate — bounded autonomous commissioning") | select((.id|tostring)!=$current) | .id'             "$RUNS" | head -n1)"
+
+          if [ -z "$RUN_ID" ] || [ "$RUN_ID" = "null" ]; then
+            jq -n --arg state "ORIGINAL_RUN_NOT_FOUND" --arg checked_by "$GITHUB_RUN_ID"               '{schema:"playjolt-fifth-recovery/1",state:$state,checked_by_run_id:$checked_by,production_authorized:false}'               > "$OUT/recovery-status.json"
+          else
+            gh api "/repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID" > "$TMP/run.json"
+            STATUS="$(jq -r '.status' "$TMP/run.json")"
+            CONCLUSION="$(jq -r '.conclusion // ""' "$TMP/run.json")"
+            HEAD_SHA="$(jq -r '.head_sha // ""' "$TMP/run.json")"
+            CREATED_AT="$(jq -r '.created_at // ""' "$TMP/run.json")"
+
+            gh api "/repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID/artifacts" > "$TMP/artifacts.json"
+            ARTIFACT_ID="$(jq -r '.artifacts[]? | select(.name=="fifth-real-game-lifetime-checkpoint" and (.expired|not)) | .id' "$TMP/artifacts.json" | head -n1)"
+
+            jq -n               --arg state "$STATUS" --arg conclusion "$CONCLUSION" --arg run_id "$RUN_ID"               --arg head_sha "$HEAD_SHA" --arg created_at "$CREATED_AT"               --arg artifact_id "${ARTIFACT_ID:-}" --arg checked_by "$GITHUB_RUN_ID"               '{schema:"playjolt-fifth-recovery/1",state:$state,conclusion:$conclusion,original_run_id:$run_id,original_head_sha:$head_sha,original_created_at:$created_at,artifact_id:$artifact_id,checked_by_run_id:$checked_by,production_authorized:false}'               > "$OUT/recovery-status.json"
+
+            if [ "$STATUS" = "completed" ] && [ -n "${ARTIFACT_ID:-}" ] && [ "$ARTIFACT_ID" != "null" ]; then
+              gh api -H "Accept: application/vnd.github+json"                 "/repos/$GITHUB_REPOSITORY/actions/artifacts/$ARTIFACT_ID/zip" > "$TMP/checkpoint.zip"
+              mkdir -p "$TMP/checkpoint"
+              unzip -q "$TMP/checkpoint.zip" -d "$TMP/checkpoint"
+
+              STATE_ROOT="$TMP/checkpoint"
+              if [ ! -f "$STATE_ROOT/commissioning-summary.json" ]; then
+                FOUND="$(find "$TMP/checkpoint" -type f -name commissioning-summary.json -print -quit || true)"
+                if [ -n "$FOUND" ]; then STATE_ROOT="$(dirname "$FOUND")"; fi
+              fi
+
+              for f in commissioning-summary.json worker-result.json source-provenance.json authorization.json factory-spec.json control-policy.json; do
+                if [ -f "$STATE_ROOT/$f" ]; then cp "$STATE_ROOT/$f" "$OUT/$f"; fi
+              done
+
+              JOB="$STATE_ROOT/autonomy/jobs/GAME-20260923-151"
+              if [ -d "$JOB" ]; then
+                rm -rf "$OUT/job"
+                mkdir -p "$OUT/job"
+                cp -R "$JOB"/. "$OUT/job/"
+              fi
+
+              jq --arg artifact_id "$ARTIFACT_ID" --arg run_id "$RUN_ID"                 '. + {artifact_recovered:true,artifact_id:$artifact_id,original_run_id:$run_id}'                 "$OUT/recovery-status.json" > "$OUT/recovery-status.tmp"
+              mv "$OUT/recovery-status.tmp" "$OUT/recovery-status.json"
+            fi
+          fi
+
+      - name: Commit recovery facts only
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add vibe-arcade/autonomy/commissioning/fifth-real-game/recovered
+          if git diff --cached --quiet; then
+            echo "No recovery delta."
+            exit 0
+          fi
+          git commit -m "chore(factory): recover fifth candidate commissioning checkpoint"
+          git push origin "HEAD:$GITHUB_REF_NAME"
