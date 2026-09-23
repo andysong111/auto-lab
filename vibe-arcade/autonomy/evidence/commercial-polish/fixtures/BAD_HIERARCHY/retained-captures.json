@@ -1,0 +1,110 @@
+{
+  "source_hash": "ff0bae557d12249b63f5d9e63abe0e5342e0fc63fcbc77c2a5a73b73fa62cfec",
+  "retained_artifacts": [
+    {
+      "path": "commercial-390-hierarchy-24.png",
+      "kind": "screenshot",
+      "phase": "hierarchy",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "adb2104e6907ebd2493e94a9cdd77bd592d5780da2a9de00aee5a15bf837f35a",
+      "regions": [
+        {
+          "x": 22.98,
+          "y": 333.8359375,
+          "width": 51.24,
+          "height": 69.015625
+        },
+        {
+          "x": 22.98,
+          "y": 420.10546875,
+          "width": 51.24,
+          "height": 20.7046875
+        },
+        {
+          "x": 25.176,
+          "y": 277.243125,
+          "width": 29.28,
+          "height": 17.25390625
+        },
+        {
+          "x": 22.98,
+          "y": 251.0171875,
+          "width": 51.24,
+          "height": 20.7046875
+        }
+      ],
+      "text_masks": [
+        {
+          "x": 12,
+          "y": 13,
+          "width": 123.703125,
+          "height": 26
+        },
+        {
+          "x": 12,
+          "y": 47,
+          "width": 237.390625,
+          "height": 20
+        },
+        {
+          "x": 12,
+          "y": 74.796875,
+          "width": 91.140625,
+          "height": 18
+        },
+        {
+          "x": 12,
+          "y": 103.296875,
+          "width": 106.296875,
+          "height": 17
+        },
+        {
+          "x": 12,
+          "y": 122.296875,
+          "width": 13.796875,
+          "height": 29
+        },
+        {
+          "x": 296.59375,
+          "y": 103.296875,
+          "width": 81.40625,
+          "height": 17
+        },
+        {
+          "x": 296.59375,
+          "y": 122.296875,
+          "width": 13.796875,
+          "height": 29
+        },
+        {
+          "x": 12,
+          "y": 513.375,
+          "width": 346.109375,
+          "height": 17
+        },
+        {
+          "x": 30,
+          "y": 556.0625,
+          "width": 40.453125,
+          "height": 18
+        },
+        {
+          "x": 112.453125,
+          "y": 556.0625,
+          "width": 62.3125,
+          "height": 18
+        },
+        {
+          "x": 12,
+          "y": 594.5625,
+          "width": 191.71875,
+          "height": 18
+        }
+      ]
+    }
+  ],
+  "full_capture_location": "CI artifact archive; see ../ci-results.json"
+}

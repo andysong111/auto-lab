@@ -1,6 +1,6 @@
 # Commercial Polish Gate v1
 
-Status: implementation under verification; Docker fixture and regression CI results will be recorded here before handoff.
+Status: **IMPLEMENTED — all 9 fixture tests and all 10 CI workflows PASS.** GOOD passes Technical → Product → Commercial → Quality; all eight BAD variants are rejected for their declared defects. PR: https://github.com/andysong111/auto-lab/pull/60 . No merge or production release.
 
 Base: `417c7e2ee2760ec7541ac57489d6c2e7ae56f57a`. Branch: `feature/commercial-polish-gate`.
 
@@ -24,7 +24,7 @@ Next candidate: author product and commercial data contracts together; independe
 
 Rollback: revert this infrastructure PR as a unit. Never rewrite candidate manifests, provider ledgers or terminal dispositions to roll it back. Keep production shipping disabled.
 
-Known limits: fixed thresholds are conservative visual guards, not complete aesthetic judgment. Review quality and coverage matter; numeric text is masked but complex image-rendered typography cannot be semantically recognized. Canvas 2D/DOM/WebAudio are instrumented; native/device-specific performance and human perception still need owner review. Live visual AI remains optional and unconfigured.
+Known limits: fixed thresholds are conservative visual guards, not complete aesthetic judgment. Review quality and coverage matter; numeric text is masked but complex image-rendered typography cannot be semantically recognized. Canvas 2D/DOM/WebAudio are instrumented; native/device-specific performance and human perception still need owner review. Live visual AI remains optional and unconfigured. Commercial probes use the declared reviewed seed; six-seed conformance remains the Generic Product Gate’s responsibility. Region and state-pair coverage therefore requires substantive independent review.
 
 ## Keywake read-only audit
 
@@ -37,3 +37,36 @@ This is an archived-pixel diagnostic, not a fresh full candidate run. Source `b6
 Local unit results: Factory 46/46, Worker 55/55, Generic Product 8/8, Commercial 12/12. Commercial tests cover schema strictness, reviewed semantics, raster/text-mask behavior, bound visual-review response, fail-closed evidence, all-issue repair handoff, terminal budget, Control Plane holds, Docker argument isolation, archived Keywake detection, combined suite ordering and real commissioning rejection of missing/self-approved contracts.
 
 `evidence/commercial-polish/protected-baseline.json` records exact unchanged Git blob SHAs for the Generic Product worker/contract/browser/schema/registry, provider lifetime budget configuration, catalog and production Control Plane policy. Historical infrastructure tests retain their explicit trusted fixture exemptions; real commissioning has no missing-contract exemption.
+
+## Accepted CI and evidence
+
+Executable code commit: `2048c00b27f5099f362123a9c66f1ece90637da6`. Subsequent handoff commits retain reports/captures only. [Commercial Docker CI](https://github.com/andysong111/auto-lab/actions/runs/35831307118), [Generic Product CI](https://github.com/andysong111/auto-lab/actions/runs/35831307023), [Factory regression](https://github.com/andysong111/auto-lab/actions/runs/35831307101), [Worker CI](https://github.com/andysong111/auto-lab/actions/runs/35831307089) all PASS. All ten workflow conclusions and original archive digests/expiry are recorded in `evidence/commercial-polish/ci-results.json`.
+
+| Fixture | Gate result | Expected defects | Checks PASS / FAIL |
+|---|---|---|---|
+| COMMERCIAL_GOOD | PASS | none | 55 / 0 |
+| BAD_INVISIBLE_TOPOLOGY | FAIL | product_route_topology_not_visible | 51 / 4 |
+| BAD_TELEPORT | FAIL | action_feedback, motion | 45 / 10 |
+| BAD_FLAT_PROGRESSION | FAIL | progression_spectacle | 51 / 4 |
+| BAD_RESULT | FAIL | result_presentation | 48 / 7 |
+| BAD_HIERARCHY | FAIL | mobile_hierarchy | 51 / 4 |
+| BAD_AUDIO | FAIL | audio | 48 / 7 |
+| BAD_MOBILE_DENSITY | FAIL | mobile_density | 51 / 4 |
+| MULTI_COMMERCIAL_BAD | FAIL | action_feedback, audio, mobile_density, mobile_hierarchy, motion, progression_spectacle, reduced_motion, result_presentation, product_route_topology_not_visible | 17 / 38 |
+
+GOOD produces 101 hashed captures, zero capture side effects and a complete evidence-bound review with no critical issues. All three viewports and normal/reduced-motion probes pass. Required SFX are measured at primary/progress/final success/failure, mute is tested after active playback, and pause/pagehide cleanup and voice bounds pass. The final success check observes exactly one fixture SFX start, excluding earlier route sounds.
+
+MULTI collects topology, feedback/motion, progression, reduced-motion interaction, result, hierarchy, density and audio failures in the same run; its retained `repair-request.json` carries the exact actionable issues. Its dashboard HTML is a synthetic Control Plane rendering fixture, not an assertion that this multi-defect source passed the earlier QA stages.
+
+Representative original screenshots/video and all nine full fixture reports are retained under `evidence/commercial-polish/fixtures/`. The full original capture archives remain available at the CI artifact links until the recorded expiry. Each fixture’s `retained-captures.json` identifies the locally retained subset with original SHA256 hashes. GOOD’s Technical/Product reports and Quality Gate PASS are also retained.
+
+- [GOOD early](evidence/commercial-polish/fixtures/COMMERCIAL_GOOD/commercial-390-early-21.png)
+- [GOOD late](evidence/commercial-polish/fixtures/COMMERCIAL_GOOD/commercial-390-late-23.png)
+- [GOOD success](evidence/commercial-polish/fixtures/COMMERCIAL_GOOD/commercial-390-success-27.png)
+- [GOOD gameplay video](evidence/commercial-polish/fixtures/COMMERCIAL_GOOD/commercial-390-gameplay-28.webm)
+- [Invisible topology](evidence/commercial-polish/fixtures/BAD_INVISIBLE_TOPOLOGY/commercial-390-pair-after-2.png)
+- [All actionable multi-defect repair issues](evidence/commercial-polish/fixtures/MULTI_COMMERCIAL_BAD/repair-request.json)
+
+Astra v3, Astra campaign, Deep Descent, Core Pins/Nova, legacy challengers and orbit/auth shell regressions pass. Provider calls/tokens/cost for this work are 0/0/$0; only mocked provider tests ran. Terminal manifest, ledger and disposition hashes are recorded in `implementation-scope.json`. Keywake remains REJECTED, repairs 5/5, calls 6/6, remaining repairs 0, production.authorized=false.
+
+Two harness issues found during fixture validation were corrected before acceptance: pagehide listeners can run with microtask checkpoints between them, so native cleanup delegation is recorded during the event; and suspended WebAudio analysers retain prior samples, so raw waveform history is separated from audible output using native context state ([Web Audio specification](https://www.w3.org/TR/webaudio/#dom-audiocontext-suspend)). Neither correction lowers visual thresholds or changes Generic Product checks.

@@ -1,0 +1,32 @@
+{
+  "base_commit": "417c7e2ee2760ec7541ac57489d6c2e7ae56f57a",
+  "branch": "feature/commercial-polish-gate",
+  "pr": 60,
+  "runtime_commit": "2048c00b27f5099f362123a9c66f1ece90637da6",
+  "scope": "Commercial Polish Gate infrastructure only",
+  "paid_gameplay_calls": 0,
+  "paid_visual_review_calls": 0,
+  "model_tokens": 0,
+  "model_cost_usd": 0,
+  "provider_ledger_changed": false,
+  "new_candidate_created": false,
+  "terminal_candidates_revived": false,
+  "repair_budget_reset": false,
+  "production_authorized": false,
+  "production_deployments": 0,
+  "main_merges": 0,
+  "keywake": {
+    "game_id": "GAME-20260923-141",
+    "state": "REJECTED",
+    "repair_attempt": 5,
+    "max_repair_attempts": 5,
+    "lifetime_calls": 6,
+    "lifetime_max_calls": 6,
+    "remaining_repairs": 0
+  },
+  "terminal_archive_sha256": {
+    "manifest.json": "c2ab19fa5e58b90bd986a88c94e178cedbc59ac7a11ac0b43977b3cfc55ab2d8",
+    "provider-ledger.json": "1046b3a3811d93b831194206b2060a8db1192d461c47cc880469c6fd15b80ae1",
+    "terminal-disposition.json": "e4abccddd39273d917f742b934d8e2249b185c28773068862d22d6e0cc0fd134"
+  }
+}

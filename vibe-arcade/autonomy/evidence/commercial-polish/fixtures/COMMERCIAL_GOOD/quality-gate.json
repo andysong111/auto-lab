@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "decision": "PASS",
+  "hard_failures": [],
+  "soft_failures": [],
+  "heuristics": [
+    {
+      "name": "first_five_seconds",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "mechanic_overlap",
+      "status": "UNVERIFIED",
+      "evidence": {
+        "declared_family": "fixture-only"
+      }
+    },
+    {
+      "name": "information_density",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "control_count",
+      "status": "OBSERVED",
+      "evidence": {
+        "desktop": 1,
+        "mobile": 1
+      }
+    },
+    {
+      "name": "repeatability",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "visual_completeness",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "progression_visibility",
+      "status": "UNVERIFIED",
+      "evidence": null
+    }
+  ],
+  "source_hash": "e60cebe8717c12707ecd6dcf6d028bd63d5a3c1ae189332457cd2e2382014f83",
+  "policy_hash": "7f0f0d5a990a61ace2afd41bd07bbef328c52cdfbe662a61fa6418083d9ec27e",
+  "technical_qa": "PASS",
+  "product_qa": "PASS",
+  "commercial_polish": "PASS",
+  "production_approved": false,
+  "metrics_eligibility": false,
+  "meaning": "Technical, generic product and commercial machine evidence; aesthetic quality, fun and real-phone FPS remain unverified; no production authorization."
+}

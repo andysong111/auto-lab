@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "runtime_commit": "2048c00b27f5099f362123a9c66f1ece90637da6",
+  "base_commit": "417c7e2ee2760ec7541ac57489d6c2e7ae56f57a",
+  "pr_url": "https://github.com/andysong111/auto-lab/pull/60",
+  "workflows": [
+    {
+      "name": "LoopJolt CI",
+      "id": 35831307136,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35831307136"
+    },
+    {
+      "name": "Gyro Descent quality gate",
+      "id": 35831307098,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35831307098"
+    },
+    {
+      "name": "LoopJolt ranked-game checks",
+      "id": 35831307125,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35831307125"
+    },
+    {
+      "name": "LoopJolt game experience",
+      "id": 35831307220,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35831307220"
+    },
+    {
+      "name": "LoopJolt acquisition and SEO",
+      "id": 35831307047,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35831307047"
+    },
+    {
+      "name": "LoopJolt Arcade 3 checks",
+      "id": 35831307131,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35831307131"
+    },
+    {
+      "name": "PlayJolt AI Provider Worker",
+      "id": 35831307089,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35831307089"
+    },
+    {
+      "name": "PlayJolt Factory Phase 1",
+      "id": 35831307101,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35831307101"
+    },
+    {
+      "name": "PlayJolt Generic Product Quality",
+      "id": 35831307023,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35831307023"
+    },
+    {
+      "name": "PlayJolt Commercial Polish",
+      "id": 35831307118,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35831307118"
+    }
+  ],
+  "commercial_artifacts": [
+    {
+      "id": 10737965870,
+      "name": "commercial-polish-evidence-1",
+      "digest": "sha256:0690b0ee25975083230929d07b419490e40b669ff78dcfc4cc385d695130ae61",
+      "size_in_bytes": 11029097,
+      "expires_at": "2026-10-07T07:27:07Z",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35831307118/artifacts/10737965870"
+    },
+    {
+      "id": 10737557622,
+      "name": "commercial-polish-evidence-0",
+      "digest": "sha256:be8a1ded0ec2388d6e11fc13162c2edfaf2c4be4c3d44d4a1bac6f4bf9373d91",
+      "size_in_bytes": 10169301,
+      "expires_at": "2026-10-07T07:28:03Z",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35831307118/artifacts/10737557622"
+    },
+    {
+      "id": 10737531698,
+      "name": "commercial-polish-evidence-2",
+      "digest": "sha256:7155fc4a1dd218f177ad75c4717070ffe2631500a9809489f42247ba34f700a5",
+      "size_in_bytes": 11110729,
+      "expires_at": "2026-10-07T07:27:18Z",
+      "url": "https://github.com/andysong111/auto-lab/actions/runs/35831307118/artifacts/10737531698"
+    }
+  ],
+  "retention": "Representative captures and all fixture reports are retained in this repository. Full original capture archives are attached to CI with the listed expiry."
+}
