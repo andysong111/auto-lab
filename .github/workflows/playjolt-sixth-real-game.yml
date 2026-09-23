@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   commission:
+    if: github.event.head_commit.message == 'chore(factory): trigger sixth candidate commissioning'
     runs-on: ubuntu-latest
     timeout-minutes: 75
     env:
