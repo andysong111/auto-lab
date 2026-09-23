@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "decision": "REPAIR",
+  "hard_failures": [
+    {
+      "code": "product_mobile_readability",
+      "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"canvas text collision\",\"pair\":[{\"text\":\"A\",\"x\":167.0205078125,\"y\":437.5698717948718,\"width\":7.833984375,\"height\":14,\"font_px\":14},{\"text\":\"A\",\"x\":167.0205078125,\"y\":444.9246794871795,\"width\":7.833984375,\"height\":14,\"font_px\":14}]}]",
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "expected": "readable text, non-colliding labels, >=44px controls",
+      "actual": [
+        {
+          "kind": "canvas text collision",
+          "pair": [
+            {
+              "text": "A",
+              "x": 167.0205078125,
+              "y": 437.5698717948718,
+              "width": 7.833984375,
+              "height": 14,
+              "font_px": 14
+            },
+            {
+              "text": "A",
+              "x": 167.0205078125,
+              "y": 444.9246794871795,
+              "width": 7.833984375,
+              "height": 14,
+              "font_px": 14
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        "product/product-390-entry.png"
+      ]
+    },
+    {
+      "code": "product_mobile_readability",
+      "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"canvas text collision\",\"pair\":[{\"text\":\"A\",\"x\":356.0048828125,\"y\":339.875,\"width\":7.833984375,\"height\":14,\"font_px\":14},{\"text\":\"A\",\"x\":356.0048828125,\"y\":345.9375,\"width\":7.833984375,\"height\":14,\"font_px\":14}]}]",
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "expected": "readable text, non-colliding labels, >=44px controls",
+      "actual": [
+        {
+          "kind": "canvas text collision",
+          "pair": [
+            {
+              "text": "A",
+              "x": 356.0048828125,
+              "y": 339.875,
+              "width": 7.833984375,
+              "height": 14,
+              "font_px": 14
+            },
+            {
+              "text": "A",
+              "x": 356.0048828125,
+              "y": 345.9375,
+              "width": 7.833984375,
+              "height": 14,
+              "font_px": 14
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        "product/product-768-entry.png"
+      ]
+    },
+    {
+      "code": "product_mobile_readability",
+      "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"canvas text collision\",\"pair\":[{\"text\":\"A\",\"x\":612.0205078125,\"y\":339.875,\"width\":7.833984375,\"height\":14,\"font_px\":14},{\"text\":\"A\",\"x\":612.0205078125,\"y\":345.9375,\"width\":7.833984375,\"height\":14,\"font_px\":14}]}]",
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "expected": "readable text, non-colliding labels, >=44px controls",
+      "actual": [
+        {
+          "kind": "canvas text collision",
+          "pair": [
+            {
+              "text": "A",
+              "x": 612.0205078125,
+              "y": 339.875,
+              "width": 7.833984375,
+              "height": 14,
+              "font_px": 14
+            },
+            {
+              "text": "A",
+              "x": 612.0205078125,
+              "y": 345.9375,
+              "width": 7.833984375,
+              "height": 14,
+              "font_px": 14
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        "product/product-1280-entry.png"
+      ]
+    }
+  ],
+  "soft_failures": [],
+  "heuristics": [
+    {
+      "name": "first_five_seconds",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "mechanic_overlap",
+      "status": "UNVERIFIED",
+      "evidence": {
+        "declared_family": "discrete-key-collection-navigation"
+      }
+    },
+    {
+      "name": "information_density",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "control_count",
+      "status": "OBSERVED",
+      "evidence": {
+        "desktop": 1,
+        "mobile": 1
+      }
+    },
+    {
+      "name": "repeatability",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "visual_completeness",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "progression_visibility",
+      "status": "UNVERIFIED",
+      "evidence": null
+    }
+  ],
+  "source_hash": "f88bb4e06499495522bf17332a36c86ac7c4a1022a46014a9da9121597c77165",
+  "policy_hash": "092539c5ffb8707a8c7a177eadc3aad83896d0c3f34da272db1bfb1c7d90569e",
+  "technical_qa": "PASS",
+  "product_qa": "FAIL",
+  "production_approved": false,
+  "metrics_eligibility": false,
+  "meaning": "Technical and generic product evidence; no production authorization or claim of fun."
+}

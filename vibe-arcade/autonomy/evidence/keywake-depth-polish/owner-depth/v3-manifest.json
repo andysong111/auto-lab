@@ -1,0 +1,336 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260923-141",
+  "generation": 1,
+  "version": "v3",
+  "title": "Keywake",
+  "slug": "keywake",
+  "genre": "discrete navigation puzzle",
+  "mechanic_family": "discrete-key-collection-navigation",
+  "controls": [
+    "Press arrow keys to move one tile."
+  ],
+  "mobile_controls": [
+    "Tap the arrow pads to move one tile."
+  ],
+  "reference_quality_games": [
+    "astra-sentinel-v3",
+    "deep-descent"
+  ],
+  "created_at": "2026-09-23T01:41:20.616Z",
+  "state": "READY_TO_SHIP",
+  "repair_attempt": 2,
+  "max_repair_attempts": 5,
+  "source_path": "autonomy/games/GAME-20260923-141/v3",
+  "preview_url": "https://vibe-arcade-n6l8axiv8-a2bsangsa.vercel.app",
+  "qa_status": "PASS",
+  "quality_status": "PASS",
+  "release_status": "READY",
+  "failure_reasons": [],
+  "metrics_eligibility": false,
+  "qa": {
+    "seed": 1,
+    "keyboard": {
+      "key": "ArrowLeft",
+      "observation": "state.cell"
+    },
+    "pointer": {
+      "observation": "state.pointer_actions"
+    },
+    "terminal_ms": 42000
+  },
+  "product_contract": {
+    "schema_version": 1,
+    "objective": {
+      "visible_selector": "[data-objective]",
+      "expected_text": "Collect every key. Reach the exit in all 3 rooms."
+    },
+    "progress": {
+      "selector": "[data-product-progress]",
+      "state_path": "state.objective_progress",
+      "format": "ROOMS {value} / 3",
+      "milestones": [
+        1,
+        2,
+        3
+      ]
+    },
+    "score": {
+      "selector": "[data-game-score]",
+      "label_selector": "[data-score-label]",
+      "expected_label": "CURRENT SCORE",
+      "reversible_probes": [
+        [
+          "left",
+          "right"
+        ],
+        [
+          "down",
+          "up"
+        ]
+      ],
+      "no_progress_probes": [
+        [
+          "up"
+        ],
+        [
+          "right"
+        ]
+      ]
+    },
+    "best": {
+      "selector": "[data-best]",
+      "label_selector": "[data-best-label]",
+      "expected_label": "DEVICE BEST",
+      "source": "GameKit.best"
+    },
+    "completion": {
+      "state_path": "state.outcome",
+      "success_value": "success",
+      "failure_value": "failure",
+      "result_selector": "[data-result]",
+      "success_text": "ALL ROOMS CLEARED",
+      "failure_text": "TIME UP",
+      "max_terminal_latency_ms": 100,
+      "failure_wait_ms": 41000,
+      "failure_actions": []
+    },
+    "replay": {
+      "selector": "[data-game-restart]",
+      "must_be_in_initial_mobile_viewport": true
+    },
+    "difficulty": {
+      "deterministic_seeds": [
+        1,
+        7,
+        23,
+        89,
+        2026,
+        4294967295
+      ],
+      "oracle_id": "keywake-rooms-v1",
+      "oracle_sha256": "900064dbd2df228aab94c7c02d33c9df9575560486dbbcf0f9e8f11dc5660bbc",
+      "projection": [
+        "state.stage",
+        "state.cell",
+        "state.key_mask",
+        "state.outcome"
+      ],
+      "stage_path": "quality.stage",
+      "complexity_path": "quality.complexity",
+      "meaningful_actions_path": "quality.meaningful_actions",
+      "reversible_state_path": "quality.reversible_state_key",
+      "required_monotonicity": "later_strictly_greater",
+      "max_actions": 64
+    },
+    "mobile": {
+      "critical_selectors": [
+        "[data-objective]",
+        "[data-product-progress]",
+        "[data-score-label]",
+        "[data-game-score]",
+        "[data-best-label]",
+        "[data-best]",
+        "[data-result]"
+      ],
+      "control_selectors": [
+        "[data-game-start]",
+        "[data-game-pause]",
+        "[data-game-resume]",
+        "[data-game-restart]"
+      ],
+      "canvas_selector": "[data-game-canvas]",
+      "canvas_control_regions": [
+        {
+          "x": 0,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        },
+        {
+          "x": 0.25,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        },
+        {
+          "x": 0.5,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        },
+        {
+          "x": 0.75,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        }
+      ],
+      "min_font_px": 14,
+      "min_hit_target_px": 44
+    },
+    "reduced_motion": {
+      "presentation_probe_path": "presentation.reduced_motion",
+      "dynamic_change_required": true
+    },
+    "feedback": {
+      "action": "left",
+      "state_change_path": "quality.reversible_state_key",
+      "visual_probe": "[data-game-canvas]",
+      "active_probe_path": "presentation.feedback_active",
+      "static_probe_path": "presentation.static_feedback",
+      "settle_ms": 400
+    },
+    "actions": {
+      "left": {
+        "key": "ArrowLeft",
+        "touch": {
+          "x": 0.125,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "up": {
+        "key": "ArrowUp",
+        "touch": {
+          "x": 0.375,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "right": {
+        "key": "ArrowRight",
+        "touch": {
+          "x": 0.625,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "down": {
+        "key": "ArrowDown",
+        "touch": {
+          "x": 0.875,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      }
+    }
+  },
+  "technical_qa_status": "PASS",
+  "product_qa_status": "PASS",
+  "revision": 20,
+  "history": [
+    {
+      "from": "IDEA",
+      "to": "SPEC_READY",
+      "at": "2026-09-23T01:41:20.663Z"
+    },
+    {
+      "from": "SPEC_READY",
+      "to": "BUILDING",
+      "at": "2026-09-23T01:42:02.633Z"
+    },
+    {
+      "from": "BUILDING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-23T01:43:00.746Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-23T01:43:08.456Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-23T01:43:08.458Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-23T01:43:08.460Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-23T01:43:45.318Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QUALITY_GATE",
+      "at": "2026-09-23T01:45:36.017Z"
+    },
+    {
+      "from": "QUALITY_GATE",
+      "to": "RC_READY",
+      "at": "2026-09-23T01:45:36.212Z"
+    },
+    {
+      "from": "RC_READY",
+      "to": "QA_RUNNING",
+      "at": "2026-09-23T02:06:07.024Z",
+      "reason": "Observed exact Preview asset resolution failure; original Technical/Product reports preserved; repair counter unchanged."
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QUALITY_GATE",
+      "at": "2026-09-23T02:06:36.843Z"
+    },
+    {
+      "from": "QUALITY_GATE",
+      "to": "QUALITY_FAILED",
+      "at": "2026-09-23T02:06:37.084Z"
+    },
+    {
+      "from": "QUALITY_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-23T02:06:37.086Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-23T02:06:37.088Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-23T02:06:57.838Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QUALITY_GATE",
+      "at": "2026-09-23T02:08:54.331Z"
+    },
+    {
+      "from": "QUALITY_GATE",
+      "to": "RC_READY",
+      "at": "2026-09-23T02:08:54.339Z"
+    },
+    {
+      "from": "RC_READY",
+      "to": "PREVIEW_DEPLOYING",
+      "at": "2026-09-23T02:14:17.465Z"
+    },
+    {
+      "from": "PREVIEW_DEPLOYING",
+      "to": "PREVIEW_SMOKE",
+      "at": "2026-09-23T02:17:42.574Z"
+    },
+    {
+      "from": "PREVIEW_SMOKE",
+      "to": "READY_TO_SHIP",
+      "at": "2026-09-23T02:17:43.618Z"
+    }
+  ],
+  "source_hash": "adca43ffe1238625b32cb30c01b0093f4d94c9a9b117916c1edd997f7d6c07de",
+  "policy_hash": "092539c5ffb8707a8c7a177eadc3aad83896d0c3f34da272db1bfb1c7d90569e",
+  "branch": "factory/GAME-20260923-141",
+  "rc_commit": "90bfac0349e4219e3e28f37ac948371afff98157",
+  "pr_number": 56,
+  "pr_url": "https://github.com/andysong111/auto-lab/pull/56",
+  "deployment_id": "6604856855"
+}

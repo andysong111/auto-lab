@@ -1,0 +1,24 @@
+{
+  "operation_id": "GAME-20260923-141/repair/4",
+  "source_hash": "4fa6ce75df98aee19bf60080dbd2c38ac71b656151c2bc391e59c39c29da0e4c",
+  "changed_files": [
+    "manifest.json",
+    "view/art.js"
+  ],
+  "cause": "Repaired the canvas-label collision by making collectible keys visually color-coded silhouettes without drawing a second text letter in the same tile as nearby gate requirement labels. All gameplay, core state, controls, and presentation timing remain unchanged.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Suggested: inspect entry renders at 390x844, 768x1024, and 1280x800 to verify that the former duplicated key/gate A labels no longer collide while gate requirement labels remain readable."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_097cdb5e7d11be4b006ab34e8f6be887d1a295e627ee3885cf",
+    "usage": {
+      "input_tokens": 21785,
+      "output_tokens": 2462,
+      "estimated_cost": 0.131456
+    },
+    "estimated_cost": 0.131456,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

@@ -1,0 +1,761 @@
+﻿2026-09-23T04:08:29.0083282Z Current runner version: '2.337.0'
+2026-09-23T04:08:29.0110811Z ##[group]Runner Image Provisioner
+2026-09-23T04:08:29.0111797Z Hosted Compute Agent
+2026-09-23T04:08:29.0112411Z Version: 20260828.587
+2026-09-23T04:08:29.0113380Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-23T04:08:29.0114141Z Build Date: 2026-08-28T16:44:25Z
+2026-09-23T04:08:29.0115190Z Worker ID: {1bbe2fcd-d999-4223-b6e2-1a9204f11b15}
+2026-09-23T04:08:29.0115947Z Azure Region: westus
+2026-09-23T04:08:29.0116521Z ##[endgroup]
+2026-09-23T04:08:29.0118238Z ##[group]Operating System
+2026-09-23T04:08:29.0118918Z Ubuntu
+2026-09-23T04:08:29.0119864Z 24.04.5
+2026-09-23T04:08:29.0120590Z LTS
+2026-09-23T04:08:29.0121115Z ##[endgroup]
+2026-09-23T04:08:29.0121744Z ##[group]Runner Image
+2026-09-23T04:08:29.0122365Z Image: ubuntu-24.04
+2026-09-23T04:08:29.0123298Z Version: 20260920.314.1
+2026-09-23T04:08:29.0124668Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260920.314/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-23T04:08:29.0126312Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260920.314
+2026-09-23T04:08:29.0127289Z ##[endgroup]
+2026-09-23T04:08:29.0128608Z ##[group]GITHUB_TOKEN Permissions
+2026-09-23T04:08:29.0130815Z Actions: read
+2026-09-23T04:08:29.0131496Z Contents: read
+2026-09-23T04:08:29.0132099Z Metadata: read
+2026-09-23T04:08:29.0132703Z ##[endgroup]
+2026-09-23T04:08:29.0135149Z Secret source: Actions
+2026-09-23T04:08:29.0136149Z Cache mode: write
+2026-09-23T04:08:29.0136942Z Prepare workflow directory
+2026-09-23T04:08:29.0556408Z Prepare all required actions
+2026-09-23T04:08:29.0608190Z Getting action download info
+2026-09-23T04:08:29.4478798Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-09-23T04:08:29.9058813Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-09-23T04:08:30.0378454Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-09-23T04:08:30.3233638Z Complete job name: polish
+2026-09-23T04:08:30.4109319Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T04:08:30.4119492Z ##[group]Run actions/checkout@v4
+2026-09-23T04:08:30.4120381Z with:
+2026-09-23T04:08:30.4120931Z   persist-credentials: false
+2026-09-23T04:08:30.4121588Z   repository: andysong111/auto-lab
+2026-09-23T04:08:30.4126599Z   token: ***
+2026-09-23T04:08:30.4127153Z   ssh-strict: true
+2026-09-23T04:08:30.4127684Z   ssh-user: git
+2026-09-23T04:08:30.4128200Z   clean: true
+2026-09-23T04:08:30.4128725Z   sparse-checkout-cone-mode: true
+2026-09-23T04:08:30.4129367Z   fetch-depth: 1
+2026-09-23T04:08:30.4129956Z   fetch-tags: false
+2026-09-23T04:08:30.4130496Z   show-progress: true
+2026-09-23T04:08:30.4131083Z   lfs: false
+2026-09-23T04:08:30.4131639Z   submodules: false
+2026-09-23T04:08:30.4132183Z   set-safe-directory: true
+2026-09-23T04:08:30.4132951Z   allow-unsafe-pr-checkout: false
+2026-09-23T04:08:30.4133879Z env:
+2026-09-23T04:08:30.4134417Z   AUTO_PRODUCTION_SHIP: false
+2026-09-23T04:08:30.4135022Z ##[endgroup]
+2026-09-23T04:08:30.5179990Z Syncing repository: andysong111/auto-lab
+2026-09-23T04:08:30.5182635Z ##[group]Getting Git version info
+2026-09-23T04:08:30.5184184Z Working directory is '/home/runner/work/auto-lab/auto-lab'
+2026-09-23T04:08:30.5185995Z [command]/usr/bin/git version
+2026-09-23T04:08:30.6874484Z git version 2.55.0
+2026-09-23T04:08:30.6917195Z ##[endgroup]
+2026-09-23T04:08:30.6935338Z Temporarily overriding HOME='/home/runner/work/_temp/a081c45e-43c5-455c-82df-442e3a8e61dc' before making global git config changes
+2026-09-23T04:08:30.6937196Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-23T04:08:30.6939601Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/auto-lab/auto-lab
+2026-09-23T04:08:30.7250369Z Deleting the contents of '/home/runner/work/auto-lab/auto-lab'
+2026-09-23T04:08:30.7256402Z ##[group]Initializing the repository
+2026-09-23T04:08:30.7262509Z [command]/usr/bin/git init /home/runner/work/auto-lab/auto-lab
+2026-09-23T04:08:30.7862001Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-23T04:08:30.7865084Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-23T04:08:30.7868160Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-23T04:08:30.7869942Z hint: call:
+2026-09-23T04:08:30.7870729Z hint:
+2026-09-23T04:08:30.7872041Z hint: 	git config --global init.defaultBranch <name>
+2026-09-23T04:08:30.7874130Z hint:
+2026-09-23T04:08:30.7875694Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-23T04:08:30.7877651Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-23T04:08:30.7879820Z hint:
+2026-09-23T04:08:30.7881052Z hint: 	git branch -m <name>
+2026-09-23T04:08:30.7882012Z hint:
+2026-09-23T04:08:30.7883655Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-23T04:08:30.7886029Z Initialized empty Git repository in /home/runner/work/auto-lab/auto-lab/.git/
+2026-09-23T04:08:30.7890091Z [command]/usr/bin/git remote add origin https://github.com/andysong111/auto-lab
+2026-09-23T04:08:30.8168554Z ##[endgroup]
+2026-09-23T04:08:30.8170341Z ##[group]Disabling automatic garbage collection
+2026-09-23T04:08:30.8172571Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-23T04:08:30.8211952Z ##[endgroup]
+2026-09-23T04:08:30.8214449Z ##[group]Setting up auth
+2026-09-23T04:08:30.8220532Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-23T04:08:30.8258813Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-23T04:08:31.0798773Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-23T04:08:31.0844520Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-23T04:08:31.1103156Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-23T04:08:31.1148742Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-23T04:08:31.1401448Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-23T04:08:31.1445098Z ##[endgroup]
+2026-09-23T04:08:31.1454825Z ##[group]Fetching the repository
+2026-09-23T04:08:31.1459078Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +e023db028bc89da6613e235fe151e662b64e0d23:refs/remotes/origin/commissioning/keywake-depth-polish-20260923
+2026-09-23T04:08:32.2270033Z From https://github.com/andysong111/auto-lab
+2026-09-23T04:08:32.2271525Z  * [new ref]         e023db028bc89da6613e235fe151e662b64e0d23 -> origin/commissioning/keywake-depth-polish-20260923
+2026-09-23T04:08:32.2274786Z ##[endgroup]
+2026-09-23T04:08:32.2275356Z ##[group]Determining the checkout info
+2026-09-23T04:08:32.2277499Z ##[endgroup]
+2026-09-23T04:08:32.2284281Z [command]/usr/bin/git sparse-checkout disable
+2026-09-23T04:08:32.2517328Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-23T04:08:32.2554205Z ##[group]Checking out the ref
+2026-09-23T04:08:32.2559480Z [command]/usr/bin/git checkout --progress --force -B commissioning/keywake-depth-polish-20260923 refs/remotes/origin/commissioning/keywake-depth-polish-20260923
+2026-09-23T04:08:32.3801299Z Switched to a new branch 'commissioning/keywake-depth-polish-20260923'
+2026-09-23T04:08:32.3807748Z branch 'commissioning/keywake-depth-polish-20260923' set up to track 'origin/commissioning/keywake-depth-polish-20260923'.
+2026-09-23T04:08:32.3817982Z ##[endgroup]
+2026-09-23T04:08:32.3864832Z [command]/usr/bin/git log -1 --format=%H
+2026-09-23T04:08:32.3895219Z e023db028bc89da6613e235fe151e662b64e0d23
+2026-09-23T04:08:32.3905048Z ##[group]Removing auth
+2026-09-23T04:08:32.3908635Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-23T04:08:32.3941952Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-23T04:08:32.4174315Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-23T04:08:32.4205674Z http.https://github.com/.extraheader
+2026-09-23T04:08:32.4215848Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-23T04:08:32.4253089Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-23T04:08:32.4483181Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-23T04:08:32.4519589Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-23T04:08:32.4748822Z ##[endgroup]
+2026-09-23T04:08:32.5082278Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T04:08:32.5084522Z ##[group]Run actions/setup-node@v4
+2026-09-23T04:08:32.5084873Z with:
+2026-09-23T04:08:32.5085135Z   node-version: 22
+2026-09-23T04:08:32.5085415Z   always-auth: false
+2026-09-23T04:08:32.5085717Z   check-latest: false
+2026-09-23T04:08:32.5088217Z   token: ***
+2026-09-23T04:08:32.5088487Z env:
+2026-09-23T04:08:32.5088746Z   AUTO_PRODUCTION_SHIP: false
+2026-09-23T04:08:32.5089058Z ##[endgroup]
+2026-09-23T04:08:32.6911740Z (node:2252) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-23T04:08:32.6912956Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-23T04:08:32.6923171Z Found in cache @ /opt/hostedtoolcache/node/22.23.2/x64
+2026-09-23T04:08:32.6923958Z ##[group]Environment details
+2026-09-23T04:08:35.8205440Z node: v22.23.2
+2026-09-23T04:08:35.8205917Z npm: 10.9.8
+2026-09-23T04:08:35.8206221Z yarn: 1.22.22
+2026-09-23T04:08:35.8207049Z ##[endgroup]
+2026-09-23T04:08:35.8361427Z ##[group]Run npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+2026-09-23T04:08:35.8362133Z [36;1mnpm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund[0m
+2026-09-23T04:08:35.9935118Z shell: /usr/bin/bash -e {0}
+2026-09-23T04:08:35.9935478Z env:
+2026-09-23T04:08:35.9935754Z   AUTO_PRODUCTION_SHIP: false
+2026-09-23T04:08:35.9936077Z ##[endgroup]
+2026-09-23T04:08:38.3943940Z 
+2026-09-23T04:08:38.3954656Z added 7 packages in 2s
+2026-09-23T04:08:38.4379799Z ##[group]Run node --test vibe-arcade/autonomy/commissioning/keywake-depth-polish/design.test.cjs vibe-arcade/autonomy/worker/tests/owner-continuation.test.cjs vibe-arcade/autonomy/worker/tests/providers.test.cjs
+2026-09-23T04:08:38.4381368Z [36;1mnode --test vibe-arcade/autonomy/commissioning/keywake-depth-polish/design.test.cjs vibe-arcade/autonomy/worker/tests/owner-continuation.test.cjs vibe-arcade/autonomy/worker/tests/providers.test.cjs[0m
+2026-09-23T04:08:38.4445321Z shell: /usr/bin/bash -e {0}
+2026-09-23T04:08:38.4445585Z env:
+2026-09-23T04:08:38.4445966Z   AUTO_PRODUCTION_SHIP: false
+2026-09-23T04:08:38.4446225Z ##[endgroup]
+2026-09-23T04:08:38.5273296Z TAP version 13
+2026-09-23T04:08:38.7895385Z # Subtest: same-ID depth contract fits unchanged Generic v1 bounds and all states can finish
+2026-09-23T04:08:38.7899948Z ok 1 - same-ID depth contract fits unchanged Generic v1 bounds and all states can finish
+2026-09-23T04:08:38.7900789Z   ---
+2026-09-23T04:08:38.7914721Z   duration_ms: 49.089224
+2026-09-23T04:08:38.7915544Z   type: 'test'
+2026-09-23T04:08:38.7915937Z   ...
+2026-09-23T04:08:38.7916861Z # Subtest: route choices and key-order regret are consequential and later rooms strictly deepen
+2026-09-23T04:08:38.7918198Z ok 2 - route choices and key-order regret are consequential and later rooms strictly deepen
+2026-09-23T04:08:38.7918996Z   ---
+2026-09-23T04:08:38.7919348Z   duration_ms: 0.395585
+2026-09-23T04:08:38.7919764Z   type: 'test'
+2026-09-23T04:08:38.7920113Z   ...
+2026-09-23T04:08:38.7920913Z # Subtest: six seeds select six genuinely different layouts beyond rotation/mirroring
+2026-09-23T04:08:38.7922105Z ok 3 - six seeds select six genuinely different layouts beyond rotation/mirroring
+2026-09-23T04:08:38.7923099Z   ---
+2026-09-23T04:08:38.7923467Z   duration_ms: 2.63939
+2026-09-23T04:08:38.7923864Z   type: 'test'
+2026-09-23T04:08:38.7924210Z   ...
+2026-09-23T04:08:38.7925184Z # Subtest: score probes return to identical objective projection and feedback starts with legal movement
+2026-09-23T04:08:38.7926682Z ok 4 - score probes return to identical objective projection and feedback starts with legal movement
+2026-09-23T04:08:38.7927541Z   ---
+2026-09-23T04:08:38.7927888Z   duration_ms: 5.34851
+2026-09-23T04:08:38.7928272Z   type: 'test'
+2026-09-23T04:08:38.7928622Z   ...
+2026-09-23T04:08:38.8022213Z # Subtest: owner review excludes only a closed authorized pause; original active budget remains consumed
+2026-09-23T04:08:38.8023986Z ok 5 - owner review excludes only a closed authorized pause; original active budget remains consumed
+2026-09-23T04:08:38.8024830Z   ---
+2026-09-23T04:08:38.8025268Z   duration_ms: 2.624723
+2026-09-23T04:08:38.8025658Z   type: 'test'
+2026-09-23T04:08:38.8026094Z   ...
+2026-09-23T04:08:38.8026932Z # Subtest: open, overlapping, future, unapproved and unbound pause data are rejected
+2026-09-23T04:08:38.8028186Z ok 6 - open, overlapping, future, unapproved and unbound pause data are rejected
+2026-09-23T04:08:38.8028896Z   ---
+2026-09-23T04:08:38.8029488Z   duration_ms: 0.380206
+2026-09-23T04:08:38.8030015Z   type: 'test'
+2026-09-23T04:08:38.8030355Z   ...
+2026-09-23T04:08:38.9486676Z # Subtest: successful mock output is validated, persisted and deduplicated by immutable operation ID
+2026-09-23T04:08:38.9488354Z ok 7 - successful mock output is validated, persisted and deduplicated by immutable operation ID
+2026-09-23T04:08:38.9489469Z   ---
+2026-09-23T04:08:38.9490032Z   duration_ms: 122.467466
+2026-09-23T04:08:38.9490604Z   type: 'test'
+2026-09-23T04:08:38.9491113Z   ...
+2026-09-23T04:08:38.9491909Z # Subtest: reject malformed JSON
+2026-09-23T04:08:38.9493872Z ok 8 - reject malformed JSON
+2026-09-23T04:08:38.9494688Z   ---
+2026-09-23T04:08:38.9495017Z   duration_ms: 7.227423
+2026-09-23T04:08:38.9495406Z   type: 'test'
+2026-09-23T04:08:38.9523888Z   ...
+2026-09-23T04:08:38.9534357Z # Subtest: reject unexpected metadata
+2026-09-23T04:08:38.9534960Z ok 9 - reject unexpected metadata
+2026-09-23T04:08:38.9535446Z   ---
+2026-09-23T04:08:38.9536135Z   duration_ms: 4.565445
+2026-09-23T04:08:38.9536579Z   type: 'test'
+2026-09-23T04:08:38.9536922Z   ...
+2026-09-23T04:08:38.9537316Z # Subtest: reject path escape
+2026-09-23T04:08:38.9537803Z ok 10 - reject path escape
+2026-09-23T04:08:38.9538222Z   ---
+2026-09-23T04:08:38.9538564Z   duration_ms: 4.395881
+2026-09-23T04:08:38.9538954Z   type: 'test'
+2026-09-23T04:08:38.9539299Z   ...
+2026-09-23T04:08:38.9539743Z # Subtest: reject factory-owned kit
+2026-09-23T04:08:38.9540315Z ok 11 - reject factory-owned kit
+2026-09-23T04:08:38.9540770Z   ---
+2026-09-23T04:08:38.9541131Z   duration_ms: 4.452737
+2026-09-23T04:08:38.9541811Z   type: 'test'
+2026-09-23T04:08:38.9542170Z   ...
+2026-09-23T04:08:38.9542537Z # Subtest: reject CDN
+2026-09-23T04:08:38.9543249Z ok 12 - reject CDN
+2026-09-23T04:08:38.9543609Z   ---
+2026-09-23T04:08:38.9543944Z   duration_ms: 4.194317
+2026-09-23T04:08:38.9544323Z   type: 'test'
+2026-09-23T04:08:38.9544643Z   ...
+2026-09-23T04:08:38.9544999Z # Subtest: reject DOM core
+2026-09-23T04:08:38.9545434Z ok 13 - reject DOM core
+2026-09-23T04:08:38.9545794Z   ---
+2026-09-23T04:08:38.9546115Z   duration_ms: 5.676498
+2026-09-23T04:08:38.9546477Z   type: 'test'
+2026-09-23T04:08:38.9546799Z   ...
+2026-09-23T04:08:38.9547192Z # Subtest: reject missing files
+2026-09-23T04:08:38.9547650Z ok 14 - reject missing files
+2026-09-23T04:08:38.9548037Z   ---
+2026-09-23T04:08:38.9548351Z   duration_ms: 4.34153
+2026-09-23T04:08:38.9548721Z   type: 'test'
+2026-09-23T04:08:38.9549039Z   ...
+2026-09-23T04:08:38.9549862Z # Subtest: all paths are validated before any file write; existing workspace symlinks are blocked
+2026-09-23T04:08:38.9551124Z ok 15 - all paths are validated before any file write; existing workspace symlinks are blocked
+2026-09-23T04:08:38.9551864Z   ---
+2026-09-23T04:08:38.9552186Z   duration_ms: 5.826487
+2026-09-23T04:08:38.9552557Z   type: 'test'
+2026-09-23T04:08:38.9553071Z   ...
+2026-09-23T04:08:39.0458785Z # Subtest: provider timeout is bounded and unknown submission is never re-posted
+2026-09-23T04:08:39.0460356Z ok 16 - provider timeout is bounded and unknown submission is never re-posted
+2026-09-23T04:08:39.0461231Z   ---
+2026-09-23T04:08:39.0461747Z   duration_ms: 93.727341
+2026-09-23T04:08:39.0462314Z   type: 'test'
+2026-09-23T04:08:39.0463091Z   ...
+2026-09-23T04:08:39.1130730Z # Subtest: known response ID survives manager restart; retry is retrieval, not a second generation
+2026-09-23T04:08:39.1132149Z ok 17 - known response ID survives manager restart; retry is retrieval, not a second generation
+2026-09-23T04:08:39.1133209Z   ---
+2026-09-23T04:08:39.1133456Z   duration_ms: 70.457714
+2026-09-23T04:08:39.1133745Z   type: 'test'
+2026-09-23T04:08:39.1133989Z   ...
+2026-09-23T04:08:39.1802583Z # Subtest: network failure and model failure remain distinct; cached model failure is not called again
+2026-09-23T04:08:39.1804383Z ok 18 - network failure and model failure remain distinct; cached model failure is not called again
+2026-09-23T04:08:39.1805238Z   ---
+2026-09-23T04:08:39.1805600Z   duration_ms: 67.057914
+2026-09-23T04:08:39.1806066Z   type: 'test'
+2026-09-23T04:08:39.1806406Z   ...
+2026-09-23T04:08:39.2435996Z # Subtest: budget: game call limit
+2026-09-23T04:08:39.2436811Z ok 19 - budget: game call limit
+2026-09-23T04:08:39.2437334Z   ---
+2026-09-23T04:08:39.2437711Z   duration_ms: 63.443971
+2026-09-23T04:08:39.2438097Z   type: 'test'
+2026-09-23T04:08:39.2438402Z   ...
+2026-09-23T04:08:39.3123443Z # Subtest: budget: daily call limit
+2026-09-23T04:08:39.3124082Z ok 20 - budget: daily call limit
+2026-09-23T04:08:39.3124848Z   ---
+2026-09-23T04:08:39.3125226Z   duration_ms: 68.771834
+2026-09-23T04:08:39.3125654Z   type: 'test'
+2026-09-23T04:08:39.3126011Z   ...
+2026-09-23T04:08:39.3504973Z # Subtest: budget: input token limit
+2026-09-23T04:08:39.3506543Z ok 21 - budget: input token limit
+2026-09-23T04:08:39.3507083Z   ---
+2026-09-23T04:08:39.3507497Z   duration_ms: 38.197704
+2026-09-23T04:08:39.3507904Z   type: 'test'
+2026-09-23T04:08:39.3508581Z   ...
+2026-09-23T04:08:39.3837532Z # Subtest: budget: output token limit
+2026-09-23T04:08:39.3840902Z ok 22 - budget: output token limit
+2026-09-23T04:08:39.3841443Z   ---
+2026-09-23T04:08:39.3841823Z   duration_ms: 32.981179
+2026-09-23T04:08:39.3842226Z   type: 'test'
+2026-09-23T04:08:39.3842563Z   ...
+2026-09-23T04:08:39.4168802Z # Subtest: budget: game cost limit
+2026-09-23T04:08:39.4169699Z ok 23 - budget: game cost limit
+2026-09-23T04:08:39.4170664Z   ---
+2026-09-23T04:08:39.4171017Z   duration_ms: 33.60126
+2026-09-23T04:08:39.4171402Z   type: 'test'
+2026-09-23T04:08:39.4171740Z   ...
+2026-09-23T04:08:39.4501764Z # Subtest: budget: daily cost limit
+2026-09-23T04:08:39.4503161Z ok 24 - budget: daily cost limit
+2026-09-23T04:08:39.4503665Z   ---
+2026-09-23T04:08:39.4504183Z   duration_ms: 32.735543
+2026-09-23T04:08:39.4504673Z   type: 'test'
+2026-09-23T04:08:39.4505122Z   ...
+2026-09-23T04:08:39.5151841Z # Subtest: wall clock budget includes downtime and refuses new calls after expiry
+2026-09-23T04:08:39.5153407Z ok 25 - wall clock budget includes downtime and refuses new calls after expiry
+2026-09-23T04:08:39.5153819Z   ---
+2026-09-23T04:08:39.5154036Z   duration_ms: 65.399535
+2026-09-23T04:08:39.5154279Z   type: 'test'
+2026-09-23T04:08:39.5154682Z   ...
+2026-09-23T04:08:39.6415059Z # Subtest: reported usage exceeding reservation permanently pauses without replaying provider
+2026-09-23T04:08:39.6417097Z ok 26 - reported usage exceeding reservation permanently pauses without replaying provider
+2026-09-23T04:08:39.6418306Z   ---
+2026-09-23T04:08:39.6418910Z   duration_ms: 64.370568
+2026-09-23T04:08:39.6419512Z   type: 'test'
+2026-09-23T04:08:39.6420086Z   ...
+2026-09-23T04:08:39.6421300Z # Subtest: prices require explicit recent estimates and invalid budgets/concurrency are rejected
+2026-09-23T04:08:39.6444089Z ok 27 - prices require explicit recent estimates and invalid budgets/concurrency are rejected
+2026-09-23T04:08:39.6483457Z   ---
+2026-09-23T04:08:39.6483863Z   duration_ms: 0.438143
+2026-09-23T04:08:39.6493542Z   type: 'test'
+2026-09-23T04:08:39.6493938Z   ...
+2026-09-23T04:08:39.6494918Z # Subtest: repair compiler preserves original Factory request, QA identity and narrows CSS-only repairs
+2026-09-23T04:08:39.6495817Z ok 28 - repair compiler preserves original Factory request, QA identity and narrows CSS-only repairs
+2026-09-23T04:08:39.6496293Z   ---
+2026-09-23T04:08:39.6496504Z   duration_ms: 10.399192
+2026-09-23T04:08:39.6496741Z   type: 'test'
+2026-09-23T04:08:39.6496944Z   ...
+2026-09-23T04:08:39.6497472Z # Subtest: OpenAI is unavailable without key/model or explicit paid-call authorization; no fetch occurs
+2026-09-23T04:08:39.6498661Z ok 29 - OpenAI is unavailable without key/model or explicit paid-call authorization; no fetch occurs
+2026-09-23T04:08:39.6499152Z   ---
+2026-09-23T04:08:39.6499360Z   duration_ms: 0.306088
+2026-09-23T04:08:39.6499627Z   type: 'test'
+2026-09-23T04:08:39.6499829Z   ...
+2026-09-23T04:08:39.6548150Z # Subtest: OpenAI Responses uses strict file output, durable background ID, no tools, fixed official origin and GET resumption
+2026-09-23T04:08:39.6550132Z ok 30 - OpenAI Responses uses strict file output, durable background ID, no tools, fixed official origin and GET resumption
+2026-09-23T04:08:39.6551360Z   ---
+2026-09-23T04:08:39.6551878Z   duration_ms: 61.365504
+2026-09-23T04:08:39.6552440Z   type: 'test'
+2026-09-23T04:08:39.6553175Z   ...
+2026-09-23T04:08:39.6553955Z # Subtest: OpenAI HTTP 401 is classified and never SDK-retried
+2026-09-23T04:08:39.6555363Z ok 31 - OpenAI HTTP 401 is classified and never SDK-retried
+2026-09-23T04:08:39.6556113Z   ---
+2026-09-23T04:08:39.6556471Z   duration_ms: 0.634097
+2026-09-23T04:08:39.6567557Z   type: 'test'
+2026-09-23T04:08:39.6567949Z   ...
+2026-09-23T04:08:39.6568564Z # Subtest: OpenAI HTTP 429 is classified and never SDK-retried
+2026-09-23T04:08:39.6569407Z ok 32 - OpenAI HTTP 429 is classified and never SDK-retried
+2026-09-23T04:08:39.6569952Z   ---
+2026-09-23T04:08:39.6570300Z   duration_ms: 0.270643
+2026-09-23T04:08:39.6570684Z   type: 'test'
+2026-09-23T04:08:39.6571007Z   ...
+2026-09-23T04:08:39.6571872Z # Subtest: OpenAI HTTP 503 is classified and never SDK-retried
+2026-09-23T04:08:39.6573007Z ok 33 - OpenAI HTTP 503 is classified and never SDK-retried
+2026-09-23T04:08:39.6573596Z   ---
+2026-09-23T04:08:39.6573939Z   duration_ms: 0.318271
+2026-09-23T04:08:39.6574316Z   type: 'test'
+2026-09-23T04:08:39.6574648Z   ...
+2026-09-23T04:08:39.6945924Z # Subtest: missing provider output is model failure, not a retryable network error
+2026-09-23T04:08:39.6947441Z ok 34 - missing provider output is model failure, not a retryable network error
+2026-09-23T04:08:39.6948358Z   ---
+2026-09-23T04:08:39.6949200Z   duration_ms: 37.787319
+2026-09-23T04:08:39.6949782Z   type: 'test'
+2026-09-23T04:08:39.6950288Z   ...
+2026-09-23T04:08:39.7425207Z # Subtest: ledger storage failure pauses before any provider submission
+2026-09-23T04:08:39.7451877Z ok 35 - ledger storage failure pauses before any provider submission
+2026-09-23T04:08:39.7453060Z   ---
+2026-09-23T04:08:39.7453584Z   duration_ms: 35.061231
+2026-09-23T04:08:39.7454207Z   type: 'test'
+2026-09-23T04:08:39.7454738Z   ...
+2026-09-23T04:08:39.7455689Z # Subtest: repair scope honors additional protections in the original Factory request
+2026-09-23T04:08:39.7457077Z ok 36 - repair scope honors additional protections in the original Factory request
+2026-09-23T04:08:39.7457910Z   ---
+2026-09-23T04:08:39.7458369Z   duration_ms: 6.993664
+2026-09-23T04:08:39.7458894Z   type: 'test'
+2026-09-23T04:08:39.7459471Z   ...
+2026-09-23T04:08:39.7460387Z # Subtest: maximum file/output size is rejected before applying any bytes
+2026-09-23T04:08:39.7461522Z ok 37 - maximum file/output size is rejected before applying any bytes
+2026-09-23T04:08:39.7462299Z   ---
+2026-09-23T04:08:39.7462752Z   duration_ms: 6.827856
+2026-09-23T04:08:39.7463600Z   type: 'test'
+2026-09-23T04:08:39.7464063Z   ...
+2026-09-23T04:08:39.7832171Z # Subtest: DOM-core rejection records exact line and quarantines files without applying them
+2026-09-23T04:08:39.7834958Z ok 38 - DOM-core rejection records exact line and quarantines files without applying them
+2026-09-23T04:08:39.7835711Z   ---
+2026-09-23T04:08:39.7836040Z   duration_ms: 40.584234
+2026-09-23T04:08:39.7836431Z   type: 'test'
+2026-09-23T04:08:39.7836749Z   ...
+2026-09-23T04:08:39.8224023Z # Subtest: repair compiler receives quarantined rejected source and validation guidance when no accepted workspace exists
+2026-09-23T04:08:39.8226735Z ok 39 - repair compiler receives quarantined rejected source and validation guidance when no accepted workspace exists
+2026-09-23T04:08:39.8227678Z   ---
+2026-09-23T04:08:39.8228003Z   duration_ms: 37.762142
+2026-09-23T04:08:39.8228418Z   type: 'test'
+2026-09-23T04:08:39.8228732Z   ...
+2026-09-23T04:08:39.8542512Z # Subtest: quarantine excludes unsafe output paths from future repair context
+2026-09-23T04:08:39.8547630Z ok 40 - quarantine excludes unsafe output paths from future repair context
+2026-09-23T04:08:39.8549774Z   ---
+2026-09-23T04:08:39.8550162Z   duration_ms: 39.200751
+2026-09-23T04:08:39.8550616Z   type: 'test'
+2026-09-23T04:08:39.8551023Z   ...
+2026-09-23T04:08:39.8661697Z 1..40
+2026-09-23T04:08:39.8661981Z # tests 40
+2026-09-23T04:08:39.8662664Z # suites 0
+2026-09-23T04:08:39.8663485Z # pass 40
+2026-09-23T04:08:39.8664113Z # fail 0
+2026-09-23T04:08:39.8665284Z # cancelled 0
+2026-09-23T04:08:39.8665829Z # skipped 0
+2026-09-23T04:08:39.8666550Z # todo 0
+2026-09-23T04:08:39.8667244Z # duration_ms 1372.0851
+2026-09-23T04:08:39.8757649Z ##[group]Run docker build --iidfile "$RUNNER_TEMP/keywake-depth-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+2026-09-23T04:08:39.8758699Z [36;1mdocker build --iidfile "$RUNNER_TEMP/keywake-depth-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy[0m
+2026-09-23T04:08:39.8759490Z [36;1mecho "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/keywake-depth-image")" >> "$GITHUB_ENV"[0m
+2026-09-23T04:08:39.8760073Z [36;1mecho "FACTORY_WORKER_ROOT=$RUNNER_TEMP/keywake-final-state" >> "$GITHUB_ENV"[0m
+2026-09-23T04:08:39.8822478Z shell: /usr/bin/bash -e {0}
+2026-09-23T04:08:39.8823011Z env:
+2026-09-23T04:08:39.8823239Z   AUTO_PRODUCTION_SHIP: false
+2026-09-23T04:08:39.8823499Z ##[endgroup]
+2026-09-23T04:08:44.3220435Z #0 building with "default" instance using docker driver
+2026-09-23T04:08:44.3221092Z 
+2026-09-23T04:08:44.3221848Z #1 [internal] load build definition from Dockerfile
+2026-09-23T04:08:44.3222962Z #1 transferring dockerfile: 813B 0.0s done
+2026-09-23T04:08:44.3223997Z #1 DONE 0.1s
+2026-09-23T04:08:44.3224155Z 
+2026-09-23T04:08:44.3244914Z #2 [internal] load metadata for mcr.microsoft.com/playwright:v1.55.0-noble
+2026-09-23T04:08:44.3304631Z #2 DONE 0.2s
+2026-09-23T04:08:44.4492366Z 
+2026-09-23T04:08:44.4494751Z #3 [internal] load build context
+2026-09-23T04:08:44.4495770Z #3 transferring context: 728.36kB 0.0s done
+2026-09-23T04:08:44.4496467Z #3 DONE 0.0s
+2026-09-23T04:08:44.4496681Z 
+2026-09-23T04:08:44.4498930Z #4 [1/9] FROM mcr.microsoft.com/playwright:v1.55.0-noble@sha256:b27e719ecbfef153e13fd24e8341736733bf2658b229677eb21ff57ff5d7fb29
+2026-09-23T04:08:44.4506389Z #4 resolve mcr.microsoft.com/playwright:v1.55.0-noble@sha256:b27e719ecbfef153e13fd24e8341736733bf2658b229677eb21ff57ff5d7fb29 done
+2026-09-23T04:08:44.4507988Z #4 sha256:ffc33305f7b4b04057ae4a0caa70aad4fde87454fb403a1a22e7f931707dfcf9 1.17kB / 1.17kB done
+2026-09-23T04:08:44.4509319Z #4 sha256:8a461db088d3b546203b41ea8496e497597bd0bc9a08a331ae5804c30a2a4c9e 4.34kB / 4.34kB done
+2026-09-23T04:08:44.4510529Z #4 sha256:baa9e71a063a9c4a556a0b24bdafca4bcc5a13a0d6427d7f7ca44e328ecc2211 16.78MB / 30.59MB 0.1s
+2026-09-23T04:08:44.4511761Z #4 sha256:4df6c7922c6539b6be9fdf9319d22ce0ab6dfbe6777220cf70039e61f70aebe3 14.68MB / 99.66MB 0.1s
+2026-09-23T04:08:44.4513253Z #4 sha256:157d08cc08a2999d1d855dfcf9d84f668e13a1d2279b6951ac437e6d85e2cecf 1.91MB / 1.91MB 0.0s done
+2026-09-23T04:08:44.4514508Z #4 sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 11.53MB / 781.78MB 0.1s
+2026-09-23T04:08:44.4515826Z #4 sha256:b27e719ecbfef153e13fd24e8341736733bf2658b229677eb21ff57ff5d7fb29 743B / 743B done
+2026-09-23T04:08:44.5680759Z #4 sha256:baa9e71a063a9c4a556a0b24bdafca4bcc5a13a0d6427d7f7ca44e328ecc2211 30.59MB / 30.59MB 0.1s done
+2026-09-23T04:08:44.5682369Z #4 sha256:4df6c7922c6539b6be9fdf9319d22ce0ab6dfbe6777220cf70039e61f70aebe3 41.94MB / 99.66MB 0.2s
+2026-09-23T04:08:44.5684745Z #4 extracting sha256:baa9e71a063a9c4a556a0b24bdafca4bcc5a13a0d6427d7f7ca44e328ecc2211
+2026-09-23T04:08:44.6749288Z #4 sha256:4df6c7922c6539b6be9fdf9319d22ce0ab6dfbe6777220cf70039e61f70aebe3 68.16MB / 99.66MB 0.3s
+2026-09-23T04:08:44.6753160Z #4 sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 66.06MB / 781.78MB 0.3s
+2026-09-23T04:08:44.7837300Z #4 sha256:4df6c7922c6539b6be9fdf9319d22ce0ab6dfbe6777220cf70039e61f70aebe3 92.27MB / 99.66MB 0.4s
+2026-09-23T04:08:44.8867225Z #4 sha256:4df6c7922c6539b6be9fdf9319d22ce0ab6dfbe6777220cf70039e61f70aebe3 99.66MB / 99.66MB 0.4s done
+2026-09-23T04:08:44.8869634Z #4 sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 117.44MB / 781.78MB 0.5s
+2026-09-23T04:08:45.1063820Z #4 sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 167.77MB / 781.78MB 0.7s
+2026-09-23T04:08:45.2478826Z #4 sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 219.15MB / 781.78MB 0.9s
+2026-09-23T04:08:45.5480908Z #4 sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 298.84MB / 781.78MB 1.2s
+2026-09-23T04:08:45.6594922Z #4 extracting sha256:baa9e71a063a9c4a556a0b24bdafca4bcc5a13a0d6427d7f7ca44e328ecc2211 1.1s done
+2026-09-23T04:08:45.8010168Z #4 sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 349.18MB / 781.78MB 1.4s
+2026-09-23T04:08:45.8011192Z #4 extracting sha256:4df6c7922c6539b6be9fdf9319d22ce0ab6dfbe6777220cf70039e61f70aebe3
+2026-09-23T04:08:45.9482659Z #4 sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 401.60MB / 781.78MB 1.6s
+2026-09-23T04:08:46.1879377Z #4 sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 455.08MB / 781.78MB 1.8s
+2026-09-23T04:08:46.4033257Z #4 sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 512.75MB / 781.78MB 2.0s
+2026-09-23T04:08:46.6069953Z #4 sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 567.28MB / 781.78MB 2.2s
+2026-09-23T04:08:46.8361674Z #4 sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 620.76MB / 781.78MB 2.4s
+2026-09-23T04:08:47.0479850Z #4 sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 702.55MB / 781.78MB 2.7s
+2026-09-23T04:08:47.2835817Z #4 sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 759.17MB / 781.78MB 2.9s
+2026-09-23T04:08:49.0837364Z #4 sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 781.78MB / 781.78MB 4.6s done
+2026-09-23T04:08:50.0833244Z #4 extracting sha256:4df6c7922c6539b6be9fdf9319d22ce0ab6dfbe6777220cf70039e61f70aebe3 4.1s done
+2026-09-23T04:08:50.9336308Z #4 extracting sha256:157d08cc08a2999d1d855dfcf9d84f668e13a1d2279b6951ac437e6d85e2cecf
+2026-09-23T04:08:51.1103162Z #4 extracting sha256:157d08cc08a2999d1d855dfcf9d84f668e13a1d2279b6951ac437e6d85e2cecf 0.0s done
+2026-09-23T04:08:51.1105880Z #4 extracting sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 0.1s
+2026-09-23T04:08:56.1138535Z #4 extracting sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 5.1s
+2026-09-23T04:09:01.1406475Z #4 extracting sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 10.1s
+2026-09-23T04:09:04.7607720Z #4 extracting sha256:8e5806a1ca0c46b0920502645c63744bb4e294855ab030f7098ac66287325516 13.6s done
+2026-09-23T04:09:08.0899766Z #4 DONE 23.8s
+2026-09-23T04:09:08.2677043Z 
+2026-09-23T04:09:08.2677814Z #5 [2/9] WORKDIR /opt/factory
+2026-09-23T04:09:08.2678551Z #5 DONE 0.0s
+2026-09-23T04:09:08.2678877Z 
+2026-09-23T04:09:08.2679234Z #6 [3/9] COPY package.json package-lock.json ./
+2026-09-23T04:09:08.2679704Z #6 DONE 0.0s
+2026-09-23T04:09:08.2679972Z 
+2026-09-23T04:09:08.2680456Z #7 [4/9] RUN npm ci --ignore-scripts --no-audit --no-fund && npm cache clean --force
+2026-09-23T04:09:09.1353629Z #7 1.018 
+2026-09-23T04:09:09.1354202Z #7 1.018 added 7 packages in 788ms
+2026-09-23T04:09:09.3754475Z #7 1.020 npm notice
+2026-09-23T04:09:09.3755301Z #7 1.020 npm notice New major version of npm available! 10.9.3 -> 12.1.0
+2026-09-23T04:09:09.3756383Z #7 1.020 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.1.0
+2026-09-23T04:09:09.3757321Z #7 1.020 npm notice To update run: npm install -g npm@12.1.0
+2026-09-23T04:09:09.3757912Z #7 1.020 npm notice
+2026-09-23T04:09:09.3758561Z #7 1.108 npm warn using --force Recommended protections disabled.
+2026-09-23T04:09:09.4118006Z #7 DONE 1.3s
+2026-09-23T04:09:09.6241151Z 
+2026-09-23T04:09:09.6241970Z #8 [5/9] COPY qa ./qa
+2026-09-23T04:09:09.6242628Z #8 DONE 0.0s
+2026-09-23T04:09:09.6243414Z 
+2026-09-23T04:09:09.6243885Z #9 [6/9] COPY orchestrator ./orchestrator
+2026-09-23T04:09:09.6244579Z #9 DONE 0.0s
+2026-09-23T04:09:09.6244977Z 
+2026-09-23T04:09:09.6245377Z #10 [7/9] COPY schema ./schema
+2026-09-23T04:09:09.6245991Z #10 DONE 0.0s
+2026-09-23T04:09:09.6246363Z 
+2026-09-23T04:09:09.6246797Z #11 [8/9] COPY policies ./policies
+2026-09-23T04:09:09.6247433Z #11 DONE 0.0s
+2026-09-23T04:09:09.6247813Z 
+2026-09-23T04:09:09.6248438Z #12 [9/9] COPY isolation/entry.cjs isolation/probe.cjs ./isolation/
+2026-09-23T04:09:09.6249239Z #12 DONE 0.0s
+2026-09-23T04:09:09.6249621Z 
+2026-09-23T04:09:09.6250419Z #13 exporting to image
+2026-09-23T04:09:09.6251087Z #13 exporting layers
+2026-09-23T04:09:13.3920408Z #13 exporting layers 3.9s done
+2026-09-23T04:09:13.4079207Z #13 writing image sha256:e22401259277ca2ffc26552830dd51c02884f4d60f5ddc257816972fd52f0a89 done
+2026-09-23T04:09:13.4080165Z #13 DONE 3.9s
+2026-09-23T04:09:13.4183655Z ##[group]Run node vibe-arcade/autonomy/commissioning/keywake-depth-polish/prepare-final.cjs
+2026-09-23T04:09:13.4184370Z [36;1mnode vibe-arcade/autonomy/commissioning/keywake-depth-polish/prepare-final.cjs[0m
+2026-09-23T04:09:13.4247796Z shell: /usr/bin/bash -e {0}
+2026-09-23T04:09:13.4248059Z env:
+2026-09-23T04:09:13.4248266Z   AUTO_PRODUCTION_SHIP: false
+2026-09-23T04:09:13.4248699Z   FACTORY_QA_IMAGE: sha256:e22401259277ca2ffc26552830dd51c02884f4d60f5ddc257816972fd52f0a89
+2026-09-23T04:09:13.4249240Z   FACTORY_WORKER_ROOT: /home/runner/work/_temp/keywake-final-state
+2026-09-23T04:09:13.4251862Z   GH_TOKEN: ***
+2026-09-23T04:09:13.4252078Z ##[endgroup]
+2026-09-23T04:09:19.4766017Z {"state":"QUALITY_FAILED","version":"v5","repair_attempt":4,"calls":5,"next_operation":"GAME-20260923-141/repair/5","source_unchanged":true,"ledger_unchanged":true}
+2026-09-23T04:09:19.4914338Z ##[group]Run node vibe-arcade/autonomy/commissioning/fourth-real-game/run.cjs
+2026-09-23T04:09:19.4914994Z [36;1mnode vibe-arcade/autonomy/commissioning/fourth-real-game/run.cjs[0m
+2026-09-23T04:09:19.4978419Z shell: /usr/bin/bash -e {0}
+2026-09-23T04:09:19.4978673Z env:
+2026-09-23T04:09:19.4978879Z   AUTO_PRODUCTION_SHIP: false
+2026-09-23T04:09:19.4979305Z   FACTORY_QA_IMAGE: sha256:e22401259277ca2ffc26552830dd51c02884f4d60f5ddc257816972fd52f0a89
+2026-09-23T04:09:19.4979866Z   FACTORY_WORKER_ROOT: /home/runner/work/_temp/keywake-final-state
+2026-09-23T04:09:19.4981095Z   OPENAI_API_KEY: ***
+2026-09-23T04:09:19.4981347Z   FACTORY_OPENAI_MODEL: gpt-5.6-terra
+2026-09-23T04:09:19.4981628Z   FACTORY_ALLOW_PAID_CALLS: 1
+2026-09-23T04:09:19.4981871Z ##[endgroup]
+2026-09-23T04:09:19.8509657Z {"provider_start":"GAME-20260923-141/repair/5","failures":[{"code":"product_key_counter_invalid_number","check":"visible_key_progress"}],"validation":null}
+2026-09-23T04:09:29.5685851Z {"provider_return":"GAME-20260923-141/repair/5","usage":{"input_tokens":19595,"input_tokens_details":{"cache_write_tokens":19592,"cached_tokens":0},"output_tokens":879,"output_tokens_details":{"reasoning_tokens":68},"total_tokens":20474}}
+2026-09-23T04:09:29.5828881Z {"qa_start":"GAME-20260923-141","version":"v6"}
+2026-09-23T04:12:04.9290299Z {"qa_end":"v6","technical":true,"product":true,"failures":[]}
+2026-09-23T04:12:05.1865735Z {"schema":"playjolt-worker/1","status":"RC_READY","code":null,"game_id":"GAME-20260923-141","version":"v6","factory_state":"RC_READY","recorded_at":"2026-09-23T04:12:05.179Z","owner_action":false,"auto_production_ship":false,"budget":{"calls":6,"input":102641,"output":23089,"cost":0.8261660000000001},"cost_basis":"estimated","provider":"openai-responses/gpt-5.6-terra"}
+2026-09-23T04:12:05.1991556Z ##[group]Run node vibe-arcade/autonomy/commissioning/fourth-real-game/summarize.cjs
+2026-09-23T04:12:05.1992211Z [36;1mnode vibe-arcade/autonomy/commissioning/fourth-real-game/summarize.cjs[0m
+2026-09-23T04:12:05.1993440Z [36;1mnode vibe-arcade/autonomy/commissioning/fourth-real-game/audit-provenance.cjs "$FACTORY_WORKER_ROOT"[0m
+2026-09-23T04:12:05.1994518Z [36;1mnode vibe-arcade/autonomy/control-plane/cli.cjs dashboard --root "$FACTORY_WORKER_ROOT" --policy "$FACTORY_WORKER_ROOT/control-policy.json" --provider-ready true[0m
+2026-09-23T04:12:05.2058197Z shell: /usr/bin/bash -e {0}
+2026-09-23T04:12:05.2058449Z env:
+2026-09-23T04:12:05.2058653Z   AUTO_PRODUCTION_SHIP: false
+2026-09-23T04:12:05.2059074Z   FACTORY_QA_IMAGE: sha256:e22401259277ca2ffc26552830dd51c02884f4d60f5ddc257816972fd52f0a89
+2026-09-23T04:12:05.2059613Z   FACTORY_WORKER_ROOT: /home/runner/work/_temp/keywake-final-state
+2026-09-23T04:12:05.2059961Z ##[endgroup]
+2026-09-23T04:12:05.2444463Z {
+2026-09-23T04:12:05.2445152Z   "schema": "playjolt-fourth-real-game/1",
+2026-09-23T04:12:05.2445786Z   "game_id": "GAME-20260923-141",
+2026-09-23T04:12:05.2446284Z   "model": "gpt-5.6-terra",
+2026-09-23T04:12:05.2446736Z   "run_id": "35817107828",
+2026-09-23T04:12:05.2447370Z   "runner_commit": "e023db028bc89da6613e235fe151e662b64e0d23",
+2026-09-23T04:12:05.2447974Z   "operations": [
+2026-09-23T04:12:05.2448319Z     {
+2026-09-23T04:12:05.2448747Z       "operation_id": "GAME-20260923-141/build/v1",
+2026-09-23T04:12:05.2449273Z       "operation": "build",
+2026-09-23T04:12:05.2449675Z       "version": "v1",
+2026-09-23T04:12:05.2450095Z       "model": "gpt-5.6-terra",
+2026-09-23T04:12:05.2450523Z       "state": "COMPLETE",
+2026-09-23T04:12:05.2451213Z       "response_id": "resp_0c8b55db8877090a006ab32e6ba8c887d094c8e6ba98d79a42",
+2026-09-23T04:12:05.2451906Z       "input_tokens": 4315,
+2026-09-23T04:12:05.2452318Z       "output_tokens": 7928,
+2026-09-23T04:12:05.2453081Z       "estimated_cost": 0.159964,
+2026-09-23T04:12:05.2453640Z       "cumulative_estimated_cost": 0.159964,
+2026-09-23T04:12:05.2454629Z       "cost_basis": "reported usage × conservative configured rates",
+2026-09-23T04:12:05.2455237Z       "error_code": null
+2026-09-23T04:12:05.2455679Z     },
+2026-09-23T04:12:05.2456390Z     {
+2026-09-23T04:12:05.2456850Z       "operation_id": "GAME-20260923-141/repair/1",
+2026-09-23T04:12:05.2457436Z       "operation": "repair",
+2026-09-23T04:12:05.2457869Z       "version": "v2",
+2026-09-23T04:12:05.2458313Z       "model": "gpt-5.6-terra",
+2026-09-23T04:12:05.2458751Z       "state": "COMPLETE",
+2026-09-23T04:12:05.2459461Z       "response_id": "resp_00e234c52f481580006ab32eacbe2087d0a019991553c1515d",
+2026-09-23T04:12:05.2460180Z       "input_tokens": 20326,
+2026-09-23T04:12:05.2460699Z       "output_tokens": 2273,
+2026-09-23T04:12:05.2461193Z       "estimated_cost": 0.122218,
+2026-09-23T04:12:05.2461797Z       "cumulative_estimated_cost": 0.282182,
+2026-09-23T04:12:05.2462973Z       "cost_basis": "reported usage × conservative configured rates",
+2026-09-23T04:12:05.2463770Z       "error_code": null
+2026-09-23T04:12:05.2464177Z     },
+2026-09-23T04:12:05.2464519Z     {
+2026-09-23T04:12:05.2464938Z       "operation_id": "GAME-20260923-141/repair/2",
+2026-09-23T04:12:05.2465533Z       "operation": "repair",
+2026-09-23T04:12:05.2465942Z       "version": "v3",
+2026-09-23T04:12:05.2466349Z       "model": "gpt-5.6-terra",
+2026-09-23T04:12:05.2466801Z       "state": "COMPLETE",
+2026-09-23T04:12:05.2467540Z       "response_id": "resp_0cd960b759657abe006ab3342d6a5c87d0beddca85c273c1d9",
+2026-09-23T04:12:05.2468238Z       "input_tokens": 17661,
+2026-09-23T04:12:05.2468523Z       "output_tokens": 1889,
+2026-09-23T04:12:05.2468815Z       "estimated_cost": 0.104646,
+2026-09-23T04:12:05.2469207Z       "cumulative_estimated_cost": 0.386828,
+2026-09-23T04:12:05.2470242Z       "cost_basis": "reported usage × conservative configured rates",
+2026-09-23T04:12:05.2470823Z       "error_code": null
+2026-09-23T04:12:05.2471161Z     },
+2026-09-23T04:12:05.2471725Z     {
+2026-09-23T04:12:05.2472139Z       "operation_id": "GAME-20260923-141/repair/3",
+2026-09-23T04:12:05.2472656Z       "operation": "repair",
+2026-09-23T04:12:05.2473311Z       "version": "v4",
+2026-09-23T04:12:05.2473748Z       "model": "gpt-5.6-terra",
+2026-09-23T04:12:05.2474131Z       "state": "COMPLETE",
+2026-09-23T04:12:05.2474731Z       "response_id": "resp_0a8b1516e7d17282006ab34dc2a46c87d1be941d7fa47a0ee4",
+2026-09-23T04:12:05.2475360Z       "input_tokens": 18959,
+2026-09-23T04:12:05.2475720Z       "output_tokens": 7658,
+2026-09-23T04:12:05.2476108Z       "estimated_cost": 0.21368,
+2026-09-23T04:12:05.2476546Z       "cumulative_estimated_cost": 0.600508,
+2026-09-23T04:12:05.2477310Z       "cost_basis": "reported usage × conservative configured rates",
+2026-09-23T04:12:05.2477915Z       "error_code": null
+2026-09-23T04:12:05.2478273Z     },
+2026-09-23T04:12:05.2478567Z     {
+2026-09-23T04:12:05.2478985Z       "operation_id": "GAME-20260923-141/repair/4",
+2026-09-23T04:12:05.2479507Z       "operation": "repair",
+2026-09-23T04:12:05.2479895Z       "version": "v5",
+2026-09-23T04:12:05.2480299Z       "model": "gpt-5.6-terra",
+2026-09-23T04:12:05.2480729Z       "state": "COMPLETE",
+2026-09-23T04:12:05.2481397Z       "response_id": "resp_097cdb5e7d11be4b006ab34e8f6be887d1a295e627ee3885cf",
+2026-09-23T04:12:05.2482062Z       "input_tokens": 21785,
+2026-09-23T04:12:05.2482454Z       "output_tokens": 2462,
+2026-09-23T04:12:05.2483102Z       "estimated_cost": 0.131456,
+2026-09-23T04:12:05.2483605Z       "cumulative_estimated_cost": 0.731964,
+2026-09-23T04:12:05.2484392Z       "cost_basis": "reported usage × conservative configured rates",
+2026-09-23T04:12:05.2484989Z       "error_code": null
+2026-09-23T04:12:05.2485348Z     },
+2026-09-23T04:12:05.2485638Z     {
+2026-09-23T04:12:05.2486046Z       "operation_id": "GAME-20260923-141/repair/5",
+2026-09-23T04:12:05.2486543Z       "operation": "repair",
+2026-09-23T04:12:05.2486935Z       "version": "v6",
+2026-09-23T04:12:05.2487347Z       "model": "gpt-5.6-terra",
+2026-09-23T04:12:05.2487752Z       "state": "COMPLETE",
+2026-09-23T04:12:05.2488397Z       "response_id": "resp_010fc12bfb90537c006ab350f0920087d083df9523728e3b16",
+2026-09-23T04:12:05.2489046Z       "input_tokens": 19595,
+2026-09-23T04:12:05.2489711Z       "output_tokens": 879,
+2026-09-23T04:12:05.2490153Z       "estimated_cost": 0.094202,
+2026-09-23T04:12:05.2490661Z       "cumulative_estimated_cost": 0.826166,
+2026-09-23T04:12:05.2491410Z       "cost_basis": "reported usage × conservative configured rates",
+2026-09-23T04:12:05.2491973Z       "error_code": null
+2026-09-23T04:12:05.2492333Z     }
+2026-09-23T04:12:05.2492621Z   ],
+2026-09-23T04:12:05.2493111Z   "total_calls": 6,
+2026-09-23T04:12:05.2493559Z   "total_estimated_cost": 0.826166,
+2026-09-23T04:12:05.2494014Z   "billed_cost": null,
+2026-09-23T04:12:05.2494569Z   "model_source": "real OpenAI provider, no injected mock",
+2026-09-23T04:12:05.2495127Z   "factory": {
+2026-09-23T04:12:05.2495466Z     "state": "RC_READY",
+2026-09-23T04:12:05.2495893Z     "version": "v6",
+2026-09-23T04:12:05.2496257Z     "repair_attempt": 5,
+2026-09-23T04:12:05.2496670Z     "qa_status": "PASS",
+2026-09-23T04:12:05.2497099Z     "technical_qa_status": "PASS",
+2026-09-23T04:12:05.2497572Z     "product_qa_status": "PASS",
+2026-09-23T04:12:05.2497878Z     "quality_gate_status": "PASS",
+2026-09-23T04:12:05.2498150Z     "quality_status": "PASS",
+2026-09-23T04:12:05.2498592Z     "source_hash": "b6d1cfe671f88687dc289aa0eb38dc3972d5de638b99175f78166f98403fd629",
+2026-09-23T04:12:05.2499029Z     "failure_reasons": []
+2026-09-23T04:12:05.2499252Z   },
+2026-09-23T04:12:05.2499470Z   "production_authorized": false
+2026-09-23T04:12:05.2499717Z }
+2026-09-23T04:12:05.2798341Z {
+2026-09-23T04:12:05.2798957Z   "schema": "playjolt-ai-source-provenance/1",
+2026-09-23T04:12:05.2799631Z   "game_id": "GAME-20260923-141",
+2026-09-23T04:12:05.2800209Z   "version": "v6",
+2026-09-23T04:12:05.2800979Z   "source_hash": "b6d1cfe671f88687dc289aa0eb38dc3972d5de638b99175f78166f98403fd629",
+2026-09-23T04:12:05.2802107Z   "passed": true,
+2026-09-23T04:12:05.2802605Z   "files": [
+2026-09-23T04:12:05.2803414Z     {
+2026-09-23T04:12:05.2803761Z       "file": "core.js",
+2026-09-23T04:12:05.2804447Z       "sha256": "47c64e7af468bb4ee02874070075b97ab35a49f9a80c726a070ad10f211126f6",
+2026-09-23T04:12:05.2805279Z       "operation_id": "GAME-20260923-141/repair/3",
+2026-09-23T04:12:05.2806067Z       "response_id": "resp_0a8b1516e7d17282006ab34dc2a46c87d1be941d7fa47a0ee4",
+2026-09-23T04:12:05.2806806Z       "byte_identical_to_provider": true
+2026-09-23T04:12:05.2807284Z     },
+2026-09-23T04:12:05.2807596Z     {
+2026-09-23T04:12:05.2807919Z       "file": "app.js",
+2026-09-23T04:12:05.2808596Z       "sha256": "c8dde7b279c1eb06aa95fe0688e96d8809bfea8f6de657b9a9b95401d4b57bd5",
+2026-09-23T04:12:05.2809509Z       "operation_id": "GAME-20260923-141/repair/5",
+2026-09-23T04:12:05.2810360Z       "response_id": "resp_010fc12bfb90537c006ab350f0920087d083df9523728e3b16",
+2026-09-23T04:12:05.2811223Z       "byte_identical_to_provider": true
+2026-09-23T04:12:05.2811706Z     },
+2026-09-23T04:12:05.2812054Z     {
+2026-09-23T04:12:05.2812406Z       "file": "view/art.js",
+2026-09-23T04:12:05.2813468Z       "sha256": "2bf36af72df739edc76b576a483f033e1ebed1fa49747bec5b217e56735a70eb",
+2026-09-23T04:12:05.2814445Z       "operation_id": "GAME-20260923-141/repair/4",
+2026-09-23T04:12:05.2815316Z       "response_id": "resp_097cdb5e7d11be4b006ab34e8f6be887d1a295e627ee3885cf",
+2026-09-23T04:12:05.2816136Z       "byte_identical_to_provider": true
+2026-09-23T04:12:05.2816686Z     },
+2026-09-23T04:12:05.2817018Z     {
+2026-09-23T04:12:05.2817377Z       "file": "index.html",
+2026-09-23T04:12:05.2818166Z       "sha256": "19f2bc0edaf8e8357ddc52df3782c15e09a10ac357ad6dc88686e7ed60ff03e0",
+2026-09-23T04:12:05.2819046Z       "operation_id": "GAME-20260923-141/repair/3",
+2026-09-23T04:12:05.2819854Z       "response_id": "resp_0a8b1516e7d17282006ab34dc2a46c87d1be941d7fa47a0ee4",
+2026-09-23T04:12:05.2820584Z       "byte_identical_to_provider": true
+2026-09-23T04:12:05.2821128Z     },
+2026-09-23T04:12:05.2821524Z     {
+2026-09-23T04:12:05.2821936Z       "file": "style.css",
+2026-09-23T04:12:05.2823063Z       "sha256": "48b20313fc4dcca14bf2ff1a1a8b8892a0a50b3e770781cfa353ff8769c58f76",
+2026-09-23T04:12:05.2824197Z       "operation_id": "GAME-20260923-141/repair/3",
+2026-09-23T04:12:05.2824935Z       "response_id": "resp_0a8b1516e7d17282006ab34dc2a46c87d1be941d7fa47a0ee4",
+2026-09-23T04:12:05.2825662Z       "byte_identical_to_provider": true
+2026-09-23T04:12:05.2826096Z     },
+2026-09-23T04:12:05.2826344Z     {
+2026-09-23T04:12:05.2826627Z       "file": "README.md",
+2026-09-23T04:12:05.2827327Z       "sha256": "88fedf968ae4b5d7ded519a1f2e959fdc3b3c52597fceede20ac92bc87db738c",
+2026-09-23T04:12:05.2828066Z       "operation_id": "GAME-20260923-141/repair/3",
+2026-09-23T04:12:05.2828773Z       "response_id": "resp_0a8b1516e7d17282006ab34dc2a46c87d1be941d7fa47a0ee4",
+2026-09-23T04:12:05.2829470Z       "byte_identical_to_provider": true
+2026-09-23T04:12:05.2829931Z     }
+2026-09-23T04:12:05.2830229Z   ],
+2026-09-23T04:12:05.2830549Z   "factory_supplied": [
+2026-09-23T04:12:05.2830927Z     "gamekit.js",
+2026-09-23T04:12:05.2831268Z     "manifest.json"
+2026-09-23T04:12:05.2831603Z   ],
+2026-09-23T04:12:05.2831970Z   "candidate_manual_edits": 0,
+2026-09-23T04:12:05.2833386Z   "note": "Every generated source file equals the latest successful provider response for that path. Factory supplies kit and version descriptor."
+2026-09-23T04:12:05.2834478Z }
+2026-09-23T04:12:05.4779365Z {
+2026-09-23T04:12:05.4780243Z   "out": "/home/runner/work/_temp/keywake-final-state/autonomy/artifacts/control-plane",
+2026-09-23T04:12:05.4781628Z   "snapshot": "/home/runner/work/_temp/keywake-final-state/autonomy/artifacts/control-plane/snapshot.json",
+2026-09-23T04:12:05.4783271Z   "dashboard": "/home/runner/work/_temp/keywake-final-state/autonomy/artifacts/control-plane/dashboard.html"
+2026-09-23T04:12:05.4784144Z }
+2026-09-23T04:12:05.5001835Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T04:12:05.5003505Z ##[group]Run actions/upload-artifact@v4
+2026-09-23T04:12:05.5003783Z with:
+2026-09-23T04:12:05.5004006Z   name: keywake-final-lifetime-checkpoint
+2026-09-23T04:12:05.5004362Z   path: /home/runner/work/_temp/keywake-final-state
+2026-09-23T04:12:05.5004692Z   include-hidden-files: true
+2026-09-23T04:12:05.5004938Z   retention-days: 30
+2026-09-23T04:12:05.5005156Z   if-no-files-found: warn
+2026-09-23T04:12:05.5005384Z   compression-level: 6
+2026-09-23T04:12:05.5005599Z   overwrite: false
+2026-09-23T04:12:05.5005794Z env:
+2026-09-23T04:12:05.5005987Z   AUTO_PRODUCTION_SHIP: false
+2026-09-23T04:12:05.5006421Z   FACTORY_QA_IMAGE: sha256:e22401259277ca2ffc26552830dd51c02884f4d60f5ddc257816972fd52f0a89
+2026-09-23T04:12:05.5006952Z   FACTORY_WORKER_ROOT: /home/runner/work/_temp/keywake-final-state
+2026-09-23T04:12:05.5007300Z ##[endgroup]
+2026-09-23T04:12:05.6714981Z (node:3586) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-23T04:12:05.6715905Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-23T04:12:05.7702366Z With the provided path, there will be 455 files uploaded
+2026-09-23T04:12:05.7710280Z Artifact name is valid!
+2026-09-23T04:12:05.7711036Z Root directory input is valid!
+2026-09-23T04:12:06.1552187Z Beginning upload of artifact content to blob storage
+2026-09-23T04:12:06.5394976Z (node:3586) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-09-23T04:12:07.5434568Z Uploaded bytes 8388608
+2026-09-23T04:12:08.0649014Z Uploaded bytes 16777216
+2026-09-23T04:12:08.1267608Z Uploaded bytes 25165824
+2026-09-23T04:12:08.4134483Z Uploaded bytes 33554432
+2026-09-23T04:12:08.5070976Z Uploaded bytes 33992000
+2026-09-23T04:12:08.5876461Z Finished uploading artifact content to blob storage!
+2026-09-23T04:12:08.5879443Z SHA256 digest of uploaded artifact zip is 033e9f7e4cc6d657582323875afb8606a26a71265b20b4964cce1902ab8ebdaa
+2026-09-23T04:12:08.5882779Z Finalizing artifact upload
+2026-09-23T04:12:08.8348470Z Artifact keywake-final-lifetime-checkpoint.zip successfully finalized. Artifact ID 10731724355
+2026-09-23T04:12:08.8349959Z Artifact keywake-final-lifetime-checkpoint has been successfully uploaded! Final size is 33992000 bytes. Artifact ID is 10731724355
+2026-09-23T04:12:08.8356839Z Artifact download URL: https://github.com/andysong111/auto-lab/actions/runs/35817107828/artifacts/10731724355
+2026-09-23T04:12:08.8575954Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T04:12:08.8577202Z Post job cleanup.
+2026-09-23T04:12:08.9836877Z (node:3598) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-23T04:12:08.9837957Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-23T04:12:09.0028822Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T04:12:09.0030057Z Post job cleanup.
+2026-09-23T04:12:09.0938412Z [command]/usr/bin/git version
+2026-09-23T04:12:09.0982084Z git version 2.55.0
+2026-09-23T04:12:09.1053703Z Temporarily overriding HOME='/home/runner/work/_temp/fd082ea7-8c92-4848-9477-78a2167838b8' before making global git config changes
+2026-09-23T04:12:09.1055206Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-23T04:12:09.1059386Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/auto-lab/auto-lab
+2026-09-23T04:12:09.1101041Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-23T04:12:09.1141094Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-23T04:12:09.1398708Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-23T04:12:09.1436490Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-23T04:12:09.1724038Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-23T04:12:09.1784769Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-23T04:12:09.2197271Z Cleaning up orphan processes
+2026-09-23T04:12:09.2515636Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

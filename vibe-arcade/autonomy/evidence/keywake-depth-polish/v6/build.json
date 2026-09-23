@@ -1,0 +1,25 @@
+{
+  "operation_id": "GAME-20260923-141/repair/5",
+  "source_hash": "b6d1cfe671f88687dc289aa0eb38dc3972d5de638b99175f78166f98403fd629",
+  "changed_files": [
+    "app.js",
+    "manifest.json"
+  ],
+  "cause": "Repaired the room key counter by computing the collected-bit count before string construction, avoiding arithmetic on a concatenated label.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Suggested: start a seeded game, clear room 1, and verify [data-room-keys] reads \"ROOM 2 · KEYS 0 / 2\" rather than NaN.",
+    "provider-suggested (not executed): Suggested: collect each room key and verify the displayed collected count matches state.key_mask in every room."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_010fc12bfb90537c006ab350f0920087d083df9523728e3b16",
+    "usage": {
+      "input_tokens": 19595,
+      "output_tokens": 879,
+      "estimated_cost": 0.094202
+    },
+    "estimated_cost": 0.094202,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

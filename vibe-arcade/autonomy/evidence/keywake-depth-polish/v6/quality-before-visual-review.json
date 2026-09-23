@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "decision": "PASS",
+  "hard_failures": [],
+  "soft_failures": [],
+  "heuristics": [
+    {
+      "name": "first_five_seconds",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "mechanic_overlap",
+      "status": "UNVERIFIED",
+      "evidence": {
+        "declared_family": "discrete-key-collection-navigation"
+      }
+    },
+    {
+      "name": "information_density",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "control_count",
+      "status": "OBSERVED",
+      "evidence": {
+        "desktop": 1,
+        "mobile": 1
+      }
+    },
+    {
+      "name": "repeatability",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "visual_completeness",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "progression_visibility",
+      "status": "UNVERIFIED",
+      "evidence": null
+    }
+  ],
+  "source_hash": "b6d1cfe671f88687dc289aa0eb38dc3972d5de638b99175f78166f98403fd629",
+  "policy_hash": "092539c5ffb8707a8c7a177eadc3aad83896d0c3f34da272db1bfb1c7d90569e",
+  "technical_qa": "PASS",
+  "product_qa": "PASS",
+  "production_approved": false,
+  "metrics_eligibility": false,
+  "meaning": "Technical and generic product evidence; no production authorization or claim of fun."
+}

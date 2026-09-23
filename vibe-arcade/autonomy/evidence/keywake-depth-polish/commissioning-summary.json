@@ -1,0 +1,143 @@
+{
+  "schema": "playjolt-fourth-real-game/1",
+  "game_id": "GAME-20260923-141",
+  "model": "gpt-5.6-terra",
+  "operations": [
+    {
+      "operation_id": "GAME-20260923-141/build/v1",
+      "operation": "build",
+      "version": "v1",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_0c8b55db8877090a006ab32e6ba8c887d094c8e6ba98d79a42",
+      "input_tokens": 4315,
+      "output_tokens": 7928,
+      "estimated_cost": 0.159964,
+      "cumulative_estimated_cost": 0.159964,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    },
+    {
+      "operation_id": "GAME-20260923-141/repair/1",
+      "operation": "repair",
+      "version": "v2",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_00e234c52f481580006ab32eacbe2087d0a019991553c1515d",
+      "input_tokens": 20326,
+      "output_tokens": 2273,
+      "estimated_cost": 0.122218,
+      "cumulative_estimated_cost": 0.282182,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    },
+    {
+      "operation_id": "GAME-20260923-141/repair/2",
+      "operation": "repair",
+      "version": "v3",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_0cd960b759657abe006ab3342d6a5c87d0beddca85c273c1d9",
+      "input_tokens": 17661,
+      "output_tokens": 1889,
+      "estimated_cost": 0.104646,
+      "cumulative_estimated_cost": 0.386828,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    },
+    {
+      "operation_id": "GAME-20260923-141/repair/3",
+      "operation": "repair",
+      "version": "v4",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_0a8b1516e7d17282006ab34dc2a46c87d1be941d7fa47a0ee4",
+      "input_tokens": 18959,
+      "output_tokens": 7658,
+      "estimated_cost": 0.21368,
+      "cumulative_estimated_cost": 0.600508,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    },
+    {
+      "operation_id": "GAME-20260923-141/repair/4",
+      "operation": "repair",
+      "version": "v5",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_097cdb5e7d11be4b006ab34e8f6be887d1a295e627ee3885cf",
+      "input_tokens": 21785,
+      "output_tokens": 2462,
+      "estimated_cost": 0.131456,
+      "cumulative_estimated_cost": 0.731964,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    },
+    {
+      "operation_id": "GAME-20260923-141/repair/5",
+      "operation": "repair",
+      "version": "v6",
+      "model": "gpt-5.6-terra",
+      "state": "COMPLETE",
+      "response_id": "resp_010fc12bfb90537c006ab350f0920087d083df9523728e3b16",
+      "input_tokens": 19595,
+      "output_tokens": 879,
+      "estimated_cost": 0.094202,
+      "cumulative_estimated_cost": 0.826166,
+      "cost_basis": "reported usage × conservative configured rates",
+      "error_code": null
+    }
+  ],
+  "total_calls": 6,
+  "total_estimated_cost": 0.826166,
+  "billed_cost": null,
+  "model_source": "real OpenAI provider, no injected mock",
+  "factory": {
+    "state": "REJECTED",
+    "version": "v6",
+    "repair_attempt": 5,
+    "qa_status": "FAIL",
+    "technical_qa_status": "PASS",
+    "product_qa_status": "PASS",
+    "quality_gate_status": "REJECT",
+    "quality_status": "REJECT",
+    "source_hash": "b6d1cfe671f88687dc289aa0eb38dc3972d5de638b99175f78166f98403fd629",
+    "failure_reasons": [
+      {
+        "code": "product_route_topology_not_visible",
+        "check": "visible_route_planning",
+        "selector": "[data-game-canvas]",
+        "state_path": "state.stage / state.cell / state.key_mask",
+        "expected": "The authored presentation contract requires distinct solid wall edges. A player must be able to distinguish blocked adjacency from an open route before choosing a move.",
+        "actual": {
+          "seed": 1,
+          "stage": 1,
+          "start_cell": 5,
+          "blocked_up_cell": 1,
+          "open_left_cell": 4,
+          "blocked_edge": [
+            1,
+            5
+          ],
+          "open_edge": [
+            4,
+            5,
+            0
+          ],
+          "visible": "Both adjacent floor tiles use the same gap and border; no wall or passable-connection distinction is rendered.",
+          "normal_input": "Native CUA ARROWUP kept MOVES 0; ARROWLEFT changed MOVES to 1. Final settled screenshot shows explorer left of start.",
+          "source_review": "v6 core.js layout data is identical to the reviewed design, with [1,5] absent. view/art.js draws floor tiles and only masked gate edges, skipping all mask-0 edges; it never draws missing-edge walls between adjacent floor tiles."
+        },
+        "message": "Real route decision depth remains hidden from the player: path planning requires trial-and-error discovery of invisible walls. Automated Generic Product v1 conformance passed but did not check topology legibility. Lifetime repair 5/5 exhausted; terminal reject, never READY_TO_SHIP.",
+        "evidence": [
+          "owner-depth/keywake-v6-preview.jpg",
+          "owner-depth/keywake-v6-route-before.jpg",
+          "owner-depth/keywake-v6-route-up-blocked.jpg",
+          "owner-depth/keywake-v6-route-left-open.jpg",
+          "owner-depth/keywake-v6-route-left-settled.jpg"
+        ]
+      }
+    ]
+  },
+  "production_authorized": false
+}

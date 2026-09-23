@@ -1,0 +1,19 @@
+{
+  "schema": "playjolt-worker/1",
+  "status": "RC_READY",
+  "code": null,
+  "game_id": "GAME-20260923-141",
+  "version": "v5",
+  "factory_state": "RC_READY",
+  "recorded_at": "2026-09-23T04:02:04.535Z",
+  "owner_action": false,
+  "auto_production_ship": false,
+  "budget": {
+    "calls": 5,
+    "input": 83046,
+    "output": 22210,
+    "cost": 0.7319640000000001
+  },
+  "cost_basis": "estimated",
+  "provider": "openai-responses/gpt-5.6-terra"
+}

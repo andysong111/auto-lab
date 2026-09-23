@@ -1,0 +1,9 @@
+{
+  "original_started_at": 1790127722659,
+  "prior_active_ms": 2140959,
+  "excluded_review_wait_ms": 5880470,
+  "lifetime_active_limit_ms": 3600000,
+  "remaining_active_ms": 1459041,
+  "prior_operations_sha256": "8c2299aed377bfcc73e3f9f13f4bbcda34bd38628760deef9f1f6739b4fbab78",
+  "repair_budget_reset": false
+}

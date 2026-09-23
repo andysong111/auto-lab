@@ -1,0 +1,18 @@
+{
+  "state": "REJECTED",
+  "version": "v6",
+  "technical_qa": "PASS",
+  "product_qa": "PASS",
+  "quality_gate": "REJECT",
+  "repair_attempt": 5,
+  "remaining_repairs": 0,
+  "total_calls": 6,
+  "remaining_calls": 0,
+  "reason": "product_route_topology_not_visible",
+  "diagnostic_preview": "https://vibe-arcade-r5jpobhf6-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v6",
+  "rc_commit": "67623d8f6132e40f41208bde38776e89ce06c23d",
+  "source_hash": "b6d1cfe671f88687dc289aa0eb38dc3972d5de638b99175f78166f98403fd629",
+  "source_and_ledger_unchanged": true,
+  "provider_calls_in_disposition": 0,
+  "production_authorized": false
+}

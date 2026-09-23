@@ -1,0 +1,892 @@
+{
+  "game_id": "GAME-20260923-141",
+  "version": "v6",
+  "source_hash": "b6d1cfe671f88687dc289aa0eb38dc3972d5de638b99175f78166f98403fd629",
+  "data_literal_matches_all_18_reviewed_rooms": true,
+  "candidate_executed_for_this_data_audit": false,
+  "actual_input_evidence": "Unchanged Generic Product v1 Docker report. Every seed uses real touch and keyboard, shortest route and stage-entry branch-return probes.",
+  "scope_limit": "Consequential-route and alternative key-order costs are independently computed from the reviewed finite graph and literal layout data. Browser traces cover shortest paths and entry alternatives; they do not exhaustively execute every key order or every reachable graph edge.",
+  "seeds": [
+    {
+      "seed": 1,
+      "pack": 1,
+      "passed": true,
+      "shortest_meaningful_actions": [
+        7,
+        12,
+        15
+      ],
+      "observed_entry_choices": [
+        2,
+        3,
+        4
+      ],
+      "consequential_route_decisions": [
+        3,
+        4,
+        7
+      ],
+      "key_order_costs": [
+        {
+          "A": 7
+        },
+        {
+          "AB": 12,
+          "BA": 16
+        },
+        {
+          "ABC": 19,
+          "BAC": 15
+        }
+      ],
+      "gate_counterfactuals": [
+        [
+          {
+            "edge": [
+              9,
+              13,
+              1
+            ],
+            "without_gate_shortest": 5
+          }
+        ],
+        [
+          {
+            "edge": [
+              10,
+              11,
+              2
+            ],
+            "without_gate_shortest": 10
+          },
+          {
+            "edge": [
+              14,
+              15,
+              2
+            ],
+            "without_gate_shortest": 10
+          }
+        ],
+        [
+          {
+            "edge": [
+              6,
+              10,
+              1
+            ],
+            "without_gate_shortest": 15
+          },
+          {
+            "edge": [
+              9,
+              10,
+              2
+            ],
+            "without_gate_shortest": 15
+          },
+          {
+            "edge": [
+              10,
+              11,
+              2
+            ],
+            "without_gate_shortest": 15
+          },
+          {
+            "edge": [
+              12,
+              13,
+              3
+            ],
+            "without_gate_shortest": 11
+          }
+        ]
+      ],
+      "modes": [
+        "touch",
+        "keyboard"
+      ],
+      "deterministic_hash": "df5837893ce6cc157dc9656858312d06d22c39b4ae6dc01da007c34d91f36c93",
+      "score_after_18_extra_branch_moves": [
+        330,
+        330
+      ]
+    },
+    {
+      "seed": 7,
+      "pack": 0,
+      "passed": true,
+      "shortest_meaningful_actions": [
+        8,
+        10,
+        14
+      ],
+      "observed_entry_choices": [
+        2,
+        3,
+        4
+      ],
+      "consequential_route_decisions": [
+        3,
+        4,
+        10
+      ],
+      "key_order_costs": [
+        {
+          "A": 8
+        },
+        {
+          "AB": 14,
+          "BA": 10
+        },
+        {
+          "ABC": 14,
+          "BAC": 18
+        }
+      ],
+      "gate_counterfactuals": [
+        [
+          {
+            "edge": [
+              10,
+              11,
+              1
+            ],
+            "without_gate_shortest": 6
+          }
+        ],
+        [
+          {
+            "edge": [
+              2,
+              6,
+              2
+            ],
+            "without_gate_shortest": 10
+          },
+          {
+            "edge": [
+              10,
+              11,
+              2
+            ],
+            "without_gate_shortest": 8
+          }
+        ],
+        [
+          {
+            "edge": [
+              0,
+              1,
+              2
+            ],
+            "without_gate_shortest": 14
+          },
+          {
+            "edge": [
+              1,
+              2,
+              3
+            ],
+            "without_gate_shortest": 10
+          },
+          {
+            "edge": [
+              2,
+              6,
+              3
+            ],
+            "without_gate_shortest": 10
+          },
+          {
+            "edge": [
+              4,
+              8,
+              2
+            ],
+            "without_gate_shortest": 14
+          },
+          {
+            "edge": [
+              9,
+              10,
+              1
+            ],
+            "without_gate_shortest": 14
+          }
+        ]
+      ],
+      "modes": [
+        "touch",
+        "keyboard"
+      ],
+      "deterministic_hash": "7668a9f6542a2b61ecd0eb85f12c09d6a797f2f4c01a71c5ef0e4684de264b57",
+      "score_after_18_extra_branch_moves": [
+        330,
+        330
+      ]
+    },
+    {
+      "seed": 23,
+      "pack": 2,
+      "passed": true,
+      "shortest_meaningful_actions": [
+        8,
+        10,
+        14
+      ],
+      "observed_entry_choices": [
+        2,
+        3,
+        4
+      ],
+      "consequential_route_decisions": [
+        3,
+        4,
+        6
+      ],
+      "key_order_costs": [
+        {
+          "A": 8
+        },
+        {
+          "AB": 10,
+          "BA": 14
+        },
+        {
+          "ABC": 14,
+          "BAC": 18
+        }
+      ],
+      "gate_counterfactuals": [
+        [
+          {
+            "edge": [
+              0,
+              4,
+              1
+            ],
+            "without_gate_shortest": 6
+          }
+        ],
+        [
+          {
+            "edge": [
+              4,
+              8,
+              2
+            ],
+            "without_gate_shortest": 10
+          },
+          {
+            "edge": [
+              10,
+              14,
+              1
+            ],
+            "without_gate_shortest": 8
+          }
+        ],
+        [
+          {
+            "edge": [
+              0,
+              1,
+              3
+            ],
+            "without_gate_shortest": 10
+          },
+          {
+            "edge": [
+              0,
+              4,
+              3
+            ],
+            "without_gate_shortest": 12
+          },
+          {
+            "edge": [
+              2,
+              6,
+              1
+            ],
+            "without_gate_shortest": 14
+          },
+          {
+            "edge": [
+              9,
+              10,
+              1
+            ],
+            "without_gate_shortest": 14
+          },
+          {
+            "edge": [
+              10,
+              11,
+              1
+            ],
+            "without_gate_shortest": 14
+          }
+        ]
+      ],
+      "modes": [
+        "touch",
+        "keyboard"
+      ],
+      "deterministic_hash": "7b0f5af1426d9dea0d209d70104576967f9fdc4b4668bd363913c82179dd64cc",
+      "score_after_18_extra_branch_moves": [
+        330,
+        330
+      ]
+    },
+    {
+      "seed": 89,
+      "pack": 5,
+      "passed": true,
+      "shortest_meaningful_actions": [
+        8,
+        10,
+        15
+      ],
+      "observed_entry_choices": [
+        2,
+        3,
+        4
+      ],
+      "consequential_route_decisions": [
+        3,
+        4,
+        5
+      ],
+      "key_order_costs": [
+        {
+          "A": 8
+        },
+        {
+          "AB": 14,
+          "BA": 10
+        },
+        {
+          "ABC": 19,
+          "BAC": 15
+        }
+      ],
+      "gate_counterfactuals": [
+        [
+          {
+            "edge": [
+              9,
+              10,
+              1
+            ],
+            "without_gate_shortest": 4
+          }
+        ],
+        [
+          {
+            "edge": [
+              9,
+              10,
+              2
+            ],
+            "without_gate_shortest": 6
+          },
+          {
+            "edge": [
+              11,
+              15,
+              1
+            ],
+            "without_gate_shortest": 10
+          }
+        ],
+        [
+          {
+            "edge": [
+              1,
+              2,
+              1
+            ],
+            "without_gate_shortest": 15
+          },
+          {
+            "edge": [
+              4,
+              8,
+              2
+            ],
+            "without_gate_shortest": 15
+          },
+          {
+            "edge": [
+              8,
+              9,
+              1
+            ],
+            "without_gate_shortest": 15
+          },
+          {
+            "edge": [
+              11,
+              15,
+              3
+            ],
+            "without_gate_shortest": 15
+          },
+          {
+            "edge": [
+              14,
+              15,
+              3
+            ],
+            "without_gate_shortest": 11
+          }
+        ]
+      ],
+      "modes": [
+        "touch",
+        "keyboard"
+      ],
+      "deterministic_hash": "554ab39b88b062ac8a3801aa098e2a71e42cee857f263393eaf5e2a9e4dfeac2",
+      "score_after_18_extra_branch_moves": [
+        330,
+        330
+      ]
+    },
+    {
+      "seed": 2026,
+      "pack": 3,
+      "passed": true,
+      "shortest_meaningful_actions": [
+        6,
+        11,
+        15
+      ],
+      "observed_entry_choices": [
+        2,
+        3,
+        4
+      ],
+      "consequential_route_decisions": [
+        3,
+        4,
+        5
+      ],
+      "key_order_costs": [
+        {
+          "A": 6
+        },
+        {
+          "AB": 11,
+          "BA": 15
+        },
+        {
+          "ABC": 15,
+          "BAC": 19
+        }
+      ],
+      "gate_counterfactuals": [
+        [
+          {
+            "edge": [
+              9,
+              10,
+              1
+            ],
+            "without_gate_shortest": 4
+          }
+        ],
+        [
+          {
+            "edge": [
+              0,
+              1,
+              2
+            ],
+            "without_gate_shortest": 11
+          },
+          {
+            "edge": [
+              9,
+              13,
+              2
+            ],
+            "without_gate_shortest": 9
+          }
+        ],
+        [
+          {
+            "edge": [
+              0,
+              1,
+              2
+            ],
+            "without_gate_shortest": 15
+          },
+          {
+            "edge": [
+              0,
+              4,
+              2
+            ],
+            "without_gate_shortest": 15
+          },
+          {
+            "edge": [
+              8,
+              9,
+              1
+            ],
+            "without_gate_shortest": 15
+          },
+          {
+            "edge": [
+              14,
+              15,
+              3
+            ],
+            "without_gate_shortest": 11
+          }
+        ]
+      ],
+      "modes": [
+        "touch",
+        "keyboard"
+      ],
+      "deterministic_hash": "a79e597fdeeac8e164ae6017d476d0024f160fd4227b11ba9b50bfa0243d5b43",
+      "score_after_18_extra_branch_moves": [
+        330,
+        330
+      ]
+    },
+    {
+      "seed": 4294967295,
+      "pack": 4,
+      "passed": true,
+      "shortest_meaningful_actions": [
+        7,
+        12,
+        15
+      ],
+      "observed_entry_choices": [
+        2,
+        3,
+        4
+      ],
+      "consequential_route_decisions": [
+        3,
+        4,
+        7
+      ],
+      "key_order_costs": [
+        {
+          "A": 7
+        },
+        {
+          "AB": 16,
+          "BA": 12
+        },
+        {
+          "ABC": 19,
+          "BAC": 15
+        }
+      ],
+      "gate_counterfactuals": [
+        [
+          {
+            "edge": [
+              6,
+              10,
+              1
+            ],
+            "without_gate_shortest": 5
+          }
+        ],
+        [
+          {
+            "edge": [
+              0,
+              1,
+              1
+            ],
+            "without_gate_shortest": 12
+          },
+          {
+            "edge": [
+              9,
+              13,
+              1
+            ],
+            "without_gate_shortest": 10
+          }
+        ],
+        [
+          {
+            "edge": [
+              1,
+              2,
+              1
+            ],
+            "without_gate_shortest": 15
+          },
+          {
+            "edge": [
+              2,
+              6,
+              2
+            ],
+            "without_gate_shortest": 15
+          },
+          {
+            "edge": [
+              9,
+              10,
+              1
+            ],
+            "without_gate_shortest": 15
+          },
+          {
+            "edge": [
+              12,
+              13,
+              3
+            ],
+            "without_gate_shortest": 13
+          }
+        ]
+      ],
+      "modes": [
+        "touch",
+        "keyboard"
+      ],
+      "deterministic_hash": "3938b03372215b995914617f360f1a5ead0068792b135c56e2fac76df930e7bb",
+      "score_after_18_extra_branch_moves": [
+        330,
+        330
+      ]
+    }
+  ],
+  "generic_product_checks": 53,
+  "product_hard_failures": [],
+  "completion_latencies_ms": [
+    0,
+    0,
+    0
+  ],
+  "score_integrity": [
+    {
+      "check": "score_integrity",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state_path": "quality.reversible_state_key",
+      "selector": "[data-game-score]",
+      "actual": {
+        "probes": [
+          {
+            "kind": "reversible",
+            "actions": [
+              "left",
+              "right"
+            ],
+            "before": 0,
+            "after": 0
+          },
+          {
+            "kind": "reversible",
+            "actions": [
+              "down",
+              "up"
+            ],
+            "before": 0,
+            "after": 0
+          },
+          {
+            "kind": "no-progress",
+            "actions": [
+              "up"
+            ],
+            "before": 0,
+            "after": 0
+          },
+          {
+            "kind": "no-progress",
+            "actions": [
+              "right"
+            ],
+            "before": 0,
+            "after": 0
+          }
+        ],
+        "coverage": "declared bounded cycles"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "score_integrity",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "state_path": "quality.reversible_state_key",
+      "selector": "[data-game-score]",
+      "actual": {
+        "probes": [
+          {
+            "kind": "reversible",
+            "actions": [
+              "left",
+              "right"
+            ],
+            "before": 0,
+            "after": 0
+          },
+          {
+            "kind": "reversible",
+            "actions": [
+              "down",
+              "up"
+            ],
+            "before": 0,
+            "after": 0
+          },
+          {
+            "kind": "no-progress",
+            "actions": [
+              "up"
+            ],
+            "before": 0,
+            "after": 0
+          },
+          {
+            "kind": "no-progress",
+            "actions": [
+              "right"
+            ],
+            "before": 0,
+            "after": 0
+          }
+        ],
+        "coverage": "declared bounded cycles"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "score_integrity",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "state_path": "quality.reversible_state_key",
+      "selector": "[data-game-score]",
+      "actual": {
+        "probes": [
+          {
+            "kind": "reversible",
+            "actions": [
+              "left",
+              "right"
+            ],
+            "before": 0,
+            "after": 0
+          },
+          {
+            "kind": "reversible",
+            "actions": [
+              "down",
+              "up"
+            ],
+            "before": 0,
+            "after": 0
+          },
+          {
+            "kind": "no-progress",
+            "actions": [
+              "up"
+            ],
+            "before": 0,
+            "after": 0
+          },
+          {
+            "kind": "no-progress",
+            "actions": [
+              "right"
+            ],
+            "before": 0,
+            "after": 0
+          }
+        ],
+        "coverage": "declared bounded cycles"
+      },
+      "status": "PASS"
+    }
+  ],
+  "replay": [
+    {
+      "check": "replay",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-game-restart]",
+      "actual": {
+        "before_tick": 138,
+        "after_tick": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "replay",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "selector": "[data-game-restart]",
+      "actual": {
+        "before_tick": 139,
+        "after_tick": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "replay",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "selector": "[data-game-restart]",
+      "actual": {
+        "before_tick": 138,
+        "after_tick": 0
+      },
+      "status": "PASS"
+    }
+  ],
+  "practice_best": [
+    {
+      "check": "practice_best",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-best]",
+      "state_path": "best",
+      "actual": {
+        "before": 600,
+        "after": 600,
+        "writes": [
+          {
+            "kind": "storage",
+            "key": "playjolt_practice_GAME-20260923-141_v6",
+            "blocked": true
+          }
+        ]
+      },
+      "status": "PASS"
+    }
+  ],
+  "terminal_product_decision": "REJECTED: topology is not sufficiently visible for deliberate route planning."
+}

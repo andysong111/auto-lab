@@ -1,0 +1,30 @@
+{
+  "operation_id": "GAME-20260923-141/repair/3",
+  "source_hash": "f88bb4e06499495522bf17332a36c86ac7c4a1022a46014a9da9121597c77165",
+  "changed_files": [
+    "README.md",
+    "app.js",
+    "core.js",
+    "index.html",
+    "manifest.json",
+    "style.css",
+    "view/art.js"
+  ],
+  "cause": "Replaced the simple transformed 3×3 rooms with the six authored deterministic 4×4 key-and-gate vault packs, updated scoring/progression and presentation, and retained GameKit lifecycle integration.",
+  "adapter_tests": [
+    "provider-suggested (not executed): Suggested: load at 390×844, 768×1024, and 1280×800; verify exact objective and score/best labels, keyboard/touch movement, gate locks, same-seed replay, pause/resume, success, and 40-second failure.",
+    "provider-suggested (not executed): Suggested: inspect core projections across required seeds and verify stage 4/cell 5/key_mask 0 on final success."
+  ],
+  "provider_metadata": {
+    "provider": "openai-responses/gpt-5.6-terra",
+    "response_id": "resp_0a8b1516e7d17282006ab34dc2a46c87d1be941d7fa47a0ee4",
+    "usage": {
+      "input_tokens": 18959,
+      "output_tokens": 7658,
+      "estimated_cost": 0.21368
+    },
+    "estimated_cost": 0.21368,
+    "cost_basis": "estimated",
+    "billed_cost": null
+  }
+}

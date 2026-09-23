@@ -1,0 +1,19 @@
+{
+  "game_id": "GAME-20260923-141",
+  "authorized": true,
+  "from_version": "v3",
+  "first_target_version": "v4",
+  "failure_code": "owner_difficulty_too_low",
+  "old_spec_sha256": "3e059d081a63b6a7b645efa50365a7ce9521fc00aac4ffc0f810506f59b3ea44",
+  "new_spec_sha256": "92fd2ce062686c445a8e10c87271364511e0306e8b8f091b3165e2c4bc45a304",
+  "old_contract_sha256": "95db87d940a0c860aca7164045fe3c3e0ba6048ab5b41a67f9bbb710ae5c6031",
+  "new_contract_sha256": "ebefb674e5822c906fed04ef0539e1b3f58bbd11948f8229493debed7d07a83e",
+  "candidate_source_unchanged": true,
+  "lifetime_repair_before": 2,
+  "lifetime_calls_before": 3,
+  "operation_ids": [
+    "GAME-20260923-141/build/v1",
+    "GAME-20260923-141/repair/1",
+    "GAME-20260923-141/repair/2"
+  ]
+}

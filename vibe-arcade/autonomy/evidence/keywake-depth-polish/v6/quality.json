@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "decision": "REJECT",
+  "hard_failures": [
+    {
+      "code": "product_route_topology_not_visible",
+      "check": "visible_route_planning",
+      "selector": "[data-game-canvas]",
+      "state_path": "state.stage / state.cell / state.key_mask",
+      "expected": "The authored presentation contract requires distinct solid wall edges. A player must be able to distinguish blocked adjacency from an open route before choosing a move.",
+      "actual": {
+        "seed": 1,
+        "stage": 1,
+        "start_cell": 5,
+        "blocked_up_cell": 1,
+        "open_left_cell": 4,
+        "blocked_edge": [
+          1,
+          5
+        ],
+        "open_edge": [
+          4,
+          5,
+          0
+        ],
+        "visible": "Both adjacent floor tiles use the same gap and border; no wall or passable-connection distinction is rendered.",
+        "normal_input": "Native CUA ARROWUP kept MOVES 0; ARROWLEFT changed MOVES to 1. Final settled screenshot shows explorer left of start.",
+        "source_review": "v6 core.js layout data is identical to the reviewed design, with [1,5] absent. view/art.js draws floor tiles and only masked gate edges, skipping all mask-0 edges; it never draws missing-edge walls between adjacent floor tiles."
+      },
+      "message": "Real route decision depth remains hidden from the player: path planning requires trial-and-error discovery of invisible walls. Automated Generic Product v1 conformance passed but did not check topology legibility. Lifetime repair 5/5 exhausted; terminal reject, never READY_TO_SHIP.",
+      "evidence": [
+        "owner-depth/keywake-v6-preview.jpg",
+        "owner-depth/keywake-v6-route-before.jpg",
+        "owner-depth/keywake-v6-route-up-blocked.jpg",
+        "owner-depth/keywake-v6-route-left-open.jpg",
+        "owner-depth/keywake-v6-route-left-settled.jpg"
+      ]
+    }
+  ],
+  "soft_failures": [],
+  "heuristics": [
+    {
+      "name": "first_five_seconds",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "mechanic_overlap",
+      "status": "UNVERIFIED",
+      "evidence": {
+        "declared_family": "discrete-key-collection-navigation"
+      }
+    },
+    {
+      "name": "information_density",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "control_count",
+      "status": "OBSERVED",
+      "evidence": {
+        "desktop": 1,
+        "mobile": 1
+      }
+    },
+    {
+      "name": "repeatability",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "visual_completeness",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "progression_visibility",
+      "status": "UNVERIFIED",
+      "evidence": null
+    }
+  ],
+  "source_hash": "b6d1cfe671f88687dc289aa0eb38dc3972d5de638b99175f78166f98403fd629",
+  "policy_hash": "092539c5ffb8707a8c7a177eadc3aad83896d0c3f34da272db1bfb1c7d90569e",
+  "technical_qa": "PASS",
+  "product_qa": "PASS",
+  "production_approved": false,
+  "metrics_eligibility": false,
+  "meaning": "Technical and generic product evidence; no production authorization or claim of fun."
+}

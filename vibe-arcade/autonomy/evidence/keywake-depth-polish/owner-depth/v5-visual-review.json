@@ -1,0 +1,24 @@
+{
+  "game_id": "GAME-20260923-141",
+  "version": "v5",
+  "decision": "HOLD",
+  "failure": {
+    "code": "product_key_counter_invalid_number",
+    "check": "visible_key_progress",
+    "selector": "[data-room-keys]",
+    "state_path": "state.stage / state.key_mask",
+    "expected": "A readable ROOM 2 · KEYS 0 / 2 label in the captured state; finite accurate collected/required counts in every room.",
+    "actual": "NaN / 2 rendered in v5. Work visually reviewed product-390-midgame.png. app.js update expression concatenates strings before subtracting 1.",
+    "message": "Fix the visible key counter arithmetic/formatting error, preserving the passing topology, scoring, core, seed mapping and art readability. This is the last lifetime repair (5/5). No rebuild or budget reset. Preserve v3 Preview base handling and all existing product contract requirements.",
+    "evidence": [
+      "v5/product/product-390-midgame.png"
+    ]
+  },
+  "proof_sha256": "f92d1d0f383b712b1af587d0c823603aff83472a5b3d4a4185cf3d8bf93babe3",
+  "source_hash": "4fa6ce75df98aee19bf60080dbd2c38ac71b656151c2bc391e59c39c29da0e4c",
+  "ledger_sha256": "b444986da60c8dd2c3a27c7e38931297933761331b6c51d733bdf1d9ef30c9ed",
+  "repair_before": 4,
+  "remaining": 1,
+  "original_started_at": 1790127722659,
+  "additional_wall_pause": false
+}

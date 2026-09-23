@@ -1,0 +1,9 @@
+{
+  "operation_id": "GAME-20260923-141/repair/3",
+  "estimated_input_reservation": 64519,
+  "limit": 100000,
+  "prior_operations_sha256": "8c2299aed377bfcc73e3f9f13f4bbcda34bd38628760deef9f1f6739b4fbab78",
+  "old_source_hash": "adca43ffe1238625b32cb30c01b0093f4d94c9a9b117916c1edd997f7d6c07de",
+  "spec_sha256": "92fd2ce062686c445a8e10c87271364511e0306e8b8f091b3165e2c4bc45a304",
+  "owner_failure_forwarded": true
+}

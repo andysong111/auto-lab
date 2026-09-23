@@ -1,0 +1,220 @@
+{
+  "game_id": "GAME-20260923-141",
+  "generation": 1,
+  "title": "Keywake",
+  "slug": "keywake",
+  "genre": "discrete navigation puzzle",
+  "mechanic_family": "discrete-key-collection-navigation",
+  "controls": [
+    "Press arrow keys to move one tile."
+  ],
+  "mobile_controls": [
+    "Tap the arrow pads to move one tile."
+  ],
+  "max_repair_attempts": 5,
+  "qa": {
+    "seed": 1,
+    "keyboard": {
+      "key": "ArrowLeft",
+      "observation": "state.cell"
+    },
+    "pointer": {
+      "observation": "state.pointer_actions"
+    },
+    "terminal_ms": 42000
+  },
+  "implementation_contract": {
+    "goal": "OWNER HOLD supersedes v3: too simple/easy. Same Keywake GAME-20260923-141, now a route-planning game. Exact initial objective: \"Collect keys. Unlock gates. Reach all 3 exits.\" Directions move one cell. See the entire room, plan colored-key order, open shortcuts, and beat your route score. Keep the goal/room progress visible before Start and throughout play.",
+    "progression": "Replace 3x3 rooms with 4x4 stationary grid rooms, cell=y*4+x (0..15), start cell 5 in EVERY room, keys indexed A=bit1,B=bit2,C=bit4. Room data lists undirected passable EDGES [minCell,maxCell,requiredKeyMask]; ALL unlisted edges are solid walls. Required mask 0 is open; otherwise crossing allowed iff (key_mask & requiredMask) === requiredMask. Board cells incident to edges are floor, others walls. Move orthogonally only; disallow boundary crossing/wrap. Picking an uncollected key permanently sets its bit. Exit is impassable until ALL room keys collected. Legal step INTO exit clears room immediately, adds room score, increments stage/objective_progress, resets cell=5,key_mask=0,room_moves=0. Final canonical state stage=4,cell=5,key_mask=0,outcome=\"success\",objective_progress=3. Blocked actions change neither objective nor meaningful_actions. FULL AUTHORITATIVE LAYOUT CATALOG (pack indices 0..5; each holds room1..3; par is independent shortest route): [[{\"edges\":[[0,1,0],[0,4,0],[1,2,0],[4,5,0],[4,8,0],[5,9,0],[8,9,0],[8,12,0],[9,10,0],[9,13,0],[10,11,1],[10,14,0],[11,15,0],[12,13,0],[13,14,0],[14,15,0]],\"keys\":[11],\"exit\":13,\"par\":8},{\"edges\":[[0,1,0],[0,4,0],[1,2,0],[1,5,0],[2,6,2],[4,5,0],[4,8,0],[5,9,0],[6,7,0],[6,10,0],[7,11,0],[9,10,0],[10,11,2]],\"keys\":[2,11],\"exit\":0,\"par\":10},{\"edges\":[[0,1,2],[0,4,0],[1,2,3],[1,5,0],[2,6,3],[4,5,0],[4,8,2],[5,6,0],[5,9,0],[8,9,0],[9,10,1],[9,13,0],[10,14,0],[13,14,0],[14,15,0]],\"keys\":[8,10,2],\"exit\":15,\"par\":14}],[{\"edges\":[[0,1,0],[0,4,0],[1,2,0],[4,5,0],[5,9,0],[7,11,0],[9,10,0],[9,13,1],[10,11,0],[10,14,0],[13,14,0]],\"keys\":[13],\"exit\":11,\"par\":7},{\"edges\":[[0,1,0],[0,4,0],[1,5,0],[4,5,0],[5,9,0],[6,7,0],[6,10,0],[7,11,0],[9,10,0],[9,13,0],[10,11,2],[10,14,0],[11,15,0],[12,13,0],[13,14,0],[14,15,2]],\"keys\":[0,15],\"exit\":13,\"par\":12},{\"edges\":[[1,2,0],[1,5,0],[2,3,0],[4,5,0],[5,6,0],[5,9,0],[6,10,1],[9,10,2],[9,13,0],[10,11,2],[10,14,0],[12,13,3],[13,14,0]],\"keys\":[14,2,12],\"exit\":3,\"par\":15}],[{\"edges\":[[0,1,0],[0,4,1],[1,2,0],[2,3,0],[2,6,0],[3,7,0],[4,5,0],[5,9,0],[6,7,0],[6,10,0],[9,10,0],[10,14,0]],\"keys\":[1],\"exit\":7,\"par\":8},{\"edges\":[[1,2,0],[1,5,0],[2,3,0],[2,6,0],[4,5,0],[4,8,2],[5,9,0],[6,10,0],[8,9,0],[8,12,0],[9,10,0],[10,14,1],[12,13,0],[13,14,0],[14,15,0]],\"keys\":[15,6],\"exit\":2,\"par\":10},{\"edges\":[[0,1,3],[0,4,3],[1,2,0],[1,5,0],[2,6,1],[4,5,0],[5,6,0],[5,9,0],[6,10,0],[9,10,1],[10,11,1],[10,14,0],[11,15,0],[14,15,0]],\"keys\":[14,2,0],\"exit\":15,\"par\":14}],[{\"edges\":[[0,4,0],[3,7,0],[4,5,0],[5,9,0],[6,7,0],[6,10,0],[7,11,0],[9,10,1],[9,13,0],[10,11,0],[10,14,0],[11,15,0],[13,14,0],[14,15,0]],\"keys\":[10],\"exit\":15,\"par\":6},{\"edges\":[[0,1,2],[0,4,0],[1,2,0],[1,5,0],[2,6,0],[4,5,0],[4,8,0],[5,9,0],[8,9,0],[8,12,0],[9,13,2],[11,15,0],[12,13,0],[13,14,0],[14,15,0]],\"keys\":[6,13],\"exit\":14,\"par\":11},{\"edges\":[[0,1,2],[0,4,2],[1,5,0],[3,7,0],[4,5,0],[5,6,0],[5,9,0],[6,7,0],[8,9,1],[9,13,0],[13,14,0],[14,15,3]],\"keys\":[7,13,15],\"exit\":3,\"par\":15}],[{\"edges\":[[0,1,0],[0,4,0],[4,5,0],[5,9,0],[6,7,0],[6,10,1],[7,11,0],[9,10,0],[10,11,0],[10,14,0],[11,15,0],[14,15,0]],\"keys\":[6],\"exit\":14,\"par\":7},{\"edges\":[[0,1,1],[0,4,0],[1,2,0],[1,5,0],[2,3,0],[4,5,0],[5,9,0],[9,10,0],[9,13,1],[10,14,0],[12,13,0],[13,14,0],[14,15,0]],\"keys\":[12,0],\"exit\":15,\"par\":12},{\"edges\":[[0,1,0],[0,4,0],[1,2,1],[1,5,0],[2,3,0],[2,6,2],[4,5,0],[5,6,0],[5,9,0],[6,10,0],[9,10,1],[9,13,0],[10,14,0],[12,13,3],[13,14,0]],\"keys\":[14,0,12],\"exit\":3,\"par\":15}],[{\"edges\":[[0,1,0],[0,4,0],[1,2,0],[2,6,0],[4,5,0],[5,9,0],[6,7,0],[6,10,0],[7,11,0],[9,10,1],[10,11,0],[10,14,0],[11,15,0],[14,15,0]],\"keys\":[14],\"exit\":15,\"par\":8},{\"edges\":[[0,1,0],[0,4,0],[1,2,0],[1,5,0],[2,3,0],[3,7,0],[4,5,0],[4,8,0],[5,9,0],[7,11,0],[8,9,0],[8,12,0],[9,10,2],[10,11,0],[11,15,1]],\"keys\":[8,10],\"exit\":0,\"par\":10},{\"edges\":[[1,2,1],[1,5,0],[2,3,0],[2,6,0],[4,5,0],[4,8,2],[5,6,0],[5,9,0],[8,9,1],[9,13,0],[11,15,3],[13,14,0],[14,15,3]],\"keys\":[13,2,15],\"exit\":3,\"par\":15}]]",
+    "difficulty": "Deterministic selection for ALL uint32 seeds: h=Math.imul((seed>>>0)^(seed>>>16),1177)>>>0; pack=((h^(h>>>13))>>>0)%6. No transforms, random globals, runtime search, special QA branches or seed lookup exceptions. Six genuinely different packs define walls, key cells, gate requirements, exits and optimal inputs. QA seeds 1,7,23,89,2026,4294967295 cover all 6 packs. Room1 has one key and real shortcut decisions; room2 A/B key-order costs differ >=4 moves; room3 A/B order plus C gated behind A+B. Keep observe().quality: stage=state.stage; complexity=actual currently legal destination count under these exact rules (entry widths2/3/4, success0); meaningful_actions increments ONCE for each legal move including exit and never resets between rooms; reversible_state_key=stage+\":\"+cell+\":\"+key_mask+\":\"+outcome. Never report plan length or arbitrary difficulty as complexity. The independently measured route decision states and key-order costs are distinct from immediate width. Keep the projection stage/cell/key_mask/outcome exact.",
+    "presentation": "Make this visibly more polished: a compact deep graphite vault, layered beveled floor tiles, distinct solid wall edges, luminous cyan explorer, high-contrast brass/magenta/ice keys A/B/C and corresponding colored locked gate bars with readable requirements A/B/AB. Gates must visibly disappear/change to open tracks when unlocked. Exit has locked/open states; collected key inventory stays clear. Indicate ROOM n, MOVES n, PAR n and route efficiency. Keep four arrow pads LEFT, UP, RIGHT, DOWN in bottom20% of canvas at x centers.125,.375,.625,.875, y.9; preserve tap-column mapping across the entire canvas. No additional action buttons or complex input. Each pointer action increments pointer_actions; directional presses use edge latching, cleared on neutral input/touch. Space no-op. Use existing GameKit exactly; core export globalThis.KeywakeCore; no DOM/browser identifiers in core. Keep v3 exact-directory base resolution BEFORE asset loading and manifest fetching.",
+    "originality": "This is an owner-authorized depth revision of the existing same-ID Keywake, not another candidate or a reset. Retain the successful v3 lifecycle, input, GameKit integration, mobile spacing, native media handling, asset base resolution and no-side-effects behavior while replacing the room rules/art and efficiency presentation. Never touch Factory/GameKit/manifest/QA.",
+    "scoring": "Score starts0 and is awarded ONLY on room completion: max(20,200-15*max(0,room_moves-par)). Count every legal move including exit and detours in room_moves; clear it only for next room. Track total_moves and total par across completed rooms. A perfect completed game scores600; extra moves strictly reduce room score until floor20. Keys, gates, bumps, waiting and reversible walks award ZERO. Show Perfect route for zero extra moves, Efficient route for1-2 extra, otherwise Detour +N; show these legibly at room clear/final result. Same-seed GameKit Replay lets players improve order/path efficiency; do not change seed on automatic restart because that breaks the finite oracle/replay contract. No extra storage. Best only from GameKit snapshot.best. observe.progress may be elapsed seconds rounded to1 decimal to avoid the long decimals in v3.",
+    "mobile_readability": "At 390×844 keep heading, objective, separate score/best cards, room/key progress, readable board, result and the primary Replay button inside the first viewport. Use compact responsive spacing, a roughly 340–370 CSS-pixel high canvas, ≥14 CSS-pixel DOM/canvas text and ≥44×44 CSS-pixel buttons. Scale canvas font sizes for device pixels correctly. Avoid stacked fillText/strokeText on the same glyph, overlapped text, tiny footnotes and canvas labels under arrows. Critical label and value elements must have separate non-overlapping boxes. Include all mandatory GameKit controls. At 768×1024 and 1280×800 keep the full interface within the viewport with a max-width compact board. [data-result] can be a visible hint before a terminal result; never nest critical selectors inside one another. Four-by-four cells, wall/gate edges and key labels must remain legible. Every canvas text font is at least14 CSS pixels, including PAR/key/gate labels. Do not draw several labels on the same tile or clipped at canvas boundaries. Limit long event text to separate short badges below the board, not over tile glyphs.",
+    "result": "On success show exact ALL ROOMS CLEARED, current score, number of moves and an efficiency message; on time expiry show exact TIME UP and rooms cleared. Use one [data-result] element and a strong [data-game-restart] Replay button visible inside the first 390px result viewport. Restart must use GameKit and reset the real core with the same seed. Render CURRENT SCORE in [data-score-label], its numeric value in [data-game-score]; DEVICE BEST in [data-best-label] and snapshot.best in [data-best]. Read best only from GameKit snapshot, no custom storage. Capture/QA writes zero; normal practice persists GameKit best and survives reload. Add total moves vs total par and exact route-rating words without moving Replay below the first mobile viewport. Rooms cleared remains the principal progress; efficiency is the replay incentive.",
+    "reduced_motion": "Read matchMedia(\"(prefers-reduced-motion: reduce)\") initially and subscribe to native change events in presentation code. Honor both directions at runtime; expose a presentation callback returning reduced_motion, feedback_active, static_feedback as booleans. Reduced mode disables explorer travel, pulses and wiggle, replacing a meaningful move with a clearly visible static contrasting destination ring/path mark. Changing back restores animation for subsequent moves. Respect GameKit pause/hidden/restart lifecycle and clean native event listeners on final non-persisted pagehide. No sound, network, external assets or extra timers are needed.",
+    "completion_timing": "Keep the same40-second limit (2400 core ticks), not a shorter timer or faster movement. Human planning makes the new routes harder. Success ends on the exit step immediately, no delay/animation barrier, <=100ms. Failure at2400 ticks uses TIME UP. Main objective progress is ROOMS0/3 to3/3; elapsed time is a separately labeled counter. Never add forced waiting.",
+    "action_feedback": "For every legal move create a visible 220–280ms explorer step interpolation or movement trail between old and new cells plus a key/door event highlight. Use GameKit draw snapshots and presentation-only state; canonical state moves immediately and later inputs remain accepted. Derive transition time from the draw/performance clock, not mutable QA state. At 70ms and 130ms after an input there must be different visible intermediate frames; by 530ms the move settles and feedback_active=false. Expose feedback_active=true only during real visible interpolation, not a fabricated probe. In reduced mode use no travel: a static high-contrast outline visibly marks the new cell and static_feedback=true while that alternative is shown. Reset presentation tracking on Start/Replay; ignore idle redraws as actions. Show blocked-move feedback without adding points or meaningful_actions. Distinguish pickup (key inventory flash), unlock (colored gate opens), room clear (brief ROOM CLEAR badge), path selection (explorer trail), hatch open (high contrast halo), final clear (result). Canonical state updates immediately; never block later inputs for effects. Reduced motion uses stable rings/badges/open gate shapes. Sound optional but unnecessary. Preserve v3 correct GameKit draw signature forwarding; the kit calls draw(ctx,snapshot,{width,height})."
+  },
+  "product_contract": {
+    "schema_version": 1,
+    "objective": {
+      "visible_selector": "[data-objective]",
+      "expected_text": "Collect keys. Unlock gates. Reach all 3 exits."
+    },
+    "progress": {
+      "selector": "[data-product-progress]",
+      "state_path": "state.objective_progress",
+      "format": "ROOMS {value} / 3",
+      "milestones": [
+        1,
+        2,
+        3
+      ]
+    },
+    "score": {
+      "selector": "[data-game-score]",
+      "label_selector": "[data-score-label]",
+      "expected_label": "CURRENT SCORE",
+      "reversible_probes": [
+        [
+          "left",
+          "right"
+        ],
+        [
+          "down",
+          "up"
+        ]
+      ],
+      "no_progress_probes": [
+        [
+          "up"
+        ],
+        [
+          "right"
+        ]
+      ]
+    },
+    "best": {
+      "selector": "[data-best]",
+      "label_selector": "[data-best-label]",
+      "expected_label": "DEVICE BEST",
+      "source": "GameKit.best"
+    },
+    "completion": {
+      "state_path": "state.outcome",
+      "success_value": "success",
+      "failure_value": "failure",
+      "result_selector": "[data-result]",
+      "success_text": "ALL ROOMS CLEARED",
+      "failure_text": "TIME UP",
+      "max_terminal_latency_ms": 100,
+      "failure_wait_ms": 41000,
+      "failure_actions": []
+    },
+    "replay": {
+      "selector": "[data-game-restart]",
+      "must_be_in_initial_mobile_viewport": true
+    },
+    "difficulty": {
+      "deterministic_seeds": [
+        1,
+        7,
+        23,
+        89,
+        2026,
+        4294967295
+      ],
+      "oracle_id": "keywake-depth-v1",
+      "oracle_sha256": "1ea9b235bc6b83d7117e3d0a8ded161cdb2533fb66cf992cf2c7b6b1d2942d5d",
+      "projection": [
+        "state.stage",
+        "state.cell",
+        "state.key_mask",
+        "state.outcome"
+      ],
+      "stage_path": "quality.stage",
+      "complexity_path": "quality.complexity",
+      "meaningful_actions_path": "quality.meaningful_actions",
+      "reversible_state_path": "quality.reversible_state_key",
+      "required_monotonicity": "later_strictly_greater",
+      "max_actions": 64
+    },
+    "mobile": {
+      "critical_selectors": [
+        "[data-objective]",
+        "[data-product-progress]",
+        "[data-score-label]",
+        "[data-game-score]",
+        "[data-best-label]",
+        "[data-best]",
+        "[data-result]"
+      ],
+      "control_selectors": [
+        "[data-game-start]",
+        "[data-game-pause]",
+        "[data-game-resume]",
+        "[data-game-restart]"
+      ],
+      "canvas_selector": "[data-game-canvas]",
+      "canvas_control_regions": [
+        {
+          "x": 0,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        },
+        {
+          "x": 0.25,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        },
+        {
+          "x": 0.5,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        },
+        {
+          "x": 0.75,
+          "y": 0.8,
+          "width": 0.25,
+          "height": 0.2
+        }
+      ],
+      "min_font_px": 14,
+      "min_hit_target_px": 44
+    },
+    "reduced_motion": {
+      "presentation_probe_path": "presentation.reduced_motion",
+      "dynamic_change_required": true
+    },
+    "feedback": {
+      "action": "left",
+      "state_change_path": "quality.reversible_state_key",
+      "visual_probe": "[data-game-canvas]",
+      "active_probe_path": "presentation.feedback_active",
+      "static_probe_path": "presentation.static_feedback",
+      "settle_ms": 400
+    },
+    "actions": {
+      "left": {
+        "key": "ArrowLeft",
+        "touch": {
+          "x": 0.125,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "up": {
+        "key": "ArrowUp",
+        "touch": {
+          "x": 0.375,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "right": {
+        "key": "ArrowRight",
+        "touch": {
+          "x": 0.625,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      },
+      "down": {
+        "key": "ArrowDown",
+        "touch": {
+          "x": 0.875,
+          "y": 0.9
+        },
+        "hold_ms": 35,
+        "settle_ms": 35
+      }
+    }
+  }
+}

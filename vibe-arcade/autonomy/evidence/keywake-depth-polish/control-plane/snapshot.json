@@ -1,0 +1,98 @@
+{
+  "schema": "playjolt-control-plane/1",
+  "generated_at": "2026-09-23T04:20:13.783Z",
+  "policy_version": "control-plane-1",
+  "mode": "same-id-owner-depth-polish",
+  "worker": {
+    "schema": "playjolt-worker/1",
+    "status": "RC_READY",
+    "code": null,
+    "game_id": "GAME-20260923-141",
+    "version": "v6",
+    "factory_state": "RC_READY",
+    "recorded_at": "2026-09-23T04:12:05.179Z",
+    "owner_action": false,
+    "auto_production_ship": false,
+    "budget": {
+      "calls": 6,
+      "input": 102641,
+      "output": 23089,
+      "cost": 0.8261660000000001
+    },
+    "cost_basis": "estimated",
+    "provider": "openai-responses/gpt-5.6-terra"
+  },
+  "automation": {
+    "can_create": false,
+    "reason": "daily_create_limit",
+    "provider_ready": true,
+    "active_jobs": 0,
+    "created_today": 1,
+    "auto_rc_enabled": false,
+    "auto_production_ship": false,
+    "kill_switches": {
+      "factory": false,
+      "release_candidates": true,
+      "production_shipping": true,
+      "marketing_promotion": true
+    }
+  },
+  "counts": {
+    "REJECTED": 1
+  },
+  "total_jobs": 1,
+  "incidents": [
+    {
+      "severity": "info",
+      "code": "candidate_rejected",
+      "game_id": "GAME-20260923-141",
+      "state": "REJECTED",
+      "owner_action": false
+    }
+  ],
+  "owner_action_required": false,
+  "jobs": [
+    {
+      "game_id": "GAME-20260923-141",
+      "title": "Keywake",
+      "version": "v6",
+      "state": "REJECTED",
+      "repair_attempt": 5,
+      "max_repair_attempts": 5,
+      "technical_qa": {
+        "status": "PASS"
+      },
+      "product_qa": {
+        "status": "PASS",
+        "failures": [
+          "visible_route_planning"
+        ]
+      },
+      "quality_gate": {
+        "status": "REJECT"
+      },
+      "qa_status": "FAIL",
+      "quality_status": "REJECT",
+      "release_status": "REJECTED",
+      "preview_url": null,
+      "worker": null,
+      "decision": {
+        "action": "NONE",
+        "reason": "rejected"
+      },
+      "metrics": {
+        "state": "DISABLED",
+        "reason": "Phase 2 metrics are not commissioned.",
+        "metrics": {
+          "observed_sessions": null,
+          "starting_sessions": null,
+          "replaying_sessions": null,
+          "game_finish_sessions": null,
+          "error_rate": null,
+          "observed_at": null,
+          "age_hours": null
+        }
+      }
+    }
+  ]
+}

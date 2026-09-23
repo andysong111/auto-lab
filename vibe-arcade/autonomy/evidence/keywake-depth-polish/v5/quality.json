@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "decision": "REPAIR",
+  "hard_failures": [
+    {
+      "code": "product_key_counter_invalid_number",
+      "check": "visible_key_progress",
+      "selector": "[data-room-keys]",
+      "state_path": "state.stage / state.key_mask",
+      "expected": "A readable ROOM 2 · KEYS 0 / 2 label in the captured state; finite accurate collected/required counts in every room.",
+      "actual": "NaN / 2 rendered in v5. Work visually reviewed product-390-midgame.png. app.js update expression concatenates strings before subtracting 1.",
+      "message": "Fix the visible key counter arithmetic/formatting error, preserving the passing topology, scoring, core, seed mapping and art readability. This is the last lifetime repair (5/5). No rebuild or budget reset. Preserve v3 Preview base handling and all existing product contract requirements.",
+      "evidence": [
+        "v5/product/product-390-midgame.png"
+      ]
+    }
+  ],
+  "soft_failures": [],
+  "heuristics": [
+    {
+      "name": "first_five_seconds",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "mechanic_overlap",
+      "status": "UNVERIFIED",
+      "evidence": {
+        "declared_family": "discrete-key-collection-navigation"
+      }
+    },
+    {
+      "name": "information_density",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "control_count",
+      "status": "OBSERVED",
+      "evidence": {
+        "desktop": 1,
+        "mobile": 1
+      }
+    },
+    {
+      "name": "repeatability",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "visual_completeness",
+      "status": "UNVERIFIED",
+      "evidence": null
+    },
+    {
+      "name": "progression_visibility",
+      "status": "UNVERIFIED",
+      "evidence": null
+    }
+  ],
+  "source_hash": "4fa6ce75df98aee19bf60080dbd2c38ac71b656151c2bc391e59c39c29da0e4c",
+  "policy_hash": "092539c5ffb8707a8c7a177eadc3aad83896d0c3f34da272db1bfb1c7d90569e",
+  "technical_qa": "PASS",
+  "product_qa": "PASS",
+  "production_approved": false,
+  "metrics_eligibility": false,
+  "meaning": "Technical and generic product evidence; no production authorization or claim of fun."
+}

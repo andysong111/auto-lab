@@ -1,0 +1,80 @@
+{
+  "schema": "playjolt-release-review/1",
+  "passed": false,
+  "errors": [
+    "state_not_ready_to_ship",
+    "qa_not_pass",
+    "quality_not_pass",
+    "release_not_ready",
+    "preview_missing"
+  ],
+  "candidate": {
+    "game_id": "GAME-20260923-141",
+    "version": "v6",
+    "title": "Keywake",
+    "slug": "keywake",
+    "preview_url": null,
+    "source_hash": "b6d1cfe671f88687dc289aa0eb38dc3972d5de638b99175f78166f98403fd629",
+    "branch": "factory/GAME-20260923-141",
+    "pr_number": 56,
+    "pr_url": "https://github.com/andysong111/auto-lab/pull/56",
+    "rc_commit": "67623d8f6132e40f41208bde38776e89ce06c23d"
+  },
+  "evidence": {
+    "qa_status": "FAIL",
+    "quality_status": "REJECT",
+    "release_status": "REJECTED",
+    "repair_attempt": 5,
+    "failure_reasons": [
+      {
+        "code": "product_route_topology_not_visible",
+        "check": "visible_route_planning",
+        "selector": "[data-game-canvas]",
+        "state_path": "state.stage / state.cell / state.key_mask",
+        "expected": "The authored presentation contract requires distinct solid wall edges. A player must be able to distinguish blocked adjacency from an open route before choosing a move.",
+        "actual": {
+          "seed": 1,
+          "stage": 1,
+          "start_cell": 5,
+          "blocked_up_cell": 1,
+          "open_left_cell": 4,
+          "blocked_edge": [
+            1,
+            5
+          ],
+          "open_edge": [
+            4,
+            5,
+            0
+          ],
+          "visible": "Both adjacent floor tiles use the same gap and border; no wall or passable-connection distinction is rendered.",
+          "normal_input": "Native CUA ARROWUP kept MOVES 0; ARROWLEFT changed MOVES to 1. Final settled screenshot shows explorer left of start.",
+          "source_review": "v6 core.js layout data is identical to the reviewed design, with [1,5] absent. view/art.js draws floor tiles and only masked gate edges, skipping all mask-0 edges; it never draws missing-edge walls between adjacent floor tiles."
+        },
+        "message": "Real route decision depth remains hidden from the player: path planning requires trial-and-error discovery of invisible walls. Automated Generic Product v1 conformance passed but did not check topology legibility. Lifetime repair 5/5 exhausted; terminal reject, never READY_TO_SHIP.",
+        "evidence": [
+          "owner-depth/keywake-v6-preview.jpg",
+          "owner-depth/keywake-v6-route-before.jpg",
+          "owner-depth/keywake-v6-route-up-blocked.jpg",
+          "owner-depth/keywake-v6-route-left-open.jpg",
+          "owner-depth/keywake-v6-route-left-settled.jpg"
+        ]
+      }
+    ]
+  },
+  "owner_review": {
+    "decision": "PENDING",
+    "reviewed_by": null,
+    "recorded_at": null
+  },
+  "production": {
+    "authorized": false,
+    "reason": "Production adapter remains disabled until a separate reviewed release action consumes an APPROVE decision."
+  },
+  "rollback": {
+    "base_ref": "feeed4ffde39872714f473803a0158ba3700fb08",
+    "restore_commit": "feeed4ffde39872714f473803a0158ba3700fb08",
+    "source_commit": "67623d8f6132e40f41208bde38776e89ce06c23d",
+    "required": true
+  }
+}

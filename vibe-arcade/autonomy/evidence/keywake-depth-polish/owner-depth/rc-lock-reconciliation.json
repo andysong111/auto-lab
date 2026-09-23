@@ -1,0 +1,9 @@
+{
+  "archived_lock": {
+    "pid": 2,
+    "host": "5a23ef33c27d",
+    "token": "2ab8c4dd-7239-49d9-ab1d-d7ff17569ad7"
+  },
+  "basis": "Local RC exec session 79685 was explicitly collected with exit_code 0 and final PREVIEW_DEPLOYING output. No active local RC process remained; stale host-scoped filesystem lock survived session synchronization. Paid workflow completed separately.",
+  "provider_calls": 0
+}

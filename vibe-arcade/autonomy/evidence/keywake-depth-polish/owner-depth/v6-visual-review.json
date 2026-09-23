@@ -1,0 +1,76 @@
+{
+  "game_id": "GAME-20260923-141",
+  "version": "v6",
+  "reviewer": "Work visual and implementation review; not a new owner play verdict",
+  "decision": "REJECT",
+  "failure": {
+    "code": "product_route_topology_not_visible",
+    "check": "visible_route_planning",
+    "selector": "[data-game-canvas]",
+    "state_path": "state.stage / state.cell / state.key_mask",
+    "expected": "The authored presentation contract requires distinct solid wall edges. A player must be able to distinguish blocked adjacency from an open route before choosing a move.",
+    "actual": {
+      "seed": 1,
+      "stage": 1,
+      "start_cell": 5,
+      "blocked_up_cell": 1,
+      "open_left_cell": 4,
+      "blocked_edge": [
+        1,
+        5
+      ],
+      "open_edge": [
+        4,
+        5,
+        0
+      ],
+      "visible": "Both adjacent floor tiles use the same gap and border; no wall or passable-connection distinction is rendered.",
+      "normal_input": "Native CUA ARROWUP kept MOVES 0; ARROWLEFT changed MOVES to 1. Final settled screenshot shows explorer left of start.",
+      "source_review": "v6 core.js layout data is identical to the reviewed design, with [1,5] absent. view/art.js draws floor tiles and only masked gate edges, skipping all mask-0 edges; it never draws missing-edge walls between adjacent floor tiles."
+    },
+    "message": "Real route decision depth remains hidden from the player: path planning requires trial-and-error discovery of invisible walls. Automated Generic Product v1 conformance passed but did not check topology legibility. Lifetime repair 5/5 exhausted; terminal reject, never READY_TO_SHIP.",
+    "evidence": [
+      "owner-depth/keywake-v6-preview.jpg",
+      "owner-depth/keywake-v6-route-before.jpg",
+      "owner-depth/keywake-v6-route-up-blocked.jpg",
+      "owner-depth/keywake-v6-route-left-open.jpg",
+      "owner-depth/keywake-v6-route-left-settled.jpg"
+    ]
+  },
+  "evidence": [
+    {
+      "path": "owner-depth/keywake-v6-preview.jpg",
+      "sha256": "0637ecbd4b4d3c9cc05d6657af26f1b924047d020efdd4bd1697aaa3c428ba23"
+    },
+    {
+      "path": "owner-depth/keywake-v6-route-before.jpg",
+      "sha256": "d43a889456e32951cd91c7ed469d6e4d22688e814368e9460912079f44bacc49"
+    },
+    {
+      "path": "owner-depth/keywake-v6-route-up-blocked.jpg",
+      "sha256": "2dc4856a402689fc134a3046affc8d3ee1deb7871cea640957dc96c33ab313fe"
+    },
+    {
+      "path": "owner-depth/keywake-v6-route-left-open.jpg",
+      "sha256": "ffb25850b4979cb1ba46f94f8d7bb4ad112dbe1298005f9f4a6fd180c283eb78"
+    },
+    {
+      "path": "owner-depth/keywake-v6-route-left-settled.jpg",
+      "sha256": "59e02537b1509ae5c6db034e9136f3b52e6de6e0cce0470b3440c50a6ed2c734"
+    }
+  ],
+  "preview_url": "https://vibe-arcade-r5jpobhf6-a2bsangsa.vercel.app/autonomy/games/GAME-20260923-141/v6",
+  "rc_commit": "67623d8f6132e40f41208bde38776e89ce06c23d",
+  "vercel_deployment": "dpl_5TzBx2bb4j9af5jbGfZvK5rmPNqb",
+  "source_hash": "b6d1cfe671f88687dc289aa0eb38dc3972d5de638b99175f78166f98403fd629",
+  "repair_attempt": 5,
+  "max_repair_attempts": 5,
+  "remaining_calls": 0,
+  "production_authorized": false,
+  "browser_notes": [
+    "DOM showed ROOM 1 · KEYS 0 / 1: NaN fixed.",
+    "Very short locator.press/cua.click did not visibly move; those are not used as route proof. Native CUA held keypress produced the reported 0/1 move comparison.",
+    "No hidden state, DOM mutation, custom solver, injected JS gameplay or network side-channel was used.",
+    "Protected Preview access used a temporary Vercel share grant; no protection configuration changed."
+  ]
+}

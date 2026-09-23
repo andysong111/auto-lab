@@ -1,0 +1,146 @@
+{
+  "commit": "67623d8f6132e40f41208bde38776e89ce06c23d",
+  "checks": [
+    {
+      "id": 107042387927,
+      "name": "live",
+      "status": "completed",
+      "conclusion": "skipped",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817494634/job/107042387927"
+    },
+    {
+      "id": 107042111861,
+      "name": "Vercel Preview Comments",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/runs/107042111861"
+    },
+    {
+      "id": 107042054822,
+      "name": "AI provider worker contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817494633/job/107042054822"
+    },
+    {
+      "id": 107042054683,
+      "name": "checks",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817494618/job/107042054683"
+    },
+    {
+      "id": 107042054589,
+      "name": "Product contract and Docker Chromium fixtures (1)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817494660/job/107042054589"
+    },
+    {
+      "id": 107042054577,
+      "name": "Product contract and Docker Chromium fixtures (2)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817494660/job/107042054577"
+    },
+    {
+      "id": 107042054503,
+      "name": "AI worker isolated browser",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817494633/job/107042054503"
+    },
+    {
+      "id": 107042054340,
+      "name": "foundation",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817494634/job/107042054340"
+    },
+    {
+      "id": 107042054294,
+      "name": "Product contract and Docker Chromium fixtures (0)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817494660/job/107042054294"
+    },
+    {
+      "id": 107042054181,
+      "name": "Factory regression",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817494581/job/107042054181"
+    },
+    {
+      "id": 107042054109,
+      "name": "Factory contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817494581/job/107042054109"
+    },
+    {
+      "id": 107042054067,
+      "name": "smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817494643/job/107042054067"
+    },
+    {
+      "id": 107042053934,
+      "name": "experience",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817494611/job/107042053934"
+    },
+    {
+      "id": 107042053923,
+      "name": "Factory browser",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817494581/job/107042053923"
+    },
+    {
+      "id": 107042053900,
+      "name": "rules-and-browser",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817494594/job/107042053900"
+    },
+    {
+      "id": 107042053640,
+      "name": "arcade3",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817494577/job/107042053640"
+    },
+    {
+      "id": 107042045813,
+      "name": "Factory regression",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817491783/job/107042045813"
+    },
+    {
+      "id": 107042045812,
+      "name": "Factory browser",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817491783/job/107042045812"
+    },
+    {
+      "id": 107042045707,
+      "name": "smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817491776/job/107042045707"
+    },
+    {
+      "id": 107042045702,
+      "name": "Factory contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35817491783/job/107042045702"
+    }
+  ],
+  "main_unchanged": "feeed4ffde39872714f473803a0158ba3700fb08"
+}

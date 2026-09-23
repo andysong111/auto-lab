@@ -1,0 +1,1650 @@
+{
+  "operation_id": "GAME-20260923-141/repair/4",
+  "game_id": "GAME-20260923-141",
+  "version": "v5",
+  "mode": "repair",
+  "immutable_spec": {
+    "game_id": "GAME-20260923-141",
+    "generation": 1,
+    "title": "Keywake",
+    "slug": "keywake",
+    "genre": "discrete navigation puzzle",
+    "mechanic_family": "discrete-key-collection-navigation",
+    "controls": [
+      "Press arrow keys to move one tile."
+    ],
+    "mobile_controls": [
+      "Tap the arrow pads to move one tile."
+    ],
+    "max_repair_attempts": 5,
+    "qa": {
+      "seed": 1,
+      "keyboard": {
+        "key": "ArrowLeft",
+        "observation": "state.cell"
+      },
+      "pointer": {
+        "observation": "state.pointer_actions"
+      },
+      "terminal_ms": 42000
+    },
+    "implementation_contract": {
+      "goal": "OWNER HOLD supersedes v3: too simple/easy. Same Keywake GAME-20260923-141, now a route-planning game. Exact initial objective: \"Collect keys. Unlock gates. Reach all 3 exits.\" Directions move one cell. See the entire room, plan colored-key order, open shortcuts, and beat your route score. Keep the goal/room progress visible before Start and throughout play.",
+      "progression": "Replace 3x3 rooms with 4x4 stationary grid rooms, cell=y*4+x (0..15), start cell 5 in EVERY room, keys indexed A=bit1,B=bit2,C=bit4. Room data lists undirected passable EDGES [minCell,maxCell,requiredKeyMask]; ALL unlisted edges are solid walls. Required mask 0 is open; otherwise crossing allowed iff (key_mask & requiredMask) === requiredMask. Board cells incident to edges are floor, others walls. Move orthogonally only; disallow boundary crossing/wrap. Picking an uncollected key permanently sets its bit. Exit is impassable until ALL room keys collected. Legal step INTO exit clears room immediately, adds room score, increments stage/objective_progress, resets cell=5,key_mask=0,room_moves=0. Final canonical state stage=4,cell=5,key_mask=0,outcome=\"success\",objective_progress=3. Blocked actions change neither objective nor meaningful_actions. FULL AUTHORITATIVE LAYOUT CATALOG (pack indices 0..5; each holds room1..3; par is independent shortest route): [[{\"edges\":[[0,1,0],[0,4,0],[1,2,0],[4,5,0],[4,8,0],[5,9,0],[8,9,0],[8,12,0],[9,10,0],[9,13,0],[10,11,1],[10,14,0],[11,15,0],[12,13,0],[13,14,0],[14,15,0]],\"keys\":[11],\"exit\":13,\"par\":8},{\"edges\":[[0,1,0],[0,4,0],[1,2,0],[1,5,0],[2,6,2],[4,5,0],[4,8,0],[5,9,0],[6,7,0],[6,10,0],[7,11,0],[9,10,0],[10,11,2]],\"keys\":[2,11],\"exit\":0,\"par\":10},{\"edges\":[[0,1,2],[0,4,0],[1,2,3],[1,5,0],[2,6,3],[4,5,0],[4,8,2],[5,6,0],[5,9,0],[8,9,0],[9,10,1],[9,13,0],[10,14,0],[13,14,0],[14,15,0]],\"keys\":[8,10,2],\"exit\":15,\"par\":14}],[{\"edges\":[[0,1,0],[0,4,0],[1,2,0],[4,5,0],[5,9,0],[7,11,0],[9,10,0],[9,13,1],[10,11,0],[10,14,0],[13,14,0]],\"keys\":[13],\"exit\":11,\"par\":7},{\"edges\":[[0,1,0],[0,4,0],[1,5,0],[4,5,0],[5,9,0],[6,7,0],[6,10,0],[7,11,0],[9,10,0],[9,13,0],[10,11,2],[10,14,0],[11,15,0],[12,13,0],[13,14,0],[14,15,2]],\"keys\":[0,15],\"exit\":13,\"par\":12},{\"edges\":[[1,2,0],[1,5,0],[2,3,0],[4,5,0],[5,6,0],[5,9,0],[6,10,1],[9,10,2],[9,13,0],[10,11,2],[10,14,0],[12,13,3],[13,14,0]],\"keys\":[14,2,12],\"exit\":3,\"par\":15}],[{\"edges\":[[0,1,0],[0,4,1],[1,2,0],[2,3,0],[2,6,0],[3,7,0],[4,5,0],[5,9,0],[6,7,0],[6,10,0],[9,10,0],[10,14,0]],\"keys\":[1],\"exit\":7,\"par\":8},{\"edges\":[[1,2,0],[1,5,0],[2,3,0],[2,6,0],[4,5,0],[4,8,2],[5,9,0],[6,10,0],[8,9,0],[8,12,0],[9,10,0],[10,14,1],[12,13,0],[13,14,0],[14,15,0]],\"keys\":[15,6],\"exit\":2,\"par\":10},{\"edges\":[[0,1,3],[0,4,3],[1,2,0],[1,5,0],[2,6,1],[4,5,0],[5,6,0],[5,9,0],[6,10,0],[9,10,1],[10,11,1],[10,14,0],[11,15,0],[14,15,0]],\"keys\":[14,2,0],\"exit\":15,\"par\":14}],[{\"edges\":[[0,4,0],[3,7,0],[4,5,0],[5,9,0],[6,7,0],[6,10,0],[7,11,0],[9,10,1],[9,13,0],[10,11,0],[10,14,0],[11,15,0],[13,14,0],[14,15,0]],\"keys\":[10],\"exit\":15,\"par\":6},{\"edges\":[[0,1,2],[0,4,0],[1,2,0],[1,5,0],[2,6,0],[4,5,0],[4,8,0],[5,9,0],[8,9,0],[8,12,0],[9,13,2],[11,15,0],[12,13,0],[13,14,0],[14,15,0]],\"keys\":[6,13],\"exit\":14,\"par\":11},{\"edges\":[[0,1,2],[0,4,2],[1,5,0],[3,7,0],[4,5,0],[5,6,0],[5,9,0],[6,7,0],[8,9,1],[9,13,0],[13,14,0],[14,15,3]],\"keys\":[7,13,15],\"exit\":3,\"par\":15}],[{\"edges\":[[0,1,0],[0,4,0],[4,5,0],[5,9,0],[6,7,0],[6,10,1],[7,11,0],[9,10,0],[10,11,0],[10,14,0],[11,15,0],[14,15,0]],\"keys\":[6],\"exit\":14,\"par\":7},{\"edges\":[[0,1,1],[0,4,0],[1,2,0],[1,5,0],[2,3,0],[4,5,0],[5,9,0],[9,10,0],[9,13,1],[10,14,0],[12,13,0],[13,14,0],[14,15,0]],\"keys\":[12,0],\"exit\":15,\"par\":12},{\"edges\":[[0,1,0],[0,4,0],[1,2,1],[1,5,0],[2,3,0],[2,6,2],[4,5,0],[5,6,0],[5,9,0],[6,10,0],[9,10,1],[9,13,0],[10,14,0],[12,13,3],[13,14,0]],\"keys\":[14,0,12],\"exit\":3,\"par\":15}],[{\"edges\":[[0,1,0],[0,4,0],[1,2,0],[2,6,0],[4,5,0],[5,9,0],[6,7,0],[6,10,0],[7,11,0],[9,10,1],[10,11,0],[10,14,0],[11,15,0],[14,15,0]],\"keys\":[14],\"exit\":15,\"par\":8},{\"edges\":[[0,1,0],[0,4,0],[1,2,0],[1,5,0],[2,3,0],[3,7,0],[4,5,0],[4,8,0],[5,9,0],[7,11,0],[8,9,0],[8,12,0],[9,10,2],[10,11,0],[11,15,1]],\"keys\":[8,10],\"exit\":0,\"par\":10},{\"edges\":[[1,2,1],[1,5,0],[2,3,0],[2,6,0],[4,5,0],[4,8,2],[5,6,0],[5,9,0],[8,9,1],[9,13,0],[11,15,3],[13,14,0],[14,15,3]],\"keys\":[13,2,15],\"exit\":3,\"par\":15}]]",
+      "difficulty": "Deterministic selection for ALL uint32 seeds: h=Math.imul((seed>>>0)^(seed>>>16),1177)>>>0; pack=((h^(h>>>13))>>>0)%6. No transforms, random globals, runtime search, special QA branches or seed lookup exceptions. Six genuinely different packs define walls, key cells, gate requirements, exits and optimal inputs. QA seeds 1,7,23,89,2026,4294967295 cover all 6 packs. Room1 has one key and real shortcut decisions; room2 A/B key-order costs differ >=4 moves; room3 A/B order plus C gated behind A+B. Keep observe().quality: stage=state.stage; complexity=actual currently legal destination count under these exact rules (entry widths2/3/4, success0); meaningful_actions increments ONCE for each legal move including exit and never resets between rooms; reversible_state_key=stage+\":\"+cell+\":\"+key_mask+\":\"+outcome. Never report plan length or arbitrary difficulty as complexity. The independently measured route decision states and key-order costs are distinct from immediate width. Keep the projection stage/cell/key_mask/outcome exact.",
+      "presentation": "Make this visibly more polished: a compact deep graphite vault, layered beveled floor tiles, distinct solid wall edges, luminous cyan explorer, high-contrast brass/magenta/ice keys A/B/C and corresponding colored locked gate bars with readable requirements A/B/AB. Gates must visibly disappear/change to open tracks when unlocked. Exit has locked/open states; collected key inventory stays clear. Indicate ROOM n, MOVES n, PAR n and route efficiency. Keep four arrow pads LEFT, UP, RIGHT, DOWN in bottom20% of canvas at x centers.125,.375,.625,.875, y.9; preserve tap-column mapping across the entire canvas. No additional action buttons or complex input. Each pointer action increments pointer_actions; directional presses use edge latching, cleared on neutral input/touch. Space no-op. Use existing GameKit exactly; core export globalThis.KeywakeCore; no DOM/browser identifiers in core. Keep v3 exact-directory base resolution BEFORE asset loading and manifest fetching.",
+      "originality": "This is an owner-authorized depth revision of the existing same-ID Keywake, not another candidate or a reset. Retain the successful v3 lifecycle, input, GameKit integration, mobile spacing, native media handling, asset base resolution and no-side-effects behavior while replacing the room rules/art and efficiency presentation. Never touch Factory/GameKit/manifest/QA.",
+      "scoring": "Score starts0 and is awarded ONLY on room completion: max(20,200-15*max(0,room_moves-par)). Count every legal move including exit and detours in room_moves; clear it only for next room. Track total_moves and total par across completed rooms. A perfect completed game scores600; extra moves strictly reduce room score until floor20. Keys, gates, bumps, waiting and reversible walks award ZERO. Show Perfect route for zero extra moves, Efficient route for1-2 extra, otherwise Detour +N; show these legibly at room clear/final result. Same-seed GameKit Replay lets players improve order/path efficiency; do not change seed on automatic restart because that breaks the finite oracle/replay contract. No extra storage. Best only from GameKit snapshot.best. observe.progress may be elapsed seconds rounded to1 decimal to avoid the long decimals in v3.",
+      "mobile_readability": "At 390×844 keep heading, objective, separate score/best cards, room/key progress, readable board, result and the primary Replay button inside the first viewport. Use compact responsive spacing, a roughly 340–370 CSS-pixel high canvas, ≥14 CSS-pixel DOM/canvas text and ≥44×44 CSS-pixel buttons. Scale canvas font sizes for device pixels correctly. Avoid stacked fillText/strokeText on the same glyph, overlapped text, tiny footnotes and canvas labels under arrows. Critical label and value elements must have separate non-overlapping boxes. Include all mandatory GameKit controls. At 768×1024 and 1280×800 keep the full interface within the viewport with a max-width compact board. [data-result] can be a visible hint before a terminal result; never nest critical selectors inside one another. Four-by-four cells, wall/gate edges and key labels must remain legible. Every canvas text font is at least14 CSS pixels, including PAR/key/gate labels. Do not draw several labels on the same tile or clipped at canvas boundaries. Limit long event text to separate short badges below the board, not over tile glyphs.",
+      "result": "On success show exact ALL ROOMS CLEARED, current score, number of moves and an efficiency message; on time expiry show exact TIME UP and rooms cleared. Use one [data-result] element and a strong [data-game-restart] Replay button visible inside the first 390px result viewport. Restart must use GameKit and reset the real core with the same seed. Render CURRENT SCORE in [data-score-label], its numeric value in [data-game-score]; DEVICE BEST in [data-best-label] and snapshot.best in [data-best]. Read best only from GameKit snapshot, no custom storage. Capture/QA writes zero; normal practice persists GameKit best and survives reload. Add total moves vs total par and exact route-rating words without moving Replay below the first mobile viewport. Rooms cleared remains the principal progress; efficiency is the replay incentive.",
+      "reduced_motion": "Read matchMedia(\"(prefers-reduced-motion: reduce)\") initially and subscribe to native change events in presentation code. Honor both directions at runtime; expose a presentation callback returning reduced_motion, feedback_active, static_feedback as booleans. Reduced mode disables explorer travel, pulses and wiggle, replacing a meaningful move with a clearly visible static contrasting destination ring/path mark. Changing back restores animation for subsequent moves. Respect GameKit pause/hidden/restart lifecycle and clean native event listeners on final non-persisted pagehide. No sound, network, external assets or extra timers are needed.",
+      "completion_timing": "Keep the same40-second limit (2400 core ticks), not a shorter timer or faster movement. Human planning makes the new routes harder. Success ends on the exit step immediately, no delay/animation barrier, <=100ms. Failure at2400 ticks uses TIME UP. Main objective progress is ROOMS0/3 to3/3; elapsed time is a separately labeled counter. Never add forced waiting.",
+      "action_feedback": "For every legal move create a visible 220–280ms explorer step interpolation or movement trail between old and new cells plus a key/door event highlight. Use GameKit draw snapshots and presentation-only state; canonical state moves immediately and later inputs remain accepted. Derive transition time from the draw/performance clock, not mutable QA state. At 70ms and 130ms after an input there must be different visible intermediate frames; by 530ms the move settles and feedback_active=false. Expose feedback_active=true only during real visible interpolation, not a fabricated probe. In reduced mode use no travel: a static high-contrast outline visibly marks the new cell and static_feedback=true while that alternative is shown. Reset presentation tracking on Start/Replay; ignore idle redraws as actions. Show blocked-move feedback without adding points or meaningful_actions. Distinguish pickup (key inventory flash), unlock (colored gate opens), room clear (brief ROOM CLEAR badge), path selection (explorer trail), hatch open (high contrast halo), final clear (result). Canonical state updates immediately; never block later inputs for effects. Reduced motion uses stable rings/badges/open gate shapes. Sound optional but unnecessary. Preserve v3 correct GameKit draw signature forwarding; the kit calls draw(ctx,snapshot,{width,height})."
+    },
+    "product_contract": {
+      "schema_version": 1,
+      "objective": {
+        "visible_selector": "[data-objective]",
+        "expected_text": "Collect keys. Unlock gates. Reach all 3 exits."
+      },
+      "progress": {
+        "selector": "[data-product-progress]",
+        "state_path": "state.objective_progress",
+        "format": "ROOMS {value} / 3",
+        "milestones": [
+          1,
+          2,
+          3
+        ]
+      },
+      "score": {
+        "selector": "[data-game-score]",
+        "label_selector": "[data-score-label]",
+        "expected_label": "CURRENT SCORE",
+        "reversible_probes": [
+          [
+            "left",
+            "right"
+          ],
+          [
+            "down",
+            "up"
+          ]
+        ],
+        "no_progress_probes": [
+          [
+            "up"
+          ],
+          [
+            "right"
+          ]
+        ]
+      },
+      "best": {
+        "selector": "[data-best]",
+        "label_selector": "[data-best-label]",
+        "expected_label": "DEVICE BEST",
+        "source": "GameKit.best"
+      },
+      "completion": {
+        "state_path": "state.outcome",
+        "success_value": "success",
+        "failure_value": "failure",
+        "result_selector": "[data-result]",
+        "success_text": "ALL ROOMS CLEARED",
+        "failure_text": "TIME UP",
+        "max_terminal_latency_ms": 100,
+        "failure_wait_ms": 41000,
+        "failure_actions": []
+      },
+      "replay": {
+        "selector": "[data-game-restart]",
+        "must_be_in_initial_mobile_viewport": true
+      },
+      "difficulty": {
+        "deterministic_seeds": [
+          1,
+          7,
+          23,
+          89,
+          2026,
+          4294967295
+        ],
+        "oracle_id": "keywake-depth-v1",
+        "oracle_sha256": "1ea9b235bc6b83d7117e3d0a8ded161cdb2533fb66cf992cf2c7b6b1d2942d5d",
+        "projection": [
+          "state.stage",
+          "state.cell",
+          "state.key_mask",
+          "state.outcome"
+        ],
+        "stage_path": "quality.stage",
+        "complexity_path": "quality.complexity",
+        "meaningful_actions_path": "quality.meaningful_actions",
+        "reversible_state_path": "quality.reversible_state_key",
+        "required_monotonicity": "later_strictly_greater",
+        "max_actions": 64
+      },
+      "mobile": {
+        "critical_selectors": [
+          "[data-objective]",
+          "[data-product-progress]",
+          "[data-score-label]",
+          "[data-game-score]",
+          "[data-best-label]",
+          "[data-best]",
+          "[data-result]"
+        ],
+        "control_selectors": [
+          "[data-game-start]",
+          "[data-game-pause]",
+          "[data-game-resume]",
+          "[data-game-restart]"
+        ],
+        "canvas_selector": "[data-game-canvas]",
+        "canvas_control_regions": [
+          {
+            "x": 0,
+            "y": 0.8,
+            "width": 0.25,
+            "height": 0.2
+          },
+          {
+            "x": 0.25,
+            "y": 0.8,
+            "width": 0.25,
+            "height": 0.2
+          },
+          {
+            "x": 0.5,
+            "y": 0.8,
+            "width": 0.25,
+            "height": 0.2
+          },
+          {
+            "x": 0.75,
+            "y": 0.8,
+            "width": 0.25,
+            "height": 0.2
+          }
+        ],
+        "min_font_px": 14,
+        "min_hit_target_px": 44
+      },
+      "reduced_motion": {
+        "presentation_probe_path": "presentation.reduced_motion",
+        "dynamic_change_required": true
+      },
+      "feedback": {
+        "action": "left",
+        "state_change_path": "quality.reversible_state_key",
+        "visual_probe": "[data-game-canvas]",
+        "active_probe_path": "presentation.feedback_active",
+        "static_probe_path": "presentation.static_feedback",
+        "settle_ms": 400
+      },
+      "actions": {
+        "left": {
+          "key": "ArrowLeft",
+          "touch": {
+            "x": 0.125,
+            "y": 0.9
+          },
+          "hold_ms": 35,
+          "settle_ms": 35
+        },
+        "up": {
+          "key": "ArrowUp",
+          "touch": {
+            "x": 0.375,
+            "y": 0.9
+          },
+          "hold_ms": 35,
+          "settle_ms": 35
+        },
+        "right": {
+          "key": "ArrowRight",
+          "touch": {
+            "x": 0.625,
+            "y": 0.9
+          },
+          "hold_ms": 35,
+          "settle_ms": 35
+        },
+        "down": {
+          "key": "ArrowDown",
+          "touch": {
+            "x": 0.875,
+            "y": 0.9
+          },
+          "hold_ms": 35,
+          "settle_ms": 35
+        }
+      }
+    }
+  },
+  "quality_baselines": [
+    {
+      "game": "astra-sentinel-v3",
+      "role": "quality only; clear entry, complete lifecycle, polished feedback; no copying"
+    },
+    {
+      "game": "deep-descent",
+      "role": "quality only; mobile control, visible progression, terminal/restart, bounded effects; no copying"
+    }
+  ],
+  "gamekit_contract": {
+    "version": "gamekit-1",
+    "factory_supplied": [
+      "gamekit.js",
+      "manifest.json"
+    ],
+    "files": {
+      "core.js": "DOM-free create(seed), step(state,input), observe(state), terminal(state). Export with globalThis.YourCore = {create,step,observe,terminal}; NEVER use window even for export. Core source is statically checked for document/window/localStorage/fetch identifiers. Mutate only supplied state; no time/random globals.",
+      "app.js": "Fetch ./manifest.json, then PlayJoltGameKit.create({core,draw,canvas:document.querySelector('[data-game-canvas]'),metadata}). No private game loop or replacement diagnostics.",
+      "view/art.js": "draw(ctx,snapshot,{width,height}); drawing only. snapshot.state is cloned; do not mutate canonical state.",
+      "index.html": "Load ./core.js, ./view/art.js, ./gamekit.js, ./app.js in that order; local ./style.css. Include noindex,nofollow and viewport meta.",
+      "style.css": "Responsive canvas/container at 390x844,768x1024,1280x800; touch-action:none on canvas. No horizontal overflow.",
+      "README.md": "Original mechanic, controls, deterministic behavior and play/replay instructions."
+    },
+    "required_dom": [
+      "canvas[data-game-canvas][tabindex=\"0\"]",
+      "button[data-game-start]",
+      "button[data-game-pause]",
+      "button[data-game-resume]",
+      "button[data-game-restart]",
+      "[data-game-status]",
+      "[data-game-score]",
+      "[data-game-progress]",
+      "[data-game-error][hidden]"
+    ],
+    "input": {
+      "x": "-1/0/1 from arrows or A/D",
+      "y": "-1/0/1 from arrows or W/S",
+      "action": "one simulation tick from Space or touch/pointer",
+      "pointer": "null or normalized {x,y} while touching canvas"
+    },
+    "observe": "Return finite {tick,score,progress,interactions,entities}; tick advances each 1/60 step. Count actual gameplay interaction/collision/damage. Respect immutable spec.qa paths. With product_contract, also return quality:{stage,complexity,objective_progress,meaningful_actions,reversible_state_key} matching the reviewed data oracle. GameKit clones quality and presentation() into read-only snapshots. Supply presentation() returning the declared reduced-motion/feedback probes; no diagnostic setters or private QA input APIs.",
+    "lifecycle": "GameKit owns boot/start/pause/resume/finish/restart, responsive canvas, visibility/pagehide, error boundary, local practice best and GameDiagnostics.snapshot(). Do not override GameDiagnostics or GameKit.",
+    "limits": {
+      "load_ms": 8000,
+      "case_timeout_ms": 45000,
+      "run_timeout_ms": 150000,
+      "freeze_ms": 1200,
+      "max_entities": 512,
+      "max_dom_nodes": 2000,
+      "max_heap_growth_bytes": 67108864,
+      "overflow_px": 1,
+      "severe_overflow_px": 16,
+      "max_terminal_ms": 120000
+    },
+    "source_hash": "598dd20009455b1daffb5cd197df98b2b541edb7652294c67f42b5c4792c192d"
+  },
+  "allowed_paths": [
+    "core.js",
+    "app.js",
+    "view/art.js",
+    "style.css",
+    "index.html",
+    "README.md",
+    "view/**",
+    "assets/**"
+  ],
+  "protected_paths": [
+    "vibe-arcade/games/**",
+    "vibe-arcade/release/**",
+    "vibe-arcade/descent/**",
+    "vibe-arcade/core-pins/**",
+    "vibe-arcade/challengers/**",
+    "vibe-arcade/community/**",
+    "vibe-arcade/runtime/**",
+    "vibe-arcade/measurement/**",
+    "vibe-arcade/marketing/**",
+    "vibe-arcade/index.html",
+    "vibe-arcade/sitemap.xml",
+    "vibe-arcade/robots.txt",
+    "vibe-arcade/google*.html",
+    "loopjolt-backend/**",
+    ".github/**",
+    "**/.env*",
+    "**/secrets/**",
+    "manifest.json",
+    "gamekit.js"
+  ],
+  "budget": {
+    "per_game": {
+      "max_provider_calls": 6,
+      "max_input_tokens": 500000,
+      "max_output_tokens": 108000,
+      "max_estimated_cost": 2,
+      "max_wall_clock_minutes": 60
+    },
+    "request": {
+      "max_input_tokens": 100000,
+      "max_output_tokens": 18000,
+      "timeout_ms": 300000,
+      "max_response_bytes": 1048576,
+      "max_file_bytes": 131072,
+      "max_files": 24
+    }
+  },
+  "previous_failures": [
+    {
+      "code": "product_mobile_readability",
+      "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"canvas text collision\",\"pair\":[{\"text\":\"A\",\"x\":167.0205078125,\"y\":437.5698717948718,\"width\":7.833984375,\"height\":14,\"font_px\":14},{\"text\":\"A\",\"x\":167.0205078125,\"y\":444.9246794871795,\"width\":7.833984375,\"height\":14,\"font_px\":14}]}]",
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "expected": "readable text, non-colliding labels, >=44px controls",
+      "actual": [
+        {
+          "kind": "canvas text collision",
+          "pair": [
+            {
+              "text": "A",
+              "x": 167.0205078125,
+              "y": 437.5698717948718,
+              "width": 7.833984375,
+              "height": 14,
+              "font_px": 14
+            },
+            {
+              "text": "A",
+              "x": 167.0205078125,
+              "y": 444.9246794871795,
+              "width": 7.833984375,
+              "height": 14,
+              "font_px": 14
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        "product/product-390-entry.png"
+      ]
+    },
+    {
+      "code": "product_mobile_readability",
+      "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"canvas text collision\",\"pair\":[{\"text\":\"A\",\"x\":356.0048828125,\"y\":339.875,\"width\":7.833984375,\"height\":14,\"font_px\":14},{\"text\":\"A\",\"x\":356.0048828125,\"y\":345.9375,\"width\":7.833984375,\"height\":14,\"font_px\":14}]}]",
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "expected": "readable text, non-colliding labels, >=44px controls",
+      "actual": [
+        {
+          "kind": "canvas text collision",
+          "pair": [
+            {
+              "text": "A",
+              "x": 356.0048828125,
+              "y": 339.875,
+              "width": 7.833984375,
+              "height": 14,
+              "font_px": 14
+            },
+            {
+              "text": "A",
+              "x": 356.0048828125,
+              "y": 345.9375,
+              "width": 7.833984375,
+              "height": 14,
+              "font_px": 14
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        "product/product-768-entry.png"
+      ]
+    },
+    {
+      "code": "product_mobile_readability",
+      "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"canvas text collision\",\"pair\":[{\"text\":\"A\",\"x\":612.0205078125,\"y\":339.875,\"width\":7.833984375,\"height\":14,\"font_px\":14},{\"text\":\"A\",\"x\":612.0205078125,\"y\":345.9375,\"width\":7.833984375,\"height\":14,\"font_px\":14}]}]",
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "expected": "readable text, non-colliding labels, >=44px controls",
+      "actual": [
+        {
+          "kind": "canvas text collision",
+          "pair": [
+            {
+              "text": "A",
+              "x": 612.0205078125,
+              "y": 339.875,
+              "width": 7.833984375,
+              "height": 14,
+              "font_px": 14
+            },
+            {
+              "text": "A",
+              "x": 612.0205078125,
+              "y": 345.9375,
+              "width": 7.833984375,
+              "height": 14,
+              "font_px": 14
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        "product/product-1280-entry.png"
+      ]
+    }
+  ],
+  "repair_request": {
+    "schema_version": 1,
+    "game_id": "GAME-20260923-141",
+    "version": "v4",
+    "target_version": "v5",
+    "attempt": 4,
+    "max_repair_attempts": 5,
+    "source_hash": "f88bb4e06499495522bf17332a36c86ac7c4a1022a46014a9da9121597c77165",
+    "qa_failures": [
+      {
+        "code": "product_mobile_readability",
+        "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"canvas text collision\",\"pair\":[{\"text\":\"A\",\"x\":167.0205078125,\"y\":437.5698717948718,\"width\":7.833984375,\"height\":14,\"font_px\":14},{\"text\":\"A\",\"x\":167.0205078125,\"y\":444.9246794871795,\"width\":7.833984375,\"height\":14,\"font_px\":14}]}]",
+        "check": "mobile_readability",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "phase": "entry",
+        "selector": "[data-game-canvas]",
+        "expected": "readable text, non-colliding labels, >=44px controls",
+        "actual": [
+          {
+            "kind": "canvas text collision",
+            "pair": [
+              {
+                "text": "A",
+                "x": 167.0205078125,
+                "y": 437.5698717948718,
+                "width": 7.833984375,
+                "height": 14,
+                "font_px": 14
+              },
+              {
+                "text": "A",
+                "x": 167.0205078125,
+                "y": 444.9246794871795,
+                "width": 7.833984375,
+                "height": 14,
+                "font_px": 14
+              }
+            ]
+          }
+        ],
+        "evidence": [
+          "product/product-390-entry.png"
+        ]
+      },
+      {
+        "code": "product_mobile_readability",
+        "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"canvas text collision\",\"pair\":[{\"text\":\"A\",\"x\":356.0048828125,\"y\":339.875,\"width\":7.833984375,\"height\":14,\"font_px\":14},{\"text\":\"A\",\"x\":356.0048828125,\"y\":345.9375,\"width\":7.833984375,\"height\":14,\"font_px\":14}]}]",
+        "check": "mobile_readability",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "phase": "entry",
+        "selector": "[data-game-canvas]",
+        "expected": "readable text, non-colliding labels, >=44px controls",
+        "actual": [
+          {
+            "kind": "canvas text collision",
+            "pair": [
+              {
+                "text": "A",
+                "x": 356.0048828125,
+                "y": 339.875,
+                "width": 7.833984375,
+                "height": 14,
+                "font_px": 14
+              },
+              {
+                "text": "A",
+                "x": 356.0048828125,
+                "y": 345.9375,
+                "width": 7.833984375,
+                "height": 14,
+                "font_px": 14
+              }
+            ]
+          }
+        ],
+        "evidence": [
+          "product/product-768-entry.png"
+        ]
+      },
+      {
+        "code": "product_mobile_readability",
+        "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"canvas text collision\",\"pair\":[{\"text\":\"A\",\"x\":612.0205078125,\"y\":339.875,\"width\":7.833984375,\"height\":14,\"font_px\":14},{\"text\":\"A\",\"x\":612.0205078125,\"y\":345.9375,\"width\":7.833984375,\"height\":14,\"font_px\":14}]}]",
+        "check": "mobile_readability",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "phase": "entry",
+        "selector": "[data-game-canvas]",
+        "expected": "readable text, non-colliding labels, >=44px controls",
+        "actual": [
+          {
+            "kind": "canvas text collision",
+            "pair": [
+              {
+                "text": "A",
+                "x": 612.0205078125,
+                "y": 339.875,
+                "width": 7.833984375,
+                "height": 14,
+                "font_px": 14
+              },
+              {
+                "text": "A",
+                "x": 612.0205078125,
+                "y": 345.9375,
+                "width": 7.833984375,
+                "height": 14,
+                "font_px": 14
+              }
+            ]
+          }
+        ],
+        "evidence": [
+          "product/product-1280-entry.png"
+        ]
+      }
+    ],
+    "product_contract": {
+      "schema_version": 1,
+      "objective": {
+        "visible_selector": "[data-objective]",
+        "expected_text": "Collect keys. Unlock gates. Reach all 3 exits."
+      },
+      "progress": {
+        "selector": "[data-product-progress]",
+        "state_path": "state.objective_progress",
+        "format": "ROOMS {value} / 3",
+        "milestones": [
+          1,
+          2,
+          3
+        ]
+      },
+      "score": {
+        "selector": "[data-game-score]",
+        "label_selector": "[data-score-label]",
+        "expected_label": "CURRENT SCORE",
+        "reversible_probes": [
+          [
+            "left",
+            "right"
+          ],
+          [
+            "down",
+            "up"
+          ]
+        ],
+        "no_progress_probes": [
+          [
+            "up"
+          ],
+          [
+            "right"
+          ]
+        ]
+      },
+      "best": {
+        "selector": "[data-best]",
+        "label_selector": "[data-best-label]",
+        "expected_label": "DEVICE BEST",
+        "source": "GameKit.best"
+      },
+      "completion": {
+        "state_path": "state.outcome",
+        "success_value": "success",
+        "failure_value": "failure",
+        "result_selector": "[data-result]",
+        "success_text": "ALL ROOMS CLEARED",
+        "failure_text": "TIME UP",
+        "max_terminal_latency_ms": 100,
+        "failure_wait_ms": 41000,
+        "failure_actions": []
+      },
+      "replay": {
+        "selector": "[data-game-restart]",
+        "must_be_in_initial_mobile_viewport": true
+      },
+      "difficulty": {
+        "deterministic_seeds": [
+          1,
+          7,
+          23,
+          89,
+          2026,
+          4294967295
+        ],
+        "oracle_id": "keywake-depth-v1",
+        "oracle_sha256": "1ea9b235bc6b83d7117e3d0a8ded161cdb2533fb66cf992cf2c7b6b1d2942d5d",
+        "projection": [
+          "state.stage",
+          "state.cell",
+          "state.key_mask",
+          "state.outcome"
+        ],
+        "stage_path": "quality.stage",
+        "complexity_path": "quality.complexity",
+        "meaningful_actions_path": "quality.meaningful_actions",
+        "reversible_state_path": "quality.reversible_state_key",
+        "required_monotonicity": "later_strictly_greater",
+        "max_actions": 64
+      },
+      "mobile": {
+        "critical_selectors": [
+          "[data-objective]",
+          "[data-product-progress]",
+          "[data-score-label]",
+          "[data-game-score]",
+          "[data-best-label]",
+          "[data-best]",
+          "[data-result]"
+        ],
+        "control_selectors": [
+          "[data-game-start]",
+          "[data-game-pause]",
+          "[data-game-resume]",
+          "[data-game-restart]"
+        ],
+        "canvas_selector": "[data-game-canvas]",
+        "canvas_control_regions": [
+          {
+            "x": 0,
+            "y": 0.8,
+            "width": 0.25,
+            "height": 0.2
+          },
+          {
+            "x": 0.25,
+            "y": 0.8,
+            "width": 0.25,
+            "height": 0.2
+          },
+          {
+            "x": 0.5,
+            "y": 0.8,
+            "width": 0.25,
+            "height": 0.2
+          },
+          {
+            "x": 0.75,
+            "y": 0.8,
+            "width": 0.25,
+            "height": 0.2
+          }
+        ],
+        "min_font_px": 14,
+        "min_hit_target_px": 44
+      },
+      "reduced_motion": {
+        "presentation_probe_path": "presentation.reduced_motion",
+        "dynamic_change_required": true
+      },
+      "feedback": {
+        "action": "left",
+        "state_change_path": "quality.reversible_state_key",
+        "visual_probe": "[data-game-canvas]",
+        "active_probe_path": "presentation.feedback_active",
+        "static_probe_path": "presentation.static_feedback",
+        "settle_ms": 400
+      },
+      "actions": {
+        "left": {
+          "key": "ArrowLeft",
+          "touch": {
+            "x": 0.125,
+            "y": 0.9
+          },
+          "hold_ms": 35,
+          "settle_ms": 35
+        },
+        "up": {
+          "key": "ArrowUp",
+          "touch": {
+            "x": 0.375,
+            "y": 0.9
+          },
+          "hold_ms": 35,
+          "settle_ms": 35
+        },
+        "right": {
+          "key": "ArrowRight",
+          "touch": {
+            "x": 0.625,
+            "y": 0.9
+          },
+          "hold_ms": 35,
+          "settle_ms": 35
+        },
+        "down": {
+          "key": "ArrowDown",
+          "touch": {
+            "x": 0.875,
+            "y": 0.9
+          },
+          "hold_ms": 35,
+          "settle_ms": 35
+        }
+      }
+    },
+    "product_evidence_index": "v4/artifact-index.json",
+    "product_acceptance": "Fix every independent product failure. Preserve exact selectors, diagnostic paths and reviewed oracle. Use expected/actual and evidence references; never alter tests or lower the contract.",
+    "allowed_scope": [
+      "core.js",
+      "app.js",
+      "view/**",
+      "style.css",
+      "index.html",
+      "README.md",
+      "assets/**"
+    ],
+    "protected_paths": [
+      "vibe-arcade/games/**",
+      "vibe-arcade/release/**",
+      "vibe-arcade/descent/**",
+      "vibe-arcade/core-pins/**",
+      "vibe-arcade/challengers/**",
+      "vibe-arcade/community/**",
+      "vibe-arcade/runtime/**",
+      "vibe-arcade/measurement/**",
+      "vibe-arcade/marketing/**",
+      "vibe-arcade/index.html",
+      "vibe-arcade/sitemap.xml",
+      "vibe-arcade/robots.txt",
+      "vibe-arcade/google*.html",
+      "loopjolt-backend/**",
+      ".github/**",
+      "**/.env*",
+      "**/secrets/**",
+      "manifest.json",
+      "gamekit.js"
+    ],
+    "acceptance_tests": [
+      "manifest schema",
+      "all three real browser viewports",
+      "no console/page errors",
+      "start/progress/input/interaction",
+      "terminal/restart/pause/resume/hidden",
+      "no side effects",
+      "source and resource bounds"
+    ],
+    "operation_id": "GAME-20260923-141/repair/4"
+  },
+  "qa_evidence": {
+    "passed": false,
+    "hard_failures": [
+      {
+        "code": "product_mobile_readability",
+        "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"canvas text collision\",\"pair\":[{\"text\":\"A\",\"x\":167.0205078125,\"y\":437.5698717948718,\"width\":7.833984375,\"height\":14,\"font_px\":14},{\"text\":\"A\",\"x\":167.0205078125,\"y\":444.9246794871795,\"width\":7.833984375,\"height\":14,\"font_px\":14}]}]",
+        "check": "mobile_readability",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "phase": "entry",
+        "selector": "[data-game-canvas]",
+        "expected": "readable text, non-colliding labels, >=44px controls",
+        "actual": [
+          {
+            "kind": "canvas text collision",
+            "pair": [
+              {
+                "text": "A",
+                "x": 167.0205078125,
+                "y": 437.5698717948718,
+                "width": 7.833984375,
+                "height": 14,
+                "font_px": 14
+              },
+              {
+                "text": "A",
+                "x": 167.0205078125,
+                "y": 444.9246794871795,
+                "width": 7.833984375,
+                "height": 14,
+                "font_px": 14
+              }
+            ]
+          }
+        ],
+        "evidence": [
+          "product/product-390-entry.png"
+        ]
+      },
+      {
+        "code": "product_mobile_readability",
+        "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"canvas text collision\",\"pair\":[{\"text\":\"A\",\"x\":356.0048828125,\"y\":339.875,\"width\":7.833984375,\"height\":14,\"font_px\":14},{\"text\":\"A\",\"x\":356.0048828125,\"y\":345.9375,\"width\":7.833984375,\"height\":14,\"font_px\":14}]}]",
+        "check": "mobile_readability",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "phase": "entry",
+        "selector": "[data-game-canvas]",
+        "expected": "readable text, non-colliding labels, >=44px controls",
+        "actual": [
+          {
+            "kind": "canvas text collision",
+            "pair": [
+              {
+                "text": "A",
+                "x": 356.0048828125,
+                "y": 339.875,
+                "width": 7.833984375,
+                "height": 14,
+                "font_px": 14
+              },
+              {
+                "text": "A",
+                "x": 356.0048828125,
+                "y": 345.9375,
+                "width": 7.833984375,
+                "height": 14,
+                "font_px": 14
+              }
+            ]
+          }
+        ],
+        "evidence": [
+          "product/product-768-entry.png"
+        ]
+      },
+      {
+        "code": "product_mobile_readability",
+        "message": "Expected \"readable text, non-colliding labels, >=44px controls\"; actual [{\"kind\":\"canvas text collision\",\"pair\":[{\"text\":\"A\",\"x\":612.0205078125,\"y\":339.875,\"width\":7.833984375,\"height\":14,\"font_px\":14},{\"text\":\"A\",\"x\":612.0205078125,\"y\":345.9375,\"width\":7.833984375,\"height\":14,\"font_px\":14}]}]",
+        "check": "mobile_readability",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "phase": "entry",
+        "selector": "[data-game-canvas]",
+        "expected": "readable text, non-colliding labels, >=44px controls",
+        "actual": [
+          {
+            "kind": "canvas text collision",
+            "pair": [
+              {
+                "text": "A",
+                "x": 612.0205078125,
+                "y": 339.875,
+                "width": 7.833984375,
+                "height": 14,
+                "font_px": 14
+              },
+              {
+                "text": "A",
+                "x": 612.0205078125,
+                "y": 345.9375,
+                "width": 7.833984375,
+                "height": 14,
+                "font_px": 14
+              }
+            ]
+          }
+        ],
+        "evidence": [
+          "product/product-1280-entry.png"
+        ]
+      }
+    ],
+    "console_errors": [],
+    "page_errors": [],
+    "browser_cases": [
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "checks": [
+          "html",
+          "assets",
+          "start",
+          "real_clock",
+          "keyboard",
+          "touch",
+          "progress",
+          "interaction",
+          "pause",
+          "resume",
+          "hidden",
+          "overflow",
+          "terminal",
+          "resources",
+          "restart",
+          "pagehide",
+          "capture_no_writes"
+        ],
+        "passed": true
+      },
+      {
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "checks": [
+          "html",
+          "assets",
+          "start",
+          "real_clock",
+          "keyboard",
+          "touch",
+          "progress",
+          "interaction",
+          "pause",
+          "resume",
+          "hidden",
+          "overflow",
+          "terminal",
+          "resources",
+          "restart",
+          "pagehide",
+          "capture_no_writes"
+        ],
+        "passed": true
+      },
+      {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "checks": [
+          "html",
+          "assets",
+          "start",
+          "real_clock",
+          "keyboard",
+          "touch",
+          "progress",
+          "interaction",
+          "pause",
+          "resume",
+          "hidden",
+          "overflow",
+          "terminal",
+          "resources",
+          "restart",
+          "pagehide",
+          "capture_no_writes"
+        ],
+        "passed": true
+      }
+    ],
+    "technical_qa": true,
+    "product_qa": {
+      "passed": false,
+      "checks": [
+        {
+          "check": "mobile_readability",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "phase": "entry",
+          "selector": "[data-game-canvas]",
+          "status": "FAIL",
+          "expected": "readable text, non-colliding labels, >=44px controls",
+          "actual": [
+            {
+              "kind": "canvas text collision",
+              "pair": [
+                {
+                  "text": "A",
+                  "x": 167.0205078125,
+                  "y": 437.5698717948718,
+                  "width": 7.833984375,
+                  "height": 14,
+                  "font_px": 14
+                },
+                {
+                  "text": "A",
+                  "x": 167.0205078125,
+                  "y": 444.9246794871795,
+                  "width": 7.833984375,
+                  "height": 14,
+                  "font_px": 14
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "check": "mobile_readability",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "phase": "entry",
+          "selector": "[data-game-canvas]",
+          "status": "FAIL",
+          "expected": "readable text, non-colliding labels, >=44px controls",
+          "actual": [
+            {
+              "kind": "canvas text collision",
+              "pair": [
+                {
+                  "text": "A",
+                  "x": 356.0048828125,
+                  "y": 339.875,
+                  "width": 7.833984375,
+                  "height": 14,
+                  "font_px": 14
+                },
+                {
+                  "text": "A",
+                  "x": 356.0048828125,
+                  "y": 345.9375,
+                  "width": 7.833984375,
+                  "height": 14,
+                  "font_px": 14
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "check": "mobile_readability",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "phase": "entry",
+          "selector": "[data-game-canvas]",
+          "status": "FAIL",
+          "expected": "readable text, non-colliding labels, >=44px controls",
+          "actual": [
+            {
+              "kind": "canvas text collision",
+              "pair": [
+                {
+                  "text": "A",
+                  "x": 612.0205078125,
+                  "y": 339.875,
+                  "width": 7.833984375,
+                  "height": 14,
+                  "font_px": 14
+                },
+                {
+                  "text": "A",
+                  "x": 612.0205078125,
+                  "y": 345.9375,
+                  "width": 7.833984375,
+                  "height": 14,
+                  "font_px": 14
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "product-390-entry.png",
+          "kind": "screenshot",
+          "phase": "entry",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "c48967d436c11cb0128ec5137d1f9b4e76c0567bf00d710a159a55521c6df2be"
+        },
+        {
+          "path": "product-390-playing.png",
+          "kind": "screenshot",
+          "phase": "playing",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "7ec0be5fd33f68a3787636eda840b2e8d77dd9ef4317e2195489640879baee87"
+        },
+        {
+          "path": "product-390-feedback-motion-before.png",
+          "kind": "screenshot",
+          "phase": "feedback-motion-before",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "a497b7912ecc7dc74c56dd5aff6a7a8c738f70df6fd6d58d676e02ff74b8ae2f"
+        },
+        {
+          "path": "product-390-feedback-motion-0.png",
+          "kind": "screenshot",
+          "phase": "feedback-motion-0",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "c98fac00a74158fab164bfe3c5a1e2c938f142e8cffe14d4fb6007be57befad9"
+        },
+        {
+          "path": "product-390-feedback-motion-60.png",
+          "kind": "screenshot",
+          "phase": "feedback-motion-60",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "beb02d96bfe58072d666c067888cccbe04afe4bf629b59e9d77680edc7e89c44"
+        },
+        {
+          "path": "product-390-feedback-motion-400.png",
+          "kind": "screenshot",
+          "phase": "feedback-motion-400",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "2e4f293cd17f2e314e2ff38e5d1bb75b59ac4312f8aa9d10a34546d0ea5a1ea3"
+        },
+        {
+          "path": "product-390-gameplay.webm",
+          "kind": "video",
+          "phase": "gameplay",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "30846acb6364ed37949067d632c2773178fce2f41e4341b196639a763e5a857c"
+        },
+        {
+          "path": "product-390-milestone-1.png",
+          "kind": "screenshot",
+          "phase": "milestone-1",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "00401a9708bbb9f16f2d9c26ee7a9c950d15318f2acb7627ce2488fabd1a7616"
+        },
+        {
+          "path": "product-390-midgame.png",
+          "kind": "screenshot",
+          "phase": "midgame",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "963c3f0eeb1919a8a7f2bbb2c17382f7164911a3c39c2146efcd31764627f81a"
+        },
+        {
+          "path": "product-390-milestone-2.png",
+          "kind": "screenshot",
+          "phase": "milestone-2",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "d51abdedbc0e941f387f96f264e0429a2c40629c6281398b49cc73c7a8a31c4e"
+        },
+        {
+          "path": "product-390-milestone-3.png",
+          "kind": "screenshot",
+          "phase": "milestone-3",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "6552691012ba2611179c0694b1a59a81da6e31b6bc94e2096a16267ebbee0f8d"
+        },
+        {
+          "path": "product-390-success.png",
+          "kind": "screenshot",
+          "phase": "success",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "6552691012ba2611179c0694b1a59a81da6e31b6bc94e2096a16267ebbee0f8d"
+        },
+        {
+          "path": "product-390-mobile-result.png",
+          "kind": "screenshot",
+          "phase": "mobile-result",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "6552691012ba2611179c0694b1a59a81da6e31b6bc94e2096a16267ebbee0f8d"
+        },
+        {
+          "path": "product-390-feedback-reduced-before.png",
+          "kind": "screenshot",
+          "phase": "feedback-reduced-before",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "ab1b7c013135d4e0442773328bf6bd8bbc126e342f004fc594d6e9cd84b5875c"
+        },
+        {
+          "path": "product-390-feedback-reduced-0.png",
+          "kind": "screenshot",
+          "phase": "feedback-reduced-0",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "3184039532755c5f1a0c60be10f7a66a7faff2f819291c0aef2c9b0808f05fc0"
+        },
+        {
+          "path": "product-390-feedback-reduced-60.png",
+          "kind": "screenshot",
+          "phase": "feedback-reduced-60",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "3184039532755c5f1a0c60be10f7a66a7faff2f819291c0aef2c9b0808f05fc0"
+        },
+        {
+          "path": "product-390-feedback-reduced-400.png",
+          "kind": "screenshot",
+          "phase": "feedback-reduced-400",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "5bd8034f5c02e9fafe3f9d40f14b148c74329e6b9fdf4f263e7271f8a92870c1"
+        },
+        {
+          "path": "product-390-failure.png",
+          "kind": "screenshot",
+          "phase": "failure",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "b680c89fccea37a05294722d43b699a0aeb17e486f0570de39c35341aa157727"
+        },
+        {
+          "path": "product-768-entry.png",
+          "kind": "screenshot",
+          "phase": "entry",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "c59c65c750eb0149facbbe6102d800c7979635ed733b751f52ca9d4498969f04"
+        },
+        {
+          "path": "product-768-playing.png",
+          "kind": "screenshot",
+          "phase": "playing",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "d0be5a4cd95a232068478f2364a7cf59330174efda75c24b11d1172f663c6b75"
+        },
+        {
+          "path": "product-768-feedback-motion-before.png",
+          "kind": "screenshot",
+          "phase": "feedback-motion-before",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "47f8df670eed90308813fc9ae6cfcfdbb9ff13343aa343044732cc9c2a5e82dd"
+        },
+        {
+          "path": "product-768-feedback-motion-0.png",
+          "kind": "screenshot",
+          "phase": "feedback-motion-0",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "c076cb3f95ec0856d7b75909264d32184d2b15c2457500b4a3a224ec973aa5f9"
+        },
+        {
+          "path": "product-768-feedback-motion-60.png",
+          "kind": "screenshot",
+          "phase": "feedback-motion-60",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "8ec69b4d686407370bf27f2de73bd4fbd8b8454698dbcf815422677aeec6b225"
+        },
+        {
+          "path": "product-768-feedback-motion-400.png",
+          "kind": "screenshot",
+          "phase": "feedback-motion-400",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "b248fbf9c8b3ed59fa24f15569ebdf318dba0febc9efd35b1a46085d76394ced"
+        },
+        {
+          "path": "product-768-milestone-1.png",
+          "kind": "screenshot",
+          "phase": "milestone-1",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "4f62d9e5433a4c3a6935d535a45d5917ca141f7a95199302c17429d97489e1bd"
+        },
+        {
+          "path": "product-768-midgame.png",
+          "kind": "screenshot",
+          "phase": "midgame",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "11b3c7e1d164d53cb1e3f9522971fb0916e73a6fe827bca5a849c13b84920a22"
+        },
+        {
+          "path": "product-768-milestone-2.png",
+          "kind": "screenshot",
+          "phase": "milestone-2",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "2a1fadda383052c272c05194bb7a5fbe84093fbf1ea9ecc64d0b3cc6678cebd8"
+        },
+        {
+          "path": "product-768-milestone-3.png",
+          "kind": "screenshot",
+          "phase": "milestone-3",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "cb9125eb2f8cb6c974369005008008b3c0972f8550d92b7016e25ce028b5c42a"
+        },
+        {
+          "path": "product-768-success.png",
+          "kind": "screenshot",
+          "phase": "success",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "cb9125eb2f8cb6c974369005008008b3c0972f8550d92b7016e25ce028b5c42a"
+        },
+        {
+          "path": "product-768-feedback-reduced-before.png",
+          "kind": "screenshot",
+          "phase": "feedback-reduced-before",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "f4210e7d8ee82530d5643ee0e077104814f359f6260c0e7aa2c290d7f7931373"
+        },
+        {
+          "path": "product-768-feedback-reduced-0.png",
+          "kind": "screenshot",
+          "phase": "feedback-reduced-0",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "1929dd5271ab0f264e64b13f5ddd1fcb29fb4764923cea19b9024831d230507b"
+        },
+        {
+          "path": "product-768-feedback-reduced-60.png",
+          "kind": "screenshot",
+          "phase": "feedback-reduced-60",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "1929dd5271ab0f264e64b13f5ddd1fcb29fb4764923cea19b9024831d230507b"
+        },
+        {
+          "path": "product-768-feedback-reduced-400.png",
+          "kind": "screenshot",
+          "phase": "feedback-reduced-400",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "5f306d25449263b92ddd10e8ab7368fd973203437c93371748fb60ed79320d7b"
+        },
+        {
+          "path": "product-768-failure.png",
+          "kind": "screenshot",
+          "phase": "failure",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "sha256": "e964f283ad7cbdd45dee1e3ce862f40565873847845ea750f8df1c318b2bc7ac"
+        },
+        {
+          "path": "product-1280-entry.png",
+          "kind": "screenshot",
+          "phase": "entry",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "fe0875c75cf4368d469cfe2db113b36c080c30776ed4598acbe4864bb9a36f00"
+        },
+        {
+          "path": "product-1280-playing.png",
+          "kind": "screenshot",
+          "phase": "playing",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "b78d9b8b5253cf06db9a93cfea787c7fc920f225f8a89a4ad128c24bf3be0eb6"
+        },
+        {
+          "path": "product-1280-feedback-motion-before.png",
+          "kind": "screenshot",
+          "phase": "feedback-motion-before",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "1f514fbf3827c6cb7aafa06828262420b6087e3f53d2dca956e6bf7af253eecd"
+        },
+        {
+          "path": "product-1280-feedback-motion-0.png",
+          "kind": "screenshot",
+          "phase": "feedback-motion-0",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "04d0d78ebe51c20f4b031625666e059709ea9bc78cdbcb8ce51acc75e6f2953e"
+        },
+        {
+          "path": "product-1280-feedback-motion-60.png",
+          "kind": "screenshot",
+          "phase": "feedback-motion-60",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "b33df797289121e0ddca5caaf4670c2f0a813bc1bffa5f93af032b030e479b61"
+        },
+        {
+          "path": "product-1280-feedback-motion-400.png",
+          "kind": "screenshot",
+          "phase": "feedback-motion-400",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "0c353e5bad7adc7ffe26663a5a90d69d6641c5c4d21264d7b45fe1c09a446747"
+        },
+        {
+          "path": "product-1280-milestone-1.png",
+          "kind": "screenshot",
+          "phase": "milestone-1",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "d8facf23640e4bf69294b1bdfb3ed27461a6152090dcd2294084c7746d3057d7"
+        },
+        {
+          "path": "product-1280-midgame.png",
+          "kind": "screenshot",
+          "phase": "midgame",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "e58bf5a19ab2e6f034c129f8321b4e15934d0136ba3ea17f9502e46e864a33f5"
+        },
+        {
+          "path": "product-1280-milestone-2.png",
+          "kind": "screenshot",
+          "phase": "milestone-2",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "9ac460c3f652504a18ed3f98b53f559419b3d59e047b45dcebbb79c23fd78f8a"
+        },
+        {
+          "path": "product-1280-milestone-3.png",
+          "kind": "screenshot",
+          "phase": "milestone-3",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "76530d4c1c1bcc571e8a6a5092ff0d7f9d562fa0cd94b0bd5285d058a263bd7c"
+        },
+        {
+          "path": "product-1280-success.png",
+          "kind": "screenshot",
+          "phase": "success",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "76530d4c1c1bcc571e8a6a5092ff0d7f9d562fa0cd94b0bd5285d058a263bd7c"
+        },
+        {
+          "path": "product-1280-feedback-reduced-before.png",
+          "kind": "screenshot",
+          "phase": "feedback-reduced-before",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "a978f8655bffaa166e010ce83c4582181411a473bc0034a7cbad94e85775b651"
+        },
+        {
+          "path": "product-1280-feedback-reduced-0.png",
+          "kind": "screenshot",
+          "phase": "feedback-reduced-0",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "9c29875ca1651bde709ca45b739ce23ab7319280e46a90c76f509e435b56d401"
+        },
+        {
+          "path": "product-1280-feedback-reduced-60.png",
+          "kind": "screenshot",
+          "phase": "feedback-reduced-60",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "9c29875ca1651bde709ca45b739ce23ab7319280e46a90c76f509e435b56d401"
+        },
+        {
+          "path": "product-1280-feedback-reduced-400.png",
+          "kind": "screenshot",
+          "phase": "feedback-reduced-400",
+          "selector": "[data-game-canvas]",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "7abd1dbe68bf0805426eb6d875def3edc5c0e82bc4757a1bad548ae13c6c02b3"
+        },
+        {
+          "path": "product-1280-failure.png",
+          "kind": "screenshot",
+          "phase": "failure",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "sha256": "d4d0af5186374cc6eb3b282c2296b10bc35455090fecef58e56cdf7ed61a6001"
+        }
+      ],
+      "oracle_approval": {
+        "id": "keywake-depth-v1",
+        "file": "keywake-depth-v1.json",
+        "sha256": "1ea9b235bc6b83d7117e3d0a8ded161cdb2533fb66cf992cf2c7b6b1d2942d5d",
+        "contract_sha256": "ebefb674e5822c906fed04ef0539e1b3f58bbd11948f8229493debed7d07a83e",
+        "scope": "candidate",
+        "game_id": "GAME-20260923-141",
+        "reviewed_by": "Trusted same-ID owner-depth design review 2026-09-23",
+        "rationale": "Six distinct 4x4 edge layouts; bounded key/gate masks; independent BFS minimums, key-order regret and consequential route choices. All reachable states solvable; entry normal-input return paths preserved. Offline data model only."
+      }
+    }
+  },
+  "model_validation": null,
+  "sources": {
+    "README.md": "# Keywake\n\nKeywake is an original deterministic route-planning puzzle. Each seed chooses one of six authored vault packs. In every 4×4 room, collect its colored keys, use their matching gate bars, then enter the exit. Only legal steps count, and only clearing a room earns score.\n\n## Controls\n\n- Arrow keys move one cell; release before repeating that direction.\n- Tap the canvas columns labeled LEFT, UP, RIGHT, and DOWN to move on touch devices.\n- Start, Pause, Resume, and Replay are provided by the supplied GameKit controls.\n\nThe route score compares each completed room against its displayed PAR. Replay uses the same seed, making route order and detour reduction repeatable. The displayed device best is supplied by GameKit device-local practice state. The game uses no accounts, external assets, network services, or sound.\n",
+    "app.js": "(() => {\n  'use strict';\n  const canvas = document.querySelector('[data-game-canvas]');\n  const $ = (s) => document.querySelector(s);\n  const progress = $('[data-product-progress]'), keys = $('[data-room-keys]');\n  const score = $('[data-game-score]'), best = $('[data-best]'), result = $('[data-result]'), status = $('[data-game-status]');\n  function rating(state) {\n    const extra = state.total_moves - state.total_par;\n    return extra <= 0 ? 'Perfect route' : extra <= 2 ? 'Efficient route' : 'Detour +' + extra;\n  }\n  function update(snapshot) {\n    const s = snapshot.state, room = s.stage <= 3 ? globalThis.KeywakeCore.roomFor(s.seed, s.stage) : null;\n    progress.textContent = 'ROOMS ' + s.objective_progress + ' / 3';\n    keys.textContent = room ? 'ROOM ' + s.stage + ' · KEYS ' + s.key_mask.toString(2).split('1').length - 1 + ' / ' + room[1].length : 'ROOMS COMPLETE';\n    score.textContent = String(s.score);\n    if (Number.isFinite(snapshot.best)) best.textContent = String(snapshot.best);\n    if (s.outcome === 'success') { result.textContent = 'ALL ROOMS CLEARED · ' + s.score + ' POINTS · ' + s.total_moves + ' MOVES · ' + rating(s); status.textContent = 'Vault route complete'; }\n    else if (s.outcome === 'failure') { result.textContent = 'TIME UP · ROOMS CLEARED ' + s.objective_progress + ' / 3'; status.textContent = 'Route clock expired'; }\n    else { result.textContent = 'Plan your key order. Locked gate bars require their marked keys.'; status.textContent = 'Exploring room ' + s.stage; }\n  }\n  const query = matchMedia('(prefers-reduced-motion: reduce)');\n  const change = () => globalThis.KeywakeArt.setReducedMotion(query.matches);\n  change(); query.addEventListener('change', change);\n  addEventListener('pagehide', (e) => { if (!e.persisted) query.removeEventListener('change', change); });\n  fetch('./manifest.json').then((r) => { if (!r.ok) throw new Error('manifest unavailable'); return r.json(); }).then((metadata) => {\n    PlayJoltGameKit.create({ core:globalThis.KeywakeCore, canvas, metadata, draw(ctx,snapshot,size) { globalThis.KeywakeArt.draw(ctx,snapshot,size); update(snapshot); }, presentation:globalThis.KeywakeArt.presentation });\n  }).catch((e) => { const node = $('[data-game-error]'); node.hidden = false; node.textContent = 'Unable to start Keywake: ' + e.message; });\n})();\n",
+    "core.js": "(() => {\n  'use strict';\n\n  // Each room is [edge triples, key cells, exit, par]. Edge triples are min cell,\n  // max cell, and the permanent-key mask required to cross.\n  const PACKS = [[\n    [[[0,1,0],[0,4,0],[1,2,0],[4,5,0],[4,8,0],[5,9,0],[8,9,0],[8,12,0],[9,10,0],[9,13,0],[10,11,1],[10,14,0],[11,15,0],[12,13,0],[13,14,0],[14,15,0]],[11],13,8],\n    [[[0,1,0],[0,4,0],[1,2,0],[1,5,0],[2,6,2],[4,5,0],[4,8,0],[5,9,0],[6,7,0],[6,10,0],[7,11,0],[9,10,0],[10,11,2]],[2,11],0,10],\n    [[[0,1,2],[0,4,0],[1,2,3],[1,5,0],[2,6,3],[4,5,0],[4,8,2],[5,6,0],[5,9,0],[8,9,0],[9,10,1],[9,13,0],[10,14,0],[13,14,0],[14,15,0]],[8,10,2],15,14]\n  ],[\n    [[[0,1,0],[0,4,0],[1,2,0],[4,5,0],[5,9,0],[7,11,0],[9,10,0],[9,13,1],[10,11,0],[10,14,0],[13,14,0]],[13],11,7],\n    [[[0,1,0],[0,4,0],[1,5,0],[4,5,0],[5,9,0],[6,7,0],[6,10,0],[7,11,0],[9,10,0],[9,13,0],[10,11,2],[10,14,0],[11,15,0],[12,13,0],[13,14,0],[14,15,2]],[0,15],13,12],\n    [[[1,2,0],[1,5,0],[2,3,0],[4,5,0],[5,6,0],[5,9,0],[6,10,1],[9,10,2],[9,13,0],[10,11,2],[10,14,0],[12,13,3],[13,14,0]],[14,2,12],3,15]\n  ],[\n    [[[0,1,0],[0,4,1],[1,2,0],[2,3,0],[2,6,0],[3,7,0],[4,5,0],[5,9,0],[6,7,0],[6,10,0],[9,10,0],[10,14,0]],[1],7,8],\n    [[[1,2,0],[1,5,0],[2,3,0],[2,6,0],[4,5,0],[4,8,2],[5,9,0],[6,10,0],[8,9,0],[8,12,0],[9,10,0],[10,14,1],[12,13,0],[13,14,0],[14,15,0]],[15,6],2,10],\n    [[[0,1,3],[0,4,3],[1,2,0],[1,5,0],[2,6,1],[4,5,0],[5,6,0],[5,9,0],[6,10,0],[9,10,1],[10,11,1],[10,14,0],[11,15,0],[14,15,0]],[14,2,0],15,14]\n  ],[\n    [[[0,4,0],[3,7,0],[4,5,0],[5,9,0],[6,7,0],[6,10,0],[7,11,0],[9,10,1],[9,13,0],[10,11,0],[10,14,0],[11,15,0],[13,14,0],[14,15,0]],[10],15,6],\n    [[[0,1,2],[0,4,0],[1,2,0],[1,5,0],[2,6,0],[4,5,0],[4,8,0],[5,9,0],[8,9,0],[8,12,0],[9,13,2],[11,15,0],[12,13,0],[13,14,0],[14,15,0]],[6,13],14,11],\n    [[[0,1,2],[0,4,2],[1,5,0],[3,7,0],[4,5,0],[5,6,0],[5,9,0],[6,7,0],[8,9,1],[9,13,0],[13,14,0],[14,15,3]],[7,13,15],3,15]\n  ],[\n    [[[0,1,0],[0,4,0],[4,5,0],[5,9,0],[6,7,0],[6,10,1],[7,11,0],[9,10,0],[10,11,0],[10,14,0],[11,15,0],[14,15,0]],[6],14,7],\n    [[[0,1,1],[0,4,0],[1,2,0],[1,5,0],[2,3,0],[4,5,0],[5,9,0],[9,10,0],[9,13,1],[10,14,0],[12,13,0],[13,14,0],[14,15,0]],[12,0],15,12],\n    [[[0,1,0],[0,4,0],[1,2,1],[1,5,0],[2,3,0],[2,6,2],[4,5,0],[5,6,0],[5,9,0],[6,10,0],[9,10,1],[9,13,0],[10,14,0],[12,13,3],[13,14,0]],[14,0,12],3,15]\n  ],[\n    [[[0,1,0],[0,4,0],[1,2,0],[2,6,0],[4,5,0],[5,9,0],[6,7,0],[6,10,0],[7,11,0],[9,10,1],[10,11,0],[10,14,0],[11,15,0],[14,15,0]],[14],15,8],\n    [[[0,1,0],[0,4,0],[1,2,0],[1,5,0],[2,3,0],[3,7,0],[4,5,0],[4,8,0],[5,9,0],[7,11,0],[8,9,0],[8,12,0],[9,10,2],[10,11,0],[11,15,1]],[8,10],0,10],\n    [[[1,2,1],[1,5,0],[2,3,0],[2,6,0],[4,5,0],[4,8,2],[5,6,0],[5,9,0],[8,9,1],[9,13,0],[11,15,3],[13,14,0],[14,15,3]],[13,2,15],3,15]\n  ]];\n  const DIRS = [[-1,0],[0,-1],[1,0],[0,1]];\n\n  function packIndex(seed) {\n    const h = Math.imul((seed >>> 0) ^ (seed >>> 16), 1177) >>> 0;\n    return ((h ^ (h >>> 13)) >>> 0) % 6;\n  }\n  function roomFor(seed, stage) { return PACKS[packIndex(seed)][stage - 1]; }\n  function target(room, cell, direction, keyMask) {\n    const x = cell % 4 + DIRS[direction][0];\n    const y = (cell / 4 | 0) + DIRS[direction][1];\n    if (x < 0 || x > 3 || y < 0 || y > 3) return -1;\n    const next = y * 4 + x;\n    const lo = cell < next ? cell : next, hi = cell < next ? next : cell;\n    for (let i = 0; i < room[0].length; i += 1) {\n      const edge = room[0][i];\n      if (edge[0] === lo && edge[1] === hi) return (keyMask & edge[2]) === edge[2] ? next : -1;\n    }\n    return -1;\n  }\n  function allKeys(room, mask) { return mask === ((1 << room[1].length) - 1); }\n  function direction(input) {\n    if (input.x < 0) return 0;\n    if (input.y < 0) return 1;\n    if (input.x > 0) return 2;\n    if (input.y > 0) return 3;\n    return -1;\n  }\n  function move(state, dir) {\n    const room = roomFor(state.seed, state.stage);\n    let next = target(room, state.cell, dir, state.key_mask);\n    if (next === room[2] && !allKeys(room, state.key_mask)) next = -1;\n    state.feedback_token += 1;\n    state.feedback_from = state.cell;\n    state.feedback_to = next < 0 ? state.cell : next;\n    state.feedback_kind = next < 0 ? 'blocked' : 'step';\n    if (next < 0) return;\n    state.cell = next;\n    state.moves += 1;\n    state.total_moves = state.moves;\n    state.room_moves += 1;\n    state.meaningful_actions += 1;\n    const key = room[1].indexOf(next);\n    if (key >= 0 && !(state.key_mask & (1 << key))) {\n      state.key_mask |= 1 << key;\n      state.feedback_kind = 'key';\n    }\n    if (next === room[2]) {\n      const extra = Math.max(0, state.room_moves - room[3]);\n      state.score += Math.max(20, 200 - 15 * extra);\n      state.total_par += room[3];\n      state.objective_progress += 1;\n      state.stage += 1;\n      state.cell = 5;\n      state.key_mask = 0;\n      state.room_moves = 0;\n      state.feedback_to = 5;\n      state.feedback_kind = state.stage === 4 ? 'success' : 'clear';\n      if (state.stage === 4) state.outcome = 'success';\n    }\n  }\n  function create(seed) {\n    return { seed:seed >>> 0, tick:0, score:0, stage:1, cell:5, key_mask:0, outcome:'playing', objective_progress:0, meaningful_actions:0, moves:0, total_moves:0, total_par:0, room_moves:0, pointer_actions:0, latch:-1, feedback_token:0, feedback_from:5, feedback_to:5, feedback_kind:'none' };\n  }\n  function step(state, input) {\n    if (state.outcome !== 'playing') return;\n    state.tick += 1;\n    if (input.action && input.pointer) {\n      const d = Math.max(0, Math.min(3, Math.floor(input.pointer.x * 4)));\n      state.pointer_actions += 1;\n      state.latch = -1;\n      move(state, d);\n    } else {\n      const d = direction(input);\n      if (d < 0) state.latch = -1;\n      else if (d !== state.latch) { state.latch = d; move(state, d); }\n    }\n    if (state.outcome === 'playing' && state.tick >= 2400) state.outcome = 'failure';\n  }\n  function legalCount(state) {\n    if (state.outcome !== 'playing') return 0;\n    const room = roomFor(state.seed, state.stage);\n    let n = 0;\n    for (let d = 0; d < 4; d += 1) {\n      const p = target(room, state.cell, d, state.key_mask);\n      if (p >= 0 && (p !== room[2] || allKeys(room, state.key_mask))) n += 1;\n    }\n    return n;\n  }\n  function observe(state) {\n    return { tick:state.tick, score:state.score, progress:Math.round(state.tick / 6) / 10, interactions:state.meaningful_actions, entities:16, quality:{ stage:state.stage, complexity:legalCount(state), objective_progress:state.objective_progress, meaningful_actions:state.meaningful_actions, reversible_state_key:state.stage + ':' + state.cell + ':' + state.key_mask + ':' + state.outcome } };\n  }\n  function terminal(state) { return state.outcome !== 'playing'; }\n  globalThis.KeywakeCore = { create, step, observe, terminal, roomFor, packIndex };\n})();\n",
+    "index.html": "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"><meta name=\"robots\" content=\"noindex,nofollow\"><title>Keywake</title><script>(function(){var p=location.pathname;if(/\\/[^/]*\\.html$/i.test(p))p=p.slice(0,p.lastIndexOf('/')+1);else if(p.charAt(p.length-1)!=='/')p+='/';document.write('<base href=\"'+p.replace(/\"/g,'')+'\">');}());</script><link rel=\"stylesheet\" href=\"style.css\"></head><body><main class=\"shell\"><header><p class=\"eyebrow\">ROUTE-PLANNING VAULT</p><h1>Keywake</h1><p data-objective class=\"objective\">Collect keys. Unlock gates. Reach all 3 exits.</p><p class=\"instruction\">Directions move one cell. Plan key order and gate shortcuts.</p></header><section class=\"stats\" aria-label=\"Game progress\"><div><span data-product-progress>ROOMS 0 / 3</span><strong data-room-keys>ROOM 1 · KEYS 0 / 1</strong></div><div><span data-score-label>CURRENT SCORE</span><strong data-game-score>0</strong></div><div><span data-best-label>DEVICE BEST</span><strong data-best>0</strong></div><div><span>ELAPSED TIME</span><strong data-game-progress>0.0</strong></div></section><canvas data-game-canvas tabindex=\"0\" aria-label=\"Keywake four by four vault and touch direction pads\"></canvas><p data-game-status class=\"status\">Ready to explore</p><p data-result class=\"result\">Plan your key order. Locked gate bars require their marked keys.</p><nav class=\"controls\" aria-label=\"Game controls\"><button data-game-start>Start</button><button data-game-pause>Pause</button><button data-game-resume>Resume</button><button data-game-restart class=\"replay\">Replay</button></nav><p data-game-error hidden role=\"alert\"></p></main><script src=\"core.js\"></script><script src=\"view/art.js\"></script><script src=\"gamekit.js\"></script><script src=\"app.js\"></script></body></html>\n",
+    "style.css": ":root{color-scheme:dark;background:#080d13;font-family:system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#203842,#080d13 62%);color:#eff8f6;overflow-x:hidden}.shell{width:min(100%,620px);margin:auto;padding:11px 14px 15px;text-align:center}.eyebrow{margin:0;color:#e6bd62;font-size:14px;font-weight:850;letter-spacing:.09em}h1{margin:2px 0 6px;font-size:30px;line-height:1}.objective{margin:0 auto 3px;max-width:520px;font-size:16px;line-height:1.25;font-weight:850}.instruction{margin:0;color:#b6ccd0;font-size:14px;line-height:1.25}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:9px 0 8px}.stats div{min-height:53px;padding:6px 8px;text-align:left;background:#14252e;border:1px solid #38545e;border-radius:9px}.stats span{display:block;color:#b5cdd1;font-size:14px;font-weight:800;line-height:1.15}.stats strong{display:block;color:#f5faf1;font-size:15px;line-height:1.35;white-space:nowrap}canvas{display:block;width:min(100%,390px);height:350px;margin:auto;background:#101a21;border:1px solid #4c6972;border-radius:14px;outline:none;touch-action:none}.status,.result{margin:6px auto 0;min-height:18px;font-size:14px;line-height:1.25}.status{color:#b5ded9;font-weight:750}.result{max-width:580px;color:#f0d591;font-weight:850}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:8px}button{min-height:44px;padding:6px;border:1px solid #5b808a;border-radius:9px;background:#203b45;color:#f0fbf9;font-size:14px;font-weight:850;touch-action:manipulation}.replay{background:#d08b52;border-color:#ffda87;color:#17120d}[data-game-error]{margin:8px;color:#ffaaa0;font-weight:800}@media(min-width:700px){.shell{width:min(96vw,760px);padding-top:9px}header{display:grid;grid-template-columns:auto 1fr;gap:0 14px;align-items:center;text-align:left}.eyebrow,h1{grid-column:1}.objective{grid-column:2;grid-row:1/3;text-align:left}.instruction{grid-column:1/3;text-align:center}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}@media(max-height:720px) and (min-width:700px){.instruction{display:none}.stats{margin:5px 0}.stats div{min-height:48px}canvas{height:310px}.status,.result{margin-top:3px}.controls{margin-top:4px}}@media(max-width:389px){.shell{padding-left:8px;padding-right:8px}h1{font-size:27px}.stats{gap:4px}.stats strong{font-size:14px}canvas{height:340px}}\n",
+    "view/art.js": "(() => {\n  'use strict';\n  let reduced = false, token = -1, began = 0, lastTick = -1;\n  const DURATION = 260, STATIC = 410;\n  const colors = ['#e7b84e','#ec4d9a','#8de9f4'];\n  function setReducedMotion(v) { reduced = !!v; }\n  function presentation() { const active = token >= 0 && performance.now() - began < (reduced ? STATIC : DURATION); return { reduced_motion:reduced, feedback_active:active, static_feedback:reduced && active }; }\n  function round(ctx,x,y,w,h,r) { ctx.beginPath(); ctx.roundRect(x,y,w,h,r); }\n  function center(cell,l,t,s) { return [l + (cell % 4 + .5) * s / 4, t + ((cell / 4 | 0) + .5) * s / 4]; }\n  function keyName(mask) { return mask === 1 ? 'A' : mask === 2 ? 'B' : 'AB'; }\n  function edge(room,a,b) { const lo=Math.min(a,b),hi=Math.max(a,b); return room[0].find((e)=>e[0]===lo&&e[1]===hi); }\n  function draw(ctx,snapshot,size) {\n    const s=snapshot.state, w=size.width,h=size.height, now=performance.now();\n    if (s.tick < lastTick) token=-1;\n    if (s.feedback_token !== token) { token=s.feedback_token; began=now; }\n    lastTick=s.tick;\n    const sc=Math.min(w/390,h/350), font=(n)=>Math.max(14,Math.round(n*sc));\n    ctx.clearRect(0,0,w,h); const bg=ctx.createLinearGradient(0,0,w,h); bg.addColorStop(0,'#243640');bg.addColorStop(1,'#080d13');ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);\n    const room=s.stage<=3 ? globalThis.KeywakeCore.roomFor(s.seed,s.stage) : null;\n    const side=Math.min(w*.70,h*.55,222*sc), left=(w-side)/2, top=48*sc, cs=side/4;\n    ctx.textAlign='center';ctx.font='800 '+font(16)+'px system-ui';ctx.fillStyle='#d9f4f2';ctx.fillText(s.stage<=3?'ROOM '+s.stage+' · PAR '+room[3]:'VAULT OPEN',w/2,22*sc);\n    ctx.font='700 '+font(14)+'px system-ui';ctx.fillStyle='#9ebbc0';ctx.fillText(s.stage<=3?'MOVES '+s.room_moves+' · TOTAL '+s.total_moves+' / '+s.total_par:'ALL EXITS REACHED',w/2,42*sc);\n    round(ctx,left-8*sc,top-8*sc,side+16*sc,side+16*sc,12*sc);ctx.fillStyle='#111d25';ctx.fill();\n    if (room) {\n      const floors=new Set(); room[0].forEach((e)=>{floors.add(e[0]);floors.add(e[1]);});\n      for(let c=0;c<16;c++) { const x=left+c%4*cs,y=top+(c/4|0)*cs; round(ctx,x+2*sc,y+2*sc,cs-4*sc,cs-4*sc,6*sc);ctx.fillStyle=floors.has(c)?'#314750':'#101820';ctx.fill();ctx.strokeStyle=floors.has(c)?'#587079':'#1b2830';ctx.lineWidth=Math.max(1,sc);ctx.stroke(); }\n      room[0].forEach((e)=>{ if(!e[2])return; const open=(s.key_mask&e[2])===e[2], a=center(e[0],left,top,side),b=center(e[1],left,top,side);ctx.strokeStyle=open?'#3a6870':colors[e[2]===2?1:e[2]===1?0:2];ctx.lineWidth=open?3*sc:6*sc;ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke(); if(!open){ctx.fillStyle='#f4f6e9';ctx.font='800 '+font(14)+'px system-ui';ctx.fillText(keyName(e[2]),(a[0]+b[0])/2,(a[1]+b[1])/2+5*sc);} });\n      const held=(s.key_mask.toString(2).match(/1/g)||[]).length, open=held===room[1].length, ex=center(room[2],left,top,side);ctx.fillStyle=open?'#b7f5e8':'#6f6043';round(ctx,ex[0]-cs*.19,ex[1]-cs*.24,cs*.38,cs*.48,5*sc);ctx.fill();ctx.strokeStyle=open?'#edfff4':'#d4a84e';ctx.lineWidth=2*sc;ctx.stroke();ctx.fillStyle='#172128';ctx.fillRect(ex[0]-cs*.07,ex[1]-cs*.02,cs*.14,cs*.18);\n      room[1].forEach((cell,i)=>{if(s.key_mask&(1<<i))return;const p=center(cell,left,top,side),col=colors[i];ctx.strokeStyle=col;ctx.lineWidth=4*sc;ctx.beginPath();ctx.arc(p[0]-6*sc,p[1],6*sc,0,Math.PI*2);ctx.moveTo(p[0],p[1]);ctx.lineTo(p[0]+15*sc,p[1]);ctx.moveTo(p[0]+10*sc,p[1]);ctx.lineTo(p[0]+10*sc,p[1]+6*sc);ctx.stroke();ctx.fillStyle='#fff';ctx.font='800 '+font(14)+'px system-ui';ctx.fillText('ABC'[i],p[0],p[1]-13*sc);});\n    }\n    const active=token>=0&&now-began<(reduced?STATIC:DURATION), from=center(s.feedback_from,left,top,side),to=center(s.feedback_to,left,top,side);let p=to;\n    if(active&&!reduced&&s.feedback_kind!=='blocked'){const q=Math.min(1,(now-began)/DURATION);p=[from[0]+(to[0]-from[0])*q,from[1]+(to[1]-from[1])*q];ctx.strokeStyle='#58d9d8';ctx.globalAlpha=.55;ctx.lineWidth=4*sc;ctx.beginPath();ctx.moveTo(from[0],from[1]);ctx.lineTo(p[0],p[1]);ctx.stroke();ctx.globalAlpha=1;}\n    if(active&&(reduced||s.feedback_kind==='blocked')){ctx.strokeStyle=s.feedback_kind==='blocked'?'#ff887d':'#f5ff8d';ctx.lineWidth=4*sc;ctx.strokeRect(to[0]-cs*.28,to[1]-cs*.28,cs*.56,cs*.56);}\n    ctx.fillStyle='#5df0ec';ctx.beginPath();ctx.arc(p[0],p[1],cs*.14,0,Math.PI*2);ctx.fill();ctx.fillStyle='#e9ffff';ctx.beginPath();ctx.arc(p[0]-cs*.04,p[1]-cs*.04,cs*.035,0,Math.PI*2);ctx.fill();\n    const labels=['LEFT','UP','RIGHT','DOWN'],py=h*.80,ph=h*.18;for(let i=0;i<4;i++){const x=i*w/4+4*sc,pw=w/4-8*sc;round(ctx,x,py,pw,ph,9*sc);ctx.fillStyle='#213943';ctx.fill();ctx.strokeStyle='#62828b';ctx.lineWidth=1.5*sc;ctx.stroke();ctx.fillStyle='#e7f6f4';ctx.font='800 '+font(14)+'px system-ui';ctx.fillText(labels[i],x+pw/2,py+ph*.58);}\n  }\n  globalThis.KeywakeArt={draw,presentation,setReducedMotion};\n})();\n"
+  },
+  "empty_workspace": false
+}
