@@ -7,6 +7,7 @@ const {validateOutput,applyOutput,responseSchema}=require('../../providers/outpu
 const {OpenAIProvider}=require('../../providers/openai.cjs');
 const {compile,instructions}=require('../../providers/prompts.cjs');
 const {requestFor}=require('../../orchestrator/repair.cjs');
+const {AIRepairAdapter}=require('../../adapters/ai.cjs');
 const {copyGame,atomicJSON,hashTree}=require('../../orchestrator/files.cjs');
 const {config,pricing}=require('../../providers/config.cjs');
 const policy=require('../../policies/quality-gate.json');
@@ -145,4 +146,38 @@ test('quarantine excludes unsafe output paths from future repair context',async 
   await assert.rejects(()=>e.manager.execute(r),/path_isolation/);
   const q=e.manager.read().operations[r.operation_id].rejected_output;
   assert(q&&!q.files.some(f=>f.path.includes('..')));
+});
+
+test('repair compiler accepts timeout-shaped Product and Commercial evidence without optional arrays',async t=>{
+  const e=setup(t),r=await request(e),m=e.store.get(e.spec.game_id),old=path.join(e.root,m.source_path);copyGame(path.resolve(__dirname,'../../fixtures/dummy'),old);
+  m.source_hash=hashTree(old);
+  const timeout={code:'timeout',message:'Isolated QA did not produce a completed report'};
+  const req=requestFor(m,{hard_failures:[timeout]});
+  atomicJSON(e.store.artifact(m.game_id,'v1/qa.json'),{
+    game_id:m.game_id,version:'v1',source_hash:m.source_hash,passed:false,hard_failures:[timeout],console_errors:[],page_errors:[],browser_cases:[],
+    technical_qa:{passed:true},
+    product_qa:{passed:false,hard_failures:[timeout],screenshots:['product-partial.png'],duration_ms:150000},
+    commercial_qa:{passed:false,hard_failures:[timeout],screenshots:['commercial-partial.png'],duration_ms:240000}
+  });
+  const prompt=compile({root:e.root,workspace:old,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id,budget:r.budget});
+  assert.deepEqual(prompt.qa_evidence.product_qa.checks,[]);
+  assert.deepEqual(prompt.qa_evidence.product_qa.artifacts,[]);
+  assert.equal(prompt.qa_evidence.product_qa.hard_failures[0].code,'timeout');
+  assert.deepEqual(prompt.qa_evidence.commercial_qa.checks,[]);
+  assert.deepEqual(prompt.qa_evidence.commercial_qa.artifacts,[]);
+  assert.equal(prompt.qa_evidence.commercial_qa.hard_failures[0].code,'timeout');
+  assert(prompt.previous_failures.some(f=>f.code==='timeout'));
+});
+
+test('unexpected trusted repair-context compiler fault pauses before provider submission',async t=>{
+  const e=setup(t),r=await request(e),m=e.store.get(e.spec.game_id),old=path.join(e.root,m.source_path);copyGame(path.resolve(__dirname,'../../fixtures/dummy'),old);
+  m.source_hash=hashTree(old);
+  const req=requestFor(m,{hard_failures:[{code:'freeze',message:'repair me'}]});
+  const qaFile=e.store.artifact(m.game_id,'v1/qa.json');fs.mkdirSync(path.dirname(qaFile),{recursive:true});fs.writeFileSync(qaFile,'{broken json');
+  let calls=0;
+  const manager={rejectedContext:()=>null,config:e.limits,execute:async()=>{calls++;throw Error('must not submit');},guard:async()=>{},signal:null};
+  const adapter=new AIRepairAdapter({root:e.root,manager});
+  await assert.rejects(()=>adapter.repair({workspace:old,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id}),
+    e=>e.factory_pause===true&&e.code==='provider_context_compilation_failed'&&e.worker_status==='PAUSED_ERROR');
+  assert.equal(calls,0);
 });
