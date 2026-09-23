@@ -27,18 +27,22 @@ class DockerQA {
     // Fatal source/policy failures never execute another candidate check.
     const fatal=technical.hard_failures.some(f=>config.policy.fatal_codes.includes(f.code));
     const product=fatal?null:await this.runIsolated({...config,outDir:path.join(config.outDir,'product'),suite:'product'});
-    const combined={...technical,passed:technical.passed&&product?.passed===true,technical_qa:technical,product_qa:product,
-      contract_hash:hash(config.manifest.product_contract),hard_failures:[...technical.hard_failures,...(product?.hard_failures||[])],
-      screenshots:[...technical.screenshots.map(p=>'technical/'+p),...(product?.screenshots||[]).map(p=>'product/'+p)],
-      console_errors:[...technical.console_errors,...(product?.console_errors||[])],page_errors:[...technical.page_errors,...(product?.page_errors||[])],
-      side_effects:[...technical.side_effects,...(product?.side_effects||[])],duration_ms:technical.duration_ms+(product?.duration_ms||0)};
-    for(const f of combined.hard_failures)if(f.evidence)f.evidence=f.evidence.map(p=>'product/'+p);
+    // Continue independent visual checks after a nonfatal product defect to collect one actionable repair packet.
+    const productFatal=product?.hard_failures.some(f=>config.policy.fatal_codes.includes(f.code));
+    const commercial=fatal||productFatal||!config.manifest.commercial_contract?null:await this.runIsolated({...config,outDir:path.join(config.outDir,'commercial'),suite:'commercial'});
+    const suites=[['technical',technical],['product',product],['commercial',commercial]].filter(([,q])=>q);
+    const combined={...technical,passed:technical.passed&&product?.passed===true&&(!config.manifest.commercial_contract||commercial?.passed===true),technical_qa:technical,product_qa:product,commercial_qa:commercial,
+      contract_hash:hash(config.manifest.product_contract),commercial_contract_hash:hash(config.manifest.commercial_contract||null),
+      hard_failures:suites.flatMap(([name,q])=>q.hard_failures.map(f=>({...f,...(f.evidence?{evidence:f.evidence.map(p=>name+'/'+p)}:{})}))),
+      screenshots:suites.flatMap(([name,q])=>(q.screenshots||[]).map(p=>name+'/'+p)),
+      console_errors:suites.flatMap(([,q])=>q.console_errors||[]),page_errors:suites.flatMap(([,q])=>q.page_errors||[]),
+      side_effects:suites.flatMap(([,q])=>q.side_effects||[]),duration_ms:suites.reduce((n,[,q])=>n+q.duration_ms,0)};
     atomicJSON(path.join(config.outDir,'qa.json'),combined);
-    atomicJSON(path.join(config.outDir,'artifact-index.json'),{source_hash:technical.source_hash,artifacts:[...technical.screenshots.map(p=>({path:'technical/'+p,kind:'screenshot'})),...(product?.artifacts||[]).map(a=>({...a,path:'product/'+a.path}))]});
+    atomicJSON(path.join(config.outDir,'artifact-index.json'),{source_hash:technical.source_hash,artifacts:suites.flatMap(([name,q])=>(q.artifacts||q.screenshots.map(path=>({path,kind:'screenshot'}))).map(a=>({...a,path:name+'/'+a.path})))});
     return combined;
   }
   async runIsolated({manifest,gameRoot,outDir,policy,probe=false,suite='technical'}) {
-    if(!['technical','product'].includes(suite))throw Error('invalid QA suite');
+    if(!['technical','product','commercial'].includes(suite))throw Error('invalid QA suite');
     this.assertAvailable();if(this.signal?.aborted)throw this.signal.reason;
     inspectGame(gameRoot);const source=hashTree(gameRoot),started=Date.now();
     const temp=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-isolation-'));fs.chmodSync(temp,0o755);
@@ -49,7 +53,7 @@ class DockerQA {
       // Mount a data-only copy, never the repository, home, API key, or Docker socket.
       for(const f of listFiles(gameRoot)){const to=safePath(candidate,f);fs.mkdirSync(path.dirname(to),{recursive:true,mode:0o755});fs.copyFileSync(safePath(gameRoot,f),to);fs.chmodSync(to,0o444);}
 
-      atomicJSON(path.join(input,'qa.json'),{manifest,gameRoot:'/candidate',outDir:'/artifacts',policy,suite,deadline_ms:Math.min(this.limits.timeout_ms,suite==='product'?(policy.product?.run_timeout_ms||150000):policy.limits.run_timeout_ms)});fs.chmodSync(path.join(input,'qa.json'),0o444);
+      atomicJSON(path.join(input,'qa.json'),{manifest,gameRoot:'/candidate',outDir:'/artifacts',policy,suite,deadline_ms:Math.min(this.limits.timeout_ms,suite==='commercial'?(policy.commercial?.run_timeout_ms||240000):suite==='product'?(policy.product?.run_timeout_ms||150000):policy.limits.run_timeout_ms)});fs.chmodSync(path.join(input,'qa.json'),0o444);
       const args=dockerArgs({name,image:this.image,candidate,input,artifacts,limits:this.limits,probe});
       const outcome=await new Promise((resolve,reject)=>{
         const p=this.exec('docker',args,{env:environment(),detached:true,stdio:['ignore','ignore','pipe']});let stderr='',expired=false,aborted=false,finished=false;
@@ -71,11 +75,11 @@ class DockerQA {
       result.isolation={engine:'docker',image:this.image,network:'none',readonly:true,cpu:this.limits.cpus,memory_mb:this.limits.memory_mb,pids:this.limits.pids};
       fs.mkdirSync(outDir,{recursive:true});atomicJSON(path.join(outDir,'qa.json'),result);
       let exported=0,count=0;
-      for(const f of fs.readdirSync(artifacts).filter(x=>/^(?:viewport-[0-9]+(?:-[a-z0-9-]+)?\.png|product-[0-9]+-[a-z0-9-]+\.(?:png|webm)|artifact-index\.json)$/.test(x))) {
+      for(const f of fs.readdirSync(artifacts).filter(x=>/^(?:viewport-[0-9]+(?:-[a-z0-9-]+)?\.png|(?:product|commercial)-[0-9]+-[a-z0-9-]+\.(?:png|webm)|artifact-index\.json)$/.test(x))) {
         const from=path.join(artifacts,f),s=fs.lstatSync(from);if(s.isFile()&&!s.isSymbolicLink()&&s.size<16*1024*1024&&exported+s.size<128*1024*1024&&count<256){fs.copyFileSync(from,path.join(outDir,f));exported+=s.size;count++;}
       }
       for(const f of new Set([...(result.screenshots||[]),...(result.artifacts||[]).map(a=>a.path)])){
-        if(!/^(?:viewport-[0-9]+(?:-[a-z0-9-]+)?\.png|product-[0-9]+-[a-z0-9-]+\.(?:png|webm))$/.test(f)||!fs.existsSync(path.join(outDir,f))){
+        if(!/^(?:viewport-[0-9]+(?:-[a-z0-9-]+)?\.png|(?:product|commercial)-[0-9]+-[a-z0-9-]+\.(?:png|webm))$/.test(f)||!fs.existsSync(path.join(outDir,f))){
           result.passed=false;result.hard_failures.push({code:'evidence_export_failed',message:'A declared QA artifact was not safely exported',expected:f,actual:'missing or outside artifact limits'});
         }
       }

@@ -73,6 +73,7 @@ class AutonomousWorker {
         if(this.mock&&(!this.provider||!/^mock\//.test(provider.identity)))throw new ProviderPause('invalid_mock_provider');
         const prices=pricing(this.settings.pricing,{mock:this.mock,now:this.now()});
         if(!this.mock){try{require('../qa/product-contract.cjs').review(job.product_contract);}catch(e){throw new ProviderPause('product_contract_unreviewed',e.message,'PAUSED_SPEC');}}
+        if(!this.mock){try{require('../qa/commercial/contract.cjs').review(job.commercial_contract,job.product_contract);}catch(e){throw new ProviderPause('commercial_contract_unreviewed',e.message,'PAUSED_SPEC');}}
         manager=new ProviderManager({root:this.root,provider,config:this.limits,prices,guard,signal:controller.signal,now:this.now});
         await guard();
         monitor=setInterval(()=>{guard().catch(e=>controller.abort(e.factory_pause?e:new ProviderPause('invalid_control_policy')));},250);

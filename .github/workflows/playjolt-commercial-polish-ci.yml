@@ -1,0 +1,44 @@
+name: PlayJolt Commercial Polish
+on:
+  pull_request:
+    paths: ['vibe-arcade/autonomy/**', '.github/workflows/playjolt-commercial-polish-ci.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: commercial-polish-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+jobs:
+  product:
+    name: Commercial contract and Docker Chromium fixtures (${{ matrix.shard }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - run: npm run test:commercial --prefix vibe-arcade/autonomy
+      - name: Build trusted runtime without candidate code or provider secrets
+        run: |
+          docker build --iidfile "$RUNNER_TEMP/product-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/product-image")" >> "$GITHUB_ENV"
+      - name: GOOD, eight BAD fixtures, visual/audio evidence, reduced motion
+        run: npm run test:commercial:docker --prefix vibe-arcade/autonomy
+        env:
+          COMMERCIAL_TEST_SHARD: ${{ matrix.shard }}
+          COMMERCIAL_TEST_SHARDS: 3
+          FACTORY_EVIDENCE_DIR: ${{ runner.temp }}/commercial-polish-evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: generic-commercial-polish-evidence-${{ matrix.shard }}
+          path: ${{ runner.temp }}/commercial-polish-evidence
+          retention-days: 14

@@ -1,5 +1,5 @@
 {
-  "version": "phase1-product-quality-1",
+  "version": "phase1-commercial-polish-1",
   "max_repair_attempts": 5,
   "auto_production_ship": false,
   "required_viewports": [
@@ -68,6 +68,11 @@
     "allow_fixture_oracles": false,
     "min_seeds": 6,
     "native_media_settlement_ms": 800,
+    "new_commissioning_requires_contract": true
+  },
+  "commercial": {
+    "runner_version": "commercial-polish-1",
+    "run_timeout_ms": 240000,
     "new_commissioning_requires_contract": true
   }
 }

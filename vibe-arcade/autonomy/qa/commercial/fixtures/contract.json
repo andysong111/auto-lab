@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "review_id": "commercial-fixture-v1",
+  "seed": 7,
+  "visual_legibility": {
+    "pairs": [
+      {
+        "id": "enabled-disabled",
+        "kind": "action_availability",
+        "a": {
+          "node": "1:0",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.025,
+            "y": 0.49,
+            "width": 0.15,
+            "height": 0.23
+          }
+        },
+        "b": {
+          "node": "1:0",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.825,
+            "y": 0.49,
+            "width": 0.15,
+            "height": 0.23
+          }
+        },
+        "action_a": "a0",
+        "action_b": "a4",
+        "marker": "Enabled switch is filled; blocked switch has a contrasting diagonal cross."
+      }
+    ]
+  },
+  "state_distinction": {
+    "pairs": [
+      {
+        "id": "owned-unowned",
+        "kind": "state",
+        "a": {
+          "node": "1:0",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.025,
+            "y": 0.49,
+            "width": 0.15,
+            "height": 0.23
+          }
+        },
+        "b": {
+          "node": "1:1",
+          "region": {
+            "selector": "[data-game-canvas]",
+            "x": 0.025,
+            "y": 0.49,
+            "width": 0.15,
+            "height": 0.23
+          }
+        },
+        "state_path": "state.mask",
+        "marker": "Collected activation uses a bright cyan filled center, distinct from the unowned center."
+      }
+    ]
+  },
+  "action_feedback": {
+    "probes": [
+      {
+        "id": "primary",
+        "node": "1:0",
+        "action": "a0",
+        "kind": "movement",
+        "region": {
+          "selector": "[data-game-canvas]",
+          "x": 0,
+          "y": 0.46,
+          "width": 0.22,
+          "height": 0.32
+        }
+      },
+      {
+        "id": "progress",
+        "node": "1:1",
+        "action": "a2",
+        "kind": "progress",
+        "region": {
+          "selector": "[data-game-canvas]",
+          "x": 0,
+          "y": 0.02,
+          "width": 1,
+          "height": 0.42
+        }
+      }
+    ]
+  },
+  "motion": {
+    "intermediate_ms": [
+      60,
+      130
+    ],
+    "settle_ms": 450
+  },
+  "progression_spectacle": {
+    "checkpoints": [
+      {
+        "node": "1:0",
+        "region": {
+          "selector": "[data-game-canvas]",
+          "x": 0,
+          "y": 0.02,
+          "width": 1,
+          "height": 0.4
+        }
+      },
+      {
+        "node": "2:0",
+        "region": {
+          "selector": "[data-game-canvas]",
+          "x": 0,
+          "y": 0.02,
+          "width": 1,
+          "height": 0.4
+        }
+      },
+      {
+        "node": "3:0",
+        "region": {
+          "selector": "[data-game-canvas]",
+          "x": 0,
+          "y": 0.02,
+          "width": 1,
+          "height": 0.4
+        }
+      }
+    ],
+    "marker": "World bands change hue and geometric constellation grows in count and radius, excluding stage numbers."
+  },
+  "result_presentation": {
+    "region": {
+      "selector": "[data-game-canvas]",
+      "x": 0,
+      "y": 0.82,
+      "width": 1,
+      "height": 0.18
+    },
+    "success_title": "All panels complete",
+    "failure_title": "Panels incomplete"
+  },
+  "audio": {
+    "mode": "required",
+    "mute_selector": "[data-mute]",
+    "primary_probe": "primary",
+    "progress_probe": "progress"
+  },
+  "mobile_hierarchy": {
+    "gameplay_selector": "[data-game-canvas]",
+    "roles": [
+      {
+        "role": "player",
+        "foreground": {
+          "selector": "[data-game-canvas]",
+          "x": 0.03,
+          "y": 0.5,
+          "width": 0.14,
+          "height": 0.2
+        },
+        "background": {
+          "selector": "[data-game-canvas]",
+          "x": 0.03,
+          "y": 0.75,
+          "width": 0.14,
+          "height": 0.06
+        }
+      },
+      {
+        "role": "goal",
+        "foreground": {
+          "selector": "[data-game-canvas]",
+          "x": 0.036,
+          "y": 0.336,
+          "width": 0.08,
+          "height": 0.05
+        },
+        "background": {
+          "selector": "[data-game-canvas]",
+          "x": 0.03,
+          "y": 0.26,
+          "width": 0.14,
+          "height": 0.06
+        }
+      }
+    ]
+  },
+  "replay_motivation": {
+    "selector": "[data-replay-reason]",
+    "reason": "Find a cleaner sequence and finish all panels; fixture demonstrates visible replay guidance only."
+  },
+  "performance": {
+    "sample_ms": 1100
+  }
+}

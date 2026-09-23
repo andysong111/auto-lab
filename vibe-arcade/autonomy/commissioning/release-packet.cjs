@@ -4,6 +4,7 @@ function buildPacket(manifest,{base_ref='main',reviewed_by=null,decision='PENDIN
   if(manifest.state!=='READY_TO_SHIP')errors.push('state_not_ready_to_ship');
   if(manifest.qa_status!=='PASS')errors.push('qa_not_pass');
   if(!manifest.product_contract||manifest.product_qa_status!=='PASS')errors.push('product_qa_not_pass');
+  if(!manifest.commercial_contract||manifest.commercial_qa_status!=='PASS')errors.push('commercial_qa_not_pass');
   if(manifest.technical_qa_status!=='PASS')errors.push('technical_qa_not_pass');
   if(manifest.quality_status!=='PASS')errors.push('quality_not_pass');
   if(manifest.release_status!=='READY')errors.push('release_not_ready');
@@ -20,7 +21,7 @@ function buildPacket(manifest,{base_ref='main',reviewed_by=null,decision='PENDIN
     passed:errors.length===0,
     errors,
     candidate:{game_id:manifest.game_id,version:manifest.version,title:manifest.title,slug:manifest.slug,preview_url:manifest.preview_url,source_hash:manifest.source_hash,branch:manifest.branch,pr_number:manifest.pr_number,pr_url:manifest.pr_url||null,rc_commit:manifest.rc_commit},
-    evidence:{qa_status:manifest.qa_status,quality_status:manifest.quality_status,release_status:manifest.release_status,repair_attempt:manifest.repair_attempt,failure_reasons:manifest.failure_reasons||[]},
+    evidence:{commercial_qa_status:manifest.commercial_qa_status||'UNVERIFIED',qa_status:manifest.qa_status,quality_status:manifest.quality_status,release_status:manifest.release_status,repair_attempt:manifest.repair_attempt,failure_reasons:manifest.failure_reasons||[]},
     owner_review:owner,
     production:{authorized:false,reason:'Production adapter remains disabled until a separate reviewed release action consumes an APPROVE decision.'},
     rollback:{base_ref,restore_commit:base_ref,source_commit:manifest.rc_commit,required:true}
