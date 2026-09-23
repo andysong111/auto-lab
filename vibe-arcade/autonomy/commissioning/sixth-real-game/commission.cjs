@@ -137,7 +137,7 @@ function proposal(model,productContract,commercialContract){
 function appendRegistry(file,entry){
  const data=readJSON(file);data.entries=data.entries.filter(x=>x.id!==entry.id);data.entries.push(entry);atomicJSON(file,data);
 }
-function prepare(){
+async function prepare(){
  const root=path.resolve(process.env.FACTORY_WORKER_ROOT||'');
  if(!root||!process.env.RUNNER_TEMP||!root.startsWith(path.resolve(process.env.RUNNER_TEMP)+path.sep))throw Error('dedicated_runner_root_required');
  fs.rmSync(root,{recursive:true,force:true});fs.mkdirSync(root,{recursive:true});
@@ -153,7 +153,7 @@ function prepare(){
  const cp=JSON.parse(JSON.stringify(readJSON(path.join(ROOT,'control-plane/policy.json'))));Object.assign(cp,{mode:'sixth-real-game-one-candidate',intake_enabled:true,auto_rc_enabled:false,max_active_jobs:1,max_daily_new_jobs:1});Object.assign(cp.kill_switches,{release_candidates:true,production_shipping:true,marketing_promotion:true});
  const auth={schema:'playjolt-sixth-run/1',game_id:GAME_ID,model:'gpt-5.6-terra',user_authorized:true,authorization_basis:'Owner explicitly said to continue immediately after fifth candidate; one new sixth candidate, build1 + repair5 maximum, <=USD3 estimated. Production remains unauthorized.',max_generations:6,max_repairs:5,estimated_usd_ceiling:3,production_authorized:false,base_commit:'db4a2ef2e93e622b17068b564cd7b06bb84473b8'};
  for(const [n,d] of Object.entries({'proposal.json':p,'spec-gate.json':gate,'worker-config.json':settings,'control-policy.json':cp,'authorization.json':auth,'oracle.json':model}))atomicJSON(path.join(root,n),d);
- new Factory({store:new FileStore(root)}).create(gate.factory_spec).then(()=>console.log(JSON.stringify({preflight:'PASS',game_id:GAME_ID,title:TITLE,oracle_hash:hash(model),product_hash:hash(productContract),commercial_hash:hash(commercialContract),warnings:gate.warnings},null,2)));
+ await new Factory({store:new FileStore(root)}).create(gate.factory_spec);console.log(JSON.stringify({preflight:'PASS',game_id:GAME_ID,title:TITLE,oracle_hash:hash(model),product_hash:hash(productContract),commercial_hash:hash(commercialContract),warnings:gate.warnings},null,2));
 }
 async function run(){
  const root=process.env.FACTORY_WORKER_ROOT,settings=readJSON(path.join(root,'worker-config.json')),policyFile=path.join(root,'control-policy.json');
