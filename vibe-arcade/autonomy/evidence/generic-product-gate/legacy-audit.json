@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "mode": "read-only static migration audit",
+  "candidate_execution": false,
+  "factory_invoked": false,
+  "provider_calls": 0,
+  "reports": [
+    {
+      "name": "prism",
+      "game_id": "GAME-20260922-110",
+      "original_pr": "https://github.com/andysong111/auto-lab/pull/46",
+      "manifest_file": "prism-manifest.json",
+      "sha256": "724ac6dcc7313ced0fc248eb174172dc7a65d9cd129a805f4a245cb6585a4fe4",
+      "original_source_hash": "7127269016507a824d8df8726a509f3cef3c94215e68d99a56252bcc14fd0dc8",
+      "terminal_state": "REJECTED",
+      "repair_attempt": 5,
+      "source_executed": false,
+      "source_mutated": false,
+      "diagnostic_gate": "REJECT",
+      "product_qa": "UNVERIFIED",
+      "reason": "Archived candidate has no reviewed v1 machine contract; original evidence is not upgraded to a new PASS",
+      "codes": [
+        "polish_audio",
+        "polish_reduced_motion",
+        "stale_evidence",
+        "product_contract_missing"
+      ],
+      "manifest_unchanged": true
+    },
+    {
+      "name": "cloud",
+      "game_id": "GAME-20260922-121",
+      "original_pr": "https://github.com/andysong111/auto-lab/pull/49",
+      "manifest_file": "cloud-manifest.json",
+      "sha256": "ba66ec71257bc01b2db31a9a60bd104279afa3e4906b82013e76babb69b16b98",
+      "original_source_hash": null,
+      "terminal_state": "REJECTED",
+      "repair_attempt": 5,
+      "source_executed": false,
+      "source_mutated": false,
+      "quarantined_core_file": "cloud-core.js.txt",
+      "diagnostic_gate": "REJECT",
+      "product_qa": "UNVERIFIED",
+      "reason": "Archived candidate has no reviewed v1 machine contract; original evidence is not upgraded to a new PASS",
+      "codes": [
+        "stale_evidence",
+        "missing_check",
+        "product_contract_missing"
+      ],
+      "manifest_unchanged": true
+    },
+    {
+      "name": "ribbon",
+      "game_id": "GAME-20260922-131",
+      "original_pr": "https://github.com/andysong111/auto-lab/pull/51",
+      "manifest_file": "ribbon-manifest.json",
+      "sha256": "e3553238fefeadd069bb18745507648c81eec33f9c6b0e5cf4727688885047e2",
+      "original_source_hash": "ea85f704319bc9e6896d2304c9192d5b1b12a418654a47f8f765991e94c03736",
+      "terminal_state": "REJECTED",
+      "repair_attempt": 5,
+      "source_executed": false,
+      "source_mutated": false,
+      "diagnostic_gate": "REJECT",
+      "product_qa": "UNVERIFIED",
+      "reason": "Archived candidate has no reviewed v1 machine contract; original evidence is not upgraded to a new PASS",
+      "codes": [
+        "product_reduced_motion",
+        "stale_evidence",
+        "product_contract_missing"
+      ],
+      "manifest_unchanged": true
+    }
+  ],
+  "quarantined": [
+    {
+      "file": "cloud-core.js.txt",
+      "sha256": "099e21845800e3aa75ce8bcccdeeae1e4bfa291ec6b4dd3758e8825e8119c24c",
+      "unchanged": true,
+      "validation": {
+        "passed": false,
+        "code": "core_dom_dependency",
+        "message": "core_dom_dependency: core.js line 33 uses window. Export with globalThis.YourCore = {create,step,observe,terminal}; core must contain no document/window/localStorage/fetch identifiers.",
+        "detail": {
+          "file": "core.js",
+          "line": 33,
+          "identifier": "window",
+          "allowed_export": "globalThis.YourCore = {create,step,observe,terminal}"
+        }
+      }
+    }
+  ]
+}

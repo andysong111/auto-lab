@@ -1,0 +1,375 @@
+{
+  "schema_version": 1,
+  "tested_commit": "fd13b3f202fe72624bcd0596f13ca7700a5e7cb7",
+  "fixtures": [
+    {
+      "variant": "GOOD",
+      "expected": [],
+      "passed": true,
+      "codes": [],
+      "duration_ms": 58313,
+      "source_hash": "fa721b72e79f0a4d84dc6f5bdb0a73dac4b32cfc5acbff1d5e3332c4761ecd11"
+    },
+    {
+      "variant": "BAD_TEXT",
+      "expected": [
+        "product_mobile_readability"
+      ],
+      "passed": false,
+      "codes": [
+        "product_mobile_readability"
+      ],
+      "duration_ms": 58429,
+      "source_hash": "fc74f41e2ebbd05e2f42dadefca4403a8c7c5640dcfd03577aae94c93f79b11d"
+    },
+    {
+      "variant": "BAD_MOTION",
+      "expected": [
+        "product_reduced_motion"
+      ],
+      "passed": false,
+      "codes": [
+        "product_reduced_motion"
+      ],
+      "duration_ms": 60254,
+      "source_hash": "7e58241d311ef502d833ccc7ec5cbcb20e03941808313a89c33d14043599f25f"
+    },
+    {
+      "variant": "DELAYED_MEDIA_GOOD",
+      "expected": [],
+      "passed": true,
+      "codes": [],
+      "duration_ms": 58271,
+      "source_hash": "1afe41b3cc84df60fcd264eb31d32dc0cabd950c2184fa8f2017897a09d37039"
+    },
+    {
+      "variant": "BAD_GOAL_OPACITY",
+      "expected": [
+        "product_objective"
+      ],
+      "passed": false,
+      "codes": [
+        "product_objective"
+      ],
+      "duration_ms": 60585,
+      "source_hash": "f3802a8910f702a97b4c73d3d454b33044d66bc1f474017f4ea620d04ccfac33"
+    },
+    {
+      "variant": "BAD_SCORE",
+      "expected": [
+        "product_score_integrity"
+      ],
+      "passed": false,
+      "codes": [
+        "product_score_integrity"
+      ],
+      "duration_ms": 60184,
+      "source_hash": "d1ceeaf087c370391d484c39ca0a7dabb5146a181e615e3481207b2cf7231e88"
+    },
+    {
+      "variant": "BAD_GOAL",
+      "expected": [
+        "product_objective"
+      ],
+      "passed": false,
+      "codes": [
+        "product_objective"
+      ],
+      "duration_ms": 60545,
+      "source_hash": "0c330d8b15b700cef13456c2fac424b5f286953905ae5fa98409ef0f9b236a61"
+    },
+    {
+      "variant": "PERMANENT_MEDIA_BAD",
+      "expected": [
+        "product_reduced_motion"
+      ],
+      "passed": false,
+      "codes": [
+        "product_reduced_motion"
+      ],
+      "duration_ms": 63842,
+      "source_hash": "9dc315eff567ba806b6494abc851508f53443253068ef250e07d1555d4b165e3"
+    },
+    {
+      "variant": "BAD_DEADTIME",
+      "expected": [
+        "product_completion"
+      ],
+      "passed": false,
+      "codes": [
+        "product_completion",
+        "product_replay",
+        "product_difficulty",
+        "product_practice_best"
+      ],
+      "duration_ms": 52676,
+      "source_hash": "169483ab9c08e3c3cf69b30363eeee59eaeebf8dc9c75995493281107567c0df"
+    },
+    {
+      "variant": "BAD_RESULT",
+      "expected": [
+        "product_replay"
+      ],
+      "passed": false,
+      "codes": [
+        "product_replay",
+        "product_failure_result"
+      ],
+      "duration_ms": 61173,
+      "source_hash": "4647e92d06a80a921c5525b3e60623fab5591be297f8bae698a169ad958e7627"
+    },
+    {
+      "variant": "BAD_FEEDBACK",
+      "expected": [
+        "product_feedback"
+      ],
+      "passed": false,
+      "codes": [
+        "product_feedback"
+      ],
+      "duration_ms": 61144,
+      "source_hash": "7fc3277ec89499b052d586c04c044ab98025318f5a87f4681792cb48f6a2e496"
+    },
+    {
+      "variant": "MULTI_BAD",
+      "expected": [
+        "product_score_integrity",
+        "product_replay",
+        "product_reduced_motion",
+        "product_objective",
+        "product_feedback"
+      ],
+      "passed": false,
+      "codes": [
+        "product_objective",
+        "product_reduced_motion",
+        "product_score_integrity",
+        "product_feedback",
+        "product_replay",
+        "product_failure_result"
+      ],
+      "duration_ms": 63911,
+      "source_hash": "6a66a2313b7a7c9e620c632e2beae158a1a43dfb33f452c7b060c8c6270eb49d"
+    }
+  ],
+  "fixture_assertions_passed": 12,
+  "good_product_passed": true,
+  "good_quality_gate": "PASS",
+  "good_capture_writes": 0,
+  "seed_evidence": [
+    {
+      "seed": 7,
+      "passed": true,
+      "runs": 2,
+      "same_trace_hash": true,
+      "complexity": [
+        3,
+        4,
+        5
+      ],
+      "minimum_actions": [
+        2,
+        3,
+        4
+      ],
+      "observed_choices": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "seed": 19,
+      "passed": true,
+      "runs": 2,
+      "same_trace_hash": true,
+      "complexity": [
+        3,
+        4,
+        5
+      ],
+      "minimum_actions": [
+        2,
+        3,
+        4
+      ],
+      "observed_choices": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "seed": 41,
+      "passed": true,
+      "runs": 2,
+      "same_trace_hash": true,
+      "complexity": [
+        3,
+        4,
+        5
+      ],
+      "minimum_actions": [
+        2,
+        3,
+        4
+      ],
+      "observed_choices": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "seed": 73,
+      "passed": true,
+      "runs": 2,
+      "same_trace_hash": true,
+      "complexity": [
+        3,
+        4,
+        5
+      ],
+      "minimum_actions": [
+        2,
+        3,
+        4
+      ],
+      "observed_choices": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "seed": 101,
+      "passed": true,
+      "runs": 2,
+      "same_trace_hash": true,
+      "complexity": [
+        3,
+        4,
+        5
+      ],
+      "minimum_actions": [
+        2,
+        3,
+        4
+      ],
+      "observed_choices": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "seed": 137,
+      "passed": true,
+      "runs": 2,
+      "same_trace_hash": true,
+      "complexity": [
+        3,
+        4,
+        5
+      ],
+      "minimum_actions": [
+        2,
+        3,
+        4
+      ],
+      "observed_choices": [
+        3,
+        4,
+        5
+      ]
+    }
+  ],
+  "multiple_independent_failures": 17,
+  "factory_state": "REPAIR_PENDING",
+  "technical_qa": {
+    "status": "PASS"
+  },
+  "product_qa": {
+    "status": "FAIL",
+    "failures": [
+      "objective",
+      "reduced_motion",
+      "score_integrity",
+      "feedback",
+      "replay",
+      "feedback",
+      "failure_result",
+      "objective",
+      "reduced_motion",
+      "score_integrity",
+      "feedback",
+      "feedback",
+      "objective",
+      "reduced_motion",
+      "score_integrity",
+      "feedback",
+      "feedback"
+    ]
+  },
+  "quality_gate": {
+    "status": "REPAIR"
+  },
+  "artifact_indexes_verified": [
+    {
+      "index": "final/BAD_RESULT/artifact-index.json",
+      "artifacts": 50
+    },
+    {
+      "index": "final/GOOD/artifact-index.json",
+      "artifacts": 50
+    },
+    {
+      "index": "final/BAD_FEEDBACK/artifact-index.json",
+      "artifacts": 50
+    },
+    {
+      "index": "final/BAD_GOAL_OPACITY/artifact-index.json",
+      "artifacts": 50
+    },
+    {
+      "index": "final/BAD_DEADTIME/artifact-index.json",
+      "artifacts": 46
+    },
+    {
+      "index": "final/DELAYED_MEDIA_GOOD/artifact-index.json",
+      "artifacts": 50
+    },
+    {
+      "index": "final/BAD_SCORE/artifact-index.json",
+      "artifacts": 50
+    },
+    {
+      "index": "final/MULTI_BAD/artifact-index.json",
+      "artifacts": 62
+    },
+    {
+      "index": "final/BAD_MOTION/artifact-index.json",
+      "artifacts": 50
+    },
+    {
+      "index": "final/PERMANENT_MEDIA_BAD/artifact-index.json",
+      "artifacts": 50
+    },
+    {
+      "index": "final/BAD_GOAL/artifact-index.json",
+      "artifacts": 50
+    },
+    {
+      "index": "final/BAD_TEXT/artifact-index.json",
+      "artifacts": 50
+    },
+    {
+      "index": "final/MULTI_BAD/product/artifact-index.json",
+      "artifacts": 50
+    }
+  ],
+  "model_calls": 0,
+  "estimated_model_cost_usd": 0,
+  "production_writes": 0,
+  "clock_setup_race_regression": "PASS: 12 fixtures, six seeds, all sessions paused before navigation; original failure preserved in iterations/03.json"
+}

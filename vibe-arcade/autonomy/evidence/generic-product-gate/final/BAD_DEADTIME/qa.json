@@ -1,0 +1,5356 @@
+{
+  "schema_version": 1,
+  "runner_version": "product-quality-1",
+  "suite": "product",
+  "game_id": "GAME-00000000-903",
+  "version": "v1",
+  "source_hash": "169483ab9c08e3c3cf69b30363eeee59eaeebf8dc9c75995493281107567c0df",
+  "policy_hash": "57155e1fc1f3d90ad1f7d359ac1d8f90400326e95e9ce4d4a8d15b42d8f1b32a",
+  "contract_hash": "2437fb3dbd7e8e7027c53b62d00767e282d6faea4093075ae3c4a3cf21583bed",
+  "passed": false,
+  "hard_failures": [
+    {
+      "code": "product_completion",
+      "message": "Expected \"terminal within 100ms of objective success\"; actual {\"phase\":\"playing\",\"latency_ms\":100}",
+      "check": "completion",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state_path": "state.outcome",
+      "selector": "[data-result]",
+      "expected": "terminal within 100ms of objective success",
+      "actual": {
+        "phase": "playing",
+        "latency_ms": 100
+      },
+      "evidence": [
+        "product-390-milestone-3.png"
+      ]
+    },
+    {
+      "code": "product_replay",
+      "message": "Expected \"visible [data-game-restart]\"; actual false",
+      "check": "replay",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-game-restart]",
+      "expected": "visible [data-game-restart]",
+      "actual": false,
+      "evidence": [
+        "product-390-milestone-3.png"
+      ]
+    },
+    {
+      "code": "product_completion",
+      "message": "Expected \"terminal within 100ms of objective success\"; actual {\"phase\":\"playing\",\"latency_ms\":100}",
+      "check": "completion",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "state_path": "state.outcome",
+      "selector": "[data-result]",
+      "expected": "terminal within 100ms of objective success",
+      "actual": {
+        "phase": "playing",
+        "latency_ms": 100
+      },
+      "evidence": [
+        "product-768-milestone-3.png"
+      ]
+    },
+    {
+      "code": "product_replay",
+      "message": "Expected \"visible [data-game-restart]\"; actual false",
+      "check": "replay",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "selector": "[data-game-restart]",
+      "expected": "visible [data-game-restart]",
+      "actual": false,
+      "evidence": [
+        "product-768-milestone-3.png"
+      ]
+    },
+    {
+      "code": "product_completion",
+      "message": "Expected \"terminal within 100ms of objective success\"; actual {\"phase\":\"playing\",\"latency_ms\":100}",
+      "check": "completion",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "state_path": "state.outcome",
+      "selector": "[data-result]",
+      "expected": "terminal within 100ms of objective success",
+      "actual": {
+        "phase": "playing",
+        "latency_ms": 100
+      },
+      "evidence": [
+        "product-1280-milestone-3.png"
+      ]
+    },
+    {
+      "code": "product_replay",
+      "message": "Expected \"visible [data-game-restart]\"; actual false",
+      "check": "replay",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "selector": "[data-game-restart]",
+      "expected": "visible [data-game-restart]",
+      "actual": false,
+      "evidence": [
+        "product-1280-milestone-3.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"normal-input terminal\"; actual {\"schema_version\":1,\"metadata\":{\"game_id\":\"GAME-00000000-903\",\"version\":\"v1\"},\"seed\":7,\"phase\":\"playing\",\"paused\":false,\"disposed\":false,\"capture\":true,\"qa\":true,\"ranked\":false,\"state\":{\"seed\":7,\"stage\":4,\"completed\":3,\"mask\":0,\"target\":0,\"outcome\":\"success\",\"tick\":138,\"score\":300,\"actions\":33,\"interactions\":33,\"pointerActions\":33,\"latch\":\"p4\"},\"tick\":138,\"progress\":23,\"score\":300,\"interactions\":33,\"entities\":5,\"accepted_inputs\":{\"keyboard\":0,\"pointer\":33},\"error\":null,\"best\":0,\"effects\":{\"frames\":147,\"discarded_ms\":0},\"quality\":{\"stage\":4,\"complexity\":0,\"objective_progress\":3,\"meaningful_actions\":33,\"reversible_state_key\":\"4:0\"},\"presentation\":{\"reduced_motion\":false,\"feedback_active\":true,\"static_feedback\":false}}",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 7,
+      "state_path": "quality.complexity",
+      "expected": "normal-input terminal",
+      "actual": {
+        "schema_version": 1,
+        "metadata": {
+          "game_id": "GAME-00000000-903",
+          "version": "v1"
+        },
+        "seed": 7,
+        "phase": "playing",
+        "paused": false,
+        "disposed": false,
+        "capture": true,
+        "qa": true,
+        "ranked": false,
+        "state": {
+          "seed": 7,
+          "stage": 4,
+          "completed": 3,
+          "mask": 0,
+          "target": 0,
+          "outcome": "success",
+          "tick": 138,
+          "score": 300,
+          "actions": 33,
+          "interactions": 33,
+          "pointerActions": 33,
+          "latch": "p4"
+        },
+        "tick": 138,
+        "progress": 23,
+        "score": 300,
+        "interactions": 33,
+        "entities": 5,
+        "accepted_inputs": {
+          "keyboard": 0,
+          "pointer": 33
+        },
+        "error": null,
+        "best": 0,
+        "effects": {
+          "frames": 147,
+          "discarded_ms": 0
+        },
+        "quality": {
+          "stage": 4,
+          "complexity": 0,
+          "objective_progress": 3,
+          "meaningful_actions": 33,
+          "reversible_state_key": "4:0"
+        },
+        "presentation": {
+          "reduced_motion": false,
+          "feedback_active": true,
+          "static_feedback": false
+        }
+      },
+      "evidence": [
+        "product-1280-failure.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"normal-input terminal\"; actual {\"schema_version\":1,\"metadata\":{\"game_id\":\"GAME-00000000-903\",\"version\":\"v1\"},\"seed\":19,\"phase\":\"playing\",\"paused\":false,\"disposed\":false,\"capture\":true,\"qa\":true,\"ranked\":false,\"state\":{\"seed\":19,\"stage\":4,\"completed\":3,\"mask\":0,\"target\":0,\"outcome\":\"success\",\"tick\":138,\"score\":300,\"actions\":33,\"interactions\":33,\"pointerActions\":33,\"latch\":\"p3\"},\"tick\":138,\"progress\":23,\"score\":300,\"interactions\":33,\"entities\":5,\"accepted_inputs\":{\"keyboard\":0,\"pointer\":33},\"error\":null,\"best\":0,\"effects\":{\"frames\":147,\"discarded_ms\":0},\"quality\":{\"stage\":4,\"complexity\":0,\"objective_progress\":3,\"meaningful_actions\":33,\"reversible_state_key\":\"4:0\"},\"presentation\":{\"reduced_motion\":false,\"feedback_active\":true,\"static_feedback\":false}}",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 19,
+      "state_path": "quality.complexity",
+      "expected": "normal-input terminal",
+      "actual": {
+        "schema_version": 1,
+        "metadata": {
+          "game_id": "GAME-00000000-903",
+          "version": "v1"
+        },
+        "seed": 19,
+        "phase": "playing",
+        "paused": false,
+        "disposed": false,
+        "capture": true,
+        "qa": true,
+        "ranked": false,
+        "state": {
+          "seed": 19,
+          "stage": 4,
+          "completed": 3,
+          "mask": 0,
+          "target": 0,
+          "outcome": "success",
+          "tick": 138,
+          "score": 300,
+          "actions": 33,
+          "interactions": 33,
+          "pointerActions": 33,
+          "latch": "p3"
+        },
+        "tick": 138,
+        "progress": 23,
+        "score": 300,
+        "interactions": 33,
+        "entities": 5,
+        "accepted_inputs": {
+          "keyboard": 0,
+          "pointer": 33
+        },
+        "error": null,
+        "best": 0,
+        "effects": {
+          "frames": 147,
+          "discarded_ms": 0
+        },
+        "quality": {
+          "stage": 4,
+          "complexity": 0,
+          "objective_progress": 3,
+          "meaningful_actions": 33,
+          "reversible_state_key": "4:0"
+        },
+        "presentation": {
+          "reduced_motion": false,
+          "feedback_active": true,
+          "static_feedback": false
+        }
+      },
+      "evidence": [
+        "product-1280-failure.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"normal-input terminal\"; actual {\"schema_version\":1,\"metadata\":{\"game_id\":\"GAME-00000000-903\",\"version\":\"v1\"},\"seed\":41,\"phase\":\"playing\",\"paused\":false,\"disposed\":false,\"capture\":true,\"qa\":true,\"ranked\":false,\"state\":{\"seed\":41,\"stage\":4,\"completed\":3,\"mask\":0,\"target\":0,\"outcome\":\"success\",\"tick\":138,\"score\":300,\"actions\":33,\"interactions\":33,\"pointerActions\":33,\"latch\":\"p4\"},\"tick\":138,\"progress\":23,\"score\":300,\"interactions\":33,\"entities\":5,\"accepted_inputs\":{\"keyboard\":0,\"pointer\":33},\"error\":null,\"best\":0,\"effects\":{\"frames\":147,\"discarded_ms\":0},\"quality\":{\"stage\":4,\"complexity\":0,\"objective_progress\":3,\"meaningful_actions\":33,\"reversible_state_key\":\"4:0\"},\"presentation\":{\"reduced_motion\":false,\"feedback_active\":true,\"static_feedback\":false}}",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 41,
+      "state_path": "quality.complexity",
+      "expected": "normal-input terminal",
+      "actual": {
+        "schema_version": 1,
+        "metadata": {
+          "game_id": "GAME-00000000-903",
+          "version": "v1"
+        },
+        "seed": 41,
+        "phase": "playing",
+        "paused": false,
+        "disposed": false,
+        "capture": true,
+        "qa": true,
+        "ranked": false,
+        "state": {
+          "seed": 41,
+          "stage": 4,
+          "completed": 3,
+          "mask": 0,
+          "target": 0,
+          "outcome": "success",
+          "tick": 138,
+          "score": 300,
+          "actions": 33,
+          "interactions": 33,
+          "pointerActions": 33,
+          "latch": "p4"
+        },
+        "tick": 138,
+        "progress": 23,
+        "score": 300,
+        "interactions": 33,
+        "entities": 5,
+        "accepted_inputs": {
+          "keyboard": 0,
+          "pointer": 33
+        },
+        "error": null,
+        "best": 0,
+        "effects": {
+          "frames": 147,
+          "discarded_ms": 0
+        },
+        "quality": {
+          "stage": 4,
+          "complexity": 0,
+          "objective_progress": 3,
+          "meaningful_actions": 33,
+          "reversible_state_key": "4:0"
+        },
+        "presentation": {
+          "reduced_motion": false,
+          "feedback_active": true,
+          "static_feedback": false
+        }
+      },
+      "evidence": [
+        "product-1280-failure.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"normal-input terminal\"; actual {\"schema_version\":1,\"metadata\":{\"game_id\":\"GAME-00000000-903\",\"version\":\"v1\"},\"seed\":73,\"phase\":\"playing\",\"paused\":false,\"disposed\":false,\"capture\":true,\"qa\":true,\"ranked\":false,\"state\":{\"seed\":73,\"stage\":4,\"completed\":3,\"mask\":0,\"target\":0,\"outcome\":\"success\",\"tick\":138,\"score\":300,\"actions\":33,\"interactions\":33,\"pointerActions\":33,\"latch\":\"p4\"},\"tick\":138,\"progress\":23,\"score\":300,\"interactions\":33,\"entities\":5,\"accepted_inputs\":{\"keyboard\":0,\"pointer\":33},\"error\":null,\"best\":0,\"effects\":{\"frames\":147,\"discarded_ms\":0},\"quality\":{\"stage\":4,\"complexity\":0,\"objective_progress\":3,\"meaningful_actions\":33,\"reversible_state_key\":\"4:0\"},\"presentation\":{\"reduced_motion\":false,\"feedback_active\":true,\"static_feedback\":false}}",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 73,
+      "state_path": "quality.complexity",
+      "expected": "normal-input terminal",
+      "actual": {
+        "schema_version": 1,
+        "metadata": {
+          "game_id": "GAME-00000000-903",
+          "version": "v1"
+        },
+        "seed": 73,
+        "phase": "playing",
+        "paused": false,
+        "disposed": false,
+        "capture": true,
+        "qa": true,
+        "ranked": false,
+        "state": {
+          "seed": 73,
+          "stage": 4,
+          "completed": 3,
+          "mask": 0,
+          "target": 0,
+          "outcome": "success",
+          "tick": 138,
+          "score": 300,
+          "actions": 33,
+          "interactions": 33,
+          "pointerActions": 33,
+          "latch": "p4"
+        },
+        "tick": 138,
+        "progress": 23,
+        "score": 300,
+        "interactions": 33,
+        "entities": 5,
+        "accepted_inputs": {
+          "keyboard": 0,
+          "pointer": 33
+        },
+        "error": null,
+        "best": 0,
+        "effects": {
+          "frames": 147,
+          "discarded_ms": 0
+        },
+        "quality": {
+          "stage": 4,
+          "complexity": 0,
+          "objective_progress": 3,
+          "meaningful_actions": 33,
+          "reversible_state_key": "4:0"
+        },
+        "presentation": {
+          "reduced_motion": false,
+          "feedback_active": true,
+          "static_feedback": false
+        }
+      },
+      "evidence": [
+        "product-1280-failure.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"normal-input terminal\"; actual {\"schema_version\":1,\"metadata\":{\"game_id\":\"GAME-00000000-903\",\"version\":\"v1\"},\"seed\":101,\"phase\":\"playing\",\"paused\":false,\"disposed\":false,\"capture\":true,\"qa\":true,\"ranked\":false,\"state\":{\"seed\":101,\"stage\":4,\"completed\":3,\"mask\":0,\"target\":0,\"outcome\":\"success\",\"tick\":138,\"score\":300,\"actions\":33,\"interactions\":33,\"pointerActions\":33,\"latch\":\"p4\"},\"tick\":138,\"progress\":23,\"score\":300,\"interactions\":33,\"entities\":5,\"accepted_inputs\":{\"keyboard\":0,\"pointer\":33},\"error\":null,\"best\":0,\"effects\":{\"frames\":147,\"discarded_ms\":0},\"quality\":{\"stage\":4,\"complexity\":0,\"objective_progress\":3,\"meaningful_actions\":33,\"reversible_state_key\":\"4:0\"},\"presentation\":{\"reduced_motion\":false,\"feedback_active\":true,\"static_feedback\":false}}",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 101,
+      "state_path": "quality.complexity",
+      "expected": "normal-input terminal",
+      "actual": {
+        "schema_version": 1,
+        "metadata": {
+          "game_id": "GAME-00000000-903",
+          "version": "v1"
+        },
+        "seed": 101,
+        "phase": "playing",
+        "paused": false,
+        "disposed": false,
+        "capture": true,
+        "qa": true,
+        "ranked": false,
+        "state": {
+          "seed": 101,
+          "stage": 4,
+          "completed": 3,
+          "mask": 0,
+          "target": 0,
+          "outcome": "success",
+          "tick": 138,
+          "score": 300,
+          "actions": 33,
+          "interactions": 33,
+          "pointerActions": 33,
+          "latch": "p4"
+        },
+        "tick": 138,
+        "progress": 23,
+        "score": 300,
+        "interactions": 33,
+        "entities": 5,
+        "accepted_inputs": {
+          "keyboard": 0,
+          "pointer": 33
+        },
+        "error": null,
+        "best": 0,
+        "effects": {
+          "frames": 147,
+          "discarded_ms": 0
+        },
+        "quality": {
+          "stage": 4,
+          "complexity": 0,
+          "objective_progress": 3,
+          "meaningful_actions": 33,
+          "reversible_state_key": "4:0"
+        },
+        "presentation": {
+          "reduced_motion": false,
+          "feedback_active": true,
+          "static_feedback": false
+        }
+      },
+      "evidence": [
+        "product-1280-failure.png"
+      ]
+    },
+    {
+      "code": "product_difficulty",
+      "message": "Expected \"normal-input terminal\"; actual {\"schema_version\":1,\"metadata\":{\"game_id\":\"GAME-00000000-903\",\"version\":\"v1\"},\"seed\":137,\"phase\":\"playing\",\"paused\":false,\"disposed\":false,\"capture\":true,\"qa\":true,\"ranked\":false,\"state\":{\"seed\":137,\"stage\":4,\"completed\":3,\"mask\":0,\"target\":0,\"outcome\":\"success\",\"tick\":138,\"score\":300,\"actions\":33,\"interactions\":33,\"pointerActions\":33,\"latch\":\"p4\"},\"tick\":138,\"progress\":23,\"score\":300,\"interactions\":33,\"entities\":5,\"accepted_inputs\":{\"keyboard\":0,\"pointer\":33},\"error\":null,\"best\":0,\"effects\":{\"frames\":147,\"discarded_ms\":0},\"quality\":{\"stage\":4,\"complexity\":0,\"objective_progress\":3,\"meaningful_actions\":33,\"reversible_state_key\":\"4:0\"},\"presentation\":{\"reduced_motion\":false,\"feedback_active\":true,\"static_feedback\":false}}",
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 137,
+      "state_path": "quality.complexity",
+      "expected": "normal-input terminal",
+      "actual": {
+        "schema_version": 1,
+        "metadata": {
+          "game_id": "GAME-00000000-903",
+          "version": "v1"
+        },
+        "seed": 137,
+        "phase": "playing",
+        "paused": false,
+        "disposed": false,
+        "capture": true,
+        "qa": true,
+        "ranked": false,
+        "state": {
+          "seed": 137,
+          "stage": 4,
+          "completed": 3,
+          "mask": 0,
+          "target": 0,
+          "outcome": "success",
+          "tick": 138,
+          "score": 300,
+          "actions": 33,
+          "interactions": 33,
+          "pointerActions": 33,
+          "latch": "p4"
+        },
+        "tick": 138,
+        "progress": 23,
+        "score": 300,
+        "interactions": 33,
+        "entities": 5,
+        "accepted_inputs": {
+          "keyboard": 0,
+          "pointer": 33
+        },
+        "error": null,
+        "best": 0,
+        "effects": {
+          "frames": 147,
+          "discarded_ms": 0
+        },
+        "quality": {
+          "stage": 4,
+          "complexity": 0,
+          "objective_progress": 3,
+          "meaningful_actions": 33,
+          "reversible_state_key": "4:0"
+        },
+        "presentation": {
+          "reduced_motion": false,
+          "feedback_active": true,
+          "static_feedback": false
+        }
+      },
+      "evidence": [
+        "product-1280-failure.png"
+      ]
+    },
+    {
+      "code": "product_practice_best",
+      "message": "Expected \"completed practice updates GameKit best\"; actual 0",
+      "check": "practice_best",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-best]",
+      "state_path": "best",
+      "expected": "completed practice updates GameKit best",
+      "actual": 0,
+      "evidence": [
+        "product-1280-failure.png"
+      ]
+    }
+  ],
+  "soft_failures": [],
+  "checks": [
+    {
+      "check": "difficulty_review",
+      "viewport": null,
+      "state_path": "difficulty.oracle_sha256",
+      "actual": {
+        "id": "fixture-switches-v1",
+        "file": "fixture-switches-v1.json",
+        "sha256": "5bb8c877d21d7459efe83d4fe408ea6f90310b977bed21b0fb37cea99f826a1a",
+        "scope": "fixture",
+        "contract_sha256": "2437fb3dbd7e8e7027c53b62d00767e282d6faea4093075ae3c4a3cf21583bed",
+        "reviewed_by": "Factory infrastructure fixture review",
+        "rationale": "Toggle truth table; target has 2, 3, 4 set bits; 3, 4, 5 consequential choices. Test-only approval cannot commission a public candidate."
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "objective",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-objective]",
+      "actual": "Match the lit target in all 3 panels",
+      "status": "PASS"
+    },
+    {
+      "check": "progress",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-product-progress]",
+      "state_path": "state.completed",
+      "actual": {
+        "state": 0,
+        "text": "PANELS 0 / 3"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "score_best",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-best]",
+      "state_path": "best",
+      "actual": {
+        "score": "0",
+        "best": "0"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "actual": {
+        "overflow": 0,
+        "critical": [
+          {
+            "selector": "[data-objective]",
+            "text": "Match the lit target in all 3 panels",
+            "font_px": 18,
+            "x": 16,
+            "y": 59,
+            "width": 358,
+            "height": 25.1875
+          },
+          {
+            "selector": "[data-product-progress]",
+            "text": "PANELS 0 / 3",
+            "font_px": 16,
+            "x": 16,
+            "y": 94.1875,
+            "width": 358,
+            "height": 22.390625
+          },
+          {
+            "selector": "[data-score-label]",
+            "text": "CURRENT SCORE",
+            "font_px": 12,
+            "x": 16,
+            "y": 132.578125,
+            "width": 171,
+            "height": 18
+          },
+          {
+            "selector": "[data-game-score]",
+            "text": "0",
+            "font_px": 26,
+            "x": 16,
+            "y": 150.578125,
+            "width": 171,
+            "height": 35
+          },
+          {
+            "selector": "[data-best-label]",
+            "text": "DEVICE BEST",
+            "font_px": 12,
+            "x": 203,
+            "y": 132.578125,
+            "width": 171,
+            "height": 18
+          },
+          {
+            "selector": "[data-best]",
+            "text": "0",
+            "font_px": 26,
+            "x": 203,
+            "y": 150.578125,
+            "width": 171,
+            "height": 35
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-game-start]",
+            "x": 16,
+            "y": 414.140625,
+            "width": 133.921875,
+            "height": 48
+          }
+        ],
+        "canvas": {
+          "x": 16,
+          "y": 201.578125,
+          "width": 358,
+          "height": 204.5625
+        },
+        "canvas_text": [
+          {
+            "text": "TARGET · light the matching squares",
+            "x": 41.550952607998624,
+            "y": 219.95026172050615,
+            "width": 306.89811099646613,
+            "height": 17.35146245825581,
+            "font_px": 17.351462458255817
+          },
+          {
+            "text": "1",
+            "x": 47.249086236581206,
+            "y": 338.3484761415458,
+            "width": 9.101830769330263,
+            "height": 16.33078819600553,
+            "font_px": 16.33078819600547
+          },
+          {
+            "text": "2",
+            "x": 118.84908947907388,
+            "y": 338.3484761415458,
+            "width": 9.101830769330263,
+            "height": 16.33078819600553,
+            "font_px": 16.33078819600547
+          },
+          {
+            "text": "3",
+            "x": 190.44909272156656,
+            "y": 338.3484761415458,
+            "width": 9.101830769330263,
+            "height": 16.33078819600553,
+            "font_px": 16.33078819600547
+          },
+          {
+            "text": "4",
+            "x": 262.04909596405923,
+            "y": 338.3484761415458,
+            "width": 9.101830769330263,
+            "height": 16.33078819600553,
+            "font_px": 16.33078819600547
+          },
+          {
+            "text": "5",
+            "x": 333.6490992065519,
+            "y": 338.3484761415458,
+            "width": 9.101830769330263,
+            "height": 16.33078819600553,
+            "font_px": 16.33078819600547
+          }
+        ],
+        "viewport": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "reduced_motion",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state_path": "presentation.reduced_motion",
+      "actual": [
+        {
+          "desired": true,
+          "initial": {
+            "native": true,
+            "presentation": true
+          },
+          "settled": {
+            "native": true,
+            "presentation": true
+          },
+          "polls": 0,
+          "wall_ms": 1
+        },
+        {
+          "desired": false,
+          "initial": {
+            "native": false,
+            "presentation": true
+          },
+          "settled": {
+            "native": false,
+            "presentation": false
+          },
+          "polls": 1,
+          "wall_ms": 25
+        },
+        {
+          "desired": true,
+          "initial": {
+            "native": true,
+            "presentation": false
+          },
+          "settled": {
+            "native": true,
+            "presentation": true
+          },
+          "polls": 1,
+          "wall_ms": 24
+        },
+        {
+          "desired": false,
+          "initial": {
+            "native": false,
+            "presentation": true
+          },
+          "settled": {
+            "native": false,
+            "presentation": false
+          },
+          "polls": 2,
+          "wall_ms": 48
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check": "score_integrity",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state_path": "quality.reversible_state_key",
+      "selector": "[data-game-score]",
+      "actual": {
+        "probes": [
+          {
+            "kind": "reversible",
+            "actions": [
+              "a0",
+              "a0"
+            ],
+            "before": 0,
+            "after": 0
+          },
+          {
+            "kind": "no-progress",
+            "actions": [
+              "a4"
+            ],
+            "before": 0,
+            "after": 0
+          }
+        ],
+        "coverage": "declared bounded cycles"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "feedback",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state_path": "quality.reversible_state_key",
+      "selector": "[data-game-canvas]",
+      "actual": {
+        "before": "f6ab1360a6c39e650e60faaa3f08397c6e371774d58db79e62643d9f608bf0ea",
+        "frames": [
+          {
+            "ms": 0,
+            "path": "product-390-feedback-motion-0.png",
+            "visual": "3a840ac779a235273a74aa8c9e9f7778aa826b774b71a200bc1a75dcc5de503e",
+            "active": true,
+            "static": false
+          },
+          {
+            "ms": 60,
+            "path": "product-390-feedback-motion-60.png",
+            "visual": "ecacad3038d5dd97181ebf4e0c871afdff4c5ebf412d84a9e387cee2e8ea639d",
+            "active": true,
+            "static": false
+          },
+          {
+            "ms": 400,
+            "path": "product-390-feedback-motion-400.png",
+            "visual": "f6201d130fb2fd4891879b6c4da5fdde372cff3bcb07d27017e923a4e5c32706",
+            "active": false,
+            "static": false
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "progress",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "phase": "milestones",
+      "state_path": "state.completed",
+      "actual": [
+        {
+          "stage": 1,
+          "complexity": 3,
+          "required_actions": 2,
+          "plan": [
+            {
+              "from": "1:0",
+              "action": "a0",
+              "to": "1:1"
+            },
+            {
+              "from": "1:1",
+              "action": "a2",
+              "to": "2:0"
+            }
+          ],
+          "actual_actions": 2,
+          "observed_choices": []
+        },
+        {
+          "stage": 2,
+          "complexity": 4,
+          "required_actions": 3,
+          "plan": [
+            {
+              "from": "2:0",
+              "action": "a0",
+              "to": "2:1"
+            },
+            {
+              "from": "2:1",
+              "action": "a1",
+              "to": "2:3"
+            },
+            {
+              "from": "2:3",
+              "action": "a2",
+              "to": "3:0"
+            }
+          ],
+          "actual_actions": 3,
+          "observed_choices": []
+        },
+        {
+          "stage": 3,
+          "complexity": 5,
+          "required_actions": 4,
+          "plan": [
+            {
+              "from": "3:0",
+              "action": "a0",
+              "to": "3:1"
+            },
+            {
+              "from": "3:1",
+              "action": "a1",
+              "to": "3:3"
+            },
+            {
+              "from": "3:3",
+              "action": "a3",
+              "to": "3:11"
+            },
+            {
+              "from": "3:11",
+              "action": "a4",
+              "to": "success"
+            }
+          ],
+          "actual_actions": 4,
+          "observed_choices": []
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check": "completion",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state_path": "state.outcome",
+      "selector": "[data-result]",
+      "status": "FAIL",
+      "expected": "terminal within 100ms of objective success",
+      "actual": {
+        "phase": "playing",
+        "latency_ms": 100
+      }
+    },
+    {
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "phase": "result",
+      "selector": "[data-result]",
+      "actual": {
+        "overflow": 0,
+        "critical": [
+          {
+            "selector": "[data-objective]",
+            "text": "Match the lit target in all 3 panels",
+            "font_px": 18,
+            "x": 16,
+            "y": 59,
+            "width": 358,
+            "height": 25.1875
+          },
+          {
+            "selector": "[data-product-progress]",
+            "text": "PANELS 3 / 3",
+            "font_px": 16,
+            "x": 16,
+            "y": 94.1875,
+            "width": 358,
+            "height": 22.390625
+          },
+          {
+            "selector": "[data-score-label]",
+            "text": "CURRENT SCORE",
+            "font_px": 12,
+            "x": 16,
+            "y": 132.578125,
+            "width": 171,
+            "height": 18
+          },
+          {
+            "selector": "[data-game-score]",
+            "text": "300",
+            "font_px": 26,
+            "x": 16,
+            "y": 150.578125,
+            "width": 171,
+            "height": 35
+          },
+          {
+            "selector": "[data-best-label]",
+            "text": "DEVICE BEST",
+            "font_px": 12,
+            "x": 203,
+            "y": 132.578125,
+            "width": 171,
+            "height": 18
+          },
+          {
+            "selector": "[data-best]",
+            "text": "0",
+            "font_px": 26,
+            "x": 203,
+            "y": 150.578125,
+            "width": 171,
+            "height": 35
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-game-pause]",
+            "x": 16,
+            "y": 414.140625,
+            "width": 83.140625,
+            "height": 48
+          }
+        ],
+        "canvas": {
+          "x": 16,
+          "y": 201.578125,
+          "width": 358,
+          "height": 204.5625
+        },
+        "canvas_text": [
+          {
+            "text": "TARGET · light the matching squares",
+            "x": 41.550952607998624,
+            "y": 219.95026172050615,
+            "width": 306.89811099646613,
+            "height": 17.35146245825581,
+            "font_px": 17.351462458255817
+          },
+          {
+            "text": "1",
+            "x": 47.249086236581206,
+            "y": 338.3484761415458,
+            "width": 9.101830769330263,
+            "height": 16.33078819600553,
+            "font_px": 16.33078819600547
+          },
+          {
+            "text": "2",
+            "x": 118.84908947907388,
+            "y": 338.3484761415458,
+            "width": 9.101830769330263,
+            "height": 16.33078819600553,
+            "font_px": 16.33078819600547
+          },
+          {
+            "text": "3",
+            "x": 190.44909272156656,
+            "y": 338.3484761415458,
+            "width": 9.101830769330263,
+            "height": 16.33078819600553,
+            "font_px": 16.33078819600547
+          },
+          {
+            "text": "4",
+            "x": 262.04909596405923,
+            "y": 338.3484761415458,
+            "width": 9.101830769330263,
+            "height": 16.33078819600553,
+            "font_px": 16.33078819600547
+          },
+          {
+            "text": "5",
+            "x": 333.6490992065519,
+            "y": 338.3484761415458,
+            "width": 9.101830769330263,
+            "height": 16.33078819600553,
+            "font_px": 16.33078819600547
+          }
+        ],
+        "viewport": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "replay",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-game-restart]",
+      "status": "FAIL",
+      "expected": "visible [data-game-restart]",
+      "actual": false
+    },
+    {
+      "check": "capture_no_writes",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "actual": {
+        "writes": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "reduced_motion",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "phase": "initial_reduce",
+      "state_path": "presentation.reduced_motion",
+      "actual": {
+        "reduced_motion": true,
+        "feedback_active": false,
+        "static_feedback": false
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "feedback",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "phase": "static_reduce",
+      "state_path": "presentation.static_feedback",
+      "selector": "[data-game-canvas]",
+      "actual": {
+        "before": "3986bb8cbd2c8af8dfb0d1e5a211d77cfe4cdeb07dd5bbb117534ddc36420a6f",
+        "frames": [
+          {
+            "ms": 0,
+            "path": "product-390-feedback-reduced-0.png",
+            "visual": "930c36166afd13d80959a9e8072cdae52d50ca2c4d7ccf914bfa1283c654d29c",
+            "active": false,
+            "static": true
+          },
+          {
+            "ms": 60,
+            "path": "product-390-feedback-reduced-60.png",
+            "visual": "930c36166afd13d80959a9e8072cdae52d50ca2c4d7ccf914bfa1283c654d29c",
+            "active": false,
+            "static": true
+          },
+          {
+            "ms": 400,
+            "path": "product-390-feedback-reduced-400.png",
+            "visual": "930c36166afd13d80959a9e8072cdae52d50ca2c4d7ccf914bfa1283c654d29c",
+            "active": false,
+            "static": true
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "failure_result",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state_path": "state.outcome",
+      "selector": "[data-result]",
+      "actual": {
+        "phase": "finished",
+        "outcome": "failure"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "objective",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "selector": "[data-objective]",
+      "actual": "Match the lit target in all 3 panels",
+      "status": "PASS"
+    },
+    {
+      "check": "progress",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "selector": "[data-product-progress]",
+      "state_path": "state.completed",
+      "actual": {
+        "state": 0,
+        "text": "PANELS 0 / 3"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "score_best",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "selector": "[data-best]",
+      "state_path": "best",
+      "actual": {
+        "score": "0",
+        "best": "0"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "actual": {
+        "overflow": 0,
+        "critical": [
+          {
+            "selector": "[data-objective]",
+            "text": "Match the lit target in all 3 panels",
+            "font_px": 18,
+            "x": 144,
+            "y": 59,
+            "width": 480,
+            "height": 25.1875
+          },
+          {
+            "selector": "[data-product-progress]",
+            "text": "PANELS 0 / 3",
+            "font_px": 16,
+            "x": 144,
+            "y": 94.1875,
+            "width": 480,
+            "height": 22.390625
+          },
+          {
+            "selector": "[data-score-label]",
+            "text": "CURRENT SCORE",
+            "font_px": 12,
+            "x": 144,
+            "y": 132.578125,
+            "width": 232,
+            "height": 18
+          },
+          {
+            "selector": "[data-game-score]",
+            "text": "0",
+            "font_px": 26,
+            "x": 144,
+            "y": 150.578125,
+            "width": 232,
+            "height": 35
+          },
+          {
+            "selector": "[data-best-label]",
+            "text": "DEVICE BEST",
+            "font_px": 12,
+            "x": 392,
+            "y": 132.578125,
+            "width": 232,
+            "height": 18
+          },
+          {
+            "selector": "[data-best]",
+            "text": "0",
+            "font_px": 26,
+            "x": 392,
+            "y": 150.578125,
+            "width": 232,
+            "height": 35
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-game-start]",
+            "x": 144,
+            "y": 483.859375,
+            "width": 133.921875,
+            "height": 48
+          }
+        ],
+        "canvas": {
+          "x": 144,
+          "y": 201.578125,
+          "width": 480,
+          "height": 274.28125
+        },
+        "canvas_text": [
+          {
+            "text": "TARGET · light the matching squares",
+            "x": 178.2582598644658,
+            "y": 226.28917885547247,
+            "width": 411.48349338409025,
+            "height": 23.338217530168407,
+            "font_px": 23.33821753016843
+          },
+          {
+            "text": "1",
+            "x": 185.89821543032303,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "2",
+            "x": 281.8982180529274,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "3",
+            "x": 377.8982206755318,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "4",
+            "x": 473.89822329813614,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "5",
+            "x": 569.8982259207405,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          }
+        ],
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "reduced_motion",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "state_path": "presentation.reduced_motion",
+      "actual": [
+        {
+          "desired": true,
+          "initial": {
+            "native": true,
+            "presentation": false
+          },
+          "settled": {
+            "native": true,
+            "presentation": true
+          },
+          "polls": 1,
+          "wall_ms": 24
+        },
+        {
+          "desired": false,
+          "initial": {
+            "native": false,
+            "presentation": true
+          },
+          "settled": {
+            "native": false,
+            "presentation": false
+          },
+          "polls": 1,
+          "wall_ms": 24
+        },
+        {
+          "desired": true,
+          "initial": {
+            "native": true,
+            "presentation": false
+          },
+          "settled": {
+            "native": true,
+            "presentation": true
+          },
+          "polls": 2,
+          "wall_ms": 47
+        },
+        {
+          "desired": false,
+          "initial": {
+            "native": false,
+            "presentation": true
+          },
+          "settled": {
+            "native": false,
+            "presentation": false
+          },
+          "polls": 1,
+          "wall_ms": 23
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check": "score_integrity",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "state_path": "quality.reversible_state_key",
+      "selector": "[data-game-score]",
+      "actual": {
+        "probes": [
+          {
+            "kind": "reversible",
+            "actions": [
+              "a0",
+              "a0"
+            ],
+            "before": 0,
+            "after": 0
+          },
+          {
+            "kind": "no-progress",
+            "actions": [
+              "a4"
+            ],
+            "before": 0,
+            "after": 0
+          }
+        ],
+        "coverage": "declared bounded cycles"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "feedback",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "state_path": "quality.reversible_state_key",
+      "selector": "[data-game-canvas]",
+      "actual": {
+        "before": "d75f4ce80aa9594bd0eed9da28ac824198cae0ba321c0abdb82114556c26a89d",
+        "frames": [
+          {
+            "ms": 0,
+            "path": "product-768-feedback-motion-0.png",
+            "visual": "050334ae664013559db61a059716645d923179556c5984e9f5a8d3dc427b25f0",
+            "active": true,
+            "static": false
+          },
+          {
+            "ms": 60,
+            "path": "product-768-feedback-motion-60.png",
+            "visual": "ab5f7a5870df5f4c0224bfbb3e651fe260dc8e40fc231c3f8cb6423a0d6bd446",
+            "active": true,
+            "static": false
+          },
+          {
+            "ms": 400,
+            "path": "product-768-feedback-motion-400.png",
+            "visual": "a9826470e3067c658c3219cf2fe22aa8da3d661ea09d8527c4e17a1b51e22aa2",
+            "active": false,
+            "static": false
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "progress",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "phase": "milestones",
+      "state_path": "state.completed",
+      "actual": [
+        {
+          "stage": 1,
+          "complexity": 3,
+          "required_actions": 2,
+          "plan": [
+            {
+              "from": "1:0",
+              "action": "a0",
+              "to": "1:1"
+            },
+            {
+              "from": "1:1",
+              "action": "a2",
+              "to": "2:0"
+            }
+          ],
+          "actual_actions": 2,
+          "observed_choices": []
+        },
+        {
+          "stage": 2,
+          "complexity": 4,
+          "required_actions": 3,
+          "plan": [
+            {
+              "from": "2:0",
+              "action": "a0",
+              "to": "2:1"
+            },
+            {
+              "from": "2:1",
+              "action": "a1",
+              "to": "2:3"
+            },
+            {
+              "from": "2:3",
+              "action": "a2",
+              "to": "3:0"
+            }
+          ],
+          "actual_actions": 3,
+          "observed_choices": []
+        },
+        {
+          "stage": 3,
+          "complexity": 5,
+          "required_actions": 4,
+          "plan": [
+            {
+              "from": "3:0",
+              "action": "a0",
+              "to": "3:1"
+            },
+            {
+              "from": "3:1",
+              "action": "a1",
+              "to": "3:3"
+            },
+            {
+              "from": "3:3",
+              "action": "a3",
+              "to": "3:11"
+            },
+            {
+              "from": "3:11",
+              "action": "a4",
+              "to": "success"
+            }
+          ],
+          "actual_actions": 4,
+          "observed_choices": []
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check": "completion",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "state_path": "state.outcome",
+      "selector": "[data-result]",
+      "status": "FAIL",
+      "expected": "terminal within 100ms of objective success",
+      "actual": {
+        "phase": "playing",
+        "latency_ms": 100
+      }
+    },
+    {
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "phase": "result",
+      "selector": "[data-result]",
+      "actual": {
+        "overflow": 0,
+        "critical": [
+          {
+            "selector": "[data-objective]",
+            "text": "Match the lit target in all 3 panels",
+            "font_px": 18,
+            "x": 144,
+            "y": 59,
+            "width": 480,
+            "height": 25.1875
+          },
+          {
+            "selector": "[data-product-progress]",
+            "text": "PANELS 3 / 3",
+            "font_px": 16,
+            "x": 144,
+            "y": 94.1875,
+            "width": 480,
+            "height": 22.390625
+          },
+          {
+            "selector": "[data-score-label]",
+            "text": "CURRENT SCORE",
+            "font_px": 12,
+            "x": 144,
+            "y": 132.578125,
+            "width": 232,
+            "height": 18
+          },
+          {
+            "selector": "[data-game-score]",
+            "text": "300",
+            "font_px": 26,
+            "x": 144,
+            "y": 150.578125,
+            "width": 232,
+            "height": 35
+          },
+          {
+            "selector": "[data-best-label]",
+            "text": "DEVICE BEST",
+            "font_px": 12,
+            "x": 392,
+            "y": 132.578125,
+            "width": 232,
+            "height": 18
+          },
+          {
+            "selector": "[data-best]",
+            "text": "0",
+            "font_px": 26,
+            "x": 392,
+            "y": 150.578125,
+            "width": 232,
+            "height": 35
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-game-pause]",
+            "x": 144,
+            "y": 483.859375,
+            "width": 83.140625,
+            "height": 48
+          }
+        ],
+        "canvas": {
+          "x": 144,
+          "y": 201.578125,
+          "width": 480,
+          "height": 274.28125
+        },
+        "canvas_text": [
+          {
+            "text": "TARGET · light the matching squares",
+            "x": 178.2582598644658,
+            "y": 226.28917885547247,
+            "width": 411.48349338409025,
+            "height": 23.338217530168407,
+            "font_px": 23.33821753016843
+          },
+          {
+            "text": "1",
+            "x": 185.89821543032303,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "2",
+            "x": 281.8982180529274,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "3",
+            "x": 377.8982206755318,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "4",
+            "x": 473.89822329813614,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "5",
+            "x": 569.8982259207405,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          }
+        ],
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "replay",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "selector": "[data-game-restart]",
+      "status": "FAIL",
+      "expected": "visible [data-game-restart]",
+      "actual": false
+    },
+    {
+      "check": "capture_no_writes",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "actual": {
+        "writes": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "reduced_motion",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "phase": "initial_reduce",
+      "state_path": "presentation.reduced_motion",
+      "actual": {
+        "reduced_motion": true,
+        "feedback_active": false,
+        "static_feedback": false
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "feedback",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "phase": "static_reduce",
+      "state_path": "presentation.static_feedback",
+      "selector": "[data-game-canvas]",
+      "actual": {
+        "before": "c83f009e21ad6c963b450464f912cb01626b60d4ac7ff93c4f91b64a12f5e683",
+        "frames": [
+          {
+            "ms": 0,
+            "path": "product-768-feedback-reduced-0.png",
+            "visual": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8",
+            "active": false,
+            "static": true
+          },
+          {
+            "ms": 60,
+            "path": "product-768-feedback-reduced-60.png",
+            "visual": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8",
+            "active": false,
+            "static": true
+          },
+          {
+            "ms": 400,
+            "path": "product-768-feedback-reduced-400.png",
+            "visual": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8",
+            "active": false,
+            "static": true
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "failure_result",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "state_path": "state.outcome",
+      "selector": "[data-result]",
+      "actual": {
+        "phase": "finished",
+        "outcome": "failure"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "objective",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "selector": "[data-objective]",
+      "actual": "Match the lit target in all 3 panels",
+      "status": "PASS"
+    },
+    {
+      "check": "progress",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "selector": "[data-product-progress]",
+      "state_path": "state.completed",
+      "actual": {
+        "state": 0,
+        "text": "PANELS 0 / 3"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "score_best",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "selector": "[data-best]",
+      "state_path": "best",
+      "actual": {
+        "score": "0",
+        "best": "0"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "phase": "entry",
+      "selector": "[data-game-canvas]",
+      "actual": {
+        "overflow": 0,
+        "critical": [
+          {
+            "selector": "[data-objective]",
+            "text": "Match the lit target in all 3 panels",
+            "font_px": 18,
+            "x": 400,
+            "y": 59,
+            "width": 480,
+            "height": 25.1875
+          },
+          {
+            "selector": "[data-product-progress]",
+            "text": "PANELS 0 / 3",
+            "font_px": 16,
+            "x": 400,
+            "y": 94.1875,
+            "width": 480,
+            "height": 22.390625
+          },
+          {
+            "selector": "[data-score-label]",
+            "text": "CURRENT SCORE",
+            "font_px": 12,
+            "x": 400,
+            "y": 132.578125,
+            "width": 232,
+            "height": 18
+          },
+          {
+            "selector": "[data-game-score]",
+            "text": "0",
+            "font_px": 26,
+            "x": 400,
+            "y": 150.578125,
+            "width": 232,
+            "height": 35
+          },
+          {
+            "selector": "[data-best-label]",
+            "text": "DEVICE BEST",
+            "font_px": 12,
+            "x": 648,
+            "y": 132.578125,
+            "width": 232,
+            "height": 18
+          },
+          {
+            "selector": "[data-best]",
+            "text": "0",
+            "font_px": 26,
+            "x": 648,
+            "y": 150.578125,
+            "width": 232,
+            "height": 35
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-game-start]",
+            "x": 400,
+            "y": 483.859375,
+            "width": 133.921875,
+            "height": 48
+          }
+        ],
+        "canvas": {
+          "x": 400,
+          "y": 201.578125,
+          "width": 480,
+          "height": 274.28125
+        },
+        "canvas_text": [
+          {
+            "text": "TARGET · light the matching squares",
+            "x": 434.2582598644658,
+            "y": 226.28917885547247,
+            "width": 411.48349338409025,
+            "height": 23.338217530168407,
+            "font_px": 23.33821753016843
+          },
+          {
+            "text": "1",
+            "x": 441.89821543032303,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "2",
+            "x": 537.8982180529274,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "3",
+            "x": 633.8982206755318,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "4",
+            "x": 729.8982232981361,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "5",
+            "x": 825.8982259207405,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          }
+        ],
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "reduced_motion",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "state_path": "presentation.reduced_motion",
+      "actual": [
+        {
+          "desired": true,
+          "initial": {
+            "native": true,
+            "presentation": false
+          },
+          "settled": {
+            "native": true,
+            "presentation": true
+          },
+          "polls": 1,
+          "wall_ms": 24
+        },
+        {
+          "desired": false,
+          "initial": {
+            "native": false,
+            "presentation": true
+          },
+          "settled": {
+            "native": false,
+            "presentation": false
+          },
+          "polls": 1,
+          "wall_ms": 23
+        },
+        {
+          "desired": true,
+          "initial": {
+            "native": true,
+            "presentation": false
+          },
+          "settled": {
+            "native": true,
+            "presentation": true
+          },
+          "polls": 1,
+          "wall_ms": 24
+        },
+        {
+          "desired": false,
+          "initial": {
+            "native": false,
+            "presentation": true
+          },
+          "settled": {
+            "native": false,
+            "presentation": false
+          },
+          "polls": 1,
+          "wall_ms": 24
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check": "score_integrity",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "state_path": "quality.reversible_state_key",
+      "selector": "[data-game-score]",
+      "actual": {
+        "probes": [
+          {
+            "kind": "reversible",
+            "actions": [
+              "a0",
+              "a0"
+            ],
+            "before": 0,
+            "after": 0
+          },
+          {
+            "kind": "no-progress",
+            "actions": [
+              "a4"
+            ],
+            "before": 0,
+            "after": 0
+          }
+        ],
+        "coverage": "declared bounded cycles"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "feedback",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "state_path": "quality.reversible_state_key",
+      "selector": "[data-game-canvas]",
+      "actual": {
+        "before": "2a2185c44f1a6927f13a94b1d20c21f23a73cda50aaaf62188a0cd23c7a346c8",
+        "frames": [
+          {
+            "ms": 0,
+            "path": "product-1280-feedback-motion-0.png",
+            "visual": "f98846bbb9e1d63265643565846e61ba9ce8e75b1beb4a17752c24dd4867d6a0",
+            "active": true,
+            "static": false
+          },
+          {
+            "ms": 60,
+            "path": "product-1280-feedback-motion-60.png",
+            "visual": "ab5f7a5870df5f4c0224bfbb3e651fe260dc8e40fc231c3f8cb6423a0d6bd446",
+            "active": true,
+            "static": false
+          },
+          {
+            "ms": 400,
+            "path": "product-1280-feedback-motion-400.png",
+            "visual": "a9826470e3067c658c3219cf2fe22aa8da3d661ea09d8527c4e17a1b51e22aa2",
+            "active": false,
+            "static": false
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "progress",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "phase": "milestones",
+      "state_path": "state.completed",
+      "actual": [
+        {
+          "stage": 1,
+          "complexity": 3,
+          "required_actions": 2,
+          "plan": [
+            {
+              "from": "1:0",
+              "action": "a0",
+              "to": "1:1"
+            },
+            {
+              "from": "1:1",
+              "action": "a2",
+              "to": "2:0"
+            }
+          ],
+          "actual_actions": 2,
+          "observed_choices": []
+        },
+        {
+          "stage": 2,
+          "complexity": 4,
+          "required_actions": 3,
+          "plan": [
+            {
+              "from": "2:0",
+              "action": "a0",
+              "to": "2:1"
+            },
+            {
+              "from": "2:1",
+              "action": "a1",
+              "to": "2:3"
+            },
+            {
+              "from": "2:3",
+              "action": "a2",
+              "to": "3:0"
+            }
+          ],
+          "actual_actions": 3,
+          "observed_choices": []
+        },
+        {
+          "stage": 3,
+          "complexity": 5,
+          "required_actions": 4,
+          "plan": [
+            {
+              "from": "3:0",
+              "action": "a0",
+              "to": "3:1"
+            },
+            {
+              "from": "3:1",
+              "action": "a1",
+              "to": "3:3"
+            },
+            {
+              "from": "3:3",
+              "action": "a3",
+              "to": "3:11"
+            },
+            {
+              "from": "3:11",
+              "action": "a4",
+              "to": "success"
+            }
+          ],
+          "actual_actions": 4,
+          "observed_choices": []
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check": "completion",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "state_path": "state.outcome",
+      "selector": "[data-result]",
+      "status": "FAIL",
+      "expected": "terminal within 100ms of objective success",
+      "actual": {
+        "phase": "playing",
+        "latency_ms": 100
+      }
+    },
+    {
+      "check": "mobile_readability",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "phase": "result",
+      "selector": "[data-result]",
+      "actual": {
+        "overflow": 0,
+        "critical": [
+          {
+            "selector": "[data-objective]",
+            "text": "Match the lit target in all 3 panels",
+            "font_px": 18,
+            "x": 400,
+            "y": 59,
+            "width": 480,
+            "height": 25.1875
+          },
+          {
+            "selector": "[data-product-progress]",
+            "text": "PANELS 3 / 3",
+            "font_px": 16,
+            "x": 400,
+            "y": 94.1875,
+            "width": 480,
+            "height": 22.390625
+          },
+          {
+            "selector": "[data-score-label]",
+            "text": "CURRENT SCORE",
+            "font_px": 12,
+            "x": 400,
+            "y": 132.578125,
+            "width": 232,
+            "height": 18
+          },
+          {
+            "selector": "[data-game-score]",
+            "text": "300",
+            "font_px": 26,
+            "x": 400,
+            "y": 150.578125,
+            "width": 232,
+            "height": 35
+          },
+          {
+            "selector": "[data-best-label]",
+            "text": "DEVICE BEST",
+            "font_px": 12,
+            "x": 648,
+            "y": 132.578125,
+            "width": 232,
+            "height": 18
+          },
+          {
+            "selector": "[data-best]",
+            "text": "0",
+            "font_px": 26,
+            "x": 648,
+            "y": 150.578125,
+            "width": 232,
+            "height": 35
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-game-pause]",
+            "x": 400,
+            "y": 483.859375,
+            "width": 83.140625,
+            "height": 48
+          }
+        ],
+        "canvas": {
+          "x": 400,
+          "y": 201.578125,
+          "width": 480,
+          "height": 274.28125
+        },
+        "canvas_text": [
+          {
+            "text": "TARGET · light the matching squares",
+            "x": 434.2582598644658,
+            "y": 226.28917885547247,
+            "width": 411.48349338409025,
+            "height": 23.338217530168407,
+            "font_px": 23.33821753016843
+          },
+          {
+            "text": "1",
+            "x": 441.89821543032303,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "2",
+            "x": 537.8982180529274,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "3",
+            "x": 633.8982206755318,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "4",
+            "x": 729.8982232981361,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          },
+          {
+            "text": "5",
+            "x": 825.8982259207405,
+            "y": 385.5381925907394,
+            "width": 12.203571761958301,
+            "height": 21.965381204864343,
+            "font_px": 21.965381204864403
+          }
+        ],
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "replay",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "selector": "[data-game-restart]",
+      "status": "FAIL",
+      "expected": "visible [data-game-restart]",
+      "actual": false
+    },
+    {
+      "check": "capture_no_writes",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "actual": {
+        "writes": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "reduced_motion",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "phase": "initial_reduce",
+      "state_path": "presentation.reduced_motion",
+      "actual": {
+        "reduced_motion": true,
+        "feedback_active": false,
+        "static_feedback": false
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "feedback",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "phase": "static_reduce",
+      "state_path": "presentation.static_feedback",
+      "selector": "[data-game-canvas]",
+      "actual": {
+        "before": "c83f009e21ad6c963b450464f912cb01626b60d4ac7ff93c4f91b64a12f5e683",
+        "frames": [
+          {
+            "ms": 0,
+            "path": "product-1280-feedback-reduced-0.png",
+            "visual": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8",
+            "active": false,
+            "static": true
+          },
+          {
+            "ms": 60,
+            "path": "product-1280-feedback-reduced-60.png",
+            "visual": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8",
+            "active": false,
+            "static": true
+          },
+          {
+            "ms": 400,
+            "path": "product-1280-feedback-reduced-400.png",
+            "visual": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8",
+            "active": false,
+            "static": true
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "failure_result",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "state_path": "state.outcome",
+      "selector": "[data-result]",
+      "actual": {
+        "phase": "finished",
+        "outcome": "failure"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 7,
+      "state_path": "quality.complexity",
+      "status": "FAIL",
+      "expected": "normal-input terminal",
+      "actual": {
+        "schema_version": 1,
+        "metadata": {
+          "game_id": "GAME-00000000-903",
+          "version": "v1"
+        },
+        "seed": 7,
+        "phase": "playing",
+        "paused": false,
+        "disposed": false,
+        "capture": true,
+        "qa": true,
+        "ranked": false,
+        "state": {
+          "seed": 7,
+          "stage": 4,
+          "completed": 3,
+          "mask": 0,
+          "target": 0,
+          "outcome": "success",
+          "tick": 138,
+          "score": 300,
+          "actions": 33,
+          "interactions": 33,
+          "pointerActions": 33,
+          "latch": "p4"
+        },
+        "tick": 138,
+        "progress": 23,
+        "score": 300,
+        "interactions": 33,
+        "entities": 5,
+        "accepted_inputs": {
+          "keyboard": 0,
+          "pointer": 33
+        },
+        "error": null,
+        "best": 0,
+        "effects": {
+          "frames": 147,
+          "discarded_ms": 0
+        },
+        "quality": {
+          "stage": 4,
+          "complexity": 0,
+          "objective_progress": 3,
+          "meaningful_actions": 33,
+          "reversible_state_key": "4:0"
+        },
+        "presentation": {
+          "reduced_motion": false,
+          "feedback_active": true,
+          "static_feedback": false
+        }
+      }
+    },
+    {
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 19,
+      "state_path": "quality.complexity",
+      "status": "FAIL",
+      "expected": "normal-input terminal",
+      "actual": {
+        "schema_version": 1,
+        "metadata": {
+          "game_id": "GAME-00000000-903",
+          "version": "v1"
+        },
+        "seed": 19,
+        "phase": "playing",
+        "paused": false,
+        "disposed": false,
+        "capture": true,
+        "qa": true,
+        "ranked": false,
+        "state": {
+          "seed": 19,
+          "stage": 4,
+          "completed": 3,
+          "mask": 0,
+          "target": 0,
+          "outcome": "success",
+          "tick": 138,
+          "score": 300,
+          "actions": 33,
+          "interactions": 33,
+          "pointerActions": 33,
+          "latch": "p3"
+        },
+        "tick": 138,
+        "progress": 23,
+        "score": 300,
+        "interactions": 33,
+        "entities": 5,
+        "accepted_inputs": {
+          "keyboard": 0,
+          "pointer": 33
+        },
+        "error": null,
+        "best": 0,
+        "effects": {
+          "frames": 147,
+          "discarded_ms": 0
+        },
+        "quality": {
+          "stage": 4,
+          "complexity": 0,
+          "objective_progress": 3,
+          "meaningful_actions": 33,
+          "reversible_state_key": "4:0"
+        },
+        "presentation": {
+          "reduced_motion": false,
+          "feedback_active": true,
+          "static_feedback": false
+        }
+      }
+    },
+    {
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 41,
+      "state_path": "quality.complexity",
+      "status": "FAIL",
+      "expected": "normal-input terminal",
+      "actual": {
+        "schema_version": 1,
+        "metadata": {
+          "game_id": "GAME-00000000-903",
+          "version": "v1"
+        },
+        "seed": 41,
+        "phase": "playing",
+        "paused": false,
+        "disposed": false,
+        "capture": true,
+        "qa": true,
+        "ranked": false,
+        "state": {
+          "seed": 41,
+          "stage": 4,
+          "completed": 3,
+          "mask": 0,
+          "target": 0,
+          "outcome": "success",
+          "tick": 138,
+          "score": 300,
+          "actions": 33,
+          "interactions": 33,
+          "pointerActions": 33,
+          "latch": "p4"
+        },
+        "tick": 138,
+        "progress": 23,
+        "score": 300,
+        "interactions": 33,
+        "entities": 5,
+        "accepted_inputs": {
+          "keyboard": 0,
+          "pointer": 33
+        },
+        "error": null,
+        "best": 0,
+        "effects": {
+          "frames": 147,
+          "discarded_ms": 0
+        },
+        "quality": {
+          "stage": 4,
+          "complexity": 0,
+          "objective_progress": 3,
+          "meaningful_actions": 33,
+          "reversible_state_key": "4:0"
+        },
+        "presentation": {
+          "reduced_motion": false,
+          "feedback_active": true,
+          "static_feedback": false
+        }
+      }
+    },
+    {
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 73,
+      "state_path": "quality.complexity",
+      "status": "FAIL",
+      "expected": "normal-input terminal",
+      "actual": {
+        "schema_version": 1,
+        "metadata": {
+          "game_id": "GAME-00000000-903",
+          "version": "v1"
+        },
+        "seed": 73,
+        "phase": "playing",
+        "paused": false,
+        "disposed": false,
+        "capture": true,
+        "qa": true,
+        "ranked": false,
+        "state": {
+          "seed": 73,
+          "stage": 4,
+          "completed": 3,
+          "mask": 0,
+          "target": 0,
+          "outcome": "success",
+          "tick": 138,
+          "score": 300,
+          "actions": 33,
+          "interactions": 33,
+          "pointerActions": 33,
+          "latch": "p4"
+        },
+        "tick": 138,
+        "progress": 23,
+        "score": 300,
+        "interactions": 33,
+        "entities": 5,
+        "accepted_inputs": {
+          "keyboard": 0,
+          "pointer": 33
+        },
+        "error": null,
+        "best": 0,
+        "effects": {
+          "frames": 147,
+          "discarded_ms": 0
+        },
+        "quality": {
+          "stage": 4,
+          "complexity": 0,
+          "objective_progress": 3,
+          "meaningful_actions": 33,
+          "reversible_state_key": "4:0"
+        },
+        "presentation": {
+          "reduced_motion": false,
+          "feedback_active": true,
+          "static_feedback": false
+        }
+      }
+    },
+    {
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 101,
+      "state_path": "quality.complexity",
+      "status": "FAIL",
+      "expected": "normal-input terminal",
+      "actual": {
+        "schema_version": 1,
+        "metadata": {
+          "game_id": "GAME-00000000-903",
+          "version": "v1"
+        },
+        "seed": 101,
+        "phase": "playing",
+        "paused": false,
+        "disposed": false,
+        "capture": true,
+        "qa": true,
+        "ranked": false,
+        "state": {
+          "seed": 101,
+          "stage": 4,
+          "completed": 3,
+          "mask": 0,
+          "target": 0,
+          "outcome": "success",
+          "tick": 138,
+          "score": 300,
+          "actions": 33,
+          "interactions": 33,
+          "pointerActions": 33,
+          "latch": "p4"
+        },
+        "tick": 138,
+        "progress": 23,
+        "score": 300,
+        "interactions": 33,
+        "entities": 5,
+        "accepted_inputs": {
+          "keyboard": 0,
+          "pointer": 33
+        },
+        "error": null,
+        "best": 0,
+        "effects": {
+          "frames": 147,
+          "discarded_ms": 0
+        },
+        "quality": {
+          "stage": 4,
+          "complexity": 0,
+          "objective_progress": 3,
+          "meaningful_actions": 33,
+          "reversible_state_key": "4:0"
+        },
+        "presentation": {
+          "reduced_motion": false,
+          "feedback_active": true,
+          "static_feedback": false
+        }
+      }
+    },
+    {
+      "check": "difficulty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 137,
+      "state_path": "quality.complexity",
+      "status": "FAIL",
+      "expected": "normal-input terminal",
+      "actual": {
+        "schema_version": 1,
+        "metadata": {
+          "game_id": "GAME-00000000-903",
+          "version": "v1"
+        },
+        "seed": 137,
+        "phase": "playing",
+        "paused": false,
+        "disposed": false,
+        "capture": true,
+        "qa": true,
+        "ranked": false,
+        "state": {
+          "seed": 137,
+          "stage": 4,
+          "completed": 3,
+          "mask": 0,
+          "target": 0,
+          "outcome": "success",
+          "tick": 138,
+          "score": 300,
+          "actions": 33,
+          "interactions": 33,
+          "pointerActions": 33,
+          "latch": "p4"
+        },
+        "tick": 138,
+        "progress": 23,
+        "score": 300,
+        "interactions": 33,
+        "entities": 5,
+        "accepted_inputs": {
+          "keyboard": 0,
+          "pointer": 33
+        },
+        "error": null,
+        "best": 0,
+        "effects": {
+          "frames": 147,
+          "discarded_ms": 0
+        },
+        "quality": {
+          "stage": 4,
+          "complexity": 0,
+          "objective_progress": 3,
+          "meaningful_actions": 33,
+          "reversible_state_key": "4:0"
+        },
+        "presentation": {
+          "reduced_motion": false,
+          "feedback_active": true,
+          "static_feedback": false
+        }
+      }
+    },
+    {
+      "check": "practice_best",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-best]",
+      "state_path": "best",
+      "status": "FAIL",
+      "expected": "completed practice updates GameKit best",
+      "actual": 0
+    }
+  ],
+  "browser_cases": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "passed": false,
+      "checks": [
+        {
+          "check": "objective",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "selector": "[data-objective]",
+          "actual": "Match the lit target in all 3 panels",
+          "status": "PASS"
+        },
+        {
+          "check": "progress",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "selector": "[data-product-progress]",
+          "state_path": "state.completed",
+          "actual": {
+            "state": 0,
+            "text": "PANELS 0 / 3"
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "score_best",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "selector": "[data-best]",
+          "state_path": "best",
+          "actual": {
+            "score": "0",
+            "best": "0"
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "mobile_readability",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "phase": "entry",
+          "selector": "[data-game-canvas]",
+          "actual": {
+            "overflow": 0,
+            "critical": [
+              {
+                "selector": "[data-objective]",
+                "text": "Match the lit target in all 3 panels",
+                "font_px": 18,
+                "x": 16,
+                "y": 59,
+                "width": 358,
+                "height": 25.1875
+              },
+              {
+                "selector": "[data-product-progress]",
+                "text": "PANELS 0 / 3",
+                "font_px": 16,
+                "x": 16,
+                "y": 94.1875,
+                "width": 358,
+                "height": 22.390625
+              },
+              {
+                "selector": "[data-score-label]",
+                "text": "CURRENT SCORE",
+                "font_px": 12,
+                "x": 16,
+                "y": 132.578125,
+                "width": 171,
+                "height": 18
+              },
+              {
+                "selector": "[data-game-score]",
+                "text": "0",
+                "font_px": 26,
+                "x": 16,
+                "y": 150.578125,
+                "width": 171,
+                "height": 35
+              },
+              {
+                "selector": "[data-best-label]",
+                "text": "DEVICE BEST",
+                "font_px": 12,
+                "x": 203,
+                "y": 132.578125,
+                "width": 171,
+                "height": 18
+              },
+              {
+                "selector": "[data-best]",
+                "text": "0",
+                "font_px": 26,
+                "x": 203,
+                "y": 150.578125,
+                "width": 171,
+                "height": 35
+              }
+            ],
+            "controls": [
+              {
+                "selector": "[data-game-start]",
+                "x": 16,
+                "y": 414.140625,
+                "width": 133.921875,
+                "height": 48
+              }
+            ],
+            "canvas": {
+              "x": 16,
+              "y": 201.578125,
+              "width": 358,
+              "height": 204.5625
+            },
+            "canvas_text": [
+              {
+                "text": "TARGET · light the matching squares",
+                "x": 41.550952607998624,
+                "y": 219.95026172050615,
+                "width": 306.89811099646613,
+                "height": 17.35146245825581,
+                "font_px": 17.351462458255817
+              },
+              {
+                "text": "1",
+                "x": 47.249086236581206,
+                "y": 338.3484761415458,
+                "width": 9.101830769330263,
+                "height": 16.33078819600553,
+                "font_px": 16.33078819600547
+              },
+              {
+                "text": "2",
+                "x": 118.84908947907388,
+                "y": 338.3484761415458,
+                "width": 9.101830769330263,
+                "height": 16.33078819600553,
+                "font_px": 16.33078819600547
+              },
+              {
+                "text": "3",
+                "x": 190.44909272156656,
+                "y": 338.3484761415458,
+                "width": 9.101830769330263,
+                "height": 16.33078819600553,
+                "font_px": 16.33078819600547
+              },
+              {
+                "text": "4",
+                "x": 262.04909596405923,
+                "y": 338.3484761415458,
+                "width": 9.101830769330263,
+                "height": 16.33078819600553,
+                "font_px": 16.33078819600547
+              },
+              {
+                "text": "5",
+                "x": 333.6490992065519,
+                "y": 338.3484761415458,
+                "width": 9.101830769330263,
+                "height": 16.33078819600553,
+                "font_px": 16.33078819600547
+              }
+            ],
+            "viewport": {
+              "width": 390,
+              "height": 844
+            }
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "reduced_motion",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "state_path": "presentation.reduced_motion",
+          "actual": [
+            {
+              "desired": true,
+              "initial": {
+                "native": true,
+                "presentation": true
+              },
+              "settled": {
+                "native": true,
+                "presentation": true
+              },
+              "polls": 0,
+              "wall_ms": 1
+            },
+            {
+              "desired": false,
+              "initial": {
+                "native": false,
+                "presentation": true
+              },
+              "settled": {
+                "native": false,
+                "presentation": false
+              },
+              "polls": 1,
+              "wall_ms": 25
+            },
+            {
+              "desired": true,
+              "initial": {
+                "native": true,
+                "presentation": false
+              },
+              "settled": {
+                "native": true,
+                "presentation": true
+              },
+              "polls": 1,
+              "wall_ms": 24
+            },
+            {
+              "desired": false,
+              "initial": {
+                "native": false,
+                "presentation": true
+              },
+              "settled": {
+                "native": false,
+                "presentation": false
+              },
+              "polls": 2,
+              "wall_ms": 48
+            }
+          ],
+          "status": "PASS"
+        },
+        {
+          "check": "score_integrity",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "state_path": "quality.reversible_state_key",
+          "selector": "[data-game-score]",
+          "actual": {
+            "probes": [
+              {
+                "kind": "reversible",
+                "actions": [
+                  "a0",
+                  "a0"
+                ],
+                "before": 0,
+                "after": 0
+              },
+              {
+                "kind": "no-progress",
+                "actions": [
+                  "a4"
+                ],
+                "before": 0,
+                "after": 0
+              }
+            ],
+            "coverage": "declared bounded cycles"
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "feedback",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "state_path": "quality.reversible_state_key",
+          "selector": "[data-game-canvas]",
+          "actual": {
+            "before": "f6ab1360a6c39e650e60faaa3f08397c6e371774d58db79e62643d9f608bf0ea",
+            "frames": [
+              {
+                "ms": 0,
+                "path": "product-390-feedback-motion-0.png",
+                "visual": "3a840ac779a235273a74aa8c9e9f7778aa826b774b71a200bc1a75dcc5de503e",
+                "active": true,
+                "static": false
+              },
+              {
+                "ms": 60,
+                "path": "product-390-feedback-motion-60.png",
+                "visual": "ecacad3038d5dd97181ebf4e0c871afdff4c5ebf412d84a9e387cee2e8ea639d",
+                "active": true,
+                "static": false
+              },
+              {
+                "ms": 400,
+                "path": "product-390-feedback-motion-400.png",
+                "visual": "f6201d130fb2fd4891879b6c4da5fdde372cff3bcb07d27017e923a4e5c32706",
+                "active": false,
+                "static": false
+              }
+            ]
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "progress",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "phase": "milestones",
+          "state_path": "state.completed",
+          "actual": [
+            {
+              "stage": 1,
+              "complexity": 3,
+              "required_actions": 2,
+              "plan": [
+                {
+                  "from": "1:0",
+                  "action": "a0",
+                  "to": "1:1"
+                },
+                {
+                  "from": "1:1",
+                  "action": "a2",
+                  "to": "2:0"
+                }
+              ],
+              "actual_actions": 2,
+              "observed_choices": []
+            },
+            {
+              "stage": 2,
+              "complexity": 4,
+              "required_actions": 3,
+              "plan": [
+                {
+                  "from": "2:0",
+                  "action": "a0",
+                  "to": "2:1"
+                },
+                {
+                  "from": "2:1",
+                  "action": "a1",
+                  "to": "2:3"
+                },
+                {
+                  "from": "2:3",
+                  "action": "a2",
+                  "to": "3:0"
+                }
+              ],
+              "actual_actions": 3,
+              "observed_choices": []
+            },
+            {
+              "stage": 3,
+              "complexity": 5,
+              "required_actions": 4,
+              "plan": [
+                {
+                  "from": "3:0",
+                  "action": "a0",
+                  "to": "3:1"
+                },
+                {
+                  "from": "3:1",
+                  "action": "a1",
+                  "to": "3:3"
+                },
+                {
+                  "from": "3:3",
+                  "action": "a3",
+                  "to": "3:11"
+                },
+                {
+                  "from": "3:11",
+                  "action": "a4",
+                  "to": "success"
+                }
+              ],
+              "actual_actions": 4,
+              "observed_choices": []
+            }
+          ],
+          "status": "PASS"
+        },
+        {
+          "check": "completion",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "state_path": "state.outcome",
+          "selector": "[data-result]",
+          "status": "FAIL",
+          "expected": "terminal within 100ms of objective success",
+          "actual": {
+            "phase": "playing",
+            "latency_ms": 100
+          }
+        },
+        {
+          "check": "mobile_readability",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "phase": "result",
+          "selector": "[data-result]",
+          "actual": {
+            "overflow": 0,
+            "critical": [
+              {
+                "selector": "[data-objective]",
+                "text": "Match the lit target in all 3 panels",
+                "font_px": 18,
+                "x": 16,
+                "y": 59,
+                "width": 358,
+                "height": 25.1875
+              },
+              {
+                "selector": "[data-product-progress]",
+                "text": "PANELS 3 / 3",
+                "font_px": 16,
+                "x": 16,
+                "y": 94.1875,
+                "width": 358,
+                "height": 22.390625
+              },
+              {
+                "selector": "[data-score-label]",
+                "text": "CURRENT SCORE",
+                "font_px": 12,
+                "x": 16,
+                "y": 132.578125,
+                "width": 171,
+                "height": 18
+              },
+              {
+                "selector": "[data-game-score]",
+                "text": "300",
+                "font_px": 26,
+                "x": 16,
+                "y": 150.578125,
+                "width": 171,
+                "height": 35
+              },
+              {
+                "selector": "[data-best-label]",
+                "text": "DEVICE BEST",
+                "font_px": 12,
+                "x": 203,
+                "y": 132.578125,
+                "width": 171,
+                "height": 18
+              },
+              {
+                "selector": "[data-best]",
+                "text": "0",
+                "font_px": 26,
+                "x": 203,
+                "y": 150.578125,
+                "width": 171,
+                "height": 35
+              }
+            ],
+            "controls": [
+              {
+                "selector": "[data-game-pause]",
+                "x": 16,
+                "y": 414.140625,
+                "width": 83.140625,
+                "height": 48
+              }
+            ],
+            "canvas": {
+              "x": 16,
+              "y": 201.578125,
+              "width": 358,
+              "height": 204.5625
+            },
+            "canvas_text": [
+              {
+                "text": "TARGET · light the matching squares",
+                "x": 41.550952607998624,
+                "y": 219.95026172050615,
+                "width": 306.89811099646613,
+                "height": 17.35146245825581,
+                "font_px": 17.351462458255817
+              },
+              {
+                "text": "1",
+                "x": 47.249086236581206,
+                "y": 338.3484761415458,
+                "width": 9.101830769330263,
+                "height": 16.33078819600553,
+                "font_px": 16.33078819600547
+              },
+              {
+                "text": "2",
+                "x": 118.84908947907388,
+                "y": 338.3484761415458,
+                "width": 9.101830769330263,
+                "height": 16.33078819600553,
+                "font_px": 16.33078819600547
+              },
+              {
+                "text": "3",
+                "x": 190.44909272156656,
+                "y": 338.3484761415458,
+                "width": 9.101830769330263,
+                "height": 16.33078819600553,
+                "font_px": 16.33078819600547
+              },
+              {
+                "text": "4",
+                "x": 262.04909596405923,
+                "y": 338.3484761415458,
+                "width": 9.101830769330263,
+                "height": 16.33078819600553,
+                "font_px": 16.33078819600547
+              },
+              {
+                "text": "5",
+                "x": 333.6490992065519,
+                "y": 338.3484761415458,
+                "width": 9.101830769330263,
+                "height": 16.33078819600553,
+                "font_px": 16.33078819600547
+              }
+            ],
+            "viewport": {
+              "width": 390,
+              "height": 844
+            }
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "replay",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "selector": "[data-game-restart]",
+          "status": "FAIL",
+          "expected": "visible [data-game-restart]",
+          "actual": false
+        },
+        {
+          "check": "capture_no_writes",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "actual": {
+            "writes": 0
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "reduced_motion",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "phase": "initial_reduce",
+          "state_path": "presentation.reduced_motion",
+          "actual": {
+            "reduced_motion": true,
+            "feedback_active": false,
+            "static_feedback": false
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "feedback",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "phase": "static_reduce",
+          "state_path": "presentation.static_feedback",
+          "selector": "[data-game-canvas]",
+          "actual": {
+            "before": "3986bb8cbd2c8af8dfb0d1e5a211d77cfe4cdeb07dd5bbb117534ddc36420a6f",
+            "frames": [
+              {
+                "ms": 0,
+                "path": "product-390-feedback-reduced-0.png",
+                "visual": "930c36166afd13d80959a9e8072cdae52d50ca2c4d7ccf914bfa1283c654d29c",
+                "active": false,
+                "static": true
+              },
+              {
+                "ms": 60,
+                "path": "product-390-feedback-reduced-60.png",
+                "visual": "930c36166afd13d80959a9e8072cdae52d50ca2c4d7ccf914bfa1283c654d29c",
+                "active": false,
+                "static": true
+              },
+              {
+                "ms": 400,
+                "path": "product-390-feedback-reduced-400.png",
+                "visual": "930c36166afd13d80959a9e8072cdae52d50ca2c4d7ccf914bfa1283c654d29c",
+                "active": false,
+                "static": true
+              }
+            ]
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "failure_result",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "state_path": "state.outcome",
+          "selector": "[data-result]",
+          "actual": {
+            "phase": "finished",
+            "outcome": "failure"
+          },
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "passed": false,
+      "checks": [
+        {
+          "check": "objective",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "selector": "[data-objective]",
+          "actual": "Match the lit target in all 3 panels",
+          "status": "PASS"
+        },
+        {
+          "check": "progress",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "selector": "[data-product-progress]",
+          "state_path": "state.completed",
+          "actual": {
+            "state": 0,
+            "text": "PANELS 0 / 3"
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "score_best",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "selector": "[data-best]",
+          "state_path": "best",
+          "actual": {
+            "score": "0",
+            "best": "0"
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "mobile_readability",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "phase": "entry",
+          "selector": "[data-game-canvas]",
+          "actual": {
+            "overflow": 0,
+            "critical": [
+              {
+                "selector": "[data-objective]",
+                "text": "Match the lit target in all 3 panels",
+                "font_px": 18,
+                "x": 144,
+                "y": 59,
+                "width": 480,
+                "height": 25.1875
+              },
+              {
+                "selector": "[data-product-progress]",
+                "text": "PANELS 0 / 3",
+                "font_px": 16,
+                "x": 144,
+                "y": 94.1875,
+                "width": 480,
+                "height": 22.390625
+              },
+              {
+                "selector": "[data-score-label]",
+                "text": "CURRENT SCORE",
+                "font_px": 12,
+                "x": 144,
+                "y": 132.578125,
+                "width": 232,
+                "height": 18
+              },
+              {
+                "selector": "[data-game-score]",
+                "text": "0",
+                "font_px": 26,
+                "x": 144,
+                "y": 150.578125,
+                "width": 232,
+                "height": 35
+              },
+              {
+                "selector": "[data-best-label]",
+                "text": "DEVICE BEST",
+                "font_px": 12,
+                "x": 392,
+                "y": 132.578125,
+                "width": 232,
+                "height": 18
+              },
+              {
+                "selector": "[data-best]",
+                "text": "0",
+                "font_px": 26,
+                "x": 392,
+                "y": 150.578125,
+                "width": 232,
+                "height": 35
+              }
+            ],
+            "controls": [
+              {
+                "selector": "[data-game-start]",
+                "x": 144,
+                "y": 483.859375,
+                "width": 133.921875,
+                "height": 48
+              }
+            ],
+            "canvas": {
+              "x": 144,
+              "y": 201.578125,
+              "width": 480,
+              "height": 274.28125
+            },
+            "canvas_text": [
+              {
+                "text": "TARGET · light the matching squares",
+                "x": 178.2582598644658,
+                "y": 226.28917885547247,
+                "width": 411.48349338409025,
+                "height": 23.338217530168407,
+                "font_px": 23.33821753016843
+              },
+              {
+                "text": "1",
+                "x": 185.89821543032303,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "2",
+                "x": 281.8982180529274,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "3",
+                "x": 377.8982206755318,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "4",
+                "x": 473.89822329813614,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "5",
+                "x": 569.8982259207405,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              }
+            ],
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            }
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "reduced_motion",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "state_path": "presentation.reduced_motion",
+          "actual": [
+            {
+              "desired": true,
+              "initial": {
+                "native": true,
+                "presentation": false
+              },
+              "settled": {
+                "native": true,
+                "presentation": true
+              },
+              "polls": 1,
+              "wall_ms": 24
+            },
+            {
+              "desired": false,
+              "initial": {
+                "native": false,
+                "presentation": true
+              },
+              "settled": {
+                "native": false,
+                "presentation": false
+              },
+              "polls": 1,
+              "wall_ms": 24
+            },
+            {
+              "desired": true,
+              "initial": {
+                "native": true,
+                "presentation": false
+              },
+              "settled": {
+                "native": true,
+                "presentation": true
+              },
+              "polls": 2,
+              "wall_ms": 47
+            },
+            {
+              "desired": false,
+              "initial": {
+                "native": false,
+                "presentation": true
+              },
+              "settled": {
+                "native": false,
+                "presentation": false
+              },
+              "polls": 1,
+              "wall_ms": 23
+            }
+          ],
+          "status": "PASS"
+        },
+        {
+          "check": "score_integrity",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "state_path": "quality.reversible_state_key",
+          "selector": "[data-game-score]",
+          "actual": {
+            "probes": [
+              {
+                "kind": "reversible",
+                "actions": [
+                  "a0",
+                  "a0"
+                ],
+                "before": 0,
+                "after": 0
+              },
+              {
+                "kind": "no-progress",
+                "actions": [
+                  "a4"
+                ],
+                "before": 0,
+                "after": 0
+              }
+            ],
+            "coverage": "declared bounded cycles"
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "feedback",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "state_path": "quality.reversible_state_key",
+          "selector": "[data-game-canvas]",
+          "actual": {
+            "before": "d75f4ce80aa9594bd0eed9da28ac824198cae0ba321c0abdb82114556c26a89d",
+            "frames": [
+              {
+                "ms": 0,
+                "path": "product-768-feedback-motion-0.png",
+                "visual": "050334ae664013559db61a059716645d923179556c5984e9f5a8d3dc427b25f0",
+                "active": true,
+                "static": false
+              },
+              {
+                "ms": 60,
+                "path": "product-768-feedback-motion-60.png",
+                "visual": "ab5f7a5870df5f4c0224bfbb3e651fe260dc8e40fc231c3f8cb6423a0d6bd446",
+                "active": true,
+                "static": false
+              },
+              {
+                "ms": 400,
+                "path": "product-768-feedback-motion-400.png",
+                "visual": "a9826470e3067c658c3219cf2fe22aa8da3d661ea09d8527c4e17a1b51e22aa2",
+                "active": false,
+                "static": false
+              }
+            ]
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "progress",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "phase": "milestones",
+          "state_path": "state.completed",
+          "actual": [
+            {
+              "stage": 1,
+              "complexity": 3,
+              "required_actions": 2,
+              "plan": [
+                {
+                  "from": "1:0",
+                  "action": "a0",
+                  "to": "1:1"
+                },
+                {
+                  "from": "1:1",
+                  "action": "a2",
+                  "to": "2:0"
+                }
+              ],
+              "actual_actions": 2,
+              "observed_choices": []
+            },
+            {
+              "stage": 2,
+              "complexity": 4,
+              "required_actions": 3,
+              "plan": [
+                {
+                  "from": "2:0",
+                  "action": "a0",
+                  "to": "2:1"
+                },
+                {
+                  "from": "2:1",
+                  "action": "a1",
+                  "to": "2:3"
+                },
+                {
+                  "from": "2:3",
+                  "action": "a2",
+                  "to": "3:0"
+                }
+              ],
+              "actual_actions": 3,
+              "observed_choices": []
+            },
+            {
+              "stage": 3,
+              "complexity": 5,
+              "required_actions": 4,
+              "plan": [
+                {
+                  "from": "3:0",
+                  "action": "a0",
+                  "to": "3:1"
+                },
+                {
+                  "from": "3:1",
+                  "action": "a1",
+                  "to": "3:3"
+                },
+                {
+                  "from": "3:3",
+                  "action": "a3",
+                  "to": "3:11"
+                },
+                {
+                  "from": "3:11",
+                  "action": "a4",
+                  "to": "success"
+                }
+              ],
+              "actual_actions": 4,
+              "observed_choices": []
+            }
+          ],
+          "status": "PASS"
+        },
+        {
+          "check": "completion",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "state_path": "state.outcome",
+          "selector": "[data-result]",
+          "status": "FAIL",
+          "expected": "terminal within 100ms of objective success",
+          "actual": {
+            "phase": "playing",
+            "latency_ms": 100
+          }
+        },
+        {
+          "check": "mobile_readability",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "phase": "result",
+          "selector": "[data-result]",
+          "actual": {
+            "overflow": 0,
+            "critical": [
+              {
+                "selector": "[data-objective]",
+                "text": "Match the lit target in all 3 panels",
+                "font_px": 18,
+                "x": 144,
+                "y": 59,
+                "width": 480,
+                "height": 25.1875
+              },
+              {
+                "selector": "[data-product-progress]",
+                "text": "PANELS 3 / 3",
+                "font_px": 16,
+                "x": 144,
+                "y": 94.1875,
+                "width": 480,
+                "height": 22.390625
+              },
+              {
+                "selector": "[data-score-label]",
+                "text": "CURRENT SCORE",
+                "font_px": 12,
+                "x": 144,
+                "y": 132.578125,
+                "width": 232,
+                "height": 18
+              },
+              {
+                "selector": "[data-game-score]",
+                "text": "300",
+                "font_px": 26,
+                "x": 144,
+                "y": 150.578125,
+                "width": 232,
+                "height": 35
+              },
+              {
+                "selector": "[data-best-label]",
+                "text": "DEVICE BEST",
+                "font_px": 12,
+                "x": 392,
+                "y": 132.578125,
+                "width": 232,
+                "height": 18
+              },
+              {
+                "selector": "[data-best]",
+                "text": "0",
+                "font_px": 26,
+                "x": 392,
+                "y": 150.578125,
+                "width": 232,
+                "height": 35
+              }
+            ],
+            "controls": [
+              {
+                "selector": "[data-game-pause]",
+                "x": 144,
+                "y": 483.859375,
+                "width": 83.140625,
+                "height": 48
+              }
+            ],
+            "canvas": {
+              "x": 144,
+              "y": 201.578125,
+              "width": 480,
+              "height": 274.28125
+            },
+            "canvas_text": [
+              {
+                "text": "TARGET · light the matching squares",
+                "x": 178.2582598644658,
+                "y": 226.28917885547247,
+                "width": 411.48349338409025,
+                "height": 23.338217530168407,
+                "font_px": 23.33821753016843
+              },
+              {
+                "text": "1",
+                "x": 185.89821543032303,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "2",
+                "x": 281.8982180529274,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "3",
+                "x": 377.8982206755318,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "4",
+                "x": 473.89822329813614,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "5",
+                "x": 569.8982259207405,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              }
+            ],
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            }
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "replay",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "selector": "[data-game-restart]",
+          "status": "FAIL",
+          "expected": "visible [data-game-restart]",
+          "actual": false
+        },
+        {
+          "check": "capture_no_writes",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "actual": {
+            "writes": 0
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "reduced_motion",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "phase": "initial_reduce",
+          "state_path": "presentation.reduced_motion",
+          "actual": {
+            "reduced_motion": true,
+            "feedback_active": false,
+            "static_feedback": false
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "feedback",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "phase": "static_reduce",
+          "state_path": "presentation.static_feedback",
+          "selector": "[data-game-canvas]",
+          "actual": {
+            "before": "c83f009e21ad6c963b450464f912cb01626b60d4ac7ff93c4f91b64a12f5e683",
+            "frames": [
+              {
+                "ms": 0,
+                "path": "product-768-feedback-reduced-0.png",
+                "visual": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8",
+                "active": false,
+                "static": true
+              },
+              {
+                "ms": 60,
+                "path": "product-768-feedback-reduced-60.png",
+                "visual": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8",
+                "active": false,
+                "static": true
+              },
+              {
+                "ms": 400,
+                "path": "product-768-feedback-reduced-400.png",
+                "visual": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8",
+                "active": false,
+                "static": true
+              }
+            ]
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "failure_result",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "state_path": "state.outcome",
+          "selector": "[data-result]",
+          "actual": {
+            "phase": "finished",
+            "outcome": "failure"
+          },
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "passed": false,
+      "checks": [
+        {
+          "check": "objective",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "selector": "[data-objective]",
+          "actual": "Match the lit target in all 3 panels",
+          "status": "PASS"
+        },
+        {
+          "check": "progress",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "selector": "[data-product-progress]",
+          "state_path": "state.completed",
+          "actual": {
+            "state": 0,
+            "text": "PANELS 0 / 3"
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "score_best",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "selector": "[data-best]",
+          "state_path": "best",
+          "actual": {
+            "score": "0",
+            "best": "0"
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "mobile_readability",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "phase": "entry",
+          "selector": "[data-game-canvas]",
+          "actual": {
+            "overflow": 0,
+            "critical": [
+              {
+                "selector": "[data-objective]",
+                "text": "Match the lit target in all 3 panels",
+                "font_px": 18,
+                "x": 400,
+                "y": 59,
+                "width": 480,
+                "height": 25.1875
+              },
+              {
+                "selector": "[data-product-progress]",
+                "text": "PANELS 0 / 3",
+                "font_px": 16,
+                "x": 400,
+                "y": 94.1875,
+                "width": 480,
+                "height": 22.390625
+              },
+              {
+                "selector": "[data-score-label]",
+                "text": "CURRENT SCORE",
+                "font_px": 12,
+                "x": 400,
+                "y": 132.578125,
+                "width": 232,
+                "height": 18
+              },
+              {
+                "selector": "[data-game-score]",
+                "text": "0",
+                "font_px": 26,
+                "x": 400,
+                "y": 150.578125,
+                "width": 232,
+                "height": 35
+              },
+              {
+                "selector": "[data-best-label]",
+                "text": "DEVICE BEST",
+                "font_px": 12,
+                "x": 648,
+                "y": 132.578125,
+                "width": 232,
+                "height": 18
+              },
+              {
+                "selector": "[data-best]",
+                "text": "0",
+                "font_px": 26,
+                "x": 648,
+                "y": 150.578125,
+                "width": 232,
+                "height": 35
+              }
+            ],
+            "controls": [
+              {
+                "selector": "[data-game-start]",
+                "x": 400,
+                "y": 483.859375,
+                "width": 133.921875,
+                "height": 48
+              }
+            ],
+            "canvas": {
+              "x": 400,
+              "y": 201.578125,
+              "width": 480,
+              "height": 274.28125
+            },
+            "canvas_text": [
+              {
+                "text": "TARGET · light the matching squares",
+                "x": 434.2582598644658,
+                "y": 226.28917885547247,
+                "width": 411.48349338409025,
+                "height": 23.338217530168407,
+                "font_px": 23.33821753016843
+              },
+              {
+                "text": "1",
+                "x": 441.89821543032303,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "2",
+                "x": 537.8982180529274,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "3",
+                "x": 633.8982206755318,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "4",
+                "x": 729.8982232981361,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "5",
+                "x": 825.8982259207405,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              }
+            ],
+            "viewport": {
+              "width": 1280,
+              "height": 800
+            }
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "reduced_motion",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "state_path": "presentation.reduced_motion",
+          "actual": [
+            {
+              "desired": true,
+              "initial": {
+                "native": true,
+                "presentation": false
+              },
+              "settled": {
+                "native": true,
+                "presentation": true
+              },
+              "polls": 1,
+              "wall_ms": 24
+            },
+            {
+              "desired": false,
+              "initial": {
+                "native": false,
+                "presentation": true
+              },
+              "settled": {
+                "native": false,
+                "presentation": false
+              },
+              "polls": 1,
+              "wall_ms": 23
+            },
+            {
+              "desired": true,
+              "initial": {
+                "native": true,
+                "presentation": false
+              },
+              "settled": {
+                "native": true,
+                "presentation": true
+              },
+              "polls": 1,
+              "wall_ms": 24
+            },
+            {
+              "desired": false,
+              "initial": {
+                "native": false,
+                "presentation": true
+              },
+              "settled": {
+                "native": false,
+                "presentation": false
+              },
+              "polls": 1,
+              "wall_ms": 24
+            }
+          ],
+          "status": "PASS"
+        },
+        {
+          "check": "score_integrity",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "state_path": "quality.reversible_state_key",
+          "selector": "[data-game-score]",
+          "actual": {
+            "probes": [
+              {
+                "kind": "reversible",
+                "actions": [
+                  "a0",
+                  "a0"
+                ],
+                "before": 0,
+                "after": 0
+              },
+              {
+                "kind": "no-progress",
+                "actions": [
+                  "a4"
+                ],
+                "before": 0,
+                "after": 0
+              }
+            ],
+            "coverage": "declared bounded cycles"
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "feedback",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "state_path": "quality.reversible_state_key",
+          "selector": "[data-game-canvas]",
+          "actual": {
+            "before": "2a2185c44f1a6927f13a94b1d20c21f23a73cda50aaaf62188a0cd23c7a346c8",
+            "frames": [
+              {
+                "ms": 0,
+                "path": "product-1280-feedback-motion-0.png",
+                "visual": "f98846bbb9e1d63265643565846e61ba9ce8e75b1beb4a17752c24dd4867d6a0",
+                "active": true,
+                "static": false
+              },
+              {
+                "ms": 60,
+                "path": "product-1280-feedback-motion-60.png",
+                "visual": "ab5f7a5870df5f4c0224bfbb3e651fe260dc8e40fc231c3f8cb6423a0d6bd446",
+                "active": true,
+                "static": false
+              },
+              {
+                "ms": 400,
+                "path": "product-1280-feedback-motion-400.png",
+                "visual": "a9826470e3067c658c3219cf2fe22aa8da3d661ea09d8527c4e17a1b51e22aa2",
+                "active": false,
+                "static": false
+              }
+            ]
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "progress",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "phase": "milestones",
+          "state_path": "state.completed",
+          "actual": [
+            {
+              "stage": 1,
+              "complexity": 3,
+              "required_actions": 2,
+              "plan": [
+                {
+                  "from": "1:0",
+                  "action": "a0",
+                  "to": "1:1"
+                },
+                {
+                  "from": "1:1",
+                  "action": "a2",
+                  "to": "2:0"
+                }
+              ],
+              "actual_actions": 2,
+              "observed_choices": []
+            },
+            {
+              "stage": 2,
+              "complexity": 4,
+              "required_actions": 3,
+              "plan": [
+                {
+                  "from": "2:0",
+                  "action": "a0",
+                  "to": "2:1"
+                },
+                {
+                  "from": "2:1",
+                  "action": "a1",
+                  "to": "2:3"
+                },
+                {
+                  "from": "2:3",
+                  "action": "a2",
+                  "to": "3:0"
+                }
+              ],
+              "actual_actions": 3,
+              "observed_choices": []
+            },
+            {
+              "stage": 3,
+              "complexity": 5,
+              "required_actions": 4,
+              "plan": [
+                {
+                  "from": "3:0",
+                  "action": "a0",
+                  "to": "3:1"
+                },
+                {
+                  "from": "3:1",
+                  "action": "a1",
+                  "to": "3:3"
+                },
+                {
+                  "from": "3:3",
+                  "action": "a3",
+                  "to": "3:11"
+                },
+                {
+                  "from": "3:11",
+                  "action": "a4",
+                  "to": "success"
+                }
+              ],
+              "actual_actions": 4,
+              "observed_choices": []
+            }
+          ],
+          "status": "PASS"
+        },
+        {
+          "check": "completion",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "state_path": "state.outcome",
+          "selector": "[data-result]",
+          "status": "FAIL",
+          "expected": "terminal within 100ms of objective success",
+          "actual": {
+            "phase": "playing",
+            "latency_ms": 100
+          }
+        },
+        {
+          "check": "mobile_readability",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "phase": "result",
+          "selector": "[data-result]",
+          "actual": {
+            "overflow": 0,
+            "critical": [
+              {
+                "selector": "[data-objective]",
+                "text": "Match the lit target in all 3 panels",
+                "font_px": 18,
+                "x": 400,
+                "y": 59,
+                "width": 480,
+                "height": 25.1875
+              },
+              {
+                "selector": "[data-product-progress]",
+                "text": "PANELS 3 / 3",
+                "font_px": 16,
+                "x": 400,
+                "y": 94.1875,
+                "width": 480,
+                "height": 22.390625
+              },
+              {
+                "selector": "[data-score-label]",
+                "text": "CURRENT SCORE",
+                "font_px": 12,
+                "x": 400,
+                "y": 132.578125,
+                "width": 232,
+                "height": 18
+              },
+              {
+                "selector": "[data-game-score]",
+                "text": "300",
+                "font_px": 26,
+                "x": 400,
+                "y": 150.578125,
+                "width": 232,
+                "height": 35
+              },
+              {
+                "selector": "[data-best-label]",
+                "text": "DEVICE BEST",
+                "font_px": 12,
+                "x": 648,
+                "y": 132.578125,
+                "width": 232,
+                "height": 18
+              },
+              {
+                "selector": "[data-best]",
+                "text": "0",
+                "font_px": 26,
+                "x": 648,
+                "y": 150.578125,
+                "width": 232,
+                "height": 35
+              }
+            ],
+            "controls": [
+              {
+                "selector": "[data-game-pause]",
+                "x": 400,
+                "y": 483.859375,
+                "width": 83.140625,
+                "height": 48
+              }
+            ],
+            "canvas": {
+              "x": 400,
+              "y": 201.578125,
+              "width": 480,
+              "height": 274.28125
+            },
+            "canvas_text": [
+              {
+                "text": "TARGET · light the matching squares",
+                "x": 434.2582598644658,
+                "y": 226.28917885547247,
+                "width": 411.48349338409025,
+                "height": 23.338217530168407,
+                "font_px": 23.33821753016843
+              },
+              {
+                "text": "1",
+                "x": 441.89821543032303,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "2",
+                "x": 537.8982180529274,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "3",
+                "x": 633.8982206755318,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "4",
+                "x": 729.8982232981361,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              },
+              {
+                "text": "5",
+                "x": 825.8982259207405,
+                "y": 385.5381925907394,
+                "width": 12.203571761958301,
+                "height": 21.965381204864343,
+                "font_px": 21.965381204864403
+              }
+            ],
+            "viewport": {
+              "width": 1280,
+              "height": 800
+            }
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "replay",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "selector": "[data-game-restart]",
+          "status": "FAIL",
+          "expected": "visible [data-game-restart]",
+          "actual": false
+        },
+        {
+          "check": "capture_no_writes",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "actual": {
+            "writes": 0
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "reduced_motion",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "phase": "initial_reduce",
+          "state_path": "presentation.reduced_motion",
+          "actual": {
+            "reduced_motion": true,
+            "feedback_active": false,
+            "static_feedback": false
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "feedback",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "phase": "static_reduce",
+          "state_path": "presentation.static_feedback",
+          "selector": "[data-game-canvas]",
+          "actual": {
+            "before": "c83f009e21ad6c963b450464f912cb01626b60d4ac7ff93c4f91b64a12f5e683",
+            "frames": [
+              {
+                "ms": 0,
+                "path": "product-1280-feedback-reduced-0.png",
+                "visual": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8",
+                "active": false,
+                "static": true
+              },
+              {
+                "ms": 60,
+                "path": "product-1280-feedback-reduced-60.png",
+                "visual": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8",
+                "active": false,
+                "static": true
+              },
+              {
+                "ms": 400,
+                "path": "product-1280-feedback-reduced-400.png",
+                "visual": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8",
+                "active": false,
+                "static": true
+              }
+            ]
+          },
+          "status": "PASS"
+        },
+        {
+          "check": "failure_result",
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "state_path": "state.outcome",
+          "selector": "[data-result]",
+          "actual": {
+            "phase": "finished",
+            "outcome": "failure"
+          },
+          "status": "PASS"
+        }
+      ]
+    }
+  ],
+  "seeds": [],
+  "console_errors": [],
+  "page_errors": [],
+  "side_effects": [],
+  "practice_effects": [],
+  "screenshots": [
+    "product-390-entry.png",
+    "product-390-playing.png",
+    "product-390-feedback-motion-before.png",
+    "product-390-feedback-motion-0.png",
+    "product-390-feedback-motion-60.png",
+    "product-390-feedback-motion-400.png",
+    "product-390-milestone-1.png",
+    "product-390-midgame.png",
+    "product-390-milestone-2.png",
+    "product-390-milestone-3.png",
+    "product-390-feedback-reduced-before.png",
+    "product-390-feedback-reduced-0.png",
+    "product-390-feedback-reduced-60.png",
+    "product-390-feedback-reduced-400.png",
+    "product-390-failure.png",
+    "product-768-entry.png",
+    "product-768-playing.png",
+    "product-768-feedback-motion-before.png",
+    "product-768-feedback-motion-0.png",
+    "product-768-feedback-motion-60.png",
+    "product-768-feedback-motion-400.png",
+    "product-768-milestone-1.png",
+    "product-768-midgame.png",
+    "product-768-milestone-2.png",
+    "product-768-milestone-3.png",
+    "product-768-feedback-reduced-before.png",
+    "product-768-feedback-reduced-0.png",
+    "product-768-feedback-reduced-60.png",
+    "product-768-feedback-reduced-400.png",
+    "product-768-failure.png",
+    "product-1280-entry.png",
+    "product-1280-playing.png",
+    "product-1280-feedback-motion-before.png",
+    "product-1280-feedback-motion-0.png",
+    "product-1280-feedback-motion-60.png",
+    "product-1280-feedback-motion-400.png",
+    "product-1280-milestone-1.png",
+    "product-1280-midgame.png",
+    "product-1280-milestone-2.png",
+    "product-1280-milestone-3.png",
+    "product-1280-feedback-reduced-before.png",
+    "product-1280-feedback-reduced-0.png",
+    "product-1280-feedback-reduced-60.png",
+    "product-1280-feedback-reduced-400.png",
+    "product-1280-failure.png"
+  ],
+  "artifacts": [
+    {
+      "path": "product-390-entry.png",
+      "kind": "screenshot",
+      "phase": "entry",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "86ccb9a5f6279c0e65105f375b88336fb134b805d51befd0b966b537c89d3141"
+    },
+    {
+      "path": "product-390-playing.png",
+      "kind": "screenshot",
+      "phase": "playing",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "6e526980437246b6f9f7592f2bc28749b34a884abdd9a9686109f00d04201510"
+    },
+    {
+      "path": "product-390-feedback-motion-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "f6ab1360a6c39e650e60faaa3f08397c6e371774d58db79e62643d9f608bf0ea"
+    },
+    {
+      "path": "product-390-feedback-motion-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "3a840ac779a235273a74aa8c9e9f7778aa826b774b71a200bc1a75dcc5de503e"
+    },
+    {
+      "path": "product-390-feedback-motion-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "ecacad3038d5dd97181ebf4e0c871afdff4c5ebf412d84a9e387cee2e8ea639d"
+    },
+    {
+      "path": "product-390-feedback-motion-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "f6201d130fb2fd4891879b6c4da5fdde372cff3bcb07d27017e923a4e5c32706"
+    },
+    {
+      "path": "product-390-gameplay.webm",
+      "kind": "video",
+      "phase": "gameplay",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "c804d5e46d2f22119f559851bd3ed311ed60c5a1bd16e58246df66011076df30"
+    },
+    {
+      "path": "product-390-milestone-1.png",
+      "kind": "screenshot",
+      "phase": "milestone-1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "70ea8659060d3ac7d2c140c5e9e1563ecad21ae542ee74ddeb94d029d4093b06"
+    },
+    {
+      "path": "product-390-midgame.png",
+      "kind": "screenshot",
+      "phase": "midgame",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "c1c50d22003cbfebb10040ba7844de0f88d43dbea7df34d44d85a572ee1e8a59"
+    },
+    {
+      "path": "product-390-milestone-2.png",
+      "kind": "screenshot",
+      "phase": "milestone-2",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "73e6841ce66961d43e65f5817b08289c4a1127b0028748ed07aeb57c637530b6"
+    },
+    {
+      "path": "product-390-milestone-3.png",
+      "kind": "screenshot",
+      "phase": "milestone-3",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "0168f7534e777f05717804b53374626d26ea72b8c0c63704851378bba9b5e317"
+    },
+    {
+      "path": "product-390-feedback-reduced-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "3986bb8cbd2c8af8dfb0d1e5a211d77cfe4cdeb07dd5bbb117534ddc36420a6f"
+    },
+    {
+      "path": "product-390-feedback-reduced-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "930c36166afd13d80959a9e8072cdae52d50ca2c4d7ccf914bfa1283c654d29c"
+    },
+    {
+      "path": "product-390-feedback-reduced-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "930c36166afd13d80959a9e8072cdae52d50ca2c4d7ccf914bfa1283c654d29c"
+    },
+    {
+      "path": "product-390-feedback-reduced-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "930c36166afd13d80959a9e8072cdae52d50ca2c4d7ccf914bfa1283c654d29c"
+    },
+    {
+      "path": "product-390-failure.png",
+      "kind": "screenshot",
+      "phase": "failure",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "238f409ea930a78efed9fa07add8d5af6939d8a5f7bd717bf0d60b5c0b83110f"
+    },
+    {
+      "path": "product-768-entry.png",
+      "kind": "screenshot",
+      "phase": "entry",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "224ef068e4ae90f3136ed0eb2b34b38b074813ebadb759e6e9b735248e84d88e"
+    },
+    {
+      "path": "product-768-playing.png",
+      "kind": "screenshot",
+      "phase": "playing",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "5e537d7989db16fd43068ce4b1eb9a651f14b8ffe974b77383d5b63363318a7d"
+    },
+    {
+      "path": "product-768-feedback-motion-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "d75f4ce80aa9594bd0eed9da28ac824198cae0ba321c0abdb82114556c26a89d"
+    },
+    {
+      "path": "product-768-feedback-motion-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "050334ae664013559db61a059716645d923179556c5984e9f5a8d3dc427b25f0"
+    },
+    {
+      "path": "product-768-feedback-motion-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "ab5f7a5870df5f4c0224bfbb3e651fe260dc8e40fc231c3f8cb6423a0d6bd446"
+    },
+    {
+      "path": "product-768-feedback-motion-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "a9826470e3067c658c3219cf2fe22aa8da3d661ea09d8527c4e17a1b51e22aa2"
+    },
+    {
+      "path": "product-768-milestone-1.png",
+      "kind": "screenshot",
+      "phase": "milestone-1",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "ddc1a82ac4a640b170739d94df472301aa79703dd49933aa855b3c54f3fedb30"
+    },
+    {
+      "path": "product-768-midgame.png",
+      "kind": "screenshot",
+      "phase": "midgame",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "bc239e53ba9e4ed11f1fd9c24ec7048959c8a53062af5c37c4159e4f609c4554"
+    },
+    {
+      "path": "product-768-milestone-2.png",
+      "kind": "screenshot",
+      "phase": "milestone-2",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "7fdc73485f7c303c614af2a5b89369e0e0a1263f2a29468419cc679596a5ade8"
+    },
+    {
+      "path": "product-768-milestone-3.png",
+      "kind": "screenshot",
+      "phase": "milestone-3",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "8992a72e225c9b257213016393fe8c9fa6f6c88ee39a393653244c0d97762c19"
+    },
+    {
+      "path": "product-768-feedback-reduced-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "c83f009e21ad6c963b450464f912cb01626b60d4ac7ff93c4f91b64a12f5e683"
+    },
+    {
+      "path": "product-768-feedback-reduced-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8"
+    },
+    {
+      "path": "product-768-feedback-reduced-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8"
+    },
+    {
+      "path": "product-768-feedback-reduced-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8"
+    },
+    {
+      "path": "product-768-failure.png",
+      "kind": "screenshot",
+      "phase": "failure",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "d914384862afd44ec3fcd709dd4c70446ad13a0efef17b0d5779a67f37bf09d0"
+    },
+    {
+      "path": "product-1280-entry.png",
+      "kind": "screenshot",
+      "phase": "entry",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "a34ffd4316f14375e2baf244b224bf19479dde33b3f5ea13b637073dcb7f0a86"
+    },
+    {
+      "path": "product-1280-playing.png",
+      "kind": "screenshot",
+      "phase": "playing",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "fe409162ead1ab44e4e5f9cd2e881020494feb6cb0236fc5dd8ef95663b0377c"
+    },
+    {
+      "path": "product-1280-feedback-motion-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "2a2185c44f1a6927f13a94b1d20c21f23a73cda50aaaf62188a0cd23c7a346c8"
+    },
+    {
+      "path": "product-1280-feedback-motion-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "f98846bbb9e1d63265643565846e61ba9ce8e75b1beb4a17752c24dd4867d6a0"
+    },
+    {
+      "path": "product-1280-feedback-motion-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "ab5f7a5870df5f4c0224bfbb3e651fe260dc8e40fc231c3f8cb6423a0d6bd446"
+    },
+    {
+      "path": "product-1280-feedback-motion-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "a9826470e3067c658c3219cf2fe22aa8da3d661ea09d8527c4e17a1b51e22aa2"
+    },
+    {
+      "path": "product-1280-milestone-1.png",
+      "kind": "screenshot",
+      "phase": "milestone-1",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "98cdbda09fbf1dd15bec5dbed66fb27478b435069914d700ec2a16a15fe47184"
+    },
+    {
+      "path": "product-1280-midgame.png",
+      "kind": "screenshot",
+      "phase": "midgame",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "e61e1788a6593fdbe138853fdd5a5d64198858494315300019fb6f098455ff97"
+    },
+    {
+      "path": "product-1280-milestone-2.png",
+      "kind": "screenshot",
+      "phase": "milestone-2",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "bf8445528c3b7b4f661a81bd14f64d5bac06e13019bbc5954ecee4dc8f4f0265"
+    },
+    {
+      "path": "product-1280-milestone-3.png",
+      "kind": "screenshot",
+      "phase": "milestone-3",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "c2fabf8133353917d1f0289206be2dce589bfbd1fbd8873ca57b521b9dd6313c"
+    },
+    {
+      "path": "product-1280-feedback-reduced-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "c83f009e21ad6c963b450464f912cb01626b60d4ac7ff93c4f91b64a12f5e683"
+    },
+    {
+      "path": "product-1280-feedback-reduced-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8"
+    },
+    {
+      "path": "product-1280-feedback-reduced-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8"
+    },
+    {
+      "path": "product-1280-feedback-reduced-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "bcab423d27c8a140788b1e3ce10b5ba4333948e334acd21ca9e1255aa9f876a8"
+    },
+    {
+      "path": "product-1280-failure.png",
+      "kind": "screenshot",
+      "phase": "failure",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "9dceed2989c1b741642c03e35a03a3b97fe0526b7fbc4eb2c9c0383ffdecb0a5"
+    }
+  ],
+  "duration_ms": 52676,
+  "scope": "Reviewed finite-model conformance and sampled normal-input product evidence; not proof of fun or all possible seeds.",
+  "oracle_approval": {
+    "id": "fixture-switches-v1",
+    "file": "fixture-switches-v1.json",
+    "sha256": "5bb8c877d21d7459efe83d4fe408ea6f90310b977bed21b0fb37cea99f826a1a",
+    "scope": "fixture",
+    "contract_sha256": "2437fb3dbd7e8e7027c53b62d00767e282d6faea4093075ae3c4a3cf21583bed",
+    "reviewed_by": "Factory infrastructure fixture review",
+    "rationale": "Toggle truth table; target has 2, 3, 4 set bits; 3, 4, 5 consequential choices. Test-only approval cannot commission a public candidate."
+  },
+  "isolation": {
+    "engine": "docker",
+    "image": "sha256:2a4f65d7676beb86517c5ef8fba7953bc2572534b4646aab7e3565ffd6f93e6c",
+    "network": "none",
+    "readonly": true,
+    "cpu": 1,
+    "memory_mb": 1024,
+    "pids": 128
+  }
+}

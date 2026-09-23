@@ -1,0 +1,8 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="style.css"><title>Product gate test fixture</title></head><body><main>
+<h1>Product gate fixture</h1><p data-objective>Match the lit target in all 3 panels</p><p data-product-progress>PANELS 0 / 3</p>
+<div class="scores"><div><b data-score-label>CURRENT SCORE</b><output data-game-score>0</output></div><div><b data-best-label>DEVICE BEST</b><output data-best>0</output></div></div>
+<canvas data-game-canvas tabindex="0" aria-label="Toggle matching squares"></canvas>
+<p data-result hidden></p><button data-game-restart hidden>Replay panels</button>
+<div class="controls"><button data-game-start>Start practice</button><button data-game-pause hidden>Pause</button><button data-game-resume hidden>Resume</button></div>
+<p data-game-status>Ready</p><p class="elapsed">Elapsed ticks <span data-game-progress>0</span></p><p data-game-error hidden></p>
+</main><script src="core.js"></script><script src="gamekit.js"></script><script src="view/art.js"></script><script src="app.js"></script></body></html>

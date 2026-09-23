@@ -1,0 +1,20 @@
+
+> playjolt-autonomous-factory@0.2.0 test:product
+> node --test qa/tests/product.test.cjs
+
+✔ machine contract: strict ten domains, paths, bounds, immutable declarations (8.308861ms)
+✔ reviewed data oracle is pinned and test-only; no candidate JS adapter (6.484224ms)
+✔ repair preserves every independent exact failure and evidence (0.338782ms)
+✔ product contract can never pass with only technical evidence or stale report (188.596188ms)
+✔ dashboard separates technical PASS, product FAIL and Factory repairs, escapes evidence (0.419671ms)
+✔ default Quality Gate fails closed for a missing product contract (0.279283ms)
+✔ archived terminal candidates remain read-only; quarantined source is statically rejected (16.735757ms)
+✔ real Worker preflight pauses an unreviewed product spec before any reservation or provider call (49.431151ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 471.112136

@@ -1,0 +1,50 @@
+[
+  {
+    "variant": "BAD_GOAL_OPACITY",
+    "expected": [
+      "product_objective"
+    ],
+    "passed": false,
+    "codes": [
+      "product_objective"
+    ],
+    "duration_ms": 60585,
+    "source_hash": "f3802a8910f702a97b4c73d3d454b33044d66bc1f474017f4ea620d04ccfac33"
+  },
+  {
+    "variant": "BAD_SCORE",
+    "expected": [
+      "product_score_integrity"
+    ],
+    "passed": false,
+    "codes": [
+      "product_score_integrity"
+    ],
+    "duration_ms": 60184,
+    "source_hash": "d1ceeaf087c370391d484c39ca0a7dabb5146a181e615e3481207b2cf7231e88"
+  },
+  {
+    "variant": "BAD_GOAL",
+    "expected": [
+      "product_objective"
+    ],
+    "passed": false,
+    "codes": [
+      "product_objective"
+    ],
+    "duration_ms": 60545,
+    "source_hash": "0c330d8b15b700cef13456c2fac424b5f286953905ae5fa98409ef0f9b236a61"
+  },
+  {
+    "variant": "PERMANENT_MEDIA_BAD",
+    "expected": [
+      "product_reduced_motion"
+    ],
+    "passed": false,
+    "codes": [
+      "product_reduced_motion"
+    ],
+    "duration_ms": 63842,
+    "source_hash": "9dc315eff567ba806b6494abc851508f53443253068ef250e07d1555d4b165e3"
+  }
+]

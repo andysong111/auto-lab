@@ -1,0 +1,119 @@
+{
+  "commit": "23661fe8e8c12e8308bea088c85c5d10cb73fe4e",
+  "workflow_run": 35744478763,
+  "artifact_id": 10702971980,
+  "artifact_zip_sha256": "06cc217a004243744d12e2398f355166c9fbfde0d8aa06227941167d9cbeefbf",
+  "fixture_results": [
+    {
+      "variant": "GOOD",
+      "expected": [],
+      "passed": true,
+      "codes": [],
+      "duration_ms": 34156,
+      "source_hash": "5f00db3725e6f431562a7a36c0ed0e36e261df0aae878180ec8afc2987aaf895"
+    },
+    {
+      "variant": "BAD_SCORE",
+      "expected": [
+        "product_score_integrity"
+      ],
+      "passed": false,
+      "codes": [
+        "product_score_integrity"
+      ],
+      "duration_ms": 33784,
+      "source_hash": "e8111580ff4010bb9b45839cdfcf0cba9872964103c779db4fd74f3855a30897"
+    },
+    {
+      "variant": "BAD_RESULT",
+      "expected": [
+        "product_replay"
+      ],
+      "passed": false,
+      "codes": [
+        "product_replay",
+        "product_failure_result"
+      ],
+      "duration_ms": 34050,
+      "source_hash": "b987a6d2f9476b46a71c7f029cad8e65948a1e807525e78e662d3032ca3f8c00"
+    },
+    {
+      "variant": "BAD_MOTION",
+      "expected": [
+        "product_reduced_motion"
+      ],
+      "passed": false,
+      "codes": [
+        "product_reduced_motion"
+      ],
+      "duration_ms": 36036,
+      "source_hash": "e54b4beb86b9d9142c7c426b31061a2ee4dcd8f44aee748d690c173c60527fed"
+    },
+    {
+      "variant": "BAD_GOAL",
+      "expected": [
+        "product_objective"
+      ],
+      "passed": false,
+      "codes": [
+        "product_objective"
+      ],
+      "duration_ms": 33930,
+      "source_hash": "98de6703a574dfcf67e4b2bccc0a35449cc287fb6fe0a6c8bd747f6c60396d1d"
+    },
+    {
+      "variant": "BAD_FEEDBACK",
+      "expected": [
+        "product_feedback"
+      ],
+      "passed": false,
+      "codes": [
+        "product_feedback"
+      ],
+      "duration_ms": 33586,
+      "source_hash": "bcaee157e9f86b7ebdb9798a3c078208a249c248fb98c24942fbbead9208a4f8"
+    },
+    {
+      "variant": "DELAYED_MEDIA_GOOD",
+      "expected": [],
+      "passed": true,
+      "codes": [],
+      "duration_ms": 34549,
+      "source_hash": "7d921004f38fc29d4b5c2db6402a1cb67597e29d9957e9c5ef44c92e676f7875"
+    },
+    {
+      "variant": "PERMANENT_MEDIA_BAD",
+      "expected": [
+        "product_reduced_motion"
+      ],
+      "passed": false,
+      "codes": [
+        "product_reduced_motion"
+      ],
+      "duration_ms": 35656,
+      "source_hash": "c0e0c2c017db3e62213e1bb3e0e6bcebddc52725ef10f15cb55fb84b69829dfe"
+    },
+    {
+      "variant": "MULTI_BAD",
+      "expected": [
+        "product_score_integrity",
+        "product_replay",
+        "product_reduced_motion",
+        "product_objective",
+        "product_feedback"
+      ],
+      "passed": false,
+      "codes": [
+        "product_objective",
+        "product_reduced_motion",
+        "product_score_integrity",
+        "product_feedback",
+        "product_replay",
+        "product_failure_result"
+      ],
+      "duration_ms": 35434,
+      "source_hash": "4e62965f40dc67d7fb5ea96d0514df07c1898b6bfb560a6c4e233af6800a215e"
+    }
+  ],
+  "suite_result": "FAIL: product checks classified all fixtures correctly, but the additional common QA found that the fixture did not register a touch on its inactive square immediately after a held keyboard input. Fixture input-edge accounting and declared pointer observation corrected; common QA assertions unchanged."
+}

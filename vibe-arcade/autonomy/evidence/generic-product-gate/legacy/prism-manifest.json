@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-20260922-110",
+  "generation": 1,
+  "version": "v6",
+  "title": "Prism Relay",
+  "slug": "prism-relay",
+  "genre": "spatial arcade puzzle",
+  "mechanic_family": "spatial-optical-routing",
+  "controls": [
+    "Arrow keys / WASD select a prism",
+    "Space rotates the selected prism"
+  ],
+  "mobile_controls": [
+    "Tap a prism to rotate it"
+  ],
+  "reference_quality_games": [
+    "astra-sentinel-v3",
+    "deep-descent"
+  ],
+  "created_at": "2026-09-22T07:40:56.435Z",
+  "state": "REJECTED",
+  "repair_attempt": 5,
+  "max_repair_attempts": 5,
+  "source_path": "autonomy/games/GAME-20260922-110/v6",
+  "preview_url": null,
+  "qa_status": "FAIL",
+  "quality_status": "REJECT",
+  "release_status": "REJECTED",
+  "failure_reasons": [
+    {
+      "code": "polish_audio",
+      "message": "feedback pitches indistinguishable",
+      "seed": 23
+    },
+    {
+      "code": "polish_reduced_motion",
+      "message": "no reduced-motion presentation evidence",
+      "seed": 23
+    }
+  ],
+  "metrics_eligibility": false,
+  "qa": {
+    "seed": 23,
+    "keyboard": {
+      "key": "ArrowRight",
+      "observation": "state.cursor.x"
+    },
+    "pointer": {
+      "observation": "state.rotations"
+    },
+    "terminal_ms": 47000
+  },
+  "revision": 31,
+  "history": [
+    {
+      "from": "IDEA",
+      "to": "SPEC_READY",
+      "at": "2026-09-22T07:40:56.440Z"
+    },
+    {
+      "from": "SPEC_READY",
+      "to": "BUILDING",
+      "at": "2026-09-22T07:41:36.935Z"
+    },
+    {
+      "from": "BUILDING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T07:42:47.018Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T07:42:59.361Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T07:42:59.363Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T07:42:59.364Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T07:43:59.632Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T07:44:11.721Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T07:44:11.726Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T07:44:11.728Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T07:45:03.998Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T07:45:15.672Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T07:45:15.675Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T07:45:15.676Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T07:46:06.035Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QUALITY_GATE",
+      "at": "2026-09-22T07:46:42.830Z"
+    },
+    {
+      "from": "QUALITY_GATE",
+      "to": "RC_READY",
+      "at": "2026-09-22T07:46:42.834Z"
+    },
+    {
+      "from": "RC_READY",
+      "to": "PREVIEW_DEPLOYING",
+      "at": "2026-09-22T07:59:19.948Z"
+    },
+    {
+      "from": "PREVIEW_DEPLOYING",
+      "to": "PREVIEW_SMOKE",
+      "at": "2026-09-22T07:59:22.684Z"
+    },
+    {
+      "from": "PREVIEW_SMOKE",
+      "to": "READY_TO_SHIP",
+      "at": "2026-09-22T08:04:00.347Z"
+    },
+    {
+      "from": "READY_TO_SHIP",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T11:08:50.851Z",
+      "reason": "Owner-authorized stricter polish acceptance, source bytes and repair budget unchanged",
+      "authorization_id": "owner-prism-polish-20260922"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T11:11:32.766Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T11:11:32.770Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T11:11:32.772Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T11:12:46.791Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T11:13:28.634Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REPAIR_PENDING",
+      "at": "2026-09-22T11:13:28.637Z"
+    },
+    {
+      "from": "REPAIR_PENDING",
+      "to": "REPAIRING",
+      "at": "2026-09-22T11:13:28.640Z"
+    },
+    {
+      "from": "REPAIRING",
+      "to": "QA_RUNNING",
+      "at": "2026-09-22T11:14:11.326Z"
+    },
+    {
+      "from": "QA_RUNNING",
+      "to": "QA_FAILED",
+      "at": "2026-09-22T11:15:26.760Z"
+    },
+    {
+      "from": "QA_FAILED",
+      "to": "REJECTED",
+      "at": "2026-09-22T11:15:26.763Z"
+    }
+  ],
+  "source_hash": "7127269016507a824d8df8726a509f3cef3c94215e68d99a56252bcc14fd0dc8",
+  "policy_hash": "d4add0a4117032c661b9f244fb55896173f656c486fc2bf11bd81879f2c16de0",
+  "branch": "factory/GAME-20260922-110",
+  "rc_commit": "73dd47cbc50db6825c2fcc9d6a19d60136cd5818",
+  "pr_number": 45,
+  "pr_url": "https://github.com/andysong111/auto-lab/pull/45",
+  "deployment_id": "6585931823"
+}

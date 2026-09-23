@@ -1,0 +1,39 @@
+[
+  {
+    "name": "prism",
+    "game_id": "GAME-20260922-110",
+    "original_pr": "https://github.com/andysong111/auto-lab/pull/46",
+    "manifest_file": "prism-manifest.json",
+    "sha256": "724ac6dcc7313ced0fc248eb174172dc7a65d9cd129a805f4a245cb6585a4fe4",
+    "original_source_hash": "7127269016507a824d8df8726a509f3cef3c94215e68d99a56252bcc14fd0dc8",
+    "terminal_state": "REJECTED",
+    "repair_attempt": 5,
+    "source_executed": false,
+    "source_mutated": false
+  },
+  {
+    "name": "cloud",
+    "game_id": "GAME-20260922-121",
+    "original_pr": "https://github.com/andysong111/auto-lab/pull/49",
+    "manifest_file": "cloud-manifest.json",
+    "sha256": "ba66ec71257bc01b2db31a9a60bd104279afa3e4906b82013e76babb69b16b98",
+    "original_source_hash": null,
+    "terminal_state": "REJECTED",
+    "repair_attempt": 5,
+    "source_executed": false,
+    "source_mutated": false,
+    "quarantined_core_file": "cloud-core.js.txt"
+  },
+  {
+    "name": "ribbon",
+    "game_id": "GAME-20260922-131",
+    "original_pr": "https://github.com/andysong111/auto-lab/pull/51",
+    "manifest_file": "ribbon-manifest.json",
+    "sha256": "e3553238fefeadd069bb18745507648c81eec33f9c6b0e5cf4727688885047e2",
+    "original_source_hash": "ea85f704319bc9e6896d2304c9192d5b1b12a418654a47f8f765991e94c03736",
+    "terminal_state": "REJECTED",
+    "repair_attempt": 5,
+    "source_executed": false,
+    "source_mutated": false
+  }
+]

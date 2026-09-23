@@ -6,7 +6,7 @@ const norm=s=>String(s||'').trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').repl
 function readJSON(file){return JSON.parse(fs.readFileSync(file,'utf8'));}
 function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.json')),catalog=readJSON(path.join(__dirname,'catalog.json'))}={}){
   const errors=[],warnings=[];
-  const req=['game_id','title','slug','genre','mechanic_family','controls','mobile_controls','qa','implementation_contract'];
+  const req=['game_id','title','slug','genre','mechanic_family','controls','mobile_controls','qa','implementation_contract','product_contract'];
   for(const k of req)if(proposal[k]===undefined||proposal[k]===null||proposal[k]==='')errors.push({code:'missing_field',field:k});
   if(!ID.test(proposal.game_id||''))errors.push({code:'invalid_game_id'});
   if(!SLUG.test(proposal.slug||''))errors.push({code:'invalid_slug'});
@@ -34,6 +34,7 @@ function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.
       !keys.every(k=>typeof data[k]==='string'&&data[k].trim().length>=20))errors.push({code:'invalid_implementation_contract'});
     else implementation=JSON.parse(JSON.stringify(data));
   }
+  if(proposal.product_contract){try{require('../qa/product-contract.cjs').review(proposal.product_contract,{allowFixture:policy.product_quality?.allow_fixture_oracles===true});}catch(e){errors.push({code:'invalid_product_contract',field:'product_contract',message:e.message});}}
   const words=new Set(family.split('-').filter(Boolean));
   for(const g of catalog.games){
     const gw=new Set(norm(g.mechanic_family).split('-').filter(Boolean));
@@ -41,7 +42,7 @@ function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.
     if(overlap>=0.75)warnings.push({code:'mechanic_similarity_review',game:g.id,overlap:Number(overlap.toFixed(2))});
   }
   const factory_spec={game_id:proposal.game_id,generation:proposal.generation||1,title:proposal.title,slug:proposal.slug,genre:proposal.genre,mechanic_family:proposal.mechanic_family,
-    controls:proposal.controls,mobile_controls:proposal.mobile_controls,max_repair_attempts:proposal.max_repair_attempts??policy.technical_budget.max_repair_attempts,qa:proposal.qa,implementation_contract:implementation};
+    controls:proposal.controls,mobile_controls:proposal.mobile_controls,max_repair_attempts:proposal.max_repair_attempts??policy.technical_budget.max_repair_attempts,qa:proposal.qa,implementation_contract:implementation,product_contract:proposal.product_contract};
   return {passed:errors.length===0,errors,warnings,factory_spec,commissioning:{owner_review_required:true,auto_production_ship:false,max_provider_calls:policy.technical_budget.max_provider_calls,max_estimated_model_cost_usd:policy.technical_budget.max_estimated_model_cost_usd}};
 }
 module.exports={validateProposal,norm,readJSON};

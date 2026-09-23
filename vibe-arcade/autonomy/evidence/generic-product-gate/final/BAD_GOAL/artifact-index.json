@@ -1,0 +1,533 @@
+{
+  "schema_version": 1,
+  "game_id": "GAME-00000000-908",
+  "version": "v1",
+  "source_hash": "0c330d8b15b700cef13456c2fac424b5f286953905ae5fa98409ef0f9b236a61",
+  "contract_hash": "2437fb3dbd7e8e7027c53b62d00767e282d6faea4093075ae3c4a3cf21583bed",
+  "artifacts": [
+    {
+      "path": "product-390-entry.png",
+      "kind": "screenshot",
+      "phase": "entry",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "5d83d92640d8780f4a3dd2ef2597541b30696dd5045f98d14852e022fcefe0a5"
+    },
+    {
+      "path": "product-390-playing.png",
+      "kind": "screenshot",
+      "phase": "playing",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "f2ae851f0f3204d955c68844e8fb8e05ecc1d19fb022c3591d0804b36699e1c1"
+    },
+    {
+      "path": "product-390-feedback-motion-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "392086f45bb728cadcf23274a0ee7e0e022a8e1fc39a47f0b0eb6d94611efcd3"
+    },
+    {
+      "path": "product-390-feedback-motion-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "af166e17966b560e4ca39b9b7a17df627d120fc9d2e8400fddc26adfed8f0d73"
+    },
+    {
+      "path": "product-390-feedback-motion-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "9760c6af94489cb3cf93ffc83189aa1edcde02e70051ea256767a3e2f7e3661a"
+    },
+    {
+      "path": "product-390-feedback-motion-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "896a9b3e3b7e4df07bc6fb3f0fde041e258e8c17421f60b6350c9ebb59ef8919"
+    },
+    {
+      "path": "product-390-gameplay.webm",
+      "kind": "video",
+      "phase": "gameplay",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "f0951b5fb0c01a719b0d3b9d3970c8decfee4c872cce2aa65451bb4c01d2d12c"
+    },
+    {
+      "path": "product-390-milestone-1.png",
+      "kind": "screenshot",
+      "phase": "milestone-1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "3d6a22f96eac70f200945a7789c2749565df4e0ff6ee90024b53a9fe0663dfd4"
+    },
+    {
+      "path": "product-390-midgame.png",
+      "kind": "screenshot",
+      "phase": "midgame",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "413dae538dee4c028dd9ce570f3a83f37c36eb1aea96bc638afa9d5b0a9a20b1"
+    },
+    {
+      "path": "product-390-milestone-2.png",
+      "kind": "screenshot",
+      "phase": "milestone-2",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "eb86494af976c3c7d62bef55cec232d25cef4ba312a49497c01c6eee0741b685"
+    },
+    {
+      "path": "product-390-milestone-3.png",
+      "kind": "screenshot",
+      "phase": "milestone-3",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "570a13db44f4e4e608526a2cb9565edb5fd96ecdbcd718c7f22d1988d9a9bdbb"
+    },
+    {
+      "path": "product-390-success.png",
+      "kind": "screenshot",
+      "phase": "success",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "570a13db44f4e4e608526a2cb9565edb5fd96ecdbcd718c7f22d1988d9a9bdbb"
+    },
+    {
+      "path": "product-390-mobile-result.png",
+      "kind": "screenshot",
+      "phase": "mobile-result",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "570a13db44f4e4e608526a2cb9565edb5fd96ecdbcd718c7f22d1988d9a9bdbb"
+    },
+    {
+      "path": "product-390-feedback-reduced-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "e584bd8631a18abbc23c9eebcb02db9a373dff6b11120589555940cd0a1b6fa7"
+    },
+    {
+      "path": "product-390-feedback-reduced-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "4a8cd2c0b0eabbdc0f0924a9b3be903c903fdaba81d5e8235577c0f8ab70d109"
+    },
+    {
+      "path": "product-390-feedback-reduced-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "4a8cd2c0b0eabbdc0f0924a9b3be903c903fdaba81d5e8235577c0f8ab70d109"
+    },
+    {
+      "path": "product-390-feedback-reduced-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "4a8cd2c0b0eabbdc0f0924a9b3be903c903fdaba81d5e8235577c0f8ab70d109"
+    },
+    {
+      "path": "product-390-failure.png",
+      "kind": "screenshot",
+      "phase": "failure",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "89eb2fcc1bce6f3f484feefe9a4c3686469d01de2e64f1c81e61c619b751cedd"
+    },
+    {
+      "path": "product-768-entry.png",
+      "kind": "screenshot",
+      "phase": "entry",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "c7eaf551d0e5585480e771558aad245f6e79592a0323b394d59d364f271922d7"
+    },
+    {
+      "path": "product-768-playing.png",
+      "kind": "screenshot",
+      "phase": "playing",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "819a9328f49d0c8a2f9e96c68531cc18d47cf452f2e3e1f443edf19a27be856a"
+    },
+    {
+      "path": "product-768-feedback-motion-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "2a5256ac167498c630e473796da755876a73347e7b95f060e4c7cddf06979eb3"
+    },
+    {
+      "path": "product-768-feedback-motion-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "4ad060d9bc58d0332370db53396ff512094e27171d7461b82485a83b8fc51a0b"
+    },
+    {
+      "path": "product-768-feedback-motion-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "cc88675b7871ddcc9f912764d385301440b2da9e47926775ff888f0110404981"
+    },
+    {
+      "path": "product-768-feedback-motion-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07"
+    },
+    {
+      "path": "product-768-milestone-1.png",
+      "kind": "screenshot",
+      "phase": "milestone-1",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "9fa6b2c38aeccfad0536e6194b28804aa76cb43ab4098d6c1641b2d40216ef3d"
+    },
+    {
+      "path": "product-768-midgame.png",
+      "kind": "screenshot",
+      "phase": "midgame",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "9321ac5330f7a4afd17278809d0c45f1e8a40cfef4e56436efd39f1332bf90a2"
+    },
+    {
+      "path": "product-768-milestone-2.png",
+      "kind": "screenshot",
+      "phase": "milestone-2",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "c7f642449f40beab4db7d0143a0880d77c62e21feb4a544b9017ff2b7a1d1472"
+    },
+    {
+      "path": "product-768-milestone-3.png",
+      "kind": "screenshot",
+      "phase": "milestone-3",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "0e2b63a0ed622e18a397f8c70d137a2b162ea43d60cdb8810fe78ebe0bfe06ee"
+    },
+    {
+      "path": "product-768-success.png",
+      "kind": "screenshot",
+      "phase": "success",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "0e2b63a0ed622e18a397f8c70d137a2b162ea43d60cdb8810fe78ebe0bfe06ee"
+    },
+    {
+      "path": "product-768-feedback-reduced-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "dee393d230ccbd91276e2e17ef02f5e6b710bcd31133a398ede2efea658dc436"
+    },
+    {
+      "path": "product-768-feedback-reduced-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "285d62894feced7be61aaee730012e79fcc50062dd840d68048f9d26ef47d4a2"
+    },
+    {
+      "path": "product-768-feedback-reduced-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "285d62894feced7be61aaee730012e79fcc50062dd840d68048f9d26ef47d4a2"
+    },
+    {
+      "path": "product-768-feedback-reduced-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "285d62894feced7be61aaee730012e79fcc50062dd840d68048f9d26ef47d4a2"
+    },
+    {
+      "path": "product-768-failure.png",
+      "kind": "screenshot",
+      "phase": "failure",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "sha256": "b0f2eb6b2717a3fd67a0dae50e79fe3cdcaabfb341d4b121270b941005015734"
+    },
+    {
+      "path": "product-1280-entry.png",
+      "kind": "screenshot",
+      "phase": "entry",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "7bf58bbec84c386f57e0744beed079b8d5c3d1415df5c1bfee111881ba859da3"
+    },
+    {
+      "path": "product-1280-playing.png",
+      "kind": "screenshot",
+      "phase": "playing",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "3f50ddd2c55909b3581a4d0561df3d26e331f5b8fc19ca2ae4f9988fbb4bc99e"
+    },
+    {
+      "path": "product-1280-feedback-motion-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "2a5256ac167498c630e473796da755876a73347e7b95f060e4c7cddf06979eb3"
+    },
+    {
+      "path": "product-1280-feedback-motion-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "4ad060d9bc58d0332370db53396ff512094e27171d7461b82485a83b8fc51a0b"
+    },
+    {
+      "path": "product-1280-feedback-motion-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "cc88675b7871ddcc9f912764d385301440b2da9e47926775ff888f0110404981"
+    },
+    {
+      "path": "product-1280-feedback-motion-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-motion-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "4b67cd13e4ea37e038b8894459fa3573549253c8efb93d60f1434e132d32de07"
+    },
+    {
+      "path": "product-1280-milestone-1.png",
+      "kind": "screenshot",
+      "phase": "milestone-1",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "27caae74a955f2c08ba1157d63cd350ef3da889a128557fce92a890536660a8d"
+    },
+    {
+      "path": "product-1280-midgame.png",
+      "kind": "screenshot",
+      "phase": "midgame",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "8410e729fa0fa50721e747424159d480b14912f2faafc2cea2ecdea8c6c1b9b3"
+    },
+    {
+      "path": "product-1280-milestone-2.png",
+      "kind": "screenshot",
+      "phase": "milestone-2",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "f1950f5ce6e496a3b4df986b9a62569677f751277e25b1b9035e452d67317f49"
+    },
+    {
+      "path": "product-1280-milestone-3.png",
+      "kind": "screenshot",
+      "phase": "milestone-3",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "2b0f88970e61af8d60638ed67ddf23e464117c23c7ebc6dc2f47626bca2e67ed"
+    },
+    {
+      "path": "product-1280-success.png",
+      "kind": "screenshot",
+      "phase": "success",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "2b0f88970e61af8d60638ed67ddf23e464117c23c7ebc6dc2f47626bca2e67ed"
+    },
+    {
+      "path": "product-1280-feedback-reduced-before.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-before",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "dee393d230ccbd91276e2e17ef02f5e6b710bcd31133a398ede2efea658dc436"
+    },
+    {
+      "path": "product-1280-feedback-reduced-0.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-0",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "285d62894feced7be61aaee730012e79fcc50062dd840d68048f9d26ef47d4a2"
+    },
+    {
+      "path": "product-1280-feedback-reduced-60.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-60",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "285d62894feced7be61aaee730012e79fcc50062dd840d68048f9d26ef47d4a2"
+    },
+    {
+      "path": "product-1280-feedback-reduced-400.png",
+      "kind": "screenshot",
+      "phase": "feedback-reduced-400",
+      "selector": "[data-game-canvas]",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "285d62894feced7be61aaee730012e79fcc50062dd840d68048f9d26ef47d4a2"
+    },
+    {
+      "path": "product-1280-failure.png",
+      "kind": "screenshot",
+      "phase": "failure",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "sha256": "5fa2ee1981ec06933e9b246d64900d2489c5716572b5a1a00b6bad70ce7cc3ce"
+    }
+  ]
+}

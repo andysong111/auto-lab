@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "base": "deb415a968afb6fbcaa7d9c9b6855191d7024fe8",
+  "tested_commit": "fd13b3f202fe72624bcd0596f13ca7700a5e7cb7",
+  "tested_tree": "298cabaf622745f990e45cb113da42dd365f9530",
+  "runs": [
+    {
+      "id": 35751765925,
+      "name": "LoopJolt CI",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35751765925",
+      "workflow_id": 360258063
+    },
+    {
+      "id": 35751766024,
+      "name": "LoopJolt Arcade 3 checks",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35751766024",
+      "workflow_id": 361838694
+    },
+    {
+      "id": 35751765997,
+      "name": "LoopJolt acquisition and SEO",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35751765997",
+      "workflow_id": 363046917
+    },
+    {
+      "id": 35751765920,
+      "name": "LoopJolt game experience",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35751765920",
+      "workflow_id": 362018850
+    },
+    {
+      "id": 35751766050,
+      "name": "LoopJolt ranked-game checks",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35751766050",
+      "workflow_id": 361758145
+    },
+    {
+      "id": 35751765996,
+      "name": "Gyro Descent quality gate",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35751765996",
+      "workflow_id": 362366772
+    },
+    {
+      "id": 35751766037,
+      "name": "PlayJolt Factory Phase 1",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35751766037",
+      "workflow_id": 363452094
+    },
+    {
+      "id": 35751765976,
+      "name": "PlayJolt AI Provider Worker",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35751765976",
+      "workflow_id": 363848578
+    },
+    {
+      "id": 35751765988,
+      "name": "PlayJolt Generic Product Quality",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/andysong111/auto-lab/actions/runs/35751765988",
+      "workflow_id": 364338285
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 10705916565,
+      "name": "generic-product-quality-evidence-1",
+      "size_in_bytes": 4163770,
+      "url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10705916565",
+      "archive_download_url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10705916565/zip",
+      "expired": false,
+      "created_at": "2026-09-22T16:10:46Z",
+      "expires_at": "2026-10-06T16:10:45Z",
+      "updated_at": "2026-09-22T16:10:46Z",
+      "digest": "sha256:20f12e2f50112d859576110510533cb8c2ce6690396d68844b1f1101c90c343b",
+      "workflow_run": {
+        "id": 35751765988,
+        "repository_id": 1192904955,
+        "head_repository_id": 1192904955,
+        "head_branch": "feature/generic-product-quality-gate",
+        "head_sha": "fd13b3f202fe72624bcd0596f13ca7700a5e7cb7"
+      }
+    },
+    {
+      "id": 10705029115,
+      "name": "generic-product-quality-evidence-2",
+      "size_in_bytes": 4303176,
+      "url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10705029115",
+      "archive_download_url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10705029115/zip",
+      "expired": false,
+      "created_at": "2026-09-22T16:10:29Z",
+      "expires_at": "2026-10-06T16:10:27Z",
+      "updated_at": "2026-09-22T16:10:29Z",
+      "digest": "sha256:54320a10f2baa0ad6ab3f20fa738109f0733a93df814673bf02bf76d7e39dabd",
+      "workflow_run": {
+        "id": 35751765988,
+        "repository_id": 1192904955,
+        "head_repository_id": 1192904955,
+        "head_branch": "feature/generic-product-quality-gate",
+        "head_sha": "fd13b3f202fe72624bcd0596f13ca7700a5e7cb7"
+      }
+    },
+    {
+      "id": 10704719290,
+      "name": "generic-product-quality-evidence-0",
+      "size_in_bytes": 4800408,
+      "url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10704719290",
+      "archive_download_url": "https://api.github.com/repos/andysong111/auto-lab/actions/artifacts/10704719290/zip",
+      "expired": false,
+      "created_at": "2026-09-22T16:10:48Z",
+      "expires_at": "2026-10-06T16:10:46Z",
+      "updated_at": "2026-09-22T16:10:48Z",
+      "digest": "sha256:9af31a3508c23ef77cac1fe663cf20f733711cd92622f5608b8ee749e6721707",
+      "workflow_run": {
+        "id": 35751765988,
+        "repository_id": 1192904955,
+        "head_repository_id": 1192904955,
+        "head_branch": "feature/generic-product-quality-gate",
+        "head_sha": "fd13b3f202fe72624bcd0596f13ca7700a5e7cb7"
+      }
+    }
+  ],
+  "model_calls": 0,
+  "estimated_model_cost_usd": 0
+}

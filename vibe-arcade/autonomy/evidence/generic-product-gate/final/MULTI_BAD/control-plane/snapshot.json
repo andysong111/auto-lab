@@ -1,0 +1,88 @@
+{
+  "schema": "playjolt-control-plane/1",
+  "generated_at": "2026-09-22T16:10:27.648Z",
+  "policy_version": "control-plane-1",
+  "mode": "commissioning",
+  "worker": null,
+  "automation": {
+    "can_create": false,
+    "reason": "intake_disabled",
+    "provider_ready": false,
+    "active_jobs": 1,
+    "created_today": 1,
+    "auto_rc_enabled": true,
+    "auto_production_ship": false,
+    "kill_switches": {
+      "factory": false,
+      "release_candidates": false,
+      "production_shipping": true,
+      "marketing_promotion": true
+    }
+  },
+  "counts": {
+    "REPAIR_PENDING": 1
+  },
+  "total_jobs": 1,
+  "incidents": [],
+  "owner_action_required": false,
+  "jobs": [
+    {
+      "game_id": "GAME-00000000-912",
+      "title": "Infrastructure fixture MULTI_BAD",
+      "version": "v1",
+      "state": "REPAIR_PENDING",
+      "repair_attempt": 0,
+      "max_repair_attempts": 5,
+      "technical_qa": {
+        "status": "PASS"
+      },
+      "product_qa": {
+        "status": "FAIL",
+        "failures": [
+          "objective",
+          "reduced_motion",
+          "score_integrity",
+          "feedback",
+          "replay",
+          "feedback",
+          "failure_result",
+          "objective",
+          "reduced_motion",
+          "score_integrity",
+          "feedback",
+          "feedback",
+          "objective",
+          "reduced_motion",
+          "score_integrity",
+          "feedback",
+          "feedback"
+        ]
+      },
+      "quality_gate": {
+        "status": "REPAIR"
+      },
+      "qa_status": "FAIL",
+      "quality_status": "REPAIR",
+      "release_status": "NONE",
+      "preview_url": null,
+      "worker": null,
+      "decision": {
+        "action": "RESUME_REPAIR",
+        "reason": "repair_flow"
+      },
+      "metrics": {
+        "state": "DISABLED",
+        "reason": "Phase 2 metrics are not commissioned.",
+        "metrics": {
+          "observed_sessions": null,
+          "starting_sessions": null,
+          "replaying_sessions": null,
+          "game_finish_sessions": null,
+          "error_rate": null,
+          "observed_at": null,
+          "age_hours": null
+        }
+      }
+    }
+  ]
+}

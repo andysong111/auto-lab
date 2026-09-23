@@ -1,0 +1,42 @@
+[
+  {
+    "variant": "GOOD",
+    "expected": [],
+    "passed": true,
+    "codes": [],
+    "duration_ms": 58313,
+    "source_hash": "fa721b72e79f0a4d84dc6f5bdb0a73dac4b32cfc5acbff1d5e3332c4761ecd11"
+  },
+  {
+    "variant": "BAD_TEXT",
+    "expected": [
+      "product_mobile_readability"
+    ],
+    "passed": false,
+    "codes": [
+      "product_mobile_readability"
+    ],
+    "duration_ms": 58429,
+    "source_hash": "fc74f41e2ebbd05e2f42dadefca4403a8c7c5640dcfd03577aae94c93f79b11d"
+  },
+  {
+    "variant": "BAD_MOTION",
+    "expected": [
+      "product_reduced_motion"
+    ],
+    "passed": false,
+    "codes": [
+      "product_reduced_motion"
+    ],
+    "duration_ms": 60254,
+    "source_hash": "7e58241d311ef502d833ccc7ec5cbcb20e03941808313a89c33d14043599f25f"
+  },
+  {
+    "variant": "DELAYED_MEDIA_GOOD",
+    "expected": [],
+    "passed": true,
+    "codes": [],
+    "duration_ms": 58271,
+    "source_hash": "1afe41b3cc84df60fcd264eb31d32dc0cabd950c2184fa8f2017897a09d37039"
+  }
+]
