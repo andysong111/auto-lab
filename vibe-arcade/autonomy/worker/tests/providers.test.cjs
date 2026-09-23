@@ -77,7 +77,7 @@ test('repair compiler preserves original Factory request, QA identity and narrow
   m.source_hash=hashTree(old);const failures=[{code:'overflow',message:'mobile overflow'}],req=requestFor(m,{hard_failures:failures});
   atomicJSON(e.store.artifact(m.game_id,'v1/qa.json'),{game_id:m.game_id,version:'v1',source_hash:m.source_hash,hard_failures:failures,passed:false,browser_cases:[]});
   const prompt=compile({root:e.root,workspace:old,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id,budget:r.budget});
-  assert.deepEqual(prompt.repair_request,req);assert.deepEqual(prompt.allowed_paths,['style.css','index.html']);assert.deepEqual(Object.keys(prompt.sources).sort(),['index.html','style.css']);
+  assert.equal(prompt.repair_request.operation_id,req.operation_id);assert.equal(prompt.repair_request.attempt,req.attempt);assert.equal(prompt.repair_request.source_hash,req.source_hash);assert(!('qa_failures' in prompt.repair_request));assert(!('product_contract' in prompt.repair_request));assert(!('commercial_contract' in prompt.repair_request));assert.deepEqual(prompt.allowed_paths,['style.css','index.html']);assert.deepEqual(Object.keys(prompt.sources).sort(),['index.html','style.css']);
   assert.throws(()=>validateOutput(output({repair:true}),prompt,e.limits.request),/path_isolation/);
   req.qa_failures=[{code:'production_side_effect',message:'blocked POST'}];assert.throws(()=>compile({root:e.root,workspace:old,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id}),/production_side_effect/);
   assert(instructions.includes('ORIGINAL')&&instructions.includes('No CDN'));assert.deepEqual(policy.fatal_codes,['production_side_effect','path_isolation','source_tampered']);
