@@ -1,0 +1,16 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),{execFileSync}=require('node:child_process');
+const {readJSON,hash,hashTree}=require('../../orchestrator/files.cjs');
+const r=require('./resume-request.json'),root=path.resolve(process.env.FACTORY_WORKER_ROOT),repo='andysong111/auto-lab';
+const api=route=>JSON.parse(execFileSync('gh',['api','--method','GET','repos/'+repo+'/'+route],{encoding:'utf8',maxBuffer:4*1024*1024}));
+const prior=api('actions/workflows/playjolt-fourth-resume.yml/runs?branch=commissioning%2Ffourth-real-game-20260923&per_page=100').workflow_runs;
+if(prior.some(x=>String(x.id)!==process.env.GITHUB_RUN_ID))throw Error('prior_resume_exists_do_not_resubmit');
+if(!root.startsWith(path.resolve(process.env.RUNNER_TEMP)+path.sep)||fs.existsSync(root))throw Error('dedicated_empty_resume_root_required');
+const zip=execFileSync('gh',['api','--method','GET','repos/'+repo+'/actions/artifacts/'+r.artifact_id+'/zip'],{maxBuffer:32*1024*1024});
+if(crypto.createHash('sha256').update(zip).digest('hex')!==r.artifact_sha256)throw Error('checkpoint_archive_mismatch');
+const archive=path.join(process.env.RUNNER_TEMP,'verified-checkpoint.zip');fs.writeFileSync(archive,zip);
+execFileSync('python',['-c','import zipfile,pathlib,sys; r=pathlib.Path(sys.argv[2]); z=zipfile.ZipFile(sys.argv[1]); assert all((r/n).resolve().is_relative_to(r.resolve()) for n in z.namelist()); z.extractall(r)',archive,root]);
+const ledger=readJSON(path.join(root,'autonomy/.provider/ledger.json')),m=readJSON(path.join(root,`autonomy/jobs/${r.game_id}/manifest.json`));
+if(hash(fs.readFileSync(path.join(root,'autonomy/.provider/ledger.json'),'utf8'))!==r.provider_ledger_sha256)throw Error('ledger_mismatch');
+if(Object.values(ledger.operations).length!==2||Object.values(ledger.operations).some(o=>o.state!=='COMPLETE'||!o.response_id)||m.repair_attempt!==1||m.state!=='RC_READY'||hashTree(path.join(root,m.source_path))!==r.source_hash)throw Error('checkpoint_identity_or_budget_mismatch');
+console.log(JSON.stringify({restored:true,calls:2,repair_attempt:1,ledger_unchanged:true,source_unchanged:true,wall_clock_not_reset:true}));

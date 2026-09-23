@@ -1,0 +1,10 @@
+{
+  "game_id": "GAME-20260923-141",
+  "artifact_id": 10728068469,
+  "artifact_sha256": "58e6254eaa8b77d758aec4a258371cfa2fa13732c889b44f798a473de6a6f4ac",
+  "provider_ledger_sha256": "e70f43141969b8bcacf78a901850819eda26995963d3ebcf294bb9003d8135a9",
+  "source_hash": "d76dcf5228bf978e54e80b599b6f4c33d6a0708cc06d551a94a9e568eaac0d29",
+  "expected_completed_calls": 2,
+  "repair_attempt_before": 1,
+  "reason": "Resume exact provider ledger after observed Vercel canonical asset URL failure. Existing Factory QA_RUNNING transition re-evaluates the composed report and requests repair 2. No attempt, cost, time or source reset."
+}

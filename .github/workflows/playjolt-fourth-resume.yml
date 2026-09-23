@@ -1,0 +1,57 @@
+name: PlayJolt fourth exact checkpoint resume
+on:
+  push:
+    branches: [commissioning/fourth-real-game-20260923]
+    paths: ['vibe-arcade/autonomy/commissioning/fourth-real-game/resume-request.json']
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: playjolt-fourth-real-game-GAME-20260923-141
+  cancel-in-progress: false
+jobs:
+  resume:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      AUTO_PRODUCTION_SHIP: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Dedicated checkpoint root
+        run: echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/playjolt-fourth-resume" >> "$GITHUB_ENV"
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: One resume only, exact archive and durable ledger
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node vibe-arcade/autonomy/commissioning/fourth-real-game/prepare-resume.cjs
+          node --test vibe-arcade/autonomy/qa/tests/preview-route.test.cjs
+          node vibe-arcade/autonomy/commissioning/fourth-real-game/report-preview.cjs "$FACTORY_WORKER_ROOT" vibe-arcade/autonomy/commissioning/fourth-real-game/preview-observation.json
+      - name: Same Docker isolation and generic suites
+        run: |
+          docker build --iidfile "$RUNNER_TEMP/resume-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/resume-image")" >> "$GITHUB_ENV"
+      - name: Existing ledger bounded provider continuation
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FACTORY_OPENAI_MODEL: gpt-5.6-terra
+          FACTORY_ALLOW_PAID_CALLS: '1'
+        run: node vibe-arcade/autonomy/commissioning/fourth-real-game/run.cjs
+      - name: Preserve separate Factory statuses and costs
+        if: always()
+        run: |
+          node vibe-arcade/autonomy/control-plane/cli.cjs dashboard --root "$FACTORY_WORKER_ROOT" --policy "$FACTORY_WORKER_ROOT/control-policy.json" --provider-ready true
+          node vibe-arcade/autonomy/commissioning/fourth-real-game/summarize.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fourth-real-game-resumed-GAME-20260923-141
+          path: ${{ runner.temp }}/playjolt-fourth-resume
+          include-hidden-files: true
+          retention-days: 30
