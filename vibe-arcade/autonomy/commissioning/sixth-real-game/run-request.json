@@ -8,6 +8,6 @@
   "estimated_usd_ceiling": 3,
   "production_authorized": false,
   "base_commit": "db4a2ef2e93e622b17068b564cd7b06bb84473b8",
-  "trigger_revision": 3,
-  "workflow_base_commit": "120a809ddfd6758ca387e7c2411558f4b8b6b5b6"
+  "trigger_revision": 4,
+  "workflow_base_commit": "3821c860281e76c8b2246eafe937a1b383a9b021"
 }
