@@ -10,5 +10,6 @@
   "reset_repair_budget": false,
   "reset_provider_ledger": false,
   "production_authorized": false,
-  "reason": "Resume exact checkpoint after reviewed-registry file mode and oversized repair-context infrastructure faults are corrected."
+  "reason": "Resume exact checkpoint after reviewed-registry file mode and oversized repair-context infrastructure faults are corrected.",
+  "resume_revision": 1
 }
