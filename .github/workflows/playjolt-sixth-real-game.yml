@@ -8,6 +8,8 @@ on:
 permissions:
   contents: read
   actions: read
+  issues: write
+  pull-requests: write
 concurrency:
   group: playjolt-sixth-real-game-GAME-20260923-161
   cancel-in-progress: false
@@ -21,6 +23,10 @@ jobs:
       AUTO_PRODUCTION_SHIP: 'false'
       FACTORY_WORKER_ROOT: ${{ runner.temp }}/sixth-state
     steps:
+      - name: Announce commissioning run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api "repos/$GITHUB_REPOSITORY/issues/${{ github.event.pull_request.number }}/comments" -f body="Sixth commissioning run started: run_id=$GITHUB_RUN_ID head=$GITHUB_SHA. Production authorization=false."
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
@@ -52,3 +58,19 @@ jobs:
           path: ${{ runner.temp }}/sixth-state
           include-hidden-files: true
           retention-days: 30
+      - name: Report terminal checkpoint
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          FILE="$FACTORY_WORKER_ROOT/commissioning-summary.json"
+          if [ -f "$FILE" ]; then
+            STATE="$(jq -r '.factory.state // "UNKNOWN"' "$FILE")"
+            VERSION="$(jq -r '.factory.version // "?"' "$FILE")"
+            REPAIRS="$(jq -r '.factory.repair_attempt // "?"' "$FILE")"
+            CALLS="$(jq -r '.total_calls // "?"' "$FILE")"
+            COST="$(jq -r '.total_estimated_cost // "?"' "$FILE")"
+            gh api "repos/$GITHUB_REPOSITORY/issues/${{ github.event.pull_request.number }}/comments" -f body="Sixth commissioning checkpoint: run_id=$GITHUB_RUN_ID state=$STATE version=$VERSION repair=$REPAIRS/5 provider_calls=$CALLS estimated_cost_usd=$COST production_authorization=false."
+          else
+            gh api "repos/$GITHUB_REPOSITORY/issues/${{ github.event.pull_request.number }}/comments" -f body="Sixth commissioning workflow ended without commissioning-summary.json: run_id=$GITHUB_RUN_ID. Inspect workflow/artifact; production authorization remains false."
+          fi
