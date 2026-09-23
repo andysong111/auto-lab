@@ -14,11 +14,10 @@ function activeElapsed(job,now){
   const common=Number.isSafeInteger(p.started_at)&&Number.isSafeInteger(p.ended_at)&&
     p.started_at>=last&&p.ended_at>p.started_at&&p.ended_at<=now&&
     /^[a-f0-9]{64}$/.test(p.checkpoint_manifest_sha256||'');
-  if(!common)throw new ProviderPause('invalid_continuation_pause');
   if(p.kind==='owner'){
-    if(p.reason!=='owner_review_hold'||p.owner_authorized!==true)throw new ProviderPause('invalid_owner_review_pause');
+    if(!common||p.reason!=='owner_review_hold'||p.owner_authorized!==true)throw new ProviderPause('invalid_owner_review_pause');
   }else{
-    if(p.reason!=='infrastructure_repair_hold'||p.system_reviewed!==true||p.owner_authorized!==true||
+    if(!common||p.reason!=='infrastructure_repair_hold'||p.system_reviewed!==true||p.owner_authorized!==true||
       !/^[a-f0-9]{64}$/.test(p.resume_commit||''))throw new ProviderPause('invalid_infrastructure_pause');
   }
   paused+=p.ended_at-p.started_at;last=p.ended_at;
