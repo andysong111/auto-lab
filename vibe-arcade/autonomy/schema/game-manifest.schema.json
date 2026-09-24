@@ -12,6 +12,7 @@
     "slug",
     "genre",
     "mechanic_family",
+    "render_runtime",
     "controls",
     "mobile_controls",
     "reference_quality_games",
@@ -304,6 +305,12 @@
         "PASS",
         "FAIL",
         "UNVERIFIED"
+      ]
+    },
+    "render_runtime": {
+      "enum": [
+        "canvas",
+        "phaser4"
       ]
     }
   },
