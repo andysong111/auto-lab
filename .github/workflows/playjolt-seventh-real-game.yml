@@ -20,10 +20,11 @@ jobs:
   commission:
     runs-on: ubuntu-latest
     timeout-minutes: 75
-    env:
-      AUTO_PRODUCTION_SHIP: 'false'
-      FACTORY_WORKER_ROOT: ${{ runner.temp }}/seventh-state
     steps:
+      - name: Bind dedicated worker root
+        run: |
+          echo "AUTO_PRODUCTION_SHIP=false" >> "$GITHUB_ENV"
+          echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/seventh-state" >> "$GITHUB_ENV"
       - name: Announce bounded commissioning run
         env:
           GH_TOKEN: ${{ github.token }}
