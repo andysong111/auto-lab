@@ -197,3 +197,12 @@ test('request input budget is token-estimated, not raw UTF-8 bytes',()=>{
   const e=estimateInputTokens(payload);
   assert(e.bytes>100000);assert(e.tokens<100000);
 });
+
+test('structural repair keeps broad candidate scope after staged stagnation',async t=>{
+  const e=setup(t),r=await request(e),m=e.store.get(e.spec.game_id),work=path.join(e.root,m.source_path);copyGame(path.resolve(__dirname,'../../fixtures/dummy'),work);
+  m.source_hash=hashTree(work);const failure={code:'overflow',message:'persistent layout'};
+  const req=requestFor(m,{hard_failures:[failure]});req.repair_strategy='structural_rewrite';
+  atomicJSON(e.store.artifact(m.game_id,'v1/qa.json'),{game_id:m.game_id,version:'v1',source_hash:m.source_hash,hard_failures:[failure],passed:false,browser_cases:[]});
+  const prompt=compile({root:e.root,workspace:work,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id,budget:r.budget});
+  assert(prompt.allowed_paths.includes('core.js'));assert(prompt.allowed_paths.includes('app.js'));assert(prompt.allowed_paths.includes('style.css'));assert(prompt.allowed_paths.includes('index.html'));
+});
