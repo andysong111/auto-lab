@@ -33,7 +33,7 @@ function transition(m, next, details = {}) {
 function create(spec) {
   const id = spec.game_id;
   return validate({schema_version: 1, game_id: id, generation: spec.generation ?? 1,
-    version: 'v1', title: spec.title, slug: spec.slug, genre: spec.genre, mechanic_family: spec.mechanic_family,
+    version: 'v1', title: spec.title, slug: spec.slug, genre: spec.genre, mechanic_family: spec.mechanic_family, render_runtime: spec.render_runtime||'canvas',
     controls: spec.controls, mobile_controls: spec.mobile_controls,
     reference_quality_games: ['astra-sentinel-v3', 'deep-descent'], created_at: new Date().toISOString(),
     state: 'IDEA', repair_attempt: 0, max_repair_attempts: spec.max_repair_attempts ?? 5,
