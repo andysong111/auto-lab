@@ -52,8 +52,8 @@
         quality: o.quality || null, presentation: {...(presentation() || {}), platform_reduced_motion: reducedMotion}});
     }
     function render() {
-      const s = snapshot(); const size=renderer?renderer._size?.()||null:null;
-      if(renderer) renderer.render(s,size||{width:canvas.clientWidth||canvas.width,height:canvas.clientHeight||canvas.height});
+      const s = snapshot();
+      if(renderer) renderer.render(s,{width:canvas.clientWidth||canvas.width,height:canvas.clientHeight||canvas.height});
       else draw(canvas.getContext('2d'), s, {width: canvas.width, height: canvas.height});
       q('score').textContent = String(s.score); q('progress').textContent = String(s.progress);
       if (productContract) {
