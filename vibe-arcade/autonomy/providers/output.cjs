@@ -38,7 +38,7 @@ function validateOutput(raw,request,limits) {
       if(match) {
         const e=modelError('core_dom_dependency'),line=f.content.slice(0,match.index).split('\n').length;
         e.message=`core_dom_dependency: core.js line ${line} uses ${match[0]}. Export with globalThis.GameCore = {create,step,observe,terminal}; core must contain no document/window/localStorage/fetch/Phaser identifiers.`;
-        e.detail={file:'core.js',line,identifier:match[0],allowed_export:'globalThis.YourCore = {create,step,observe,terminal}'};
+        e.detail={file:'core.js',line,identifier:match[0],allowed_export:'globalThis.GameCore = {create,step,observe,terminal}'};
         throw e;
       }
     }
