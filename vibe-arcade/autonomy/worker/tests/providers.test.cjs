@@ -141,7 +141,7 @@ test('repair compiler receives quarantined rejected source and validation guidan
   const prompt=compile({root:e.root,workspace,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id,budget:build.budget,rejected});
   assert.equal(prompt.model_validation.error_code,'core_dom_dependency');assert.match(prompt.model_validation.error_detail,/globalThis/);
   assert.equal(prompt.sources['core.js'],bad);assert.equal(prompt.empty_workspace,true);
-  assert(prompt.gamekit_contract.files['core.js'].includes('globalThis.GameCore'));assert.equal(prompt.gamekit_contract.phaser.version,'4.2.1');assert(prompt.gamekit_contract.factory_supplied.includes('phaser.min.js')&&prompt.gamekit_contract.factory_supplied.includes('phaserkit.js'));
+  assert(prompt.gamekit_contract.files['core.js'].includes('globalThis.GameCore'));assert.equal(prompt.gamekit_contract.phaser.version,'4.2.1');assert(prompt.gamekit_contract.factory_supplied.includes('phaser.js')&&prompt.gamekit_contract.factory_supplied.includes('phaserkit.js'));
 });
 test('quarantine excludes unsafe output paths from future repair context',async t=>{
   const e=setup(t),r=await request(e),bad={...output(),files:[...output().files,{path:'../../steal.txt',content:'secret-looking-data'}]};
