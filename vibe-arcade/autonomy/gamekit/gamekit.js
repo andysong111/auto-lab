@@ -47,7 +47,7 @@
       return clone({schema_version: 1, metadata, seed, phase, paused, disposed, capture, qa, ranked: false,
         state, tick: o.tick, progress: o.progress, score: o.score, interactions: o.interactions,
         entities: o.entities, accepted_inputs: accepted, error, best, effects,
-        quality: o.quality || null, presentation: {...(presentation() || {}), reduced_motion: reducedMotion}});
+        quality: o.quality || null, presentation: {...(presentation() || {}), platform_reduced_motion: reducedMotion}});
     }
     function render() {
       const s = snapshot(); draw(canvas.getContext('2d'), s, {width: canvas.width, height: canvas.height});
