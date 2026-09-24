@@ -173,7 +173,7 @@ function continuation(){
  if(!job||worker.game_id!==GAME_ID||worker.factory_state!=='REPAIRING'||worker.version!=='v3'||manifest.repair_attempt!==2)throw Error('unexpected_continuation_checkpoint');
  if(!['request_input_token_limit','game_wall_clock_limit'].includes(worker.code))throw Error('unexpected_continuation_reason');
  const started=Date.parse(worker.recorded_at),ended=Date.now(),checkpoint=hash(manifest),commit=process.env.GITHUB_SHA||'';
- if(!Number.isSafeInteger(started)||!Number.isSafeInteger(ended)||ended<=started||!/^[a-f0-9]{64}$/.test(commit))throw Error('invalid_continuation_metadata');
+ if(!Number.isSafeInteger(started)||!Number.isSafeInteger(ended)||ended<=started||!/^[a-f0-9]{40}(?:[a-f0-9]{24})?$/.test(commit))throw Error('invalid_continuation_metadata');
  const ops=Object.values(ledger.operations||{}).filter(o=>o.game_id===GAME_ID);
  if(ops.some(o=>(o.started_at||0)>started))throw Error('provider_activity_during_infrastructure_hold');
  job.infrastructure_pauses=[...(job.infrastructure_pauses||[]).filter(p=>p.checkpoint_manifest_sha256!==checkpoint),{
