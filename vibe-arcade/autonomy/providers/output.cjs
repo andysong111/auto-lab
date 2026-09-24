@@ -25,11 +25,19 @@ function validateOutput(raw,request,limits) {
     seen.add(f.path);if(Buffer.byteLength(f.content)>limits.max_file_bytes||f.content.includes('\0'))throw modelError('model_file_too_large');
     // Defense in depth, not a substitute for the network-disabled execution container.
     if(f.path!=='README.md'&&(/(?:https?:|wss?:|file:|ftp:)\/\//i.test(f.content)||/(?:src|href)\s*=\s*["']\/\//i.test(f.content)||/\b(?:import\s*\(|require\s*\(|eval\s*\(|new\s+Function\s*\()/m.test(f.content)))throw modelError('external_runtime_dependency');
+    if(f.path==='app.js') {
+      const bypass=/\b(?:requestAnimationFrame|addEventListener)\b|new\s+Phaser\.Game\b/.exec(f.content);
+      if(bypass)throw modelError('presentation_runtime_bypass: app.js must use GameKit + PhaserKit lifecycle');
+    }
+    if(f.path==='view/art.js') {
+      const bypass=/\brequestAnimationFrame\b|\.tweens\.add\s*\(|\.cameras\.main\.shake\s*\(|\.input\.(?:keyboard|on|addPointer)/.exec(f.content);
+      if(bypass)throw modelError('presentation_runtime_bypass: use PhaserKit motion/input helpers');
+    }
     if(f.path==='core.js') {
-      const match=/\b(?:document|window|localStorage|fetch)\b/.exec(f.content);
+      const match=/\b(?:document|window|localStorage|fetch|Phaser)\b/.exec(f.content);
       if(match) {
         const e=modelError('core_dom_dependency'),line=f.content.slice(0,match.index).split('\n').length;
-        e.message=`core_dom_dependency: core.js line ${line} uses ${match[0]}. Export with globalThis.YourCore = {create,step,observe,terminal}; core must contain no document/window/localStorage/fetch identifiers.`;
+        e.message=`core_dom_dependency: core.js line ${line} uses ${match[0]}. Export with globalThis.GameCore = {create,step,observe,terminal}; core must contain no document/window/localStorage/fetch/Phaser identifiers.`;
         e.detail={file:'core.js',line,identifier:match[0],allowed_export:'globalThis.YourCore = {create,step,observe,terminal}'};
         throw e;
       }
