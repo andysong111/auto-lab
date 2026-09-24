@@ -18,7 +18,7 @@ function activeElapsed(job,now){
     if(!common||p.reason!=='owner_review_hold'||p.owner_authorized!==true)throw new ProviderPause('invalid_owner_review_pause');
   }else{
     if(!common||p.reason!=='infrastructure_repair_hold'||p.system_reviewed!==true||p.owner_authorized!==true||
-      !/^[a-f0-9]{64}$/.test(p.resume_commit||''))throw new ProviderPause('invalid_infrastructure_pause');
+      !/^[a-f0-9]{40}(?:[a-f0-9]{24})?$/.test(p.resume_commit||''))throw new ProviderPause('invalid_infrastructure_pause');
   }
   paused+=p.ended_at-p.started_at;last=p.ended_at;
  }
