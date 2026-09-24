@@ -3,7 +3,7 @@
   "candidate": "Beacon Forge",
   "runtime": "Phaser 4.2.1 + GameKit v2",
   "paid_calls": false,
-  "request_revision": 2,
+  "request_revision": 3,
   "phaser_runtime_main": "6526cfcc504698a9cd1d80a2cbca2485a1b632cd",
   "workflow_main": "6526cfcc504698a9cd1d80a2cbca2485a1b632cd"
 }
