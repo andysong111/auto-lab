@@ -1,0 +1,10 @@
+{
+  "game_id": "GAME-20260924-171",
+  "candidate": "Chrona Mesh",
+  "paid_calls": false,
+  "request_revision": 5,
+  "workflow_fix_head": "f5db7057c2be236bdef6bac35dc897329b44d357",
+  "control_workflow_head": "6c0947cc18512d7b711d47352549d2f2d511b15c",
+  "preflight_workflow_head": "95507dd66420a482d663ecfecab38dbb2b342c49",
+  "clean_main_base": "bcc19726133d5e993b142564252da5e179bba003"
+}
