@@ -1,0 +1,11 @@
+{
+  "schema": "playjolt-phaser-runtime/1",
+  "phaser_version": "4.2.1",
+  "source_url": "https://github.com/phaserjs/phaser/releases/download/v4.2.1/phaser.min.js",
+  "sha256": null,
+  "expected_min_bytes": 1000000,
+  "expected_max_bytes": 2000000,
+  "runtime_filename": "phaser-4.2.1.min.js",
+  "license": "MIT",
+  "status": "DISCOVERY_ONLY"
+}
