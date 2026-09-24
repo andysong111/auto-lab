@@ -17,6 +17,6 @@
       v.label.setPosition(w/2,h*.2).setText(snapshot.phase==='finished'?'RUN COMPLETE':'MOVE · TAP · REPEAT');
     }
   };
-  root.GameVisuals=visuals;
-  root.GamePresentation=()=>({reduced_motion:false,feedback_active:false,static_feedback:true});
+  globalThis.GameVisuals=visuals;
+  globalThis.GamePresentation=()=>({reduced_motion:false,feedback_active:false,static_feedback:true});
 })(globalThis);
