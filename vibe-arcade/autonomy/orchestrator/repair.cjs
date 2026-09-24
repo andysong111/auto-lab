@@ -50,7 +50,21 @@ function noMeaningfulImprovement(previous,current){
 }
 function planRepair(m,qa,previousRequests=[]){
   const request=requestFor(m,qa),last=previousRequests.at(-1),prior=previousRequests.at(-2);
-  if(noMeaningfulImprovement(last,request)&&noMeaningfulImprovement(prior,last))request.repair_strategy='structural_rewrite';
+  const stagnant=noMeaningfulImprovement(last,request)&&noMeaningfulImprovement(prior,last);
+  if(stagnant){
+    request.repair_strategy='structural_rewrite';
+    const allFailures=qa?.hard_failures?.length?qa.hard_failures:(m.failure_reasons||[]);
+    const counts=failureCounts(allFailures);
+    const deferred=Object.entries(counts).reduce((n,[stage,count])=>n+(stage===request.repair_stage?0:count),0);
+    // Prevent one stubborn early stage (usually technical) from consuming the entire
+    // lifetime repair budget while product/commercial failures never reach the provider.
+    if(deferred>0){
+      request.repair_stage='quality';
+      request.integrated_recovery=true;
+      request.qa_failures=allFailures;
+      request.deferred_failure_counts={technical:0,product:0,commercial:0,quality:0};
+    }
+  }
   return request;
 }
 module.exports={requestFor,planRepair,protectedPaths,classifyFailureStage,selectRepairStage,failureCounts,repairStageOrder,noMeaningfulImprovement,failureKey};
