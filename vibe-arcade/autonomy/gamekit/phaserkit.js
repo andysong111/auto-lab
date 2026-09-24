@@ -25,7 +25,7 @@
       phaser_version:PHASER_VERSION,
       state,
       snapshot:()=>latest,
-      reducedMotion:()=>!!latest?.presentation?.platform_reduced_motion,
+      reducedMotion:()=>typeof root.matchMedia==='function'?root.matchMedia('(prefers-reduced-motion: reduce)').matches:!!latest?.presentation?.platform_reduced_motion,
       markFeedback({duration=420,static_only=false}={}) {
         feedbackUntil=Math.max(feedbackUntil,performance.now()+clamp(Number(duration)||0,100,1200));
         staticFeedback=!!static_only||api.reducedMotion();
