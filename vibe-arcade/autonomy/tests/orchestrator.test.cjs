@@ -68,3 +68,18 @@ test('trusted repair infrastructure pause retries the same attempt instead of co
   assert.equal(m.state,'REPAIRING');assert.equal(m.repair_attempt,1);assert.equal(m.version,'v2');assert.equal(repairs,2);
   assert(!fs.existsSync(store.artifact(m.game_id,'repair-2.json')));
 });
+
+test('staged repair chooses technical before product before commercial',async t=>{
+  const {factory,spec}=setup(t,{qa:mockQA});await factory.create(spec);const m=factory.store.get(spec.game_id);
+  const {requestFor}=require('../orchestrator/repair.cjs');
+  let r=requestFor(m,{hard_failures:[
+    {code:'commercial_audio',message:'audio polish'},
+    {code:'product_replay',message:'replay product contract'},
+    {code:'keyboard',message:'keyboard broken'}
+  ]});
+  assert.equal(r.repair_stage,'technical');assert.deepEqual(r.qa_failures.map(x=>x.code),['keyboard']);assert.equal(r.deferred_failure_counts.product,1);assert.equal(r.deferred_failure_counts.commercial,1);
+  r=requestFor(m,{hard_failures:[{code:'commercial_audio',message:'audio polish'},{code:'product_replay',message:'replay product contract'}]});
+  assert.equal(r.repair_stage,'product');assert.deepEqual(r.qa_failures.map(x=>x.code),['product_replay']);assert.equal(r.deferred_failure_counts.commercial,1);
+  r=requestFor(m,{hard_failures:[{code:'commercial_audio',message:'audio polish'}]});
+  assert.equal(r.repair_stage,'commercial');assert.deepEqual(r.qa_failures.map(x=>x.code),['commercial_audio']);
+});
