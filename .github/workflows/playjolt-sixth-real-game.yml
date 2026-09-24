@@ -1,75 +1,15 @@
-name: Sixth real candidate — bounded autonomous commissioning
+name: Sixth real candidate — archived terminal record
 on:
-  push:
-    branches: [commissioning/sixth-real-game-20260923-r2]
-    paths:
-      - 'vibe-arcade/autonomy/commissioning/sixth-real-game/**'
-      - '.github/workflows/playjolt-sixth-real-game.yml'
+  workflow_dispatch:
+
 permissions:
   contents: read
-  actions: read
-  issues: write
-  pull-requests: write
-concurrency:
-  group: playjolt-sixth-real-game-GAME-20260923-161
-  cancel-in-progress: false
 
 jobs:
-  commission:
+  archived:
     runs-on: ubuntu-latest
-    timeout-minutes: 75
-    env:
-      AUTO_PRODUCTION_SHIP: 'false'
-      FACTORY_WORKER_ROOT: ${{ runner.temp }}/sixth-state
     steps:
-      - name: Announce commissioning run
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh api "repos/$GITHUB_REPOSITORY/issues/67/comments" -f body="Sixth commissioning run started: run_id=$GITHUB_RUN_ID head=$GITHUB_SHA. Production authorization=false."
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
-      - name: Trusted design, oracle, Product and Commercial preflight
-        run: node vibe-arcade/autonomy/commissioning/sixth-real-game/commission.cjs prepare
-      - name: Pin trusted Docker QA image after reviewed registries are installed
+      - name: Terminal candidate notice
         run: |
-          docker build --iidfile "$RUNNER_TEMP/sixth-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
-          echo "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/sixth-image")" >> "$GITHUB_ENV"
-      - name: Actual provider plus unchanged Technical Product Commercial Quality repair loop
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          FACTORY_OPENAI_MODEL: gpt-5.6-terra
-          FACTORY_ALLOW_PAID_CALLS: '1'
-        run: node vibe-arcade/autonomy/commissioning/sixth-real-game/commission.cjs run
-      - name: Preserve lifetime accounting
-        if: always()
-        run: |
-          node vibe-arcade/autonomy/commissioning/sixth-real-game/commission.cjs summarize || true
-          node vibe-arcade/autonomy/control-plane/cli.cjs dashboard --root "$FACTORY_WORKER_ROOT" --policy "$FACTORY_WORKER_ROOT/control-policy.json" --provider-ready true || true
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: sixth-real-game-lifetime-checkpoint
-          path: ${{ runner.temp }}/sixth-state
-          include-hidden-files: true
-          retention-days: 30
-      - name: Report terminal checkpoint
-        if: always()
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          FILE="$FACTORY_WORKER_ROOT/commissioning-summary.json"
-          if [ -f "$FILE" ]; then
-            STATE="$(jq -r '.factory.state // "UNKNOWN"' "$FILE")"
-            VERSION="$(jq -r '.factory.version // "?"' "$FILE")"
-            REPAIRS="$(jq -r '.factory.repair_attempt // "?"' "$FILE")"
-            CALLS="$(jq -r '.total_calls // "?"' "$FILE")"
-            COST="$(jq -r '.total_estimated_cost // "?"' "$FILE")"
-            gh api "repos/$GITHUB_REPOSITORY/issues/67/comments" -f body="Sixth commissioning checkpoint: run_id=$GITHUB_RUN_ID state=$STATE version=$VERSION repair=$REPAIRS/5 provider_calls=$CALLS estimated_cost_usd=$COST production_authorization=false."
-          else
-            gh api "repos/$GITHUB_REPOSITORY/issues/67/comments" -f body="Sixth commissioning workflow ended without commissioning-summary.json: run_id=$GITHUB_RUN_ID. Inspect workflow/artifact; production authorization remains false."
-          fi
+          echo "GAME-20260923-161 / Ember Choir is terminal REJECTED at repair 5/5."
+          echo "This workflow is archived. It performs no provider call, repair reset, production release, or candidate revival."
