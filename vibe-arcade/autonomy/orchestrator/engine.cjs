@@ -58,7 +58,7 @@ class Factory {
       // Factory-owned runtime. Candidate/provider output can never replace these files.
       const phaserPkg=readJSON(path.join(__dirname,'../node_modules/phaser/package.json'));
       if(phaserPkg.version!=='4.2.1')throw Error('phaser_runtime_version_mismatch');
-      fs.copyFileSync(path.join(__dirname,'../node_modules/phaser/dist/phaser.min.js'),path.join(work,'phaser.min.js'));
+      fs.copyFileSync(path.join(__dirname,'../node_modules/phaser/dist/phaser.min.js'),path.join(work,'phaser.js'));
       fs.copyFileSync(path.join(__dirname,'../gamekit/phaserkit.js'),path.join(work,'phaserkit.js'));
       fs.copyFileSync(path.join(__dirname,'../gamekit/gamekit.js'),path.join(work,'gamekit.js'));
       inspectGame(work);
