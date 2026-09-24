@@ -18,7 +18,7 @@ test('AI mock files -> isolated Chromium failure -> compiled targeted repair -> 
   assert.equal(m.repair_attempt,1);assert.equal(e.provider.submissions,2);
   const before=readJSON(e.store.artifact(m.game_id,'v1/qa.json')),after=readJSON(e.store.artifact(m.game_id,'v2/qa.json'));
   assert(before.hard_failures.some(f=>f.code==='freeze'));assert(after.passed);assert.equal(after.browser_cases.length,3);assert(after.browser_cases.every(c=>c.checks.includes('touch')));assert.equal(after.side_effects.length,0);
-  assert.deepEqual(e.provider.requests[1].allowed_paths,['core.js','app.js']);assert.deepEqual(e.provider.requests[1].repair_request,readJSON(e.store.artifact(m.game_id,'repair-1.json')));
+  assert.deepEqual(e.provider.requests[1].allowed_paths,['core.js','app.js']);const rr=readJSON(e.store.artifact(m.game_id,'repair-1.json'));assert.equal(e.provider.requests[1].repair_request.operation_id,rr.operation_id);assert.equal(e.provider.requests[1].repair_request.repair_stage,'technical');assert(!('qa_failures' in e.provider.requests[1].repair_request));
   assert.equal((await e.worker.runOnce()).status,'IDLE');assert.equal(e.provider.calls,2);
 });
 test('AI mock repair fails five times -> existing Factory REJECTED; exactly six total provider generations',async t=>{
