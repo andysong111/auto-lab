@@ -109,7 +109,7 @@ function compile({root,workspace,manifest,spec,request,operationId,budget,reject
     }
     const codes=new Set(failures.map(f=>f.code));
     if(request.repair_strategy==='structural_rewrite')allowed=[...requiredFiles,'view/**','assets/**'];
-    if(codes.size&&[...codes].every(c=>['overflow','severe_overflow','layout'].includes(c)))allowed=['style.css','index.html'];
+    else if(codes.size&&[...codes].every(c=>['overflow','severe_overflow','layout'].includes(c)))allowed=['style.css','index.html'];
     else if(codes.size&&[...codes].every(c=>['keyboard','touch','freeze','real_clock','progress','interaction','terminal','resources','pause','resume','hidden','restart','pagehide'].includes(c)))allowed=['core.js','app.js'];
     const files=listFiles(workspace).filter(f=>requiredFiles.includes(f)||f.startsWith('view/')||f.startsWith('assets/'));
     if(!files.length)allowed=[...requiredFiles,'view/**','assets/**'];
