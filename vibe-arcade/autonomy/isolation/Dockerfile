@@ -4,6 +4,7 @@ WORKDIR /opt/factory
 COPY package.json package-lock.json ./
 RUN npm ci --ignore-scripts --no-audit --no-fund && npm cache clean --force
 COPY qa ./qa
+RUN chmod -R a+rX /opt/factory/qa
 COPY orchestrator ./orchestrator
 COPY schema ./schema
 COPY policies ./policies
