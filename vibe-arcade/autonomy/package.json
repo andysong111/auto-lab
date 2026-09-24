@@ -16,7 +16,8 @@
     "test:product": "node --test qa/tests/product.test.cjs",
     "test:product:docker": "node --test --test-concurrency=1 qa/tests/product-docker.test.cjs",
     "test:commercial": "node --test qa/tests/commercial.test.cjs",
-    "test:commercial:docker": "node --test --test-concurrency=1 qa/tests/commercial-docker.test.cjs"
+    "test:commercial:docker": "node --test --test-concurrency=1 qa/tests/commercial-docker.test.cjs",
+    "test:phaser": "node --test --test-concurrency=1 tests/phaser-runtime.test.cjs"
   },
   "dependencies": {
     "ajv": "8.17.1",
