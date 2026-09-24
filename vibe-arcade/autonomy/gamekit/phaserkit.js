@@ -75,7 +75,7 @@
     game=new root.Phaser.Game(config);
     function resize(width,height){
       if(destroyed)return;
-      width=Math.max(1,Math.round(width));height=Math.max(1,Math.round(height));lastSize={width,height};
+      width=Math.max(1,Math.round(width));height=Math.max(1,Math.round(height));if(width===lastSize.width&&height===lastSize.height)return;lastSize={width,height};
       if(game?.scale?.resize)game.scale.resize(width,height);
       if(scene?.cameras?.main?.setSize)scene.cameras.main.setSize(width,height);
       art.resize?.(scene,{width,height},api);
