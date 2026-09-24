@@ -102,3 +102,23 @@ test('stagnant staged repairs switch to structural rewrite instead of repeating 
   const changed=planRepair(m,{hard_failures:[{code:'touch',message:'different defect',viewport:{width:390,height:844}}]},previous);
   assert.equal(changed.repair_strategy,'targeted');
 });
+
+
+test('stagnant early-stage repair escalates to integrated recovery when later-stage failures are waiting',async t=>{
+  const {factory,spec}=setup(t,{qa:mockQA});await factory.create(spec);const base=factory.store.get(spec.game_id);
+  const {planRepair}=require('../orchestrator/repair.cjs');
+  const touch={code:'touch',message:'touch had no core effect',viewport:{width:390,height:844}};
+  const product={code:'product_mobile_readability',message:'12px labels',viewport:{width:390,height:844}};
+  const commercial={code:'commercial_action_feedback',message:'no visible transition',viewport:{width:390,height:844}};
+  const previous=[
+    {repair_stage:'technical',repair_strategy:'targeted',qa_failures:[touch]},
+    {repair_stage:'technical',repair_strategy:'targeted',qa_failures:[touch]}
+  ];
+  const m={...base,repair_attempt:2,version:'v3',source_path:`autonomy/games/${base.game_id}/v3`};
+  const r=planRepair(m,{hard_failures:[touch,product,commercial]},previous);
+  assert.equal(r.repair_strategy,'structural_rewrite');
+  assert.equal(r.repair_stage,'quality');
+  assert.equal(r.integrated_recovery,true);
+  assert.deepEqual(r.qa_failures.map(x=>x.code),['touch','product_mobile_readability','commercial_action_feedback']);
+  assert.deepEqual(r.deferred_failure_counts,{technical:0,product:0,commercial:0,quality:0});
+});
