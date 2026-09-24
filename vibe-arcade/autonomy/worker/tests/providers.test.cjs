@@ -23,8 +23,10 @@ for(const [name,value,code] of [
   ['malformed JSON','not json','model_output_invalid_json'],['unexpected metadata',{...output(),provider_metadata:{approved:true}},'model_output_invalid_schema'],
   ['path escape',{...output(),files:[{path:'../../index.html',content:'bad'}]},'path_isolation'],
   ['factory-owned kit',{...output(),files:[{path:'gamekit.js',content:'bad'}]},'path_isolation'],
+  ['factory-owned phaser bridge',{...output(),files:[{path:'phaserkit.js',content:'bad'}]},'path_isolation'],
   ['CDN',{...output(),files:[{path:'app.js',content:'fetch("https://cdn.invalid/x.js")'}]},'external_runtime_dependency'],
   ['DOM core',output({content:'document.write("bad")'}),'core_dom_dependency'],
+  ['Phaser in core',output({content:'const x=Phaser.VERSION; globalThis.GameCore={create(){return{}},step(){},observe(){return {tick:0,score:0,progress:0,interactions:0,entities:0}},terminal(){return false}};'}),'core_dom_dependency'],
   ['missing files',{...output(),files:[{path:'style.css',content:'body{}'}]},'model_missing_file']]) {
   test('reject '+name,async t=>{const e=setup(t),r=await request(e);assert.throws(()=>validateOutput(value,r,e.limits.request),new RegExp(code));});
 }
@@ -139,7 +141,7 @@ test('repair compiler receives quarantined rejected source and validation guidan
   const prompt=compile({root:e.root,workspace,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id,budget:build.budget,rejected});
   assert.equal(prompt.model_validation.error_code,'core_dom_dependency');assert.match(prompt.model_validation.error_detail,/globalThis/);
   assert.equal(prompt.sources['core.js'],bad);assert.equal(prompt.empty_workspace,true);
-  assert(prompt.gamekit_contract.files['core.js'].includes('globalThis.YourCore'));
+  assert(prompt.gamekit_contract.files['core.js'].includes('globalThis.GameCore'));assert.equal(prompt.gamekit_contract.phaser.version,'4.2.1');assert(prompt.gamekit_contract.factory_supplied.includes('phaser.js')&&prompt.gamekit_contract.factory_supplied.includes('phaserkit.js'));
 });
 test('quarantine excludes unsafe output paths from future repair context',async t=>{
   const e=setup(t),r=await request(e),bad={...output(),files:[...output().files,{path:'../../steal.txt',content:'secret-looking-data'}]};
@@ -205,4 +207,14 @@ test('structural repair keeps broad candidate scope after staged stagnation',asy
   atomicJSON(e.store.artifact(m.game_id,'v1/qa.json'),{game_id:m.game_id,version:'v1',source_hash:m.source_hash,hard_failures:[failure],passed:false,browser_cases:[]});
   const prompt=compile({root:e.root,workspace:work,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id,budget:r.budget});
   assert(prompt.allowed_paths.includes('core.js'));assert(prompt.allowed_paths.includes('app.js'));assert(prompt.allowed_paths.includes('style.css'));assert(prompt.allowed_paths.includes('index.html'));
+});
+
+test('presentation runtime bypass is rejected while PhaserKit helper usage is allowed',async t=>{
+  const e=setup(t),r=await request(e),base=output();
+  const app=JSON.parse(JSON.stringify(base));app.files.find(f=>f.path==='app.js').content='new Phaser.Game({});';
+  assert.throws(()=>validateOutput(app,r,e.limits.request),/presentation_runtime_bypass/);
+  const art=JSON.parse(JSON.stringify(base));art.files.find(f=>f.path==='view/art.js').content='function sync(scene){scene.tweens.add({targets:{}})}';
+  assert.throws(()=>validateOutput(art,r,e.limits.request),/presentation_runtime_bypass/);
+  const safe=JSON.parse(JSON.stringify(base));safe.files.find(f=>f.path==='view/art.js').content='function sync(scene,snapshot,api){api.tween({x:0},{x:1,duration:100})} globalThis.GameArt={create(){},sync};';
+  assert.doesNotThrow(()=>validateOutput(safe,r,e.limits.request));
 });
