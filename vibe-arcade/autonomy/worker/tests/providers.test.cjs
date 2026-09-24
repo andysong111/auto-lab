@@ -202,7 +202,7 @@ test('request input budget is token-estimated, not raw UTF-8 bytes',()=>{
 });
 
 test('reviewed infrastructure repair hold excludes only verified stopped time from active wall clock',()=>{
-  const sha='a'.repeat(64),job={started_at:1000,infrastructure_pauses:[{reason:'infrastructure_repair_hold',system_reviewed:true,owner_authorized:true,started_at:2000,ended_at:62000,checkpoint_manifest_sha256:sha,resume_commit:sha}]};
+  const sha='a'.repeat(64),commit='b'.repeat(40),job={started_at:1000,infrastructure_pauses:[{reason:'infrastructure_repair_hold',system_reviewed:true,owner_authorized:true,started_at:2000,ended_at:62000,checkpoint_manifest_sha256:sha,resume_commit:commit}]};
   assert.equal(activeElapsed(job,65000),4000);
   assert.throws(()=>activeElapsed({...job,infrastructure_pauses:[{...job.infrastructure_pauses[0],system_reviewed:false}]},65000),/invalid_infrastructure_pause/);
 });
