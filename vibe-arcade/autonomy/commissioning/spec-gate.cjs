@@ -10,6 +10,7 @@ function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.
   for(const k of req)if(proposal[k]===undefined||proposal[k]===null||proposal[k]==='')errors.push({code:'missing_field',field:k});
   if(!ID.test(proposal.game_id||''))errors.push({code:'invalid_game_id'});
   if(!SLUG.test(proposal.slug||''))errors.push({code:'invalid_slug'});
+  if(proposal.render_runtime!==undefined&&!['canvas','phaser4'].includes(proposal.render_runtime))errors.push({code:'invalid_render_runtime'});
   if(!Array.isArray(proposal.controls)||proposal.controls.length<1||proposal.controls.length>policy.controls.max_desktop_instructions)errors.push({code:'desktop_control_complexity'});
   if(!Array.isArray(proposal.mobile_controls)||proposal.mobile_controls.length<1||proposal.mobile_controls.length>policy.controls.max_mobile_instructions)errors.push({code:'mobile_control_complexity'});
   const terminal=proposal.qa?.terminal_ms;
@@ -43,7 +44,7 @@ function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.
     const overlap=[...words].filter(x=>gw.has(x)).length/Math.max(1,Math.min(words.size,gw.size));
     if(overlap>=0.75)warnings.push({code:'mechanic_similarity_review',game:g.id,overlap:Number(overlap.toFixed(2))});
   }
-  const factory_spec={game_id:proposal.game_id,generation:proposal.generation||1,title:proposal.title,slug:proposal.slug,genre:proposal.genre,mechanic_family:proposal.mechanic_family,
+  const factory_spec={game_id:proposal.game_id,generation:proposal.generation||1,title:proposal.title,slug:proposal.slug,genre:proposal.genre,mechanic_family:proposal.mechanic_family,render_runtime:proposal.render_runtime||'canvas',
     controls:proposal.controls,mobile_controls:proposal.mobile_controls,max_repair_attempts:proposal.max_repair_attempts??policy.technical_budget.max_repair_attempts,qa:proposal.qa,implementation_contract:implementation,product_contract:proposal.product_contract,...(proposal.commercial_contract?{commercial_contract:proposal.commercial_contract}:{})};
   return {passed:errors.length===0,errors,warnings,factory_spec,commissioning:{owner_review_required:true,auto_production_ship:false,max_provider_calls:policy.technical_budget.max_provider_calls,max_estimated_model_cost_usd:policy.technical_budget.max_estimated_model_cost_usd}};
 }
