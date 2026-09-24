@@ -34,8 +34,8 @@ test('real Chromium: factory-owned Phaser 4.2.1 presentation runs locally with c
   await factory.create(spec);const m=await factory.run(spec.game_id);save('phaser4',env,m);
   assert.equal(m.state,'RC_READY');const root=factory.source(m),qa=readJSON(factory.artifact(m,'qa.json'));
   assert.equal(qa.passed,true,JSON.stringify(qa.hard_failures));assert.equal(qa.side_effects.length,0);
-  for(const name of ['phaser.min.js','phaserkit.js','gamekit.js','manifest.json'])assert(fs.existsSync(path.join(root,name)),name);
-  assert(fs.statSync(path.join(root,'phaser.min.js')).size>500000,'local Phaser runtime should be present, not a CDN stub');
+  for(const name of ['phaser.js','phaserkit.js','gamekit.js','manifest.json'])assert(fs.existsSync(path.join(root,name)),name);
+  assert(fs.statSync(path.join(root,'phaser.js')).size>500000,'local Phaser runtime should be present, not a CDN stub');
   assert.equal(require('../node_modules/phaser/package.json').version,'4.2.1');
 });
 test('real Chromium: deliberately frozen fixture -> repair request -> actual repaired QA PASS',async t=>{
