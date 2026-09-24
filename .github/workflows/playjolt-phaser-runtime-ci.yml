@@ -1,0 +1,29 @@
+name: PlayJolt Phaser Runtime Bootstrap
+on:
+  push:
+    branches: ['factory/phaser-gamekit-v2-phase1']
+    paths:
+      - 'vibe-arcade/autonomy/gamekit/phaser-runtime.json'
+      - 'vibe-arcade/autonomy/gamekit/fetch-phaser-runtime.cjs'
+      - '.github/workflows/playjolt-phaser-runtime-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Download official Phaser runtime without executing it
+        run: node vibe-arcade/autonomy/gamekit/fetch-phaser-runtime.cjs "$RUNNER_TEMP/phaser-4.2.1.min.js"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phaser-4.2.1-runtime-discovery
+          path: ${{ runner.temp }}/phaser-4.2.1.min.js
+          retention-days: 1
