@@ -8,6 +8,10 @@ const {ProviderPause,modelError}=require('./errors.cjs');
 const {activeElapsed}=require('./active-wall-clock.cjs');
 const LOCK='GAME-00000000-000';
 const cost=(n,p)=>Math.ceil((n.input_tokens*p.input_per_million+n.output_tokens*p.output_per_million)/1e6*1e8)/1e8;
+function estimateInputTokens(payload){
+  const bytes=Buffer.byteLength(JSON.stringify(payload));
+  return {bytes,tokens:Math.ceil(bytes/2)+2048};
+}
 class ProviderManager {
   constructor({root,provider,config,prices,guard=()=>{},signal,now=Date.now}) {
     this.root=path.resolve(root);this.provider=provider;this.config=config;this.prices=prices;this.guard=guard;this.signal=signal;this.now=now;
@@ -33,8 +37,11 @@ class ProviderManager {
   reserve(d,request,fingerprint) {
     const c=this.config,day=new Date(this.now()).toISOString().slice(0,10);
     // Deliberately conservative local estimate. No paid token-counting call or SDK tokenizer.
-    const input=Buffer.byteLength(JSON.stringify({instructions,request,responseSchema}))+2048;
-    if(input>c.request.max_input_tokens)throw new ProviderPause('request_input_token_limit',undefined,'PAUSED_BUDGET');
+    const estimate=estimateInputTokens({instructions,request,responseSchema}),input=estimate.tokens;
+    // max_input_tokens is a token budget. A raw UTF-8 byte count was dimensionally wrong and
+    // caused valid repair packets to pause long before the model context limit. Keep a strict
+    // two-bytes-per-token conservative local estimate plus a hard 2x byte ceiling; no paid tokenizer call.
+    if(estimate.bytes>c.request.max_input_tokens*2||input>c.request.max_input_tokens)throw new ProviderPause('request_input_token_limit',undefined,'PAUSED_BUDGET');
     const reserved={input_tokens:input,output_tokens:c.request.max_output_tokens};reserved.estimated_cost=cost(reserved,this.prices);
     const g=this.totals(d,request.game_id),daily=this.totals(d,null,day),p=c.per_game;
     if(g.calls+1>p.max_provider_calls||g.input+reserved.input_tokens>p.max_input_tokens||g.output+reserved.output_tokens>p.max_output_tokens||g.cost+reserved.estimated_cost>p.max_estimated_cost+1e-9||daily.calls+1>c.global.daily_provider_call_limit||daily.cost+reserved.estimated_cost>c.global.daily_cost_limit+1e-9)throw new ProviderPause('provider_budget_exhausted',undefined,'PAUSED_BUDGET');
@@ -105,4 +112,4 @@ class ProviderManager {
     });}catch(e){if(e.message==='job_locked')throw new ProviderPause('provider_concurrency_limit',undefined,'PAUSED_CONCURRENCY');if(e.factory_pause||e.model_failure)throw e;throw new ProviderPause('provider_state_unavailable');}
   }
 }
-module.exports={ProviderManager,cost};
+module.exports={ProviderManager,cost,estimateInputTokens};

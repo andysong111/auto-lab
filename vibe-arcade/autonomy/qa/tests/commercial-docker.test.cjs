@@ -28,7 +28,11 @@ for(const [i,variant] of variants.entries())if(i%shards===shard)test('isolated C
   const gate=require('../../orchestrator/quality.cjs').evaluate(m,{...technical,passed:technical.passed&&prod.passed&&q.passed,technical_qa:technical,product_qa:prod,commercial_qa:q},policy);atomicJSON(path.join(out,'quality-gate.json'),gate);assert.equal(gate.decision,'PASS',JSON.stringify(gate.hard_failures));
  }
  if(variant==='MULTI_COMMERCIAL_BAD'){
-  const request=requestFor(m,{hard_failures:q.hard_failures});atomicJSON(path.join(out,'repair-request.json'),request);assert.deepEqual(request.qa_failures,q.hard_failures);for(const code of expected){const f=request.qa_failures.find(f=>f.code===code);assert(f.expected!==undefined&&f.actual!==undefined);assert(f.viewport);assert(f.evidence.length);}
+  const request=requestFor(m,{hard_failures:q.hard_failures});atomicJSON(path.join(out,'repair-request.json'),request);
+  assert.equal(request.repair_stage,'product','the product-level topology defect is repaired before commercial polish');
+  assert.deepEqual([...new Set(request.qa_failures.map(f=>f.code))],['product_route_topology_not_visible']);
+  assert(request.deferred_failure_counts.commercial>0,'commercial defects are preserved for the next stage');
+  for(const f of request.qa_failures){assert(f.expected!==undefined&&f.actual!==undefined);assert(f.viewport);assert(f.evidence.length);}
   assert(q.checks.filter(c=>c.check==='audio'&&c.status==='FAIL').length>=3,'audio defects independently collected');
   const {html}=require('../../control-plane/render.cjs');fs.writeFileSync(path.join(out,'control-plane.html'),html({counts:{QA_FAILED:1},automation:{can_create:false},jobs:[{...m,state:'QA_FAILED',technical_qa:{status:'PASS'},product_qa:{status:'PASS'},commercial_polish:{status:'FAIL',failures:codes},quality_gate:{status:'FAIL'},decision:{action:'RESUME_REPAIR'},metrics:{state:'DISABLED'}}]}));
  }
