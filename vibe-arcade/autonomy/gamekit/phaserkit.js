@@ -14,7 +14,7 @@
     const initialWidth=Math.max(1,Math.round(canvas.getBoundingClientRect().width||canvas.width||640));
     const initialHeight=Math.max(1,Math.round(canvas.getBoundingClientRect().height||canvas.height||480));
     const game=new Phaser.Game({
-      type:Phaser.AUTO,
+      // QA runs under a hardened custom browser environment. Phaser requires an explicit renderer there.\n      type:Phaser.CANVAS,
       canvas,
       width:initialWidth,
       height:initialHeight,
