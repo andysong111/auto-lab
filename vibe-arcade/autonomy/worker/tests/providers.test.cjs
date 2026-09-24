@@ -22,7 +22,9 @@ test('successful mock output is validated, persisted and deduplicated by immutab
 for(const [name,value,code] of [
   ['malformed JSON','not json','model_output_invalid_json'],['unexpected metadata',{...output(),provider_metadata:{approved:true}},'model_output_invalid_schema'],
   ['path escape',{...output(),files:[{path:'../../index.html',content:'bad'}]},'path_isolation'],
-  ['factory-owned kit',{...output(),files:[{path:'gamekit.js',content:'bad'}]},'path_isolation'],
+  ['factory-owned gamekit',{...output(),files:[{path:'gamekit.js',content:'bad'}]},'path_isolation'],
+  ['factory-owned phaser bridge',{...output(),files:[{path:'phaserkit.js',content:'bad'}]},'path_isolation'],
+  ['factory-owned Phaser runtime',{...output(),files:[{path:'phaser.js',content:'bad'}]},'path_isolation'],
   ['CDN',{...output(),files:[{path:'app.js',content:'fetch("https://cdn.invalid/x.js")'}]},'external_runtime_dependency'],
   ['DOM core',output({content:'document.write("bad")'}),'core_dom_dependency'],
   ['missing files',{...output(),files:[{path:'style.css',content:'body{}'}]},'model_missing_file']]) {
@@ -139,7 +141,7 @@ test('repair compiler receives quarantined rejected source and validation guidan
   const prompt=compile({root:e.root,workspace,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id,budget:build.budget,rejected});
   assert.equal(prompt.model_validation.error_code,'core_dom_dependency');assert.match(prompt.model_validation.error_detail,/globalThis/);
   assert.equal(prompt.sources['core.js'],bad);assert.equal(prompt.empty_workspace,true);
-  assert(prompt.gamekit_contract.files['core.js'].includes('globalThis.YourCore'));
+  assert(prompt.gamekit_contract.files['core.js'].includes('globalThis.GameCore'));assert.equal(prompt.gamekit_contract.version,'gamekit-phaser-2');assert.equal(prompt.gamekit_contract.phaser_version,'4.2.1');assert(instructions.includes('PhaserKit'));
 });
 test('quarantine excludes unsafe output paths from future repair context',async t=>{
   const e=setup(t),r=await request(e),bad={...output(),files:[...output().files,{path:'../../steal.txt',content:'secret-looking-data'}]};

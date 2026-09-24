@@ -29,10 +29,17 @@ function validateOutput(raw,request,limits) {
       const match=/\b(?:document|window|localStorage|fetch)\b/.exec(f.content);
       if(match) {
         const e=modelError('core_dom_dependency'),line=f.content.slice(0,match.index).split('\n').length;
-        e.message=`core_dom_dependency: core.js line ${line} uses ${match[0]}. Export with globalThis.YourCore = {create,step,observe,terminal}; core must contain no document/window/localStorage/fetch identifiers.`;
-        e.detail={file:'core.js',line,identifier:match[0],allowed_export:'globalThis.YourCore = {create,step,observe,terminal}'};
+        e.message=`core_dom_dependency: core.js line ${line} uses ${match[0]}. Export with globalThis.GameCore = {create,step,observe,terminal}; core must contain no document/window/localStorage/fetch identifiers.`;
+        e.detail={file:'core.js',line,identifier:match[0],allowed_export:'globalThis.GameCore = {create,step,observe,terminal}'};
         throw e;
       }
+      if(request.gamekit_contract?.version==='gamekit-phaser-2'&&!/globalThis\.GameCore\s*=/.test(f.content))throw modelError('phaser_contract: core must export globalThis.GameCore');
+    }
+    if(request.gamekit_contract?.version==='gamekit-phaser-2'){
+      if((f.path==='app.js'||f.path.startsWith('view/'))&&/(?:new\s+Phaser\.Game|requestAnimationFrame\s*\(|setInterval\s*\()/m.test(f.content))throw modelError('candidate_runtime_override');
+      if(f.path==='app.js'&&(!f.content.includes('PlayJoltPhaserKit.create')||!f.content.includes('PlayJoltGameKit.create')))throw modelError('phaser_contract: app must use factory PhaserKit and GameKit');
+      if(f.path==='view/art.js'&&(!/globalThis\.GameVisuals\s*=/.test(f.content)||!/globalThis\.GamePresentation\s*=/.test(f.content)))throw modelError('phaser_contract: view must export GameVisuals and GamePresentation');
+      if(f.path==='index.html'&&(!f.content.includes('./phaser.js')||!f.content.includes('./phaserkit.js')||!f.content.includes('./gamekit.js')))throw modelError('phaser_contract: index must load local factory runtimes');
     }
   }
   if(request.mode==='build'||request.empty_workspace)for(const name of requiredFiles)if(!seen.has(name))throw modelError('model_missing_file:'+name);

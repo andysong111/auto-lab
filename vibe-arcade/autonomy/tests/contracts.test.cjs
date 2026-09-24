@@ -40,3 +40,21 @@ test('fixture core is DOM independent and deterministic for the same seed/input 
   for(let i=0;i<610;i++){const input={x:i<50?1:0,action:i%31===0,pointer:null};core.step(a,input);core.step(b,input);}
   assert.deepEqual(a,b);assert(core.terminal(a));assert(a.interactions>0&&a.score>0);assert.equal(a.tick,600);
 });
+
+test('factory Phaser bridge owns the visual runtime and only consumes cloned snapshots',t=>{
+  const priorPhaser=globalThis.Phaser,priorKit=globalThis.PlayJoltPhaserKit;let created=0,updated=[],resized=null,destroyed=false;
+  class FakeGame{
+    constructor(config){
+      this.scale={resize:(w,h)=>{resized=[w,h];}};
+      this.destroy=remove=>{destroyed=remove===true;};
+      const scene={};config.scene.create.call(scene);created++;
+    }
+  }
+  globalThis.Phaser={VERSION:'4.2.1',AUTO:0,Game:FakeGame};
+  delete require.cache[require.resolve('../gamekit/phaserkit.js')];
+  const kit=require('../gamekit/phaserkit.js'),canvas={width:320,height:180,getBoundingClientRect:()=>({width:320,height:180})};
+  const renderer=kit.create({canvas,visuals:{create:()=>{},update:(_scene,s)=>{updated.push(s);s.state.x=999;}}});
+  const original={state:{x:1}};renderer.render(original);assert.equal(original.state.x,1);assert.equal(updated.at(-1).state.x,999);
+  renderer.resize(640,360);assert.deepEqual(resized,[640,360]);renderer.dispose();assert(destroyed);assert.equal(created,1);assert.equal(renderer.kind,'phaser4');assert.equal(renderer.version,'4.2.1');
+  t.after(()=>{if(priorPhaser===undefined)delete globalThis.Phaser;else globalThis.Phaser=priorPhaser;if(priorKit===undefined)delete globalThis.PlayJoltPhaserKit;else globalThis.PlayJoltPhaserKit=priorKit;delete require.cache[require.resolve('../gamekit/phaserkit.js')];});
+});
