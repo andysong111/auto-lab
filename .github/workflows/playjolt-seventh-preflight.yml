@@ -17,10 +17,11 @@ jobs:
   preflight:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    env:
-      AUTO_PRODUCTION_SHIP: 'false'
-      FACTORY_WORKER_ROOT: ${{ runner.temp }}/seventh-preflight
     steps:
+      - name: Bind dedicated worker root
+        run: |
+          echo "AUTO_PRODUCTION_SHIP=false" >> "$GITHUB_ENV"
+          echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/seventh-preflight" >> "$GITHUB_ENV"
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
