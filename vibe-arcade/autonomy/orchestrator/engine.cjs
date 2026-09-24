@@ -55,8 +55,16 @@ class Factory {
       const context={workspace:work,manifest:m,spec:this.spec(m),request:repairRequest,operationId};
       outcome=await (repairRequest?adapter.repair(context):adapter.build(context));
       inspectGame(work);
-      // These two files are always factory-owned, regardless of the adapter response.
-      fs.copyFileSync(path.join(__dirname,'../gamekit/gamekit.js'),path.join(work,'gamekit.js'));
+      // Runtime files are always factory-owned, regardless of the adapter response.
+      const runtimeFiles=[
+        [path.join(__dirname,'../node_modules/phaser/dist/phaser.min.js'),'phaser.js'],
+        [path.join(__dirname,'../gamekit/phaserkit.js'),'phaserkit.js'],
+        [path.join(__dirname,'../gamekit/gamekit.js'),'gamekit.js']
+      ];
+      for(const [source,name] of runtimeFiles){
+        if(!fs.existsSync(source))throw Error('factory_runtime_missing:'+name);
+        fs.copyFileSync(source,path.join(work,name));
+      }
       const descriptor={...m,history:[],failure_reasons:[]};
       for(const key of ['source_hash','policy_hash','branch','pr_number','pr_url','rc_commit','deployment_id'])delete descriptor[key];
       atomicJSON(path.join(work,'manifest.json'),descriptor);
