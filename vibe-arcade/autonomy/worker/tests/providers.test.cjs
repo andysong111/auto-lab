@@ -1,7 +1,7 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const {setup,request,MockProvider,output}=require('./helpers.cjs');
-const {ProviderManager}=require('../../providers/manager.cjs');
+const {ProviderManager,estimateInputTokens}=require('../../providers/manager.cjs');
 const {ProviderPause,modelError}=require('../../providers/errors.cjs');
 const {validateOutput,applyOutput,responseSchema}=require('../../providers/output.cjs');
 const {OpenAIProvider}=require('../../providers/openai.cjs');
@@ -77,7 +77,7 @@ test('repair compiler preserves original Factory request, QA identity and narrow
   m.source_hash=hashTree(old);const failures=[{code:'overflow',message:'mobile overflow'}],req=requestFor(m,{hard_failures:failures});
   atomicJSON(e.store.artifact(m.game_id,'v1/qa.json'),{game_id:m.game_id,version:'v1',source_hash:m.source_hash,hard_failures:failures,passed:false,browser_cases:[]});
   const prompt=compile({root:e.root,workspace:old,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id,budget:r.budget});
-  assert.deepEqual(prompt.repair_request,req);assert.deepEqual(prompt.allowed_paths,['style.css','index.html']);assert.deepEqual(Object.keys(prompt.sources).sort(),['index.html','style.css']);
+  assert.equal(prompt.repair_request.operation_id,req.operation_id);assert.equal(prompt.repair_request.repair_stage,'technical');assert(!('qa_failures' in prompt.repair_request));assert.deepEqual(prompt.allowed_paths,['style.css','index.html']);assert.deepEqual(Object.keys(prompt.sources).sort(),['index.html','style.css']);
   assert.throws(()=>validateOutput(output({repair:true}),prompt,e.limits.request),/path_isolation/);
   req.qa_failures=[{code:'production_side_effect',message:'blocked POST'}];assert.throws(()=>compile({root:e.root,workspace:old,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id}),/production_side_effect/);
   assert(instructions.includes('ORIGINAL')&&instructions.includes('No CDN'));assert.deepEqual(policy.fatal_codes,['production_side_effect','path_isolation','source_tampered']);
@@ -110,7 +110,7 @@ test('ledger storage failure pauses before any provider submission',async t=>{
 test('repair scope honors additional protections in the original Factory request',async t=>{
   const e=setup(t),r=await request(e),m=e.store.get(e.spec.game_id),work=path.join(e.root,`autonomy/.work/${m.game_id}/v1`);copyGame(path.resolve(__dirname,'../../fixtures/dummy'),work);
   const req=requestFor(m,{hard_failures:[{code:'overflow',message:'layout'}]});req.protected_paths.push('index.html');
-  const prompt=compile({root:e.root,workspace:work,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id,budget:r.budget});assert.deepEqual(prompt.allowed_paths,['style.css']);assert.deepEqual(prompt.repair_request,req);
+  const prompt=compile({root:e.root,workspace:work,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id,budget:r.budget});assert.deepEqual(prompt.allowed_paths,['style.css']);assert.equal(prompt.repair_request.operation_id,req.operation_id);assert.equal(prompt.repair_request.repair_stage,'technical');assert(!('qa_failures' in prompt.repair_request));
 });
 test('maximum file/output size is rejected before applying any bytes',async t=>{
   const e=setup(t),r=await request(e);assert.throws(()=>validateOutput(output({content:'x'.repeat(e.limits.request.max_file_bytes+1)}),r,e.limits.request),{code:'model_file_too_large'});
@@ -149,25 +149,24 @@ test('quarantine excludes unsafe output paths from future repair context',async 
   assert(q&&!q.files.some(f=>f.path.includes('..')));
 });
 
-test('repair compiler accepts timeout-shaped Product and Commercial evidence without optional arrays',async t=>{
+test('repair compiler keeps only the active Product stage and tolerates timeout-shaped optional arrays',async t=>{
   const e=setup(t),r=await request(e),m=e.store.get(e.spec.game_id),old=path.join(e.root,m.source_path);copyGame(path.resolve(__dirname,'../../fixtures/dummy'),old);
   m.source_hash=hashTree(old);
-  const timeout={code:'timeout',message:'Isolated QA did not produce a completed report'};
-  const req=requestFor(m,{hard_failures:[timeout]});
+  const failure={code:'product_timeout',message:'Product QA did not produce a completed report'};
+  const req=requestFor(m,{hard_failures:[failure]});
   atomicJSON(e.store.artifact(m.game_id,'v1/qa.json'),{
-    game_id:m.game_id,version:'v1',source_hash:m.source_hash,passed:false,hard_failures:[timeout],console_errors:[],page_errors:[],browser_cases:[],
+    game_id:m.game_id,version:'v1',source_hash:m.source_hash,passed:false,hard_failures:[failure],console_errors:[],page_errors:[],browser_cases:[],
     technical_qa:{passed:true},
-    product_qa:{passed:false,hard_failures:[timeout],screenshots:['product-partial.png'],duration_ms:150000},
-    commercial_qa:{passed:false,hard_failures:[timeout],screenshots:['commercial-partial.png'],duration_ms:240000}
+    product_qa:{passed:false,hard_failures:[failure],screenshots:['product-partial.png'],duration_ms:150000},
+    commercial_qa:{passed:false,hard_failures:[{code:'commercial_timeout',message:'deferred'}],screenshots:['commercial-partial.png'],duration_ms:240000}
   });
   const prompt=compile({root:e.root,workspace:old,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id,budget:r.budget});
+  assert.equal(prompt.repair_request.repair_stage,'product');
   assert.deepEqual(prompt.qa_evidence.product_qa.checks,[]);
   assert.deepEqual(prompt.qa_evidence.product_qa.artifacts,[]);
-  assert.equal(prompt.qa_evidence.product_qa.hard_failures[0].code,'timeout');
-  assert.deepEqual(prompt.qa_evidence.commercial_qa.checks,[]);
-  assert.deepEqual(prompt.qa_evidence.commercial_qa.artifacts,[]);
-  assert.equal(prompt.qa_evidence.commercial_qa.hard_failures[0].code,'timeout');
-  assert(prompt.previous_failures.some(f=>f.code==='timeout'));
+  assert.equal(prompt.qa_evidence.product_qa.hard_failures[0].code,'product_timeout');
+  assert.equal(prompt.qa_evidence.commercial_qa,null);
+  assert(prompt.previous_failures.some(f=>f.code==='product_timeout'));
 });
 
 test('unexpected trusted repair-context compiler fault pauses before provider submission',async t=>{
@@ -191,4 +190,10 @@ test('isolated timeout preserves trusted partial QA evidence instead of collapsi
   const result=normalizeIsolatedResult({result:partial,outcome:{code:124,expired:true},manifest,source,policy,started,now:()=>241500});
   assert.equal(result.passed,false);assert.equal(result.checks.length,1);assert.equal(result.artifacts.length,1);assert(result.hard_failures.some(f=>f.code==='commercial_action_feedback'));
   assert(result.hard_failures.some(f=>f.code==='timeout'&&f.partial_report===true));assert.equal(result.duration_ms,240500);
+});
+
+test('request input budget is token-estimated, not raw UTF-8 bytes',()=>{
+  const payload={instructions:'x'.repeat(60000),request:{blob:'y'.repeat(40000)},schema:{type:'object'}};
+  const e=estimateInputTokens(payload);
+  assert(e.bytes>100000);assert(e.tokens<100000);
 });
