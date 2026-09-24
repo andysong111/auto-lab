@@ -70,7 +70,7 @@ function contracts(model){
     best:{selector:'[data-best]',label_selector:'[data-best-label]',expected_label:'DEVICE BEST',source:'GameKit.best'},
     completion:{state_path:'state.outcome',success_value:'success',failure_value:'failure',result_selector:'[data-result]',success_text:'CROWN FORGED',failure_text:'FORGE COOLED',max_terminal_latency_ms:100,failure_wait_ms:48000,failure_actions:[]},
     replay:{selector:'[data-game-restart]',must_be_in_initial_mobile_viewport:true},
-    difficulty:{deterministic_seeds:seeds,oracle_id:'beacon-forge-v1',oracle_sha256:hash(model),projection:model.projection,stage_path:'quality.stage',complexity_path:'quality.complexity',meaningful_actions_path:'quality.meaningful_actions',reversible_state_path:'quality.reversible_state_key',required_monotonicity:'later_strictly_greater',max_actions:72},
+    difficulty:{deterministic_seeds:seeds,oracle_id:'beacon-forge-v1',oracle_sha256:hash(model),projection:model.projection,stage_path:'quality.stage',complexity_path:'quality.complexity',meaningful_actions_path:'quality.meaningful_actions',reversible_state_path:'quality.reversible_state_key',required_monotonicity:'later_strictly_greater',max_actions:64},
     mobile:{critical_selectors:['[data-objective]','[data-product-progress]','[data-score-label]','[data-game-score]','[data-best-label]','[data-best]','[data-result]'],control_selectors:['[data-game-start]','[data-game-pause]','[data-game-resume]','[data-game-restart]'],canvas_selector:'[data-game-canvas]',canvas_control_regions:[
       {x:0,y:.54,width:.2,height:.34},{x:.2,y:.54,width:.2,height:.34},{x:.4,y:.54,width:.2,height:.34},{x:.6,y:.54,width:.2,height:.34},{x:.8,y:.54,width:.2,height:.34}
     ],min_font_px:14,min_hit_target_px:44},
