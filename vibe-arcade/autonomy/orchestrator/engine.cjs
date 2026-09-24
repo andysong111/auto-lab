@@ -5,9 +5,10 @@ const {safePath,atomicJSON,readJSON,copyGame,inspectGame,hashTree,hash,listFiles
 const {planRepair}=require('./repair.cjs'),{evaluate}=require('./quality.cjs');
 const {runQA}=require('../qa/runner.cjs');
 const policy=require('../policies/quality-gate.json');
+const {verify:verifyPhaserRuntime}=require('../gamekit/phaser-runtime.cjs');
 class Factory {
-  constructor({store,builder,repairer,qa=runQA,release=null,policy:configuredPolicy=policy,beforeStep=null}) {
-    this.store=store;this.builder=builder;this.repairer=repairer;this.qa=qa;this.release=release;this.policy=configuredPolicy;this.beforeStep=beforeStep;
+  constructor({store,builder,repairer,qa=runQA,release=null,policy:configuredPolicy=policy,beforeStep=null,phaserRuntimePath=process.env.FACTORY_PHASER_RUNTIME,phaserRuntimePolicy=null}) {
+    this.store=store;this.builder=builder;this.repairer=repairer;this.qa=qa;this.release=release;this.policy=configuredPolicy;this.beforeStep=beforeStep;this.phaserRuntimePath=phaserRuntimePath;this.phaserRuntimePolicy=phaserRuntimePolicy;
   }
   async create(spec) {
     const initial=create(spec);
@@ -55,8 +56,13 @@ class Factory {
       const context={workspace:work,manifest:m,spec:this.spec(m),request:repairRequest,operationId};
       outcome=await (repairRequest?adapter.repair(context):adapter.build(context));
       inspectGame(work);
-      // These two files are always factory-owned, regardless of the adapter response.
+      // Factory-owned runtime files are injected only after candidate output is validated.
       fs.copyFileSync(path.join(__dirname,'../gamekit/gamekit.js'),path.join(work,'gamekit.js'));
+      if(m.render_runtime==='phaser4'){
+        const verified=verifyPhaserRuntime(this.phaserRuntimePath,this.phaserRuntimePolicy||undefined);
+        fs.copyFileSync(verified.file,path.join(work,'phaser-runtime.js'));
+        fs.copyFileSync(path.join(__dirname,'../gamekit/phaser-gamekit.js'),path.join(work,'phaser-gamekit.js'));
+      }
       const descriptor={...m,history:[],failure_reasons:[]};
       for(const key of ['source_hash','policy_hash','branch','pr_number','pr_url','rc_commit','deployment_id'])delete descriptor[key];
       atomicJSON(path.join(work,'manifest.json'),descriptor);
