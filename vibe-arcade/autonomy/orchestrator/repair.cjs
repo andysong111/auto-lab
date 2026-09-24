@@ -29,7 +29,7 @@ function requestFor(m,qa) {
   const deferred_failure_counts=failureCounts(allFailures);
   deferred_failure_counts[repair_stage]=0;
   return {schema_version:1,game_id:m.game_id,version:m.version,target_version:'v'+(Number(m.version.slice(1))+1),attempt:m.repair_attempt+1,
-    max_repair_attempts:m.max_repair_attempts,source_hash:m.source_hash||null,repair_stage,deferred_failure_counts,
+    max_repair_attempts:m.max_repair_attempts,source_hash:m.source_hash||null,repair_stage,repair_strategy:'targeted',deferred_failure_counts,
     qa_failures,
     ...(m.product_contract?{product_contract:m.product_contract,product_evidence_index:`${m.version}/artifact-index.json`,product_acceptance:'Fix every independent product failure. Preserve exact selectors, diagnostic paths and reviewed oracle. Use expected/actual and evidence references; never alter tests or lower the contract.'}:{}),
     ...(m.commercial_contract?{commercial_contract:m.commercial_contract,commercial_evidence_index:`${m.version}/commercial/artifact-index.json`,commercial_acceptance:'Fix all independent commercial issues using state pairs, local regions, expected/actual pixels, before/intermediate/settled captures, stage and viewport. Preserve contracts and reviewed oracle. Do not change tests or substitute numeric-only progression.'}:{}),
@@ -38,4 +38,19 @@ function requestFor(m,qa) {
     acceptance_tests:['manifest schema','all three real browser viewports','no console/page errors','start/progress/input/interaction','terminal/restart/pause/resume/hidden','no side effects','source and resource bounds'],
     operation_id:`${m.game_id}/repair/${m.repair_attempt+1}`};
 }
-module.exports={requestFor,protectedPaths,classifyFailureStage,selectRepairStage,failureCounts,repairStageOrder};
+function failureKey(f){
+  const v=f?.viewport;return JSON.stringify([f?.code||'',f?.check||'',f?.selector||'',f?.state_path||'',f?.probe||'',f?.phase||'',v?.width??v??null,v?.height??null]);
+}
+function noMeaningfulImprovement(previous,current){
+  if(!previous||!current||previous.repair_stage!==current.repair_stage)return false;
+  const before=new Set((previous.qa_failures||[]).map(failureKey)),after=new Set((current.qa_failures||[]).map(failureKey));
+  if(!before.size)return false;
+  let persisted=0;for(const key of before)if(after.has(key))persisted++;
+  return persisted>=Math.ceil(before.size*.8)&&after.size>=before.size;
+}
+function planRepair(m,qa,previousRequests=[]){
+  const request=requestFor(m,qa),last=previousRequests.at(-1),prior=previousRequests.at(-2);
+  if(noMeaningfulImprovement(last,request)&&noMeaningfulImprovement(prior,last))request.repair_strategy='structural_rewrite';
+  return request;
+}
+module.exports={requestFor,planRepair,protectedPaths,classifyFailureStage,selectRepairStage,failureCounts,repairStageOrder,noMeaningfulImprovement,failureKey};
