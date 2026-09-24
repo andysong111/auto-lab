@@ -30,8 +30,8 @@ function validateOutput(raw,request,limits) {
       if(bypass)throw modelError('presentation_runtime_bypass: app.js must use GameKit + PhaserKit lifecycle');
     }
     if(f.path==='view/art.js') {
-      const bypass=/\brequestAnimationFrame\b|\.tweens\.add\s*\(|\.cameras\.main\.shake\s*\(|\.input\.(?:keyboard|on|addPointer)/.exec(f.content);
-      if(bypass)throw modelError('presentation_runtime_bypass: use PhaserKit motion/input helpers');
+      const bypass=/\brequestAnimationFrame\b|\.tweens\.add\s*\(|\.cameras\.main\.shake\s*\(|\.input\.(?:keyboard|on|addPointer)|\.add\.text\s*\(/.exec(f.content);
+      if(bypass)throw modelError('presentation_runtime_bypass: use PhaserKit motion/input helpers and keep contract text in DOM');
     }
     if(f.path==='core.js') {
       const match=/\b(?:document|window|localStorage|fetch|Phaser)\b/.exec(f.content);
