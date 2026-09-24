@@ -20,10 +20,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Download official Phaser runtime without executing it
-        run: node vibe-arcade/autonomy/gamekit/fetch-phaser-runtime.cjs "$RUNNER_TEMP/phaser-4.2.1.min.js"
+      - name: Install dependencies
+        run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Download and verify official Phaser runtime without executing it
+        run: |
+          node vibe-arcade/autonomy/gamekit/fetch-phaser-runtime.cjs "$RUNNER_TEMP/phaser-4.2.1.min.js"
+          echo "FACTORY_PHASER_RUNTIME=$RUNNER_TEMP/phaser-4.2.1.min.js" >> "$GITHUB_ENV"
+      - name: Install Chromium for the Phaser lane smoke
+        run: vibe-arcade/autonomy/node_modules/.bin/playwright install --with-deps chromium
+      - name: Real browser Phaser lane smoke
+        run: npm run test:phaser --prefix vibe-arcade/autonomy
       - uses: actions/upload-artifact@v4
         with:
-          name: phaser-4.2.1-runtime-discovery
+          name: phaser-4.2.1-runtime-pinned
           path: ${{ runner.temp }}/phaser-4.2.1.min.js
-          retention-days: 1
+          retention-days: 7
