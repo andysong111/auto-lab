@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path');
 const {create,transition}=require('./manifest.cjs');
 const {safePath,atomicJSON,readJSON,copyGame,inspectGame,hashTree,hash,listFiles}=require('./files.cjs');
-const {requestFor}=require('./repair.cjs'),{evaluate}=require('./quality.cjs');
+const {planRepair}=require('./repair.cjs'),{evaluate}=require('./quality.cjs');
 const {runQA}=require('../qa/runner.cjs');
 const policy=require('../policies/quality-gate.json');
 class Factory {
@@ -26,6 +26,10 @@ class Factory {
   artifact(m,name) { return this.store.artifact(m.game_id,m.version+'/'+name); }
   spec(m) { return readJSON(path.join(path.dirname(this.store.file(m.game_id)),'spec.json')); }
   repairHistory(m) { const file=this.store.artifact(m.game_id,'repair-history.json');return fs.existsSync(file)?readJSON(file):[]; }
+  repairRequests(m) {
+    const rows=[];for(let n=1;n<=m.repair_attempt;n++){const file=this.store.artifact(m.game_id,`repair-${n}.json`);if(fs.existsSync(file))rows.push(readJSON(file));}
+    return rows;
+  }
   history(m,entry) {
     const rows=this.repairHistory(m),i=rows.findIndex(r=>r.attempt===entry.attempt);
     if(i>=0)rows[i]={...rows[i],...entry};else rows.push(entry);
@@ -104,7 +108,7 @@ class Factory {
             if(m.failure_reasons.some(f=>this.policy.fatal_codes.includes(f.code))||m.repair_attempt>=m.max_repair_attempts) {
               m=this.move(m,'REJECTED',{quality_status:'REJECT',release_status:'REJECTED'});return m;
             }
-            const request=requestFor(m,{hard_failures:m.failure_reasons});
+            const request=planRepair(m,{hard_failures:m.failure_reasons},this.repairRequests(m));
             atomicJSON(this.store.artifact(id,`repair-${request.attempt}.json`),request);
             m=this.move(m,'REPAIR_PENDING');break;
           }
