@@ -12,5 +12,5 @@
     if (s.tick >= 600) s.finished = true;
   }
   const api = {create, step, terminal: s => s.finished, observe: s => ({tick:s.tick, score:s.score, progress:s.progress, interactions:s.interactions, entities:1})};
-  root.GameCore = api; if (typeof module !== 'undefined') module.exports = api;
+  globalThis.GameCore = api; if (typeof module !== 'undefined') module.exports = api;
 })(globalThis);
