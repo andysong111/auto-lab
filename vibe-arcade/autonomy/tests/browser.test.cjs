@@ -29,6 +29,15 @@ test('real Chromium: successful factory run covers desktop/tablet/mobile and cap
   for(const c of qa.browser_cases)assert(c.checks.includes('touch')&&c.checks.includes('real_clock')&&c.checks.includes('terminal'));
   assert.equal(qa.side_effects.length,0);assert.equal(qa.console_errors.length,0);
 });
+test('real Chromium: factory-owned Phaser 4.2.1 presentation runs locally with canonical GameKit simulation',async t=>{
+  const phaserSource=path.resolve(__dirname,'../fixtures/phaser'),env=setup(t,{source:phaserSource}),{factory,spec}=env;
+  await factory.create(spec);const m=await factory.run(spec.game_id);save('phaser4',env,m);
+  assert.equal(m.state,'RC_READY');const root=factory.source(m),qa=readJSON(factory.artifact(m,'qa.json'));
+  assert.equal(qa.passed,true,JSON.stringify(qa.hard_failures));assert.equal(qa.side_effects.length,0);
+  for(const name of ['phaser.min.js','phaserkit.js','gamekit.js','manifest.json'])assert(fs.existsSync(path.join(root,name)),name);
+  assert(fs.statSync(path.join(root,'phaser.min.js')).size>500000,'local Phaser runtime should be present, not a CDN stub');
+  assert.equal(require('../node_modules/phaser/package.json').version,'4.2.1');
+});
 test('real Chromium: deliberately frozen fixture -> repair request -> actual repaired QA PASS',async t=>{
   const env=setup(t),{factory,root,spec}=env;factory.builder=new WorkspaceBuilder(fixture(root,'broken'));factory.repairer=new WorkspaceRepair([source]);
   await factory.create(spec);const m=await factory.run(spec.game_id);save('repaired',env,m);
