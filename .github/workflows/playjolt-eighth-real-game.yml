@@ -29,7 +29,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh api "repos/$GITHUB_REPOSITORY/issues/75/comments" -f body="Eighth commissioning run started: run_id=$GITHUB_RUN_ID head=$GITHUB_SHA. GAME-20260924-181 / Pulse Loom. Production authorization=false."
+          gh api "repos/$GITHUB_REPOSITORY/issues/76/comments" -f body="Eighth commissioning run started: run_id=$GITHUB_RUN_ID head=$GITHUB_SHA. GAME-20260924-181 / Pulse Loom. Production authorization=false."
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
@@ -73,7 +73,7 @@ jobs:
             REPAIRS="$(jq -r '.factory.repair_attempt // "?"' "$FILE")"
             CALLS="$(jq -r '.total_calls // "?"' "$FILE")"
             COST="$(jq -r '.total_estimated_cost // "?"' "$FILE")"
-            gh api "repos/$GITHUB_REPOSITORY/issues/75/comments" -f body="Eighth commissioning checkpoint: run_id=$GITHUB_RUN_ID state=$STATE version=$VERSION repair=$REPAIRS/5 provider_calls=$CALLS estimated_cost_usd=$COST production_authorization=false."
+            gh api "repos/$GITHUB_REPOSITORY/issues/76/comments" -f body="Eighth commissioning checkpoint: run_id=$GITHUB_RUN_ID state=$STATE version=$VERSION repair=$REPAIRS/5 provider_calls=$CALLS estimated_cost_usd=$COST production_authorization=false."
           else
-            gh api "repos/$GITHUB_REPOSITORY/issues/75/comments" -f body="Eighth commissioning workflow ended without commissioning-summary.json: run_id=$GITHUB_RUN_ID. Inspect workflow/artifact; production authorization remains false."
+            gh api "repos/$GITHUB_REPOSITORY/issues/76/comments" -f body="Eighth commissioning workflow ended without commissioning-summary.json: run_id=$GITHUB_RUN_ID. Inspect workflow/artifact; production authorization remains false."
           fi
