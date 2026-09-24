@@ -4,7 +4,7 @@
 (function (root) {
   'use strict';
   const clone = x => JSON.parse(JSON.stringify(x));
-  function create({core, draw, canvas, metadata, rankedAdapter = null, seed, capture, qa, presentation = () => ({})}) {
+  function create({core, draw = null, renderer = null, canvas, metadata, rankedAdapter = null, seed, capture, qa, presentation = () => ({})}) {
     const query = new URLSearchParams(location.search);
     capture = capture === true || query.get('capture') === '1';
     qa = qa === true || query.get('qa') === '1';
@@ -50,7 +50,9 @@
         quality: o.quality || null, presentation: {...(presentation() || {}), platform_reduced_motion: reducedMotion}});
     }
     function render() {
-      const s = snapshot(); draw(canvas.getContext('2d'), s, {width: canvas.width, height: canvas.height});
+      const s = snapshot(), size={width: canvas.width, height: canvas.height};
+      if(renderer?.render) renderer.render(s,size);
+      else { if(typeof draw!=='function') throw Error('renderer_missing'); draw(canvas.getContext('2d'),s,size); }
       q('score').textContent = String(s.score); q('progress').textContent = String(s.progress);
       if (productContract) {
         setText(productContract.objective?.visible_selector, productContract.objective?.expected_text);
@@ -136,9 +138,11 @@
     on(window, 'pagehide', safe(e => { pause(); if (!e.persisted) dispose(); }));
     on(window, 'pageshow', safe(() => { last = performance.now(); acc = 0; }));
     on(window, 'error', e => fail(e.error || e.message)); on(window, 'unhandledrejection', e => fail(e.reason));
-    function resize() { const r = canvas.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2); canvas.width = Math.max(1, Math.round(r.width*dpr)); canvas.height = Math.max(1, Math.round(r.height*dpr)); safe(render)(); }
+    function resize() { const r = canvas.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2), width=Math.max(1,Math.round(r.width*dpr)), height=Math.max(1,Math.round(r.height*dpr));
+      if(renderer?.resize) renderer.resize({width,height,dpr,cssWidth:r.width,cssHeight:r.height}); else {canvas.width=width;canvas.height=height;}
+      safe(render)(); }
     const observer = new ResizeObserver(resize); observer.observe(canvas);
-    function dispose() { if (disposed) return; disposed = true; epoch++; resetInput(); cancelAnimationFrame(frame); observer.disconnect(); for (const remove of removers) remove(); }
+    function dispose() { if (disposed) return; disposed = true; epoch++; resetInput(); cancelAnimationFrame(frame); observer.disconnect(); for (const remove of removers) remove(); try{renderer?.destroy?.();}catch{} }
     // Reserved adapter slot, intentionally no start/finish/ranking traffic in Phase 1.
     // Existing LoopJoltRuntime remains the future server-verified ranked boundary.
     void rankedAdapter; void epoch;
@@ -147,6 +151,6 @@
     resize(); last = performance.now(); frame = requestAnimationFrame(loop);
     return Object.freeze({start: safe(start), pause: safe(pause), resume: safe(resume), finish: safe(finish), restart: safe(restart), dispose, diagnostics});
   }
-  const api = Object.freeze({create, version: 'gamekit-1'});
+  const api = Object.freeze({create, version: 'gamekit-2'});
   root.PlayJoltGameKit = api; if (typeof module !== 'undefined') module.exports = api;
 })(globalThis);
