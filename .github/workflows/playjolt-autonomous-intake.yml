@@ -1,0 +1,125 @@
+name: PlayJolt Autonomous Intake
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: playjolt-autonomous-intake
+  cancel-in-progress: false
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Enforce one-at-a-time and daily cap
+        id: guard
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          ACTIVE="$(gh run list --workflow 'PlayJolt Autonomous Candidate Cycle' --status in_progress --limit 1 --json databaseId --jq 'length')"
+          QUEUED="$(gh run list --workflow 'PlayJolt Autonomous Candidate Cycle' --status queued --limit 1 --json databaseId --jq 'length')"
+          if [ "$ACTIVE" -gt 0 ] || [ "$QUEUED" -gt 0 ]; then
+            echo "spawn=false" >> "$GITHUB_OUTPUT"
+            echo "reason=cycle_active" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          LATEST="$(gh api "repos/$GITHUB_REPOSITORY/pulls?state=open&per_page=100" --jq '[.[] | select(.head.ref | startswith("commissioning/auto-"))][0].number // empty')"
+          if [ -n "$LATEST" ]; then
+            LAST_STATE="$(gh api "repos/$GITHUB_REPOSITORY/issues/$LATEST/comments?per_page=100" --paginate --jq '[.[].body | select(test("Autonomous cycle checkpoint:")) | capture("state=(?<state>[A-Z_]+)").state] | last // empty')"
+            if [ -z "$LAST_STATE" ]; then
+              echo "spawn=false" >> "$GITHUB_OUTPUT"
+              echo "reason=latest_candidate_not_terminal" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            case "$LAST_STATE" in
+              REJECTED)
+                gh pr close "$LATEST" --comment "Autonomous intake: terminal REJECTED candidate archived; continuing to the next bounded experiment."
+                ;;
+              RC_READY|READY_TO_SHIP)
+                ;;
+              *)
+                echo "spawn=false" >> "$GITHUB_OUTPUT"
+                echo "reason=latest_candidate_nonterminal_$LAST_STATE" >> "$GITHUB_OUTPUT"
+                exit 0
+                ;;
+            esac
+          fi
+
+          TODAY="$(date -u +%Y-%m-%d)"
+          COUNT="$(gh api "repos/$GITHUB_REPOSITORY/pulls?state=all&per_page=100" --jq "[.[] | select(.head.ref | startswith(\"commissioning/auto-\")) | select(.created_at | startswith(\"$TODAY\"))] | length")"
+          if [ "$COUNT" -ge 4 ]; then
+            echo "spawn=false" >> "$GITHUB_OUTPUT"
+            echo "reason=daily_candidate_cap" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "spawn=true" >> "$GITHUB_OUTPUT"
+          echo "reason=ready" >> "$GITHUB_OUTPUT"
+
+      - name: Generate trusted next candidate
+        if: steps.guard.outputs.spawn == 'true'
+        id: generate
+        run: |
+          set -euo pipefail
+          DATE="$(TZ=Asia/Seoul date +%Y%m%d)"
+          SEQUENCE="$((1000 + GITHUB_RUN_NUMBER))"
+          SLOT="auto-$DATE-$SEQUENCE"
+          BRANCH="commissioning/$SLOT"
+          OUT="vibe-arcade/autonomy/commissioning/$SLOT"
+          node vibe-arcade/autonomy/cycle/generate.cjs --date "$DATE" --sequence "$SEQUENCE" --out "$OUT" > "$RUNNER_TEMP/generated.json"
+          GAME_ID="$(jq -r '.definition.game_id' "$RUNNER_TEMP/generated.json")"
+          TITLE="$(jq -r '.definition.title' "$RUNNER_TEMP/generated.json")"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          echo "out=$OUT" >> "$GITHUB_OUTPUT"
+          echo "game_id=$GAME_ID" >> "$GITHUB_OUTPUT"
+          echo "title=$TITLE" >> "$GITHUB_OUTPUT"
+
+      - name: Commit generated candidate branch
+        if: steps.guard.outputs.spawn == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          BRANCH="${{ steps.generate.outputs.branch }}"
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            echo "Branch already exists; treating rerun as idempotent."
+            exit 0
+          fi
+          git config user.name "playjolt-autonomous-intake"
+          git config user.email "actions@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add "${{ steps.generate.outputs.out }}"
+          git commit -m "Queue autonomous candidate ${{ steps.generate.outputs.game_id }}"
+          git push origin "$BRANCH"
+
+      - name: Open draft PR and dispatch cycle
+        if: steps.guard.outputs.spawn == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          BRANCH="${{ steps.generate.outputs.branch }}"
+          OUT="${{ steps.generate.outputs.out }}"
+          GAME="${{ steps.generate.outputs.game_id }}"
+          TITLE="${{ steps.generate.outputs.title }}"
+          EXISTING="$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')"
+          if [ -z "$EXISTING" ]; then
+            gh pr create --draft --base main --head "$BRANCH" --title "Autonomous candidate: $TITLE ($GAME)" --body "Trusted autonomous intake candidate. One candidate at a time; maximum 6 provider calls / USD 2 estimated cost; Production OFF. The generic cycle performs preflight, reviewed-contract verification, Docker QA, bounded Build/Repair and terminal checkpoint without chat intervention."
+          fi
+          gh workflow run playjolt-autonomous-cycle.yml --ref "$BRANCH" -f request_path="$OUT/preflight-request.json"
