@@ -1,0 +1,79 @@
+name: PlayJolt Ninth Candidate Commissioning
+on:
+  push:
+    branches:
+      - 'commissioning/ninth-real-game-20260925'
+    paths:
+      - 'vibe-arcade/autonomy/commissioning/ninth-real-game/run-request.json'
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: playjolt-ninth-real-game-GAME-20260925-191
+  cancel-in-progress: false
+
+jobs:
+  commission:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - name: Bind dedicated worker root
+        run: |
+          echo "AUTO_PRODUCTION_SHIP=false" >> "$GITHUB_ENV"
+          echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/ninth-state" >> "$GITHUB_ENV"
+      - name: Announce bounded commissioning run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/issues/79/comments" -f body="Ninth commissioning run started: run_id=$GITHUB_RUN_ID head=$GITHUB_SHA. GAME-20260925-191 / Beacon Forge. Production authorization=false."
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Trusted candidate preflight
+        run: node vibe-arcade/autonomy/commissioning/ninth-real-game/commission.cjs prepare
+      - name: Build trusted Docker QA image
+        run: |
+          docker build --iidfile "$RUNNER_TEMP/ninth-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/ninth-image")" >> "$GITHUB_ENV"
+      - name: Run bounded provider and staged repair loop
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FACTORY_OPENAI_MODEL: gpt-5.6-terra
+          FACTORY_ALLOW_PAID_CALLS: '1'
+        run: node vibe-arcade/autonomy/commissioning/ninth-real-game/commission.cjs run
+      - name: Preserve lifetime accounting
+        if: always()
+        run: |
+          node vibe-arcade/autonomy/commissioning/ninth-real-game/commission.cjs summarize || true
+          node vibe-arcade/autonomy/control-plane/cli.cjs dashboard --root "$FACTORY_WORKER_ROOT" --policy "$FACTORY_WORKER_ROOT/control-policy.json" --provider-ready true || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ninth-real-game-lifetime-checkpoint
+          path: ${{ runner.temp }}/ninth-state
+          include-hidden-files: true
+          retention-days: 30
+      - name: Report terminal checkpoint
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          FILE="$FACTORY_WORKER_ROOT/commissioning-summary.json"
+          if [ -f "$FILE" ]; then
+            STATE="$(jq -r '.factory.state // "UNKNOWN"' "$FILE")"
+            VERSION="$(jq -r '.factory.version // "?"' "$FILE")"
+            REPAIRS="$(jq -r '.factory.repair_attempt // "?"' "$FILE")"
+            CALLS="$(jq -r '.total_calls // "?"' "$FILE")"
+            COST="$(jq -r '.total_estimated_cost // "?"' "$FILE")"
+            gh api "repos/$GITHUB_REPOSITORY/issues/79/comments" -f body="Ninth commissioning checkpoint: run_id=$GITHUB_RUN_ID state=$STATE version=$VERSION repair=$REPAIRS/5 provider_calls=$CALLS estimated_cost_usd=$COST production_authorization=false."
+          else
+            gh api "repos/$GITHUB_REPOSITORY/issues/79/comments" -f body="Ninth commissioning workflow ended without commissioning-summary.json: run_id=$GITHUB_RUN_ID. Inspect workflow/artifact; production authorization remains false."
+          fi
