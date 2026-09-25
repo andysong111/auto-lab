@@ -1,0 +1,30 @@
+{
+  "schema": "playjolt-cycle-queue/1",
+  "policy": {
+    "production_authorized": false,
+    "max_provider_calls_per_candidate": 6,
+    "max_estimated_usd_per_candidate": 2,
+    "max_candidates_per_day": 1,
+    "note": "Only explicitly reviewed candidate branches are queued. Terminal RC/REJECT may advance to the next pre-reviewed slot; Production remains off."
+  },
+  "entries": [
+    {
+      "branch": "commissioning/ninth-real-game-20260925",
+      "request_path": "vibe-arcade/autonomy/commissioning/ninth-real-game/preflight-request.json",
+      "game_id": "GAME-20260925-191",
+      "candidate": "Beacon Forge"
+    },
+    {
+      "branch": "commissioning/tenth-real-game-20260926",
+      "request_path": "vibe-arcade/autonomy/commissioning/tenth-real-game/preflight-request.json",
+      "game_id": "GAME-20260926-201",
+      "candidate": "Shield Mosaic"
+    },
+    {
+      "branch": "commissioning/eleventh-real-game-20260926",
+      "request_path": "vibe-arcade/autonomy/commissioning/eleventh-real-game/queued-request.json",
+      "game_id": "GAME-20260926-211",
+      "candidate": "Vector Parade"
+    }
+  ]
+}
