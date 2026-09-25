@@ -37,3 +37,15 @@ There is no separate chat message or manual run-request commit between preflight
 ## Remaining v2 work
 
 v1 removes the stage-to-stage chat dependency. Generating the *next new mechanic/spec itself* still requires a reviewed intake source. v2 will add a trusted bounded candidate generator/queue so terminal RC/REJECT can feed the next candidate without chat.
+
+
+## Queue supervisor retry safety
+
+The queue supervisor is idempotent by candidate branch SHA. Before dispatching a queued candidate, it resolves the branch's current commit and checks prior `PlayJolt Autonomous Candidate Cycle` runs for that exact SHA.
+
+- an unchanged candidate SHA that already ran is never dispatched again automatically;
+- a reviewed code change produces a new SHA and can be dispatched on a later supervisor pass;
+- the daily candidate cap still applies;
+- Production remains off.
+
+This prevents a preflight/build failure from silently consuming another daily slot with identical source.
