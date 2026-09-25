@@ -1,0 +1,49 @@
+name: PlayJolt Queued Candidate Preflight
+on:
+  push:
+    branches:
+      - 'commissioning/**'
+    paths:
+      - 'vibe-arcade/autonomy/commissioning/*/queued-request.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: playjolt-queued-preflight-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Resolve queued candidate
+        id: resolve
+        run: |
+          REQUEST="$(git show --pretty='' --name-only "$GITHUB_SHA" | grep -E '^vibe-arcade/autonomy/commissioning/[^/]+/queued-request\.json$' | head -n 1)"
+          test -n "$REQUEST"
+          META="$(node vibe-arcade/autonomy/cycle/resolve.cjs "$REQUEST")"
+          echo "script=$(printf '%s' "$META" | jq -r '.commission_script')" >> "$GITHUB_OUTPUT"
+          echo "game_id=$(printf '%s' "$META" | jq -r '.game_id')" >> "$GITHUB_OUTPUT"
+          echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/queued-preflight" >> "$GITHUB_ENV"
+          echo "AUTO_PRODUCTION_SHIP=false" >> "$GITHUB_ENV"
+      - name: Zero-paid prepare
+        run: node "${{ steps.resolve.outputs.script }}" prepare
+      - name: Verify reviewed contracts
+        run: node "${{ steps.resolve.outputs.script }}" reviews
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: queued-preflight-${{ steps.resolve.outputs.game_id }}
+          path: ${{ runner.temp }}/queued-preflight
+          include-hidden-files: true
+          retention-days: 14
