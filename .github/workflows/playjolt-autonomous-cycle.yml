@@ -54,6 +54,7 @@ jobs:
           echo "usd_ceiling=$(printf '%s' "$META" | jq -r '.estimated_usd_ceiling')" >> "$GITHUB_OUTPUT"
           echo "provider_calls=$(printf '%s' "$META" | jq -r '.authorized_provider_calls')" >> "$GITHUB_OUTPUT"
           echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/playjolt-auto-cycle" >> "$GITHUB_ENV"
+          echo "PLAYJOLT_REQUEST_PATH=$REQUEST" >> "$GITHUB_ENV"
           echo "AUTO_PRODUCTION_SHIP=false" >> "$GITHUB_ENV"
       - name: Announce autonomous cycle
         env:
