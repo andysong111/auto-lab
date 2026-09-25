@@ -1,0 +1,74 @@
+name: PlayJolt Candidate Queue Supervisor
+on:
+  workflow_run:
+    workflows:
+      - 'PlayJolt Autonomous Candidate Cycle'
+      - 'PlayJolt Ninth Candidate Commissioning'
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      current_branch:
+        description: 'Completed commissioning branch'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: playjolt-candidate-queue-supervisor
+  cancel-in-progress: false
+
+jobs:
+  advance:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Resolve next reviewed candidate
+        id: next
+        env:
+          MANUAL_BRANCH: ${{ inputs.current_branch }}
+          COMPLETED_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          CURRENT="${MANUAL_BRANCH:-$COMPLETED_BRANCH}"
+          test -n "$CURRENT"
+          NEXT="$(node vibe-arcade/autonomy/cycle/queue.cjs next "$CURRENT")"
+          if [ "$NEXT" = "null" ]; then
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "available=true" >> "$GITHUB_OUTPUT"
+          echo "branch=$(printf '%s' "$NEXT" | jq -r '.branch')" >> "$GITHUB_OUTPUT"
+          echo "request=$(printf '%s' "$NEXT" | jq -r '.request_path')" >> "$GITHUB_OUTPUT"
+          echo "game_id=$(printf '%s' "$NEXT" | jq -r '.game_id')" >> "$GITHUB_OUTPUT"
+          echo "candidate=$(printf '%s' "$NEXT" | jq -r '.candidate')" >> "$GITHUB_OUTPUT"
+      - name: Enforce one new candidate per UTC day
+        if: steps.next.outputs.available == 'true'
+        id: daily
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          SINCE="$(date -u +%Y-%m-%dT00:00:00Z)"
+          COUNT="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/playjolt-autonomous-cycle.yml/runs?event=workflow_dispatch&per_page=100" --jq "[.workflow_runs[] | select(.created_at >= \"$SINCE\")] | length")"
+          if [ "$COUNT" -ge 1 ]; then
+            echo "allowed=false" >> "$GITHUB_OUTPUT"
+            echo "Daily candidate cap reached; next slot remains queued."
+          else
+            echo "allowed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Dispatch next reviewed candidate
+        if: steps.next.outputs.available == 'true' && steps.daily.outputs.allowed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run playjolt-autonomous-cycle.yml \
+            --ref "${{ steps.next.outputs.branch }}" \
+            -f request_path="${{ steps.next.outputs.request }}"
+          echo "Dispatched ${{ steps.next.outputs.game_id }} / ${{ steps.next.outputs.candidate }} on ${{ steps.next.outputs.branch }}"
