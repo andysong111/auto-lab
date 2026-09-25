@@ -1,0 +1,106 @@
+name: PlayJolt Autonomous Candidate Cycle
+on:
+  push:
+    branches:
+      - 'commissioning/**'
+    paths:
+      - 'vibe-arcade/autonomy/commissioning/*/preflight-request.json'
+  workflow_dispatch:
+    inputs:
+      request_path:
+        description: 'Commissioning preflight-request.json path'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: playjolt-auto-cycle-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  cycle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Resolve explicitly authorized candidate
+        id: resolve
+        env:
+          MANUAL_REQUEST: ${{ inputs.request_path }}
+        run: |
+          if [ -n "$MANUAL_REQUEST" ]; then
+            REQUEST="$MANUAL_REQUEST"
+          else
+            REQUEST="$(git show --pretty='' --name-only "$GITHUB_SHA" | grep -E '^vibe-arcade/autonomy/commissioning/[^/]+/preflight-request\.json$' | head -n 1)"
+          fi
+          test -n "$REQUEST"
+          META="$(node vibe-arcade/autonomy/cycle/resolve.cjs "$REQUEST")"
+          echo "request=$REQUEST" >> "$GITHUB_OUTPUT"
+          echo "script=$(printf '%s' "$META" | jq -r '.commission_script')" >> "$GITHUB_OUTPUT"
+          echo "game_id=$(printf '%s' "$META" | jq -r '.game_id')" >> "$GITHUB_OUTPUT"
+          echo "candidate=$(printf '%s' "$META" | jq -r '.candidate')" >> "$GITHUB_OUTPUT"
+          echo "usd_ceiling=$(printf '%s' "$META" | jq -r '.estimated_usd_ceiling')" >> "$GITHUB_OUTPUT"
+          echo "provider_calls=$(printf '%s' "$META" | jq -r '.authorized_provider_calls')" >> "$GITHUB_OUTPUT"
+          echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/playjolt-auto-cycle" >> "$GITHUB_ENV"
+          echo "AUTO_PRODUCTION_SHIP=false" >> "$GITHUB_ENV"
+      - name: Announce autonomous cycle
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PR="$(gh pr list --head "$GITHUB_REF_NAME" --state open --json number --jq '.[0].number // empty')"
+          if [ -n "$PR" ]; then
+            gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -f body="Autonomous cycle started: run_id=$GITHUB_RUN_ID game=${{ steps.resolve.outputs.game_id }} candidate=${{ steps.resolve.outputs.candidate }} provider_calls<=${{ steps.resolve.outputs.provider_calls }} cost<=USD${{ steps.resolve.outputs.usd_ceiling }} production=false."
+          fi
+      - name: Zero-paid preflight
+        run: node "${{ steps.resolve.outputs.script }}" prepare
+      - name: Verify reviewed contracts
+        run: node "${{ steps.resolve.outputs.script }}" reviews
+      - name: Build trusted Docker QA image
+        run: |
+          docker build --iidfile "$RUNNER_TEMP/qa-image" -f vibe-arcade/autonomy/isolation/Dockerfile vibe-arcade/autonomy
+          echo "FACTORY_QA_IMAGE=$(cat "$RUNNER_TEMP/qa-image")" >> "$GITHUB_ENV"
+      - name: Run bounded provider and repair loop
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FACTORY_OPENAI_MODEL: gpt-5.6-terra
+          FACTORY_ALLOW_PAID_CALLS: '1'
+        run: node "${{ steps.resolve.outputs.script }}" run
+      - name: Preserve lifetime accounting
+        if: always()
+        run: |
+          node "${{ steps.resolve.outputs.script }}" summarize || true
+          node vibe-arcade/autonomy/control-plane/cli.cjs dashboard --root "$FACTORY_WORKER_ROOT" --policy "$FACTORY_WORKER_ROOT/control-policy.json" --provider-ready true || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playjolt-auto-cycle-${{ steps.resolve.outputs.game_id }}
+          path: ${{ runner.temp }}/playjolt-auto-cycle
+          include-hidden-files: true
+          retention-days: 30
+      - name: Report terminal checkpoint
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PR="$(gh pr list --head "$GITHUB_REF_NAME" --state open --json number --jq '.[0].number // empty')"
+          FILE="$FACTORY_WORKER_ROOT/commissioning-summary.json"
+          if [ -n "$PR" ] && [ -f "$FILE" ]; then
+            STATE="$(jq -r '.factory.state // "UNKNOWN"' "$FILE")"
+            VERSION="$(jq -r '.factory.version // "?"' "$FILE")"
+            REPAIRS="$(jq -r '.factory.repair_attempt // "?"' "$FILE")"
+            CALLS="$(jq -r '.total_calls // "?"' "$FILE")"
+            COST="$(jq -r '.total_estimated_cost // "?"' "$FILE")"
+            gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -f body="Autonomous cycle checkpoint: run_id=$GITHUB_RUN_ID state=$STATE version=$VERSION repair=$REPAIRS/5 provider_calls=$CALLS estimated_cost_usd=$COST production=false."
+          fi
