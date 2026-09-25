@@ -13,6 +13,12 @@
       "request_path": "vibe-arcade/autonomy/commissioning/ninth-real-game/preflight-request.json",
       "game_id": "GAME-20260925-191",
       "candidate": "Beacon Forge"
+    },
+    {
+      "branch": "commissioning/tenth-real-game-20260926",
+      "request_path": "vibe-arcade/autonomy/commissioning/tenth-real-game/preflight-request.json",
+      "game_id": "GAME-20260926-201",
+      "candidate": "Shield Mosaic"
     }
   ]
 }
