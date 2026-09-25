@@ -1,0 +1,42 @@
+name: PlayJolt Ninth Candidate Preflight
+on:
+  push:
+    branches:
+      - 'commissioning/ninth-real-game-20260925'
+    paths:
+      - 'vibe-arcade/autonomy/commissioning/ninth-real-game/preflight-request.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: playjolt-ninth-preflight-GAME-20260925-191
+  cancel-in-progress: true
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Bind dedicated worker root
+        run: |
+          echo "AUTO_PRODUCTION_SHIP=false" >> "$GITHUB_ENV"
+          echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/ninth-preflight" >> "$GITHUB_ENV"
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Validate candidate graph and contracts
+        run: node vibe-arcade/autonomy/commissioning/ninth-real-game/commission.cjs prepare
+      - name: Verify reviewed data
+        run: node vibe-arcade/autonomy/commissioning/ninth-real-game/commission.cjs reviews
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ninth-real-game-preflight
+          path: ${{ runner.temp }}/ninth-preflight
+          include-hidden-files: true
+          retention-days: 14
