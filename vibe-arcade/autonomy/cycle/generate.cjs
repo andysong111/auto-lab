@@ -9,15 +9,16 @@ function buildDefinition({date,sequence}){
   const serial=String(200+(sequence%999700));
   const seedBase=1000+(sequence%90000)*10;
   const seeds=[0,1,2,3,4,5].map(i=>seedBase+i);
+  const mark=(sequence%46656).toString(36).toUpperCase().padStart(3,'0');
   if(sequence%2===0){
     const a=['Signal','Ember','Prism','Nova','Vector','Aurora','Ion','Echo'];
     const b=['Spires','Pylons','Towers','Beacons','Forges','Columns','Relays','Crowns'];
-    const title=a[sequence%a.length]+' '+b[Math.floor(sequence/a.length)%b.length];
+    const title=a[sequence%a.length]+' '+b[Math.floor(sequence/a.length)%b.length]+' '+mark;
     return {schema:'playjolt-trusted-candidate/1',game_id:'GAME-'+date+'-'+serial,sequence,family:'binary-pylon',title,slug:norm(title),mechanic_family:'seeded-binary-pylon-tuning',seeds,objective:'Tune 3 signal tiers. Ignite the crown.',success_text:'CROWN IGNITED',failure_text:'SIGNAL COOLED',visual_theme:'dark signal forge of luminous pylons, target ghosts and a central crown core'};
   }
   const a=['Glyph','Relic','Rune','Cipher','Token','Sigil','Arc','Lattice'];
   const b=['Order','Archive','Sequence','Line','Deck','Chain','Array','Index'];
-  const title=a[sequence%a.length]+' '+b[Math.floor(sequence/a.length)%b.length];
+  const title=a[sequence%a.length]+' '+b[Math.floor(sequence/a.length)%b.length]+' '+mark;
   return {schema:'playjolt-trusted-candidate/1',game_id:'GAME-'+date+'-'+serial,sequence,family:'adjacent-order',title,slug:norm(title),mechanic_family:'seeded-adjacent-order-reconstruction',seeds,objective:'Rebuild 3 glyph rows. Seal the Archive.',success_text:'ARCHIVE SEALED',failure_text:'ORDER FRACTURED',visual_theme:'dark kinetic archive of large glyph plates, target strips and mechanical seal bands'};
 }
 function writeCandidate(out,def){
