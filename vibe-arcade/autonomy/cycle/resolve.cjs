@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path');
 
-const REQUEST_RE=/^vibe-arcade\/autonomy\/commissioning\/([^/]+)\/preflight-request\.json$/;
+const REQUEST_RE=/^vibe-arcade\/autonomy\/commissioning\/([^/]+)\/(?:preflight|queued)-request\.json$/;
 function fail(message){const e=new Error(message);e.code='auto_cycle_invalid_request';throw e;}
 function resolveRequest(root,requestPath){
   const rel=String(requestPath||'').replace(/\\/g,'/');
