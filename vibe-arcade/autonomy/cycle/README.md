@@ -34,6 +34,19 @@ There is no separate chat message or manual run-request commit between preflight
 - the trusted candidate script remains responsible for its own stricter per-game budgets and reviewed oracle/contracts;
 - terminal RC/REJECT does not automatically publish or merge anything.
 
-## Remaining v2 work
+## Autonomous intake v2
 
-v1 removes the stage-to-stage chat dependency. Generating the *next new mechanic/spec itself* still requires a reviewed intake source. v2 will add a trusted bounded candidate generator/queue so terminal RC/REJECT can feed the next candidate without chat.
+The default-branch `PlayJolt Autonomous Intake` workflow runs hourly and may create the next candidate without a chat message when the previous autonomous candidate is terminal.
+
+Safety and pacing:
+- one active autonomous candidate at a time;
+- at most four newly generated candidates per UTC day;
+- trusted deterministic family compiler only; provider output cannot modify controller/oracle code;
+- current reviewed families: `binary-pylon` and `adjacent-order`;
+- each generated candidate explicitly authorizes at most 6 provider calls and USD 2 estimated cost;
+- Production, marketing and automatic merge remain disabled;
+- terminal REJECTED candidate PRs are archived/closed automatically; RC_READY stays available for owner review while the experiment loop may continue.
+
+The intake workflow creates a candidate branch and draft PR, then explicitly dispatches `PlayJolt Autonomous Candidate Cycle`. This avoids GitHub's normal suppression of workflows caused by pushes made with `GITHUB_TOKEN`.
+
+Future expansion should add more reviewed mechanic families and real post-release KPI selection. Do not let a model generate trusted controller code or self-approve new oracle families.
