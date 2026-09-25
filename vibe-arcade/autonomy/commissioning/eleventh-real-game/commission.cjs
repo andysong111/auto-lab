@@ -13,7 +13,7 @@ const {OpenAIProvider}=require('../../providers/openai.cjs');
 
 const GAME_ID='GAME-20260926-211',TITLE='Vector Parade',SLUG='vector-parade';
 const seeds=[24,25,26,27,28,29], names=['left','right','up','down'];
-function countFor(stage){return stage+2;}
+function countFor(stage){return stage+1;}
 function canonical(n){return Array.from({length:n},(_,i)=>String(i)).join('');}
 function swap(order,index){const a=order.split(''),t=a[index];a[index]=a[index+1];a[index+1]=t;return a.join('');}
 function targetFor(seed,stage){
@@ -36,7 +36,7 @@ function transitions(v,seed){
   return edges;
 }
 function graph(seed){
-  const initial=[1,canonical(3),'playing'],nodes={},queue=[initial];
+  const initial=[1,canonical(2),'playing'],nodes={},queue=[initial];
   for(let i=0;i<queue.length;i++){
     const v=queue[i],k=id(v);if(nodes[k])continue;
     const raw=transitions(v,seed);
@@ -78,15 +78,15 @@ function contracts(model){
   };
   const commercialContract={
     schema_version:1,review_id:'vector-parade-commercial-v1',seed:24,
-    visual_legibility:{pairs:[{id:'active-future-swap',kind:'action_availability',a:anchor('1:012:playing',region(.03,.48,.27,.24)),b:anchor('1:012:playing',region(.72,.48,.25,.24)),action_a:'left',action_b:'down',marker:'An active adjacent-swap gate is a bright bridge joining two visible vector cards; a future gate is a dark broken connector without the luminous exchange arrow.'}]},
-    state_distinction:{pairs:[{id:'first-swap',kind:'state',a:anchor('1:012:playing',region(.05,.22,.58,.34)),b:anchor('1:102:playing',region(.05,.22,.58,.34)),state_path:'state.order',marker:'Swapping the first pair visibly exchanges two large cards, their arrow emblems and their spatial positions; the distinction is geometric rather than text-only.'}]},
+    visual_legibility:{pairs:[{id:'active-future-swap',kind:'action_availability',a:anchor('1:01:playing',region(.03,.48,.27,.24)),b:anchor('1:01:playing',region(.72,.48,.25,.24)),action_a:'left',action_b:'down',marker:'An active adjacent-swap gate is a bright bridge joining two visible vector cards; a future gate is a dark broken connector without the luminous exchange arrow.'}]},
+    state_distinction:{pairs:[{id:'first-swap',kind:'state',a:anchor('1:01:playing',region(.05,.22,.58,.34)),b:anchor('1:102:playing',region(.05,.22,.58,.34)),state_path:'state.order',marker:'Swapping the first pair visibly exchanges two large cards, their arrow emblems and their spatial positions; the distinction is geometric rather than text-only.'}]},
     action_feedback:{probes:[
-      {id:'swap-first-pair',node:'1:012:playing',action:'left',kind:'movement',region:region(.03,.20,.48,.43)},
-      {id:'swap-second-pair',node:'1:012:playing',action:'right',kind:'movement',region:region(.28,.20,.48,.43)},
-      {id:'lock-line',node:'1:021:playing',action:'lock',kind:'unlock',region:region(0,.03,1,.45)}
+      {id:'swap-first-pair',node:'1:01:playing',action:'left',kind:'movement',region:region(.03,.20,.48,.43)},
+      {id:'swap-second-pair',node:'2:012:playing',action:'right',kind:'movement',region:region(.28,.20,.48,.43)},
+      {id:'lock-line',node:'1:10:playing',action:'lock',kind:'unlock',region:region(0,.03,1,.45)}
     ]},
     motion:{intermediate_ms:[70,150],settle_ms:450},
-    progression_spectacle:{checkpoints:[anchor('1:012:playing',region(0,.03,1,.47)),anchor('2:0123:playing',region(0,.03,1,.47)),anchor('3:01234:playing',region(0,.03,1,.47))],marker:'The parade expands from three to four to five vector cards; each locked line leaves a persistent luminous route, adds a new card and enlarges the central formation crest.'},
+    progression_spectacle:{checkpoints:[anchor('1:01:playing',region(0,.03,1,.47)),anchor('2:012:playing',region(0,.03,1,.47)),anchor('3:0123:playing',region(0,.03,1,.47))],marker:'The parade expands from two to three to four vector cards; each locked line leaves a persistent luminous route, adds a new card and enlarges the central formation crest.'},
     result_presentation:{region:region(0,.80,1,.20),success_title:'PARADE LOCKED',failure_title:'FORMATION BROKE'},
     audio:{mode:'reviewed_silence',exception:'Vector Parade intentionally stays silent for this queued slot so adjacent-swap motion, direct multi-action input, reduced-motion behavior and autonomous queue continuation are evaluated without adding an audio failure surface.'},
     mobile_hierarchy:{gameplay_selector:'[data-game-canvas]',roles:[
@@ -100,8 +100,8 @@ function contracts(model){
 }
 function ruleData(){return {
   seed_mapping:'Target permutation is a deterministic rotation/reversal of the canonical order using seed and stage, with identity replaced by one adjacent swap.',
-  stage_sizes:[3,4,5],
-  active_swap_widths:[2,3,4],
+  stage_sizes:[2,3,4],
+  active_swap_widths:[1,2,3],
   transform_rule:'At each stage the first n-1 named actions are active adjacent-swap gates. Each action swaps exactly one neighboring pair and is its own inverse. LOCK changes reviewed state only when the whole visible order equals the seeded target permutation.',
   target_rule:'Correct LOCK resets the next stage to canonical ascending order, increments completed and advances; stage3 LOCK succeeds immediately.'
 };}
@@ -113,13 +113,13 @@ function proposal(model,productContract,commercialContract){
     max_repair_attempts:5,
     qa:{seed:24,keyboard:{key:'ArrowLeft',observation:'state.order'},pointer:{observation:'state.order'},terminal_ms:52000},
     implementation_contract:{
-      goal:'Show the exact objective "Order 3 vector lines. Lock the parade." before Start and keep it visible. Each stage shows 3, then 4, then 5 large distinct vector cards plus a target formation. Adjacent swap gates exchange neighboring cards. Match the full visible order and press LOCK. Complete three lines to win.',
-      progression:'Canonical state starts stage=1, order="012", outcome="playing", completed=0. Stage sizes are 3,4,5 cards with 2,3,4 active adjacent-swap actions. Each named action swaps exactly one adjacent pair and is an exact self-inverse. Inactive swap actions and blocked LOCK do not change the reviewed projection. Correct LOCK resets the next stage to canonical ascending order, increments completed and advances; stage3 LOCK immediately sets stage=4 and outcome="success". meaningful_actions increments exactly once for every reviewed projection-changing edge including successful LOCK.',
+      goal:'Show the exact objective "Order 3 vector lines. Lock the parade." before Start and keep it visible. Each stage shows 2, then 3, then 4 large distinct vector cards plus a target formation. Adjacent swap gates exchange neighboring cards. Match the full visible order and press LOCK. Complete three lines to win.',
+      progression:'Canonical state starts stage=1, order="01", outcome="playing", completed=0. Stage sizes are 2,3,4 cards with 1,2,3 active adjacent-swap actions. Each named action swaps exactly one adjacent pair and is an exact self-inverse. Inactive swap actions and blocked LOCK do not change the reviewed projection. Correct LOCK resets the next stage to canonical ascending order, increments completed and advances; stage3 LOCK immediately sets stage=4 and outcome="success". meaningful_actions increments exactly once for every reviewed projection-changing edge including successful LOCK.',
       presentation:'Use Phaser 4 Game Objects, Graphics, Tweens, Particles and Camera effects only through factory-owned PlayJoltPhaserKit. Create an original vector parade: large shield-like cards on a horizontal rail, luminous bridges between adjacent cards, a target crest above and persistent route bands for completed stages. A swap must visibly exchange the physical positions of both cards with a crossing arc; later stages add one card and one swap bridge. Do not use candidate Canvas 2D drawing, create Phaser.Game, create a custom RAF loop or make Phaser physics authoritative.',
       originality:'Vector Parade is seeded permutation ordering by reversible adjacent swaps across increasingly long formations. It is not shield orientation composition, beacon height tuning, pulse weaving, toroidal row/column cycling, cargo assignment, optical routing, auto-running, survival, merge, reaction or single-button timing.',
-      difficulty:'Implement the reviewed rule data exactly: '+JSON.stringify(ruleData())+' Stage-entry consequential choice width is exactly 2,3,4. quality.stage=state.stage. quality.complexity equals active adjacent-swap count. quality.objective_progress=completed. quality.meaningful_actions increments once per reviewed projection-changing edge. quality.reversible_state_key is stage:order:outcome.',
+      difficulty:'Implement the reviewed rule data exactly: '+JSON.stringify(ruleData())+' Stage-entry consequential choice width is exactly 1,2,3. quality.stage=state.stage. quality.complexity equals active adjacent-swap count (1,2,3). quality.objective_progress=completed. quality.meaningful_actions increments once per reviewed projection-changing edge. quality.reversible_state_key is stage:order:outcome.',
       mobile_readability:'At 390x844 keep objective, LINES progress, current score, device best, target formation, active cards, swap gates, result, Replay and replay reason in the first viewport. Critical DOM labels are at least14px and lifecycle controls at least44px. Canvas cards and swap gates must remain large enough to distinguish without small text.',
-      result:'Success text is exactly PARADE LOCKED and failure text exactly FORMATION BROKE in data-result. Success aligns all five cards into a broad luminous formation, connects every bridge and raises the central crest with a bounded particle ribbon. Failure separates the rail into visible broken gaps and offsets two cards. Show CURRENT SCORE and DEVICE BEST from GameKit plus primary Replay in the initial mobile result viewport.',
+      result:'Success text is exactly PARADE LOCKED and failure text exactly FORMATION BROKE in data-result. Success aligns all four cards into a broad luminous formation, connects every bridge and raises the central crest with a bounded particle ribbon. Failure separates the rail into visible broken gaps and offsets two cards. Show CURRENT SCORE and DEVICE BEST from GameKit plus primary Replay in the initial mobile result viewport.',
       reduced_motion:'Honor initial and live prefers-reduced-motion changes. GamePresentation.reduced_motion must report actual visible behavior. Normal mode uses Phaser tweens for crossing card swaps, bridge sweeps and bounded particles. Reduced mode exchanges card positions instantly but adds a strong static outline/cross marker for at least300ms, with no camera motion. Do not fake compliance through diagnostics.',
       scoring:'Start score0. Award points only on successful LOCK: 250,400,550 minus 15 per extra swap beyond the shortest path for that seeded stage, with a floor of150 per line. Individual swaps, waiting, blocked LOCK and immediate inverse swap pairs never award score. observe returns finite tick, score, progress=floor(tick/60), interactions=meaningful_actions and a bounded entity count.',
       completion_timing:'The stall deadline is 2820 GameKit ticks, about47 seconds at60Hz. Tick advances only through GameKit. At tick>=2820 set outcome="failure" unless success completed on that exact step. core.terminal is immediately true for success or failure; there is no minimum success duration or post-success delay.',
@@ -131,7 +131,7 @@ function proposal(model,productContract,commercialContract){
 function appendRegistry(file,entry){const data=readJSON(file);data.entries=data.entries.filter(x=>x.id!==entry.id);data.entries.push(entry);atomicJSON(file,data);fs.chmodSync(file,0o644);}
 function installReviewData(model,productContract,commercialContract){
   const oracleFile=path.join(ROOT,'qa/reviewed/vector-parade-v1.json');atomicJSON(oracleFile,model);fs.chmodSync(oracleFile,0o644);
-  appendRegistry(path.join(ROOT,'qa/reviewed/registry.json'),{id:'vector-parade-v1',file:'vector-parade-v1.json',sha256:hash(model),scope:'candidate',game_id:GAME_ID,contract_sha256:hash(productContract),reviewed_by:'ChatGPT trusted pre-generation design review 2026-09-26',rationale:'Finite permutation graph across six deterministic seeds. Stage sizes 3/4/5 yield exactly 6/24/120 permutations, each adjacent swap is self-inverse, stage-entry consequential widths are 2/3/4, all states are connected and each seed has a bounded success path.'});
+  appendRegistry(path.join(ROOT,'qa/reviewed/registry.json'),{id:'vector-parade-v1',file:'vector-parade-v1.json',sha256:hash(model),scope:'candidate',game_id:GAME_ID,contract_sha256:hash(productContract),reviewed_by:'ChatGPT trusted pre-generation design review 2026-09-26',rationale:'Finite permutation graph across six deterministic seeds. Stage sizes 2/3/4 yield exactly 2/6/24 permutations, each adjacent swap is self-inverse, stage-entry consequential widths are 1/2/3, all states are connected and each seed has a bounded success path.'});
   appendRegistry(path.join(ROOT,'qa/commercial/reviewed/registry.json'),{id:'vector-parade-commercial-v1',scope:'candidate',contract_sha256:hash(commercialContract),product_contract_sha256:hash(productContract),reviewed_by:'ChatGPT trusted pre-generation commercial review 2026-09-26',rationale:'Reviewed large physical adjacent-card exchange, legal-vs-future swap gate distinction, 3/4/5-card progression, persistent route spectacle, explicit result formation, intentional silence, mobile hierarchy and bounded performance.'});
   product.review(productContract);commercial.review(commercialContract,productContract);
 }
