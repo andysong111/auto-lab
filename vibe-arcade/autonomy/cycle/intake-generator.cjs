@@ -52,20 +52,20 @@ function materialize(outRoot,sequence,date){
   const slot='auto-'+date+'-'+seq,branch='commissioning/'+slot;
   const candidateRel='vibe-arcade/autonomy/commissioning/'+slot;
   const dir=path.join(path.resolve(outRoot),'candidate');fs.rmSync(path.resolve(outRoot),{recursive:true,force:true});fs.mkdirSync(dir,{recursive:true});
-  const commission="'use strict';\\nconst {main}=require('../../cycle/template-runner.cjs');\\nmain(__dirname,process.argv[2]).catch(e=>{console.error(e.stack||e);process.exitCode=1;});\\n";
+  const commission="'use strict';\nconst {main}=require('../../cycle/template-runner.cjs');\nmain(__dirname,process.argv[2]).catch(e=>{console.error(e.stack||e);process.exitCode=1;});\n";
   const request={game_id:bp.game_id,candidate:bp.title,runtime:'Phaser 4.2.1 + GameKit v2',paid_calls:true,auto_commission:true,authorized_provider_calls:6,estimated_usd_ceiling:2,production_authorized:false,request_revision:1};
   fs.writeFileSync(path.join(dir,'commission.cjs'),commission);
-  fs.writeFileSync(path.join(dir,'blueprint.json'),JSON.stringify(bp,null,2)+'\\n');
-  fs.writeFileSync(path.join(dir,'queued-request.json'),JSON.stringify(request,null,2)+'\\n');
+  fs.writeFileSync(path.join(dir,'blueprint.json'),JSON.stringify(bp,null,2)+'\n');
+  fs.writeFileSync(path.join(dir,'queued-request.json'),JSON.stringify(request,null,2)+'\n');
   const meta={schema:'playjolt-intake-materialization/1',sequence,date,branch,slot,candidate_dir:candidateRel,request_path:candidateRel+'/queued-request.json',game_id:bp.game_id,candidate:bp.title,signature_id:bp.signature_id};
-  fs.writeFileSync(path.join(path.resolve(outRoot),'meta.json'),JSON.stringify(meta,null,2)+'\\n');
+  fs.writeFileSync(path.join(path.resolve(outRoot),'meta.json'),JSON.stringify(meta,null,2)+'\n');
   return meta;
 }
 if(require.main===module){
   const [cmd,out,seq,date]=process.argv.slice(2);
   try{
     if(cmd!=='materialize'||!out)throw Error('usage: intake-generator.cjs materialize OUT SEQUENCE YYYYMMDD');
-    const meta=materialize(out,Number(seq),date);process.stdout.write(JSON.stringify(meta)+'\\n');
+    const meta=materialize(out,Number(seq),date);process.stdout.write(JSON.stringify(meta)+'\n');
   }catch(e){console.error(e.stack||e);process.exit(2);}
 }
 module.exports={SIGNATURES,THEMES,blueprintFor,materialize};
