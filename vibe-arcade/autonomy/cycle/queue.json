@@ -19,6 +19,12 @@
       "request_path": "vibe-arcade/autonomy/commissioning/tenth-real-game/preflight-request.json",
       "game_id": "GAME-20260926-201",
       "candidate": "Shield Mosaic"
+    },
+    {
+      "branch": "commissioning/eleventh-real-game-20260926",
+      "request_path": "vibe-arcade/autonomy/commissioning/eleventh-real-game/queued-request.json",
+      "game_id": "GAME-20260926-211",
+      "candidate": "Vector Parade"
     }
   ]
 }
