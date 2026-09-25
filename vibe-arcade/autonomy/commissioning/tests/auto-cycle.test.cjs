@@ -43,3 +43,15 @@ test('autonomous cycle rejects arbitrary request paths and missing trusted commi
   fs.mkdirSync(path.dirname(full),{recursive:true});fs.writeFileSync(full,JSON.stringify(good()));
   assert.throws(()=>resolveRequest(root,rel),/commission_script_missing/);
 });
+
+
+test('queued request is accepted for supervisor dispatch without push auto-start',t=>{
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-cycle-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+  const rel='vibe-arcade/autonomy/commissioning/eleventh-real-game/queued-request.json';
+  const full=path.join(root,rel);fs.mkdirSync(path.dirname(full),{recursive:true});
+  fs.writeFileSync(full,JSON.stringify(good()));
+  fs.writeFileSync(path.join(path.dirname(full),'commission.cjs'),'// trusted candidate script\n');
+  const meta=resolveRequest(root,rel);
+  assert.equal(meta.game_id,'GAME-20260926-201');
+  assert.equal(meta.request_path,rel);
+});
