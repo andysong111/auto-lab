@@ -58,8 +58,25 @@ jobs:
           echo "request=$(printf '%s' "$NEXT" | jq -r '.request_path')" >> "$GITHUB_OUTPUT"
           echo "game_id=$(printf '%s' "$NEXT" | jq -r '.game_id')" >> "$GITHUB_OUTPUT"
           echo "candidate=$(printf '%s' "$NEXT" | jq -r '.candidate')" >> "$GITHUB_OUTPUT"
-      - name: Enforce one new candidate per UTC day
+      - name: Refuse duplicate run for unchanged candidate SHA
         if: steps.next.outputs.available == 'true'
+        id: freshness
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_BRANCH: ${{ steps.next.outputs.branch }}
+        run: |
+          TARGET_SHA="$(git ls-remote origin "refs/heads/$TARGET_BRANCH" | awk '{print $1}')"
+          test -n "$TARGET_SHA"
+          EXISTING="$(gh api --method GET "repos/$GITHUB_REPOSITORY/actions/workflows/playjolt-autonomous-cycle.yml/runs" -f branch="$TARGET_BRANCH" -f per_page=100 --jq "[.workflow_runs[] | select(.head_sha == \"$TARGET_SHA\")] | length")"
+          echo "sha=$TARGET_SHA" >> "$GITHUB_OUTPUT"
+          if [ "$EXISTING" -gt 0 ]; then
+            echo "eligible=false" >> "$GITHUB_OUTPUT"
+            echo "Candidate $TARGET_BRANCH at $TARGET_SHA already has an autonomous-cycle run; waiting for a new reviewed commit."
+          else
+            echo "eligible=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Enforce one new candidate per UTC day
+        if: steps.next.outputs.available == 'true' && steps.freshness.outputs.eligible == 'true'
         id: daily
         env:
           GH_TOKEN: ${{ github.token }}
@@ -73,7 +90,7 @@ jobs:
             echo "allowed=true" >> "$GITHUB_OUTPUT"
           fi
       - name: Dispatch next reviewed candidate
-        if: steps.next.outputs.available == 'true' && steps.daily.outputs.allowed == 'true'
+        if: steps.next.outputs.available == 'true' && steps.freshness.outputs.eligible == 'true' && steps.daily.outputs.allowed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
