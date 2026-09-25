@@ -81,7 +81,7 @@ function contracts(model){
     action_feedback:{probes:[
       {id:'rotate-segment',node:'1:0:playing',action:'left',kind:'movement',region:region(.02,.20,.27,.43)},
       {id:'second-segment',node:'1:0:playing',action:'right',kind:'movement',region:region(.24,.20,.27,.43)},
-      {id:'seal-ring',node:'1:8:playing',action:'lock',kind:'unlock',region:region(0,.03,1,.44)}
+      {id:'seal-ring',node:'1:5:playing',action:'lock',kind:'unlock',region:region(0,.03,1,.44)}
     ]},
     motion:{intermediate_ms:[70,150],settle_ms:450},
     progression_spectacle:{checkpoints:[anchor('1:0:playing',region(0,.03,1,.47)),anchor('2:0:playing',region(0,.03,1,.47)),anchor('3:0:playing',region(0,.03,1,.47))],marker:'The mosaic expands from two to three to four large shield segments; each sealed ring leaves a persistent outer halo, adds denser interlocking geometry and enlarges the central crest.'},
