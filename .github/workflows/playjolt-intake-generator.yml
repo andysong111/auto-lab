@@ -44,8 +44,10 @@ jobs:
         id: materialize
         run: |
           DATE="$(date -u +%Y%m%d)"
+          EXISTING="$(git ls-remote --heads origin 'refs/heads/commissioning/auto-*' | wc -l | tr -d ' ')"
+          SEQUENCE="$((EXISTING + 1))"
           OUT="$RUNNER_TEMP/playjolt-intake"
-          node vibe-arcade/autonomy/cycle/intake-generator.cjs materialize "$OUT" "$GITHUB_RUN_NUMBER" "$DATE"
+          node vibe-arcade/autonomy/cycle/intake-generator.cjs materialize "$OUT" "$SEQUENCE" "$DATE"
           META="$OUT/meta.json"
           echo "branch=$(jq -r '.branch' "$META")" >> "$GITHUB_OUTPUT"
           echo "slot=$(jq -r '.slot' "$META")" >> "$GITHUB_OUTPUT"
