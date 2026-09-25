@@ -53,7 +53,7 @@ function materialize(outRoot,sequence,date){
   const candidateRel='vibe-arcade/autonomy/commissioning/'+slot;
   const dir=path.join(path.resolve(outRoot),'candidate');fs.rmSync(path.resolve(outRoot),{recursive:true,force:true});fs.mkdirSync(dir,{recursive:true});
   const commission="'use strict';\nconst {main}=require('../../cycle/template-runner.cjs');\nmain(__dirname,process.argv[2]).catch(e=>{console.error(e.stack||e);process.exitCode=1;});\n";
-  const request={game_id:bp.game_id,candidate:bp.title,runtime:'Phaser 4.2.1 + GameKit v2',paid_calls:true,auto_commission:true,authorized_provider_calls:6,estimated_usd_ceiling:2,production_authorized:false,request_revision:1};
+    const request={game_id:bp.game_id,candidate:bp.title,runtime:'Phaser 4.2.1 + GameKit v2',paid_calls:true,auto_commission:true,authorized_provider_calls:6,estimated_usd_ceiling:2,production_authorized:false,request_revision:1};
   fs.writeFileSync(path.join(dir,'commission.cjs'),commission);
   fs.writeFileSync(path.join(dir,'blueprint.json'),JSON.stringify(bp,null,2)+'\n');
   fs.writeFileSync(path.join(dir,'queued-request.json'),JSON.stringify(request,null,2)+'\n');
