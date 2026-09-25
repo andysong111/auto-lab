@@ -79,7 +79,7 @@ function contracts(model){
   const commercialContract={
     schema_version:1,review_id:'vector-parade-commercial-v1',seed:24,
     visual_legibility:{pairs:[{id:'active-future-swap',kind:'action_availability',a:anchor('1:01:playing',region(.03,.48,.27,.24)),b:anchor('1:01:playing',region(.72,.48,.25,.24)),action_a:'left',action_b:'down',marker:'An active adjacent-swap gate is a bright bridge joining two visible vector cards; a future gate is a dark broken connector without the luminous exchange arrow.'}]},
-    state_distinction:{pairs:[{id:'first-swap',kind:'state',a:anchor('1:01:playing',region(.05,.22,.58,.34)),b:anchor('1:102:playing',region(.05,.22,.58,.34)),state_path:'state.order',marker:'Swapping the first pair visibly exchanges two large cards, their arrow emblems and their spatial positions; the distinction is geometric rather than text-only.'}]},
+    state_distinction:{pairs:[{id:'first-swap',kind:'state',a:anchor('1:01:playing',region(.05,.22,.58,.34)),b:anchor('1:10:playing',region(.05,.22,.58,.34)),state_path:'state.order',marker:'Swapping the first pair visibly exchanges two large cards, their arrow emblems and their spatial positions; the distinction is geometric rather than text-only.'}]},
     action_feedback:{probes:[
       {id:'swap-first-pair',node:'1:01:playing',action:'left',kind:'movement',region:region(.03,.20,.48,.43)},
       {id:'swap-second-pair',node:'2:012:playing',action:'right',kind:'movement',region:region(.28,.20,.48,.43)},
