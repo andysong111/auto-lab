@@ -1,0 +1,11 @@
+{
+  "game_id": "GAME-20260926-211",
+  "candidate": "Vector Parade",
+  "runtime": "Phaser 4.2.1 + GameKit v2",
+  "paid_calls": true,
+  "auto_commission": true,
+  "authorized_provider_calls": 6,
+  "estimated_usd_ceiling": 2,
+  "production_authorized": false,
+  "request_revision": 1
+}
