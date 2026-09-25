@@ -5,6 +5,8 @@ on:
       - 'PlayJolt Autonomous Candidate Cycle'
       - 'PlayJolt Ninth Candidate Commissioning'
     types: [completed]
+  schedule:
+    - cron: '17 * * * *'
   workflow_dispatch:
     inputs:
       current_branch:
