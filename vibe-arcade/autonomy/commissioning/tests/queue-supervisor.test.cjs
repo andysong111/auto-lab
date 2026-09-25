@@ -1,6 +1,6 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),os=require('node:os');
-const {loadQueue,nextEntry}=require('../../cycle/queue.cjs');
+const {loadQueue,nextEntry,continuation}=require('../../cycle/queue.cjs');
 
 function root(t,entries){
   const dir=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-queue-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
@@ -25,4 +25,19 @@ test('queue fails closed for unqueued current branches and duplicate targets',t=
     {branch:'commissioning/a',request_path:'vibe-arcade/autonomy/commissioning/b/preflight-request.json'}
   ]);
   assert.throws(()=>loadQueue(dir),/duplicate_branch/);
+});
+
+
+test('continuation prefers queued entries then falls back to trusted intake',t=>{
+  const entries=[
+    {branch:'commissioning/a',request_path:'vibe-arcade/autonomy/commissioning/a/preflight-request.json',game_id:'GA',candidate:'A'},
+    {branch:'commissioning/b',request_path:'vibe-arcade/autonomy/commissioning/b/queued-request.json',game_id:'GB',candidate:'B'}
+  ];
+  const dir=root(t,entries);
+  let c=continuation(dir,'commissioning/a');
+  assert.equal(c.mode,'queued');assert.equal(c.next.branch,'commissioning/b');
+  c=continuation(dir,'commissioning/b');
+  assert.deepEqual({mode:c.mode,reason:c.reason},{mode:'intake',reason:'static_queue_exhausted'});
+  c=continuation(dir,'commissioning/auto-20260927-01');
+  assert.deepEqual({mode:c.mode,reason:c.reason},{mode:'intake',reason:'current_branch_not_in_static_queue'});
 });
