@@ -1,0 +1,104 @@
+name: PlayJolt Trusted Intake Generator
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Validate/materialize only; do not push or dispatch'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+concurrency:
+  group: playjolt-trusted-intake-generator
+  cancel-in-progress: false
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Enforce autonomous daily candidate cap
+        if: ${{ inputs.dry_run != true }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          SINCE="$(date -u +%Y-%m-%dT00:00:00Z)"
+          COUNT="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/playjolt-autonomous-cycle.yml/runs?per_page=100" --jq "[.workflow_runs[] | select(.created_at >= \"$SINCE\")] | length")"
+          if [ "$COUNT" -ge 1 ]; then
+            echo "An autonomous candidate already started today; intake remains idle."
+            exit 78
+          fi
+      - name: Materialize trusted candidate
+        id: materialize
+        run: |
+          DATE="$(date -u +%Y%m%d)"
+          EXISTING="$(git ls-remote --heads origin 'refs/heads/commissioning/auto-*' | wc -l | tr -d ' ')"
+          SEQUENCE="$((EXISTING + 1))"
+          OUT="$RUNNER_TEMP/playjolt-intake"
+          node vibe-arcade/autonomy/cycle/intake-generator.cjs materialize "$OUT" "$SEQUENCE" "$DATE"
+          META="$OUT/meta.json"
+          echo "branch=$(jq -r '.branch' "$META")" >> "$GITHUB_OUTPUT"
+          echo "slot=$(jq -r '.slot' "$META")" >> "$GITHUB_OUTPUT"
+          echo "candidate_dir=$(jq -r '.candidate_dir' "$META")" >> "$GITHUB_OUTPUT"
+          echo "request=$(jq -r '.request_path' "$META")" >> "$GITHUB_OUTPUT"
+          echo "game_id=$(jq -r '.game_id' "$META")" >> "$GITHUB_OUTPUT"
+          echo "candidate=$(jq -r '.candidate' "$META")" >> "$GITHUB_OUTPUT"
+          echo "signature=$(jq -r '.signature_id' "$META")" >> "$GITHUB_OUTPUT"
+      - name: Stage generated candidate in isolated branch
+        run: |
+          BRANCH="${{ steps.materialize.outputs.branch }}"
+          if git ls-remote --exit-code origin "refs/heads/$BRANCH" >/dev/null 2>&1; then
+            echo "Branch already exists: $BRANCH"
+            exit 2
+          fi
+          git config user.name "playjolt-factory[bot]"
+          git config user.email "playjolt-factory@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          TARGET="${{ steps.materialize.outputs.candidate_dir }}"
+          mkdir -p "$TARGET"
+          cp -R "$RUNNER_TEMP/playjolt-intake/candidate/." "$TARGET/"
+          node vibe-arcade/autonomy/cycle/resolve.cjs "${{ steps.materialize.outputs.request }}"
+          git add "$TARGET"
+          git commit -m "Stage autonomous candidate ${{ steps.materialize.outputs.game_id }}"
+      - name: Zero-paid generated-candidate preflight
+        env:
+          FACTORY_WORKER_ROOT: ${{ runner.temp }}/generated-preflight
+          AUTO_PRODUCTION_SHIP: 'false'
+        run: |
+          node "${{ steps.materialize.outputs.candidate_dir }}/commission.cjs" prepare
+          node "${{ steps.materialize.outputs.candidate_dir }}/commission.cjs" reviews
+      - name: Stop after dry-run validation
+        if: ${{ inputs.dry_run == true }}
+        run: |
+          echo "Dry run passed for ${{ steps.materialize.outputs.game_id }} / ${{ steps.materialize.outputs.candidate }}"
+      - name: Push reviewed candidate branch
+        if: ${{ inputs.dry_run != true }}
+        run: git push origin "${{ steps.materialize.outputs.branch }}"
+      - name: Open draft candidate PR
+        if: ${{ inputs.dry_run != true }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr create --draft --base main --head "${{ steps.materialize.outputs.branch }}" \
+            --title "Autonomous candidate: ${{ steps.materialize.outputs.candidate }}" \
+            --body "Trusted intake candidate. Game: ${{ steps.materialize.outputs.game_id }}. Signature: ${{ steps.materialize.outputs.signature }}. Generated from reviewed permutation DSL. Provider calls <=6, estimated model cost <=USD2, Production=false."
+      - name: Dispatch bounded autonomous cycle
+        if: ${{ inputs.dry_run != true }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run playjolt-autonomous-cycle.yml \
+            --ref "${{ steps.materialize.outputs.branch }}" \
+            -f request_path="${{ steps.materialize.outputs.request }}"
