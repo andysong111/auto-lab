@@ -27,6 +27,14 @@ function nextEntry(root,currentBranch,{queueFile}={}){
   // normally runs on main, not the target candidate branch.
   return {...row,index:i+1};
 }
+function continuation(root,currentBranch,{queueFile}={}){
+  const q=loadQueue(root,queueFile);
+  const i=q.entries.findIndex(x=>x.branch===currentBranch);
+  if(i<0)return {mode:'intake',reason:'current_branch_not_in_static_queue',current_branch:currentBranch};
+  const row=q.entries[i+1]||null;
+  if(!row)return {mode:'intake',reason:'static_queue_exhausted',current_branch:currentBranch};
+  return {mode:'queued',current_branch:currentBranch,next:{...row,index:i+1}};
+}
 function validateCheckedOutEntry(root,row){
   const meta=resolveRequest(root,row.request_path);
   if(meta.production_authorized!==false)fail('production_must_remain_off');
@@ -36,8 +44,9 @@ if(require.main===module){
   const cmd=process.argv[2],arg=process.argv[3];
   try{
     if(cmd==='next')process.stdout.write(JSON.stringify(nextEntry(process.cwd(),arg))+'\n');
+    else if(cmd==='continue')process.stdout.write(JSON.stringify(continuation(process.cwd(),arg))+'\n');
     else if(cmd==='validate')process.stdout.write(JSON.stringify(validateCheckedOutEntry(process.cwd(),{request_path:arg}))+'\n');
-    else throw Error('usage: queue.cjs next <current-branch> | validate <request-path>');
+    else throw Error('usage: queue.cjs next|continue <current-branch> | validate <request-path>');
   }catch(e){console.error((e.code||'error')+': '+e.message);process.exit(2);}
 }
-module.exports={loadQueue,nextEntry,validateCheckedOutEntry};
+module.exports={loadQueue,nextEntry,continuation,validateCheckedOutEntry};
