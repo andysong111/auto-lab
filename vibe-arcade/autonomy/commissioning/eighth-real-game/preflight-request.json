@@ -1,0 +1,9 @@
+{
+  "game_id": "GAME-20260924-181",
+  "candidate": "Pulse Loom",
+  "runtime": "Phaser 4.2.1 + GameKit v2",
+  "paid_calls": false,
+  "request_revision": 1,
+  "phaser_runtime_main": "3f490d26ba987bb9aabfe39e5e0527c7b1f241f8",
+  "workflow_main": "2348d072fdd963a50f74e9e4ed9f1d5196d565a2"
+}
