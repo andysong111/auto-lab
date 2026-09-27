@@ -14,7 +14,7 @@ on:
 
 permissions:
   contents: read
-  actions: read
+  actions: write
   issues: write
   pull-requests: write
 
@@ -104,3 +104,25 @@ jobs:
             COST="$(jq -r '.total_estimated_cost // "?"' "$FILE")"
             gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -f body="Autonomous cycle checkpoint: run_id=$GITHUB_RUN_ID state=$STATE version=$VERSION repair=$REPAIRS/5 provider_calls=$CALLS estimated_cost_usd=$COST production=false."
           fi
+      - name: Handoff terminal candidate to queue supervisor
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          FILE="$FACTORY_WORKER_ROOT/commissioning-summary.json"
+          if [ ! -f "$FILE" ]; then
+            echo "No terminal commissioning summary; fail closed without advancing the queue."
+            exit 0
+          fi
+          STATE="$(jq -r '.factory.state // "UNKNOWN"' "$FILE")"
+          case "$STATE" in
+            REJECTED|RC_READY|READY_TO_SHIP)
+              gh workflow run playjolt-candidate-queue-supervisor.yml \
+                --ref main \
+                -f current_branch="$GITHUB_REF_NAME"
+              echo "Terminal $STATE handed directly to the queue supervisor."
+              ;;
+            *)
+              echo "Non-terminal state $STATE; queue continuation is intentionally held."
+              ;;
+          esac
