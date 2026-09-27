@@ -1,6 +1,7 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict');
 const {dailyCap,stage}=require('../../cycle/ramp-policy.cjs');
+const fs=require('node:fs'),path=require('node:path');
 
 test('adaptive candidate ramp starts at one per day',()=>{
   assert.equal(dailyCap(0),1);
@@ -19,4 +20,18 @@ test('three fully autonomous completions raise cap to six',()=>{
 test('adaptive ramp fails closed on invalid counters',()=>{
   assert.throws(()=>dailyCap(-1),/invalid_success_count/);
   assert.throws(()=>dailyCap(1.5),/invalid_success_count/);
+});
+
+
+test('workflows use the shared adaptive ramp and preserve serial execution',()=>{
+  const root=path.resolve(__dirname,'../../../..');
+  const supervisor=fs.readFileSync(path.join(root,'.github/workflows/playjolt-candidate-queue-supervisor.yml'),'utf8');
+  const intake=fs.readFileSync(path.join(root,'.github/workflows/playjolt-intake-generator.yml'),'utf8');
+  for(const yml of [supervisor,intake]){
+    assert.match(yml,/ramp-policy\.cjs cap/);
+    assert.match(yml,/commissioning\/auto-/);
+    assert.match(yml,/status != "completed"/);
+  }
+  assert.match(supervisor,/Adaptive daily cap reached/);
+  assert.match(intake,/steps\.quota\.outputs\.allowed == 'true'/);
 });
