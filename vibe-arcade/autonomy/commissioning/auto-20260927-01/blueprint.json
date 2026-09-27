@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260927-301",
+  "title": "Rune Cascade",
+  "slug": "rune-cascade",
+  "signature_id": "adjacent-chain",
+  "ops": [
+    "adjacent",
+    "adjacent",
+    "adjacent"
+  ],
+  "seeds": [
+    132,
+    133,
+    134,
+    135,
+    136,
+    137
+  ],
+  "theme": {
+    "singular": "Rune",
+    "plural": "Runes",
+    "arena": "Vault",
+    "progress": "ROUNDS",
+    "success": "VAULT ALIGNED",
+    "failure": "RUNE FRACTURE"
+  }
+}
