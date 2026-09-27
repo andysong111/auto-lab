@@ -86,8 +86,9 @@ jobs:
       - name: Push reviewed candidate branch
         if: ${{ inputs.dry_run != true }}
         run: git push origin "${{ steps.materialize.outputs.branch }}"
-      - name: Open draft candidate PR
+      - name: Open draft candidate PR (best effort)
         if: ${{ inputs.dry_run != true }}
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
