@@ -4,8 +4,16 @@
     "production_authorized": false,
     "max_provider_calls_per_candidate": 6,
     "max_estimated_usd_per_candidate": 2,
-    "max_candidates_per_day": 1,
-    "note": "Only explicitly reviewed candidate branches are queued. Terminal RC/REJECT may advance to the next pre-reviewed slot; Production remains off."
+    "max_candidates_per_day": 6,
+    "note": "Reviewed candidates run serially. Daily throughput ramps 1 -> 3 -> 6 after 1 and 3 successful fully autonomous commissioning/auto-* workflow_dispatch completions. Provider/cost bounds and Production-off remain unchanged.",
+    "adaptive_daily_ramp": {
+      "pilot": 1,
+      "proven": 3,
+      "stable": 6,
+      "proven_after_successful_fully_autonomous": 1,
+      "stable_after_successful_fully_autonomous": 3,
+      "serial_execution": true
+    }
   },
   "entries": [
     {
