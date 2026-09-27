@@ -49,3 +49,14 @@ The queue supervisor is idempotent by candidate branch SHA. Before dispatching a
 - Production remains off.
 
 This prevents a preflight/build failure from silently consuming another daily slot with identical source.
+
+
+## Adaptive throughput ramp
+
+The factory starts conservatively and increases experiment throughput only after end-to-end autonomous proof:
+
+- 0 successful fully autonomous generated candidates: max 1 candidate / UTC day;
+- after 1 successful `commissioning/auto-*` workflow-dispatch completion: max 3 / UTC day;
+- after 3 successful fully autonomous completions: max 6 / UTC day.
+
+"Successful" here means the autonomous workflow reached a clean terminal checkpoint; the game itself may validly end RC_READY or REJECTED. Candidates remain serial: one active autonomous cycle at a time. Provider calls stay capped at 6 per candidate, estimated provider cost stays capped at USD 2 per candidate, and Production remains off.
