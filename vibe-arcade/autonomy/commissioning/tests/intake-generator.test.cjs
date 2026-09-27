@@ -37,3 +37,15 @@ test('trusted intake materialization is bounded and production-off',t=>{
 test('trusted intake pool fails closed after reviewed signatures are exhausted',()=>{
   assert.throws(()=>blueprintFor(SIGNATURES.length+1,'20260926'),/trusted_template_pool_exhausted/);
 });
+
+
+test('intake workflow treats draft PR creation as best effort and still dispatches the cycle',()=>{
+  const file=path.resolve(__dirname,'../../../../.github/workflows/playjolt-intake-generator.yml');
+  const yml=fs.readFileSync(file,'utf8');
+  assert.match(yml,/Open draft candidate PR \(best effort\)/);
+  assert.match(yml,/continue-on-error:\s*true/);
+  const pr=yml.indexOf('Open draft candidate PR (best effort)');
+  const dispatch=yml.indexOf('Dispatch bounded autonomous cycle');
+  assert(pr>=0&&dispatch>pr,'bounded autonomous cycle must follow best-effort PR creation');
+  assert.match(yml,/gh workflow run playjolt-autonomous-cycle\.yml/);
+});
