@@ -29,18 +29,31 @@ jobs:
         with:
           node-version: '22'
       - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
-      - name: Enforce autonomous daily candidate cap
+      - name: Enforce adaptive autonomous candidate quota
         if: ${{ inputs.dry_run != true }}
+        id: quota
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           SINCE="$(date -u +%Y-%m-%dT00:00:00Z)"
-          COUNT="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/playjolt-autonomous-cycle.yml/runs?per_page=100" --jq "[.workflow_runs[] | select(.created_at >= \"$SINCE\")] | length")"
-          if [ "$COUNT" -ge 1 ]; then
-            echo "An autonomous candidate already started today; intake remains idle."
-            exit 78
+          HISTORY="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/playjolt-autonomous-cycle.yml/runs?per_page=100")"
+          PROVEN="$(printf '%s' "$HISTORY" | jq '[.workflow_runs[] | select(.conclusion == "success" and .event == "workflow_dispatch" and (.head_branch | startswith("commissioning/auto-")))] | length')"
+          CAP="$(node vibe-arcade/autonomy/cycle/ramp-policy.cjs cap "$PROVEN")"
+          COUNT="$(printf '%s' "$HISTORY" | jq --arg since "$SINCE" '[.workflow_runs[] | select(.created_at >= $since)] | length')"
+          ACTIVE="$(printf '%s' "$HISTORY" | jq '[.workflow_runs[] | select(.status != "completed")] | length')"
+          echo "cap=$CAP" >> "$GITHUB_OUTPUT"
+          echo "proven=$PROVEN" >> "$GITHUB_OUTPUT"
+          if [ "$ACTIVE" -gt 0 ]; then
+            echo "allowed=false" >> "$GITHUB_OUTPUT"
+            echo "An autonomous candidate is already active; intake remains idle."
+          elif [ "$COUNT" -ge "$CAP" ]; then
+            echo "allowed=false" >> "$GITHUB_OUTPUT"
+            echo "Adaptive daily cap reached: $COUNT/$CAP after $PROVEN fully autonomous completions."
+          else
+            echo "allowed=true" >> "$GITHUB_OUTPUT"
           fi
       - name: Materialize trusted candidate
+        if: ${{ inputs.dry_run == true || steps.quota.outputs.allowed == 'true' }}
         id: materialize
         run: |
           DATE="$(date -u +%Y%m%d)"
@@ -57,6 +70,7 @@ jobs:
           echo "candidate=$(jq -r '.candidate' "$META")" >> "$GITHUB_OUTPUT"
           echo "signature=$(jq -r '.signature_id' "$META")" >> "$GITHUB_OUTPUT"
       - name: Stage generated candidate in isolated branch
+        if: ${{ inputs.dry_run == true || steps.quota.outputs.allowed == 'true' }}
         run: |
           BRANCH="${{ steps.materialize.outputs.branch }}"
           if git ls-remote --exit-code origin "refs/heads/$BRANCH" >/dev/null 2>&1; then
@@ -73,6 +87,7 @@ jobs:
           git add "$TARGET"
           git commit -m "Stage autonomous candidate ${{ steps.materialize.outputs.game_id }}"
       - name: Zero-paid generated-candidate preflight
+        if: ${{ inputs.dry_run == true || steps.quota.outputs.allowed == 'true' }}
         env:
           FACTORY_WORKER_ROOT: ${{ runner.temp }}/generated-preflight
           AUTO_PRODUCTION_SHIP: 'false'
@@ -84,10 +99,10 @@ jobs:
         run: |
           echo "Dry run passed for ${{ steps.materialize.outputs.game_id }} / ${{ steps.materialize.outputs.candidate }}"
       - name: Push reviewed candidate branch
-        if: ${{ inputs.dry_run != true }}
+        if: ${{ inputs.dry_run != true && steps.quota.outputs.allowed == 'true' }}
         run: git push origin "${{ steps.materialize.outputs.branch }}"
       - name: Open draft candidate PR (best effort)
-        if: ${{ inputs.dry_run != true }}
+        if: ${{ inputs.dry_run != true && steps.quota.outputs.allowed == 'true' }}
         continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
@@ -96,7 +111,7 @@ jobs:
             --title "Autonomous candidate: ${{ steps.materialize.outputs.candidate }}" \
             --body "Trusted intake candidate. Game: ${{ steps.materialize.outputs.game_id }}. Signature: ${{ steps.materialize.outputs.signature }}. Generated from reviewed permutation DSL. Provider calls <=6, estimated model cost <=USD2, Production=false."
       - name: Dispatch bounded autonomous cycle
-        if: ${{ inputs.dry_run != true }}
+        if: ${{ inputs.dry_run != true && steps.quota.outputs.allowed == 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
