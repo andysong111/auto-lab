@@ -29,6 +29,14 @@ The first real game may progress through AI build, up to five repairs, browser Q
 
 Rollback metadata is mandatory before that later adapter exists.
 
+## Phase 5 release pipeline
+
+`PlayJolt RC Preview and Release Packet` consumes the immutable artifact from a successful generated-candidate cycle. It runs only for an internal `commissioning/auto-*` `workflow_dispatch`, resumes from `RC_READY` without model calls or repair-budget changes, creates the isolated `factory/GAME-*` branch, explicitly dispatches Factory CI, waits for a non-production Vercel Preview, performs byte-identity smoke checks, and emits a SHA-256-addressed release packet. Draft PR creation remains best effort because repository Actions may not have PR creation permission.
+
+`PlayJolt Owner Production Release` has no automatic trigger. A release or rollback requires all of the following: a repository-owner dispatch, the successful Preview workflow run ID, the exact packet SHA-256, the exact action confirmation phrase, the `playjolt-production` environment, an unchanged RC branch, a single-parent RC commit, and a diff confined to the candidate's immutable runtime directory. Release is fast-forward-only from the packet's recorded base commit. Rollback creates a normal revert commit and never resets or rewrites history.
+
+Production remains unavailable to the autonomous Factory. `AUTO_PRODUCTION_SHIP=false`, the packet records `production.authorized=false`, and only the separate owner workflow can cross the final boundary.
+
 ## Current catalog cap
 
 The snapshot records eight public or legacy-public games. The project rule is a maximum of ten meaningfully different public games before validation, so this milestone commissions only one additional candidate and leaves one slot unallocated.

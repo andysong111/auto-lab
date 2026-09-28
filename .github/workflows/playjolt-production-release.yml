@@ -1,0 +1,142 @@
+name: PlayJolt Owner Production Release
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Owner-authorized production action'
+        required: true
+        type: choice
+        options: [release, rollback]
+      source_run_id:
+        description: 'RC Preview and Release Packet run ID'
+        required: true
+        type: string
+      packet_sha256:
+        description: 'Exact SHA-256 shown by the preview workflow'
+        required: true
+        type: string
+      confirmation:
+        description: 'RELEASE or ROLLBACK + GAME-ID + RC commit SHA'
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: playjolt-production-release
+  cancel-in-progress: false
+
+jobs:
+  owner-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: playjolt-production
+    steps:
+      - name: Enforce repository-owner dispatch
+        env:
+          ACTOR: ${{ github.actor }}
+          OWNER: ${{ github.repository_owner }}
+        run: test "$ACTOR" = "$OWNER"
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Verify trusted packet source run
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+        run: |
+          test "$(printf '%s' "$SOURCE_RUN_ID" | tr -cd '0-9')" = "$SOURCE_RUN_ID"
+          META="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID")"
+          test "$(printf '%s' "$META" | jq -r '.name')" = 'PlayJolt RC Preview and Release Packet'
+          test "$(printf '%s' "$META" | jq -r '.conclusion')" = 'success'
+      - name: Download immutable release packet
+        uses: actions/download-artifact@v4
+        with:
+          pattern: playjolt-release-packet-*
+          path: ${{ runner.temp }}/release-packet
+          merge-multiple: true
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - name: Authorize requested action
+        id: gate
+        env:
+          PACKET_SHA256: ${{ inputs.packet_sha256 }}
+          RELEASE_ACTION: ${{ inputs.action }}
+          CONFIRMATION: ${{ inputs.confirmation }}
+        run: |
+          PACKET="$RUNNER_TEMP/release-packet/release-packet.json"
+          test -f "$PACKET"
+          AUTH="$(node vibe-arcade/autonomy/commissioning/production-gate.cjs authorize "$PACKET" --sha "$PACKET_SHA256" --actor "$GITHUB_ACTOR" --repository "$GITHUB_REPOSITORY" --action "$RELEASE_ACTION" --confirmation "$CONFIRMATION")"
+          echo "packet=$PACKET" >> "$GITHUB_OUTPUT"
+          echo "game_id=$(printf '%s' "$AUTH" | jq -r '.candidate.game_id')" >> "$GITHUB_OUTPUT"
+          echo "branch=$(printf '%s' "$AUTH" | jq -r '.candidate.branch')" >> "$GITHUB_OUTPUT"
+          echo "rc_commit=$(printf '%s' "$AUTH" | jq -r '.candidate.rc_commit')" >> "$GITHUB_OUTPUT"
+          echo "base_commit=$(printf '%s' "$AUTH" | jq -r '.base_commit')" >> "$GITHUB_OUTPUT"
+      - name: Verify immutable RC branch and path scope
+        env:
+          RC_BRANCH: ${{ steps.gate.outputs.branch }}
+        run: |
+          git fetch --no-tags origin "refs/heads/$RC_BRANCH:refs/remotes/origin/$RC_BRANCH" main
+          node vibe-arcade/autonomy/commissioning/production-gate.cjs verify-git "${{ steps.gate.outputs.packet }}" --cwd "$GITHUB_WORKSPACE"
+      - name: Release exact Previewed commit
+        id: release
+        if: inputs.action == 'release'
+        env:
+          RC_COMMIT: ${{ steps.gate.outputs.rc_commit }}
+          BASE_COMMIT: ${{ steps.gate.outputs.base_commit }}
+        run: |
+          test "$(git rev-parse origin/main)" = "$BASE_COMMIT"
+          git switch --detach origin/main
+          git merge --ff-only "$RC_COMMIT"
+          git push origin HEAD:main
+      - name: Verify exact-source Production deployment
+        id: production_smoke
+        if: inputs.action == 'release'
+        env:
+          PACKET: ${{ steps.gate.outputs.packet }}
+        run: |
+          SOURCE_PATH="$(jq -r '.candidate.source_path' "$PACKET")"
+          GAME_ROOT="$GITHUB_WORKSPACE/vibe-arcade/$SOURCE_PATH"
+          DEADLINE=$((SECONDS + 600))
+          while [ "$SECONDS" -lt "$DEADLINE" ]; do
+            if node vibe-arcade/autonomy/commissioning/production-smoke.cjs "$PACKET" "$GAME_ROOT" "$RUNNER_TEMP/production-smoke.json"; then
+              exit 0
+            fi
+            sleep 20
+          done
+          echo 'Production exact-source smoke did not pass within ten minutes. Use the same packet with the rollback action.' >&2
+          exit 4
+      - name: Roll back released candidate
+        id: rollback
+        if: inputs.action == 'rollback'
+        env:
+          RC_COMMIT: ${{ steps.gate.outputs.rc_commit }}
+        run: |
+          git merge-base --is-ancestor "$RC_COMMIT" origin/main
+          git config user.name 'playjolt-release[bot]'
+          git config user.email 'playjolt-release@users.noreply.github.com'
+          git switch --detach origin/main
+          git revert --no-edit "$RC_COMMIT"
+          git push origin HEAD:main
+      - name: Record owner-authorized action
+        id: record
+        if: ${{ always() && (steps.release.outcome == 'success' || steps.rollback.outcome == 'success') }}
+        env:
+          RELEASE_ACTION: ${{ inputs.action }}
+          GAME_ID: ${{ steps.gate.outputs.game_id }}
+          RC_COMMIT: ${{ steps.gate.outputs.rc_commit }}
+          PACKET_SHA256: ${{ inputs.packet_sha256 }}
+          PRODUCTION_SMOKE_OUTCOME: ${{ steps.production_smoke.outcome }}
+        run: |
+          jq -n --arg action "$RELEASE_ACTION" --arg actor "$GITHUB_ACTOR" --arg game_id "$GAME_ID" --arg rc_commit "$RC_COMMIT" --arg packet_sha256 "$PACKET_SHA256" --arg resulting_commit "$(git rev-parse HEAD)" --arg run_id "$GITHUB_RUN_ID" --arg production_smoke_outcome "$PRODUCTION_SMOKE_OUTCOME" '{schema:"playjolt-production-action/1",action:$action,actor:$actor,game_id:$game_id,rc_commit:$rc_commit,packet_sha256:$packet_sha256,resulting_commit:$resulting_commit,run_id:$run_id,production_smoke_outcome:$production_smoke_outcome,automatic:false}' > "$RUNNER_TEMP/production-action.json"
+      - uses: actions/upload-artifact@v4
+        if: steps.record.outcome == 'success'
+        with:
+          name: playjolt-production-action-${{ steps.gate.outputs.game_id }}-${{ inputs.action }}
+          path: |
+            ${{ runner.temp }}/production-action.json
+            ${{ runner.temp }}/production-smoke.json
+          retention-days: 90

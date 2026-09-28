@@ -1,0 +1,128 @@
+name: PlayJolt RC Preview and Release Packet
+on:
+  workflow_run:
+    workflows: ['PlayJolt Autonomous Candidate Cycle']
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: 'Successful Autonomous Candidate Cycle run ID to resume without paid calls'
+        required: true
+        type: string
+
+permissions:
+  actions: write
+  checks: read
+  contents: write
+  deployments: read
+  pull-requests: write
+
+concurrency:
+  group: playjolt-rc-preview
+  cancel-in-progress: false
+
+jobs:
+  preview:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - name: Resolve trusted source run
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REQUESTED_RUN: ${{ inputs.source_run_id }}
+          COMPLETED_RUN: ${{ github.event.workflow_run.id }}
+        run: |
+          RUN_ID="${REQUESTED_RUN:-$COMPLETED_RUN}"
+          test "$(printf '%s' "$RUN_ID" | tr -cd '0-9')" = "$RUN_ID"
+          META="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID")"
+          test "$(printf '%s' "$META" | jq -r '.name')" = 'PlayJolt Autonomous Candidate Cycle'
+          test "$(printf '%s' "$META" | jq -r '.conclusion')" = 'success'
+          test "$(printf '%s' "$META" | jq -r '.event')" = 'workflow_dispatch'
+          BRANCH="$(printf '%s' "$META" | jq -r '.head_branch')"
+          case "$BRANCH" in commissioning/auto-*) ;; *) exit 2 ;; esac
+          echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
+          echo "head_sha=$(printf '%s' "$META" | jq -r '.head_sha')" >> "$GITHUB_OUTPUT"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Restore immutable RC state
+        uses: actions/download-artifact@v4
+        with:
+          pattern: playjolt-auto-cycle-*
+          path: ${{ runner.temp }}/factory-state
+          merge-multiple: true
+          run-id: ${{ steps.source.outputs.run_id }}
+          github-token: ${{ github.token }}
+      - name: Verify RC checkpoint identity
+        id: rc
+        env:
+          FACTORY_WORKER_ROOT: ${{ runner.temp }}/factory-state
+          SOURCE_RUN_ID: ${{ steps.source.outputs.run_id }}
+          SOURCE_SHA: ${{ steps.source.outputs.head_sha }}
+        run: |
+          SUMMARY="$FACTORY_WORKER_ROOT/commissioning-summary.json"
+          test -f "$SUMMARY"
+          test "$(jq -r '.run_id' "$SUMMARY")" = "$SOURCE_RUN_ID"
+          test "$(jq -r '.runner_commit' "$SUMMARY")" = "$SOURCE_SHA"
+          GAME_ID="$(jq -r '.game_id' "$SUMMARY")"
+          test "$(printf '%s' "$GAME_ID" | grep -E '^GAME-[0-9]{8}-[0-9]{3,6}$')" = "$GAME_ID"
+          MANIFEST="$FACTORY_WORKER_ROOT/autonomy/jobs/$GAME_ID/manifest.json"
+          test -f "$MANIFEST"
+          STATE="$(jq -r '.state' "$MANIFEST")"
+          echo "game_id=$GAME_ID" >> "$GITHUB_OUTPUT"
+          if [ "$STATE" = 'REJECTED' ]; then
+            echo "eligible=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          test "$STATE" = 'RC_READY'
+          echo "eligible=true" >> "$GITHUB_OUTPUT"
+      - name: Create exact-source Preview and release packet
+        id: packet
+        if: steps.rc.outputs.eligible == 'true'
+        env:
+          FACTORY_WORKER_ROOT: ${{ runner.temp }}/factory-state
+          GITHUB_TOKEN: ${{ github.token }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          GAME_ID: ${{ steps.rc.outputs.game_id }}
+        run: |
+          DEADLINE=$((SECONDS + 3600))
+          MANIFEST="$FACTORY_WORKER_ROOT/autonomy/jobs/$GAME_ID/manifest.json"
+          while [ "$SECONDS" -lt "$DEADLINE" ]; do
+            node vibe-arcade/autonomy/commissioning/rc-continuation.cjs preview "$FACTORY_WORKER_ROOT" "$GAME_ID"
+            STATE="$(jq -r '.state' "$MANIFEST")"
+            if [ "$STATE" = 'READY_TO_SHIP' ]; then
+              node vibe-arcade/autonomy/commissioning/rc-continuation.cjs release-packet "$FACTORY_WORKER_ROOT" "$GAME_ID"
+              SHA="$(sha256sum "$FACTORY_WORKER_ROOT/release-packet.json" | cut -d ' ' -f 1)"
+              echo "sha256=$SHA" >> "$GITHUB_OUTPUT"
+              echo "Release packet ready for $GAME_ID at SHA-256 $SHA" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            case "$STATE" in PREVIEW_DEPLOYING|PREVIEW_SMOKE) ;; *) exit 2 ;; esac
+            sleep 30
+          done
+          echo 'Preview did not settle within the bounded one-hour window; no repair budget was consumed.' >&2
+          exit 3
+      - name: Upload owner-review release packet
+        if: steps.packet.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: playjolt-release-packet-${{ steps.rc.outputs.game_id }}
+          path: ${{ runner.temp }}/factory-state/release-packet.json
+          retention-days: 30
+      - name: Preserve preview continuation state
+        if: failure() && steps.rc.outputs.eligible == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: playjolt-preview-state-${{ steps.rc.outputs.game_id }}
+          path: ${{ runner.temp }}/factory-state
+          include-hidden-files: true
+          retention-days: 30

@@ -10,6 +10,7 @@ const {FileStore}=require('../orchestrator/store.cjs');
 const {AutonomousWorker}=require('../worker/runtime.cjs');
 const {DockerQA}=require('../isolation/docker-qa.cjs');
 const {OpenAIProvider}=require('../providers/openai.cjs');
+const {continuePreview,writeReleasePacket}=require('../commissioning/rc-continuation.cjs');
 
 const ACTION_NAMES=['left','right','up'];
 const PRIMITIVES=new Set(['adjacent','prefix_reverse','star','prefix_rotate','suffix_reverse','suffix_rotate']);
@@ -238,19 +239,29 @@ async function run(candidateDir){
   const result=await worker.runOnce();atomicJSON(path.join(root,'worker-result.json'),result);console.log(JSON.stringify(result,null,2));
   if(!['RC_READY','REJECTED'].includes(result.status))process.exitCode=2;
 }
+async function preview(candidateDir){
+  const bp=load(candidateDir),root=process.env.FACTORY_WORKER_ROOT,result=await continuePreview(root,bp.game_id);
+  console.log(JSON.stringify({schema:'playjolt-preview-continuation/1',game_id:bp.game_id,state:result.state,preview_url:result.preview_url||null,rc_commit:result.rc_commit||null,base_commit:result.base_commit||null,production_authorized:false},null,2));
+}
+function releasePacket(candidateDir){
+  const bp=load(candidateDir),root=process.env.FACTORY_WORKER_ROOT,packet=writeReleasePacket(root,bp.game_id);
+  console.log(JSON.stringify(packet,null,2));
+}
 function summarize(candidateDir){
   const bp=load(candidateDir),root=process.env.FACTORY_WORKER_ROOT,ledgerFile=path.join(root,'autonomy/.provider/ledger.json'),ledger=fs.existsSync(ledgerFile)?readJSON(ledgerFile):{operations:{}};
   const ops=Object.values(ledger.operations).filter(x=>x.game_id===bp.game_id).sort((a,b)=>a.started_at-b.started_at).map(o=>({operation_id:o.operation_id,version:o.version,state:o.state,response_id:o.response_id,input_tokens:o.accounted?.input_tokens??null,output_tokens:o.accounted?.output_tokens??null,estimated_cost:(o.accounted||o.reserved)?.estimated_cost??null,error_code:o.error_code||null}));
   const file=path.join(root,'autonomy/jobs',bp.game_id,'manifest.json'),total=ops.reduce((n,o)=>n+(o.estimated_cost||0),0);
   if(!fs.existsSync(file)){console.log(JSON.stringify({schema:'playjolt-auto-template/1',game_id:bp.game_id,title:bp.title,operations:ops,total_calls:ops.length,total_estimated_cost:Number(total.toFixed(8)),factory:null,production_authorized:false},null,2));return;}
-  const m=readJSON(file),summary={schema:'playjolt-auto-template/1',game_id:bp.game_id,title:bp.title,signature:bp.signature_id,runtime:'phaser-4.2.1',runner_commit:process.env.GITHUB_SHA,run_id:process.env.GITHUB_RUN_ID,operations:ops,total_calls:ops.length,total_estimated_cost:Number(total.toFixed(8)),factory:{state:m.state,version:m.version,repair_attempt:m.repair_attempt,technical_qa_status:m.technical_qa_status,product_qa_status:m.product_qa_status,commercial_qa_status:m.commercial_qa_status,quality_status:m.quality_status,source_hash:m.source_hash,failure_reasons:m.failure_reasons},production_authorized:false};
+  const m=readJSON(file),summary={schema:'playjolt-auto-template/1',game_id:bp.game_id,title:bp.title,signature:bp.signature_id,runtime:'phaser-4.2.1',runner_commit:process.env.GITHUB_SHA,run_id:process.env.GITHUB_RUN_ID,operations:ops,total_calls:ops.length,total_estimated_cost:Number(total.toFixed(8)),factory:{state:m.state,version:m.version,repair_attempt:m.repair_attempt,technical_qa_status:m.technical_qa_status,product_qa_status:m.product_qa_status,commercial_qa_status:m.commercial_qa_status,quality_status:m.quality_status,source_hash:m.source_hash,preview_url:m.preview_url||null,rc_commit:m.rc_commit||null,base_commit:m.base_commit||null,failure_reasons:m.failure_reasons},production_authorized:false};
   atomicJSON(path.join(root,'commissioning-summary.json'),summary);console.log(JSON.stringify(summary,null,2));
 }
 async function main(candidateDir,cmd=process.argv[2]){
   if(cmd==='prepare')return prepare(candidateDir);
   if(cmd==='reviews')return reviews(candidateDir);
   if(cmd==='run')return run(candidateDir);
+  if(cmd==='preview')return preview(candidateDir);
+  if(cmd==='release-packet')return releasePacket(candidateDir);
   if(cmd==='summarize')return summarize(candidateDir);
-  throw Error('usage prepare|reviews|run|summarize');
+  throw Error('usage prepare|reviews|run|preview|release-packet|summarize');
 }
-module.exports={validateBlueprint,applyPrimitive,stageSpace,targetFor,buildModel,contracts,proposalFor,main,PRIMITIVES};
+module.exports={validateBlueprint,applyPrimitive,stageSpace,targetFor,buildModel,contracts,proposalFor,preview,releasePacket,main,PRIMITIVES};
