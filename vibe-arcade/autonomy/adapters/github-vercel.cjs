@@ -71,23 +71,27 @@ class GitHubVercelAdapter {
       journal.base_commit=base.sha;write();
       ref=await this.api('git/refs','POST',{ref:'refs/heads/'+branch,sha:journal.base_commit});
     }
+    head=await this.api('git/commits/'+ref.object.sha);
+    const tree=await this.api('git/trees/'+head.tree.sha+'?recursive=1');
+    if(tree.truncated)throw Error('github_tree_truncated');
+    const names=listFiles(gameRoot),gamePrefix=`vibe-arcade/autonomy/games/${m.game_id}/`,prefix=`${gamePrefix}${m.version}/`;
+    assertFiles(m.game_id,m.version,names.map(f=>prefix+f));
+    const blobSha=b=>crypto.createHash('sha1').update(Buffer.from(`blob ${b.length}\0`)).update(b).digest('hex');
     if(!journal.base_commit) {
-      head=await this.api('git/commits/'+ref.object.sha);
-      if(head.parents?.length!==1||!head.parents[0]?.sha)throw Error('rc_base_unrecoverable');
-      journal.base_commit=head.parents[0].sha;write();
+      const candidateFiles=tree.tree.filter(t=>t.path.startsWith(gamePrefix)&&t.type!=='tree');
+      if(candidateFiles.length===0)journal.base_commit=ref.object.sha;
+      else {
+        const exact=candidateFiles.length===names.length&&names.every(f=>tree.tree.find(t=>t.path===prefix+f)?.mode==='100644'&&tree.tree.find(t=>t.path===prefix+f)?.sha===blobSha(fs.readFileSync(path.join(gameRoot,f))));
+        if(!exact||head.parents?.length!==1||!head.parents[0]?.sha)throw Error('rc_base_unrecoverable');
+        journal.base_commit=head.parents[0].sha;
+      }
+      write();
     }
     const comparison=await this.api('compare/'+journal.base_commit+'...'+ref.object.sha);
-    const gamePrefix=`vibe-arcade/autonomy/games/${m.game_id}/`;
     if(comparison.files?.length>=300||comparison.files?.some(f=>!f.filename.startsWith(gamePrefix)||f.status==='removed'||f.previous_filename&&!f.previous_filename.startsWith(gamePrefix)))throw Error('branch_path_isolation');
     if(journal.rc_commit&&ref.object.sha!==journal.rc_commit)throw Error('rc_branch_diverged');
     // Recover crash after ref update by comparing the source tree with the desired files.
-    head=head||await this.api('git/commits/'+ref.object.sha);
-    const tree=await this.api('git/trees/'+head.tree.sha+'?recursive=1');
-    if(tree.truncated)throw Error('github_tree_truncated');
-    const names=listFiles(gameRoot),prefix=`vibe-arcade/autonomy/games/${m.game_id}/${m.version}/`;
-    assertFiles(m.game_id,m.version,names.map(f=>prefix+f));
-    if(tree.tree.some(t=>t.path.startsWith(prefix)&&t.type!=='tree'&&(!names.includes(t.path.slice(prefix.length))||t.mode!=='100644')))throw Error('rc_unexpected_file');
-    const blobSha=b=>crypto.createHash('sha1').update(Buffer.from(`blob ${b.length}\0`)).update(b).digest('hex');
+    if(tree.tree.some(t=>t.path.startsWith(gamePrefix)&&t.type!=='tree'&&(!t.path.startsWith(prefix)||!names.includes(t.path.slice(prefix.length))||t.mode!=='100644')))throw Error('rc_unexpected_file');
     const unchanged=names.every(f=>tree.tree.find(t=>t.path===prefix+f)?.sha===blobSha(fs.readFileSync(path.join(gameRoot,f))));
     if(!unchanged) {
       if(journal.rc_commit)throw Error('rc_branch_diverged');

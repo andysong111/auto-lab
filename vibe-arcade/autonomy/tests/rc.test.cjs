@@ -68,6 +68,32 @@ test('GitHub adapter creates only isolated blobs/branch/draft PR, resumes CI and
   unsafe=true;await assert.rejects(()=>adapter.prepare({manifest:m,gameRoot,store}),/branch_path_isolation/);
 });
 
+test('GitHub adapter recovers a branch left at its base commit after preview state loss',async t=>{
+  const crypto=require('node:crypto');
+  const {factory,store,spec}=setup(t,{qa:mockQA});await factory.create(spec);const m=await factory.run(spec.game_id),gameRoot=factory.source(m);
+  const base='b'.repeat(40),previous='a'.repeat(40),built='c'.repeat(40);let head=base;
+  const respond=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json'}});
+  const fetchImpl=async(url,options)=>{
+    const route=url.split('/repos/andysong111/auto-lab/')[1],method=options.method||'GET',body=options.body?JSON.parse(options.body):null;
+    if(route==='git/ref/heads/factory/'+m.game_id)return respond({object:{sha:head}});
+    if(route==='git/commits/'+base)return respond({tree:{sha:'base-tree'},parents:[{sha:previous}]});
+    if(route==='git/trees/base-tree?recursive=1')return respond({tree:[],truncated:false});
+    if(route.startsWith('compare/')){assert.equal(route,`compare/${base}...${base}`);return respond({files:[]});}
+    if(route==='git/blobs'){const bytes=Buffer.from(body.content,'base64'),sha=crypto.createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');return respond({sha});}
+    if(route==='git/trees'&&method==='POST')return respond({sha:'new-tree'});
+    if(route==='git/commits'&&method==='POST'){assert.deepEqual(body.parents,[base]);return respond({sha:built});}
+    if(route==='git/refs/heads/factory/'+m.game_id&&method==='PATCH'){head=body.sha;return respond({object:{sha:head}});}
+    if(route==='actions/workflows/playjolt-factory-ci.yml/dispatches'&&method==='POST')return new Response(null,{status:204});
+    if(route.startsWith('pulls?'))return respond([]);
+    if(route==='pulls'&&method==='POST')return respond({number:46,html_url:'https://github.com/andysong111/auto-lab/pull/46'});
+    if(route.endsWith('/check-runs?per_page=100'))return respond({total_count:0,check_runs:[]});
+    if(route.endsWith('/status'))return respond({total_count:0,state:'pending'});
+    throw Error('unhandled fake GitHub route '+method+' '+route);
+  };
+  const result=await new GitHubVercelAdapter({token:'test-token',fetchImpl}).prepare({manifest:m,gameRoot,store});
+  assert.equal(result.base_commit,base);assert.equal(result.rc_commit,built);
+});
+
 test('preview bypass is scoped to validated origin and absent from artifacts',async t=>{
   const {factory,spec}=setup(t,{qa:mockQA});await factory.create(spec);const m={...await factory.run(spec.game_id),preview_url:'https://vibe-arcade-rc.vercel.app'};
   const root=factory.source(m),secret='test-only-preview-token',seen=[];
