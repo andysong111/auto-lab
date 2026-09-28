@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260928-307",
+  "title": "Echo Gallery",
+  "slug": "echo-gallery",
+  "signature_id": "adjacent-prefix-anchor",
+  "ops": [
+    "adjacent",
+    "prefix_reverse",
+    "star"
+  ],
+  "seeds": [
+    738,
+    739,
+    740,
+    741,
+    742,
+    743
+  ],
+  "theme": {
+    "singular": "Echo",
+    "plural": "Echoes",
+    "arena": "Gallery",
+    "progress": "ROUNDS",
+    "success": "GALLERY ALIGNED",
+    "failure": "ECHO FRACTURE"
+  }
+}
