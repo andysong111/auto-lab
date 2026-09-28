@@ -66,7 +66,7 @@ class Factory {
         fs.copyFileSync(source,path.join(work,name));
       }
       const descriptor={...m,history:[],failure_reasons:[]};
-      for(const key of ['source_hash','policy_hash','branch','pr_number','pr_url','rc_commit','deployment_id'])delete descriptor[key];
+      for(const key of ['source_hash','policy_hash','branch','pr_number','pr_url','rc_commit','base_commit','deployment_id'])delete descriptor[key];
       atomicJSON(path.join(work,'manifest.json'),descriptor);
       const changes=listFiles(work).filter(f=>before[f]!==hash(fs.readFileSync(path.join(work,f)).toString('base64')));
       if(fs.existsSync(this.source(m))) fs.rmSync(this.source(m),{recursive:true,force:true});

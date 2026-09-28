@@ -1,6 +1,6 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
-const {assertBranch,assertFiles,previewURL,smokePreview,GitHubVercelAdapter}=require('../adapters/github-vercel.cjs');
+const {assertBranch,assertFiles,previewURL,productionURL,smokePreview,smokeProduction,GitHubVercelAdapter}=require('../adapters/github-vercel.cjs');
 const {setup,mockQA}=require('./helpers.cjs');
 test('release adapter cannot target main or production alias or protected paths',()=>{
   const id='GAME-20260921-001';assert.equal(assertBranch(id,'factory/'+id),'factory/'+id);
@@ -8,7 +8,15 @@ test('release adapter cannot target main or production alias or protected paths'
   for(const f of ['vibe-arcade/index.html','loopjolt-backend/edge/index.ts',`vibe-arcade/autonomy/games/${id}/v1/../secret.js`])assert.throws(()=>assertFiles(id,'v1',[f]));
   assert.equal(previewURL('https://vibe-arcade-unique-a2bsangsa.vercel.app'),'https://vibe-arcade-unique-a2bsangsa.vercel.app');
   for(const url of ['https://vibe-arcade-dun.vercel.app','http://evil.vercel.app','https://evil.invalid','https://x.vercel.app?token=secret'])assert.throws(()=>previewURL(url));
+  assert.equal(productionURL('https://vibe-arcade-dun.vercel.app'),'https://vibe-arcade-dun.vercel.app');
+  assert.throws(()=>productionURL('https://other.vercel.app'));
   assert.throws(()=>new GitHubVercelAdapter().productionShip(),/AUTO_PRODUCTION_SHIP=false/);
+});
+test('production smoke is exact-source GET-only and locked to the production origin',async t=>{
+  const {factory,spec}=setup(t,{qa:mockQA});await factory.create(spec);const m=await factory.run(spec.game_id),root=factory.source(m),methods=[];
+  const prefix=`/autonomy/games/${m.game_id}/${m.version}/`,packet={candidate:{game_id:m.game_id,version:m.version,source_hash:m.source_hash}};
+  const result=await smokeProduction({packet,gameRoot:root,fetchImpl:async(url,o)=>{assert.equal(new URL(url).origin,'https://vibe-arcade-dun.vercel.app');methods.push(o.method);return new Response(fs.readFileSync(path.join(root,new URL(url).pathname.slice(prefix.length))));}});
+  assert.equal(result.passed,true);assert(methods.every(x=>x==='GET'));
 });
 test('preview smoke matches every deployed runtime byte and only performs GET',async t=>{
   const {factory,spec}=setup(t,{qa:mockQA});await factory.create(spec);let m=await factory.run(spec.game_id);m={...m,preview_url:'https://vibe-arcade-rc.vercel.app'};
@@ -43,6 +51,7 @@ test('GitHub adapter creates only isolated blobs/branch/draft PR, resumes CI and
     if(route==='git/trees'&&method==='POST'){tree=body.tree;for(const entry of tree)assert(entry.path.startsWith(`vibe-arcade/autonomy/games/${m.game_id}/v1/`));return respond({sha:'new-tree'});}
     if(route==='git/commits'&&method==='POST')return respond({sha:built});
     if(route==='git/refs/heads/factory/'+m.game_id&&method==='PATCH'){assert.equal(body.force,false);head=body.sha;return respond({object:{sha:head}});}
+    if(route==='actions/workflows/playjolt-factory-ci.yml/dispatches'&&method==='POST'){assert.equal(body.ref,'factory/'+m.game_id);return new Response(null,{status:204});}
     if(route.startsWith('pulls?'))return respond(pr?[pr]:[]);
     if(route==='pulls'&&method==='POST'){assert(body.draft);assert.equal(body.base,'main');pr={number:45,html_url:'https://github.com/andysong111/auto-lab/pull/45'};return respond(pr);}
     if(route.endsWith('/check-runs?per_page=100'))return respond({total_count:3,check_runs:['Factory contracts','Factory browser','Factory regression'].map(name=>({name,conclusion:ready?'success':null}))});
@@ -55,6 +64,7 @@ test('GitHub adapter creates only isolated blobs/branch/draft PR, resumes CI and
   const pending=await adapter.prepare({manifest:m,gameRoot,store});assert(!pending.preview_url);assert.equal(pending.pr_number,45);
   ready=true;const passed=await adapter.prepare({manifest:m,gameRoot,store});assert.equal(passed.preview_url,'https://vibe-arcade-rc.vercel.app');
   assert.equal(calls.filter(c=>c.method==='POST'&&c.route==='git/commits').length,1);assert.equal(calls.filter(c=>c.method==='POST'&&c.route==='pulls').length,1);
+  assert.equal(calls.filter(c=>c.method==='POST'&&c.route.includes('/dispatches')).length,1);
   unsafe=true;await assert.rejects(()=>adapter.prepare({manifest:m,gameRoot,store}),/branch_path_isolation/);
 });
 

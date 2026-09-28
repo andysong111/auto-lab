@@ -2,6 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const {ID,listFiles,hashTree,atomicJSON,readJSON}=require('../orchestrator/files.cjs');
 const REPO='andysong111/auto-lab';
+const PRODUCTION_ORIGIN='https://vibe-arcade-dun.vercel.app';
 const digest=b=>crypto.createHash('sha256').update(b).digest('hex');
 function assertBranch(id,branch) { if(!ID.test(id)||branch!==`factory/${id}`)throw Error('branch_isolation');return branch; }
 function assertFiles(id,version,files) {
@@ -13,10 +14,15 @@ function previewURL(raw) {
   if(u.protocol!=='https:'||u.username||u.password||u.port||!u.hostname.endsWith('.vercel.app')||u.hostname==='vibe-arcade-dun.vercel.app'||u.search||u.hash) throw Error('not_a_preview_url');
   return u.origin;
 }
-async function smokePreview({manifest,gameRoot,fetchImpl=fetch,bypassToken}) {
+function productionURL(raw) {
+  const u=new URL(raw);
+  if(u.origin!==PRODUCTION_ORIGIN||u.href!==PRODUCTION_ORIGIN+'/')throw Error('not_the_production_origin');
+  return u.origin;
+}
+async function smokePreview({manifest,gameRoot,fetchImpl=fetch,bypassToken,originValidator=previewURL}) {
   const started=Date.now(),checks=[],failures=[];
   try {
-    const origin=previewURL(manifest.preview_url),prefix=`/autonomy/games/${manifest.game_id}/${manifest.version}`;
+    const origin=originValidator(manifest.preview_url),prefix=`/autonomy/games/${manifest.game_id}/${manifest.version}`;
     for(const name of listFiles(gameRoot).filter(f=>!/\.md$/.test(f))) {
       let url=origin+prefix+'/'+name;
       let r;
@@ -37,6 +43,10 @@ async function smokePreview({manifest,gameRoot,fetchImpl=fetch,bypassToken}) {
   } catch(e) {failures.push({code:'preview_smoke',message:e.message});}
   return {passed:failures.length===0,checks,hard_failures:failures,method:'GET only; byte identity of all candidate runtime assets',duration_ms:Date.now()-started};
 }
+function smokeProduction({packet,gameRoot,fetchImpl=fetch}) {
+  const c=packet.candidate;
+  return smokePreview({manifest:{game_id:c.game_id,version:c.version,source_hash:c.source_hash,preview_url:PRODUCTION_ORIGIN},gameRoot,fetchImpl,originValidator:productionURL});
+}
 class GitHubVercelAdapter {
   constructor({token=process.env.GITHUB_TOKEN,baseRef='main',fetchImpl=fetch,previewBypassToken=process.env.VERCEL_AUTOMATION_BYPASS_SECRET,requiredChecks=['Factory contracts','Factory browser','Factory regression']}={}) {
     this.previewBypassToken=previewBypassToken;this.token=token;this.base=baseRef;this.fetch=fetchImpl;this.requiredChecks=requiredChecks;
@@ -54,18 +64,25 @@ class GitHubVercelAdapter {
     let journal=fs.existsSync(file)?readJSON(file):{branch,source_hash:m.source_hash};
     if(journal.source_hash!==m.source_hash)throw Error('rc_source_changed');
     const write=()=>atomicJSON(file,journal);
-    let ref;
+    let ref,head;
     try {ref=await this.api('git/ref/heads/'+branch);}catch(e) {
       if(e.status!==404)throw e;
       const base=await this.api('commits/'+encodeURIComponent(this.base));
-      ref=await this.api('git/refs','POST',{ref:'refs/heads/'+branch,sha:base.sha});
+      journal.base_commit=base.sha;write();
+      ref=await this.api('git/refs','POST',{ref:'refs/heads/'+branch,sha:journal.base_commit});
     }
-    const comparison=await this.api('compare/'+encodeURIComponent(this.base)+'...'+ref.object.sha);
+    if(!journal.base_commit) {
+      head=await this.api('git/commits/'+ref.object.sha);
+      if(head.parents?.length!==1||!head.parents[0]?.sha)throw Error('rc_base_unrecoverable');
+      journal.base_commit=head.parents[0].sha;write();
+    }
+    const comparison=await this.api('compare/'+journal.base_commit+'...'+ref.object.sha);
     const gamePrefix=`vibe-arcade/autonomy/games/${m.game_id}/`;
     if(comparison.files?.length>=300||comparison.files?.some(f=>!f.filename.startsWith(gamePrefix)||f.status==='removed'||f.previous_filename&&!f.previous_filename.startsWith(gamePrefix)))throw Error('branch_path_isolation');
     if(journal.rc_commit&&ref.object.sha!==journal.rc_commit)throw Error('rc_branch_diverged');
     // Recover crash after ref update by comparing the source tree with the desired files.
-    const head=await this.api('git/commits/'+ref.object.sha), tree=await this.api('git/trees/'+head.tree.sha+'?recursive=1');
+    head=head||await this.api('git/commits/'+ref.object.sha);
+    const tree=await this.api('git/trees/'+head.tree.sha+'?recursive=1');
     if(tree.truncated)throw Error('github_tree_truncated');
     const names=listFiles(gameRoot),prefix=`vibe-arcade/autonomy/games/${m.game_id}/${m.version}/`;
     assertFiles(m.game_id,m.version,names.map(f=>prefix+f));
@@ -86,15 +103,29 @@ class GitHubVercelAdapter {
       await this.api('git/refs/heads/'+branch,'PATCH',{sha:commit.sha,force:false});
       journal.rc_commit=commit.sha;write();
     } else {journal.rc_commit=ref.object.sha;write();}
+    if(!journal.ci_dispatched_at) {
+      await this.api('actions/workflows/playjolt-factory-ci.yml/dispatches','POST',{ref:branch});
+      journal.ci_dispatched_at=new Date().toISOString();write();
+    }
     const pulls=await this.api('pulls?state=open&head='+encodeURIComponent('andysong111:'+branch)+'&base='+encodeURIComponent(this.base));
-    let pr=pulls[0];
-    if(!pr)pr=await this.api('pulls','POST',{title:`Factory RC: ${m.title} (${m.game_id} ${m.version})`,head:branch,base:this.base,draft:true,
-      body:`Mechanical QA passed for source ${m.source_hash}.\n\nUnlisted Phase 1 candidate; no production merge, accounts, rankings, telemetry, or homepage registration. Heuristic quality remains unverified.\n\nArtifacts: autonomy/artifacts/${m.game_id}/${m.version}/. AUTO_PRODUCTION_SHIP=false.`});
-    Object.assign(journal,{pr_number:pr.number,pr_url:pr.html_url});write();
+    let pr=pulls[0]||null;
+    if(!pr) {
+      try {
+        pr=await this.api('pulls','POST',{title:`Factory RC: ${m.title} (${m.game_id} ${m.version})`,head:branch,base:this.base,draft:true,
+          body:`Technical, Product and Commercial QA passed for source ${m.source_hash}.\n\nExact-source Preview and release packet only. Production remains blocked until a repository-owner workflow dispatch validates the packet digest and confirmation phrase. AUTO_PRODUCTION_SHIP=false.`});
+      } catch(e) {
+        if(![403,422].includes(e.status))throw e;
+        journal.pr_creation_error=`github_${e.status}`;
+      }
+    }
+    if(pr)Object.assign(journal,{pr_number:pr.number,pr_url:pr.html_url});
+    write();
     const checks=await this.api('commits/'+journal.rc_commit+'/check-runs?per_page=100');
     const status=await this.api('commits/'+journal.rc_commit+'/status');
-    const ciReady=checks.total_count<=100&&this.requiredChecks.every(name=>checks.check_runs.some(c=>c.name===name&&c.conclusion==='success')) && checks.check_runs.every(c=>['success','neutral','skipped'].includes(c.conclusion)) && status.state==='success';
-    if(!ciReady)return {branch,rc_commit:journal.rc_commit,pr_number:pr.number,pr_url:pr.html_url};
+    const statusReady=status.total_count===0||status.state==='success';
+    const ciReady=checks.total_count<=100&&this.requiredChecks.every(name=>checks.check_runs.some(c=>c.name===name&&c.conclusion==='success')) && checks.check_runs.every(c=>['success','neutral','skipped'].includes(c.conclusion)) && statusReady;
+    const checkpoint={branch,base_commit:journal.base_commit,rc_commit:journal.rc_commit,...(pr?{pr_number:pr.number,pr_url:pr.html_url}:{})};
+    if(!ciReady)return checkpoint;
     const deployments=await this.api('deployments?sha='+journal.rc_commit+'&per_page=100');
     for(const d of deployments) {
       if(d.sha!==journal.rc_commit||d.production_environment===true||!/preview/i.test(d.environment||''))continue;
@@ -102,11 +133,11 @@ class GitHubVercelAdapter {
       if(s?.state!=='success'||!s.environment_url)continue;
       const preview=previewURL(s.environment_url);
       Object.assign(journal,{preview_url:preview,deployment_id:String(d.id)});write();
-      return {branch,rc_commit:journal.rc_commit,pr_number:pr.number,pr_url:pr.html_url,preview_url:preview,deployment_id:String(d.id)};
+      return {...checkpoint,preview_url:preview,deployment_id:String(d.id)};
     }
-    return {branch,rc_commit:journal.rc_commit,pr_number:pr.number,pr_url:pr.html_url};
+    return checkpoint;
   }
   smoke({manifest,gameRoot}) {return smokePreview({manifest,gameRoot,fetchImpl:this.fetch,bypassToken:this.previewBypassToken});}
-  productionShip() {throw Error('AUTO_PRODUCTION_SHIP=false: production shipping is not implemented in Phase 1');}
+  productionShip() {throw Error('AUTO_PRODUCTION_SHIP=false: production shipping is owner-workflow-only');}
 }
-module.exports={GitHubVercelAdapter,smokePreview,assertBranch,assertFiles,previewURL};
+module.exports={GitHubVercelAdapter,smokePreview,smokeProduction,assertBranch,assertFiles,previewURL,productionURL,PRODUCTION_ORIGIN};
