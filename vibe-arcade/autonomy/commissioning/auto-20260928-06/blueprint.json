@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260928-306",
+  "title": "Nova Archive",
+  "slug": "nova-archive",
+  "signature_id": "suffix-rotation",
+  "ops": [
+    "suffix_rotate",
+    "suffix_rotate",
+    "suffix_rotate"
+  ],
+  "seeds": [
+    637,
+    638,
+    639,
+    640,
+    641,
+    642
+  ],
+  "theme": {
+    "singular": "Nova",
+    "plural": "Novas",
+    "arena": "Archive",
+    "progress": "ROUNDS",
+    "success": "ARCHIVE LOCKED",
+    "failure": "NOVA DRIFT"
+  }
+}
