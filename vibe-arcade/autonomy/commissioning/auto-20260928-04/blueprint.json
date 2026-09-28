@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260928-304",
+  "title": "Prism Queue",
+  "slug": "prism-queue",
+  "signature_id": "prefix-rotation",
+  "ops": [
+    "prefix_rotate",
+    "prefix_rotate",
+    "prefix_rotate"
+  ],
+  "seeds": [
+    435,
+    436,
+    437,
+    438,
+    439,
+    440
+  ],
+  "theme": {
+    "singular": "Prism",
+    "plural": "Prisms",
+    "arena": "Queue",
+    "progress": "ROUNDS",
+    "success": "QUEUE LOCKED",
+    "failure": "PRISM BREAK"
+  }
+}
