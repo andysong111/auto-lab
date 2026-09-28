@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260928-303",
+  "title": "Comet Ledger",
+  "slug": "comet-ledger",
+  "signature_id": "anchor-swap",
+  "ops": [
+    "star",
+    "star",
+    "star"
+  ],
+  "seeds": [
+    334,
+    335,
+    336,
+    337,
+    338,
+    339
+  ],
+  "theme": {
+    "singular": "Comet",
+    "plural": "Comets",
+    "arena": "Ledger",
+    "progress": "ROUNDS",
+    "success": "LEDGER SEALED",
+    "failure": "COMET DRIFT"
+  }
+}
