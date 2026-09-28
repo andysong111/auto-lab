@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260928-305",
+  "title": "Glyph Harbor",
+  "slug": "glyph-harbor",
+  "signature_id": "suffix-reversal",
+  "ops": [
+    "suffix_reverse",
+    "suffix_reverse",
+    "suffix_reverse"
+  ],
+  "seeds": [
+    536,
+    537,
+    538,
+    539,
+    540,
+    541
+  ],
+  "theme": {
+    "singular": "Glyph",
+    "plural": "Glyphs",
+    "arena": "Harbor",
+    "progress": "ROUNDS",
+    "success": "HARBOR SEALED",
+    "failure": "GLYPH SCATTER"
+  }
+}
