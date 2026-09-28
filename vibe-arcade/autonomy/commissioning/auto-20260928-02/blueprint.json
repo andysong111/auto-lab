@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260928-302",
+  "title": "Signal Crown",
+  "slug": "signal-crown",
+  "signature_id": "prefix-reversal",
+  "ops": [
+    "prefix_reverse",
+    "prefix_reverse",
+    "prefix_reverse"
+  ],
+  "seeds": [
+    233,
+    234,
+    235,
+    236,
+    237,
+    238
+  ],
+  "theme": {
+    "singular": "Signal",
+    "plural": "Signals",
+    "arena": "Crown",
+    "progress": "ROUNDS",
+    "success": "CROWN LOCKED",
+    "failure": "SIGNAL BROKE"
+  }
+}
