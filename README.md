@@ -11,3 +11,8 @@ AI 자동개발실험실
 - scripts: 실행 스크립트
 - logs: 로그
 - snapshots: 상태 스냅샷
+
+
+## PlayJolt Codex continuation
+
+For ongoing PlayJolt Autonomous Publishing OS development, Codex should read `AGENTS.md` and `vibe-arcade/PLAYJOLT_PROJECT_CONTEXT.md` before substantial work.
