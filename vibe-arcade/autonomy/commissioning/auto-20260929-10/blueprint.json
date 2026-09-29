@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260929-310",
+  "title": "Cipher Yard",
+  "slug": "cipher-yard",
+  "signature_id": "suffix-prefix-anchor",
+  "ops": [
+    "suffix_reverse",
+    "prefix_rotate",
+    "star"
+  ],
+  "seeds": [
+    1041,
+    1042,
+    1043,
+    1044,
+    1045,
+    1046
+  ],
+  "theme": {
+    "singular": "Cipher",
+    "plural": "Ciphers",
+    "arena": "Yard",
+    "progress": "ROUNDS",
+    "success": "YARD LOCKED",
+    "failure": "CIPHER BREAK"
+  }
+}
