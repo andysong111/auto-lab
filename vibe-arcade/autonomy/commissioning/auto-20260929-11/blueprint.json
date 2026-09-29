@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260929-311",
+  "title": "Shard Vault",
+  "slug": "shard-vault",
+  "signature_id": "adjacent-suffix-prefix",
+  "ops": [
+    "adjacent",
+    "suffix_reverse",
+    "prefix_rotate"
+  ],
+  "seeds": [
+    1142,
+    1143,
+    1144,
+    1145,
+    1146,
+    1147
+  ],
+  "theme": {
+    "singular": "Shard",
+    "plural": "Shards",
+    "arena": "Vault",
+    "progress": "ROUNDS",
+    "success": "SHARDS SEALED",
+    "failure": "SHARD FRACTURE"
+  }
+}
