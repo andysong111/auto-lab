@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260929-312",
+  "title": "Helix Court",
+  "slug": "helix-court",
+  "signature_id": "anchor-prefix-suffix",
+  "ops": [
+    "star",
+    "prefix_reverse",
+    "suffix_rotate"
+  ],
+  "seeds": [
+    1243,
+    1244,
+    1245,
+    1246,
+    1247,
+    1248
+  ],
+  "theme": {
+    "singular": "Helix",
+    "plural": "Helixes",
+    "arena": "Court",
+    "progress": "ROUNDS",
+    "success": "COURT ALIGNED",
+    "failure": "HELIX BREAK"
+  }
+}
