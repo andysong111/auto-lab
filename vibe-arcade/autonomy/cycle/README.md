@@ -42,6 +42,7 @@ The live system now includes:
 - Candidate Queue Supervisor;
 - Trusted Intake Generator;
 - terminal candidate -> Supervisor direct handoff;
+- eligible terminal RC -> RC Preview direct handoff using the immutable source run ID;
 - duplicate-run protection;
 - best-effort draft PR creation;
 - adaptive 1 -> 3 -> 6 candidate/day ramp;
@@ -49,6 +50,10 @@ The live system now includes:
 - automatic generation of the next reviewed permutation-template candidate when the static queue is exhausted.
 
 A normal terminal REJECTED candidate should not require a ChatGPT or Codex wake-up. The Supervisor continues according to quota/safety policy.
+
+The RC continuation also uses an explicit `workflow_dispatch` from the terminal cycle. Do not replace it with an implicit `workflow_run` trigger without a live proof: the GITHUB_TOKEN-dispatched chain completed candidates without emitting those downstream runs.
+
+The trusted permutation template includes every reviewed seed/stage target in `target_matrix`, and its first active touch action is deliberately nearest the generic Technical QA touch probe. These are contract alignments, not weaker gates: candidate implementations still have to match the exact Oracle and pass the same Technical, Product and Commercial checks.
 
 The next major engineering boundary is not another intake v2. It is the Phase 5/6 transition: prove a real RC_READY through exact-source Preview/release packet, then proceed to owner-gated Production proof and automated distribution.
 

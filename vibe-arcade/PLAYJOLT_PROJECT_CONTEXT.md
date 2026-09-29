@@ -154,6 +154,7 @@ Merged in PR #93.
 
 Implemented:
 - eligible `RC_READY` -> isolated RC branch;
+- direct terminal-cycle dispatch to RC Preview using the immutable source run ID;
 - Factory CI;
 - exact-source Vercel Preview;
 - byte/source identity checks;
@@ -173,6 +174,11 @@ Important current status:
 - this proves the rejection boundary works;
 - the remaining Phase 5 proof is an actual eligible `RC_READY` candidate completing exact-source Preview + release packet;
 - after that, an owner-approved Production release/rollback exercise is the final real-world boundary proof.
+
+Operational lesson from 2026-09-29:
+- an implicit `workflow_run` continuation did not fire for autonomous cycles that were themselves dispatched through the repository token;
+- eligible terminal cycles now explicitly dispatch the RC Preview workflow, while rejected candidates continue directly to the Supervisor;
+- the trusted permutation contract now supplies the exact Oracle target matrix and aligns its first active touch with the generic Technical QA probe. Earlier templates forced a touch failure and allowed generated target logic to diverge from the reviewed Oracle; fixing those contradictions preserves rather than lowers the quality bar.
 
 Do **not** lower quality requirements merely to create an RC_READY.
 
@@ -670,6 +676,7 @@ Engineering status:
 
 Immediate goal:
 - keep autonomous candidate generation/QA running without weakening gates;
+- prove the direct terminal-cycle -> RC Preview handoff on the first naturally eligible candidate;
 - when the first eligible `RC_READY` appears, run the exact-source RC Preview + release-packet pipeline;
 - verify isolated Preview and release identity;
 - stop at the owner Production approval boundary;
