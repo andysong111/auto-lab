@@ -1,4 +1,4 @@
-# PlayJolt Autonomous Candidate Cycle v1
+# PlayJolt Autonomous Candidate Cycle
 
 This workflow removes the chat/operator handoff between a reviewed candidate's zero-paid preflight and its bounded commissioning run.
 
@@ -34,9 +34,23 @@ There is no separate chat message or manual run-request commit between preflight
 - the trusted candidate script remains responsible for its own stricter per-game budgets and reviewed oracle/contracts;
 - terminal RC/REJECT does not automatically publish or merge anything.
 
-## Remaining v2 work
+## Current autonomous continuation
 
-v1 removes the stage-to-stage chat dependency. Generating the *next new mechanic/spec itself* still requires a reviewed intake source. v2 will add a trusted bounded candidate generator/queue so terminal RC/REJECT can feed the next candidate without chat.
+The original v1 handoff gap is closed.
+
+The live system now includes:
+- Candidate Queue Supervisor;
+- Trusted Intake Generator;
+- terminal candidate -> Supervisor direct handoff;
+- duplicate-run protection;
+- best-effort draft PR creation;
+- adaptive 1 -> 3 -> 6 candidate/day ramp;
+- serial execution;
+- automatic generation of the next reviewed permutation-template candidate when the static queue is exhausted.
+
+A normal terminal REJECTED candidate should not require a ChatGPT or Codex wake-up. The Supervisor continues according to quota/safety policy.
+
+The next major engineering boundary is not another intake v2. It is the Phase 5/6 transition: prove a real RC_READY through exact-source Preview/release packet, then proceed to owner-gated Production proof and automated distribution.
 
 
 ## Queue supervisor retry safety

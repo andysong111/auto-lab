@@ -4,7 +4,18 @@
 Build a low-maintenance global web-game business where AI rapidly creates small browser games, real player data selects winners, and only winners receive more development and distribution.
 
 ## Current phase
-**Phase 1: public traffic + engagement validation**
+**Business validation Phase 1: public traffic + engagement validation**
+
+This is the business/market phase, not the engineering phase number.
+
+## Autonomous Publishing OS engineering status
+
+As of 2026-09-29:
+- Engineering Phase 4 autonomous factory: COMPLETE
+- Engineering Phase 5 release/rollback system: IMPLEMENTED; eligible RC_READY end-to-end proof still pending
+- Engineering Phase 6 distribution automation: NEXT after Phase 5 proof
+
+See `PLAYJOLT_PROJECT_CONTEXT.md` for the full durable roadmap, terminal-candidate history, cost/quality constraints, and Codex continuation rules.
 
 Production: https://vibe-arcade-dun.vercel.app
 

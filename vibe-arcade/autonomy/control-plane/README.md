@@ -11,7 +11,7 @@ This layer sits **above** the commissioned Phase 1 Factory. It does not replace 
 - define the Phase 2 KPI handoff without pretending small/missing data is a winner;
 - generate a private/noindex weekly dashboard artifact.
 
-Current safety posture is intentional: `intake_enabled=false` until a real Builder/Repair provider is commissioned, and production shipping/marketing promotion are hard held. The underlying Phase 1 `productionShip()` path is separately disabled, so changing this policy alone cannot publish a game.
+The repository's base control policy remains conservative and Production shipping/marketing promotion stay hard held. Real Builder/Repair provider execution is now commissioned through bounded autonomous workflows, which construct isolated per-run control policy/state. The underlying Factory Production path remains separately disabled, so autonomous candidate execution cannot publish a game merely by changing a control-plane flag.
 
 ## Commands
 
@@ -33,10 +33,16 @@ Normal QA failures, repairs, rejected games and insufficient metrics stay inside
 
 `metrics.cjs` only says whether data is ready for a later evaluator. It cannot label Winner/Loser. Current policy keeps Phase 2 disabled. When commissioned, the evaluator must use real observed denominators, age windows and error health; a pageview or one tagged request is never treated as a player.
 
-## Next integration
+## Current integration status and next boundaries
 
-1. commission a real Builder/Repair provider with operation-ID idempotency and budget caps;
-2. enable intake with a small active/daily cap;
-3. add a private distributed store/worker lease before running on multiple hosts;
-4. implement a reviewed production-release adapter separately from READY_TO_SHIP;
-5. connect real game KPI aggregates in Phase 2.
+Completed:
+1. real Builder/Repair provider with operation accounting and budget caps;
+2. bounded autonomous intake/queue with adaptive daily throughput;
+3. reviewed owner-gated Production release/rollback adapter separate from RC_READY.
+
+Still intentionally pending:
+1. first genuine eligible RC_READY exact-source Preview + release-packet proof;
+2. owner-approved Production release/rollback exercise;
+3. automated short-form/social/SEO distribution;
+4. real game KPI aggregates and Phase 2 market evaluator;
+5. distributed worker leasing only if/when multiple worker hosts are actually required.
