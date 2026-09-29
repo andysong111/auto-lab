@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260929-309",
+  "title": "Lumen Gallery",
+  "slug": "lumen-gallery",
+  "signature_id": "prefix-anchor-adjacent",
+  "ops": [
+    "prefix_reverse",
+    "star",
+    "adjacent"
+  ],
+  "seeds": [
+    940,
+    941,
+    942,
+    943,
+    944,
+    945
+  ],
+  "theme": {
+    "singular": "Lumen",
+    "plural": "Lumens",
+    "arena": "Gallery",
+    "progress": "ROUNDS",
+    "success": "LUMENS ALIGNED",
+    "failure": "LUMEN SCATTER"
+  }
+}
