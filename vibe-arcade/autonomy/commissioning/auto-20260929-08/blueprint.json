@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260929-308",
+  "title": "Orbit Registry",
+  "slug": "orbit-registry",
+  "signature_id": "anchor-adjacent-suffix",
+  "ops": [
+    "star",
+    "adjacent",
+    "suffix_reverse"
+  ],
+  "seeds": [
+    839,
+    840,
+    841,
+    842,
+    843,
+    844
+  ],
+  "theme": {
+    "singular": "Orbit",
+    "plural": "Orbits",
+    "arena": "Registry",
+    "progress": "ROUNDS",
+    "success": "REGISTRY SEALED",
+    "failure": "ORBIT BREAK"
+  }
+}
