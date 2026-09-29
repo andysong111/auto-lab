@@ -1,8 +1,5 @@
 name: PlayJolt RC Preview and Release Packet
 on:
-  workflow_run:
-    workflows: ['PlayJolt Autonomous Candidate Cycle']
-    types: [completed]
   workflow_dispatch:
     inputs:
       source_run_id:
@@ -23,7 +20,6 @@ concurrency:
 
 jobs:
   preview:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 75
     steps:
@@ -32,11 +28,18 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           REQUESTED_RUN: ${{ inputs.source_run_id }}
-          COMPLETED_RUN: ${{ github.event.workflow_run.id }}
         run: |
-          RUN_ID="${REQUESTED_RUN:-$COMPLETED_RUN}"
+          RUN_ID="$REQUESTED_RUN"
           test "$(printf '%s' "$RUN_ID" | tr -cd '0-9')" = "$RUN_ID"
-          META="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID")"
+          META=''
+          for ATTEMPT in $(seq 1 30); do
+            META="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID")"
+            if [ "$(printf '%s' "$META" | jq -r '.status')" = 'completed' ]; then
+              break
+            fi
+            sleep 10
+          done
+          test "$(printf '%s' "$META" | jq -r '.status')" = 'completed'
           test "$(printf '%s' "$META" | jq -r '.name')" = 'PlayJolt Autonomous Candidate Cycle'
           test "$(printf '%s' "$META" | jq -r '.conclusion')" = 'success'
           test "$(printf '%s' "$META" | jq -r '.event')" = 'workflow_dispatch'

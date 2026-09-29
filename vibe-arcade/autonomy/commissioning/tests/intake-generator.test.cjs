@@ -1,10 +1,13 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),os=require('node:os');
 const product=require('../../qa/product-contract.cjs'),commercial=require('../../qa/commercial/contract.cjs');
-const {SIGNATURES,blueprintFor,materialize}=require('../../cycle/intake-generator.cjs');
+const {SIGNATURES,THEMES,blueprintFor,materialize}=require('../../cycle/intake-generator.cjs');
 const {buildModel,proposalFor,stageSpace,targetFor}=require('../../cycle/template-runner.cjs');
 
 test('all trusted intake signatures produce bounded reachable reviewed contracts',()=>{
+  assert.equal(THEMES.length,SIGNATURES.length);
+  assert.equal(new Set(SIGNATURES.map(x=>x.id)).size,SIGNATURES.length);
+  assert.equal(new Set(SIGNATURES.map(x=>x.ops.join(','))).size,SIGNATURES.length);
   for(let sequence=1;sequence<=SIGNATURES.length;sequence++){
     const bp=blueprintFor(sequence,'20260926'),model=buildModel(bp),proposal=proposalFor(bp,model);
     product.validateModel(model);product.validate(proposal.product_contract);commercial.validate(proposal.commercial_contract);
@@ -15,8 +18,16 @@ test('all trusted intake signatures produce bounded reachable reviewed contracts
       assert(product.shortest(graph,graph.initial,n=>n.success),bp.signature_id+' missing success path');
       const seen=[1,2,3].map(stage=>stageSpace(bp,stage));
       assert.deepEqual(seen.map((x,i)=>new Set(Array.from({length:i+1},(_,a)=>require('../../cycle/template-runner.cjs').applyPrimitive(x.initial,a,bp.ops[a]))).size),[1,2,3]);
-      for(let stage=1;stage<=3;stage++)assert.notEqual(targetFor(bp,seed,stage),stageSpace(bp,stage).initial);
+      for(let stage=1;stage<=3;stage++){
+        const target=targetFor(bp,seed,stage);
+        assert.notEqual(target,stageSpace(bp,stage).initial);
+        assert.equal(proposal.implementation_contract.difficulty.includes(`\"${seed}\":`),true);
+        assert.equal(proposal.implementation_contract.difficulty.includes(`\"${stage}\":\"${target}\"`),true);
+      }
     }
+    const probe={x:.72,y:.55},actions=proposal.product_contract.actions;
+    const nearest=Object.entries(actions).map(([name,spec])=>({name,distance:Math.hypot(probe.x-spec.touch.x,probe.y-spec.touch.y)})).sort((a,b)=>a.distance-b.distance)[0];
+    assert.deepEqual(nearest.name,'left');assert(nearest.distance<=.22);
   }
 });
 

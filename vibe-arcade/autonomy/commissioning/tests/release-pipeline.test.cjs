@@ -21,9 +21,9 @@ test('production git scope accepts only candidate runtime additions or modificat
   assert.equal(validateChangedPaths(p,[`A\t${prefix}index.html`,`M\t${prefix}app.js`]).files,2);
   for(const rows of [[],['A\tvibe-arcade/index.html'],[`D\t${prefix}index.html`],[`R100\t${prefix}old.js\t${prefix}new.js`]])assert.throws(()=>validateChangedPaths(p,rows),/production_git_gate_failed/);
 });
-test('preview workflow is automatic and production workflow is manual-only with owner gate',()=>{
+test('preview workflow accepts only explicit trusted run handoff and production remains owner-only',()=>{
   const preview=fs.readFileSync(path.join(root,'.github/workflows/playjolt-rc-release-packet.yml'),'utf8');
-  assert.match(preview,/workflow_run:/);assert.match(preview,/PlayJolt Autonomous Candidate Cycle/);assert.match(preview,/event.*workflow_dispatch/);assert.match(preview,/ref: main/);assert.match(preview,/rc-continuation\.cjs/);assert.doesNotMatch(preview,/node "\$SCRIPT"|commission\.cjs/);assert.doesNotMatch(preview,/git push origin HEAD:main/);
+  assert.match(preview,/workflow_dispatch:/);assert.doesNotMatch(preview,/workflow_run:/);assert.match(preview,/REQUESTED_RUN/);assert.match(preview,/for ATTEMPT in \$\(seq 1 30\)/);assert.match(preview,/\.status.*completed/);assert.match(preview,/PlayJolt Autonomous Candidate Cycle/);assert.match(preview,/ref: main/);assert.match(preview,/rc-continuation\.cjs/);assert.doesNotMatch(preview,/node "\$SCRIPT"|commission\.cjs/);assert.doesNotMatch(preview,/git push origin HEAD:main/);
   const production=fs.readFileSync(path.join(root,'.github/workflows/playjolt-production-release.yml'),'utf8');
   assert.match(production,/workflow_dispatch:/);assert.doesNotMatch(production,/\n\s+(push|schedule|workflow_run):/);assert.match(production,/environment: playjolt-production/);assert.match(production,/test "\$ACTOR" = "\$OWNER"/);assert.match(production,/git merge --ff-only/);assert.match(production,/git revert --no-edit/);assert.doesNotMatch(production,/--force/);
 });

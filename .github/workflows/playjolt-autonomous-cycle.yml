@@ -104,6 +104,32 @@ jobs:
             COST="$(jq -r '.total_estimated_cost // "?"' "$FILE")"
             gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -f body="Autonomous cycle checkpoint: run_id=$GITHUB_RUN_ID state=$STATE version=$VERSION repair=$REPAIRS/5 provider_calls=$CALLS estimated_cost_usd=$COST production=false."
           fi
+      - name: Handoff eligible RC to Preview and release packet
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          FILE="$FACTORY_WORKER_ROOT/commissioning-summary.json"
+          test -f "$FILE" || exit 0
+          STATE="$(jq -r '.factory.state // "UNKNOWN"' "$FILE")"
+          case "$STATE" in
+            RC_READY|READY_TO_SHIP)
+              for ATTEMPT in 1 2 3; do
+                if gh workflow run playjolt-rc-release-packet.yml \
+                  --ref main \
+                  -f source_run_id="$GITHUB_RUN_ID"; then
+                  echo "Terminal $STATE handed directly to RC Preview."
+                  exit 0
+                fi
+                sleep "$((ATTEMPT * 5))"
+              done
+              echo "RC Preview dispatch failed after three attempts." >&2
+              exit 1
+              ;;
+            *)
+              echo "State $STATE is not Preview eligible."
+              ;;
+          esac
       - name: Handoff terminal candidate to queue supervisor
         if: always()
         env:

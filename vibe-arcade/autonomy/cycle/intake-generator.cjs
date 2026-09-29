@@ -14,7 +14,13 @@ const SIGNATURES=[
   {id:'prefix-anchor-adjacent',ops:['prefix_reverse','star','adjacent']},
   {id:'suffix-prefix-anchor',ops:['suffix_reverse','prefix_rotate','star']},
   {id:'adjacent-suffix-prefix',ops:['adjacent','suffix_reverse','prefix_rotate']},
-  {id:'anchor-prefix-suffix',ops:['star','prefix_reverse','suffix_rotate']}
+  {id:'anchor-prefix-suffix',ops:['star','prefix_reverse','suffix_rotate']},
+  {id:'rotate-suffix-adjacent',ops:['prefix_rotate','suffix_reverse','adjacent']},
+  {id:'suffix-anchor-prefix',ops:['suffix_rotate','star','prefix_reverse']},
+  {id:'adjacent-anchor-rotate',ops:['adjacent','star','prefix_rotate']},
+  {id:'reverse-adjacent-suffix',ops:['prefix_reverse','adjacent','suffix_rotate']},
+  {id:'suffix-anchor-rotate',ops:['suffix_reverse','star','prefix_rotate']},
+  {id:'anchor-suffix-prefix',ops:['star','suffix_rotate','prefix_reverse']}
 ];
 const THEMES=[
   {title:'Rune Cascade',singular:'Rune',plural:'Runes',arena:'Vault',progress:'ROUNDS',success:'VAULT ALIGNED',failure:'RUNE FRACTURE'},
@@ -28,7 +34,13 @@ const THEMES=[
   {title:'Lumen Gallery',singular:'Lumen',plural:'Lumens',arena:'Gallery',progress:'ROUNDS',success:'LUMENS ALIGNED',failure:'LUMEN SCATTER'},
   {title:'Cipher Yard',singular:'Cipher',plural:'Ciphers',arena:'Yard',progress:'ROUNDS',success:'YARD LOCKED',failure:'CIPHER BREAK'},
   {title:'Shard Vault',singular:'Shard',plural:'Shards',arena:'Vault',progress:'ROUNDS',success:'SHARDS SEALED',failure:'SHARD FRACTURE'},
-  {title:'Helix Court',singular:'Helix',plural:'Helixes',arena:'Court',progress:'ROUNDS',success:'COURT ALIGNED',failure:'HELIX BREAK'}
+  {title:'Helix Court',singular:'Helix',plural:'Helixes',arena:'Court',progress:'ROUNDS',success:'COURT ALIGNED',failure:'HELIX BREAK'},
+  {title:'Aster Foundry',singular:'Aster',plural:'Asters',arena:'Foundry',progress:'ROUNDS',success:'ASTERS FORGED',failure:'ASTER FRACTURE'},
+  {title:'Voxel Atrium',singular:'Voxel',plural:'Voxels',arena:'Atrium',progress:'ROUNDS',success:'ATRIUM ALIGNED',failure:'VOXEL SCATTER'},
+  {title:'Quasar Annex',singular:'Quasar',plural:'Quasars',arena:'Annex',progress:'ROUNDS',success:'ANNEX SEALED',failure:'QUASAR DRIFT'},
+  {title:'Ember Circuit',singular:'Ember',plural:'Embers',arena:'Circuit',progress:'ROUNDS',success:'CIRCUIT LOCKED',failure:'EMBER BREAK'},
+  {title:'Tidal Codex',singular:'Tide',plural:'Tides',arena:'Codex',progress:'ROUNDS',success:'CODEX SEALED',failure:'TIDE FRACTURE'},
+  {title:'Aurora Keep',singular:'Aurora',plural:'Auroras',arena:'Keep',progress:'ROUNDS',success:'KEEP ALIGNED',failure:'AURORA SCATTER'}
 ];
 function slugify(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 function blueprintFor(sequence,date){
