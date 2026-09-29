@@ -1,6 +1,27 @@
 # LoopJolt — Master Plan
 
-Last updated: 2026-09-19
+Last updated: 2026-09-29
+
+
+## Engineering overlay — PlayJolt Autonomous Publishing OS
+
+This business plan's "Phase 1" refers to **market/business validation**. It is separate from the newer Autonomous Publishing OS engineering roadmap.
+
+Current engineering status as of 2026-09-29:
+- Engineering Phase 4 autonomous multi-candidate factory: **COMPLETE**
+- Engineering Phase 5 owner-gated RC Preview/release/rollback pipeline: **IMPLEMENTED**
+- Remaining Phase 5 proof: first genuine eligible `RC_READY` candidate through exact-source Preview + release packet, then explicit owner-gated Production/rollback exercise
+- Engineering Phase 6 next: automated gameplay capture, Shorts/Reels/TikTok/Threads publishing and attribution
+- Engineering Phase 7: real-user measurement + KEEP/MODIFY/KILL allocation
+- Engineering Phase 8: winner/loser learning fed back into generation and distribution
+
+For the durable engineering history, safety rules, candidate lessons, and current owner intent, read:
+
+`PLAYJOLT_PROJECT_CONTEXT.md`
+
+Do not weaken quality gates merely to advance an engineering phase.
+
+---
 
 ## 0. Executive thesis
 
