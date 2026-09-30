@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260930-316",
+  "title": "Ember Circuit",
+  "slug": "ember-circuit",
+  "signature_id": "reverse-adjacent-suffix",
+  "ops": [
+    "prefix_reverse",
+    "adjacent",
+    "suffix_rotate"
+  ],
+  "seeds": [
+    1647,
+    1648,
+    1649,
+    1650,
+    1651,
+    1652
+  ],
+  "theme": {
+    "singular": "Ember",
+    "plural": "Embers",
+    "arena": "Circuit",
+    "progress": "ROUNDS",
+    "success": "CIRCUIT LOCKED",
+    "failure": "EMBER BREAK"
+  }
+}
