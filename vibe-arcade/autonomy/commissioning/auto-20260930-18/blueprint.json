@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260930-318",
+  "title": "Aurora Keep",
+  "slug": "aurora-keep",
+  "signature_id": "anchor-suffix-prefix",
+  "ops": [
+    "star",
+    "suffix_rotate",
+    "prefix_reverse"
+  ],
+  "seeds": [
+    1849,
+    1850,
+    1851,
+    1852,
+    1853,
+    1854
+  ],
+  "theme": {
+    "singular": "Aurora",
+    "plural": "Auroras",
+    "arena": "Keep",
+    "progress": "ROUNDS",
+    "success": "KEEP ALIGNED",
+    "failure": "AURORA SCATTER"
+  }
+}
