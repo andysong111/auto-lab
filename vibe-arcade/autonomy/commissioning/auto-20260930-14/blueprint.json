@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260930-314",
+  "title": "Voxel Atrium",
+  "slug": "voxel-atrium",
+  "signature_id": "suffix-anchor-prefix",
+  "ops": [
+    "suffix_rotate",
+    "star",
+    "prefix_reverse"
+  ],
+  "seeds": [
+    1445,
+    1446,
+    1447,
+    1448,
+    1449,
+    1450
+  ],
+  "theme": {
+    "singular": "Voxel",
+    "plural": "Voxels",
+    "arena": "Atrium",
+    "progress": "ROUNDS",
+    "success": "ATRIUM ALIGNED",
+    "failure": "VOXEL SCATTER"
+  }
+}
