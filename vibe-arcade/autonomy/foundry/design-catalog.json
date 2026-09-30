@@ -1,0 +1,112 @@
+{
+  "schema": "playjolt-foundry-designs/1",
+  "policy": {
+    "market_benchmark_share": "1-of-every-2",
+    "max_family_rejections_without_rc": 3,
+    "require_reviewed_runner_before_paid_build": true
+  },
+  "families": [
+    {
+      "id": "permutation-ordering-v1",
+      "status": "retired",
+      "reason": "Repeated autonomous candidates exhausted their repair budgets with no RC_READY result. Do not create another ID from this family to regain budget.",
+      "runner": "cycle/template-runner.cjs"
+    },
+    {
+      "id": "kinetic-balance",
+      "status": "reviewed",
+      "hypothesis": "Players make short spatial load-balancing decisions and receive immediate physical-looking consequences.",
+      "copy_boundary": "No tower stack, physics-puzzle level, character, layout or scoring system may be copied from a benchmark."
+    },
+    {
+      "id": "signal-composition",
+      "status": "incubating",
+      "hypothesis": "Players combine a small vocabulary of signals into increasingly expressive target patterns.",
+      "copy_boundary": "No word-game board, card system, melody, branded symbol set or level layout may be copied."
+    },
+    {
+      "id": "pressure-allocation",
+      "status": "reviewed",
+      "hypothesis": "Players allocate scarce capacity across changing demands and can visibly recover from near-failure states.",
+      "copy_boundary": "No merge grid, match-three board, city skin, economy or progression map may be copied."
+    },
+    {
+      "id": "trajectory-interception",
+      "status": "incubating",
+      "hypothesis": "Players read future motion and make a few high-value interception choices per short run.",
+      "copy_boundary": "No runner lane system, projectile skin, level geometry or control layout may be copied."
+    }
+  ],
+  "designs": [
+    {
+      "id": "kinetic-balance-original-01",
+      "lane": "original",
+      "family_id": "kinetic-balance",
+      "status": "reviewed",
+      "title_seed": "Counterweight garden",
+      "novelty_contract": "Balance a living mobile by choosing attachment points whose leverage changes after every successful hold.",
+      "candidate": {"title":"Counterweight Garden","slug":"counterweight-garden","theme":{"singular":"Weight","plural":"Weights","arena":"Canopy","progress":"HOLDS","success":"CANOPY BALANCED","failure":"CANOPY COLLAPSED"}}
+    },
+    {
+      "id": "kinetic-balance-market-01",
+      "lane": "market-benchmark",
+      "family_id": "kinetic-balance",
+      "status": "incubating",
+      "benchmark_id": "google-play-puzzle-en-20260930",
+      "title_seed": "Tension sculpture",
+      "novelty_contract": "Apply rising-board-tension and clear-chain-payoff principles to an original counterweight mechanic, without blocks or matching."
+    },
+    {
+      "id": "signal-composition-original-01",
+      "lane": "original",
+      "family_id": "signal-composition",
+      "status": "incubating",
+      "title_seed": "Signal grammar",
+      "novelty_contract": "Compose a target waveform from a changing three-action grammar with visible harmonic consequences."
+    },
+    {
+      "id": "signal-composition-market-01",
+      "lane": "market-benchmark",
+      "family_id": "signal-composition",
+      "status": "incubating",
+      "benchmark_id": "google-play-indie-en-20260930",
+      "title_seed": "Resonance phrase",
+      "novelty_contract": "Apply compact-rule depth and strong system identity to an original signal-composition game, without cards, words or copied symbols."
+    },
+    {
+      "id": "pressure-allocation-original-01",
+      "lane": "original",
+      "family_id": "pressure-allocation",
+      "status": "incubating",
+      "title_seed": "Pressure commons",
+      "novelty_contract": "Route a limited pressure budget among vessels whose safe bands move after each commitment."
+    },
+    {
+      "id": "pressure-allocation-market-01",
+      "lane": "market-benchmark",
+      "family_id": "pressure-allocation",
+      "status": "reviewed",
+      "benchmark_id": "google-play-games-en-20260930",
+      "title_seed": "Capacity chorus",
+      "novelty_contract": "Apply first-turn clarity and visible progression to original multi-vessel capacity decisions, without copying a board or economy.",
+      "candidate": {"title":"Capacity Chorus","slug":"capacity-chorus","theme":{"singular":"Vessel","plural":"Vessels","arena":"Manifold","progress":"ROUNDS","success":"FLOW HARMONIZED","failure":"PRESSURE LOST"}}
+    },
+    {
+      "id": "trajectory-interception-original-01",
+      "lane": "original",
+      "family_id": "trajectory-interception",
+      "status": "incubating",
+      "title_seed": "Vector canopy",
+      "novelty_contract": "Place a small number of deflectors after reading deterministic trajectories, then watch the whole pattern resolve."
+    },
+    {
+      "id": "trajectory-interception-market-01",
+      "lane": "market-benchmark",
+      "family_id": "trajectory-interception",
+      "status": "incubating",
+      "benchmark_id": "google-play-puzzle-en-20260930",
+      "title_seed": "Arc intercept",
+      "novelty_contract": "Apply legible spatial state and short-session payoff to original interception planning, without blocks, matching or runner lanes."
+    }
+  ]
+}

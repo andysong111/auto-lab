@@ -52,15 +52,47 @@ jobs:
           else
             echo "allowed=true" >> "$GITHUB_OUTPUT"
           fi
-      - name: Materialize trusted candidate
+      - name: Compile Factory learning and select the next design lane
         if: ${{ inputs.dry_run == true || steps.quota.outputs.allowed == 'true' }}
+        id: foundry
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          OUTCOMES="$RUNNER_TEMP/playjolt-learning-outcomes"
+          PROFILE="$RUNNER_TEMP/playjolt-learning-profile.json"
+          PLAN="$RUNNER_TEMP/playjolt-foundry-selection.json"
+          mkdir -p "$OUTCOMES"
+          gh api "repos/$GITHUB_REPOSITORY/actions/workflows/playjolt-autonomous-cycle.yml/runs?status=completed&per_page=50" --jq '.workflow_runs[].id' | while read -r RUN_ID; do
+            gh run download "$RUN_ID" --pattern 'playjolt-learning-outcome-*' --dir "$OUTCOMES/$RUN_ID" >/dev/null 2>&1 || true
+          done
+          node vibe-arcade/autonomy/foundry/learning.cjs compile \
+            vibe-arcade/autonomy/foundry/seed-outcomes.json "$OUTCOMES" "$PROFILE"
+          EXISTING="$(git ls-remote --heads origin 'refs/heads/commissioning/auto-*' | wc -l | tr -d ' ')"
+          SEQUENCE="$((EXISTING + 1))"
+          DATE_ISO="$(date -u +%Y-%m-%d)"
+          node vibe-arcade/autonomy/foundry/selector.cjs select "$SEQUENCE" "$DATE_ISO" \
+            vibe-arcade/autonomy/foundry/design-catalog.json \
+            vibe-arcade/autonomy/foundry/benchmark-catalog.json "$PROFILE" > "$PLAN"
+          echo "sequence=$SEQUENCE" >> "$GITHUB_OUTPUT"
+          echo "lane=$(jq -r '.lane' "$PLAN")" >> "$GITHUB_OUTPUT"
+          if [ "$(jq -r '.status' "$PLAN")" = "SELECTED" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+            echo "design=$(jq -r '.design.id' "$PLAN")" >> "$GITHUB_OUTPUT"
+            echo "Foundry selected $(jq -r '.design.id' "$PLAN") for the $(jq -r '.lane' "$PLAN") lane."
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "reason=$(jq -r '.reason' "$PLAN")" >> "$GITHUB_OUTPUT"
+            echo "Foundry is safely idle: $(jq -r '.reason' "$PLAN"). No provider call will be made."
+          fi
+          echo "plan=$PLAN" >> "$GITHUB_OUTPUT"
+      - name: Materialize trusted candidate
+        if: ${{ (inputs.dry_run == true || steps.quota.outputs.allowed == 'true') && steps.foundry.outputs.ready == 'true' }}
         id: materialize
         run: |
           DATE="$(date -u +%Y%m%d)"
-          EXISTING="$(git ls-remote --heads origin 'refs/heads/commissioning/auto-*' | wc -l | tr -d ' ')"
-          SEQUENCE="$((EXISTING + 1))"
+          SEQUENCE="${{ steps.foundry.outputs.sequence }}"
           OUT="$RUNNER_TEMP/playjolt-intake"
-          node vibe-arcade/autonomy/cycle/intake-generator.cjs materialize "$OUT" "$SEQUENCE" "$DATE"
+          node vibe-arcade/autonomy/cycle/intake-generator.cjs materialize "$OUT" "$SEQUENCE" "$DATE" "${{ steps.foundry.outputs.plan }}"
           META="$OUT/meta.json"
           echo "branch=$(jq -r '.branch' "$META")" >> "$GITHUB_OUTPUT"
           echo "slot=$(jq -r '.slot' "$META")" >> "$GITHUB_OUTPUT"
@@ -69,8 +101,10 @@ jobs:
           echo "game_id=$(jq -r '.game_id' "$META")" >> "$GITHUB_OUTPUT"
           echo "candidate=$(jq -r '.candidate' "$META")" >> "$GITHUB_OUTPUT"
           echo "signature=$(jq -r '.signature_id' "$META")" >> "$GITHUB_OUTPUT"
+          echo "lane=$(jq -r '.lane' "$META")" >> "$GITHUB_OUTPUT"
+          echo "family=$(jq -r '.family_id' "$META")" >> "$GITHUB_OUTPUT"
       - name: Stage generated candidate in isolated branch
-        if: ${{ inputs.dry_run == true || steps.quota.outputs.allowed == 'true' }}
+        if: ${{ (inputs.dry_run == true || steps.quota.outputs.allowed == 'true') && steps.foundry.outputs.ready == 'true' }}
         run: |
           BRANCH="${{ steps.materialize.outputs.branch }}"
           if git ls-remote --exit-code origin "refs/heads/$BRANCH" >/dev/null 2>&1; then
@@ -87,7 +121,7 @@ jobs:
           git add "$TARGET"
           git commit -m "Stage autonomous candidate ${{ steps.materialize.outputs.game_id }}"
       - name: Zero-paid generated-candidate preflight
-        if: ${{ inputs.dry_run == true || steps.quota.outputs.allowed == 'true' }}
+        if: ${{ (inputs.dry_run == true || steps.quota.outputs.allowed == 'true') && steps.foundry.outputs.ready == 'true' }}
         env:
           FACTORY_WORKER_ROOT: ${{ runner.temp }}/generated-preflight
           AUTO_PRODUCTION_SHIP: 'false'
@@ -95,23 +129,23 @@ jobs:
           node "${{ steps.materialize.outputs.candidate_dir }}/commission.cjs" prepare
           node "${{ steps.materialize.outputs.candidate_dir }}/commission.cjs" reviews
       - name: Stop after dry-run validation
-        if: ${{ inputs.dry_run == true }}
+        if: ${{ inputs.dry_run == true && steps.foundry.outputs.ready == 'true' }}
         run: |
           echo "Dry run passed for ${{ steps.materialize.outputs.game_id }} / ${{ steps.materialize.outputs.candidate }}"
       - name: Push reviewed candidate branch
-        if: ${{ inputs.dry_run != true && steps.quota.outputs.allowed == 'true' }}
+        if: ${{ inputs.dry_run != true && steps.quota.outputs.allowed == 'true' && steps.foundry.outputs.ready == 'true' }}
         run: git push origin "${{ steps.materialize.outputs.branch }}"
       - name: Open draft candidate PR (best effort)
-        if: ${{ inputs.dry_run != true && steps.quota.outputs.allowed == 'true' }}
+        if: ${{ inputs.dry_run != true && steps.quota.outputs.allowed == 'true' && steps.foundry.outputs.ready == 'true' }}
         continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh pr create --draft --base main --head "${{ steps.materialize.outputs.branch }}" \
             --title "Autonomous candidate: ${{ steps.materialize.outputs.candidate }}" \
-            --body "Trusted intake candidate. Game: ${{ steps.materialize.outputs.game_id }}. Signature: ${{ steps.materialize.outputs.signature }}. Generated from reviewed permutation DSL. Provider calls <=6, estimated model cost <=USD2, Production=false."
+            --body "Trusted Foundry candidate. Game: ${{ steps.materialize.outputs.game_id }}. Lane: ${{ steps.materialize.outputs.lane }}. Family: ${{ steps.materialize.outputs.family }}. Design: ${{ steps.materialize.outputs.signature }}. Provider calls <=6, estimated model cost <=USD2, Production=false."
       - name: Dispatch bounded autonomous cycle
-        if: ${{ inputs.dry_run != true && steps.quota.outputs.allowed == 'true' }}
+        if: ${{ inputs.dry_run != true && steps.quota.outputs.allowed == 'true' && steps.foundry.outputs.ready == 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |

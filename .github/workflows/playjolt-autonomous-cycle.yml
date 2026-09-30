@@ -89,6 +89,14 @@ jobs:
           path: ${{ runner.temp }}/playjolt-auto-cycle
           include-hidden-files: true
           retention-days: 30
+      - name: Preserve lightweight Foundry learning outcome
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playjolt-learning-outcome-${{ steps.resolve.outputs.game_id }}
+          path: ${{ runner.temp }}/playjolt-auto-cycle/commissioning-summary.json
+          if-no-files-found: ignore
+          retention-days: 90
       - name: Report terminal checkpoint
         if: always()
         env:

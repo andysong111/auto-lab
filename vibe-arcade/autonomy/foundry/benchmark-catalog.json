@@ -1,0 +1,61 @@
+{
+  "schema": "playjolt-market-benchmarks/1",
+  "captured_at": "2026-09-30",
+  "max_age_days": 45,
+  "policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "sources": [
+    {
+      "id": "google-play-games-en-20260930",
+      "publisher": "Google Play",
+      "url": "https://play.google.com/store/apps/category/GAME?hl=en",
+      "surface": "Games top charts, popular games and editor-curated modules",
+      "observed_titles": ["Block Blast!", "Royal Match", "Township", "Clash Royale", "Subway Surfers"],
+      "transferable_principles": [
+        "make the first meaningful choice understandable without a tutorial wall",
+        "show progress and pressure in the playfield rather than only in text",
+        "make a short session produce a visually complete result"
+      ]
+    },
+    {
+      "id": "google-play-puzzle-en-20260930",
+      "publisher": "Google Play",
+      "url": "https://play.google.com/store/apps/category/GAME_PUZZLE?hl=en",
+      "surface": "Puzzle top-free, popular and newly launched modules",
+      "observed_titles": ["Block Blast!", "Royal Match", "Loop Sort", "Pixel Flow!", "Toon Blast"],
+      "transferable_principles": [
+        "keep the core rule visible through spatial state changes",
+        "create rising board tension with recoverable decisions",
+        "reward planned chains with a clear payoff while preserving honest score"
+      ]
+    },
+    {
+      "id": "google-play-indie-en-20260930",
+      "publisher": "Google Play",
+      "url": "https://play.google.com/store/apps/category/GAME?hl=en",
+      "surface": "Play top indie games module",
+      "observed_titles": ["Balatro", "Monument Valley 2", "Reigns", "The Room Three", "GUBBINS"],
+      "transferable_principles": [
+        "build a strong identity from one legible system",
+        "let small rule combinations create depth instead of adding controls",
+        "make presentation reinforce the mechanic rather than cover it"
+      ]
+    }
+  ]
+}

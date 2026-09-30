@@ -180,6 +180,16 @@ Operational lesson from 2026-09-29:
 - eligible terminal cycles now explicitly dispatch the RC Preview workflow, while rejected candidates continue directly to the Supervisor;
 - the trusted permutation contract now supplies the exact Oracle target matrix and aligns its first active touch with the generic Technical QA probe. Earlier templates forced a touch failure and allowed generated target logic to diverge from the reviewed Oracle; fixing those contradictions preserves rather than lowers the quality bar.
 
+Candidate-supply lesson from 2026-09-30:
+- generated candidates 13 through 18 all exhausted repair budget in the same permutation-ordering mechanic family, so adding more gates alone was not improving the raw material;
+- the permutation-ordering family is retired and must not be cloned under a new game ID;
+- the Learning Foundry now alternates `original` and `market-benchmark` lanes, making exactly one of every two candidates use fresh reviewed Google Play evidence;
+- market benchmarking transfers only abstract principles such as first-turn clarity, visible progress and feedback cadence. Names, branding, characters, art, audio, layouts, assets, code and distinctive rulesets remain forbidden inputs;
+- every terminal cycle emits a lightweight outcome artifact. Family attempts, QA passes, costs, recurring failure codes and used design IDs inform the next selection;
+- three rejections with no RC_READY automatically retire a mechanic family before another paid provider call;
+- unreviewed mechanics remain `incubating`, and no eligible reviewed design means safe `IDLE`, not an improvised paid build;
+- the first reviewed proof pair uses two distinct finite-state families: original `kinetic-balance` and market-informed `pressure-allocation`.
+
 Do **not** lower quality requirements merely to create an RC_READY.
 
 ### Phase 6 — Automated distribution — NEXT AFTER PHASE 5 PROOF
@@ -663,11 +673,11 @@ This is how Codex sessions remain continuous without old conversation history.
 
 ---
 
-## 17. Current continuation checkpoint (2026-09-29 snapshot)
+## 17. Current continuation checkpoint (2026-09-30 snapshot)
 
 Snapshot main around this sync:
 - PR #93 owner-gated RC release/rollback pipeline merged;
-- main after PR #93: `b1c706360c0c90c1aadde7017dd56a606243e9fd` at the time of this documentation sync.
+- Phase 5 remained implemented while the candidate supply was upgraded from one exhausted template family to the Learning Foundry.
 
 Engineering status:
 - Phase 4: COMPLETE
@@ -675,7 +685,8 @@ Engineering status:
 - Phase 5 real eligible-RC proof: PENDING
 
 Immediate goal:
-- keep autonomous candidate generation/QA running without weakening gates;
+- run the reviewed Foundry proof pair without weakening gates: one original family, then one market-benchmark family;
+- confirm terminal outcome artifacts change future selection and prevent exhausted-family repetition;
 - prove the direct terminal-cycle -> RC Preview handoff on the first naturally eligible candidate;
 - when the first eligible `RC_READY` appears, run the exact-source RC Preview + release-packet pipeline;
 - verify isolated Preview and release identity;

@@ -47,13 +47,17 @@ The live system now includes:
 - best-effort draft PR creation;
 - adaptive 1 -> 3 -> 6 candidate/day ramp;
 - serial execution;
-- automatic generation of the next reviewed permutation-template candidate when the static queue is exhausted.
+- Learning Foundry selection of the next reviewed mechanic family when the static queue is exhausted;
+- an exact one-in-two market-benchmark lane that transfers abstract principles from a fresh Google Play snapshot without copying protected expression;
+- terminal outcome learning that retires a family after three rejections with no RC_READY result.
 
 A normal terminal REJECTED candidate should not require a ChatGPT or Codex wake-up. The Supervisor continues according to quota/safety policy.
 
 The RC continuation also uses an explicit `workflow_dispatch` from the terminal cycle. Do not replace it with an implicit `workflow_run` trigger without a live proof: the GITHUB_TOKEN-dispatched chain completed candidates without emitting those downstream runs.
 
-The trusted permutation template includes every reviewed seed/stage target in `target_matrix`, and its first active touch action is deliberately nearest the generic Technical QA touch probe. These are contract alignments, not weaker gates: candidate implementations still have to match the exact Oracle and pass the same Technical, Product and Commercial checks.
+The first 18 generated candidates used the trusted permutation template. That family remains historical evidence but is retired: it exhausted repeated repair budgets without producing RC_READY. New Foundry candidates use reviewed family-specific finite-state Oracles and still pass the same Technical, Product and Commercial checks.
+
+Foundry selection happens before any paid provider call. Used designs, stale market evidence, unreviewed runners and retired families fail closed to `IDLE`. See `../foundry/README.md`.
 
 The next major engineering boundary is not another intake v2. It is the Phase 5/6 transition: prove a real RC_READY through exact-source Preview/release packet, then proceed to owner-gated Production proof and automated distribution.
 

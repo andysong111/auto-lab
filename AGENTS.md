@@ -28,6 +28,8 @@ Engineering Phase 4 (autonomous multi-candidate factory) is complete.
 
 Engineering Phase 5 (owner-gated RC Preview / release / rollback) is implemented in main. The remaining Phase 5 proof is an actual eligible `RC_READY` candidate completing exact-source Preview + release-packet verification and then, only with explicit owner approval, a controlled Production release / rollback exercise.
 
+The candidate supply is now a Learning Foundry rather than one repeated permutation template. Odd candidate sequences use an original exploration lane and even sequences use a reviewed Google Play market-benchmark lane. Benchmarking may transfer abstract product principles only; copying names, branding, art, audio, layouts, assets, code or a distinctive ruleset is forbidden. Terminal outcomes feed family-level learning, and a family with three rejections and no RC_READY is retired before another paid build.
+
 Do not lower quality gates merely to manufacture an `RC_READY` candidate.
 
 ## Non-negotiable safety rules

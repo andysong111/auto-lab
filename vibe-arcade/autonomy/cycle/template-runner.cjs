@@ -30,6 +30,12 @@ function validateBlueprint(bp){
   if(!Array.isArray(bp.ops)||bp.ops.length!==3||bp.ops.some(x=>!PRIMITIVES.has(x)))fail('ops');
   if(!Array.isArray(bp.seeds)||bp.seeds.length!==6||new Set(bp.seeds).size!==6||bp.seeds.some(x=>!Number.isInteger(x)||x<0||x>1000000))fail('seeds');
   if(!bp.theme||typeof bp.theme!=='object')fail('theme');
+  if(bp.foundry!==undefined){
+    const f=bp.foundry;
+    if(!f||f.schema!=='playjolt-foundry-lineage/1'||!['original','market-benchmark'].includes(f.lane)||!SIG.test(f.family_id||'')||!SIG.test(f.design_id||''))fail('foundry_lineage');
+    if(f.lane==='market-benchmark'&&(!SIG.test(f.benchmark_id||'')||typeof f.benchmark_url!=='string'||!f.benchmark_url.startsWith('https://play.google.com/')))fail('foundry_benchmark');
+    if(f.lane==='original'&&(f.benchmark_id||f.benchmark_url))fail('foundry_original_lineage');
+  }
   const theme={
     singular:cleanWord(bp.theme.singular),
     plural:cleanWord(bp.theme.plural),
@@ -225,7 +231,7 @@ async function prepare(candidateDir){
   const auth={schema:'playjolt-auto-template/1',game_id:bp.game_id,model:'gpt-5.6-terra',user_authorized:true,authorization_basis:'Owner authorized autonomous PlayJolt development without chat handoffs. Candidate was produced by the trusted permutation DSL and is bounded to build1 + repair5, provider calls <=6, estimated model cost <=USD2 and Production unauthorized.',max_generations:6,max_repairs:5,estimated_usd_ceiling:2,production_authorized:false,base_commit:process.env.GITHUB_SHA||'main'};
   for(const [n,d] of Object.entries({'proposal.json':p,'spec-gate.json':gate,'worker-config.json':settings,'control-policy.json':cp,'authorization.json':auth,'oracle.json':model}))atomicJSON(path.join(root,n),d);
   await new Factory({store:new FileStore(root)}).create(gate.factory_spec);
-  console.log(JSON.stringify({preflight:'PASS',game_id:bp.game_id,title:bp.title,signature:bp.signature_id,runtime:'Phaser 4.2.1 + GameKit v2',oracle_hash:hash(model),product_hash:hash(pair.productContract),commercial_hash:hash(pair.commercialContract),warnings:gate.warnings},null,2));
+  console.log(JSON.stringify({preflight:'PASS',game_id:bp.game_id,title:bp.title,signature:bp.signature_id,foundry:bp.foundry||null,runtime:'Phaser 4.2.1 + GameKit v2',oracle_hash:hash(model),product_hash:hash(pair.productContract),commercial_hash:hash(pair.commercialContract),warnings:gate.warnings},null,2));
 }
 function reviews(candidateDir){
   const bp=load(candidateDir),root=path.resolve(process.env.FACTORY_WORKER_ROOT||'');if(!root||!fs.existsSync(path.join(root,'proposal.json')))throw Error('recovered_worker_root_required');
@@ -253,7 +259,7 @@ function summarize(candidateDir){
   const ops=Object.values(ledger.operations).filter(x=>x.game_id===bp.game_id).sort((a,b)=>a.started_at-b.started_at).map(o=>({operation_id:o.operation_id,version:o.version,state:o.state,response_id:o.response_id,input_tokens:o.accounted?.input_tokens??null,output_tokens:o.accounted?.output_tokens??null,estimated_cost:(o.accounted||o.reserved)?.estimated_cost??null,error_code:o.error_code||null}));
   const file=path.join(root,'autonomy/jobs',bp.game_id,'manifest.json'),total=ops.reduce((n,o)=>n+(o.estimated_cost||0),0);
   if(!fs.existsSync(file)){console.log(JSON.stringify({schema:'playjolt-auto-template/1',game_id:bp.game_id,title:bp.title,operations:ops,total_calls:ops.length,total_estimated_cost:Number(total.toFixed(8)),factory:null,production_authorized:false},null,2));return;}
-  const m=readJSON(file),summary={schema:'playjolt-auto-template/1',game_id:bp.game_id,title:bp.title,signature:bp.signature_id,runtime:'phaser-4.2.1',runner_commit:process.env.GITHUB_SHA,run_id:process.env.GITHUB_RUN_ID,operations:ops,total_calls:ops.length,total_estimated_cost:Number(total.toFixed(8)),factory:{state:m.state,version:m.version,repair_attempt:m.repair_attempt,technical_qa_status:m.technical_qa_status,product_qa_status:m.product_qa_status,commercial_qa_status:m.commercial_qa_status,quality_status:m.quality_status,source_hash:m.source_hash,preview_url:m.preview_url||null,rc_commit:m.rc_commit||null,base_commit:m.base_commit||null,failure_reasons:m.failure_reasons},production_authorized:false};
+  const m=readJSON(file),summary={schema:'playjolt-auto-template/1',game_id:bp.game_id,title:bp.title,signature:bp.signature_id,foundry:bp.foundry||{schema:'playjolt-foundry-lineage/1',lane:'legacy',family_id:'permutation-ordering-v1',design_id:null},runtime:'phaser-4.2.1',runner_commit:process.env.GITHUB_SHA,run_id:process.env.GITHUB_RUN_ID,operations:ops,total_calls:ops.length,total_estimated_cost:Number(total.toFixed(8)),factory:{state:m.state,version:m.version,repair_attempt:m.repair_attempt,technical_qa_status:m.technical_qa_status,product_qa_status:m.product_qa_status,commercial_qa_status:m.commercial_qa_status,quality_status:m.quality_status,source_hash:m.source_hash,preview_url:m.preview_url||null,rc_commit:m.rc_commit||null,base_commit:m.base_commit||null,failure_reasons:m.failure_reasons},production_authorized:false};
   atomicJSON(path.join(root,'commissioning-summary.json'),summary);console.log(JSON.stringify(summary,null,2));
 }
 async function main(candidateDir,cmd=process.argv[2]){
