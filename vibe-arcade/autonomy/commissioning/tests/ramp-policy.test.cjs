@@ -33,5 +33,8 @@ test('workflows use the shared adaptive ramp and preserve serial execution',()=>
     assert.match(yml,/status != "completed"/);
   }
   assert.match(supervisor,/Adaptive daily cap reached/);
+  assert.match(supervisor,/cron: '17,47 \* \* \* \*'/);
+  assert.match(supervisor,/group: playjolt-candidate-queue-supervisor/);
+  assert.match(supervisor,/cancel-in-progress: false/);
   assert.match(intake,/steps\.quota\.outputs\.allowed == 'true'/);
 });

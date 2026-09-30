@@ -190,6 +190,11 @@ Candidate-supply lesson from 2026-09-30:
 - unreviewed mechanics remain `incubating`, and no eligible reviewed design means safe `IDLE`, not an improvised paid build;
 - the first reviewed proof pair uses two distinct finite-state families: original `kinetic-balance` and market-informed `pressure-allocation`.
 
+Supervisor wake-up lesson from 2026-09-30:
+- GitHub skipped multiple consecutive hourly schedule events while the workflow remained active, delaying the first post-Foundry candidate despite a new UTC-day allowance;
+- the Supervisor now has two staggered schedule signals per hour instead of one;
+- this is wake-up redundancy only. Existing concurrency, active-run detection, exact-SHA duplicate blocking and adaptive daily quota remain authoritative, so duplicate schedule delivery cannot create concurrent candidates or reset any budget.
+
 Do **not** lower quality requirements merely to create an RC_READY.
 
 ### Phase 6 — Automated distribution — NEXT AFTER PHASE 5 PROOF

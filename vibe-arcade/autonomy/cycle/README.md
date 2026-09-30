@@ -53,6 +53,8 @@ The live system now includes:
 
 A normal terminal REJECTED candidate should not require a ChatGPT or Codex wake-up. The Supervisor continues according to quota/safety policy.
 
+GitHub scheduled events can be delayed or skipped. The Supervisor therefore uses two staggered schedule signals per hour. This changes only wake-up redundancy: the concurrency group, active-cycle check, candidate-SHA duplicate protection and adaptive UTC daily cap still make repeated signals harmless and preserve serial execution.
+
 The RC continuation also uses an explicit `workflow_dispatch` from the terminal cycle. Do not replace it with an implicit `workflow_run` trigger without a live proof: the GITHUB_TOKEN-dispatched chain completed candidates without emitting those downstream runs.
 
 The first 18 generated candidates used the trusted permutation template. That family remains historical evidence but is retired: it exhausted repeated repair budgets without producing RC_READY. New Foundry candidates use reviewed family-specific finite-state Oracles and still pass the same Technical, Product and Commercial checks.
