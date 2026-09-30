@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260930-313",
+  "title": "Aster Foundry",
+  "slug": "aster-foundry",
+  "signature_id": "rotate-suffix-adjacent",
+  "ops": [
+    "prefix_rotate",
+    "suffix_reverse",
+    "adjacent"
+  ],
+  "seeds": [
+    1344,
+    1345,
+    1346,
+    1347,
+    1348,
+    1349
+  ],
+  "theme": {
+    "singular": "Aster",
+    "plural": "Asters",
+    "arena": "Foundry",
+    "progress": "ROUNDS",
+    "success": "ASTERS FORGED",
+    "failure": "ASTER FRACTURE"
+  }
+}
