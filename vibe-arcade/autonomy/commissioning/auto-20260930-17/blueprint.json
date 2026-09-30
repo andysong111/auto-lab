@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260930-317",
+  "title": "Tidal Codex",
+  "slug": "tidal-codex",
+  "signature_id": "suffix-anchor-rotate",
+  "ops": [
+    "suffix_reverse",
+    "star",
+    "prefix_rotate"
+  ],
+  "seeds": [
+    1748,
+    1749,
+    1750,
+    1751,
+    1752,
+    1753
+  ],
+  "theme": {
+    "singular": "Tide",
+    "plural": "Tides",
+    "arena": "Codex",
+    "progress": "ROUNDS",
+    "success": "CODEX SEALED",
+    "failure": "TIDE FRACTURE"
+  }
+}
