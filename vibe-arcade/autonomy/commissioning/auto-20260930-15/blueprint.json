@@ -1,0 +1,28 @@
+{
+  "schema": "playjolt-permutation-blueprint/1",
+  "game_id": "GAME-20260930-315",
+  "title": "Quasar Annex",
+  "slug": "quasar-annex",
+  "signature_id": "adjacent-anchor-rotate",
+  "ops": [
+    "adjacent",
+    "star",
+    "prefix_rotate"
+  ],
+  "seeds": [
+    1546,
+    1547,
+    1548,
+    1549,
+    1550,
+    1551
+  ],
+  "theme": {
+    "singular": "Quasar",
+    "plural": "Quasars",
+    "arena": "Annex",
+    "progress": "ROUNDS",
+    "success": "ANNEX SEALED",
+    "failure": "QUASAR DRIFT"
+  }
+}
