@@ -725,6 +725,7 @@ Do not manually force an RC_READY.
 - `GAME-20261001-322` / Orbit Window resumed from its exact persisted provider response ID after an infrastructure timeout. The same game and lifetime ledger reached `REJECTED v6`, repair `5/5`, provider calls `6`, estimated cost `$1.031262`, and `Production=false`; no candidate or budget was reset.
 - The next intake correctly stopped before paid work with `no_reviewed_original_design`. This is a safe supply-exhaustion state, not permission to repeat an old design.
 - The next reviewed supply batch introduces original `echo-routing` at sequence 23 and market-informed `cadence-buffering` at sequence 24. Each has a distinct bounded finite-state model, six deterministic seeds, reversible score probes, reviewed Product and Commercial contracts, and an explicit minimum sequence so history is not rewritten.
+- Trusted Intake no-op attempts are bounded per UTC day and exact `main` revision. This preserves loop protection when reviewed supply is unchanged, but a new reviewed supply merge resets only the no-op dispatch window and can resume generation without changing candidate, repair, provider-call or cost budgets.
 
 ---
 

@@ -35,6 +35,9 @@ test('workflows use the shared adaptive ramp and preserve serial execution',()=>
     assert.match(yml,/unique_by\(\.head_branch\)/);
   }
   assert.match(supervisor,/Adaptive daily cap reached/);
+  assert.match(supervisor,/MAIN_SHA="\$\(git rev-parse HEAD\)"/);
+  assert.match(supervisor,/\.head_sha == \\"\$MAIN_SHA\\"/);
+  assert.match(supervisor,/Trusted intake attempt cap reached for main/);
   assert.match(supervisor,/cron: '17,47 \* \* \* \*'/);
   assert.match(supervisor,/group: playjolt-candidate-queue-supervisor/);
   assert.match(supervisor,/cancel-in-progress: false/);
