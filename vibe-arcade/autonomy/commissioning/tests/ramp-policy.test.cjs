@@ -38,6 +38,7 @@ test('workflows use the shared adaptive ramp and preserve serial execution',()=>
   assert.match(supervisor,/group: playjolt-candidate-queue-supervisor/);
   assert.match(supervisor,/cancel-in-progress: false/);
   assert.match(intake,/steps\.quota\.outputs\.allowed == 'true'/);
+  assert.match(relay,/push:\s*\n\s*branches:\s*\n\s*- main/);
   assert.match(relay,/cron: '7,37 \* \* \* \*'/);
   assert.match(relay,/actions: write/);
   assert.match(relay,/gh workflow run playjolt-candidate-queue-supervisor\.yml/);
