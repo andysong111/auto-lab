@@ -1,0 +1,62 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261001-323",
+  "title": "Echo Switchyard",
+  "slug": "echo-switchyard",
+  "family_id": "echo-routing",
+  "design_id": "echo-routing-original-01",
+  "lane": "original",
+  "seeds": [
+    2354,
+    2355,
+    2356,
+    2357,
+    2358,
+    2359
+  ],
+  "theme": {
+    "singular": "Echo",
+    "plural": "Echoes",
+    "arena": "Switchyard",
+    "progress": "ROUTES",
+    "success": "NETWORK ROUTED",
+    "failure": "SIGNAL LOST"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "original",
+    "family_id": "echo-routing",
+    "design_id": "echo-routing-original-01",
+    "learning_focus": [
+      "difficulty-progression",
+      "result-presentation",
+      "action-feedback",
+      "mobile-hierarchy"
+    ]
+  },
+  "learning_focus": [
+    "difficulty-progression",
+    "result-presentation",
+    "action-feedback",
+    "mobile-hierarchy"
+  ],
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Configure three independent switches and mirror their outer topology before routing each deterministic echo through an original network."
+}
