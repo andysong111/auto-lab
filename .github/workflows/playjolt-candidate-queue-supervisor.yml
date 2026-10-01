@@ -126,10 +126,11 @@ jobs:
           CAP: ${{ steps.daily.outputs.cap }}
         run: |
           SINCE="$(date -u +%Y-%m-%dT00:00:00Z)"
-          COUNT="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/playjolt-intake-generator.yml/runs?per_page=100" --jq "[.workflow_runs[] | select(.created_at >= \"$SINCE\")] | length")"
+          MAIN_SHA="$(git rev-parse HEAD)"
+          COUNT="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/playjolt-intake-generator.yml/runs?per_page=100" --jq "[.workflow_runs[] | select(.created_at >= \"$SINCE\" and .head_sha == \"$MAIN_SHA\")] | length")"
           if [ "$COUNT" -ge "$CAP" ]; then
             echo "allowed=false" >> "$GITHUB_OUTPUT"
-            echo "Trusted intake attempt cap reached: $COUNT/$CAP."
+            echo "Trusted intake attempt cap reached for main $MAIN_SHA: $COUNT/$CAP."
           else
             echo "allowed=true" >> "$GITHUB_OUTPUT"
           fi
