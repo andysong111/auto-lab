@@ -57,6 +57,8 @@ GitHub scheduled events can be delayed or skipped. The Supervisor therefore uses
 
 `PlayJolt Factory Wake Relay` provides a second workflow-level schedule source. It can only dispatch the guarded Supervisor; it cannot generate intake, start a candidate, spend provider budget or authorize Production itself. This avoids making one scheduled workflow a single wake-up dependency while preserving the Supervisor as the sole queue decision point.
 
+The Relay also wakes on every push to `main`. This gives reviewed design and workflow merges an immediate guarded continuation path even when GitHub delays or drops scheduled events; the Supervisor remains the only component allowed to decide whether Intake may run.
+
 The RC continuation also uses an explicit `workflow_dispatch` from the terminal cycle. Do not replace it with an implicit `workflow_run` trigger without a live proof: the GITHUB_TOKEN-dispatched chain completed candidates without emitting those downstream runs.
 
 The first 18 generated candidates used the trusted permutation template. That family remains historical evidence but is retired: it exhausted repeated repair budgets without producing RC_READY. New Foundry candidates use reviewed family-specific finite-state Oracles and still pass the same Technical, Product and Commercial checks.

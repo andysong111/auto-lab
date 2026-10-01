@@ -205,6 +205,8 @@ Supervisor wake-up lesson from 2026-09-30:
 Wake-up continuation from 2026-10-01:
 - after the second reviewed Foundry pair merged, the Supervisor again missed several consecutive schedule opportunities;
 - an independent `PlayJolt Factory Wake Relay` schedule now dispatches only the guarded Supervisor and has no intake, candidate, provider or Production authority;
+- the active Relay's first four scheduled opportunities also produced no run, so it now listens to pushes on `main` and gives reviewed design or workflow merges an immediate guarded continuation path;
+- scheduled wakeups remain the UTC-day continuation mechanism, while the push trigger removes manual candidate dispatch from merge-driven continuation;
 - the Supervisor remains the sole queue decision point, so both wake sources share the same serial, quota, duplicate-SHA and Production-off protections.
 
 Do **not** lower quality requirements merely to create an RC_READY.
