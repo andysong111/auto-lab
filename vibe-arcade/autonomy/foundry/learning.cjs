@@ -51,7 +51,7 @@ function compile({seed,outcomeRoot,maxFamilyRejections=3}){
     if(stat.rejected>=maxFamilyRejections&&stat.rc_ready===0)retired_families.push(id);
   }
   const used_design_ids=[...byGame.values()].map(x=>x.design_id).filter(Boolean);
-  const top_failure_codes=Object.entries(failures).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,12).map(([code,count])=>({code,count}));
+  const top_failure_codes=Object.entries(failures).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,24).map(([code,count])=>({code,count}));
   return {schema:'playjolt-learning-profile/1',outcome_count:byGame.size,families,retired_families:retired_families.sort(),used_design_ids:[...new Set(used_design_ids)].sort(),top_failure_codes};
 }
 function main(){

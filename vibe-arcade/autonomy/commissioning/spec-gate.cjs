@@ -4,8 +4,33 @@ const ID=/^GAME-[0-9]{8}-[0-9]{3,6}$/;
 const SLUG=/^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const norm=s=>String(s||'').trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 function readJSON(file){return JSON.parse(fs.readFileSync(file,'utf8'));}
+function validBuildInvariants(data,product,commercial,model){
+  if(!data||typeof data!=='object'||Array.isArray(data)||data.schema_version!==1||data.source!=='reviewed-foundry-oracle'||Buffer.byteLength(JSON.stringify(data))>60000)return false;
+  const difficulty=product?.difficulty,lifecycle=data.lifecycle||{},diagnostics=data.diagnostics||{};
+  if(!difficulty||!product?.objective?.visible_selector||!product?.progress?.selector||!product?.score?.selector||!product?.best?.selector||!product?.completion?.state_path||!product?.replay?.selector||!product?.feedback?.active_probe_path||!product?.reduced_motion?.presentation_probe_path||!Array.isArray(commercial?.action_feedback?.probes))return false;
+  if(data.oracle_id!==difficulty.oracle_id||data.oracle_sha256!==difficulty.oracle_sha256||JSON.stringify(data.projection)!==JSON.stringify(difficulty.projection)||JSON.stringify(data.actions)!==JSON.stringify(product.actions))return false;
+  const expectedLifecycle={objective_selector:product.objective.visible_selector,progress_selector:product.progress.selector,progress_state_path:product.progress.state_path,score_selector:product.score.selector,best_selector:product.best.selector,outcome_state_path:product.completion.state_path,success_value:product.completion.success_value,failure_value:product.completion.failure_value,result_selector:product.completion.result_selector,replay_selector:product.replay.selector};
+  const expectedDiagnostics={stage_path:difficulty.stage_path,complexity_path:difficulty.complexity_path,objective_progress_path:difficulty.objective_progress_path,meaningful_actions_path:difficulty.meaningful_actions_path,reversible_state_path:difficulty.reversible_state_path,feedback_active_path:product.feedback.active_probe_path,static_feedback_path:product.feedback.static_probe_path,reduced_motion_path:product.reduced_motion.presentation_probe_path};
+  if(JSON.stringify(lifecycle)!==JSON.stringify(expectedLifecycle)||JSON.stringify(diagnostics)!==JSON.stringify(expectedDiagnostics))return false;
+  const expectedProbes=commercial.action_feedback.probes.map(probe=>({id:probe.id,node:probe.node,action:probe.action,kind:probe.kind}));
+  if(JSON.stringify(data.commercial_probes)!==JSON.stringify(expectedProbes))return false;
+  const seeds=data.seeds||{},expectedSeeds=difficulty.deterministic_seeds.map(String);
+  if(JSON.stringify(Object.keys(seeds).sort())!==JSON.stringify(expectedSeeds.sort()))return false;
+  if(!model||JSON.stringify(model.projection)!==JSON.stringify(data.projection))return false;
+  return Object.entries(seeds).every(([seed,row])=>{
+    const graph=model.seeds?.[seed];
+    if(!graph||!Array.isArray(row.initial_state)||JSON.stringify(row.initial_state)!==JSON.stringify(graph.nodes[graph.initial]?.values)||!Array.isArray(row.success_actions)||row.success_actions.length<1||row.success_actions.length>difficulty.max_actions||!Array.isArray(row.success_states)||row.success_states.length!==row.success_actions.length+1||JSON.stringify(row.success_states[0])!==JSON.stringify(row.initial_state))return false;
+    let node=graph.initial;
+    for(let index=0;index<row.success_actions.length;index++){
+      const action=row.success_actions[index];if(!Object.hasOwn(data.actions,action))return false;
+      const edge=graph.nodes[node].edges.find(candidate=>candidate.action===action);if(!edge)return false;
+      node=edge.to;if(JSON.stringify(row.success_states[index+1])!==JSON.stringify(graph.nodes[node].values))return false;
+    }
+    return graph.nodes[node].success===true&&JSON.stringify(row.terminal_state)===JSON.stringify(graph.nodes[node].values);
+  });
+}
 function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.json')),catalog=readJSON(path.join(__dirname,'catalog.json'))}={}){
-  const errors=[],warnings=[];
+  const errors=[],warnings=[];let reviewedProduct=null;
   const req=['game_id','title','slug','genre','mechanic_family','controls','mobile_controls','qa','implementation_contract','product_contract'];
   for(const k of req)if(proposal[k]===undefined||proposal[k]===null||proposal[k]==='')errors.push({code:'missing_field',field:k});
   if(!ID.test(proposal.game_id||''))errors.push({code:'invalid_game_id'});
@@ -36,7 +61,8 @@ function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.
   }
   if(!proposal.commercial_contract&&!policy.product_quality?.allow_fixture_oracles)errors.push({code:'missing_field',field:'commercial_contract'});
   if(proposal.commercial_contract){try{require('../qa/commercial/contract.cjs').review(proposal.commercial_contract,proposal.product_contract,{allowFixture:policy.product_quality?.allow_fixture_oracles===true});}catch(e){errors.push({code:'invalid_commercial_contract',field:'commercial_contract',message:e.message});}}
-  if(proposal.product_contract){try{require('../qa/product-contract.cjs').review(proposal.product_contract,{allowFixture:policy.product_quality?.allow_fixture_oracles===true});}catch(e){errors.push({code:'invalid_product_contract',field:'product_contract',message:e.message});}}
+  if(proposal.product_contract){try{reviewedProduct=require('../qa/product-contract.cjs').review(proposal.product_contract,{allowFixture:policy.product_quality?.allow_fixture_oracles===true});}catch(e){errors.push({code:'invalid_product_contract',field:'product_contract',message:e.message});}}
+  if(proposal.build_invariants!==undefined&&!validBuildInvariants(proposal.build_invariants,proposal.product_contract,proposal.commercial_contract,reviewedProduct?.model))errors.push({code:'invalid_build_invariants',field:'build_invariants'});
   const words=new Set(family.split('-').filter(Boolean));
   for(const g of catalog.games){
     const gw=new Set(norm(g.mechanic_family).split('-').filter(Boolean));
@@ -44,7 +70,7 @@ function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.
     if(overlap>=0.75)warnings.push({code:'mechanic_similarity_review',game:g.id,overlap:Number(overlap.toFixed(2))});
   }
   const factory_spec={game_id:proposal.game_id,generation:proposal.generation||1,title:proposal.title,slug:proposal.slug,genre:proposal.genre,mechanic_family:proposal.mechanic_family,
-    controls:proposal.controls,mobile_controls:proposal.mobile_controls,max_repair_attempts:proposal.max_repair_attempts??policy.technical_budget.max_repair_attempts,qa:proposal.qa,implementation_contract:implementation,product_contract:proposal.product_contract,...(proposal.commercial_contract?{commercial_contract:proposal.commercial_contract}:{})};
+    controls:proposal.controls,mobile_controls:proposal.mobile_controls,max_repair_attempts:proposal.max_repair_attempts??policy.technical_budget.max_repair_attempts,qa:proposal.qa,implementation_contract:implementation,product_contract:proposal.product_contract,...(proposal.build_invariants?{build_invariants:proposal.build_invariants}:{}),...(proposal.commercial_contract?{commercial_contract:proposal.commercial_contract}:{})};
   return {passed:errors.length===0,errors,warnings,factory_spec,commissioning:{owner_review_required:true,auto_production_ship:false,max_provider_calls:policy.technical_budget.max_provider_calls,max_estimated_model_cost_usd:policy.technical_budget.max_estimated_model_cost_usd}};
 }
-module.exports={validateProposal,norm,readJSON};
+module.exports={validateProposal,validBuildInvariants,norm,readJSON};
