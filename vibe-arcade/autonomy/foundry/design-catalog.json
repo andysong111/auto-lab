@@ -35,6 +35,18 @@
       "status": "reviewed",
       "hypothesis": "Players read future motion and make a few high-value interception choices per short run.",
       "copy_boundary": "No runner lane system, projectile skin, level geometry or control layout may be copied."
+    },
+    {
+      "id": "echo-routing",
+      "status": "reviewed",
+      "hypothesis": "Players configure and mirror a compact visible network, then commit only when its switch topology matches the route target.",
+      "copy_boundary": "No pipe board, circuit layout, branded nodes, level map or route puzzle ruleset may be copied."
+    },
+    {
+      "id": "cadence-buffering",
+      "status": "reviewed",
+      "hypothesis": "Players reshape a short ordered time buffer and learn to read rhythm as spatial structure.",
+      "copy_boundary": "No music, note chart, rhythm-game lanes, timing windows, interface or scoring system may be copied."
     }
   ],
   "designs": [
@@ -109,6 +121,27 @@
       "title_seed": "Arc intercept",
       "novelty_contract": "Apply legible spatial state and short-session payoff to original interception planning, without blocks, matching or runner lanes.",
       "candidate": {"title":"Orbit Window","slug":"orbit-window","theme":{"singular":"Arc","plural":"Arcs","arena":"Orbit","progress":"WAVES","success":"PATTERN INTERCEPTED","failure":"PATTERN ESCAPED"}}
+    },
+    {
+      "id": "echo-routing-original-01",
+      "lane": "original",
+      "family_id": "echo-routing",
+      "status": "reviewed",
+      "min_sequence": 23,
+      "title_seed": "Echo switchyard",
+      "novelty_contract": "Configure three independent switches and mirror their outer topology before routing each deterministic echo through an original network.",
+      "candidate": {"title":"Echo Switchyard","slug":"echo-switchyard","theme":{"singular":"Echo","plural":"Echoes","arena":"Switchyard","progress":"ROUTES","success":"NETWORK ROUTED","failure":"SIGNAL LOST"}}
+    },
+    {
+      "id": "cadence-buffering-market-01",
+      "lane": "market-benchmark",
+      "family_id": "cadence-buffering",
+      "status": "reviewed",
+      "min_sequence": 24,
+      "benchmark_id": "google-play-indie-en-20260930",
+      "title_seed": "Cadence buffer",
+      "novelty_contract": "Apply compact-rule depth and strong system identity to an original ordered beat buffer, without copying music, charts, lanes or timing rules.",
+      "candidate": {"title":"Cadence Forge","slug":"cadence-forge","theme":{"singular":"Beat","plural":"Beats","arena":"Sequencer","progress":"BARS","success":"CADENCE SEALED","failure":"RHYTHM BROKE"}}
     }
   ]
 }
