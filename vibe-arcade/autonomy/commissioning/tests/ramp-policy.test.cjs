@@ -32,6 +32,7 @@ test('workflows use the shared adaptive ramp and preserve serial execution',()=>
     assert.match(yml,/ramp-policy\.cjs cap/);
     assert.match(yml,/commissioning\/auto-/);
     assert.match(yml,/status != "completed"/);
+    assert.match(yml,/unique_by\(\.head_branch\)/);
   }
   assert.match(supervisor,/Adaptive daily cap reached/);
   assert.match(supervisor,/cron: '17,47 \* \* \* \*'/);

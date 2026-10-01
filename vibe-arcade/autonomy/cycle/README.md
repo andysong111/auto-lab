@@ -59,6 +59,8 @@ GitHub scheduled events can be delayed or skipped. The Supervisor therefore uses
 
 The Relay also wakes on every push to `main`. This gives reviewed design and workflow merges an immediate guarded continuation path even when GitHub delays or drops scheduled events; the Supervisor remains the only component allowed to decide whether Intake may run.
 
+A Candidate Cycle provider timeout with a saved background response ID restores the prior run artifact and resumes that exact operation by GET. Recovery requires the same candidate branch, an ancestor source SHA, matching reviewed contracts and intact cumulative call/cost/repair limits. It is bounded to three retrieval attempts. A missing response ID, mismatched artifact, terminal candidate or exhausted limit fails closed and never creates a replacement provider POST.
+
 The RC continuation also uses an explicit `workflow_dispatch` from the terminal cycle. Do not replace it with an implicit `workflow_run` trigger without a live proof: the GITHUB_TOKEN-dispatched chain completed candidates without emitting those downstream runs.
 
 The first 18 generated candidates used the trusted permutation template. That family remains historical evidence but is retired: it exhausted repeated repair budgets without producing RC_READY. New Foundry candidates use reviewed family-specific finite-state Oracles and still pass the same Technical, Product and Commercial checks.
