@@ -144,6 +144,20 @@ test('Foundry materializes distinct reviewed original and market families',t=>{
   product.validateModel(cm);product.validate(cp.product_contract);commercial.validate(cp.commercial_contract);commercial.semantics(cp.commercial_contract,cp.product_contract,cm);assertReversibleScoreProbe(cm,cp.product_contract);
   assert.equal(validateReviewedProposal(cbp,cm,cp).passed,true);assert.match(cp.implementation_contract.progression,/ordered beat buffer/);assert.match(cp.implementation_contract.originality,/Forbidden copying/);
 
+  const usedThreePairs=[...learnedPair,nextOriginal.design.id,nextMarket.design.id];
+  const invariantOriginal=select({sequence:25,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:usedThreePairs}});
+  assert.equal(invariantOriginal.status,'SELECTED');assert.equal(invariantOriginal.design.family_id,'flux-harvesting');
+  const fbp=foundryBlueprintFor(invariantOriginal,25,'20261001'),fm=foundryRunner.buildModel(fbp),fp=foundryRunner.proposalFor(fbp,fm);
+  product.validateModel(fm);product.validate(fp.product_contract);commercial.validate(fp.commercial_contract);commercial.semantics(fp.commercial_contract,fp.product_contract,fm);assertReversibleScoreProbe(fm,fp.product_contract);assertBuildInvariants(fm,fp);
+  assert.equal(validateReviewedProposal(fbp,fm,fp).passed,true);assert.match(fp.implementation_contract.progression,/GATHER FLUX/);
+
+  const invariantMarket=select({sequence:26,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:[...usedThreePairs,invariantOriginal.design.id]}});
+  assert.equal(invariantMarket.status,'SELECTED');assert.equal(invariantMarket.design.family_id,'aperture-shaping');assert.match(invariantMarket.benchmark.url,/^https:\/\/play\.google\.com\//);
+  const abp=foundryBlueprintFor(invariantMarket,26,'20261001'),am=foundryRunner.buildModel(abp),ap=foundryRunner.proposalFor(abp,am);
+  product.validateModel(am);product.validate(ap.product_contract);commercial.validate(ap.commercial_contract);commercial.semantics(ap.commercial_contract,ap.product_contract,am);assertReversibleScoreProbe(am,ap.product_contract);assertBuildInvariants(am,ap);
+  assert.equal(validateReviewedProposal(abp,am,ap).passed,true);assert.match(ap.implementation_contract.progression,/WIDEN APERTURE/);assert.match(ap.implementation_contract.originality,/Forbidden copying/);
+  assert.equal(new Set([original,market,learnedOriginal,learnedMarket,nextOriginal,nextMarket,invariantOriginal,invariantMarket].map(x=>x.design.family_id)).size,8);
+
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-foundry-intake-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
   const meta=materialize(root,22,'20261001',learnedMarket),dir=path.join(root,'candidate');
   assert.equal(meta.lane,'market-benchmark');assert.equal(meta.family_id,'trajectory-interception');assert.match(fs.readFileSync(path.join(dir,'commission.cjs'),'utf8'),/foundry\/family-runner/);

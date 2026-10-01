@@ -9,7 +9,7 @@ const {AutonomousWorker}=require('../worker/runtime.cjs'),{DockerQA}=require('..
 const {continuePreview,writeReleasePacket}=require('../commissioning/rc-continuation.cjs');
 const ID=/^GAME-[0-9]{8}-[0-9]{3,6}$/,SLUG=/^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const LEARNING_FOCUS=new Set(['input-parity','lifecycle-integrity','difficulty-progression','progress-readability','result-presentation','action-feedback','reduced-motion','mobile-hierarchy','state-distinction']);
-const FAMILY_IDS=new Set(['kinetic-balance','pressure-allocation','signal-composition','trajectory-interception','echo-routing','cadence-buffering']);
+const FAMILY_IDS=new Set(['kinetic-balance','pressure-allocation','signal-composition','trajectory-interception','echo-routing','cadence-buffering','flux-harvesting','aperture-shaping']);
 function fail(code){const e=new Error(code);e.code='foundry_blueprint_invalid';throw e;}
 function key(values){return values.join(':');}
 function region(x,y,width,height){return {selector:'[data-game-canvas]',x,y,width,height};}
@@ -141,8 +141,46 @@ function cadenceAdapter(bp,seed){
   return {projection:['state.bar','state.lead','state.middle','state.tail','state.targetLead','state.targetMiddle','state.targetTail','state.completed','state.outcome'],initial,edges,
     firstAction:'lengthen_lead',commitAction:'release_bar',reversibleProbe:['lengthen_lead','lengthen_lead','lengthen_lead'],statePath:'state.lead',objectiveProgress:'state.completed',complexity:'quality.complexity'};
 }
+function fluxAdapter(bp,seed){
+  const targets=[null,...[1,2,3].map(stage=>({charge:1+((seed+stage)%3),polarity:(Math.floor(seed/5)+stage)%2}))];
+  const initial=[1,0,0,targets[1].charge,targets[1].polarity,0,'playing'];
+  function edges(v){
+    const [stage,charge,polarity,targetCharge,targetPolarity,completed,outcome]=v;if(outcome!=='playing')return [];
+    const out=[
+      {action:'gather_flux',values:[stage,(charge+1)%4,polarity,targetCharge,targetPolarity,completed,outcome]},
+      {action:'release_flux',values:[stage,(charge+3)%4,polarity,targetCharge,targetPolarity,completed,outcome]},
+      {action:'flip_field',values:[stage,charge,1-polarity,targetCharge,targetPolarity,completed,outcome]}
+    ];
+    if(charge===targetCharge&&polarity===targetPolarity){
+      if(stage===3)out.push({action:'harvest_flux',values:[4,charge,polarity,targetCharge,targetPolarity,3,'success']});
+      else {const next=targets[stage+1];out.push({action:'harvest_flux',values:[stage+1,0,0,next.charge,next.polarity,completed+1,'playing']});}
+    }
+    return out;
+  }
+  return {projection:['state.stage','state.charge','state.polarity','state.targetCharge','state.targetPolarity','state.completed','state.outcome'],initial,edges,
+    firstAction:'gather_flux',commitAction:'harvest_flux',reversibleProbe:['gather_flux','gather_flux','gather_flux','gather_flux'],statePath:'state.charge',objectiveProgress:'state.completed',complexity:'quality.complexity'};
+}
+function apertureAdapter(bp,seed){
+  const targets=[null,...[1,2,3].map(stage=>({width:1+((seed+stage)%2),focus:(Math.floor(seed/7)+stage)%3}))];
+  const initial=[1,0,0,targets[1].width,targets[1].focus,0,'playing'];
+  function edges(v){
+    const [stage,width,focus,targetWidth,targetFocus,completed,outcome]=v;if(outcome!=='playing')return [];
+    const out=[
+      {action:'widen_aperture',values:[stage,(width+1)%3,focus,targetWidth,targetFocus,completed,outcome]},
+      {action:'shift_focus',values:[stage,width,(focus+1)%3,targetWidth,targetFocus,completed,outcome]},
+      {action:'invert_lens',values:[stage,2-width,2-focus,targetWidth,targetFocus,completed,outcome]}
+    ];
+    if(width===targetWidth&&focus===targetFocus){
+      if(stage===3)out.push({action:'focus_beam',values:[4,width,focus,targetWidth,targetFocus,3,'success']});
+      else {const next=targets[stage+1];out.push({action:'focus_beam',values:[stage+1,0,0,next.width,next.focus,completed+1,'playing']});}
+    }
+    return out;
+  }
+  return {projection:['state.stage','state.width','state.focus','state.targetWidth','state.targetFocus','state.completed','state.outcome'],initial,edges,
+    firstAction:'widen_aperture',commitAction:'focus_beam',reversibleProbe:['widen_aperture','widen_aperture','widen_aperture'],statePath:'state.width',objectiveProgress:'state.completed',complexity:'quality.complexity'};
+}
 function adapter(bp,seed){
-  const adapters={'kinetic-balance':balanceAdapter,'pressure-allocation':allocationAdapter,'signal-composition':signalAdapter,'trajectory-interception':interceptionAdapter,'echo-routing':routingAdapter,'cadence-buffering':cadenceAdapter};
+  const adapters={'kinetic-balance':balanceAdapter,'pressure-allocation':allocationAdapter,'signal-composition':signalAdapter,'trajectory-interception':interceptionAdapter,'echo-routing':routingAdapter,'cadence-buffering':cadenceAdapter,'flux-harvesting':fluxAdapter,'aperture-shaping':apertureAdapter};
   return adapters[bp.family_id](bp,seed);
 }
 function graph(bp,seed){
@@ -168,7 +206,9 @@ function actionMap(bp){
   if(bp.family_id==='signal-composition')return {pulse_a:{key:'ArrowLeft',touch:{x:.18,y:.68},hold_ms:35,settle_ms:35},pulse_b:{key:'ArrowRight',touch:{x:.42,y:.68},hold_ms:35,settle_ms:35},invert:{key:'ArrowDown',touch:{x:.66,y:.68},hold_ms:35,settle_ms:35},lock_phrase:{key:'Space',touch:{x:.88,y:.68},hold_ms:35,settle_ms:35}};
   if(bp.family_id==='trajectory-interception')return {shift_left:{key:'ArrowLeft',touch:{x:.18,y:.68},hold_ms:35,settle_ms:35},shift_right:{key:'ArrowRight',touch:{x:.42,y:.68},hold_ms:35,settle_ms:35},delay:{key:'ArrowDown',touch:{x:.66,y:.68},hold_ms:35,settle_ms:35},intercept:{key:'Space',touch:{x:.88,y:.68},hold_ms:35,settle_ms:35}};
   if(bp.family_id==='echo-routing')return {next_switch:{key:'ArrowRight',touch:{x:.18,y:.68},hold_ms:35,settle_ms:35},toggle_switch:{key:'ArrowUp',touch:{x:.42,y:.68},hold_ms:35,settle_ms:35},mirror_route:{key:'ArrowLeft',touch:{x:.66,y:.68},hold_ms:35,settle_ms:35},route_echo:{key:'Space',touch:{x:.88,y:.68},hold_ms:35,settle_ms:35}};
-  return {lengthen_lead:{key:'ArrowUp',touch:{x:.18,y:.68},hold_ms:35,settle_ms:35},rotate_buffer:{key:'ArrowRight',touch:{x:.42,y:.68},hold_ms:35,settle_ms:35},reverse_buffer:{key:'ArrowLeft',touch:{x:.66,y:.68},hold_ms:35,settle_ms:35},release_bar:{key:'Space',touch:{x:.88,y:.68},hold_ms:35,settle_ms:35}};
+  if(bp.family_id==='cadence-buffering')return {lengthen_lead:{key:'ArrowUp',touch:{x:.18,y:.68},hold_ms:35,settle_ms:35},rotate_buffer:{key:'ArrowRight',touch:{x:.42,y:.68},hold_ms:35,settle_ms:35},reverse_buffer:{key:'ArrowLeft',touch:{x:.66,y:.68},hold_ms:35,settle_ms:35},release_bar:{key:'Space',touch:{x:.88,y:.68},hold_ms:35,settle_ms:35}};
+  if(bp.family_id==='flux-harvesting')return {gather_flux:{key:'ArrowUp',touch:{x:.18,y:.68},hold_ms:35,settle_ms:35},release_flux:{key:'ArrowDown',touch:{x:.42,y:.68},hold_ms:35,settle_ms:35},flip_field:{key:'ArrowRight',touch:{x:.66,y:.68},hold_ms:35,settle_ms:35},harvest_flux:{key:'Space',touch:{x:.88,y:.68},hold_ms:35,settle_ms:35}};
+  return {widen_aperture:{key:'ArrowUp',touch:{x:.18,y:.68},hold_ms:35,settle_ms:35},shift_focus:{key:'ArrowRight',touch:{x:.42,y:.68},hold_ms:35,settle_ms:35},invert_lens:{key:'ArrowLeft',touch:{x:.66,y:.68},hold_ms:35,settle_ms:35},focus_beam:{key:'Space',touch:{x:.88,y:.68},hold_ms:35,settle_ms:35}};
 }
 function contracts(input,model){
   const bp=validateBlueprint(input),seed=bp.seeds[0],a=adapter(bp,seed),g=model.seeds[String(seed)],success=route(model,seed),nodes=success.nodes;
@@ -181,7 +221,9 @@ function contracts(input,model){
     'signal-composition':'Compose and lock three changing two-channel signal phrases.',
     'trajectory-interception':'Align gate and timing to intercept three deterministic arc waves.',
     'echo-routing':'Configure and mirror three switches to route three deterministic echoes.',
-    'cadence-buffering':'Shape and release three ordered cadence buffers.'
+    'cadence-buffering':'Shape and release three ordered cadence buffers.',
+    'flux-harvesting':'Match charge and polarity to harvest three deterministic flux fields.',
+    'aperture-shaping':'Match aperture width and focus to resolve three deterministic light fields.'
   };
   const objective=objectives[bp.family_id];
   const productContract={schema_version:1,objective:{visible_selector:'[data-objective]',expected_text:objective},progress:{selector:'[data-product-progress]',state_path:a.objectiveProgress,format:bp.theme.progress+' {value} / 3',milestones:[1,2,3]},score:{selector:'[data-game-score]',label_selector:'[data-score-label]',expected_label:'CURRENT SCORE',reversible_probes:[a.reversibleProbe],no_progress_probes:[[a.commitAction]]},best:{selector:'[data-best]',label_selector:'[data-best-label]',expected_label:'DEVICE BEST',source:'GameKit.best'},completion:{state_path:'state.outcome',success_value:'success',failure_value:'failure',result_selector:'[data-result]',success_text:bp.theme.success,failure_text:bp.theme.failure,max_terminal_latency_ms:100,failure_wait_ms:45000,failure_actions:[]},replay:{selector:'[data-game-restart]',must_be_in_initial_mobile_viewport:true},difficulty:{deterministic_seeds:bp.seeds,oracle_id:bp.slug+'-oracle-v1',oracle_sha256:hash(model),projection:model.projection,stage_path:'quality.stage',complexity_path:a.complexity,meaningful_actions_path:'quality.meaningful_actions',reversible_state_path:'quality.reversible_state_key',required_monotonicity:'later_strictly_greater',max_actions:64},mobile:{critical_selectors:['[data-objective]','[data-product-progress]','[data-score-label]','[data-game-score]','[data-best-label]','[data-best]','[data-result]'],control_selectors:['[data-game-start]','[data-game-pause]','[data-game-resume]','[data-game-restart]'],canvas_selector:'[data-game-canvas]',canvas_control_regions:[{x:0,y:.50,width:.25,height:.40},{x:.25,y:.50,width:.25,height:.40},{x:.50,y:.50,width:.25,height:.40},{x:.75,y:.50,width:.25,height:.40}],min_font_px:14,min_hit_target_px:44},reduced_motion:{presentation_probe_path:'presentation.reduced_motion',dynamic_change_required:true},feedback:{action:a.firstAction,state_change_path:'quality.reversible_state_key',visual_probe:'[data-game-canvas]',active_probe_path:'presentation.feedback_active',static_probe_path:'presentation.static_feedback',settle_ms:420},actions:actionMap(bp)};
@@ -198,6 +240,8 @@ function reviewedRuleData(bp,model){
     if(bp.family_id==='trajectory-interception')perSeed[String(seed)].wave_targets=Object.fromEntries([1,2,3].map(wave=>[String(wave),{gate:1+((seed+wave)%2),timing:(Math.floor(seed/3)+wave)%2}]));
     if(bp.family_id==='echo-routing')perSeed[String(seed)].route_targets=Object.fromEntries([1,2,3].map(stage=>[String(stage),{switchMask:1+((seed+stage*3)%7)}]));
     if(bp.family_id==='cadence-buffering')perSeed[String(seed)].bar_targets=Object.fromEntries([1,2,3].map(bar=>[String(bar),{lead:1+((seed+bar)%2),middle:1+((seed+bar*2+1)%2),tail:1+((seed+bar*3+2)%2)}]));
+    if(bp.family_id==='flux-harvesting')perSeed[String(seed)].field_targets=Object.fromEntries([1,2,3].map(stage=>[String(stage),{charge:1+((seed+stage)%3),polarity:(Math.floor(seed/5)+stage)%2}]));
+    if(bp.family_id==='aperture-shaping')perSeed[String(seed)].light_targets=Object.fromEntries([1,2,3].map(stage=>[String(stage),{width:1+((seed+stage)%2),focus:(Math.floor(seed/7)+stage)%3}]));
   }
   return perSeed;
 }
@@ -253,7 +297,9 @@ function proposalFor(input,model){
     'signal-composition':{genre:'signal composition puzzle',key:'ArrowLeft',rules:'PULSE A and PULSE B cycle their visible channels through 0..2, INVERT swaps every nonzero channel between 1 and 2, and LOCK PHRASE advances only when both reviewed target channels match; a successful lock resets both channels to zero.'},
     'trajectory-interception':{genre:'trajectory planning puzzle',key:'ArrowRight',rules:'SHIFT LEFT and SHIFT RIGHT cycle the visible gate through three positions, DELAY toggles early or late timing, and INTERCEPT advances only when gate and timing both match the reviewed wave target; a successful intercept resets gate and timing.'},
     'echo-routing':{genre:'network routing puzzle',key:'ArrowRight',rules:'NEXT SWITCH cycles the active node, TOGGLE SWITCH flips that node, MIRROR ROUTE swaps the outer switch states, and ROUTE ECHO advances only when the visible three-bit switch mask matches the reviewed target; a successful route resets the network.'},
-    'cadence-buffering':{genre:'temporal sequencing puzzle',key:'ArrowUp',rules:'LENGTHEN LEAD cycles the first beat through 0..2, ROTATE BUFFER moves all three beats left, REVERSE BUFFER mirrors their order, and RELEASE BAR advances only when the ordered beat buffer matches the reviewed target; a successful release clears the buffer.'}
+    'cadence-buffering':{genre:'temporal sequencing puzzle',key:'ArrowUp',rules:'LENGTHEN LEAD cycles the first beat through 0..2, ROTATE BUFFER moves all three beats left, REVERSE BUFFER mirrors their order, and RELEASE BAR advances only when the ordered beat buffer matches the reviewed target; a successful release clears the buffer.'},
+    'flux-harvesting':{genre:'field calibration puzzle',key:'ArrowUp',rules:'GATHER FLUX and RELEASE FLUX cycle charge forward or backward through 0..3, FLIP FIELD changes polarity, and HARVEST FLUX advances only when both visible reviewed targets match; a successful harvest resets charge and polarity.'},
+    'aperture-shaping':{genre:'optical shaping puzzle',key:'ArrowUp',rules:'WIDEN APERTURE cycles width through 0..2, SHIFT FOCUS cycles focal position through 0..2, INVERT LENS mirrors both values, and FOCUS BEAM advances only when width and focus match the reviewed light target; a successful focus resets the lens.'}
   }[bp.family_id];
   const rules=reviewedRuleData(bp,model),familyText=familyConfig.rules;
   const lineage=market?'Market benchmark lineage: '+bp.benchmark.publisher+' '+bp.benchmark.surface+' at '+bp.benchmark.url+'. Transfer only these abstract principles: '+bp.benchmark.transferable_principles.join('; ')+'. Forbidden copying: '+bp.copy_policy.forbidden.join('; ')+'.':'Original exploration lane with no external game used as a mechanic, art or layout template.';
