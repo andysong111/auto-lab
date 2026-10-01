@@ -11,6 +11,15 @@ on:
         description: 'Commissioning preflight-request.json path'
         required: true
         type: string
+      recovery_run_id:
+        description: 'Failed source run containing the durable provider checkpoint'
+        required: false
+        type: string
+      recovery_attempt:
+        description: 'Bounded retrieval-only recovery attempt'
+        required: false
+        default: '0'
+        type: string
 
 permissions:
   contents: read
@@ -30,7 +39,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-          fetch-depth: 2
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -55,6 +64,26 @@ jobs:
           echo "provider_calls=$(printf '%s' "$META" | jq -r '.authorized_provider_calls')" >> "$GITHUB_OUTPUT"
           echo "FACTORY_WORKER_ROOT=$RUNNER_TEMP/playjolt-auto-cycle" >> "$GITHUB_ENV"
           echo "AUTO_PRODUCTION_SHIP=false" >> "$GITHUB_ENV"
+      - name: Restore durable provider checkpoint
+        if: ${{ inputs.recovery_run_id != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RECOVERY_RUN_ID: ${{ inputs.recovery_run_id }}
+          RECOVERY_ATTEMPT: ${{ inputs.recovery_attempt }}
+        run: |
+          SOURCE="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RECOVERY_RUN_ID")"
+          test "$(printf '%s' "$SOURCE" | jq -r '.name')" = "PlayJolt Autonomous Candidate Cycle"
+          test "$(printf '%s' "$SOURCE" | jq -r '.path')" = ".github/workflows/playjolt-autonomous-cycle.yml"
+          test "$(printf '%s' "$SOURCE" | jq -r '.event')" = "workflow_dispatch"
+          test "$(printf '%s' "$SOURCE" | jq -r '.conclusion')" = "failure"
+          test "$(printf '%s' "$SOURCE" | jq -r '.head_branch')" = "$GITHUB_REF_NAME"
+          SOURCE_SHA="$(printf '%s' "$SOURCE" | jq -r '.head_sha')"
+          git merge-base --is-ancestor "$SOURCE_SHA" HEAD
+          gh run download "$RECOVERY_RUN_ID" \
+            --name "playjolt-auto-cycle-${{ steps.resolve.outputs.game_id }}" \
+            --dir "$FACTORY_WORKER_ROOT"
+          node vibe-arcade/autonomy/cycle/recovery.cjs validate \
+            "$FACTORY_WORKER_ROOT" "${{ steps.resolve.outputs.game_id }}" "${RECOVERY_ATTEMPT:-0}"
       - name: Announce autonomous cycle
         env:
           GH_TOKEN: ${{ github.token }}
@@ -64,6 +93,7 @@ jobs:
             gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -f body="Autonomous cycle started: run_id=$GITHUB_RUN_ID game=${{ steps.resolve.outputs.game_id }} candidate=${{ steps.resolve.outputs.candidate }} provider_calls<=${{ steps.resolve.outputs.provider_calls }} cost<=USD${{ steps.resolve.outputs.usd_ceiling }} production=false."
           fi
       - name: Zero-paid preflight
+        if: ${{ inputs.recovery_run_id == '' }}
         run: node "${{ steps.resolve.outputs.script }}" prepare
       - name: Verify reviewed contracts
         run: node "${{ steps.resolve.outputs.script }}" reviews
@@ -97,6 +127,33 @@ jobs:
           path: ${{ runner.temp }}/playjolt-auto-cycle/commissioning-summary.json
           if-no-files-found: ignore
           retention-days: 90
+      - name: Recover durable provider response
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RECOVERY_ATTEMPT: ${{ inputs.recovery_attempt }}
+        run: |
+          test -f "$FACTORY_WORKER_ROOT/worker-result.json" || exit 0
+          PLAN="$(node vibe-arcade/autonomy/cycle/recovery.cjs plan \
+            "$FACTORY_WORKER_ROOT" "${{ steps.resolve.outputs.game_id }}" "${RECOVERY_ATTEMPT:-0}")"
+          if [ "$(printf '%s' "$PLAN" | jq -r '.recoverable')" != "true" ]; then
+            echo "Provider recovery held: $(printf '%s' "$PLAN" | jq -r '.reason')."
+            exit 0
+          fi
+          NEXT="$(printf '%s' "$PLAN" | jq -r '.next_attempt')"
+          for ATTEMPT in 1 2 3; do
+            if gh workflow run playjolt-autonomous-cycle.yml \
+              --ref "$GITHUB_REF_NAME" \
+              -f request_path="${{ steps.resolve.outputs.request }}" \
+              -f recovery_run_id="$GITHUB_RUN_ID" \
+              -f recovery_attempt="$NEXT"; then
+              echo "Dispatched retrieval-only provider recovery $NEXT."
+              exit 0
+            fi
+            sleep "$((ATTEMPT * 5))"
+          done
+          echo "Provider recovery dispatch failed after three attempts." >&2
+          exit 1
       - name: Report terminal checkpoint
         if: always()
         env:

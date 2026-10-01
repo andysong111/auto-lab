@@ -46,6 +46,11 @@ test('known response ID survives manager restart; retry is retrieval, not a seco
   await assert.rejects(()=>e.manager.execute(r),{code:'provider_network_error'});
   const next=new ProviderManager({root:e.root,provider,config:e.limits,prices:pricing(null,{mock:true})});assert.equal((await next.execute(r)).status,'complete');assert.equal(provider.submissions,1);
 });
+test('known response ID timeout remains retrievable and is never cancelled or re-posted',async t=>{
+  let cancelled=0,first=true;const provider=new MockProvider({handler:async c=>{if(first){first=false;c.onResponseId('resp_timeout_recover');return new Promise(()=>{});}assert.equal(c.response_id,'resp_timeout_recover');return {output:output()};}});provider.cancel=async()=>{cancelled++;};
+  const e=setup(t,{provider,limits:{request:{timeout_ms:20}}}),r=await request(e);await assert.rejects(()=>e.manager.execute(r),{code:'provider_timeout'});assert.equal(cancelled,0);
+  const next=new ProviderManager({root:e.root,provider,config:e.limits,prices:pricing(null,{mock:true})});assert.equal((await next.execute(r)).status,'complete');assert.equal(provider.submissions,1);assert.equal(cancelled,0);
+});
 test('network failure and model failure remain distinct; cached model failure is not called again',async t=>{
   const provider=new MockProvider({handler:async c=>{c.onResponseId('resp_failed');throw modelError('model_failure');}}),e=setup(t,{provider}),r=await request(e);
   for(let n=0;n<2;n++)await assert.rejects(()=>e.manager.execute(r),x=>x.code==='model_failure'&&!x.factory_pause);

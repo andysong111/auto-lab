@@ -72,7 +72,9 @@ class ProviderManager {
       const controller=new AbortController();
       const abort=()=>controller.abort(signal.reason||new ProviderPause('worker_stopped',undefined,'PAUSED_SHUTDOWN'));
       signal.addEventListener('abort',abort,{once:true});
-      const remaining=fresh?Math.max(1,o.deadline_at-this.now()):Math.max(5000,o.deadline_at-this.now());
+      // A durable response-ID recovery is retrieval-only. Give it one bounded
+      // minute even when the original submission deadline has elapsed.
+      const remaining=fresh?Math.max(1,o.deadline_at-this.now()):Math.min(60000,this.config.request.timeout_ms);
       const timer=setTimeout(()=>controller.abort(new ProviderPause('provider_timeout')),remaining);
       const onResponseId=id=>{o.response_id=id;o.state='POLLING';this.save(d);};
       try {
@@ -106,7 +108,10 @@ class ProviderManager {
         if(e.model_failure){o.state='MODEL_FAILED';o.error_code=e.code;this.save(d);throw e;}
         if(o.state!=='LIMIT_BREACH')o.state=o.response_id?'POLLING':'SUBMISSION_UNCERTAIN';
         o.error_code=e.code||'provider_network_error';this.save(d);
-        if(controller.signal.aborted&&o.response_id&&this.provider.cancel)await this.provider.cancel(o.response_id).catch(()=>{});
+        // Keep a timed-out background response retrievable. Shutdown and policy
+        // aborts still cancel it; recovery never submits the operation again.
+        const timedOut=controller.signal.aborted&&controller.signal.reason?.code==='provider_timeout';
+        if(controller.signal.aborted&&!timedOut&&o.response_id&&this.provider.cancel)await this.provider.cancel(o.response_id).catch(()=>{});
         throw e.factory_pause?e:new ProviderPause('provider_network_error');
       } finally {clearTimeout(timer);signal.removeEventListener('abort',abort);}
     });}catch(e){if(e.message==='job_locked')throw new ProviderPause('provider_concurrency_limit',undefined,'PAUSED_CONCURRENCY');if(e.factory_pause||e.model_failure)throw e;throw new ProviderPause('provider_state_unavailable');}

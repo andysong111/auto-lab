@@ -209,6 +209,12 @@ Wake-up continuation from 2026-10-01:
 - scheduled wakeups remain the UTC-day continuation mechanism, while the push trigger removes manual candidate dispatch from merge-driven continuation;
 - the Supervisor remains the sole queue decision point, so both wake sources share the same serial, quota, duplicate-SHA and Production-off protections.
 
+Durable provider continuation from 2026-10-01:
+- sequence 22 reached `PAUSED_PROVIDER` when its first background build exceeded the request timeout after a response ID had been saved;
+- Candidate Cycle recovery now restores the exact failed-run artifact, validates same-branch ancestry and reviewed contracts, and resumes only that saved response by GET;
+- recovery is limited to three retrieval attempts and preserves the original operation reservation, provider-call count, elapsed wall clock and repair budget. Missing IDs, mismatched artifacts, terminal candidates and exhausted limits fail closed without another generation POST;
+- Production remains disabled throughout recovery.
+
 Do **not** lower quality requirements merely to create an RC_READY.
 
 ### Phase 6 — Automated distribution — NEXT AFTER PHASE 5 PROOF

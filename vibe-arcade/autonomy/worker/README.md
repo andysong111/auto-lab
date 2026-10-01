@@ -58,6 +58,7 @@ Costs are **estimated**, not billing assertions. Before sending a generation POS
 
 - COMPLETE: return the saved output without another provider call.
 - Known response ID: retrieve the background response and resume the same Factory operation/repair attempt.
+- A request timeout does not cancel a known background response. The autonomous Candidate Cycle may restore its exact artifact and perform up to three bounded retrieval-only continuations; each continuation preserves the original operation ID, reservation, elapsed wall clock and repair count.
 - Submission may have reached provider, but ID was not saved: `provider_submission_uncertain`; never POST again automatically. Owner reconciles provider logs using `operation_id` before any separately authorized replacement job. This includes timeouts before an ID is received.
 - Model refusal/incomplete/malformed output: existing bounded game repair policy handles the failure. Network/auth/rate-limit/isolation errors pause the worker and preserve the Factory checkpoint.
 - Source/path/production-write violations retain existing fatal policy and are not sent through repeated AI repair.
