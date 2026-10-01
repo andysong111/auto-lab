@@ -1,6 +1,6 @@
 # PlayJolt Autonomous Publishing OS — Durable Project Context
 
-Last synchronized from prior ChatGPT project work: **2026-09-29**
+Last synchronized from prior ChatGPT project work: **2026-10-01**
 
 This document exists so future Codex sessions can continue the PlayJolt project from the repository itself without requiring old ChatGPT conversations.
 
@@ -189,6 +189,13 @@ Candidate-supply lesson from 2026-09-30:
 - three rejections with no RC_READY automatically retire a mechanic family before another paid provider call;
 - unreviewed mechanics remain `incubating`, and no eligible reviewed design means safe `IDLE`, not an improvised paid build;
 - the first reviewed proof pair uses two distinct finite-state families: original `kinetic-balance` and market-informed `pressure-allocation`.
+
+Learning Foundry continuation from 2026-10-01:
+- sequence 19 `Counterweight Garden` used the original `kinetic-balance` lane and sequence 20 `Capacity Chorus` used the Google Play market-benchmark `pressure-allocation` lane;
+- both remained serial, stopped at `REJECTED` after repair 5/5, used exactly six provider calls, stayed below USD 2 and kept Production disabled;
+- both uploaded terminal learning artifacts, and the next intake correctly stopped before a paid call because no further reviewed original design was available;
+- recurring difficulty, progress, action-feedback, mobile-hierarchy and result-presentation failures now feed the next bounded implementation contract;
+- a second reviewed pair adds original `signal-composition` and market-informed `trajectory-interception`, each with a distinct deterministic six-seed Oracle and reviewed Product and Commercial contracts. Other sibling designs remain `incubating`.
 
 Supervisor wake-up lesson from 2026-09-30:
 - GitHub skipped multiple consecutive hourly schedule events while the workflow remained active, delaying the first post-Foundry candidate despite a new UTC-day allowance;

@@ -75,7 +75,7 @@ test('recurring bounded failure codes become next-build correction priorities',(
 });
 
 test('Foundry materializes distinct reviewed original and market families',t=>{
-  const learning={retired_families:['permutation-ordering-v1'],used_design_ids:[],families:{},top_failure_codes:[{code:'product_difficulty',count:30},{code:'commercial_result_presentation',count:25}]};
+  const learning={retired_families:['permutation-ordering-v1'],used_design_ids:[],families:{},top_failure_codes:[{code:'product_difficulty',count:30},{code:'commercial_result_presentation',count:25},{code:'commercial_mobile_hierarchy',count:20},{code:'commercial_action_feedback',count:18}]};
   const original=select({sequence:19,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:learning});
   assert.equal(original.status,'SELECTED');assert.equal(original.lane,'original');assert.equal(original.design.family_id,'kinetic-balance');
   const obp=foundryBlueprintFor(original,19,'20261001'),om=foundryRunner.buildModel(obp),op=foundryRunner.proposalFor(obp,om);
@@ -86,9 +86,24 @@ test('Foundry materializes distinct reviewed original and market families',t=>{
   const mbp=foundryBlueprintFor(market,20,'20261001'),mm=foundryRunner.buildModel(mbp),mp=foundryRunner.proposalFor(mbp,mm);
   product.validateModel(mm);product.validate(mp.product_contract);commercial.validate(mp.commercial_contract);commercial.semantics(mp.commercial_contract,mp.product_contract,mm);assertReversibleScoreProbe(mm,mp.product_contract);
   assert.equal(validateReviewedProposal(mbp,mm,mp).passed,true);
+
+  const usedPair=[original.design.id,market.design.id];
+  const learnedOriginal=select({sequence:21,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:usedPair}});
+  assert.equal(learnedOriginal.status,'SELECTED');assert.equal(learnedOriginal.lane,'original');assert.equal(learnedOriginal.design.family_id,'signal-composition');
+  const sbp=foundryBlueprintFor(learnedOriginal,21,'20261001'),sm=foundryRunner.buildModel(sbp),sp=foundryRunner.proposalFor(sbp,sm);
+  product.validateModel(sm);product.validate(sp.product_contract);commercial.validate(sp.commercial_contract);commercial.semantics(sp.commercial_contract,sp.product_contract,sm);assertReversibleScoreProbe(sm,sp.product_contract);
+  assert.equal(validateReviewedProposal(sbp,sm,sp).passed,true);assert.match(sp.implementation_contract.progression,/PULSE A/);assert.match(sp.implementation_contract.action_feedback,/Prior Factory outcomes require this correction/);
+
+  const learnedMarket=select({sequence:22,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:[...usedPair,learnedOriginal.design.id]}});
+  assert.equal(learnedMarket.status,'SELECTED');assert.equal(learnedMarket.lane,'market-benchmark');assert.equal(learnedMarket.design.family_id,'trajectory-interception');assert.match(learnedMarket.benchmark.url,/^https:\/\/play\.google\.com\//);
+  const tbp=foundryBlueprintFor(learnedMarket,22,'20261001'),tm=foundryRunner.buildModel(tbp),tp=foundryRunner.proposalFor(tbp,tm);
+  product.validateModel(tm);product.validate(tp.product_contract);commercial.validate(tp.commercial_contract);commercial.semantics(tp.commercial_contract,tp.product_contract,tm);assertReversibleScoreProbe(tm,tp.product_contract);
+  assert.equal(validateReviewedProposal(tbp,tm,tp).passed,true);assert.match(tp.implementation_contract.progression,/INTERCEPT/);assert.match(tp.implementation_contract.originality,/Forbidden copying/);
+  assert.equal(new Set([original,market,learnedOriginal,learnedMarket].map(x=>x.design.family_id)).size,4);
+
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-foundry-intake-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
-  const meta=materialize(root,20,'20261001',market),dir=path.join(root,'candidate');
-  assert.equal(meta.lane,'market-benchmark');assert.equal(meta.family_id,'pressure-allocation');assert.match(fs.readFileSync(path.join(dir,'commission.cjs'),'utf8'),/foundry\/family-runner/);
+  const meta=materialize(root,22,'20261001',learnedMarket),dir=path.join(root,'candidate');
+  assert.equal(meta.lane,'market-benchmark');assert.equal(meta.family_id,'trajectory-interception');assert.match(fs.readFileSync(path.join(dir,'commission.cjs'),'utf8'),/foundry\/family-runner/);
   const request=JSON.parse(fs.readFileSync(path.join(dir,'queued-request.json')));assert.equal(request.production_authorized,false);assert.equal(request.authorized_provider_calls,6);
 });
 
