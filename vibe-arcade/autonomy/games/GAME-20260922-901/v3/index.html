@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Terra Provider Canary Chamber</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <p class="eyebrow">FIELD COMMISSIONING FIXTURE</p>
+      <h1>Terra Provider: Canary Chamber</h1>
+      <p class="intro">Seal three atmospheric relays before the chamber completes its safety sweep.</p>
+    </header>
+    <section class="game-panel" aria-label="Canary Chamber game">
+      <canvas data-game-canvas tabindex="0" aria-label="Canary Chamber play field"></canvas>
+      <div class="readout" aria-live="polite">
+        <span data-game-status>Ready for commissioning</span>
+        <span>Score <strong data-game-score>0</strong></span>
+        <span>Output <strong data-game-progress>0%</strong></span>
+      </div>
+      <div class="controls">
+        <button data-game-start type="button">Start chamber</button>
+        <button data-game-pause type="button">Pause</button>
+        <button data-game-resume type="button">Resume</button>
+        <button data-game-restart type="button">Restart</button>
+      </div>
+      <p data-game-error hidden class="error"></p>
+    </section>
+    <footer>Arrow keys / WASD move · Space pulses a nearby relay · Touch and drag guides the canary</footer>
+  </main>
+  <script src="./core.js"></script>
+  <script src="./view/art.js"></script>
+  <script src="./gamekit.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
