@@ -20,7 +20,7 @@
     },
     {
       "id": "signal-composition",
-      "status": "incubating",
+      "status": "reviewed",
       "hypothesis": "Players combine a small vocabulary of signals into increasingly expressive target patterns.",
       "copy_boundary": "No word-game board, card system, melody, branded symbol set or level layout may be copied."
     },
@@ -32,7 +32,7 @@
     },
     {
       "id": "trajectory-interception",
-      "status": "incubating",
+      "status": "reviewed",
       "hypothesis": "Players read future motion and make a few high-value interception choices per short run.",
       "copy_boundary": "No runner lane system, projectile skin, level geometry or control layout may be copied."
     }
@@ -60,9 +60,10 @@
       "id": "signal-composition-original-01",
       "lane": "original",
       "family_id": "signal-composition",
-      "status": "incubating",
+      "status": "reviewed",
       "title_seed": "Signal grammar",
-      "novelty_contract": "Compose a target waveform from a changing three-action grammar with visible harmonic consequences."
+      "novelty_contract": "Compose a target waveform from a changing three-action grammar with visible harmonic consequences.",
+      "candidate": {"title":"Harmonic Relay","slug":"harmonic-relay","theme":{"singular":"Pulse","plural":"Pulses","arena":"Resonator","progress":"PHRASES","success":"SIGNAL RESOLVED","failure":"SIGNAL LOST"}}
     },
     {
       "id": "signal-composition-market-01",
@@ -103,10 +104,11 @@
       "id": "trajectory-interception-market-01",
       "lane": "market-benchmark",
       "family_id": "trajectory-interception",
-      "status": "incubating",
+      "status": "reviewed",
       "benchmark_id": "google-play-puzzle-en-20260930",
       "title_seed": "Arc intercept",
-      "novelty_contract": "Apply legible spatial state and short-session payoff to original interception planning, without blocks, matching or runner lanes."
+      "novelty_contract": "Apply legible spatial state and short-session payoff to original interception planning, without blocks, matching or runner lanes.",
+      "candidate": {"title":"Orbit Window","slug":"orbit-window","theme":{"singular":"Arc","plural":"Arcs","arena":"Orbit","progress":"WAVES","success":"PATTERN INTERCEPTED","failure":"PATTERN ESCAPED"}}
     }
   ]
 }
