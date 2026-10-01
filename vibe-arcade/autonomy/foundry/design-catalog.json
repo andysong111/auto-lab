@@ -47,6 +47,18 @@
       "status": "reviewed",
       "hypothesis": "Players reshape a short ordered time buffer and learn to read rhythm as spatial structure.",
       "copy_boundary": "No music, note chart, rhythm-game lanes, timing windows, interface or scoring system may be copied."
+    },
+    {
+      "id": "flux-harvesting",
+      "status": "reviewed",
+      "hypothesis": "Players calibrate charge and polarity, then commit only when a visible field is ready to harvest.",
+      "copy_boundary": "No farming-game skin, electrical puzzle board, branded symbols, level layout or scoring system may be copied."
+    },
+    {
+      "id": "aperture-shaping",
+      "status": "reviewed",
+      "hypothesis": "Players shape a visible aperture and focal position to resolve a changing light field in a few clear decisions.",
+      "copy_boundary": "No photography interface, lens brand, optical puzzle layout, artwork, level map or scoring system may be copied."
     }
   ],
   "designs": [
@@ -142,6 +154,27 @@
       "title_seed": "Cadence buffer",
       "novelty_contract": "Apply compact-rule depth and strong system identity to an original ordered beat buffer, without copying music, charts, lanes or timing rules.",
       "candidate": {"title":"Cadence Forge","slug":"cadence-forge","theme":{"singular":"Beat","plural":"Beats","arena":"Sequencer","progress":"BARS","success":"CADENCE SEALED","failure":"RHYTHM BROKE"}}
+    },
+    {
+      "id": "flux-harvesting-original-01",
+      "lane": "original",
+      "family_id": "flux-harvesting",
+      "status": "reviewed",
+      "min_sequence": 25,
+      "title_seed": "Flux orchard",
+      "novelty_contract": "Calibrate a four-step charge and two-pole field, then harvest each original field only when both visible targets agree.",
+      "candidate": {"title":"Flux Orchard","slug":"flux-orchard","theme":{"singular":"Field","plural":"Fields","arena":"Orchard","progress":"HARVESTS","success":"FLUX HARVESTED","failure":"FIELD DIMMED"}}
+    },
+    {
+      "id": "aperture-shaping-market-01",
+      "lane": "market-benchmark",
+      "family_id": "aperture-shaping",
+      "status": "reviewed",
+      "min_sequence": 26,
+      "benchmark_id": "google-play-games-en-20260930",
+      "title_seed": "Lumen aperture",
+      "novelty_contract": "Apply first-turn clarity and readable short-session progression to an original aperture-and-focus system without copying a camera UI, board or level structure.",
+      "candidate": {"title":"Lumen Aperture","slug":"lumen-aperture","theme":{"singular":"Beam","plural":"Beams","arena":"Aperture","progress":"FOCUSES","success":"LIGHT FOCUSED","failure":"LIGHT SCATTERED"}}
     }
   ]
 }
