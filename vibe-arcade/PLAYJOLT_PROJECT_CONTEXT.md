@@ -196,6 +196,9 @@ Learning Foundry continuation from 2026-10-01:
 - both uploaded terminal learning artifacts, and the next intake correctly stopped before a paid call because no further reviewed original design was available;
 - recurring difficulty, progress, action-feedback, mobile-hierarchy and result-presentation failures now feed the next bounded implementation contract;
 - a second reviewed pair adds original `signal-composition` and market-informed `trajectory-interception`, each with a distinct deterministic six-seed Oracle and reviewed Product and Commercial contracts. Other sibling designs remain `incubating`.
+- sequences 23 `Echo Switchyard` and 24 `Cadence Forge` both completed autonomously but remained `REJECTED` after repair 5/5. Echo Switchyard reduced its final failure surface, while Cadence Forge regressed, so there is not yet evidence of a reliable upward product-quality trend;
+- the learning translator now reserves bounded priority for recurring keyboard/touch parity and lifecycle-integrity failures such as unreachable completion, missing result/replay and broken practice-best behavior. These blocking failures can no longer be crowded out by a larger count of downstream polish failures;
+- each reviewed Foundry proposal now includes a strictly validated `build_invariants` packet derived from the same immutable six-seed Oracle used by Product QA. It supplies exact projections, named input bindings, lifecycle selectors, diagnostic paths and normal-input success routes so Builder establishes deterministic core/lifecycle behavior before Phaser polish. This adds production material without lowering or bypassing Technical, Product or Commercial QA.
 
 Supervisor wake-up lesson from 2026-09-30:
 - GitHub skipped multiple consecutive hourly schedule events while the workflow remained active, delaying the first post-Foundry candidate despite a new UTC-day allowance;

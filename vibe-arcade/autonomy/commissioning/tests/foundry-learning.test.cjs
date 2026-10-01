@@ -30,6 +30,20 @@ function assertReversibleScoreProbe(model,contract){
     }
   }
 }
+function assertBuildInvariants(model,proposal){
+  const data=proposal.build_invariants,contract=proposal.product_contract;
+  assert.equal(data.source,'reviewed-foundry-oracle');
+  assert.equal(data.oracle_sha256,contract.difficulty.oracle_sha256);
+  assert.deepEqual(data.projection,model.projection);
+  assert.deepEqual(data.actions,contract.actions);
+  assert.equal(data.lifecycle.replay_selector,contract.replay.selector);
+  for(const seed of contract.difficulty.deterministic_seeds){
+    const graph=model.seeds[String(seed)],row=data.seeds[String(seed)];
+    let node=graph.initial;assert.deepEqual(row.initial_state,graph.nodes[node].values);assert.deepEqual(row.success_states[0],row.initial_state);
+    row.success_actions.forEach((action,index)=>{const edge=graph.nodes[node].edges.find(candidate=>candidate.action===action);assert(edge,`missing invariant ${action} from ${node}`);node=edge.to;assert.deepEqual(row.success_states[index+1],graph.nodes[node].values);});
+    assert.equal(graph.nodes[node].success,true);assert.deepEqual(row.terminal_state,graph.nodes[node].values);
+  }
+}
 
 function catalogs(status='reviewed'){
   return {
@@ -74,17 +88,33 @@ test('recurring bounded failure codes become next-build correction priorities',(
   assert.deepEqual(focus,['result-presentation','difficulty-progression','mobile-hierarchy','action-feedback']);
 });
 
+test('blocking input and lifecycle failures cannot be crowded out by polish counts',()=>{
+  const focus=learningFocus({top_failure_codes:[{code:'product_difficulty',count:100},{code:'commercial_result_presentation',count:90},{code:'commercial_mobile_hierarchy',count:80},{code:'touch',count:3},{code:'product_completion',count:3},{code:'product_replay',count:3}]});
+  assert.deepEqual(focus,['input-parity','lifecycle-integrity','difficulty-progression','result-presentation']);
+});
+
+test('bounded learning profile retains lower-ranked blocking failures',()=>{
+  const failure_codes={touch:1,product_completion:1};
+  for(let index=0;index<13;index++)failure_codes['commercial_noise_'+index]=20-index;
+  const profile=compile({seed:{outcomes:[{game_id:'G-blocking',family_id:'alpha',lane:'original',state:'REJECTED',technical:'FAIL',product:'FAIL',commercial:'FAIL',failure_codes}]}});
+  assert(profile.top_failure_codes.some(row=>row.code==='touch'));
+  assert(profile.top_failure_codes.some(row=>row.code==='product_completion'));
+  assert.deepEqual(learningFocus(profile).slice(0,2),['input-parity','lifecycle-integrity']);
+});
+
 test('Foundry materializes distinct reviewed original and market families',t=>{
   const learning={retired_families:['permutation-ordering-v1'],used_design_ids:[],families:{},top_failure_codes:[{code:'product_difficulty',count:30},{code:'commercial_result_presentation',count:25},{code:'commercial_mobile_hierarchy',count:20},{code:'commercial_action_feedback',count:18}]};
   const original=select({sequence:19,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:learning});
   assert.equal(original.status,'SELECTED');assert.equal(original.lane,'original');assert.equal(original.design.family_id,'kinetic-balance');
   const obp=foundryBlueprintFor(original,19,'20261001'),om=foundryRunner.buildModel(obp),op=foundryRunner.proposalFor(obp,om);
-  product.validateModel(om);product.validate(op.product_contract);commercial.validate(op.commercial_contract);commercial.semantics(op.commercial_contract,op.product_contract,om);assertReversibleScoreProbe(om,op.product_contract);
-  assert.equal(validateReviewedProposal(obp,om,op).passed,true);assert.match(op.implementation_contract.difficulty,/Prior Factory outcomes require this correction/);
+  product.validateModel(om);product.validate(op.product_contract);commercial.validate(op.commercial_contract);commercial.semantics(op.commercial_contract,op.product_contract,om);assertReversibleScoreProbe(om,op.product_contract);assertBuildInvariants(om,op);
+  const originalGate=validateReviewedProposal(obp,om,op);assert.equal(originalGate.passed,true);assert.deepEqual(originalGate.factory_spec.build_invariants,op.build_invariants);assert.match(op.implementation_contract.difficulty,/Prior Factory outcomes require this correction/);
+  const corrupted=structuredClone(op),firstSeed=String(obp.seeds[0]);corrupted.build_invariants.seeds[firstSeed].success_actions[0]='unreviewed_action';
+  assert(validateReviewedProposal(obp,om,corrupted).errors.some(error=>error.code==='invalid_build_invariants'));
   const market=select({sequence:20,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:[original.design.id]}});
   assert.equal(market.status,'SELECTED');assert.equal(market.lane,'market-benchmark');assert.equal(market.design.family_id,'pressure-allocation');assert.match(market.benchmark.url,/^https:\/\/play\.google\.com\//);
   const mbp=foundryBlueprintFor(market,20,'20261001'),mm=foundryRunner.buildModel(mbp),mp=foundryRunner.proposalFor(mbp,mm);
-  product.validateModel(mm);product.validate(mp.product_contract);commercial.validate(mp.commercial_contract);commercial.semantics(mp.commercial_contract,mp.product_contract,mm);assertReversibleScoreProbe(mm,mp.product_contract);
+  product.validateModel(mm);product.validate(mp.product_contract);commercial.validate(mp.commercial_contract);commercial.semantics(mp.commercial_contract,mp.product_contract,mm);assertReversibleScoreProbe(mm,mp.product_contract);assertBuildInvariants(mm,mp);
   assert.equal(validateReviewedProposal(mbp,mm,mp).passed,true);
 
   const usedPair=[original.design.id,market.design.id];

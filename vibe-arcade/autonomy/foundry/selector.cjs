@@ -1,9 +1,12 @@
 'use strict';
 const fs=require('node:fs');
 const FOCUS_RULES=[
-  [/difficulty/,'difficulty-progression'],[/progress/,'progress-readability'],[/result_presentation|failure_result/,'result-presentation'],
-  [/action_feedback|commercial_motion/,'action-feedback'],[/reduced_motion/,'reduced-motion'],[/mobile_hierarchy/,'mobile-hierarchy'],[/state_distinction/,'state-distinction']
+  [/^(touch|keyboard)$|input_parity/,'input-parity'],
+  [/product_(completion|replay|practice_best|failure_result)|^(terminal|restart)$/,'lifecycle-integrity'],
+  [/difficulty/,'difficulty-progression'],[/progress|score_integrity/,'progress-readability'],[/result_presentation/,'result-presentation'],
+  [/(action_)?feedback|commercial_motion/,'action-feedback'],[/reduced_motion/,'reduced-motion'],[/mobile_(hierarchy|readability)/,'mobile-hierarchy'],[/state_distinction|route_topology/,'state-distinction']
 ];
+const BLOCKING_FOCUS=['input-parity','lifecycle-integrity'];
 
 function laneFor(sequence){
   if(!Number.isInteger(sequence)||sequence<1)throw Error('invalid_sequence');
@@ -15,12 +18,14 @@ function ageDays(captured,date){
   return Math.floor((b-a)/86400000);
 }
 function learningFocus(profile){
-  const focus=[];
+  const totals=new Map();
   for(const row of profile?.top_failure_codes||[]){
     const rule=FOCUS_RULES.find(([pattern])=>pattern.test(String(row?.code||'')));
-    if(rule&&!focus.includes(rule[1]))focus.push(rule[1]);
-    if(focus.length===4)break;
+    if(rule)totals.set(rule[1],(totals.get(rule[1])||0)+(Number(row?.count)||0));
   }
+  const focus=BLOCKING_FOCUS.filter(name=>totals.has(name));
+  const remaining=[...totals].filter(([name])=>!focus.includes(name)).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
+  for(const [name] of remaining){if(focus.length===4)break;focus.push(name);}
   return focus;
 }
 function select({sequence,date,designCatalog,benchmarkCatalog,learningProfile}){

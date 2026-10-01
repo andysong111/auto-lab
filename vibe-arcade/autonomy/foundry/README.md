@@ -20,7 +20,9 @@ Each terminal cycle uploads a lightweight `commissioning-summary.json`. `learnin
 - recurring failure codes;
 - used design IDs.
 
-A family with three rejections and no `RC_READY` is retired. A retired family is never given a new game ID to regain its budget. Known recurring failure codes are converted into bounded correction priorities such as result presentation, difficulty progression, mobile hierarchy and action feedback; those priorities are injected into the next implementation contract. Unknown text from artifacts is ignored. The selector also excludes used designs, stale benchmark evidence and families or designs without reviewed runners.
+A family with three rejections and no `RC_READY` is retired. A retired family is never given a new game ID to regain its budget. The profile retains at most 24 known failure codes and converts them into at most four correction priorities such as lifecycle integrity, keyboard/touch parity, result presentation, difficulty progression, mobile hierarchy and action feedback; those priorities are injected into the next implementation contract. Blocking input and lifecycle failures receive reserved priority so a large number of later polish failures cannot crowd them out. Unknown text from artifacts is ignored. The selector also excludes used designs, stale benchmark evidence and families or designs without reviewed runners.
+
+Every reviewed Foundry proposal also carries a validated `build_invariants` packet derived from the same immutable multi-seed Oracle used by Product QA. It gives Builder the exact projection, named actions, lifecycle selectors, diagnostic paths and ordinary-input success route for all six seeds. Builder must establish those deterministic core/lifecycle invariants before visual polish. The packet is construction data, not an autoplay or a weaker QA path; Product and Commercial QA still independently exercise the candidate and remain authoritative.
 
 When no eligible reviewed design exists, the Foundry returns `IDLE` before a provider call. New mechanics enter the catalog as `incubating` and require deterministic multi-seed Oracle, Product and Commercial contracts plus a reviewed runner before their status can become `reviewed`.
 
@@ -30,6 +32,7 @@ When no eligible reviewed design exists, the Foundry returns `IDLE` before a pro
 - The resulting recurring difficulty, progress, action-feedback, mobile-hierarchy and result-presentation failures are correction priorities for the next implementation contracts; they do not weaken any gate.
 - The second reviewed pair is original `signal-composition` followed by market-informed `trajectory-interception`. Each has a separate finite-state mechanic, six deterministic seed models, reversible score probes and reviewed Product and Commercial contracts.
 - Sequence 23 first proved the exhaustion guard by returning `no_reviewed_original_design` before any provider call. The next reviewed batch starts at sequence 23 with original `echo-routing`, followed at sequence 24 by market-informed `cadence-buffering`; both use new bounded state models rather than relabeling a prior game.
+- Sequences 23 and 24 also reached terminal `REJECTED`. Sequence 23 reduced the final failure surface, but sequence 24 regressed, so the result is not yet a reliable quality trend. Their repeated completion, replay, input, progress and feedback failures motivated the reviewed build-invariant packet and blocking-focus priority described above.
 - Only one design in each new family is reviewed. Sibling designs remain `incubating` until they receive their own reviewed rules and evidence, so catalog expansion cannot silently turn into budget-reset cloning.
 
 ## Safety boundaries
