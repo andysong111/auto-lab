@@ -101,6 +101,19 @@ test('Foundry materializes distinct reviewed original and market families',t=>{
   assert.equal(validateReviewedProposal(tbp,tm,tp).passed,true);assert.match(tp.implementation_contract.progression,/INTERCEPT/);assert.match(tp.implementation_contract.originality,/Forbidden copying/);
   assert.equal(new Set([original,market,learnedOriginal,learnedMarket].map(x=>x.design.family_id)).size,4);
 
+  const learnedPair=[...usedPair,learnedOriginal.design.id,learnedMarket.design.id];
+  const nextOriginal=select({sequence:23,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:learnedPair}});
+  assert.equal(nextOriginal.status,'SELECTED');assert.equal(nextOriginal.design.family_id,'echo-routing');
+  const ebp=foundryBlueprintFor(nextOriginal,23,'20261001'),em=foundryRunner.buildModel(ebp),ep=foundryRunner.proposalFor(ebp,em);
+  product.validateModel(em);product.validate(ep.product_contract);commercial.validate(ep.commercial_contract);commercial.semantics(ep.commercial_contract,ep.product_contract,em);assertReversibleScoreProbe(em,ep.product_contract);
+  assert.equal(validateReviewedProposal(ebp,em,ep).passed,true);assert.match(ep.implementation_contract.progression,/three-bit switch mask/);
+
+  const nextMarket=select({sequence:24,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:[...learnedPair,nextOriginal.design.id]}});
+  assert.equal(nextMarket.status,'SELECTED');assert.equal(nextMarket.design.family_id,'cadence-buffering');assert.match(nextMarket.benchmark.url,/^https:\/\/play\.google\.com\//);
+  const cbp=foundryBlueprintFor(nextMarket,24,'20261001'),cm=foundryRunner.buildModel(cbp),cp=foundryRunner.proposalFor(cbp,cm);
+  product.validateModel(cm);product.validate(cp.product_contract);commercial.validate(cp.commercial_contract);commercial.semantics(cp.commercial_contract,cp.product_contract,cm);assertReversibleScoreProbe(cm,cp.product_contract);
+  assert.equal(validateReviewedProposal(cbp,cm,cp).passed,true);assert.match(cp.implementation_contract.progression,/ordered beat buffer/);assert.match(cp.implementation_contract.originality,/Forbidden copying/);
+
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-foundry-intake-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
   const meta=materialize(root,22,'20261001',learnedMarket),dir=path.join(root,'candidate');
   assert.equal(meta.lane,'market-benchmark');assert.equal(meta.family_id,'trajectory-interception');assert.match(fs.readFileSync(path.join(dir,'commission.cjs'),'utf8'),/foundry\/family-runner/);

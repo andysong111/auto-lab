@@ -29,6 +29,7 @@ When no eligible reviewed design exists, the Foundry returns `IDLE` before a pro
 - Sequences 19 and 20 exercised the first pair: original `kinetic-balance` and market-informed `pressure-allocation`. Both reached a clean terminal `REJECTED` state after the bounded repair budget and uploaded learning artifacts.
 - The resulting recurring difficulty, progress, action-feedback, mobile-hierarchy and result-presentation failures are correction priorities for the next implementation contracts; they do not weaken any gate.
 - The second reviewed pair is original `signal-composition` followed by market-informed `trajectory-interception`. Each has a separate finite-state mechanic, six deterministic seed models, reversible score probes and reviewed Product and Commercial contracts.
+- Sequence 23 first proved the exhaustion guard by returning `no_reviewed_original_design` before any provider call. The next reviewed batch starts at sequence 23 with original `echo-routing`, followed at sequence 24 by market-informed `cadence-buffering`; both use new bounded state models rather than relabeling a prior game.
 - Only one design in each new family is reviewed. Sibling designs remain `incubating` until they receive their own reviewed rules and evidence, so catalog expansion cannot silently turn into budget-reset cloning.
 
 ## Safety boundaries
