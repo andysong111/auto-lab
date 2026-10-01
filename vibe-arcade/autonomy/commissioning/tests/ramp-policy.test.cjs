@@ -27,6 +27,7 @@ test('workflows use the shared adaptive ramp and preserve serial execution',()=>
   const root=path.resolve(__dirname,'../../../..');
   const supervisor=fs.readFileSync(path.join(root,'.github/workflows/playjolt-candidate-queue-supervisor.yml'),'utf8');
   const intake=fs.readFileSync(path.join(root,'.github/workflows/playjolt-intake-generator.yml'),'utf8');
+  const relay=fs.readFileSync(path.join(root,'.github/workflows/playjolt-factory-wake-relay.yml'),'utf8');
   for(const yml of [supervisor,intake]){
     assert.match(yml,/ramp-policy\.cjs cap/);
     assert.match(yml,/commissioning\/auto-/);
@@ -37,4 +38,8 @@ test('workflows use the shared adaptive ramp and preserve serial execution',()=>
   assert.match(supervisor,/group: playjolt-candidate-queue-supervisor/);
   assert.match(supervisor,/cancel-in-progress: false/);
   assert.match(intake,/steps\.quota\.outputs\.allowed == 'true'/);
+  assert.match(relay,/cron: '7,37 \* \* \* \*'/);
+  assert.match(relay,/actions: write/);
+  assert.match(relay,/gh workflow run playjolt-candidate-queue-supervisor\.yml/);
+  assert.doesNotMatch(relay,/playjolt-intake-generator\.yml|playjolt-autonomous-cycle\.yml|AUTO_PRODUCTION_SHIP/);
 });

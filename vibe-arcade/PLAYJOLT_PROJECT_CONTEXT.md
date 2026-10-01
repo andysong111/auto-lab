@@ -202,6 +202,11 @@ Supervisor wake-up lesson from 2026-09-30:
 - the Supervisor now has two staggered schedule signals per hour instead of one;
 - this is wake-up redundancy only. Existing concurrency, active-run detection, exact-SHA duplicate blocking and adaptive daily quota remain authoritative, so duplicate schedule delivery cannot create concurrent candidates or reset any budget.
 
+Wake-up continuation from 2026-10-01:
+- after the second reviewed Foundry pair merged, the Supervisor again missed several consecutive schedule opportunities;
+- an independent `PlayJolt Factory Wake Relay` schedule now dispatches only the guarded Supervisor and has no intake, candidate, provider or Production authority;
+- the Supervisor remains the sole queue decision point, so both wake sources share the same serial, quota, duplicate-SHA and Production-off protections.
+
 Do **not** lower quality requirements merely to create an RC_READY.
 
 ### Phase 6 — Automated distribution — NEXT AFTER PHASE 5 PROOF
