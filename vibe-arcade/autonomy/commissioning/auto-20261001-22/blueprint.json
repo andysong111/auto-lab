@@ -1,0 +1,75 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261001-322",
+  "title": "Orbit Window",
+  "slug": "orbit-window",
+  "family_id": "trajectory-interception",
+  "design_id": "trajectory-interception-market-01",
+  "lane": "market-benchmark",
+  "seeds": [
+    2253,
+    2254,
+    2255,
+    2256,
+    2257,
+    2258
+  ],
+  "theme": {
+    "singular": "Arc",
+    "plural": "Arcs",
+    "arena": "Orbit",
+    "progress": "WAVES",
+    "success": "PATTERN INTERCEPTED",
+    "failure": "PATTERN ESCAPED"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "market-benchmark",
+    "family_id": "trajectory-interception",
+    "design_id": "trajectory-interception-market-01",
+    "learning_focus": [
+      "difficulty-progression",
+      "result-presentation",
+      "action-feedback",
+      "mobile-hierarchy"
+    ],
+    "benchmark_id": "google-play-puzzle-en-20260930",
+    "benchmark_url": "https://play.google.com/store/apps/category/GAME_PUZZLE?hl=en"
+  },
+  "learning_focus": [
+    "difficulty-progression",
+    "result-presentation",
+    "action-feedback",
+    "mobile-hierarchy"
+  ],
+  "benchmark": {
+    "id": "google-play-puzzle-en-20260930",
+    "publisher": "Google Play",
+    "url": "https://play.google.com/store/apps/category/GAME_PUZZLE?hl=en",
+    "surface": "Puzzle top-free, popular and newly launched modules",
+    "transferable_principles": [
+      "keep the core rule visible through spatial state changes",
+      "create rising board tension with recoverable decisions",
+      "reward planned chains with a clear payoff while preserving honest score"
+    ]
+  },
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Apply legible spatial state and short-session payoff to original interception planning, without blocks, matching or runner lanes."
+}
