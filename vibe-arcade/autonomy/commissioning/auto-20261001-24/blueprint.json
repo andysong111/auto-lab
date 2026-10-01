@@ -1,0 +1,75 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261001-324",
+  "title": "Cadence Forge",
+  "slug": "cadence-forge",
+  "family_id": "cadence-buffering",
+  "design_id": "cadence-buffering-market-01",
+  "lane": "market-benchmark",
+  "seeds": [
+    2455,
+    2456,
+    2457,
+    2458,
+    2459,
+    2460
+  ],
+  "theme": {
+    "singular": "Beat",
+    "plural": "Beats",
+    "arena": "Sequencer",
+    "progress": "BARS",
+    "success": "CADENCE SEALED",
+    "failure": "RHYTHM BROKE"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "market-benchmark",
+    "family_id": "cadence-buffering",
+    "design_id": "cadence-buffering-market-01",
+    "learning_focus": [
+      "difficulty-progression",
+      "result-presentation",
+      "action-feedback",
+      "mobile-hierarchy"
+    ],
+    "benchmark_id": "google-play-indie-en-20260930",
+    "benchmark_url": "https://play.google.com/store/apps/category/GAME?hl=en"
+  },
+  "learning_focus": [
+    "difficulty-progression",
+    "result-presentation",
+    "action-feedback",
+    "mobile-hierarchy"
+  ],
+  "benchmark": {
+    "id": "google-play-indie-en-20260930",
+    "publisher": "Google Play",
+    "url": "https://play.google.com/store/apps/category/GAME?hl=en",
+    "surface": "Play top indie games module",
+    "transferable_principles": [
+      "build a strong identity from one legible system",
+      "let small rule combinations create depth instead of adding controls",
+      "make presentation reinforce the mechanic rather than cover it"
+    ]
+  },
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Apply compact-rule depth and strong system identity to an original ordered beat buffer, without copying music, charts, lanes or timing rules."
+}
