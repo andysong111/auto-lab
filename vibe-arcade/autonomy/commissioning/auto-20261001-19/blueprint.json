@@ -1,0 +1,62 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261001-319",
+  "title": "Counterweight Garden",
+  "slug": "counterweight-garden",
+  "family_id": "kinetic-balance",
+  "design_id": "kinetic-balance-original-01",
+  "lane": "original",
+  "seeds": [
+    1950,
+    1951,
+    1952,
+    1953,
+    1954,
+    1955
+  ],
+  "theme": {
+    "singular": "Weight",
+    "plural": "Weights",
+    "arena": "Canopy",
+    "progress": "HOLDS",
+    "success": "CANOPY BALANCED",
+    "failure": "CANOPY COLLAPSED"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "original",
+    "family_id": "kinetic-balance",
+    "design_id": "kinetic-balance-original-01",
+    "learning_focus": [
+      "difficulty-progression",
+      "result-presentation",
+      "mobile-hierarchy",
+      "action-feedback"
+    ]
+  },
+  "learning_focus": [
+    "difficulty-progression",
+    "result-presentation",
+    "mobile-hierarchy",
+    "action-feedback"
+  ],
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Balance a living mobile by choosing attachment points whose leverage changes after every successful hold."
+}
