@@ -101,9 +101,9 @@ jobs:
         run: |
           SINCE="$(date -u +%Y-%m-%dT00:00:00Z)"
           HISTORY="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/playjolt-autonomous-cycle.yml/runs?per_page=100")"
-          PROVEN="$(printf '%s' "$HISTORY" | jq '[.workflow_runs[] | select(.conclusion == "success" and .event == "workflow_dispatch" and (.head_branch | startswith("commissioning/auto-")))] | length')"
+          PROVEN="$(printf '%s' "$HISTORY" | jq '[.workflow_runs[] | select(.conclusion == "success" and .event == "workflow_dispatch" and (.head_branch | startswith("commissioning/auto-")))] | unique_by(.head_branch) | length')"
           CAP="$(node vibe-arcade/autonomy/cycle/ramp-policy.cjs cap "$PROVEN")"
-          COUNT="$(printf '%s' "$HISTORY" | jq --arg since "$SINCE" '[.workflow_runs[] | select(.created_at >= $since)] | length')"
+          COUNT="$(printf '%s' "$HISTORY" | jq --arg since "$SINCE" '[.workflow_runs[] | select(.created_at >= $since and (.head_branch | startswith("commissioning/auto-")))] | unique_by(.head_branch) | length')"
           ACTIVE="$(printf '%s' "$HISTORY" | jq '[.workflow_runs[] | select(.status != "completed")] | length')"
           echo "cap=$CAP" >> "$GITHUB_OUTPUT"
           echo "proven=$PROVEN" >> "$GITHUB_OUTPUT"
