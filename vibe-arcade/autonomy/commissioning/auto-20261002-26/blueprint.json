@@ -1,0 +1,75 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261002-326",
+  "title": "Lumen Aperture",
+  "slug": "lumen-aperture",
+  "family_id": "aperture-shaping",
+  "design_id": "aperture-shaping-market-01",
+  "lane": "market-benchmark",
+  "seeds": [
+    2657,
+    2658,
+    2659,
+    2660,
+    2661,
+    2662
+  ],
+  "theme": {
+    "singular": "Beam",
+    "plural": "Beams",
+    "arena": "Aperture",
+    "progress": "FOCUSES",
+    "success": "LIGHT FOCUSED",
+    "failure": "LIGHT SCATTERED"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "market-benchmark",
+    "family_id": "aperture-shaping",
+    "design_id": "aperture-shaping-market-01",
+    "learning_focus": [
+      "input-parity",
+      "lifecycle-integrity",
+      "action-feedback",
+      "difficulty-progression"
+    ],
+    "benchmark_id": "google-play-games-en-20260930",
+    "benchmark_url": "https://play.google.com/store/apps/category/GAME?hl=en"
+  },
+  "learning_focus": [
+    "input-parity",
+    "lifecycle-integrity",
+    "action-feedback",
+    "difficulty-progression"
+  ],
+  "benchmark": {
+    "id": "google-play-games-en-20260930",
+    "publisher": "Google Play",
+    "url": "https://play.google.com/store/apps/category/GAME?hl=en",
+    "surface": "Games top charts, popular games and editor-curated modules",
+    "transferable_principles": [
+      "make the first meaningful choice understandable without a tutorial wall",
+      "show progress and pressure in the playfield rather than only in text",
+      "make a short session produce a visually complete result"
+    ]
+  },
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Apply first-turn clarity and readable short-session progression to an original aperture-and-focus system without copying a camera UI, board or level structure."
+}
