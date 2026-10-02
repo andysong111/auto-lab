@@ -1,0 +1,77 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261002-330",
+  "title": "Signal Bastion",
+  "slug": "signal-bastion",
+  "family_id": "threat-parry",
+  "design_id": "threat-parry-market-01",
+  "lane": "market-benchmark",
+  "runner": "foundry/reflex-runner.cjs",
+  "seeds": [
+    3061,
+    3062,
+    3063,
+    3064,
+    3065,
+    3066
+  ],
+  "theme": {
+    "singular": "Signal",
+    "plural": "Signals",
+    "arena": "Bastion",
+    "progress": "WAVES",
+    "success": "BASTION SECURED",
+    "failure": "SIGNAL BREACH"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "market-benchmark",
+    "family_id": "threat-parry",
+    "design_id": "threat-parry-market-01",
+    "runner": "foundry/reflex-runner.cjs",
+    "learning_focus": [
+      "input-parity",
+      "lifecycle-integrity",
+      "action-feedback",
+      "difficulty-progression"
+    ],
+    "benchmark_id": "google-play-games-en-20261002",
+    "benchmark_url": "https://play.google.com/store/apps/category/GAME?hl=en"
+  },
+  "learning_focus": [
+    "input-parity",
+    "lifecycle-integrity",
+    "action-feedback",
+    "difficulty-progression"
+  ],
+  "benchmark": {
+    "id": "google-play-games-en-20261002",
+    "publisher": "Google Play",
+    "url": "https://play.google.com/store/apps/category/GAME?hl=en",
+    "surface": "Games top charts, popular games and editor-curated modules",
+    "transferable_principles": [
+      "make the first meaningful choice understandable without a tutorial wall",
+      "show progress and pressure in the playfield rather than only in text",
+      "make a short session produce a visually complete result"
+    ]
+  },
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Transfer first-choice clarity, playfield-visible pressure and complete short-session payoff into an original four-direction signal-parry defense with a factory-owned real-time core, without copying any observed game surface or ruleset."
+}
