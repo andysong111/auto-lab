@@ -78,6 +78,12 @@
       "status": "reviewed",
       "hypothesis": "Direct lateral movement, a visibly descending target and an immediate interception payoff create a stronger first-ten-second play loop than calibration-and-commit puzzles.",
       "copy_boundary": "No lane-runner layout, character, obstacle pattern, branded object, level geometry, artwork, audio, code or scoring system may be copied."
+    },
+    {
+      "id": "threat-parry",
+      "status": "reviewed",
+      "hypothesis": "A trusted timed reflex core, four spatial directions and twelve escalating direct parries create honest pressure and replayable mastery without a hidden solved-state shortcut.",
+      "copy_boundary": "No rhythm chart, combat character, branded shield, enemy pattern, visual layout, artwork, audio, code or distinctive parry ruleset may be copied."
     }
   ],
   "designs": [
@@ -226,6 +232,18 @@
       "title_seed": "Comet catcher",
       "novelty_contract": "Steer a luminous catcher through widening sky lanes and intercept descending comets with newly unlocked movement bursts, producing an immediate action payoff without a calibration board or solved-state commit loop.",
       "candidate": {"title":"Comet Breaker","slug":"comet-breaker","theme":{"singular":"Comet","plural":"Comets","arena":"Skyline","progress":"CATCHES","success":"COMETS CAUGHT","failure":"COMETS ESCAPED"}}
+    },
+    {
+      "id": "threat-parry-market-01",
+      "lane": "market-benchmark",
+      "family_id": "threat-parry",
+      "status": "reviewed",
+      "min_sequence": 30,
+      "runner": "foundry/reflex-runner.cjs",
+      "benchmark_id": "google-play-games-en-20261002",
+      "title_seed": "Signal bastion",
+      "novelty_contract": "Transfer first-choice clarity, playfield-visible pressure and complete short-session payoff into an original four-direction signal-parry defense with a factory-owned real-time core, without copying any observed game surface or ruleset.",
+      "candidate": {"title":"Signal Bastion","slug":"signal-bastion","theme":{"singular":"Signal","plural":"Signals","arena":"Bastion","progress":"WAVES","success":"BASTION SECURED","failure":"SIGNAL BREACH"}}
     }
   ]
 }

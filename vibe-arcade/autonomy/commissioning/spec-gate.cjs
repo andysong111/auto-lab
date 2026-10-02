@@ -14,6 +14,10 @@ function validBuildInvariants(data,product,commercial,model){
   if(JSON.stringify(lifecycle)!==JSON.stringify(expectedLifecycle)||JSON.stringify(diagnostics)!==JSON.stringify(expectedDiagnostics))return false;
   const expectedConstruction={input_owner:'PlayJoltGameKit',input_source:'input.actions',action_expressions:Object.keys(product.actions).map(name=>'input.actions.'+name),complexity_source:'quality_checkpoints.complexity',terminal_owner:'GameCore',terminal_rule:'terminal(state) is true exactly when outcome_state_path equals success_value or failure_value; the terminal action changes outcome in the same step.',replay_owner:'PlayJoltGameKit',replay_rule:'Do not implement a second restart handler. GameKit invokes core.create(seed) and restores the seed initial_state.'};
   if(JSON.stringify(construction)!==JSON.stringify(expectedConstruction))return false;
+  if(data.factory_core!==undefined){
+    const core=data.factory_core;
+    if(!core||core.runtime!=='reflexkit-1'||core.required_script!=='./reflexkit.js'||core.core_source!=="globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'threat-parry-v1'});\n"||core.time_authority!=='state.deadline and state.danger are advanced by the same factory core that decides parry, score, progress, success and failure.'||JSON.stringify(core.stage_action_counts)!=='[2,4,6]')return false;
+  }
   const expectedProbes=commercial.action_feedback.probes.map(probe=>({id:probe.id,node:probe.node,action:probe.action,kind:probe.kind}));
   if(JSON.stringify(data.commercial_probes)!==JSON.stringify(expectedProbes))return false;
   const seeds=data.seeds||{},expectedSeeds=difficulty.deterministic_seeds.map(String);

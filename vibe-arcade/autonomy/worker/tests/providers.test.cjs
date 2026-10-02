@@ -24,6 +24,7 @@ for(const [name,value,code] of [
   ['path escape',{...output(),files:[{path:'../../index.html',content:'bad'}]},'path_isolation'],
   ['factory-owned gamekit',{...output(),files:[{path:'gamekit.js',content:'bad'}]},'path_isolation'],
   ['factory-owned phaser bridge',{...output(),files:[{path:'phaserkit.js',content:'bad'}]},'path_isolation'],
+  ['factory-owned reflex core',{...output(),files:[{path:'reflexkit.js',content:'bad'}]},'path_isolation'],
   ['factory-owned Phaser runtime',{...output(),files:[{path:'phaser.js',content:'bad'}]},'path_isolation'],
   ['factory-owned feel effects',{...output(),files:[{path:'feelfx.js',content:'bad'}]},'path_isolation'],
   ['factory-owned feel audio',{...output(),files:[{path:'feelaudio.js',content:'bad'}]},'path_isolation'],
@@ -55,6 +56,13 @@ test('reviewed construction files require exact GameKit actions, diagnostics, te
     {path:'view/art.js',content:'const feedback_active=true,reduced_motion=false;'},
     {path:'index.html',content:'<main data-objective><button data-game-restart></button></main>'}
   ],request));
+});
+test('factory core construction accepts only the exact wrapper and required script order',()=>{
+  const core_source="globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'threat-parry-v1'});\n";
+  const request={immutable_spec:{build_invariants:{factory_core:{core_source,required_script:'./reflexkit.js'}}}};
+  assert.throws(()=>validateConstructionFiles([{path:'core.js',content:core_source+'// override'}],request),/exactly match/);
+  assert.throws(()=>validateConstructionFiles([{path:'core.js',content:core_source},{path:'index.html',content:'<script src="./core.js"></script><script src="./reflexkit.js"></script>'}],request),/before core\.js/);
+  assert.doesNotThrow(()=>validateConstructionFiles([{path:'core.js',content:core_source},{path:'index.html',content:'<script src="./reflexkit.js"></script><script src="./core.js"></script>'}],request));
 });
 test('all paths are validated before any file write; existing workspace symlinks are blocked',async t=>{
   const e=setup(t),r=await request(e),m=e.store.get(e.spec.game_id),dir=path.join(e.root,`autonomy/.work/${m.game_id}/v1`);
@@ -174,7 +182,7 @@ test('repair compiler receives quarantined rejected source and validation guidan
   assert.equal(prompt.sources['core.js'],bad);assert.equal(prompt.empty_workspace,true);
   assert.deepEqual(prompt.completion_contract.required_files,['core.js','app.js','view/art.js','style.css','index.html','README.md']);
   assert.equal(prompt.completion_contract.complete_response_required,true);assert(prompt.allowed_paths.includes('app.js'));
-  assert(prompt.gamekit_contract.files['core.js'].includes('globalThis.GameCore'));assert.equal(prompt.gamekit_contract.version,'gamekit-phaser-3');assert.equal(prompt.gamekit_contract.phaser_version,'4.2.1');assert(prompt.gamekit_contract.feelfx_hash);assert(prompt.gamekit_contract.feelaudio_hash);assert(instructions.includes('PhaserKit'));
+  assert(prompt.gamekit_contract.files['core.js'].includes('globalThis.GameCore'));assert.equal(prompt.gamekit_contract.version,'gamekit-phaser-3');assert.equal(prompt.gamekit_contract.phaser_version,'4.2.1');assert(prompt.gamekit_contract.feelfx_hash);assert(prompt.gamekit_contract.feelaudio_hash);assert(prompt.gamekit_contract.reflexkit_hash);assert(instructions.includes('PhaserKit'));
 });
 test('quarantine excludes unsafe output paths from future repair context',async t=>{
   const e=setup(t),r=await request(e),bad={...output(),files:[...output().files,{path:'../../steal.txt',content:'secret-looking-data'}]};

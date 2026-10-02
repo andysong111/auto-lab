@@ -1,15 +1,19 @@
 'use strict';
 const fs = require('node:fs'), path = require('node:path'), crypto = require('node:crypto');
 const ID = /^GAME-\d{8}-\d{3,6}$/;
+function isSymlink(file) {
+  try { return fs.lstatSync(file).isSymbolicLink(); }
+  catch (error) { if (error?.code === 'ENOENT') return false; throw error; }
+}
 function safePath(root, relative) {
   if (typeof relative !== 'string' || relative.includes('\\') || path.isAbsolute(relative) || relative.split('/').some(x => x === '..' || x === '.')) throw Error('path_isolation');
   const target = path.resolve(root, relative), base = path.resolve(root);
   if (!target.startsWith(base + path.sep)) throw Error('path_isolation');
   let current = base;
-  if (fs.existsSync(base) && fs.lstatSync(base).isSymbolicLink()) throw Error('path_isolation');
+  if (isSymlink(base)) throw Error('path_isolation');
   for (const part of path.relative(base, target).split(path.sep)) {
     current = path.join(current, part);
-    if (fs.existsSync(current) && fs.lstatSync(current).isSymbolicLink()) throw Error('path_isolation');
+    if (isSymlink(current)) throw Error('path_isolation');
   }
   return target;
 }

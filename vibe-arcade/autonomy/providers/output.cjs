@@ -17,16 +17,20 @@ function validateConstructionFiles(files,request){
   const byPath=new Map(files.map(file=>[file.path,file.content]));
   const core=byPath.get('core.js');
   if(core!==undefined){
-    if(!core.includes('input.actions'))throw constructionError('core.js must consume the reviewed GameKit input.actions bindings');
-    for(const name of Object.keys(invariants.actions||{})){
-      const expression='input.actions.'+name,escaped=expression.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-      if(!new RegExp('(?:^|[^A-Za-z0-9_])'+escaped+'(?:[^A-Za-z0-9_]|$)').test(core))throw constructionError('core.js is missing reviewed action binding '+expression);
+    if(invariants.factory_core){
+      if(core!==invariants.factory_core.core_source)throw constructionError('core.js must exactly match the reviewed factory core wrapper');
+    }else{
+      if(!core.includes('input.actions'))throw constructionError('core.js must consume the reviewed GameKit input.actions bindings');
+      for(const name of Object.keys(invariants.actions||{})){
+        const expression='input.actions.'+name,escaped=expression.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+        if(!new RegExp('(?:^|[^A-Za-z0-9_])'+escaped+'(?:[^A-Za-z0-9_]|$)').test(core))throw constructionError('core.js is missing reviewed action binding '+expression);
+      }
+      for(const pathName of Object.values(invariants.diagnostics||{}).filter(pathName=>!String(pathName).startsWith('presentation.'))){
+        const leaf=String(pathName).split('.').at(-1),escaped=leaf.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+        if(!new RegExp('(?:^|[^A-Za-z0-9_])'+escaped+'(?:[^A-Za-z0-9_]|$)').test(core))throw constructionError('core.js is missing reviewed diagnostic '+leaf);
+      }
+      for(const value of [invariants.lifecycle?.success_value,invariants.lifecycle?.failure_value])if(typeof value==='string'&&!core.includes(value))throw constructionError('core.js is missing terminal outcome '+value);
     }
-    for(const pathName of Object.values(invariants.diagnostics||{}).filter(pathName=>!String(pathName).startsWith('presentation.'))){
-      const leaf=String(pathName).split('.').at(-1),escaped=leaf.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-      if(!new RegExp('(?:^|[^A-Za-z0-9_])'+escaped+'(?:[^A-Za-z0-9_]|$)').test(core))throw constructionError('core.js is missing reviewed diagnostic '+leaf);
-    }
-    for(const value of [invariants.lifecycle?.success_value,invariants.lifecycle?.failure_value])if(typeof value==='string'&&!core.includes(value))throw constructionError('core.js is missing terminal outcome '+value);
   }
   const presentation=byPath.get('view/art.js');
   if(presentation!==undefined)for(const pathName of Object.values(invariants.diagnostics||{}).filter(pathName=>String(pathName).startsWith('presentation.'))){
@@ -34,6 +38,10 @@ function validateConstructionFiles(files,request){
     if(!new RegExp('(?:^|[^A-Za-z0-9_])'+escaped+'(?:[^A-Za-z0-9_]|$)').test(presentation))throw constructionError('view/art.js is missing reviewed diagnostic '+leaf);
   }
   const html=byPath.get('index.html');
+  if(html!==undefined&&invariants.factory_core){
+    const script=invariants.factory_core.required_script,scriptIndex=html.indexOf(script),coreIndex=html.indexOf('./core.js');
+    if(scriptIndex<0||coreIndex<0||scriptIndex>coreIndex)throw constructionError('index.html must load the reviewed factory core runtime before core.js');
+  }
   if(html!==undefined)for(const selector of Object.values(invariants.lifecycle||{}).filter(value=>typeof value==='string'&&value.includes('['))){
     const attr=/\[([A-Za-z0-9_-]+)/.exec(selector)?.[1];if(attr&&!new RegExp('\\b'+attr+'(?:\\s|=|>|/)').test(html))throw constructionError('index.html is missing reviewed lifecycle selector '+selector);
   }

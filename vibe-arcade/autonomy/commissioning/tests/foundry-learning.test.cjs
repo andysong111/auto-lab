@@ -6,6 +6,8 @@ const {laneFor,learningFocus,select}=require('../../foundry/selector.cjs');
 const {foundryBlueprintFor,materialize}=require('../../cycle/intake-generator.cjs');
 const foundryRunner=require('../../foundry/family-runner.cjs');
 const arcadeRunner=require('../../foundry/arcade-runner.cjs');
+const reflexRunner=require('../../foundry/reflex-runner.cjs');
+const reflexKit=require('../../gamekit/reflexkit.js');
 const {validateProposal}=require('../spec-gate.cjs');
 const designCatalog=require('../../foundry/design-catalog.json'),benchmarkCatalog=require('../../foundry/benchmark-catalog.json');
 
@@ -119,6 +121,28 @@ test('sequence 29 selects a reviewed direct-play runner with increasing lane com
   assert.equal(validateReviewedProposal(bp,model,proposal).passed,true);
   for(const seed of bp.seeds){const graph=model.seeds[String(seed)],rows=proposal.build_invariants.seeds[String(seed)].quality_checkpoints;assert.deepEqual(rows.map(row=>row.complexity),[2,3,4]);assert(graph.nodes[graph.initial].edges.some(edge=>edge.action==='drift_right'));}
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-arcade-intake-'));try{const meta=materialize(root,29,'20261002',selected),commission=fs.readFileSync(path.join(root,'candidate','commission.cjs'),'utf8');assert.equal(meta.family_id,'comet-catching');assert.match(commission,/foundry\/arcade-runner/);}finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+
+test('sequence 30 selects the protected timed reflex runner with honest action depth',()=>{
+  const used=designCatalog.designs.filter(design=>design.id!=='threat-parry-market-01').map(design=>design.id);
+  const learning={retired_families:['permutation-ordering-v1'],used_design_ids:used,families:{},top_failure_codes:[{code:'touch',count:30},{code:'commercial_action_feedback',count:28}]};
+  const selected=select({sequence:30,date:'2026-10-02',designCatalog,benchmarkCatalog,learningProfile:learning});
+  assert.equal(selected.status,'SELECTED');assert.equal(selected.design.family_id,'threat-parry');assert.equal(selected.design.runner,'foundry/reflex-runner.cjs');assert.equal(selected.lane,'market-benchmark');
+  const bp=foundryBlueprintFor(selected,30,'20261002'),model=reflexRunner.buildModel(bp),proposal=foundryRunner.proposalFor(bp,model);
+  assert.equal(bp.game_id,'GAME-20261002-330');assert.equal(bp.title,'Signal Bastion');assert.match(proposal.genre,/reflex defense/);
+  assert.deepEqual(Object.keys(proposal.product_contract.actions),['parry_left','parry_right','parry_up','parry_down']);
+  assert.equal(proposal.build_invariants.factory_core.runtime,'reflexkit-1');assert.equal(proposal.build_invariants.factory_core.required_script,'./reflexkit.js');
+  assert.equal(proposal.build_invariants.factory_core.core_source,"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'threat-parry-v1'});\n");
+  product.validateModel(model);product.validate(proposal.product_contract);commercial.validate(proposal.commercial_contract);commercial.semantics(proposal.commercial_contract,proposal.product_contract,model);assertBuildInvariants(model,proposal);
+  assert.equal(validateReviewedProposal(bp,model,proposal).passed,true);
+  for(const seed of bp.seeds){
+    const invariant=proposal.build_invariants.seeds[String(seed)],rows=invariant.quality_checkpoints,core=reflexKit.create({id:'threat-parry-v1'}),state=core.create(seed),project=()=>model.projection.map(key=>product.at({state},key));
+    assert.deepEqual(rows.map(row=>row.complexity),[2,3,4]);assert.deepEqual(rows.map(row=>row.required_actions),[2,4,6]);
+    assert.equal(invariant.success_actions.length,12);assert.deepEqual(project(),invariant.success_states[0]);
+    invariant.success_actions.forEach((action,index)=>{core.step(state,{actions:{[action]:true}});assert.deepEqual(project(),invariant.success_states[index+1]);});
+    assert.equal(state.outcome,'success');assert.equal(core.terminal(state),true);
+  }
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-reflex-intake-'));try{const meta=materialize(root,30,'20261002',selected),commission=fs.readFileSync(path.join(root,'candidate','commission.cjs'),'utf8');assert.equal(meta.family_id,'threat-parry');assert.match(commission,/foundry\/reflex-runner/);}finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 
 test('candidate summary becomes bounded learning data with immutable lineage',()=>{
