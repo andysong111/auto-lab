@@ -11,6 +11,28 @@ function allowedFile(name) {
   return requiredFiles.includes(name)||/^view\/[a-zA-Z0-9_-]+\.js$/.test(name)||/^assets\/(?:[a-zA-Z0-9_-]+\/)*[a-zA-Z0-9_-]+\.(svg|json)$/.test(name);
 }
 function inScope(name,scope) { return scope.some(p=>p.endsWith('/**')?name.startsWith(p.slice(0,-2)):name===p); }
+function constructionError(detail){const error=modelError('foundry_construction_contract');error.message='foundry_construction_contract: '+detail;error.detail={detail};return error;}
+function validateConstructionFiles(files,request){
+  const invariants=request.immutable_spec?.build_invariants;if(!invariants)return;
+  const byPath=new Map(files.map(file=>[file.path,file.content]));
+  const core=byPath.get('core.js');
+  if(core!==undefined){
+    if(!core.includes('input.actions'))throw constructionError('core.js must consume the reviewed GameKit input.actions bindings');
+    for(const name of Object.keys(invariants.actions||{})){
+      const expression='input.actions.'+name,escaped=expression.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+      if(!new RegExp('(?:^|[^A-Za-z0-9_])'+escaped+'(?:[^A-Za-z0-9_]|$)').test(core))throw constructionError('core.js is missing reviewed action binding '+expression);
+    }
+    for(const pathName of Object.values(invariants.diagnostics||{})){
+      const leaf=String(pathName).split('.').at(-1),escaped=leaf.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+      if(!new RegExp('(?:^|[^A-Za-z0-9_])'+escaped+'(?:[^A-Za-z0-9_]|$)').test(core))throw constructionError('core.js is missing reviewed diagnostic '+leaf);
+    }
+    for(const value of [invariants.lifecycle?.success_value,invariants.lifecycle?.failure_value])if(typeof value==='string'&&!core.includes(value))throw constructionError('core.js is missing terminal outcome '+value);
+  }
+  const html=byPath.get('index.html');
+  if(html!==undefined)for(const selector of Object.values(invariants.lifecycle||{}).filter(value=>typeof value==='string'&&value.includes('['))){
+    const attr=/\[([A-Za-z0-9_-]+)/.exec(selector)?.[1];if(attr&&!new RegExp('\\b'+attr+'(?:\\s|=|>|/)').test(html))throw constructionError('index.html is missing reviewed lifecycle selector '+selector);
+  }
+}
 function validateOutput(raw,request,limits) {
   let serialized;try{serialized=typeof raw==='string'?raw:JSON.stringify(raw);}catch{throw modelError('model_output_invalid_schema');}
   if(typeof serialized!=='string')throw modelError('model_output_invalid_schema');
@@ -43,6 +65,7 @@ function validateOutput(raw,request,limits) {
     }
   }
   if(request.mode==='build'||request.empty_workspace)for(const name of requiredFiles)if(!seen.has(name))throw modelError('model_missing_file:'+name);
+  validateConstructionFiles(value.files,request);
   return value;
 }
 function quarantineOutput(raw,limits) {
@@ -65,4 +88,4 @@ function applyOutput(value,workspace,root,manifest) {
   const destinations=value.files.map(f=>({file:safePath(workspace,f.path),content:f.content}));
   for(const d of destinations){fs.mkdirSync(path.dirname(d.file),{recursive:true});fs.writeFileSync(d.file,d.content,{mode:0o600});}
 }
-module.exports={responseSchema,validateOutput,quarantineOutput,applyOutput,allowedFile,inScope};
+module.exports={responseSchema,validateOutput,quarantineOutput,applyOutput,allowedFile,inScope,validateConstructionFiles};

@@ -1,6 +1,6 @@
 {
   "schema": "playjolt-market-benchmarks/1",
-  "captured_at": "2026-09-30",
+  "captured_at": "2026-10-02",
   "max_age_days": 45,
   "policy": {
     "allowed": [
@@ -55,6 +55,18 @@
         "build a strong identity from one legible system",
         "let small rule combinations create depth instead of adding controls",
         "make presentation reinforce the mechanic rather than cover it"
+      ]
+    },
+    {
+      "id": "google-play-games-en-20261002",
+      "publisher": "Google Play",
+      "url": "https://play.google.com/store/apps/category/GAME?hl=en",
+      "surface": "Games top charts, popular games and editor-curated modules",
+      "observed_titles": ["Block Blast!", "Royal Kingdom", "Township", "Clash Royale", "Balatro", "Monument Valley 2", "GUBBINS", "The Vault: Logic Puzzle Box"],
+      "transferable_principles": [
+        "make the first meaningful choice understandable without a tutorial wall",
+        "show progress and pressure in the playfield rather than only in text",
+        "make a short session produce a visually complete result"
       ]
     }
   ]

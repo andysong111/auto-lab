@@ -1,6 +1,6 @@
 # PlayJolt Autonomous Publishing OS — Durable Project Context
 
-Last synchronized from prior ChatGPT project work: **2026-10-01**
+Last synchronized from prior ChatGPT project work: **2026-10-02**
 
 This document exists so future Codex sessions can continue the PlayJolt project from the repository itself without requiring old ChatGPT conversations.
 
@@ -731,6 +731,11 @@ Do not manually force an RC_READY.
 - The next reviewed supply batch introduces original `echo-routing` at sequence 23 and market-informed `cadence-buffering` at sequence 24. Each has a distinct bounded finite-state model, six deterministic seeds, reversible score probes, reviewed Product and Commercial contracts, and an explicit minimum sequence so history is not rewritten.
 - Sequences 23 and 24 later reached `REJECTED`, exhausting that reviewed pair without an eligible RC. The following reviewed batch starts at sequence 25 with original `flux-harvesting` and sequence 26 with market-informed `aperture-shaping`; both have new finite-state mechanics, reviewed six-seed contracts and build invariants derived from their exact Oracle routes.
 - Trusted Intake no-op attempts are bounded per UTC day and exact `main` revision. This preserves loop protection when reviewed supply is unchanged, but a new reviewed supply merge resets only the no-op dispatch window and can resume generation without changing candidate, repair, provider-call or cost budgets.
+
+2026-10-02 construction-quality continuation:
+- Sequences 25 (`Flux Orchard`) and 26 (`Lumen Aperture`) both reached `REJECTED v6` under the unchanged six-call, USD 2, five-repair, serial and Production-off boundaries. Their final failure surfaces improved over sequences 23 and 24, but repeated touch parity, reachable completion, replay lifecycle and Oracle-complexity mismatches mean the improvement is not yet proven.
+- The reviewed `build_invariants` packet now carries exact GameKit action expressions, per-stage Oracle complexity and required-action checkpoints, the exact preterminal state/action transition, and the GameKit-owned replay rule. Provider output is rejected before application when reviewed action bindings or lifecycle selectors are absent. Technical, Product and Commercial gates remain unchanged and authoritative.
+- The next reviewed supply pair is sequence 27 original `phase-coupling` and sequence 28 Google Play market-informed `gradient-compression`. Both are new families with six deterministic seeds and increasing two-, four- and six-decision stage depth. Market transfer remains limited to abstract first-turn clarity, playfield-visible progress and complete short-session presentation; names, branding, art, audio, layouts, assets, code and distinctive rulesets remain forbidden.
 
 ---
 

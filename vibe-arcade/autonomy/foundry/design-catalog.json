@@ -59,6 +59,18 @@
       "status": "reviewed",
       "hypothesis": "Players shape a visible aperture and focal position to resolve a changing light field in a few clear decisions.",
       "copy_boundary": "No photography interface, lens brand, optical puzzle layout, artwork, level map or scoring system may be copied."
+    },
+    {
+      "id": "phase-coupling",
+      "status": "reviewed",
+      "hypothesis": "Players coordinate two unequal orbital cycles through increasingly deep, directly observable phase decisions.",
+      "copy_boundary": "No astronomy brand, orbit-game layout, level map, artwork, audio, control scheme or scoring system may be copied."
+    },
+    {
+      "id": "gradient-compression",
+      "status": "reviewed",
+      "hypothesis": "Players transform a conserved three-part signal gradient and can see every reversible spatial consequence before committing.",
+      "copy_boundary": "No sorting board, match layout, branded symbols, level map, artwork, audio or scoring system may be copied."
     }
   ],
   "designs": [
@@ -175,6 +187,27 @@
       "title_seed": "Lumen aperture",
       "novelty_contract": "Apply first-turn clarity and readable short-session progression to an original aperture-and-focus system without copying a camera UI, board or level structure.",
       "candidate": {"title":"Lumen Aperture","slug":"lumen-aperture","theme":{"singular":"Beam","plural":"Beams","arena":"Aperture","progress":"FOCUSES","success":"LIGHT FOCUSED","failure":"LIGHT SCATTERED"}}
+    },
+    {
+      "id": "phase-coupling-original-01",
+      "lane": "original",
+      "family_id": "phase-coupling",
+      "status": "reviewed",
+      "min_sequence": 27,
+      "title_seed": "Phase arbor",
+      "novelty_contract": "Coordinate unequal four-step and three-step orbital phases through a reviewed two-, four-, then six-decision construction path before coupling each field.",
+      "candidate": {"title":"Phase Arbor","slug":"phase-arbor","theme":{"singular":"Orbit","plural":"Orbits","arena":"Resonator","progress":"COUPLINGS","success":"ORBITS COUPLED","failure":"PHASES DRIFTED"}}
+    },
+    {
+      "id": "gradient-compression-market-01",
+      "lane": "market-benchmark",
+      "family_id": "gradient-compression",
+      "status": "reviewed",
+      "min_sequence": 28,
+      "benchmark_id": "google-play-games-en-20261002",
+      "title_seed": "Gradient loom",
+      "novelty_contract": "Apply first-turn clarity, playfield-visible progress and a complete short-session result to an original conserved signal-gradient mechanic without copying any game surface or ruleset.",
+      "candidate": {"title":"Gradient Loom","slug":"gradient-loom","theme":{"singular":"Signal","plural":"Signals","arena":"Loom","progress":"SEALS","success":"GRADIENT SEALED","failure":"GRADIENT DISPERSED"}}
     }
   ]
 }

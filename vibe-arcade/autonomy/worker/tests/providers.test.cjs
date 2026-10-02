@@ -3,7 +3,7 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const {setup,request,MockProvider,output}=require('./helpers.cjs');
 const {ProviderManager,estimateInputTokens}=require('../../providers/manager.cjs');
 const {ProviderPause,modelError}=require('../../providers/errors.cjs');
-const {validateOutput,applyOutput,responseSchema}=require('../../providers/output.cjs');
+const {validateOutput,applyOutput,responseSchema,validateConstructionFiles}=require('../../providers/output.cjs');
 const {OpenAIProvider}=require('../../providers/openai.cjs');
 const {compile,instructions}=require('../../providers/prompts.cjs');
 const {requestFor}=require('../../orchestrator/repair.cjs');
@@ -30,6 +30,17 @@ for(const [name,value,code] of [
   ['missing files',{...output(),files:[{path:'style.css',content:'body{}'}]},'model_missing_file']]) {
   test('reject '+name,async t=>{const e=setup(t),r=await request(e);assert.throws(()=>validateOutput(value,r,e.limits.request),new RegExp(code));});
 }
+test('reviewed construction files require exact GameKit actions, diagnostics, terminal values and lifecycle selectors',()=>{
+  const build_invariants={actions:{advance_pair:{},couple_orbits:{}},diagnostics:{stage_path:'quality.stage',complexity_path:'quality.complexity'},lifecycle:{objective_selector:'[data-objective]',replay_selector:'[data-game-restart]',success_value:'success',failure_value:'failure'}};
+  const request={immutable_spec:{build_invariants}};
+  assert.throws(()=>validateConstructionFiles([{path:'core.js',content:'globalThis.GameCore = {};'}],request),/input\.actions/);
+  assert.throws(()=>validateConstructionFiles([{path:'core.js',content:'const x=input.actions.advance_pair; const y=input.actions.couple_orbits; const stage=1; const complexity=2; return "success";'}],request),/failure/);
+  assert.throws(()=>validateConstructionFiles([{path:'index.html',content:'<main data-objective></main>'}],request),/data-game-restart/);
+  assert.doesNotThrow(()=>validateConstructionFiles([
+    {path:'core.js',content:'const a=input.actions.advance_pair,b=input.actions.couple_orbits; const stage=1,complexity=2; return ok ? "success" : "failure";'},
+    {path:'index.html',content:'<main data-objective><button data-game-restart></button></main>'}
+  ],request));
+});
 test('all paths are validated before any file write; existing workspace symlinks are blocked',async t=>{
   const e=setup(t),r=await request(e),m=e.store.get(e.spec.game_id),dir=path.join(e.root,`autonomy/.work/${m.game_id}/v1`);
   const outside=path.join(e.root,'protected.txt');fs.writeFileSync(outside,'unchanged');fs.symlinkSync(outside,path.join(dir,'app.js'));
