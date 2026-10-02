@@ -7,6 +7,7 @@ const FOCUS_RULES=[
   [/(action_)?feedback|commercial_motion/,'action-feedback'],[/reduced_motion/,'reduced-motion'],[/mobile_(hierarchy|readability)/,'mobile-hierarchy'],[/state_distinction|route_topology/,'state-distinction']
 ];
 const BLOCKING_FOCUS=['input-parity','lifecycle-integrity'];
+const LEGACY_FAMILY_RUNNER='foundry/family-runner.cjs';
 
 function laneFor(sequence){
   if(!Number.isInteger(sequence)||sequence<1)throw Error('invalid_sequence');
@@ -34,11 +35,14 @@ function select({sequence,date,designCatalog,benchmarkCatalog,learningProfile}){
   const familyStatus=new Map((designCatalog?.families||[]).map(x=>[x.id,x.status]));
   const benchmarks=new Map((benchmarkCatalog?.sources||[]).map(x=>[x.id,x]));
   const maxAge=Number(benchmarkCatalog?.max_age_days)||45;
-  const eligible=(designCatalog?.designs||[]).filter(x=>x.status==='reviewed'&&x.lane===lane&&familyStatus.get(x.family_id)==='reviewed'&&!retired.has(x.family_id)&&!used.has(x.id)&&(!x.min_sequence||sequence>=x.min_sequence)).filter(x=>{
+  const legacyMax=Number(designCatalog?.policy?.legacy_family_runner_max_sequence);
+  const baseEligible=(designCatalog?.designs||[]).filter(x=>x.status==='reviewed'&&x.lane===lane&&familyStatus.get(x.family_id)==='reviewed'&&!retired.has(x.family_id)&&!used.has(x.id)&&(!x.min_sequence||sequence>=x.min_sequence));
+  const newRunnerRequired=Number.isInteger(legacyMax)&&sequence>legacyMax;
+  const eligible=baseEligible.filter(x=>!Number.isInteger(legacyMax)||sequence<=legacyMax||(x.runner||LEGACY_FAMILY_RUNNER)!==LEGACY_FAMILY_RUNNER).filter(x=>{
     if(lane!=='market-benchmark')return !x.benchmark_id;
     const source=benchmarks.get(x.benchmark_id);return source&&ageDays(benchmarkCatalog.captured_at,date)>=0&&ageDays(benchmarkCatalog.captured_at,date)<=maxAge;
   });
-  if(!eligible.length)return {schema:'playjolt-foundry-selection/1',status:'IDLE',sequence,lane,reason:lane==='market-benchmark'?'no_fresh_reviewed_market_design':'no_reviewed_original_design'};
+  if(!eligible.length)return {schema:'playjolt-foundry-selection/1',status:'IDLE',sequence,lane,reason:newRunnerRequired?'new_interaction_runner_required':lane==='market-benchmark'?'no_fresh_reviewed_market_design':'no_reviewed_original_design'};
   eligible.sort((a,b)=>{
     const as=learningProfile?.families?.[a.family_id]||{},bs=learningProfile?.families?.[b.family_id]||{};
     const av=(as.rc_ready||0)*100-(as.rejected||0)*20-(as.attempts||0),bv=(bs.rc_ready||0)*100-(bs.rejected||0)*20-(bs.attempts||0);

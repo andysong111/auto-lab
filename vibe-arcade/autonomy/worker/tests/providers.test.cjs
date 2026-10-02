@@ -25,11 +25,21 @@ for(const [name,value,code] of [
   ['factory-owned gamekit',{...output(),files:[{path:'gamekit.js',content:'bad'}]},'path_isolation'],
   ['factory-owned phaser bridge',{...output(),files:[{path:'phaserkit.js',content:'bad'}]},'path_isolation'],
   ['factory-owned Phaser runtime',{...output(),files:[{path:'phaser.js',content:'bad'}]},'path_isolation'],
+  ['factory-owned feel effects',{...output(),files:[{path:'feelfx.js',content:'bad'}]},'path_isolation'],
+  ['factory-owned feel audio',{...output(),files:[{path:'feelaudio.js',content:'bad'}]},'path_isolation'],
   ['CDN',{...output(),files:[{path:'app.js',content:'fetch("https://cdn.invalid/x.js")'}]},'external_runtime_dependency'],
   ['DOM core',output({content:'document.write("bad")'}),'core_dom_dependency'],
   ['missing files',{...output(),files:[{path:'style.css',content:'body{}'}]},'model_missing_file']]) {
   test('reject '+name,async t=>{const e=setup(t),r=await request(e);assert.throws(()=>validateOutput(value,r,e.limits.request),new RegExp(code));});
 }
+test('GameKit v3 output must load and use the protected Feel Kit',async t=>{
+  const e=setup(t),r=await request(e),missingScripts=output(),missingFeedback=output();
+  missingScripts.files.find(file=>file.path==='index.html').content=missingScripts.files.find(file=>file.path==='index.html').content.replace('<script src="./feelaudio.js"></script>','');
+  assert.throws(()=>validateOutput(missingScripts,r,e.limits.request),/feel_contract/);
+  missingFeedback.files.find(file=>file.path==='view/art.js').content=missingFeedback.files.find(file=>file.path==='view/art.js').content.replace('scene.playjoltFeel.pulse','scene.tweens.add');
+  assert.throws(()=>validateOutput(missingFeedback,r,e.limits.request),/feel_contract/);
+  assert.doesNotThrow(()=>validateOutput(output(),r,e.limits.request));
+});
 test('reviewed construction files require exact GameKit actions, diagnostics, terminal values and lifecycle selectors',()=>{
   const build_invariants={actions:{advance_pair:{},couple_orbits:{}},diagnostics:{stage_path:'quality.stage',complexity_path:'quality.complexity',feedback_active_path:'presentation.feedback_active',reduced_motion_path:'presentation.reduced_motion'},lifecycle:{objective_selector:'[data-objective]',replay_selector:'[data-game-restart]',success_value:'success',failure_value:'failure'}};
   const request={immutable_spec:{build_invariants}};
@@ -164,7 +174,7 @@ test('repair compiler receives quarantined rejected source and validation guidan
   assert.equal(prompt.sources['core.js'],bad);assert.equal(prompt.empty_workspace,true);
   assert.deepEqual(prompt.completion_contract.required_files,['core.js','app.js','view/art.js','style.css','index.html','README.md']);
   assert.equal(prompt.completion_contract.complete_response_required,true);assert(prompt.allowed_paths.includes('app.js'));
-  assert(prompt.gamekit_contract.files['core.js'].includes('globalThis.GameCore'));assert.equal(prompt.gamekit_contract.version,'gamekit-phaser-2');assert.equal(prompt.gamekit_contract.phaser_version,'4.2.1');assert(instructions.includes('PhaserKit'));
+  assert(prompt.gamekit_contract.files['core.js'].includes('globalThis.GameCore'));assert.equal(prompt.gamekit_contract.version,'gamekit-phaser-3');assert.equal(prompt.gamekit_contract.phaser_version,'4.2.1');assert(prompt.gamekit_contract.feelfx_hash);assert(prompt.gamekit_contract.feelaudio_hash);assert(instructions.includes('PhaserKit'));
 });
 test('quarantine excludes unsafe output paths from future repair context',async t=>{
   const e=setup(t),r=await request(e),bad={...output(),files:[...output().files,{path:'../../steal.txt',content:'secret-looking-data'}]};

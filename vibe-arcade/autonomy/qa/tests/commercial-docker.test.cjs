@@ -11,6 +11,9 @@ defects.MULTI_COMMERCIAL_BAD=[...new Set(Object.values(defects).flat())];
 const shard=Number(process.env.COMMERCIAL_TEST_SHARD||0),shards=Number(process.env.COMMERCIAL_TEST_SHARDS||1);assert(Number.isInteger(shards)&&shards>=1&&shards<=3&&Number.isInteger(shard)&&shard>=0&&shard<shards);const rows=[];
 for(const [i,variant] of variants.entries())if(i%shards===shard)test('isolated Commercial '+variant,{timeout:260000},async t=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'commercial-fixture-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));write(root,variant);
+ assert(fs.existsSync(path.join(root,'feelaudio.js')),'commercial fixture receives the factory audio runtime');
+ const fixtureHtml=fs.readFileSync(path.join(root,'index.html'),'utf8');
+ assert(fixtureHtml.indexOf('feelaudio.js')<fixtureHtml.indexOf('gamekit.js'),'audio runtime loads before GameKit');
  const spec={game_id:'GAME-00000000-'+(950+i),title:'Commercial infrastructure '+variant,slug:'commercial-fixture',genre:'fixture',mechanic_family:'fixture-only',controls:['Arrow switches'],mobile_controls:['Tap a switch'],qa:{seed:7,keyboard:{key:'ArrowRight',observation:'state.interactions'},pointer:{observation:'state.pointerActions'},terminal_ms:16000},product_contract:product,commercial_contract:contract()};
  const m=create(spec);atomicJSON(path.join(root,'manifest.json'),m);m.source_hash=hashTree(root);const out=path.join(dir,variant);
  const q=await qa.run({manifest:m,gameRoot:root,outDir:out,policy,suite:'commercial'}),codes=[...new Set(q.hard_failures.map(f=>f.code))];
@@ -21,7 +24,7 @@ for(const [i,variant] of variants.entries())if(i%shards===shard)test('isolated C
  const allowed=new Set([...expected,...(expected.some(x=>x!=='commercial_audio')?['commercial_visual_review']:[])]);if(variant!=='MULTI_COMMERCIAL_BAD')assert(codes.every(c=>allowed.has(c)),JSON.stringify(q.hard_failures));
  assert(q.checks.some(c=>c.check==='performance'),'independent checks complete after defects');assert(q.evidence_complete,'all seven phases captured');
  if(variant==='COMMERCIAL_GOOD'){
-  assert.equal(q.checks.find(c=>c.check==='audio'&&c.event==='success').actual.starts,1,'only the final success cue can satisfy success audio');
+  assert.equal(q.checks.find(c=>c.check==='audio'&&c.event==='success').actual.starts,3,'only the factory-owned final success triad can satisfy success audio');
   assert(q.checks.find(c=>c.check==='audio'&&c.event==='mute').actual.peak_voices>=1,'mute exercised after a sound was active');
   assert(q.checks.filter(c=>c.check==='reduced_motion').every(c=>c.status==='PASS'));assert(q.checks.some(c=>c.viewport.width===1280));assert.equal(q.visual_review.aesthetics,'UNVERIFIED');
   const technical=await qa.run({manifest:m,gameRoot:root,outDir:path.join(out,'technical'),policy,suite:'technical'}),prod=await qa.run({manifest:m,gameRoot:root,outDir:path.join(out,'product'),policy,suite:'product'});

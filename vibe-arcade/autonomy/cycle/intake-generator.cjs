@@ -2,6 +2,17 @@
 const fs=require('node:fs'),path=require('node:path');
 const {validateBlueprint,buildModel}=require('./template-runner.cjs');
 const foundryRunner=require('../foundry/family-runner.cjs');
+const DEFAULT_FOUNDRY_RUNNER='foundry/family-runner.cjs',RUNNER=/^foundry\/[a-z0-9-]+-runner\.cjs$/;
+
+function reviewedRunner(design){
+  const relative=design?.runner||DEFAULT_FOUNDRY_RUNNER;
+  if(!RUNNER.test(relative))throw Error('invalid_foundry_runner');
+  const file=path.resolve(__dirname,'..',relative),root=path.resolve(__dirname,'..');
+  if(!file.startsWith(root+path.sep)||!fs.existsSync(file))throw Error('reviewed_foundry_runner_missing');
+  const module=relative===DEFAULT_FOUNDRY_RUNNER?foundryRunner:require(file);
+  if(!['validateBlueprint','buildModel','main'].every(name=>typeof module[name]==='function'))throw Error('invalid_foundry_runner_contract');
+  return {relative,module};
+}
 
 const SIGNATURES=[
   {id:'adjacent-chain',ops:['adjacent','adjacent','adjacent']},
@@ -63,11 +74,11 @@ function blueprintFor(sequence,date){
 function foundryBlueprintFor(selection,sequence,date){
   if(!selection||selection.schema!=='playjolt-foundry-selection/1'||selection.status!=='SELECTED'||selection.sequence!==sequence)throw Error('invalid_foundry_selection');
   const design=selection.design||{},candidate=design.candidate||{},slot=300+sequence;
-  const foundry={schema:'playjolt-foundry-lineage/1',lane:selection.lane,family_id:design.family_id,design_id:design.id,learning_focus:selection.learning_focus||[]};
+  const runner=reviewedRunner(design),foundry={schema:'playjolt-foundry-lineage/1',lane:selection.lane,family_id:design.family_id,design_id:design.id,runner:runner.relative,learning_focus:selection.learning_focus||[]};
   if(selection.lane==='market-benchmark')Object.assign(foundry,{benchmark_id:selection.benchmark.id,benchmark_url:selection.benchmark.url});
-  const bp={schema:'playjolt-foundry-blueprint/1',game_id:'GAME-'+date+'-'+slot,title:candidate.title,slug:candidate.slug,family_id:design.family_id,design_id:design.id,lane:selection.lane,seeds:Array.from({length:6},(_,i)=>sequence*101+i+31),theme:candidate.theme,foundry,learning_focus:selection.learning_focus||[],
+  const bp={schema:'playjolt-foundry-blueprint/1',game_id:'GAME-'+date+'-'+slot,title:candidate.title,slug:candidate.slug,family_id:design.family_id,design_id:design.id,lane:selection.lane,runner:runner.relative,seeds:Array.from({length:6},(_,i)=>sequence*101+i+31),theme:candidate.theme,foundry,learning_focus:selection.learning_focus||[],
     ...(selection.benchmark?{benchmark:selection.benchmark}:{}),copy_policy:selection.copy_policy,novelty_contract:design.novelty_contract};
-  foundryRunner.validateBlueprint(bp);foundryRunner.buildModel(bp);return bp;
+  runner.module.validateBlueprint(bp);runner.module.buildModel(bp);return bp;
 }
 function materialize(outRoot,sequence,date,selectionFile=null){
   const legacy=sequence<=SIGNATURES.length;
@@ -76,9 +87,9 @@ function materialize(outRoot,sequence,date,selectionFile=null){
   const slot='auto-'+date+'-'+seq,branch='commissioning/'+slot;
   const candidateRel='vibe-arcade/autonomy/commissioning/'+slot;
   const dir=path.join(path.resolve(outRoot),'candidate');fs.rmSync(path.resolve(outRoot),{recursive:true,force:true});fs.mkdirSync(dir,{recursive:true});
-  const runner=legacy?'../../cycle/template-runner.cjs':'../../foundry/family-runner.cjs';
+  const runner=legacy?'../../cycle/template-runner.cjs':'../../'+bp.runner;
   const commission="'use strict';\nconst {main}=require('"+runner+"');\nmain(__dirname,process.argv[2]).catch(e=>{console.error(e.stack||e);process.exitCode=1;});\n";
-    const request={game_id:bp.game_id,candidate:bp.title,runtime:'Phaser 4.2.1 + GameKit v2',paid_calls:true,auto_commission:true,authorized_provider_calls:6,estimated_usd_ceiling:2,production_authorized:false,request_revision:1};
+    const request={game_id:bp.game_id,candidate:bp.title,runtime:'Phaser 4.2.1 + GameKit v3 + Feel Kit',paid_calls:true,auto_commission:true,authorized_provider_calls:6,estimated_usd_ceiling:2,production_authorized:false,request_revision:1};
   fs.writeFileSync(path.join(dir,'commission.cjs'),commission);
   fs.writeFileSync(path.join(dir,'blueprint.json'),JSON.stringify(bp,null,2)+'\n');
   fs.writeFileSync(path.join(dir,'queued-request.json'),JSON.stringify(request,null,2)+'\n');

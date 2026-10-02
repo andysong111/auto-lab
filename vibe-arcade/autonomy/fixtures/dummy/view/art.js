@@ -5,7 +5,7 @@
     create(scene){
       const graphics=scene.add.graphics();
       const label=scene.add.text(0,0,'',{fontFamily:'system-ui',fontSize:'18px',color:'#91a6c1'}).setOrigin(.5);
-      state.set(scene,{graphics,label});
+      state.set(scene,{graphics,label,lastTick:0});
     },
     update(scene,snapshot){
       const v=state.get(scene);if(!v)return;
@@ -14,6 +14,8 @@
       g.lineStyle(1,0x28405b,1);for(let x=0;x<w;x+=w/8){g.beginPath();g.moveTo(x,0);g.lineTo(x,h);g.strokePath();}
       g.fillStyle(0x70e8c8,1);g.fillCircle(w*(.08+s.x*.84),h*.55,w*.035);
       g.fillRect(w*.1,h*.86,w*.8*Math.min(1,s.tick/600),h*.015);
+      if(s.tick>v.lastTick&&s.tick%120===0)scene.playjoltFeel.pulse(v.label,{fromX:1.08,fromY:1.08,toX:1,toY:1});
+      v.lastTick=s.tick;
       v.label.setPosition(w/2,h*.2).setText(snapshot.phase==='finished'?'RUN COMPLETE':'MOVE · TAP · REPEAT');
     }
   };

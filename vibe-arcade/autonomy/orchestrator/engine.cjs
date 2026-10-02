@@ -58,6 +58,8 @@ class Factory {
       // Runtime files are always factory-owned, regardless of the adapter response.
       const runtimeFiles=[
         [path.join(__dirname,'../node_modules/phaser/dist/phaser.min.js'),'phaser.js'],
+        [path.join(__dirname,'../../feel/phaser-fx.js'),'feelfx.js'],
+        [path.join(__dirname,'../../feel/audio.js'),'feelaudio.js'],
         [path.join(__dirname,'../gamekit/phaserkit.js'),'phaserkit.js'],
         [path.join(__dirname,'../gamekit/gamekit.js'),'gamekit.js']
       ];

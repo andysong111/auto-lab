@@ -42,7 +42,7 @@ test('fixture core is DOM independent and deterministic for the same seed/input 
 });
 
 test('factory Phaser bridge owns the visual runtime and only consumes cloned snapshots',t=>{
-  const priorPhaser=globalThis.Phaser,priorKit=globalThis.PlayJoltPhaserKit;let created=0,updated=[],resized=null,destroyed=false;
+  const priorPhaser=globalThis.Phaser,priorKit=globalThis.PlayJoltPhaserKit,priorFeel=globalThis.LoopJoltFeelFX;let created=0,updated=[],resized=null,destroyed=false,feelDestroyed=false;
   class FakeGame{
     constructor(config){
       this.scale={resize:(w,h)=>{resized=[w,h];}};
@@ -51,10 +51,35 @@ test('factory Phaser bridge owns the visual runtime and only consumes cloned sna
     }
   }
   globalThis.Phaser={VERSION:'4.2.1',AUTO:0,Game:FakeGame};
+  globalThis.LoopJoltFeelFX={create:scene=>({update:delta=>{scene.feelDelta=delta;},destroy:()=>{feelDestroyed=true;}})};
   delete require.cache[require.resolve('../gamekit/phaserkit.js')];
   const kit=require('../gamekit/phaserkit.js'),canvas={width:320,height:180,getBoundingClientRect:()=>({width:320,height:180})};
   const renderer=kit.create({canvas,visuals:{create:()=>{},update:(_scene,s)=>{updated.push(s);s.state.x=999;}}});
   const original={state:{x:1}};renderer.render(original);assert.equal(original.state.x,1);assert.equal(updated.at(-1).state.x,999);
-  renderer.resize(640,360);assert.deepEqual(resized,[640,360]);renderer.dispose();assert(destroyed);assert.equal(created,1);assert.equal(renderer.kind,'phaser4');assert.equal(renderer.version,'4.2.1');
-  t.after(()=>{if(priorPhaser===undefined)delete globalThis.Phaser;else globalThis.Phaser=priorPhaser;if(priorKit===undefined)delete globalThis.PlayJoltPhaserKit;else globalThis.PlayJoltPhaserKit=priorKit;delete require.cache[require.resolve('../gamekit/phaserkit.js')];});
+  renderer.resize(640,360);assert.deepEqual(resized,[640,360]);renderer.dispose();assert(destroyed);assert(feelDestroyed);assert.equal(created,1);assert.equal(renderer.kind,'phaser4');assert.equal(renderer.version,'4.2.1');
+  t.after(()=>{if(priorPhaser===undefined)delete globalThis.Phaser;else globalThis.Phaser=priorPhaser;if(priorKit===undefined)delete globalThis.PlayJoltPhaserKit;else globalThis.PlayJoltPhaserKit=priorKit;if(priorFeel===undefined)delete globalThis.LoopJoltFeelFX;else globalThis.LoopJoltFeelFX=priorFeel;delete require.cache[require.resolve('../gamekit/phaserkit.js')];});
+});
+
+test('GameKit owns bounded gesture-gated audio, mute, pause and pagehide cleanup',t=>{
+  const saved=new Map(),names=['window','document','location','matchMedia','localStorage','performance','devicePixelRatio','requestAnimationFrame','cancelAnimationFrame','ResizeObserver','LoopJoltFeelAudio','PlayJoltGameKit','GameDiagnostics'];
+  for(const name of names)saved.set(name,Object.getOwnPropertyDescriptor(globalThis,name));
+  t.after(()=>{for(const [name,descriptor] of saved){delete globalThis[name];if(descriptor)Object.defineProperty(globalThis,name,descriptor);}delete require.cache[require.resolve('../gamekit/gamekit.js')];});
+  class Node extends EventTarget{constructor(){super();this.hidden=false;this.textContent='';this.attrs={};}setAttribute(k,v){this.attrs[k]=v;}getBoundingClientRect(){return {x:0,y:0,width:390,height:520};}focus(){}setPointerCapture(){}}
+  const nodes=new Map(),get=selector=>{if(!nodes.has(selector))nodes.set(selector,new Node());return nodes.get(selector);};
+  const doc=new EventTarget();doc.hidden=false;doc.querySelector=get;
+  const win=new EventTarget(),media=new EventTarget();media.matches=false;
+  let raf=0,enabled=false,destroyed=false;const audio=[];
+  Object.assign(globalThis,{window:win,document:doc,location:{search:'?seed=7&qa=1'},matchMedia:()=>media,localStorage:{getItem:()=>null,setItem:()=>{}},performance:{now:()=>0},devicePixelRatio:1,requestAnimationFrame:()=>++raf,cancelAnimationFrame:()=>{},ResizeObserver:class{observe(){}disconnect(){}},LoopJoltFeelAudio:{create:options=>{assert.equal(options.maxVoices,8);return {enable:value=>{enabled=!!value;audio.push(['enable',enabled]);},note:()=>audio.push(['note']),sequence:()=>audio.push(['sequence']),destroy:()=>{destroyed=true;},get enabled(){return enabled;}};}}});
+  delete require.cache[require.resolve('../gamekit/gamekit.js')];
+  const kit=require('../gamekit/gamekit.js'),canvas=get('[data-game-canvas]');
+  const core={create:()=>({outcome:'playing'}),step:()=>{},observe:s=>({tick:0,score:0,progress:0,interactions:0,entities:0,quality:{meaningful_actions:0}}),terminal:()=>false};
+  const product={progress:{state_path:'progress'},completion:{state_path:'state.outcome',success_value:'success',failure_value:'failure'}};
+  const game=kit.create({core,renderer:{render(){},resize(){},dispose(){}},canvas,seed:7,metadata:{game_id:'GAME-20261002-999',version:'v1',product_contract:product,commercial_contract:{audio:{mode:'required',mute_selector:'[data-mute]'}}}});
+  assert.equal(audio.length,0,'AudioContext must stay uninitialized before a player gesture');
+  get('[data-game-start]').dispatchEvent(new Event('click'));assert.deepEqual(audio.at(-1),['enable',true]);
+  get('[data-mute]').dispatchEvent(new Event('click'));assert.deepEqual(audio.at(-1),['enable',false]);
+  get('[data-mute]').dispatchEvent(new Event('click'));assert.deepEqual(audio.at(-1),['enable',true]);
+  get('[data-game-pause]').dispatchEvent(new Event('click'));assert.deepEqual(audio.at(-1),['enable',false]);
+  const hide=new Event('pagehide');Object.defineProperty(hide,'persisted',{value:false});win.dispatchEvent(hide);assert.equal(destroyed,true);
+  game.dispose();
 });
