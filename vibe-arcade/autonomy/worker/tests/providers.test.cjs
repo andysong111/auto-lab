@@ -31,13 +31,18 @@ for(const [name,value,code] of [
   test('reject '+name,async t=>{const e=setup(t),r=await request(e);assert.throws(()=>validateOutput(value,r,e.limits.request),new RegExp(code));});
 }
 test('reviewed construction files require exact GameKit actions, diagnostics, terminal values and lifecycle selectors',()=>{
-  const build_invariants={actions:{advance_pair:{},couple_orbits:{}},diagnostics:{stage_path:'quality.stage',complexity_path:'quality.complexity'},lifecycle:{objective_selector:'[data-objective]',replay_selector:'[data-game-restart]',success_value:'success',failure_value:'failure'}};
+  const build_invariants={actions:{advance_pair:{},couple_orbits:{}},diagnostics:{stage_path:'quality.stage',complexity_path:'quality.complexity',feedback_active_path:'presentation.feedback_active',reduced_motion_path:'presentation.reduced_motion'},lifecycle:{objective_selector:'[data-objective]',replay_selector:'[data-game-restart]',success_value:'success',failure_value:'failure'}};
   const request={immutable_spec:{build_invariants}};
   assert.throws(()=>validateConstructionFiles([{path:'core.js',content:'globalThis.GameCore = {};'}],request),/input\.actions/);
   assert.throws(()=>validateConstructionFiles([{path:'core.js',content:'const x=input.actions.advance_pair; const y=input.actions.couple_orbits; const stage=1; const complexity=2; return "success";'}],request),/failure/);
   assert.throws(()=>validateConstructionFiles([{path:'index.html',content:'<main data-objective></main>'}],request),/data-game-restart/);
+  assert.throws(()=>validateConstructionFiles([
+    {path:'core.js',content:'const a=input.actions.advance_pair,b=input.actions.couple_orbits; const stage=1,complexity=2; return ok ? "success" : "failure";'},
+    {path:'view/art.js',content:'const feedback_active=true;'}
+  ],request),/view\/art\.js is missing reviewed diagnostic reduced_motion/);
   assert.doesNotThrow(()=>validateConstructionFiles([
     {path:'core.js',content:'const a=input.actions.advance_pair,b=input.actions.couple_orbits; const stage=1,complexity=2; return ok ? "success" : "failure";'},
+    {path:'view/art.js',content:'const feedback_active=true,reduced_motion=false;'},
     {path:'index.html',content:'<main data-objective><button data-game-restart></button></main>'}
   ],request));
 });
@@ -157,6 +162,8 @@ test('repair compiler receives quarantined rejected source and validation guidan
   const prompt=compile({root:e.root,workspace,manifest:{...m,version:'v2'},spec:e.spec,request:req,operationId:req.operation_id,budget:build.budget,rejected});
   assert.equal(prompt.model_validation.error_code,'core_dom_dependency');assert.match(prompt.model_validation.error_detail,/globalThis/);
   assert.equal(prompt.sources['core.js'],bad);assert.equal(prompt.empty_workspace,true);
+  assert.deepEqual(prompt.completion_contract.required_files,['core.js','app.js','view/art.js','style.css','index.html','README.md']);
+  assert.equal(prompt.completion_contract.complete_response_required,true);assert(prompt.allowed_paths.includes('app.js'));
   assert(prompt.gamekit_contract.files['core.js'].includes('globalThis.GameCore'));assert.equal(prompt.gamekit_contract.version,'gamekit-phaser-2');assert.equal(prompt.gamekit_contract.phaser_version,'4.2.1');assert(instructions.includes('PhaserKit'));
 });
 test('quarantine excludes unsafe output paths from future repair context',async t=>{
