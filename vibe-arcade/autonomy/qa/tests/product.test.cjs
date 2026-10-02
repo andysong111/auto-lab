@@ -1,6 +1,6 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
-const {validate,review,stageMetrics,shortest}=require('../product-contract.cjs');
+const {validate,review,stageMetrics,shortest,branchRecovery}=require('../product-contract.cjs');
 const {contract,model}=require('../fixtures/product/generate.cjs');
 const {hash}=require('../../orchestrator/files.cjs');
 const {create}=require('../../orchestrator/manifest.cjs');
@@ -16,6 +16,15 @@ test('reviewed data oracle is pinned and test-only; no candidate JS adapter',()=
  assert.throws(()=>review(fixture),/test oracle/);assert(review(fixture,{allowFixture:true}).model);
  const bad=structuredClone(fixture);bad.difficulty.oracle_sha256='0'.repeat(64);assert.throws(()=>review(bad,{allowFixture:true}),/approval missing/);
  const m=model();for(const seed of fixture.difficulty.deterministic_seeds){const g=m.seeds[seed],plan=shortest(g,g.initial,n=>n.success);assert.equal(plan.length,9);const stages=[g.initial,...plan.filter(e=>g.nodes[e.to].stage>g.nodes[e.from].stage&&!g.nodes[e.to].success).map(e=>e.to)].map(id=>stageMetrics(g,id));assert.deepEqual(stages.map(s=>s.complexity),[3,4,5]);assert.deepEqual(stages.map(s=>s.required_actions),[2,3,4]);}assert.equal(hash(m),fixture.difficulty.oracle_sha256);
+});
+test('direct progress may move forward only when success remains bounded',()=>{
+ const success={values:[2,0],stage:2,success:true,edges:[]};
+ const forward={values:[1,1],stage:1,edges:[{action:'finish',to:'success'}]};
+ const dead={values:[1,2],stage:1,edges:[]};
+ const start={values:[1,0],stage:1,edges:[{action:'advance',to:'forward'},{action:'dead',to:'dead'}]};
+ const graph={initial:'start',nodes:{start,forward,dead,success}};
+ assert.equal(branchRecovery(graph,start,start.edges[0]),1);
+ assert.equal(branchRecovery(graph,start,start.edges[1]),null);
 });
 test('repair preserves every independent exact failure and evidence',()=>{
  const m={game_id:'GAME-00000000-901',version:'v1',repair_attempt:0,max_repair_attempts:5,product_contract:fixture};const failures=['score_integrity','replay','reduced_motion','feedback'].map(check=>({code:'product_'+check,message:check,check,selector:'[data-test]',state_path:'state.mask',expected:0,actual:1,evidence:['product/shot.png']}));const request=requestFor(m,{hard_failures:failures});assert.deepEqual(request.qa_failures,failures);assert.deepEqual(request.product_contract,fixture);assert(request.protected_paths.includes('gamekit.js'));assert(request.product_evidence_index);assert.equal(request.attempt,1);

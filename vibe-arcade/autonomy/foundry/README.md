@@ -28,6 +28,8 @@ When no eligible reviewed design exists, the Foundry returns `IDLE` before a pro
 
 The shared finite-state calibration runner used through sequence 28 is retired for later candidates. A new title or theme may not disguise the same choose-values-then-commit loop as a new experiment. Sequence 29 or later stays `IDLE` with `new_interaction_runner_required` until a genuinely different reviewed interaction runner, deterministic Oracle and evidence contracts exist.
 
+Sequence 29 introduces the separately reviewed `arcade-runner.cjs` path and original `comet-catching` family. Its canonical loop is direct movement through widening sky lanes followed by a spatial interception, with additional movement skills unlocked in later waves. It is not allowed to fall back to the retired calibration runner. The market-benchmark sequence 30 remains cost-free `IDLE` until a second reviewed direct-play design exists; one new action game does not authorize another themed copy.
+
 ## Reviewed supply batches
 
 - Sequences 19 and 20 exercised the first pair: original `kinetic-balance` and market-informed `pressure-allocation`. Both reached a clean terminal `REJECTED` state after the bounded repair budget and uploaded learning artifacts.
@@ -39,6 +41,7 @@ The shared finite-state calibration runner used through sequence 28 is retired f
 - Sequences 27 and 28 used original `phase-coupling` and market-informed `gradient-compression`. They were the first supply using the stronger construction packet with exact action, complexity, terminal and replay requirements, but still used the now-retired shared calibration runner.
 - Owner playtesting of sequence 25 found the result plainly unfun. That direct product signal overrides any inference from a smaller QA failure surface: deterministic correctness and polish compliance do not establish fun.
 - New Foundry construction requires a first-ten-second payoff, tension curve, mastery hook, replay hook and sensory payoff. The Factory supplies bounded FeelFX and gesture-gated FeelAudio, and Foundry audio can no longer choose reviewed silence merely to avoid an evidence surface.
+- Sequence 29 `Comet Breaker` is the first reviewed direct-play experiment: 3/4/5 lanes, direct left/right steering, later-wave movement skills, a descending target, exact six-seed routes and stage complexity 2/3/4. Its existence is not evidence of fun; only terminal QA plus owner/player evidence may establish that.
 - Only one design in each new family is reviewed. Sibling designs remain `incubating` until they receive their own reviewed rules and evidence, so catalog expansion cannot silently turn into budget-reset cloning.
 
 ## Safety boundaries
