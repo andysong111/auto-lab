@@ -16,7 +16,11 @@ function validBuildInvariants(data,product,commercial,model){
   if(JSON.stringify(construction)!==JSON.stringify(expectedConstruction))return false;
   if(data.factory_core!==undefined){
     const core=data.factory_core;
-    if(!core||core.runtime!=='reflexkit-1'||core.required_script!=='./reflexkit.js'||core.core_source!=="globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'threat-parry-v1'});\n"||core.time_authority!=='state.deadline and state.danger are advanced by the same factory core that decides parry, score, progress, success and failure.'||JSON.stringify(core.stage_action_counts)!=='[2,4,6]')return false;
+    const approved=[
+      {runtime:'reflexkit-2',required_script:'./reflexkit.js',core_source:"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'threat-parry-v1'});\n",time_authority:'state.deadline and state.danger are advanced by the same factory core that decides parry, score, progress, success and failure.',stage_action_counts:[2,4,6]},
+      {runtime:'reflexkit-2',required_script:'./reflexkit.js',core_source:"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'rift-thread-v1'});\n",time_authority:'state.deadline and state.danger are advanced by the same factory core that decides lane movement, surge collision, score, progress, success and failure.',stage_action_counts:[2,3,4]}
+    ];
+    if(!core||!approved.some(item=>JSON.stringify(core)===JSON.stringify(item)))return false;
   }
   const expectedProbes=commercial.action_feedback.probes.map(probe=>({id:probe.id,node:probe.node,action:probe.action,kind:probe.kind}));
   if(JSON.stringify(data.commercial_probes)!==JSON.stringify(expectedProbes))return false;

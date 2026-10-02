@@ -76,7 +76,7 @@ function validateOutput(raw,request,limits) {
       if(f.path==='view/art.js'&&(!/globalThis\.GameVisuals\s*=/.test(f.content)||!/globalThis\.GamePresentation\s*=/.test(f.content)))throw modelError('phaser_contract: view must export GameVisuals and GamePresentation');
       if(f.path==='index.html'&&(!f.content.includes('./phaser.js')||!f.content.includes('./phaserkit.js')||!f.content.includes('./gamekit.js')))throw modelError('phaser_contract: index must load local factory runtimes');
       if(request.gamekit_contract.version==='gamekit-phaser-3'&&f.path==='index.html'&&(!f.content.includes('./feelfx.js')||!f.content.includes('./feelaudio.js')||!f.content.includes('data-mute')))throw modelError('feel_contract: index must load factory Feel Kit and expose mute control');
-      if(request.gamekit_contract.version==='gamekit-phaser-3'&&f.path==='view/art.js'&&!/scene\.playjoltFeel\.(?:burst|pulse|floatText|shake)/.test(f.content))throw modelError('feel_contract: presentation must use bounded factory feedback');
+      if(request.gamekit_contract.version==='gamekit-phaser-3'&&f.path==='view/art.js'&&!/scene\.playjoltFeel(?:\?\.|\.)(?:burst|pulse|floatText|shake)\s*\(/.test(f.content))throw modelError('feel_contract: view/art.js must directly call scene.playjoltFeel.burst(...), pulse(...), floatText(...) or shake(...); optional chaining is allowed');
     }
   }
   if(request.mode==='build'||request.empty_workspace)for(const name of requiredFiles)if(!seen.has(name))throw modelError('model_missing_file:'+name);

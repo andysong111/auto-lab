@@ -84,6 +84,12 @@
       "status": "reviewed",
       "hypothesis": "A trusted timed reflex core, four spatial directions and twelve escalating direct parries create honest pressure and replayable mastery without a hidden solved-state shortcut.",
       "copy_boundary": "No rhythm chart, combat character, branded shield, enemy pattern, visual layout, artwork, audio, code or distinctive parry ruleset may be copied."
+    },
+    {
+      "id": "rift-threading",
+      "status": "reviewed",
+      "hypothesis": "A protected closing-gate core, visible lane openings, deliberate steering and a risky surge action create a readable action loop with real collision stakes and route mastery.",
+      "copy_boundary": "No endless-runner character, branded vehicle, observed tunnel layout, obstacle sequence, artwork, audio, code, scoring system or distinctive lane ruleset may be copied."
     }
   ],
   "designs": [
@@ -244,6 +250,17 @@
       "title_seed": "Signal bastion",
       "novelty_contract": "Transfer first-choice clarity, playfield-visible pressure and complete short-session payoff into an original four-direction signal-parry defense with a factory-owned real-time core, without copying any observed game surface or ruleset.",
       "candidate": {"title":"Signal Bastion","slug":"signal-bastion","theme":{"singular":"Signal","plural":"Signals","arena":"Bastion","progress":"WAVES","success":"BASTION SECURED","failure":"SIGNAL BREACH"}}
+    },
+    {
+      "id": "rift-threading-original-01",
+      "lane": "original",
+      "family_id": "rift-threading",
+      "status": "reviewed",
+      "min_sequence": 31,
+      "runner": "foundry/reflex-runner.cjs",
+      "title_seed": "Rift skimmer",
+      "novelty_contract": "Steer an original light skimmer across widening tunnel lanes, then choose the moment to surge through nine visible closing openings governed by one protected collision and countdown authority.",
+      "candidate": {"title":"Rift Skimmer","slug":"rift-skimmer","theme":{"singular":"Gate","plural":"Gates","arena":"Riftway","progress":"STAGES","success":"RIFT THREADED","failure":"GATE COLLISION"}}
     }
   ]
 }

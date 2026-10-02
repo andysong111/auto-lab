@@ -28,3 +28,30 @@ test('wrong direction changes canonical state, scores nothing and costs one reco
   assert.equal(state.miss,0);assert.equal(state.threatIndex,0);assert.equal(state.score,0);
   press(core,state,'parry_right');assert.equal(state.threatIndex,1);assert(state.score>0);
 });
+
+test('Rift Thread requires steering plus nine explicit surges across widening stages',()=>{
+  for(const seed of [3161,3162,3163,3164,3165,3166]){
+    const core=kit.create({id:'rift-thread-v1'}),state=core.create(seed),plans=kit.riftPlan(seed);
+    assert.deepEqual([1,2,3].map(stage=>plans[stage].openings.length),[2,3,4]);
+    let surges=0;
+    for(let stage=1;stage<=3;stage++)for(const opening of plans[stage].openings){
+      while(state.lane<opening)press(core,state,'shift_right');
+      while(state.lane>opening)press(core,state,'shift_left');
+      press(core,state,'surge');surges++;
+      if(surges<9)assert.equal(state.outcome,'playing');
+    }
+    assert.equal(surges,9);assert.equal(state.cleared,9);assert.equal(state.completed,3);assert.equal(state.outcome,'success');assert.equal(core.terminal(state),true);
+  }
+});
+
+test('Rift Thread uses the same authoritative deadline for danger and collision failure',()=>{
+  const core=kit.create({id:'rift-thread-v1'}),state=core.create(3161),deadline=state.deadline;
+  for(let index=0;index<deadline;index++)core.step(state,{actions:{}});
+  assert.equal(state.danger,0);assert.equal(state.outcome,'failure');assert.equal(state.lastMove,'gate_collision');
+});
+
+test('Rift Thread wrong surge fails instead of granting hidden progress',()=>{
+  const core=kit.create({id:'rift-thread-v1'}),state=core.create(3161);
+  assert.notEqual(state.lane,state.opening);press(core,state,'surge');
+  assert.equal(state.outcome,'failure');assert.equal(state.completed,0);assert.equal(state.score,0);assert.equal(state.lastMove,'wrong_surge');
+});

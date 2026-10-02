@@ -40,6 +40,9 @@ test('GameKit v3 output must load and use the protected Feel Kit',async t=>{
   missingFeedback.files.find(file=>file.path==='view/art.js').content=missingFeedback.files.find(file=>file.path==='view/art.js').content.replace('scene.playjoltFeel.pulse','scene.tweens.add');
   assert.throws(()=>validateOutput(missingFeedback,r,e.limits.request),/feel_contract/);
   assert.doesNotThrow(()=>validateOutput(output(),r,e.limits.request));
+  const optionalFeedback=output();
+  optionalFeedback.files.find(file=>file.path==='view/art.js').content=optionalFeedback.files.find(file=>file.path==='view/art.js').content.replace('scene.playjoltFeel.pulse','scene.playjoltFeel?.pulse');
+  assert.doesNotThrow(()=>validateOutput(optionalFeedback,r,e.limits.request));
 });
 test('reviewed construction files require exact GameKit actions, diagnostics, terminal values and lifecycle selectors',()=>{
   const build_invariants={actions:{advance_pair:{},couple_orbits:{}},diagnostics:{stage_path:'quality.stage',complexity_path:'quality.complexity',feedback_active_path:'presentation.feedback_active',reduced_motion_path:'presentation.reduced_motion'},lifecycle:{objective_selector:'[data-objective]',replay_selector:'[data-game-restart]',success_value:'success',failure_value:'failure'}};
