@@ -1,0 +1,75 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261002-328",
+  "title": "Gradient Loom",
+  "slug": "gradient-loom",
+  "family_id": "gradient-compression",
+  "design_id": "gradient-compression-market-01",
+  "lane": "market-benchmark",
+  "seeds": [
+    2859,
+    2860,
+    2861,
+    2862,
+    2863,
+    2864
+  ],
+  "theme": {
+    "singular": "Signal",
+    "plural": "Signals",
+    "arena": "Loom",
+    "progress": "SEALS",
+    "success": "GRADIENT SEALED",
+    "failure": "GRADIENT DISPERSED"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "market-benchmark",
+    "family_id": "gradient-compression",
+    "design_id": "gradient-compression-market-01",
+    "learning_focus": [
+      "input-parity",
+      "lifecycle-integrity",
+      "difficulty-progression",
+      "action-feedback"
+    ],
+    "benchmark_id": "google-play-games-en-20261002",
+    "benchmark_url": "https://play.google.com/store/apps/category/GAME?hl=en"
+  },
+  "learning_focus": [
+    "input-parity",
+    "lifecycle-integrity",
+    "difficulty-progression",
+    "action-feedback"
+  ],
+  "benchmark": {
+    "id": "google-play-games-en-20261002",
+    "publisher": "Google Play",
+    "url": "https://play.google.com/store/apps/category/GAME?hl=en",
+    "surface": "Games top charts, popular games and editor-curated modules",
+    "transferable_principles": [
+      "make the first meaningful choice understandable without a tutorial wall",
+      "show progress and pressure in the playfield rather than only in text",
+      "make a short session produce a visually complete result"
+    ]
+  },
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Apply first-turn clarity, playfield-visible progress and a complete short-session result to an original conserved signal-gradient mechanic without copying any game surface or ruleset."
+}
