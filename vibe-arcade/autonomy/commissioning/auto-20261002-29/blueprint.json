@@ -1,0 +1,64 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261002-329",
+  "title": "Comet Breaker",
+  "slug": "comet-breaker",
+  "family_id": "comet-catching",
+  "design_id": "comet-catching-original-01",
+  "lane": "original",
+  "runner": "foundry/arcade-runner.cjs",
+  "seeds": [
+    2960,
+    2961,
+    2962,
+    2963,
+    2964,
+    2965
+  ],
+  "theme": {
+    "singular": "Comet",
+    "plural": "Comets",
+    "arena": "Skyline",
+    "progress": "CATCHES",
+    "success": "COMETS CAUGHT",
+    "failure": "COMETS ESCAPED"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "original",
+    "family_id": "comet-catching",
+    "design_id": "comet-catching-original-01",
+    "runner": "foundry/arcade-runner.cjs",
+    "learning_focus": [
+      "input-parity",
+      "lifecycle-integrity",
+      "difficulty-progression",
+      "action-feedback"
+    ]
+  },
+  "learning_focus": [
+    "input-parity",
+    "lifecycle-integrity",
+    "difficulty-progression",
+    "action-feedback"
+  ],
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Steer a luminous catcher through widening sky lanes and intercept descending comets with newly unlocked movement bursts, producing an immediate action payoff without a calibration board or solved-state commit loop."
+}
