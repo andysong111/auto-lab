@@ -131,7 +131,7 @@ test('sequence 30 selects the protected timed reflex runner with honest action d
   const bp=foundryBlueprintFor(selected,30,'20261002'),model=reflexRunner.buildModel(bp),proposal=foundryRunner.proposalFor(bp,model);
   assert.equal(bp.game_id,'GAME-20261002-330');assert.equal(bp.title,'Signal Bastion');assert.match(proposal.genre,/reflex defense/);
   assert.deepEqual(Object.keys(proposal.product_contract.actions),['parry_left','parry_right','parry_up','parry_down']);
-  assert.equal(proposal.build_invariants.factory_core.runtime,'reflexkit-1');assert.equal(proposal.build_invariants.factory_core.required_script,'./reflexkit.js');
+  assert.equal(proposal.build_invariants.factory_core.runtime,'reflexkit-2');assert.equal(proposal.build_invariants.factory_core.required_script,'./reflexkit.js');
   assert.equal(proposal.build_invariants.factory_core.core_source,"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'threat-parry-v1'});\n");
   product.validateModel(model);product.validate(proposal.product_contract);commercial.validate(proposal.commercial_contract);commercial.semantics(proposal.commercial_contract,proposal.product_contract,model);assertBuildInvariants(model,proposal);
   assert.equal(validateReviewedProposal(bp,model,proposal).passed,true);
@@ -143,6 +143,28 @@ test('sequence 30 selects the protected timed reflex runner with honest action d
     assert.equal(state.outcome,'success');assert.equal(core.terminal(state),true);
   }
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-reflex-intake-'));try{const meta=materialize(root,30,'20261002',selected),commission=fs.readFileSync(path.join(root,'candidate','commission.cjs'),'utf8');assert.equal(meta.family_id,'threat-parry');assert.match(commission,/foundry\/reflex-runner/);}finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+
+test('sequence 31 selects a distinct protected rift-threading action design',()=>{
+  const used=designCatalog.designs.filter(design=>design.id!=='rift-threading-original-01').map(design=>design.id);
+  const learning={retired_families:['permutation-ordering-v1'],used_design_ids:used,families:{'threat-parry':{attempts:1,rejected:1,rc_ready:0}},top_failure_codes:[{code:'build_failed',count:6},{code:'commercial_action_feedback',count:28}]};
+  const selected=select({sequence:31,date:'2026-10-03',designCatalog,benchmarkCatalog,learningProfile:learning});
+  assert.equal(selected.status,'SELECTED');assert.equal(selected.design.family_id,'rift-threading');assert.equal(selected.design.runner,'foundry/reflex-runner.cjs');assert.equal(selected.lane,'original');
+  const bp=foundryBlueprintFor(selected,31,'20261003'),model=reflexRunner.buildModel(bp),proposal=foundryRunner.proposalFor(bp,model);
+  assert.equal(bp.game_id,'GAME-20261003-331');assert.equal(bp.title,'Rift Skimmer');assert.match(proposal.genre,/lane-threading action/);
+  assert.deepEqual(Object.keys(proposal.product_contract.actions),['shift_left','shift_right','dash_left','dash_right','surge']);
+  assert.equal(proposal.build_invariants.factory_core.runtime,'reflexkit-2');assert.equal(proposal.build_invariants.factory_core.required_script,'./reflexkit.js');
+  assert.equal(proposal.build_invariants.factory_core.core_source,"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'rift-thread-v1'});\n");
+  product.validateModel(model);product.validate(proposal.product_contract);commercial.validate(proposal.commercial_contract);commercial.semantics(proposal.commercial_contract,proposal.product_contract,model);assertBuildInvariants(model,proposal);
+  assert.equal(validateReviewedProposal(bp,model,proposal).passed,true);
+  for(const seed of bp.seeds){
+    const invariant=proposal.build_invariants.seeds[String(seed)],rows=invariant.quality_checkpoints,core=reflexKit.create({id:'rift-thread-v1'}),state=core.create(seed),project=()=>model.projection.map(key=>product.at({state},key));
+    assert.deepEqual(rows.map(row=>row.complexity),[2,3,4]);assert.equal(invariant.success_actions.filter(action=>action==='surge').length,9);
+    assert.deepEqual(project(),invariant.success_states[0]);
+    invariant.success_actions.forEach((action,index)=>{core.step(state,{actions:{[action]:true}});assert.deepEqual(project(),invariant.success_states[index+1]);});
+    assert.equal(state.outcome,'success');assert.equal(core.terminal(state),true);
+  }
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-rift-intake-'));try{const meta=materialize(root,31,'20261003',selected),commission=fs.readFileSync(path.join(root,'candidate','commission.cjs'),'utf8');assert.equal(meta.family_id,'rift-threading');assert.match(commission,/foundry\/reflex-runner/);}finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 
 test('candidate summary becomes bounded learning data with immutable lineage',()=>{
