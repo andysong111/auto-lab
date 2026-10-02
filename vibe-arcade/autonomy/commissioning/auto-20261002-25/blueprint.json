@@ -1,0 +1,62 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261002-325",
+  "title": "Flux Orchard",
+  "slug": "flux-orchard",
+  "family_id": "flux-harvesting",
+  "design_id": "flux-harvesting-original-01",
+  "lane": "original",
+  "seeds": [
+    2556,
+    2557,
+    2558,
+    2559,
+    2560,
+    2561
+  ],
+  "theme": {
+    "singular": "Field",
+    "plural": "Fields",
+    "arena": "Orchard",
+    "progress": "HARVESTS",
+    "success": "FLUX HARVESTED",
+    "failure": "FIELD DIMMED"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "original",
+    "family_id": "flux-harvesting",
+    "design_id": "flux-harvesting-original-01",
+    "learning_focus": [
+      "input-parity",
+      "lifecycle-integrity",
+      "action-feedback",
+      "progress-readability"
+    ]
+  },
+  "learning_focus": [
+    "input-parity",
+    "lifecycle-integrity",
+    "action-feedback",
+    "progress-readability"
+  ],
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Calibrate a four-step charge and two-pole field, then harvest each original field only when both visible targets agree."
+}
