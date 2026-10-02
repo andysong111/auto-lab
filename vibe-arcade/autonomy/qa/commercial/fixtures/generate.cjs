@@ -20,6 +20,7 @@ function write(dir,variant='COMMERCIAL_GOOD'){
  if(!variants.includes(variant))throw Error('fixture variant');fs.mkdirSync(path.join(dir,'view'),{recursive:true});
  for(const name of ['app.js','style.css','index.html','view/art.js'])fs.copyFileSync(path.join(__dirname,name),path.join(dir,name));
  fs.copyFileSync(path.join(__dirname,'../../fixtures/product/core.js'),path.join(dir,'core.js'));
+ fs.copyFileSync(path.join(__dirname,'../../../../feel/audio.js'),path.join(dir,'feelaudio.js'));
  fs.copyFileSync(path.join(__dirname,'../../../gamekit/gamekit.js'),path.join(dir,'gamekit.js'));
  fs.writeFileSync(path.join(dir,'README.md'),'Commercial Gate infrastructure fixture. Not a game candidate.\n');atomicJSON(path.join(dir,'fixture.json'),{variant});
 }
