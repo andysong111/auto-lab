@@ -9,7 +9,7 @@ const {AutonomousWorker}=require('../worker/runtime.cjs'),{DockerQA}=require('..
 const {continuePreview,writeReleasePacket}=require('../commissioning/rc-continuation.cjs');
 const ID=/^GAME-[0-9]{8}-[0-9]{3,6}$/,SLUG=/^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const LEARNING_FOCUS=new Set(['input-parity','lifecycle-integrity','difficulty-progression','progress-readability','result-presentation','action-feedback','reduced-motion','mobile-hierarchy','state-distinction']);
-const FAMILY_IDS=new Set(['kinetic-balance','pressure-allocation','signal-composition','trajectory-interception','echo-routing','cadence-buffering','flux-harvesting','aperture-shaping']);
+const FAMILY_IDS=new Set(['kinetic-balance','pressure-allocation','signal-composition','trajectory-interception','echo-routing','cadence-buffering','flux-harvesting','aperture-shaping','phase-coupling','gradient-compression']);
 function fail(code){const e=new Error(code);e.code='foundry_blueprint_invalid';throw e;}
 function key(values){return values.join(':');}
 function region(x,y,width,height){return {selector:'[data-game-canvas]',x,y,width,height};}
@@ -179,8 +179,45 @@ function apertureAdapter(bp,seed){
   return {projection:['state.stage','state.width','state.focus','state.targetWidth','state.targetFocus','state.completed','state.outcome'],initial,edges,
     firstAction:'widen_aperture',commitAction:'focus_beam',reversibleProbe:['widen_aperture','widen_aperture','widen_aperture'],statePath:'state.width',objectiveProgress:'state.completed',complexity:'quality.complexity'};
 }
+function phaseAdapter(bp,seed){
+  const startOuter=seed%3,targets=[null,...[1,2,3].map(stage=>({steps:stage*2,inner:(stage*2)%4,outer:(startOuter+stage*2)%3}))];
+  const initial=[1,0,0,startOuter,targets[1].steps,targets[1].inner,targets[1].outer,0,'playing'];
+  function edges(v){
+    const [stage,steps,inner,outer,targetSteps,targetInner,targetOuter,completed,outcome]=v;if(outcome!=='playing')return [];
+    const out=[],nextSteps=(steps+1)%(targetSteps+1);
+    out.push({action:'advance_pair',values:[stage,nextSteps,nextSteps%4,(startOuter+nextSteps)%3,targetSteps,targetInner,targetOuter,completed,outcome]});
+    if(stage>=2)out.push({action:'retard_outer',values:[stage,steps,inner,(outer+2)%3,targetSteps,targetInner,targetOuter,completed,outcome]});
+    if(stage>=3)out.push({action:'exchange_phase',values:[stage,steps,inner,(outer+1)%3,targetSteps,targetInner,targetOuter,completed,outcome]});
+    if(steps===targetSteps&&inner===targetInner&&outer===targetOuter){
+      if(stage===3)out.push({action:'couple_orbits',values:[4,steps,inner,outer,targetSteps,targetInner,targetOuter,3,'success']});
+      else {const next=targets[stage+1];out.push({action:'couple_orbits',values:[stage+1,0,0,startOuter,next.steps,next.inner,next.outer,completed+1,'playing']});}
+    }
+    return out;
+  }
+  return {projection:['state.stage','state.steps','state.innerPhase','state.outerPhase','state.targetSteps','state.targetInner','state.targetOuter','state.completed','state.outcome'],initial,edges,
+    firstAction:'advance_pair',commitAction:'couple_orbits',reversibleProbe:['advance_pair','advance_pair','advance_pair'],statePath:'state.innerPhase',objectiveProgress:'state.completed',complexity:'quality.complexity'};
+}
+function gradientAdapter(bp,seed){
+  const rotate=values=>[values[1],values[2],values[0]],base=[[1,2,3],[2,3,1],[3,1,2]][seed%3];
+  const targets=[null,...[1,2,3].map(stage=>{let values=base;for(let index=0;index<stage*2;index++)values=rotate(values);return {moves:stage*2,values};})];
+  const initial=[1,0,...base,targets[1].moves,...targets[1].values,0,'playing'];
+  function edges(v){
+    const [stage,moves,left,middle,right,targetMoves,targetLeft,targetMiddle,targetRight,completed,outcome]=v;if(outcome!=='playing')return [];
+    const out=[],nextMoves=(moves+1)%(targetMoves+1);let nextValues=base;for(let index=0;index<nextMoves;index++)nextValues=rotate(nextValues);
+    out.push({action:'press_inward',values:[stage,nextMoves,...nextValues,targetMoves,targetLeft,targetMiddle,targetRight,completed,outcome]});
+    if(stage>=2)out.push({action:'carry_right',values:[stage,moves,right,left,middle,targetMoves,targetLeft,targetMiddle,targetRight,completed,outcome]});
+    if(stage>=3)out.push({action:'release_left',values:[stage,moves,right,middle,left,targetMoves,targetLeft,targetMiddle,targetRight,completed,outcome]});
+    if(moves===targetMoves&&left===targetLeft&&middle===targetMiddle&&right===targetRight){
+      if(stage===3)out.push({action:'seal_gradient',values:[4,moves,left,middle,right,targetMoves,targetLeft,targetMiddle,targetRight,3,'success']});
+      else {const next=targets[stage+1];out.push({action:'seal_gradient',values:[stage+1,0,...base,next.moves,...next.values,completed+1,'playing']});}
+    }
+    return out;
+  }
+  return {projection:['state.stage','state.moves','state.left','state.middle','state.right','state.targetMoves','state.targetLeft','state.targetMiddle','state.targetRight','state.completed','state.outcome'],initial,edges,
+    firstAction:'press_inward',commitAction:'seal_gradient',reversibleProbe:['press_inward','press_inward','press_inward'],statePath:'state.left',objectiveProgress:'state.completed',complexity:'quality.complexity'};
+}
 function adapter(bp,seed){
-  const adapters={'kinetic-balance':balanceAdapter,'pressure-allocation':allocationAdapter,'signal-composition':signalAdapter,'trajectory-interception':interceptionAdapter,'echo-routing':routingAdapter,'cadence-buffering':cadenceAdapter,'flux-harvesting':fluxAdapter,'aperture-shaping':apertureAdapter};
+  const adapters={'kinetic-balance':balanceAdapter,'pressure-allocation':allocationAdapter,'signal-composition':signalAdapter,'trajectory-interception':interceptionAdapter,'echo-routing':routingAdapter,'cadence-buffering':cadenceAdapter,'flux-harvesting':fluxAdapter,'aperture-shaping':apertureAdapter,'phase-coupling':phaseAdapter,'gradient-compression':gradientAdapter};
   return adapters[bp.family_id](bp,seed);
 }
 function graph(bp,seed){
@@ -208,7 +245,9 @@ function actionMap(bp){
   if(bp.family_id==='echo-routing')return {next_switch:{key:'ArrowRight',touch:{x:.18,y:.68},hold_ms:35,settle_ms:35},toggle_switch:{key:'ArrowUp',touch:{x:.42,y:.68},hold_ms:35,settle_ms:35},mirror_route:{key:'ArrowLeft',touch:{x:.66,y:.68},hold_ms:35,settle_ms:35},route_echo:{key:'Space',touch:{x:.88,y:.68},hold_ms:35,settle_ms:35}};
   if(bp.family_id==='cadence-buffering')return {lengthen_lead:{key:'ArrowUp',touch:{x:.18,y:.68},hold_ms:35,settle_ms:35},rotate_buffer:{key:'ArrowRight',touch:{x:.42,y:.68},hold_ms:35,settle_ms:35},reverse_buffer:{key:'ArrowLeft',touch:{x:.66,y:.68},hold_ms:35,settle_ms:35},release_bar:{key:'Space',touch:{x:.88,y:.68},hold_ms:35,settle_ms:35}};
   if(bp.family_id==='flux-harvesting')return {gather_flux:{key:'ArrowUp',touch:{x:.18,y:.68},hold_ms:35,settle_ms:35},release_flux:{key:'ArrowDown',touch:{x:.42,y:.68},hold_ms:35,settle_ms:35},flip_field:{key:'ArrowRight',touch:{x:.66,y:.68},hold_ms:35,settle_ms:35},harvest_flux:{key:'Space',touch:{x:.88,y:.68},hold_ms:35,settle_ms:35}};
-  return {widen_aperture:{key:'ArrowUp',touch:{x:.18,y:.68},hold_ms:35,settle_ms:35},shift_focus:{key:'ArrowRight',touch:{x:.42,y:.68},hold_ms:35,settle_ms:35},invert_lens:{key:'ArrowLeft',touch:{x:.66,y:.68},hold_ms:35,settle_ms:35},focus_beam:{key:'Space',touch:{x:.88,y:.68},hold_ms:35,settle_ms:35}};
+  if(bp.family_id==='aperture-shaping')return {widen_aperture:{key:'ArrowUp',touch:{x:.18,y:.68},hold_ms:35,settle_ms:35},shift_focus:{key:'ArrowRight',touch:{x:.42,y:.68},hold_ms:35,settle_ms:35},invert_lens:{key:'ArrowLeft',touch:{x:.66,y:.68},hold_ms:35,settle_ms:35},focus_beam:{key:'Space',touch:{x:.88,y:.68},hold_ms:35,settle_ms:35}};
+  if(bp.family_id==='phase-coupling')return {advance_pair:{key:'ArrowUp',touch:{x:.18,y:.68},hold_ms:35,settle_ms:35},retard_outer:{key:'ArrowDown',touch:{x:.42,y:.68},hold_ms:35,settle_ms:35},exchange_phase:{key:'ArrowRight',touch:{x:.66,y:.68},hold_ms:35,settle_ms:35},couple_orbits:{key:'Space',touch:{x:.88,y:.68},hold_ms:35,settle_ms:35}};
+  return {press_inward:{key:'ArrowLeft',touch:{x:.18,y:.68},hold_ms:35,settle_ms:35},carry_right:{key:'ArrowRight',touch:{x:.42,y:.68},hold_ms:35,settle_ms:35},release_left:{key:'ArrowDown',touch:{x:.66,y:.68},hold_ms:35,settle_ms:35},seal_gradient:{key:'Space',touch:{x:.88,y:.68},hold_ms:35,settle_ms:35}};
 }
 function contracts(input,model){
   const bp=validateBlueprint(input),seed=bp.seeds[0],a=adapter(bp,seed),g=model.seeds[String(seed)],success=route(model,seed),nodes=success.nodes;
@@ -223,7 +262,9 @@ function contracts(input,model){
     'echo-routing':'Configure and mirror three switches to route three deterministic echoes.',
     'cadence-buffering':'Shape and release three ordered cadence buffers.',
     'flux-harvesting':'Match charge and polarity to harvest three deterministic flux fields.',
-    'aperture-shaping':'Match aperture width and focus to resolve three deterministic light fields.'
+    'aperture-shaping':'Match aperture width and focus to resolve three deterministic light fields.',
+    'phase-coupling':'Couple two unequal orbital phases across three deterministic resonance fields.',
+    'gradient-compression':'Move a conserved signal mass across three cells to seal three deterministic gradients.'
   };
   const objective=objectives[bp.family_id];
   const productContract={schema_version:1,objective:{visible_selector:'[data-objective]',expected_text:objective},progress:{selector:'[data-product-progress]',state_path:a.objectiveProgress,format:bp.theme.progress+' {value} / 3',milestones:[1,2,3]},score:{selector:'[data-game-score]',label_selector:'[data-score-label]',expected_label:'CURRENT SCORE',reversible_probes:[a.reversibleProbe],no_progress_probes:[[a.commitAction]]},best:{selector:'[data-best]',label_selector:'[data-best-label]',expected_label:'DEVICE BEST',source:'GameKit.best'},completion:{state_path:'state.outcome',success_value:'success',failure_value:'failure',result_selector:'[data-result]',success_text:bp.theme.success,failure_text:bp.theme.failure,max_terminal_latency_ms:100,failure_wait_ms:45000,failure_actions:[]},replay:{selector:'[data-game-restart]',must_be_in_initial_mobile_viewport:true},difficulty:{deterministic_seeds:bp.seeds,oracle_id:bp.slug+'-oracle-v1',oracle_sha256:hash(model),projection:model.projection,stage_path:'quality.stage',complexity_path:a.complexity,meaningful_actions_path:'quality.meaningful_actions',reversible_state_path:'quality.reversible_state_key',required_monotonicity:'later_strictly_greater',max_actions:64},mobile:{critical_selectors:['[data-objective]','[data-product-progress]','[data-score-label]','[data-game-score]','[data-best-label]','[data-best]','[data-result]'],control_selectors:['[data-game-start]','[data-game-pause]','[data-game-resume]','[data-game-restart]'],canvas_selector:'[data-game-canvas]',canvas_control_regions:[{x:0,y:.50,width:.25,height:.40},{x:.25,y:.50,width:.25,height:.40},{x:.50,y:.50,width:.25,height:.40},{x:.75,y:.50,width:.25,height:.40}],min_font_px:14,min_hit_target_px:44},reduced_motion:{presentation_probe_path:'presentation.reduced_motion',dynamic_change_required:true},feedback:{action:a.firstAction,state_change_path:'quality.reversible_state_key',visual_probe:'[data-game-canvas]',active_probe_path:'presentation.feedback_active',static_probe_path:'presentation.static_feedback',settle_ms:420},actions:actionMap(bp)};
@@ -249,10 +290,20 @@ function buildInvariants(bp,model,productContract,commercialContract){
   const seeds={};
   for(const seed of bp.seeds){
     const success=route(model,seed),graph=model.seeds[String(seed)];
+    const stageNodes=[];
+    for(const node of success.nodes){const stage=graph.nodes[node].stage;if(!stageNodes.some(row=>row.stage===stage)&&!graph.nodes[node].success)stageNodes.push({node,stage});}
+    const quality_checkpoints=stageNodes.map(({node})=>{
+      const metrics=product.stageMetrics(graph,node);
+      return {state:graph.nodes[node].values,stage:metrics.stage,complexity:metrics.complexity,required_actions:metrics.required_actions};
+    });
+    const terminalStep=success.steps.at(-1),preterminalNode=success.nodes.at(-2);
     seeds[String(seed)]={
       initial_state:graph.nodes[graph.initial].values,
       success_actions:success.steps.map(step=>step.action),
       success_states:success.nodes.map(node=>graph.nodes[node].values),
+      quality_checkpoints,
+      preterminal_state:graph.nodes[preterminalNode].values,
+      terminal_action:terminalStep.action,
       terminal_state:graph.nodes[success.nodes.at(-1)].values
     };
   }
@@ -285,6 +336,16 @@ function buildInvariants(bp,model,productContract,commercialContract){
       static_feedback_path:productContract.feedback.static_probe_path,
       reduced_motion_path:productContract.reduced_motion.presentation_probe_path
     },
+    construction:{
+      input_owner:'PlayJoltGameKit',
+      input_source:'input.actions',
+      action_expressions:Object.keys(productContract.actions).map(name=>'input.actions.'+name),
+      complexity_source:'quality_checkpoints.complexity',
+      terminal_owner:'GameCore',
+      terminal_rule:'terminal(state) is true exactly when outcome_state_path equals success_value or failure_value; the terminal action changes outcome in the same step.',
+      replay_owner:'PlayJoltGameKit',
+      replay_rule:'Do not implement a second restart handler. GameKit invokes core.create(seed) and restores the seed initial_state.'
+    },
     commercial_probes:commercialContract.action_feedback.probes.map(probe=>({id:probe.id,node:probe.node,action:probe.action,kind:probe.kind})),
     seeds
   };
@@ -299,7 +360,9 @@ function proposalFor(input,model){
     'echo-routing':{genre:'network routing puzzle',key:'ArrowRight',rules:'NEXT SWITCH cycles the active node, TOGGLE SWITCH flips that node, MIRROR ROUTE swaps the outer switch states, and ROUTE ECHO advances only when the visible three-bit switch mask matches the reviewed target; a successful route resets the network.'},
     'cadence-buffering':{genre:'temporal sequencing puzzle',key:'ArrowUp',rules:'LENGTHEN LEAD cycles the first beat through 0..2, ROTATE BUFFER moves all three beats left, REVERSE BUFFER mirrors their order, and RELEASE BAR advances only when the ordered beat buffer matches the reviewed target; a successful release clears the buffer.'},
     'flux-harvesting':{genre:'field calibration puzzle',key:'ArrowUp',rules:'GATHER FLUX and RELEASE FLUX cycle charge forward or backward through 0..3, FLIP FIELD changes polarity, and HARVEST FLUX advances only when both visible reviewed targets match; a successful harvest resets charge and polarity.'},
-    'aperture-shaping':{genre:'optical shaping puzzle',key:'ArrowUp',rules:'WIDEN APERTURE cycles width through 0..2, SHIFT FOCUS cycles focal position through 0..2, INVERT LENS mirrors both values, and FOCUS BEAM advances only when width and focus match the reviewed light target; a successful focus resets the lens.'}
+    'aperture-shaping':{genre:'optical shaping puzzle',key:'ArrowUp',rules:'WIDEN APERTURE cycles width through 0..2, SHIFT FOCUS cycles focal position through 0..2, INVERT LENS mirrors both values, and FOCUS BEAM advances only when width and focus match the reviewed light target; a successful focus resets the lens.'},
+    'phase-coupling':{genre:'coupled-system resonance puzzle',key:'ArrowUp',rules:'ADVANCE PAIR changes both unequal orbital cycles, RETARD OUTER changes only the three-step outer cycle, EXCHANGE PHASE moves both cycles by different amounts, and COUPLE ORBITS advances only when both reviewed phases match; a successful coupling resets both cycles.'},
+    'gradient-compression':{genre:'conserved-flow spatial puzzle',key:'ArrowLeft',rules:'PRESS INWARD moves one signal unit from left to middle, CARRY RIGHT moves one from middle to right, RELEASE LEFT returns one from right to left, and SEAL GRADIENT advances only when the visible conserved three-cell distribution matches; a successful seal restores the next two-unit field.'}
   }[bp.family_id];
   const rules=reviewedRuleData(bp,model),familyText=familyConfig.rules;
   const lineage=market?'Market benchmark lineage: '+bp.benchmark.publisher+' '+bp.benchmark.surface+' at '+bp.benchmark.url+'. Transfer only these abstract principles: '+bp.benchmark.transferable_principles.join('; ')+'. Forbidden copying: '+bp.copy_policy.forbidden.join('; ')+'.':'Original exploration lane with no external game used as a mechanic, art or layout template.';

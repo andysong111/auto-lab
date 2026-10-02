@@ -37,11 +37,22 @@ function assertBuildInvariants(model,proposal){
   assert.deepEqual(data.projection,model.projection);
   assert.deepEqual(data.actions,contract.actions);
   assert.equal(data.lifecycle.replay_selector,contract.replay.selector);
+  assert.equal(data.construction.input_source,'input.actions');
+  assert.deepEqual(data.construction.action_expressions,Object.keys(contract.actions).map(name=>'input.actions.'+name));
+  assert.equal(data.construction.complexity_source,'quality_checkpoints.complexity');
+  assert.equal(data.construction.replay_owner,'PlayJoltGameKit');
   for(const seed of contract.difficulty.deterministic_seeds){
     const graph=model.seeds[String(seed)],row=data.seeds[String(seed)];
     let node=graph.initial;assert.deepEqual(row.initial_state,graph.nodes[node].values);assert.deepEqual(row.success_states[0],row.initial_state);
     row.success_actions.forEach((action,index)=>{const edge=graph.nodes[node].edges.find(candidate=>candidate.action===action);assert(edge,`missing invariant ${action} from ${node}`);node=edge.to;assert.deepEqual(row.success_states[index+1],graph.nodes[node].values);});
     assert.equal(graph.nodes[node].success,true);assert.deepEqual(row.terminal_state,graph.nodes[node].values);
+    assert.deepEqual(row.preterminal_state,row.success_states.at(-2));assert.equal(row.terminal_action,row.success_actions.at(-1));
+    assert.deepEqual(row.quality_checkpoints.map(checkpoint=>checkpoint.stage),[1,2,3]);
+    for(const checkpoint of row.quality_checkpoints){
+      const checkpointNode=Object.keys(graph.nodes).find(id=>JSON.stringify(graph.nodes[id].values)===JSON.stringify(checkpoint.state));
+      const metrics=product.stageMetrics(graph,checkpointNode);
+      assert.deepEqual(checkpoint,{state:checkpoint.state,stage:metrics.stage,complexity:metrics.complexity,required_actions:metrics.required_actions});
+    }
   }
 }
 
@@ -104,27 +115,27 @@ test('bounded learning profile retains lower-ranked blocking failures',()=>{
 
 test('Foundry materializes distinct reviewed original and market families',t=>{
   const learning={retired_families:['permutation-ordering-v1'],used_design_ids:[],families:{},top_failure_codes:[{code:'product_difficulty',count:30},{code:'commercial_result_presentation',count:25},{code:'commercial_mobile_hierarchy',count:20},{code:'commercial_action_feedback',count:18}]};
-  const original=select({sequence:19,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:learning});
+  const original=select({sequence:19,date:'2026-10-02',designCatalog,benchmarkCatalog,learningProfile:learning});
   assert.equal(original.status,'SELECTED');assert.equal(original.lane,'original');assert.equal(original.design.family_id,'kinetic-balance');
   const obp=foundryBlueprintFor(original,19,'20261001'),om=foundryRunner.buildModel(obp),op=foundryRunner.proposalFor(obp,om);
   product.validateModel(om);product.validate(op.product_contract);commercial.validate(op.commercial_contract);commercial.semantics(op.commercial_contract,op.product_contract,om);assertReversibleScoreProbe(om,op.product_contract);assertBuildInvariants(om,op);
   const originalGate=validateReviewedProposal(obp,om,op);assert.equal(originalGate.passed,true);assert.deepEqual(originalGate.factory_spec.build_invariants,op.build_invariants);assert.match(op.implementation_contract.difficulty,/Prior Factory outcomes require this correction/);
   const corrupted=structuredClone(op),firstSeed=String(obp.seeds[0]);corrupted.build_invariants.seeds[firstSeed].success_actions[0]='unreviewed_action';
   assert(validateReviewedProposal(obp,om,corrupted).errors.some(error=>error.code==='invalid_build_invariants'));
-  const market=select({sequence:20,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:[original.design.id]}});
+  const market=select({sequence:20,date:'2026-10-02',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:[original.design.id]}});
   assert.equal(market.status,'SELECTED');assert.equal(market.lane,'market-benchmark');assert.equal(market.design.family_id,'pressure-allocation');assert.match(market.benchmark.url,/^https:\/\/play\.google\.com\//);
   const mbp=foundryBlueprintFor(market,20,'20261001'),mm=foundryRunner.buildModel(mbp),mp=foundryRunner.proposalFor(mbp,mm);
   product.validateModel(mm);product.validate(mp.product_contract);commercial.validate(mp.commercial_contract);commercial.semantics(mp.commercial_contract,mp.product_contract,mm);assertReversibleScoreProbe(mm,mp.product_contract);assertBuildInvariants(mm,mp);
   assert.equal(validateReviewedProposal(mbp,mm,mp).passed,true);
 
   const usedPair=[original.design.id,market.design.id];
-  const learnedOriginal=select({sequence:21,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:usedPair}});
+  const learnedOriginal=select({sequence:21,date:'2026-10-02',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:usedPair}});
   assert.equal(learnedOriginal.status,'SELECTED');assert.equal(learnedOriginal.lane,'original');assert.equal(learnedOriginal.design.family_id,'signal-composition');
   const sbp=foundryBlueprintFor(learnedOriginal,21,'20261001'),sm=foundryRunner.buildModel(sbp),sp=foundryRunner.proposalFor(sbp,sm);
   product.validateModel(sm);product.validate(sp.product_contract);commercial.validate(sp.commercial_contract);commercial.semantics(sp.commercial_contract,sp.product_contract,sm);assertReversibleScoreProbe(sm,sp.product_contract);
   assert.equal(validateReviewedProposal(sbp,sm,sp).passed,true);assert.match(sp.implementation_contract.progression,/PULSE A/);assert.match(sp.implementation_contract.action_feedback,/Prior Factory outcomes require this correction/);
 
-  const learnedMarket=select({sequence:22,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:[...usedPair,learnedOriginal.design.id]}});
+  const learnedMarket=select({sequence:22,date:'2026-10-02',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:[...usedPair,learnedOriginal.design.id]}});
   assert.equal(learnedMarket.status,'SELECTED');assert.equal(learnedMarket.lane,'market-benchmark');assert.equal(learnedMarket.design.family_id,'trajectory-interception');assert.match(learnedMarket.benchmark.url,/^https:\/\/play\.google\.com\//);
   const tbp=foundryBlueprintFor(learnedMarket,22,'20261001'),tm=foundryRunner.buildModel(tbp),tp=foundryRunner.proposalFor(tbp,tm);
   product.validateModel(tm);product.validate(tp.product_contract);commercial.validate(tp.commercial_contract);commercial.semantics(tp.commercial_contract,tp.product_contract,tm);assertReversibleScoreProbe(tm,tp.product_contract);
@@ -132,31 +143,45 @@ test('Foundry materializes distinct reviewed original and market families',t=>{
   assert.equal(new Set([original,market,learnedOriginal,learnedMarket].map(x=>x.design.family_id)).size,4);
 
   const learnedPair=[...usedPair,learnedOriginal.design.id,learnedMarket.design.id];
-  const nextOriginal=select({sequence:23,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:learnedPair}});
+  const nextOriginal=select({sequence:23,date:'2026-10-02',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:learnedPair}});
   assert.equal(nextOriginal.status,'SELECTED');assert.equal(nextOriginal.design.family_id,'echo-routing');
   const ebp=foundryBlueprintFor(nextOriginal,23,'20261001'),em=foundryRunner.buildModel(ebp),ep=foundryRunner.proposalFor(ebp,em);
   product.validateModel(em);product.validate(ep.product_contract);commercial.validate(ep.commercial_contract);commercial.semantics(ep.commercial_contract,ep.product_contract,em);assertReversibleScoreProbe(em,ep.product_contract);
   assert.equal(validateReviewedProposal(ebp,em,ep).passed,true);assert.match(ep.implementation_contract.progression,/three-bit switch mask/);
 
-  const nextMarket=select({sequence:24,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:[...learnedPair,nextOriginal.design.id]}});
+  const nextMarket=select({sequence:24,date:'2026-10-02',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:[...learnedPair,nextOriginal.design.id]}});
   assert.equal(nextMarket.status,'SELECTED');assert.equal(nextMarket.design.family_id,'cadence-buffering');assert.match(nextMarket.benchmark.url,/^https:\/\/play\.google\.com\//);
   const cbp=foundryBlueprintFor(nextMarket,24,'20261001'),cm=foundryRunner.buildModel(cbp),cp=foundryRunner.proposalFor(cbp,cm);
   product.validateModel(cm);product.validate(cp.product_contract);commercial.validate(cp.commercial_contract);commercial.semantics(cp.commercial_contract,cp.product_contract,cm);assertReversibleScoreProbe(cm,cp.product_contract);
   assert.equal(validateReviewedProposal(cbp,cm,cp).passed,true);assert.match(cp.implementation_contract.progression,/ordered beat buffer/);assert.match(cp.implementation_contract.originality,/Forbidden copying/);
 
   const usedThreePairs=[...learnedPair,nextOriginal.design.id,nextMarket.design.id];
-  const invariantOriginal=select({sequence:25,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:usedThreePairs}});
+  const invariantOriginal=select({sequence:25,date:'2026-10-02',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:usedThreePairs}});
   assert.equal(invariantOriginal.status,'SELECTED');assert.equal(invariantOriginal.design.family_id,'flux-harvesting');
   const fbp=foundryBlueprintFor(invariantOriginal,25,'20261001'),fm=foundryRunner.buildModel(fbp),fp=foundryRunner.proposalFor(fbp,fm);
   product.validateModel(fm);product.validate(fp.product_contract);commercial.validate(fp.commercial_contract);commercial.semantics(fp.commercial_contract,fp.product_contract,fm);assertReversibleScoreProbe(fm,fp.product_contract);assertBuildInvariants(fm,fp);
   assert.equal(validateReviewedProposal(fbp,fm,fp).passed,true);assert.match(fp.implementation_contract.progression,/GATHER FLUX/);
 
-  const invariantMarket=select({sequence:26,date:'2026-10-01',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:[...usedThreePairs,invariantOriginal.design.id]}});
+  const invariantMarket=select({sequence:26,date:'2026-10-02',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:[...usedThreePairs,invariantOriginal.design.id]}});
   assert.equal(invariantMarket.status,'SELECTED');assert.equal(invariantMarket.design.family_id,'aperture-shaping');assert.match(invariantMarket.benchmark.url,/^https:\/\/play\.google\.com\//);
   const abp=foundryBlueprintFor(invariantMarket,26,'20261001'),am=foundryRunner.buildModel(abp),ap=foundryRunner.proposalFor(abp,am);
   product.validateModel(am);product.validate(ap.product_contract);commercial.validate(ap.commercial_contract);commercial.semantics(ap.commercial_contract,ap.product_contract,am);assertReversibleScoreProbe(am,ap.product_contract);assertBuildInvariants(am,ap);
   assert.equal(validateReviewedProposal(abp,am,ap).passed,true);assert.match(ap.implementation_contract.progression,/WIDEN APERTURE/);assert.match(ap.implementation_contract.originality,/Forbidden copying/);
-  assert.equal(new Set([original,market,learnedOriginal,learnedMarket,nextOriginal,nextMarket,invariantOriginal,invariantMarket].map(x=>x.design.family_id)).size,8);
+  const usedFourPairs=[...usedThreePairs,invariantOriginal.design.id,invariantMarket.design.id];
+  const constructedOriginal=select({sequence:27,date:'2026-10-02',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:usedFourPairs}});
+  assert.equal(constructedOriginal.status,'SELECTED');assert.equal(constructedOriginal.design.family_id,'phase-coupling');
+  const pbp=foundryBlueprintFor(constructedOriginal,27,'20261002'),pm=foundryRunner.buildModel(pbp),pp=foundryRunner.proposalFor(pbp,pm);
+  product.validateModel(pm);product.validate(pp.product_contract);commercial.validate(pp.commercial_contract);commercial.semantics(pp.commercial_contract,pp.product_contract,pm);assertReversibleScoreProbe(pm,pp.product_contract);assertBuildInvariants(pm,pp);
+  assert.equal(validateReviewedProposal(pbp,pm,pp).passed,true);assert.match(pp.implementation_contract.progression,/ADVANCE PAIR/);
+  const corruptedCheckpoint=structuredClone(pp);corruptedCheckpoint.build_invariants.seeds[String(pbp.seeds[0])].quality_checkpoints[1].complexity+=1;
+  assert(validateReviewedProposal(pbp,pm,corruptedCheckpoint).errors.some(error=>error.code==='invalid_build_invariants'));
+
+  const constructedMarket=select({sequence:28,date:'2026-10-02',designCatalog,benchmarkCatalog,learningProfile:{...learning,used_design_ids:[...usedFourPairs,constructedOriginal.design.id]}});
+  assert.equal(constructedMarket.status,'SELECTED');assert.equal(constructedMarket.design.family_id,'gradient-compression');assert.equal(constructedMarket.design.benchmark_id,'google-play-games-en-20261002');
+  const gbp=foundryBlueprintFor(constructedMarket,28,'20261002'),gm=foundryRunner.buildModel(gbp),gp=foundryRunner.proposalFor(gbp,gm);
+  product.validateModel(gm);product.validate(gp.product_contract);commercial.validate(gp.commercial_contract);commercial.semantics(gp.commercial_contract,gp.product_contract,gm);assertReversibleScoreProbe(gm,gp.product_contract);assertBuildInvariants(gm,gp);
+  assert.equal(validateReviewedProposal(gbp,gm,gp).passed,true);assert.match(gp.implementation_contract.progression,/PRESS INWARD/);assert.match(gp.implementation_contract.originality,/Forbidden copying/);
+  assert.equal(new Set([original,market,learnedOriginal,learnedMarket,nextOriginal,nextMarket,invariantOriginal,invariantMarket,constructedOriginal,constructedMarket].map(x=>x.design.family_id)).size,10);
 
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-foundry-intake-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
   const meta=materialize(root,22,'20261001',learnedMarket),dir=path.join(root,'candidate');

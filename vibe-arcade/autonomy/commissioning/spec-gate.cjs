@@ -6,12 +6,14 @@ const norm=s=>String(s||'').trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').repl
 function readJSON(file){return JSON.parse(fs.readFileSync(file,'utf8'));}
 function validBuildInvariants(data,product,commercial,model){
   if(!data||typeof data!=='object'||Array.isArray(data)||data.schema_version!==1||data.source!=='reviewed-foundry-oracle'||Buffer.byteLength(JSON.stringify(data))>60000)return false;
-  const difficulty=product?.difficulty,lifecycle=data.lifecycle||{},diagnostics=data.diagnostics||{};
+  const difficulty=product?.difficulty,lifecycle=data.lifecycle||{},diagnostics=data.diagnostics||{},construction=data.construction||{};
   if(!difficulty||!product?.objective?.visible_selector||!product?.progress?.selector||!product?.score?.selector||!product?.best?.selector||!product?.completion?.state_path||!product?.replay?.selector||!product?.feedback?.active_probe_path||!product?.reduced_motion?.presentation_probe_path||!Array.isArray(commercial?.action_feedback?.probes))return false;
   if(data.oracle_id!==difficulty.oracle_id||data.oracle_sha256!==difficulty.oracle_sha256||JSON.stringify(data.projection)!==JSON.stringify(difficulty.projection)||JSON.stringify(data.actions)!==JSON.stringify(product.actions))return false;
   const expectedLifecycle={objective_selector:product.objective.visible_selector,progress_selector:product.progress.selector,progress_state_path:product.progress.state_path,score_selector:product.score.selector,best_selector:product.best.selector,outcome_state_path:product.completion.state_path,success_value:product.completion.success_value,failure_value:product.completion.failure_value,result_selector:product.completion.result_selector,replay_selector:product.replay.selector};
   const expectedDiagnostics={stage_path:difficulty.stage_path,complexity_path:difficulty.complexity_path,objective_progress_path:difficulty.objective_progress_path,meaningful_actions_path:difficulty.meaningful_actions_path,reversible_state_path:difficulty.reversible_state_path,feedback_active_path:product.feedback.active_probe_path,static_feedback_path:product.feedback.static_probe_path,reduced_motion_path:product.reduced_motion.presentation_probe_path};
   if(JSON.stringify(lifecycle)!==JSON.stringify(expectedLifecycle)||JSON.stringify(diagnostics)!==JSON.stringify(expectedDiagnostics))return false;
+  const expectedConstruction={input_owner:'PlayJoltGameKit',input_source:'input.actions',action_expressions:Object.keys(product.actions).map(name=>'input.actions.'+name),complexity_source:'quality_checkpoints.complexity',terminal_owner:'GameCore',terminal_rule:'terminal(state) is true exactly when outcome_state_path equals success_value or failure_value; the terminal action changes outcome in the same step.',replay_owner:'PlayJoltGameKit',replay_rule:'Do not implement a second restart handler. GameKit invokes core.create(seed) and restores the seed initial_state.'};
+  if(JSON.stringify(construction)!==JSON.stringify(expectedConstruction))return false;
   const expectedProbes=commercial.action_feedback.probes.map(probe=>({id:probe.id,node:probe.node,action:probe.action,kind:probe.kind}));
   if(JSON.stringify(data.commercial_probes)!==JSON.stringify(expectedProbes))return false;
   const seeds=data.seeds||{},expectedSeeds=difficulty.deterministic_seeds.map(String);
@@ -19,14 +21,19 @@ function validBuildInvariants(data,product,commercial,model){
   if(!model||JSON.stringify(model.projection)!==JSON.stringify(data.projection))return false;
   return Object.entries(seeds).every(([seed,row])=>{
     const graph=model.seeds?.[seed];
-    if(!graph||!Array.isArray(row.initial_state)||JSON.stringify(row.initial_state)!==JSON.stringify(graph.nodes[graph.initial]?.values)||!Array.isArray(row.success_actions)||row.success_actions.length<1||row.success_actions.length>difficulty.max_actions||!Array.isArray(row.success_states)||row.success_states.length!==row.success_actions.length+1||JSON.stringify(row.success_states[0])!==JSON.stringify(row.initial_state))return false;
+    if(!graph||!Array.isArray(row.initial_state)||JSON.stringify(row.initial_state)!==JSON.stringify(graph.nodes[graph.initial]?.values)||!Array.isArray(row.success_actions)||row.success_actions.length<1||row.success_actions.length>difficulty.max_actions||!Array.isArray(row.success_states)||row.success_states.length!==row.success_actions.length+1||JSON.stringify(row.success_states[0])!==JSON.stringify(row.initial_state)||!Array.isArray(row.quality_checkpoints)||row.quality_checkpoints.length<1)return false;
+    const stageNodes=[];
+    for(const state of row.success_states){const node=Object.values(graph.nodes).find(candidate=>JSON.stringify(candidate.values)===JSON.stringify(state));if(!node)return false;if(!node.success&&!stageNodes.some(candidate=>candidate.stage===node.stage))stageNodes.push(node);}
+    const expectedCheckpoints=stageNodes.map(node=>{const metrics=require('../qa/product-contract.cjs').stageMetrics(graph,Object.keys(graph.nodes).find(id=>graph.nodes[id]===node));return {state:node.values,stage:metrics.stage,complexity:metrics.complexity,required_actions:metrics.required_actions};});
+    if(JSON.stringify(row.quality_checkpoints)!==JSON.stringify(expectedCheckpoints))return false;
     let node=graph.initial;
     for(let index=0;index<row.success_actions.length;index++){
       const action=row.success_actions[index];if(!Object.hasOwn(data.actions,action))return false;
       const edge=graph.nodes[node].edges.find(candidate=>candidate.action===action);if(!edge)return false;
       node=edge.to;if(JSON.stringify(row.success_states[index+1])!==JSON.stringify(graph.nodes[node].values))return false;
     }
-    return graph.nodes[node].success===true&&JSON.stringify(row.terminal_state)===JSON.stringify(graph.nodes[node].values);
+    const terminalStep=row.success_actions.length-1;
+    return graph.nodes[node].success===true&&JSON.stringify(row.preterminal_state)===JSON.stringify(row.success_states[terminalStep])&&row.terminal_action===row.success_actions[terminalStep]&&JSON.stringify(row.terminal_state)===JSON.stringify(graph.nodes[node].values);
   });
 }
 function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.json')),catalog=readJSON(path.join(__dirname,'catalog.json'))}={}){
