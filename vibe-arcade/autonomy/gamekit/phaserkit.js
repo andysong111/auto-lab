@@ -25,8 +25,13 @@
       scene:{
         create(){
           scene=this;
+          if(!root.LoopJoltFeelFX?.create)throw Error('feel_fx_runtime_missing');
+          scene.playjoltFeel=root.LoopJoltFeelFX.create(scene,{reduced:()=>!!latest?.presentation?.platform_reduced_motion,maxParticles:90,maxFloaters:5});
           visuals.create(this);
           if(latest)visuals.update(this,clone(latest));
+        },
+        update(_time,delta){
+          scene?.playjoltFeel?.update(delta);
         }
       }
     });
@@ -42,11 +47,12 @@
     }
     function dispose(){
       if(disposed)return;
+      scene?.playjoltFeel?.destroy();
       disposed=true;scene=null;latest=null;
       game.destroy(true);
     }
     return Object.freeze({render,resize,dispose,kind:'phaser4',version:PHASER_VERSION});
   }
-  root.PlayJoltPhaserKit=Object.freeze({create,version:'phaserkit-1',phaser:PHASER_VERSION});
+  root.PlayJoltPhaserKit=Object.freeze({create,version:'phaserkit-2',phaser:PHASER_VERSION});
   if(typeof module!=='undefined')module.exports=root.PlayJoltPhaserKit;
 })(globalThis);

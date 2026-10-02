@@ -1,11 +1,11 @@
 # LoopJolt Feel Kit · 2-3
 
-Two small presentation modules, no new production package. Only Deep Descent is integrated.
+Two small presentation modules, no new production package. Deep Descent uses the kit directly; the autonomous candidate Factory now supplies protected copies to every new GameKit v3 workspace.
 
 ## Boundaries
 - `phaser-fx.js`: transient sprite budget/TTL, floating text, owned notification/pulse tweens, capped camera shake, reduced-motion gate, reset/shutdown cleanup.
 - `audio.js`: lazy owned WebAudio context, original synthesized note/sequence playback, voice cap, on/off race handling, immediate voice cancellation and disposal.
-- `descent/feel.js`: the game's original message/color/texture/position/event mapping. Another game supplies another adapter, not another copy of the whole engine.
+- `descent/feel.js`: the game's original message/color/texture/position/event mapping. Autonomous candidates receive `scene.playjoltFeel` from PhaserKit and supply their own event mapping rather than copying the engine.
 - `descent/audio.js`: same original sound recipes/melody; voice/context plumbing delegates to the kit.
 - Canonical input/physics/time/score stay in the game. Runtime and Shell stay unchanged. No hit-stop that pauses official simulation. No invented effects or sound choice that changes rankings.
 
@@ -38,6 +38,6 @@ Sound-off and pause stop/disconnect old queued cues rather than replaying them o
 ## Evidence and limits
 Run `node --test vibe-arcade/tests/feel-core.test.cjs`. Browser tests use real pinned Phaser and Web Audio in local fixtures; no production score writes. Before/after parity is a one-time extraction proof with an explicit baseline, not a permanent ban on future graphics improvements. Existing Descent and platform tests remain required.
 
-This is reuse and reliability work, not a new graphics release. Second-game integration and measured time savings are Stage2-4. No new social schedules, subscriptions, DB/Edge/OAuth changes or production dependency changes.
+This is reuse and reliability work, not a claim that effects alone make a game fun. New Foundry runners still need distinct interaction models, tension and mastery. No new social schedules, subscriptions, DB/Edge/OAuth changes or production dependency changes.
 
 References checked: https://docs.phaser.io/phaser/concepts/scenes ; https://docs.phaser.io/phaser/concepts/tweens ; https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/resume ; https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/suspend ; https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/close . Pinned Phaser3.90 runtime is tested, not upgraded to the latest docs version.

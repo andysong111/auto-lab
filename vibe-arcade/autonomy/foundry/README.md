@@ -26,6 +26,8 @@ Every reviewed Foundry proposal also carries a validated `build_invariants` pack
 
 When no eligible reviewed design exists, the Foundry returns `IDLE` before a provider call. New mechanics enter the catalog as `incubating` and require deterministic multi-seed Oracle, Product and Commercial contracts plus a reviewed runner before their status can become `reviewed`.
 
+The shared finite-state calibration runner used through sequence 28 is retired for later candidates. A new title or theme may not disguise the same choose-values-then-commit loop as a new experiment. Sequence 29 or later stays `IDLE` with `new_interaction_runner_required` until a genuinely different reviewed interaction runner, deterministic Oracle and evidence contracts exist.
+
 ## Reviewed supply batches
 
 - Sequences 19 and 20 exercised the first pair: original `kinetic-balance` and market-informed `pressure-allocation`. Both reached a clean terminal `REJECTED` state after the bounded repair budget and uploaded learning artifacts.
@@ -34,7 +36,9 @@ When no eligible reviewed design exists, the Foundry returns `IDLE` before a pro
 - Sequence 23 first proved the exhaustion guard by returning `no_reviewed_original_design` before any provider call. The next reviewed batch starts at sequence 23 with original `echo-routing`, followed at sequence 24 by market-informed `cadence-buffering`; both use new bounded state models rather than relabeling a prior game.
 - Sequences 23 and 24 also reached terminal `REJECTED`. Sequence 23 reduced the final failure surface, but sequence 24 regressed, so the result is not yet a reliable quality trend. Their repeated completion, replay, input, progress and feedback failures motivated the reviewed build-invariant packet and blocking-focus priority described above.
 - Sequences 25 and 26 both reached terminal `REJECTED` with six provider calls, five repairs and `Production=false`. Their measured failure surfaces were smaller than sequences 23 and 24, but touch parity, reachable completion, replay lifecycle and Oracle-complexity mismatches remained, so this is not yet a proven quality trend.
-- The next proof pair starts at sequence 27 with original `phase-coupling`, followed at sequence 28 by market-informed `gradient-compression`. Both use stage paths whose reviewed Oracle depth grows from two to four to six decisions and whose consequential choice width grows across stages. They are the first supply using the stronger construction packet with exact action, complexity, terminal and replay requirements.
+- Sequences 27 and 28 used original `phase-coupling` and market-informed `gradient-compression`. They were the first supply using the stronger construction packet with exact action, complexity, terminal and replay requirements, but still used the now-retired shared calibration runner.
+- Owner playtesting of sequence 25 found the result plainly unfun. That direct product signal overrides any inference from a smaller QA failure surface: deterministic correctness and polish compliance do not establish fun.
+- New Foundry construction requires a first-ten-second payoff, tension curve, mastery hook, replay hook and sensory payoff. The Factory supplies bounded FeelFX and gesture-gated FeelAudio, and Foundry audio can no longer choose reviewed silence merely to avoid an evidence surface.
 - Only one design in each new family is reviewed. Sibling designs remain `incubating` until they receive their own reviewed rules and evidence, so catalog expansion cannot silently turn into budget-reset cloning.
 
 ## Safety boundaries

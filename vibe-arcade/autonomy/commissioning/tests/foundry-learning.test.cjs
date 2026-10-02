@@ -89,6 +89,22 @@ test('selector excludes retired, used, unreviewed and stale market work',()=>{
   assert.equal(result.status,'IDLE');
 });
 
+test('selector retires the repeated calibration runner after sequence 28',()=>{
+  const {designCatalog,benchmarkCatalog}=catalogs();
+  designCatalog.policy={legacy_family_runner_max_sequence:28};
+  designCatalog.designs[0].min_sequence=29;
+  const result=select({sequence:29,date:'2026-10-02',designCatalog,benchmarkCatalog,learningProfile:{retired_families:[],used_design_ids:[],families:{}}});
+  assert.equal(result.status,'IDLE');
+  assert.equal(result.reason,'new_interaction_runner_required');
+});
+
+test('intake accepts only a repository-reviewed Foundry runner path',()=>{
+  const {designCatalog,benchmarkCatalog}=catalogs(),learningProfile={retired_families:[],used_design_ids:[],families:{}};
+  const selected=select({sequence:1,date:'2026-10-02',designCatalog,benchmarkCatalog,learningProfile});
+  selected.design={...selected.design,runner:'../untrusted.cjs'};
+  assert.throws(()=>foundryBlueprintFor(selected,1,'20261002'),/invalid_foundry_runner/);
+});
+
 test('candidate summary becomes bounded learning data with immutable lineage',()=>{
   const row=outcomeFromSummary({schema:'playjolt-auto-template/1',game_id:'GAME-20261001-401',title:'Test',foundry:{family_id:'alpha',lane:'market-benchmark',design_id:'alpha-1'},total_calls:6,total_estimated_cost:.5,factory:{state:'REJECTED',repair_attempt:5,technical_qa_status:'PASS',product_qa_status:'FAIL',commercial_qa_status:'FAIL',failure_reasons:[{code:'progress'},{code:'progress'},{code:'hierarchy'}]}});
   assert.deepEqual({family:row.family_id,lane:row.lane,design:row.design_id,codes:row.failure_codes},{family:'alpha',lane:'market-benchmark',design:'alpha-1',codes:{progress:2,hierarchy:1}});
@@ -186,7 +202,9 @@ test('Foundry materializes distinct reviewed original and market families',t=>{
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-foundry-intake-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
   const meta=materialize(root,22,'20261001',learnedMarket),dir=path.join(root,'candidate');
   assert.equal(meta.lane,'market-benchmark');assert.equal(meta.family_id,'trajectory-interception');assert.match(fs.readFileSync(path.join(dir,'commission.cjs'),'utf8'),/foundry\/family-runner/);
+  const blueprint=JSON.parse(fs.readFileSync(path.join(dir,'blueprint.json')));assert.equal(blueprint.runner,'foundry/family-runner.cjs');assert.equal(blueprint.foundry.runner,blueprint.runner);
   const request=JSON.parse(fs.readFileSync(path.join(dir,'queued-request.json')));assert.equal(request.production_authorized,false);assert.equal(request.authorized_provider_calls,6);
+  assert.match(request.runtime,/GameKit v3 \+ Feel Kit/);
 });
 
 test('workflows learn before generation and preserve serial production-off limits',()=>{

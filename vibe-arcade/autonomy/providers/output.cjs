@@ -60,13 +60,15 @@ function validateOutput(raw,request,limits) {
         e.detail={file:'core.js',line,identifier:match[0],allowed_export:'globalThis.GameCore = {create,step,observe,terminal}'};
         throw e;
       }
-      if(request.gamekit_contract?.version==='gamekit-phaser-2'&&!/globalThis\.GameCore\s*=/.test(f.content))throw modelError('phaser_contract: core must export globalThis.GameCore');
+      if(/^gamekit-phaser-[23]$/.test(request.gamekit_contract?.version||'')&&!/globalThis\.GameCore\s*=/.test(f.content))throw modelError('phaser_contract: core must export globalThis.GameCore');
     }
-    if(request.gamekit_contract?.version==='gamekit-phaser-2'){
+    if(/^gamekit-phaser-[23]$/.test(request.gamekit_contract?.version||'')){
       if((f.path==='app.js'||f.path.startsWith('view/'))&&/(?:new\s+Phaser\.Game|requestAnimationFrame\s*\(|setInterval\s*\()/m.test(f.content))throw modelError('candidate_runtime_override');
       if(f.path==='app.js'&&(!f.content.includes('PlayJoltPhaserKit.create')||!f.content.includes('PlayJoltGameKit.create')))throw modelError('phaser_contract: app must use factory PhaserKit and GameKit');
       if(f.path==='view/art.js'&&(!/globalThis\.GameVisuals\s*=/.test(f.content)||!/globalThis\.GamePresentation\s*=/.test(f.content)))throw modelError('phaser_contract: view must export GameVisuals and GamePresentation');
       if(f.path==='index.html'&&(!f.content.includes('./phaser.js')||!f.content.includes('./phaserkit.js')||!f.content.includes('./gamekit.js')))throw modelError('phaser_contract: index must load local factory runtimes');
+      if(request.gamekit_contract.version==='gamekit-phaser-3'&&f.path==='index.html'&&(!f.content.includes('./feelfx.js')||!f.content.includes('./feelaudio.js')||!f.content.includes('data-mute')))throw modelError('feel_contract: index must load factory Feel Kit and expose mute control');
+      if(request.gamekit_contract.version==='gamekit-phaser-3'&&f.path==='view/art.js'&&!/scene\.playjoltFeel\.(?:burst|pulse|floatText|shake)/.test(f.content))throw modelError('feel_contract: presentation must use bounded factory feedback');
     }
   }
   if(request.mode==='build'||request.empty_workspace)for(const name of requiredFiles)if(!seen.has(name))throw modelError('model_missing_file:'+name);

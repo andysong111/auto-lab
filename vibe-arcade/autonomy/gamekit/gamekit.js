@@ -23,12 +23,39 @@
     let reducedMotion = !!motionQuery?.matches;
     const q = name => document.querySelector('[data-game-' + name + ']');
     for (const id of ['start', 'pause', 'resume', 'restart', 'status', 'score', 'progress', 'error']) if (!q(id)) throw Error('missing_game_ui:' + id);
+    const audioContract = commercialContract?.audio?.mode === 'required' ? commercialContract.audio : null;
+    if (audioContract && !productContract?.completion) throw Error('audio_product_contract_missing');
+    const mute = audioContract ? document.querySelector(audioContract.mute_selector) : null;
+    if (audioContract && !mute) throw Error('missing_game_ui:mute');
+    const feelAudio = audioContract && root.LoopJoltFeelAudio?.create ? root.LoopJoltFeelAudio.create({volume:.12,maxVoices:8}) : null;
+    if (audioContract && !feelAudio) throw Error('feel_audio_runtime_missing');
     const storageKey = 'playjolt_practice_' + metadata.game_id + '_' + metadata.version;
     let state = core.create(seed), phase = 'idle', paused = false, disposed = false, frame = 0, last = 0, acc = 0, epoch = 0;
     let inputs = {x: 0, y: 0, action: false, pointer: null, actions: {}}, accepted = {keyboard: 0, pointer: 0}, error = null, best = 0;
     const keys = new Set(), removers = [], effects = {frames: 0, discarded_ms: 0};
+    let soundOn = !!audioContract, previousAudioSnapshot = null;
     try { if (!isolated) best = Number(localStorage.getItem(storageKey)) || 0; } catch { /* Practice works without storage. */ }
     function on(target, type, handler, options) { target.addEventListener(type, handler, options); removers.push(() => target.removeEventListener(type, handler, options)); }
+    function updateMute() { if (mute) { mute.textContent = soundOn ? 'Sound on' : 'Sound off'; mute.setAttribute('aria-pressed', String(soundOn)); } }
+    function setAudio(value) { soundOn = !!value; updateMute(); return feelAudio?.enable(soundOn); }
+    function suspendAudio() { return feelAudio?.enable(false); }
+    function cue(kind) {
+      if (!feelAudio?.enabled) return;
+      if (kind === 'success') feelAudio.sequence([[523,.12,'triangle',.14],[659,.15,'triangle',.13,.08],[784,.22,'sine',.12,.16]]);
+      else if (kind === 'failure') feelAudio.sequence([[294,.15,'sawtooth',.08],[220,.24,'triangle',.1,.10]]);
+      else if (kind === 'progress') feelAudio.sequence([[440,.08,'triangle',.1],[660,.13,'sine',.1,.06]]);
+      else feelAudio.note(392,.08,'triangle',.08,0,466);
+    }
+    function audioFeedback(s) {
+      if (!audioContract) return;
+      const current={progress:readPath(s,productContract?.progress?.state_path),meaningful:s.quality?.meaningful_actions,outcome:readPath(s,productContract?.completion?.state_path)};
+      const prior=previousAudioSnapshot;previousAudioSnapshot=current;
+      if (!prior || s.phase === 'idle') return;
+      if (current.outcome !== prior.outcome && current.outcome === productContract.completion.success_value) cue('success');
+      else if (current.outcome !== prior.outcome && current.outcome === productContract.completion.failure_value) cue('failure');
+      else if (current.progress !== prior.progress) cue('progress');
+      else if (current.meaningful !== prior.meaningful) cue('primary');
+    }
     function resetInput() { keys.clear(); inputs = {x: 0, y: 0, action: false, pointer: null, actions: {}}; }
     function pulseNamedAction(name) { if (name) inputs.actions[name] = true; }
     function mapKeyToNamedAction(code) {
@@ -52,6 +79,7 @@
     }
     function render() {
       const s = snapshot(); if (renderer) renderer.render(s,{width:canvas.width,height:canvas.height}); else draw(canvas.getContext('2d'), s, {width: canvas.width, height: canvas.height});
+      audioFeedback(s);
       q('score').textContent = String(s.score); q('progress').textContent = String(s.progress);
       if (productContract) {
         setText(productContract.objective?.visible_selector, productContract.objective?.expected_text);
@@ -87,12 +115,13 @@
     }
     function start() {
       if (disposed || phase === 'playing' || document.hidden) return;
+      if (soundOn) feelAudio?.enable(true);
       epoch++; state = core.create(seed); phase = 'playing'; paused = false; error = null;
       q('error').hidden = true; accepted = {keyboard: 0, pointer: 0}; resetInput(); acc = 0; last = performance.now();
       core.begin?.(state); canvas.focus({preventScroll: true}); render();
     }
-    function pause() { if (phase === 'playing') { paused = true; resetInput(); acc = 0; render(); } }
-    function resume() { if (phase === 'playing' && !document.hidden && !disposed) { paused = false; resetInput(); last = performance.now(); acc = 0; render(); } }
+    function pause() { if (phase === 'playing') { paused = true; resetInput(); acc = 0; suspendAudio(); render(); } }
+    function resume() { if (phase === 'playing' && !document.hidden && !disposed) { paused = false; resetInput(); last = performance.now(); acc = 0; if(soundOn)feelAudio?.enable(true); render(); } }
     function restart() { if (phase === 'playing' || disposed) return; phase = 'idle'; start(); }
     function loop(now) {
       if (disposed) return;
@@ -115,6 +144,7 @@
     }
     on(q('start'), 'click', safe(start)); on(q('pause'), 'click', safe(pause));
     on(q('resume'), 'click', safe(resume)); on(q('restart'), 'click', safe(restart));
+    if (mute) on(mute, 'click', safe(() => setAudio(!soundOn)));
     on(window, 'keydown', safe(e => {
       if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName) || e.target.isContentEditable) return;
       if (e.code === 'Escape' || e.code === 'KeyP') { e.preventDefault(); paused ? resume() : pause(); return; }
@@ -139,15 +169,15 @@
     on(window, 'error', e => fail(e.error || e.message)); on(window, 'unhandledrejection', e => fail(e.reason));
     function resize() { const r = canvas.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2),w=Math.max(1,Math.round(r.width*dpr)),h=Math.max(1,Math.round(r.height*dpr)); if(renderer?.resize)renderer.resize(w,h);else{canvas.width=w;canvas.height=h;} safe(render)(); }
     const observer = new ResizeObserver(resize); observer.observe(canvas);
-    function dispose() { if (disposed) return; disposed = true; epoch++; resetInput(); cancelAnimationFrame(frame); observer.disconnect(); for (const remove of removers) remove(); renderer?.dispose?.(); }
+    function dispose() { if (disposed) return; disposed = true; epoch++; resetInput(); cancelAnimationFrame(frame); observer.disconnect(); for (const remove of removers) remove(); feelAudio?.destroy(); renderer?.dispose?.(); }
     // Reserved adapter slot, intentionally no start/finish/ranking traffic in Phase 1.
     // Existing LoopJoltRuntime remains the future server-verified ranked boundary.
     void rankedAdapter; void epoch;
     const diagnostics = Object.freeze({snapshot});
     Object.defineProperty(root, 'GameDiagnostics', {value: diagnostics, configurable: true});
-    resize(); last = performance.now(); frame = requestAnimationFrame(loop);
+    updateMute(); resize(); last = performance.now(); frame = requestAnimationFrame(loop);
     return Object.freeze({start: safe(start), pause: safe(pause), resume: safe(resume), finish: safe(finish), restart: safe(restart), dispose, diagnostics});
   }
-  const api = Object.freeze({create, version: 'gamekit-2'});
+  const api = Object.freeze({create, version: 'gamekit-3'});
   root.PlayJoltGameKit = api; if (typeof module !== 'undefined') module.exports = api;
 })(globalThis);

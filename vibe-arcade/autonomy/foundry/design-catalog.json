@@ -3,7 +3,8 @@
   "policy": {
     "market_benchmark_share": "1-of-every-2",
     "max_family_rejections_without_rc": 3,
-    "require_reviewed_runner_before_paid_build": true
+    "require_reviewed_runner_before_paid_build": true,
+    "legacy_family_runner_max_sequence": 28
   },
   "families": [
     {

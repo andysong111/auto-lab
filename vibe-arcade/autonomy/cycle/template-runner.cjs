@@ -231,7 +231,7 @@ async function prepare(candidateDir){
   const auth={schema:'playjolt-auto-template/1',game_id:bp.game_id,model:'gpt-5.6-terra',user_authorized:true,authorization_basis:'Owner authorized autonomous PlayJolt development without chat handoffs. Candidate was produced by the trusted permutation DSL and is bounded to build1 + repair5, provider calls <=6, estimated model cost <=USD2 and Production unauthorized.',max_generations:6,max_repairs:5,estimated_usd_ceiling:2,production_authorized:false,base_commit:process.env.GITHUB_SHA||'main'};
   for(const [n,d] of Object.entries({'proposal.json':p,'spec-gate.json':gate,'worker-config.json':settings,'control-policy.json':cp,'authorization.json':auth,'oracle.json':model}))atomicJSON(path.join(root,n),d);
   await new Factory({store:new FileStore(root)}).create(gate.factory_spec);
-  console.log(JSON.stringify({preflight:'PASS',game_id:bp.game_id,title:bp.title,signature:bp.signature_id,foundry:bp.foundry||null,runtime:'Phaser 4.2.1 + GameKit v2',oracle_hash:hash(model),product_hash:hash(pair.productContract),commercial_hash:hash(pair.commercialContract),warnings:gate.warnings},null,2));
+  console.log(JSON.stringify({preflight:'PASS',game_id:bp.game_id,title:bp.title,signature:bp.signature_id,foundry:bp.foundry||null,runtime:'Phaser 4.2.1 + GameKit v3 + Feel Kit',oracle_hash:hash(model),product_hash:hash(pair.productContract),commercial_hash:hash(pair.commercialContract),warnings:gate.warnings},null,2));
 }
 function reviews(candidateDir){
   const bp=load(candidateDir),root=path.resolve(process.env.FACTORY_WORKER_ROOT||'');if(!root||!fs.existsSync(path.join(root,'proposal.json')))throw Error('recovered_worker_root_required');

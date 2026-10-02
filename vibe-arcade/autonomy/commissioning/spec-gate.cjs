@@ -62,6 +62,7 @@ function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.
   const data=proposal.implementation_contract;
   if(data!==undefined){
     const keys=['goal','progression','presentation','originality','difficulty','mobile_readability','result','reduced_motion','scoring','completion_timing','action_feedback'];
+    if(proposal.build_invariants)keys.unshift('first_ten_seconds','tension_curve','mastery_hook','replay_hook','sensory_payoff');
     if(!data||typeof data!=='object'||Array.isArray(data)||Buffer.byteLength(JSON.stringify(data))>20000||
       !keys.every(k=>typeof data[k]==='string'&&data[k].trim().length>=20))errors.push({code:'invalid_implementation_contract'});
     else implementation=JSON.parse(JSON.stringify(data));
