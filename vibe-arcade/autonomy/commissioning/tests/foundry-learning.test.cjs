@@ -5,6 +5,7 @@ const {compile,outcomeFromSummary}=require('../../foundry/learning.cjs');
 const {laneFor,learningFocus,select}=require('../../foundry/selector.cjs');
 const {foundryBlueprintFor,materialize}=require('../../cycle/intake-generator.cjs');
 const foundryRunner=require('../../foundry/family-runner.cjs');
+const arcadeRunner=require('../../foundry/arcade-runner.cjs');
 const {validateProposal}=require('../spec-gate.cjs');
 const designCatalog=require('../../foundry/design-catalog.json'),benchmarkCatalog=require('../../foundry/benchmark-catalog.json');
 
@@ -103,6 +104,21 @@ test('intake accepts only a repository-reviewed Foundry runner path',()=>{
   const selected=select({sequence:1,date:'2026-10-02',designCatalog,benchmarkCatalog,learningProfile});
   selected.design={...selected.design,runner:'../untrusted.cjs'};
   assert.throws(()=>foundryBlueprintFor(selected,1,'20261002'),/invalid_foundry_runner/);
+});
+
+test('sequence 29 selects a reviewed direct-play runner with increasing lane complexity',()=>{
+  const used=designCatalog.designs.filter(design=>design.id!=='comet-catching-original-01').map(design=>design.id);
+  const learning={retired_families:['permutation-ordering-v1'],used_design_ids:used,families:{},top_failure_codes:[{code:'commercial_action_feedback',count:20}]};
+  const selected=select({sequence:29,date:'2026-10-02',designCatalog,benchmarkCatalog,learningProfile:learning});
+  assert.equal(selected.status,'SELECTED');assert.equal(selected.design.family_id,'comet-catching');assert.equal(selected.design.runner,'foundry/arcade-runner.cjs');
+  const bp=foundryBlueprintFor(selected,29,'20261002'),model=arcadeRunner.buildModel(bp),proposal=foundryRunner.proposalFor(bp,model);
+  assert.equal(bp.game_id,'GAME-20261002-329');assert.equal(bp.title,'Comet Breaker');assert.match(proposal.genre,/direct-control/);assert.match(proposal.implementation_contract.first_ten_seconds,/descending comet/);
+  assert.deepEqual(Object.keys(proposal.product_contract.actions),['drift_left','drift_right','burst_shift','phase_cut']);
+  assert.equal(Object.hasOwn(proposal.product_contract.actions,'catch_comet'),false);
+  product.validateModel(model);product.validate(proposal.product_contract);commercial.validate(proposal.commercial_contract);commercial.semantics(proposal.commercial_contract,proposal.product_contract,model);assertReversibleScoreProbe(model,proposal.product_contract);assertBuildInvariants(model,proposal);
+  assert.equal(validateReviewedProposal(bp,model,proposal).passed,true);
+  for(const seed of bp.seeds){const graph=model.seeds[String(seed)],rows=proposal.build_invariants.seeds[String(seed)].quality_checkpoints;assert.deepEqual(rows.map(row=>row.complexity),[2,3,4]);assert(graph.nodes[graph.initial].edges.some(edge=>edge.action==='drift_right'));}
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-arcade-intake-'));try{const meta=materialize(root,29,'20261002',selected),commission=fs.readFileSync(path.join(root,'candidate','commission.cjs'),'utf8');assert.equal(meta.family_id,'comet-catching');assert.match(commission,/foundry\/arcade-runner/);}finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 
 test('candidate summary becomes bounded learning data with immutable lineage',()=>{

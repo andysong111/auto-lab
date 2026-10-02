@@ -44,7 +44,7 @@
       if (kind === 'success') feelAudio.sequence([[523,.12,'triangle',.14],[659,.15,'triangle',.13,.08],[784,.22,'sine',.12,.16]]);
       else if (kind === 'failure') feelAudio.sequence([[294,.15,'sawtooth',.08],[220,.24,'triangle',.1,.10]]);
       else if (kind === 'progress') feelAudio.sequence([[440,.08,'triangle',.1],[660,.13,'sine',.1,.06]]);
-      else feelAudio.note(392,.08,'triangle',.08,0,466);
+      else feelAudio.note(392,.18,'triangle',.16,0,466);
     }
     function audioFeedback(s) {
       if (!audioContract) return;

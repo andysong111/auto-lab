@@ -34,11 +34,16 @@ function review(contract,{allowFixture=false}={}){
     const g=model.seeds[String(seed)];if(!g)throw Error('oracle seed missing: '+seed);
     const plan=shortest(g,g.initial,n=>n.success),seen=new Set();let actions=plan.length;
     for(const step of plan){const n=g.nodes[step.from];if(seen.has(n.stage))continue;seen.add(n.stage);
-      for(const edge of n.edges){const back=shortest(g,edge.to,node=>node===n);if(!back)throw Error('product_difficulty_unverified: v1 requires bounded return paths to cross-check stage-entry choices');actions+=1+back.length;}
+      for(const edge of n.edges){const recovery=branchRecovery(g,n,edge);if(recovery===null)throw Error('product_difficulty_unverified: every stage-entry choice requires a bounded return or success path');actions+=1+recovery;}
     }
     if(actions>contract.difficulty.max_actions)throw Error('product_difficulty_unverified: branch conformance exceeds normal-input bound');
   }
   return {model,approval:entry};
+}
+function branchRecovery(g,entry,edge){
+  const back=shortest(g,edge.to,node=>node===entry),forward=shortest(g,edge.to,node=>node.success);
+  if(!back&&!forward)return null;
+  return Math.min(back?.length??Infinity,forward?.length??Infinity);
 }
 function validateModel(m){
   if(m.schema_version!==1||!Array.isArray(m.projection)||m.projection.length<2||m.projection.length>12||!m.seeds||Object.keys(m.seeds).length>24)throw Error('invalid bounded oracle');
@@ -66,4 +71,4 @@ function stageMetrics(g,start){
   const width=new Set(node.edges.filter(e=>e.to!==start).map(e=>e.to)).size;
   return {stage:node.stage,complexity:width,required_actions:plan?.length??null,plan};
 }
-module.exports={validate,review,at,shortest,identify,stageMetrics,validateModel};
+module.exports={validate,review,at,shortest,identify,stageMetrics,validateModel,branchRecovery};
