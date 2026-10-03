@@ -15,6 +15,7 @@ function fixture(t,patch={}){
 
 test('durable provider response is recoverable without resetting candidate budget',t=>{
   const f=fixture(t),plan=validate(f.root,f.game,0);assert.equal(plan.recoverable,true);assert.equal(plan.next_attempt,1);assert.equal(plan.totals.calls,1);assert.equal(plan.operation_id,f.game+'/build/v1');
+  assert.equal(MAX_RECOVERY_ATTEMPTS,6);assert.equal(inspect(f.root,f.game,MAX_RECOVERY_ATTEMPTS-1).recoverable,true);
 });
 test('recovery fails closed for uncertain submission, terminal candidate, limits and attempt exhaustion',t=>{
   let f=fixture(t,{ledger:{operations:{}}});assert.equal(inspect(f.root,f.game,0).recoverable,false);
