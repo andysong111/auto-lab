@@ -10,6 +10,7 @@ const reflexRunner=require('../../foundry/reflex-runner.cjs');
 const weaveRunner=require('../../foundry/weave-runner.cjs');
 const dockRunner=require('../../foundry/dock-runner.cjs');
 const ventRunner=require('../../foundry/vent-runner.cjs');
+const surfRunner=require('../../foundry/surf-runner.cjs');
 const reflexKit=require('../../gamekit/reflexkit.js');
 const {validateProposal}=require('../spec-gate.cjs');
 const designCatalog=require('../../foundry/design-catalog.json'),benchmarkCatalog=require('../../foundry/benchmark-catalog.json');
@@ -240,6 +241,28 @@ test('sequence 34 selects a fresh protected market thermal design with pre-paid 
     assert.equal(state.outcome,'success');assert.equal(core.terminal(state),true);
   }
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-vent-intake-'));try{const meta=materialize(root,34,'20261003',selected),commission=fs.readFileSync(path.join(root,'candidate','commission.cjs'),'utf8');assert.equal(meta.family_id,'thermal-venting');assert.match(commission,/foundry\/vent-runner/);}finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+
+test('sequence 35 selects protected original current surfing with kinetic construction proof',()=>{
+  const used=designCatalog.designs.filter(design=>design.id!=='current-surfing-original-01').map(design=>design.id);
+  const learning={retired_families:['permutation-ordering-v1'],used_design_ids:used,families:{'thermal-venting':{attempts:1,rejected:1,rc_ready:0}},top_failure_codes:[{code:'commercial_mobile_hierarchy',count:8},{code:'commercial_action_feedback',count:8},{code:'commercial_audio',count:6}]};
+  const selected=select({sequence:35,date:'2026-10-03',designCatalog,benchmarkCatalog,learningProfile:learning});
+  assert.equal(selected.status,'SELECTED');assert.equal(selected.design.family_id,'current-surfing');assert.equal(selected.design.runner,'foundry/surf-runner.cjs');assert.equal(selected.lane,'original');
+  const bp=foundryBlueprintFor(selected,35,'20261003'),model=surfRunner.buildModel(bp),proposal=foundryRunner.proposalFor(bp,model);
+  assert.equal(bp.game_id,'GAME-20261003-335');assert.equal(bp.title,'Prism Wake');assert.match(proposal.genre,/current carving/);
+  assert.deepEqual(Object.keys(proposal.product_contract.actions),['bank_left','bank_right','pulse_jump','undertow']);
+  assert.deepEqual(proposal.product_contract.completion.failure_actions,['bank_left','bank_left']);
+  assert.equal(proposal.build_invariants.factory_core.core_source,"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'current-surf-v1'});\n");
+  assert.match(proposal.build_invariants.construction.presentation_rule,/70ms and 150ms/);
+  product.validateModel(model);product.validate(proposal.product_contract);commercial.validate(proposal.commercial_contract);commercial.semantics(proposal.commercial_contract,proposal.product_contract,model);assertBuildInvariants(model,proposal);
+  assert.equal(validateReviewedProposal(bp,model,proposal).passed,true);
+  for(const seed of bp.seeds){
+    const invariant=proposal.build_invariants.seeds[String(seed)],core=reflexKit.create({id:'current-surf-v1'}),state=core.create(seed),project=()=>model.projection.map(key=>product.at({state},key));
+    assert.deepEqual(invariant.quality_checkpoints.map(row=>row.complexity),[2,3,4]);assert.equal(invariant.success_actions.length,12);assert.deepEqual(project(),invariant.success_states[0]);
+    invariant.success_actions.forEach((action,index)=>{core.step(state,{actions:{[action]:true}});assert.deepEqual(project(),invariant.success_states[index+1]);});
+    assert.equal(state.outcome,'success');assert.equal(core.terminal(state),true);
+  }
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-surf-intake-'));try{const meta=materialize(root,35,'20261003',selected),commission=fs.readFileSync(path.join(root,'candidate','commission.cjs'),'utf8');assert.equal(meta.family_id,'current-surfing');assert.match(commission,/foundry\/surf-runner/);}finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 
 test('candidate summary becomes bounded learning data with immutable lineage',()=>{

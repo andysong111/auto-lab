@@ -137,3 +137,29 @@ test('Thermal Vent exposes recoverable warning and authoritative timeout failure
   const idle=core.create(3465),deadline=idle.deadline;for(let tick=0;tick<deadline;tick++)core.step(idle,{actions:{}});
   assert.equal(idle.outcome,'failure');assert.equal(idle.lastVent,'thermal_timeout');assert.equal(core.terminal(idle),true);assertDiagnostics(core,idle);
 });
+
+test('Current Surf carves 3, 4 and 5 deterministic gates through widening action sets',()=>{
+  for(const seed of [3566,3567,3568,3569,3570,3571]){
+    const core=kit.create({id:'current-surf-v1'}),state=core.create(seed),plans=kit.surfPlan(seed);
+    assert.deepEqual([1,2,3].map(stage=>plans[stage].gate_count),[3,4,5]);
+    assert.deepEqual([1,2,3].map(stage=>plans[stage].available.length),[2,3,4]);
+    let gates=0;
+    for(let stage=1;stage<=3;stage++)for(const target of plans[stage].targets){
+      const plan=plans[stage],action=plan.available.find(name=>{
+        const next=name==='bank_left'?Math.max(0,state.band-1):name==='bank_right'?Math.min(plan.bands-1,state.band+1):name==='pulse_jump'?Math.min(plan.bands-1,state.band+2):0;
+        return next===target;
+      });
+      assert(action);press(core,state,action);gates++;if(gates<12)assert.equal(state.outcome,'playing');assertDiagnostics(core,state);
+    }
+    assert.equal(gates,12);assert.equal(state.cleared,12);assert.equal(state.completed,3);assert.equal(state.outcome,'success');assert.equal(core.terminal(state),true);
+  }
+});
+
+test('Current Surf warns once, recovers on the next gate and fails a second miss',()=>{
+  const core=kit.create({id:'current-surf-v1'}),state=core.create(3566);
+  press(core,state,'bank_left');assert.equal(state.warning,1);assert.equal(state.outcome,'playing');assert.equal(state.score,0);
+  press(core,state,'bank_right');assert.equal(state.warning,0);press(core,state,'bank_right');assert(state.score>0);
+  const plan=state.stages[state.stage],wrong=plan.available.find(name=>{const next=name==='bank_left'?Math.max(0,state.band-1):name==='bank_right'?Math.min(plan.bands-1,state.band+1):name==='pulse_jump'?Math.min(plan.bands-1,state.band+2):0;return next!==state.target;});
+  press(core,state,wrong);assert(state.warning>0);press(core,state,wrong);
+  assert.equal(state.outcome,'failure');assert.equal(state.lastRide,'second_missed_gate');
+});

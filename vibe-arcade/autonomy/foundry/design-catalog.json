@@ -108,6 +108,12 @@
       "status": "reviewed",
       "hypothesis": "A protected two-chamber pressure core, visible next-side hazard, recoverable heat warning and twelve escalating direct vents create readable real-time planning and replay mastery.",
       "copy_boundary": "No sorting tube, color stack, container layout, level content, artwork, audio, code, scoring system or distinctive sorting ruleset may be copied."
+    },
+    {
+      "id": "current-surfing",
+      "status": "reviewed",
+      "hypothesis": "A protected kinetic carving core, large moving rider, twelve visible flow gates and one recoverable wake warning create direct movement mastery instead of another dashboard-like solved-state puzzle.",
+      "copy_boundary": "No surfer character, wave course, lane layout, obstacle pattern, artwork, audio, code, scoring system or distinctive board or movement ruleset may be copied."
     }
   ],
   "designs": [
@@ -314,6 +320,17 @@
       "title_seed": "Ember relay",
       "novelty_contract": "Transfer first-action clarity, gradual decision width, deterministic solvability and recoverable planning into an original real-time two-chamber thermal stabilization game without tubes, color sorting, container layouts or copied level rules.",
       "candidate": {"title":"Ember Relay","slug":"ember-relay","theme":{"singular":"Chamber","plural":"Chambers","arena":"Heatworks","progress":"STAGES","success":"HEAT STABILIZED","failure":"CHAMBER OVERLOAD"}}
+    },
+    {
+      "id": "current-surfing-original-01",
+      "lane": "original",
+      "family_id": "current-surfing",
+      "status": "reviewed",
+      "min_sequence": 35,
+      "runner": "foundry/surf-runner.cjs",
+      "title_seed": "Prism wake",
+      "novelty_contract": "Carve an original light rider through twelve seed-owned current gates using one-band banks, a two-band pulse jump and an inner-band undertow, with moving geometry, shrinking deadlines and one recoverable wake warning.",
+      "candidate": {"title":"Prism Wake","slug":"prism-wake","theme":{"singular":"Gate","plural":"Gates","arena":"Breakline","progress":"CURRENTS","success":"CURRENT MASTERED","failure":"BREAK COLLISION"}}
     }
   ]
 }

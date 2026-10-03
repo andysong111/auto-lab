@@ -48,6 +48,8 @@ Sequence 33 introduced the separate `dock-runner.cjs` and original `orbit-dockin
 
 Sequence 34 introduces the separate `vent-runner.cjs` market-benchmark path and `thermal-venting` family. Fresh Google Play evidence transfers only first-action clarity, gradual visible complexity, deterministic solvability, recoverable planning and explicit replay goals. It forbids copying sorting tubes, colors, containers, layouts, levels, assets, code or rules. The protected core owns two chamber temperatures, the next pressure side, 360/300/240-tick deadlines, recoverable high-heat warning, overload and timeout failure, score, 3/4/5 pressure beats, stage progress and terminal outcomes. Action width increases 2/3/4 while every six-seed Oracle route remains bounded. PhaserKit v4 also expands protected intermediate motion, stage markers and whole-playfield result emphasis; Product and Commercial QA remain unchanged.
 
+Sequence 35 introduces the separate `surf-runner.cjs` and original `current-surfing` family. It is not another solved-state panel: protected `current-surf-v1` owns rider band, twelve moving gate targets, 300/240/180-tick deadlines, score, progress, one recoverable wake warning, repeated-input or timeout collision and terminal state. Three, four and five gate stages unlock 2/3/4 canonical actions, and all six Oracle routes execute action by action before paid work. The construction packet now also requires active and goal geometry to differ by luminance, shape and position and requires major-object movement at the 70ms and 150ms Commercial probes before settlement. Product and Commercial thresholds remain unchanged.
+
 ## Reviewed supply batches
 
 - Sequences 19 and 20 exercised the first pair: original `kinetic-balance` and market-informed `pressure-allocation`. Both reached a clean terminal `REJECTED` state after the bounded repair budget and uploaded learning artifacts.
@@ -64,6 +66,7 @@ Sequence 34 introduces the separate `vent-runner.cjs` market-benchmark path and 
 - Sequence 31 `Rift Skimmer` reached terminal `REJECTED v6` with six calls, USD 0.64874601 estimated cost, repair 5/5 and `Production=false`. Its learning artifact is preserved and it is not reused.
 - Sequence 32 `Nova Lattice` is the fresh market-benchmark design. Its six-seed Oracle and protected runtime agree across all nine unique weaves, 2/3/4 decision widths, same-step success and repeat-input overload failure. It may start only through the normal guarded Supervisor and Trusted Intake path.
 - Sequences 32 `Nova Lattice` and 33 `Halo Courier` later ended terminal `REJECTED v6`; neither is reused. Sequence 34 `Ember Relay` is the next reviewed market-benchmark design and can start only through the normal guarded Supervisor and Trusted Intake path.
+- Sequence 34 `Ember Relay` later ended terminal `REJECTED v6`; it is not reused. Sequence 35 `Prism Wake` is the next reviewed original design and can start only through the normal guarded Supervisor and Trusted Intake path.
 - Only one design in each new family is reviewed. Sibling designs remain `incubating` until they receive their own reviewed rules and evidence, so catalog expansion cannot silently turn into budget-reset cloning.
 
 ## Safety boundaries
