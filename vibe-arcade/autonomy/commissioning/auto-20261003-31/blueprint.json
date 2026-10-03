@@ -1,0 +1,64 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261003-331",
+  "title": "Rift Skimmer",
+  "slug": "rift-skimmer",
+  "family_id": "rift-threading",
+  "design_id": "rift-threading-original-01",
+  "lane": "original",
+  "runner": "foundry/reflex-runner.cjs",
+  "seeds": [
+    3162,
+    3163,
+    3164,
+    3165,
+    3166,
+    3167
+  ],
+  "theme": {
+    "singular": "Gate",
+    "plural": "Gates",
+    "arena": "Riftway",
+    "progress": "STAGES",
+    "success": "RIFT THREADED",
+    "failure": "GATE COLLISION"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "original",
+    "family_id": "rift-threading",
+    "design_id": "rift-threading-original-01",
+    "runner": "foundry/reflex-runner.cjs",
+    "learning_focus": [
+      "input-parity",
+      "lifecycle-integrity",
+      "action-feedback",
+      "difficulty-progression"
+    ]
+  },
+  "learning_focus": [
+    "input-parity",
+    "lifecycle-integrity",
+    "action-feedback",
+    "difficulty-progression"
+  ],
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Steer an original light skimmer across widening tunnel lanes, then choose the moment to surge through nine visible closing openings governed by one protected collision and countdown authority."
+}
