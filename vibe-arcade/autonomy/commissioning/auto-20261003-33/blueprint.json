@@ -1,0 +1,64 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261003-333",
+  "title": "Halo Courier",
+  "slug": "halo-courier",
+  "family_id": "orbit-docking",
+  "design_id": "orbit-docking-original-01",
+  "lane": "original",
+  "runner": "foundry/dock-runner.cjs",
+  "seeds": [
+    3364,
+    3365,
+    3366,
+    3367,
+    3368,
+    3369
+  ],
+  "theme": {
+    "singular": "Beacon",
+    "plural": "Beacons",
+    "arena": "Relay",
+    "progress": "RINGS",
+    "success": "BEACONS LINKED",
+    "failure": "ORBIT FRACTURED"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "original",
+    "family_id": "orbit-docking",
+    "design_id": "orbit-docking-original-01",
+    "runner": "foundry/dock-runner.cjs",
+    "learning_focus": [
+      "input-parity",
+      "lifecycle-integrity",
+      "action-feedback",
+      "difficulty-progression"
+    ]
+  },
+  "learning_focus": [
+    "input-parity",
+    "lifecycle-integrity",
+    "action-feedback",
+    "difficulty-progression"
+  ],
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Guide an original light courier around three widening orbital rings, deliver nine seed-owned beacons with reversible one-, two- and three-dock moves, and recover from one visible alignment warning before collision."
+}
