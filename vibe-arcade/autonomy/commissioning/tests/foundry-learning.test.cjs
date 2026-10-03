@@ -12,6 +12,7 @@ const dockRunner=require('../../foundry/dock-runner.cjs');
 const ventRunner=require('../../foundry/vent-runner.cjs');
 const surfRunner=require('../../foundry/surf-runner.cjs');
 const cascadeRunner=require('../../foundry/cascade-runner.cjs');
+const tiltRunner=require('../../foundry/tilt-runner.cjs');
 const reflexKit=require('../../gamekit/reflexkit.js');
 const {validateProposal}=require('../spec-gate.cjs');
 const designCatalog=require('../../foundry/design-catalog.json'),benchmarkCatalog=require('../../foundry/benchmark-catalog.json');
@@ -49,7 +50,7 @@ function assertBuildInvariants(model,proposal){
   assert.deepEqual(data.construction.action_expressions,Object.keys(contract.actions).map(name=>'input.actions.'+name));
   assert.equal(data.construction.complexity_source,'quality_checkpoints.complexity');
   assert.equal(data.construction.replay_owner,'PlayJoltGameKit');
-  assert.deepEqual(data.construction.presentation_floor,{mobile_owner:'PlayJoltGameKit',critical_label_min_px:14,lifecycle_control_min_px:44,active_goal_distinctions:['luminance','shape','position'],intermediate_motion_ms:[70,150],settle_ms:450,audio_owner:'PlayJoltGameKit',audio_activation:'accepted_player_input'});
+  assert.deepEqual(data.construction.presentation_floor,{mobile_owner:'PlayJoltGameKit',critical_label_min_px:14,lifecycle_control_min_px:44,active_goal_distinctions:['luminance','shape','position'],intermediate_motion_ms:[70,150],settle_ms:450,audio_owner:'PlayJoltGameKit',audio_activation:'accepted_player_input',contrast_palette:{background:'#06131f',active:'#ffffff',goal:'#00e5ff',warning:'#ff3b6b'}});
   for(const seed of contract.difficulty.deterministic_seeds){
     const graph=model.seeds[String(seed)],row=data.seeds[String(seed)];
     let node=graph.initial;assert.deepEqual(row.initial_state,graph.nodes[node].values);assert.deepEqual(row.success_states[0],row.initial_state);
@@ -288,6 +289,28 @@ test('sequence 36 selects a fresh protected market pulse cascade with timing par
     assert.equal(fast.outcome,'success');assert.equal(timed.outcome,'success');
   }
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-cascade-intake-'));try{const meta=materialize(root,36,'20261003',selected),commission=fs.readFileSync(path.join(root,'candidate','commission.cjs'),'utf8');assert.equal(meta.family_id,'pulse-cascading');assert.match(commission,/foundry\/cascade-runner/);}finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+
+test('sequence 37 selects a distinct protected original gravity tilt design',()=>{
+  const used=designCatalog.designs.filter(design=>design.id!=='gravity-tilting-original-01').map(design=>design.id);
+  const learning={retired_families:['permutation-ordering-v1'],used_design_ids:used,families:{'pulse-cascading':{attempts:1,rejected:1,rc_ready:0}},top_failure_codes:[{code:'commercial_state_distinction',count:3},{code:'commercial_audio',count:7}]};
+  const selected=select({sequence:37,date:'2026-10-04',designCatalog,benchmarkCatalog,learningProfile:learning});
+  assert.equal(selected.status,'SELECTED');assert.equal(selected.lane,'original');assert.equal(selected.design.family_id,'gravity-tilting');assert.equal(selected.design.runner,'foundry/tilt-runner.cjs');
+  const bp=foundryBlueprintFor(selected,37,'20261004'),model=tiltRunner.buildModel(bp),proposal=foundryRunner.proposalFor(bp,model);
+  assert.equal(bp.game_id,'GAME-20261004-337');assert.equal(bp.title,'Tide Compass');assert.match(proposal.genre,/gravity-maze/);
+  assert.deepEqual(Object.keys(proposal.product_contract.actions),['tilt_left','tilt_right','tilt_up','tilt_down']);
+  assert.deepEqual(proposal.product_contract.completion.failure_actions,['tilt_left','tilt_left']);
+  assert.equal(proposal.build_invariants.factory_core.core_source,"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'gravity-tilt-v1'});\n");
+  assert.deepEqual(proposal.build_invariants.construction.presentation_floor.contrast_palette,{background:'#06131f',active:'#ffffff',goal:'#00e5ff',warning:'#ff3b6b'});
+  product.validateModel(model);product.validate(proposal.product_contract);commercial.validate(proposal.commercial_contract);commercial.semantics(proposal.commercial_contract,proposal.product_contract,model);assertBuildInvariants(model,proposal);
+  assert.equal(validateReviewedProposal(bp,model,proposal).passed,true);
+  for(const seed of bp.seeds){
+    const invariant=proposal.build_invariants.seeds[String(seed)],core=reflexKit.create({id:'gravity-tilt-v1'}),fast=core.create(seed),timed=core.create(seed),project=state=>model.projection.map(key=>product.at({state},key));
+    assert.deepEqual(invariant.quality_checkpoints.map(row=>row.complexity),[2,3,4]);assert.equal(invariant.success_actions.length,12);
+    invariant.success_actions.forEach((action,index)=>{core.step(fast,{actions:{[action]:true}});core.step(timed,{actions:{}});core.step(timed,{actions:{}});core.step(timed,{actions:{[action]:true}});assert.deepEqual(project(fast),invariant.success_states[index+1]);assert.deepEqual(project(timed),invariant.success_states[index+1]);assert.equal(core.observe(fast).score,core.observe(timed).score);});
+    assert.equal(fast.outcome,'success');assert.equal(timed.outcome,'success');assert.equal(fast.aligned,12);
+  }
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-tilt-intake-'));try{const meta=materialize(root,37,'20261004',selected),commission=fs.readFileSync(path.join(root,'candidate','commission.cjs'),'utf8');assert.equal(meta.family_id,'gravity-tilting');assert.match(commission,/foundry\/tilt-runner/);}finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 
 test('candidate summary becomes bounded learning data with immutable lineage',()=>{
