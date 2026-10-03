@@ -1,0 +1,78 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261003-336",
+  "title": "Pulse Canopy",
+  "slug": "pulse-canopy",
+  "family_id": "pulse-cascading",
+  "design_id": "pulse-cascading-market-01",
+  "lane": "market-benchmark",
+  "runner": "foundry/cascade-runner.cjs",
+  "seeds": [
+    3667,
+    3668,
+    3669,
+    3670,
+    3671,
+    3672
+  ],
+  "theme": {
+    "singular": "Node",
+    "plural": "Nodes",
+    "arena": "Canopy",
+    "progress": "ARRAYS",
+    "success": "CASCADE IGNITED",
+    "failure": "CONDUCTOR FRACTURED"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "market-benchmark",
+    "family_id": "pulse-cascading",
+    "design_id": "pulse-cascading-market-01",
+    "runner": "foundry/cascade-runner.cjs",
+    "learning_focus": [
+      "input-parity",
+      "lifecycle-integrity",
+      "action-feedback",
+      "difficulty-progression"
+    ],
+    "benchmark_id": "google-play-royal-smash-en-20261003",
+    "benchmark_url": "https://play.google.com/store/apps/details?id=com.cyphergames.royalsmash"
+  },
+  "learning_focus": [
+    "input-parity",
+    "lifecycle-integrity",
+    "action-feedback",
+    "difficulty-progression"
+  ],
+  "benchmark": {
+    "id": "google-play-royal-smash-en-20261003",
+    "publisher": "Google Play",
+    "url": "https://play.google.com/store/apps/details?id=com.cyphergames.royalsmash",
+    "surface": "Royal Smash product page: simple first-minute aim and fire, limited shots, visible chain reactions and progressively trickier short puzzles",
+    "transferable_principles": [
+      "make the first meaningful action readable in the first minute",
+      "make a small action budget create consequential choices",
+      "turn successful sequences into a large visible chain payoff",
+      "increase short-stage complexity without adding a tutorial wall"
+    ]
+  },
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Route original charged pulses through twelve seed-owned conductor nodes with limited widening link choices, one recoverable instability and a whole-network cascade payoff, without launchers, towers, projectiles or copied physics layouts."
+}
