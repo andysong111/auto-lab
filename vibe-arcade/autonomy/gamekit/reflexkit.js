@@ -9,6 +9,8 @@
   const RIFT_DEADLINES = Object.freeze([0, 360, 270, 210]);
   const WEAVE_ACTIONS = Object.freeze(['weave_left', 'weave_right', 'weave_up', 'weave_down']);
   const DOCK_ACTIONS = Object.freeze(['orbit_left', 'orbit_right', 'charge_pulse', 'slingshot', 'dock']);
+  const VENT_ACTIONS = Object.freeze(['vent_left', 'vent_right', 'crossfeed', 'coolant_burst']);
+  const VENT_DEADLINES = Object.freeze([0, 360, 300, 240]);
 
   function directions(stage) { return ACTIONS.slice(0, stage + 1); }
   function plan(seed) {
@@ -76,6 +78,20 @@
     }
     return Object.freeze(stages);
   }
+  function ventPlan(seed) {
+    if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff) throw Error('invalid_seed');
+    const stages = {};
+    for (let stage = 1; stage <= 3; stage++) {
+      const length = stage + 2, hazards = [0];
+      for (let beat = 1; beat < length; beat++) hazards.push((seed + stage * 5 + beat * 3) % 2);
+      stages[stage] = Object.freeze({
+        hazards: Object.freeze(hazards),
+        available: Object.freeze(VENT_ACTIONS.slice(0, stage + 1)),
+        deadline_ticks: VENT_DEADLINES[stage]
+      });
+    }
+    return Object.freeze(stages);
+  }
   function createThreatParryCore() {
     function create(seed) {
       const stages = plan(seed), first = stages[1];
@@ -119,7 +135,7 @@
       const available = state.outcome === 'playing' ? state.stages[state.stage].available : [];
       return {
         tick: state.tick, score: state.score, progress: state.completed, interactions: state.interactions,
-        entities: available.map((action, index) => ({id: action, active: CODE[action] === state.cue, index, danger: state.danger})),
+        entities: available.length,
         quality: {
           stage: state.stage, complexity: state.outcome === 'playing' ? available.length : 0,
           objective_progress: state.completed, meaningful_actions: state.meaningfulActions,
@@ -173,7 +189,7 @@
       const active = state.outcome === 'playing' ? state.stages[state.stage] : {lanes: 0};
       return {
         tick: state.tick, score: state.score, progress: state.completed, interactions: state.interactions,
-        entities: Array.from({length: active.lanes}, (_, lane) => ({id: 'lane-' + lane, lane, player: lane === state.lane, opening: lane === state.opening, danger: state.danger})),
+        entities: active.lanes,
         quality: {
           stage: state.stage, complexity: state.outcome === 'playing' ? active.lanes - 1 : 0,
           objective_progress: state.completed, meaningful_actions: state.meaningfulActions,
@@ -226,10 +242,7 @@
       const active = state.outcome === 'playing' ? state.stages[state.stage] : {sockets: 0, operations: {}};
       return {
         tick: state.tick, score: state.score, progress: state.completed, interactions: state.interactions,
-        entities: Array.from({length: active.sockets}, (_, socket) => ({
-          id: WEAVE_ACTIONS[socket], socket, lit: (state.litMask & (1 << socket)) !== 0,
-          used: (state.usedMask & (1 << socket)) !== 0, operation: active.operations[socket]
-        })),
+        entities: active.sockets,
         quality: {
           stage: state.stage, complexity: state.outcome === 'playing' ? active.sockets : 0,
           objective_progress: state.completed, meaningful_actions: state.meaningfulActions,
@@ -289,11 +302,78 @@
       const active = state.outcome === 'playing' ? state.stages[state.stage] : {slots: 0, available: []};
       return {
         tick: state.tick, score: state.score, progress: state.completed, interactions: state.interactions,
-        entities: Array.from({length: active.slots}, (_, slot) => ({id: 'dock-' + slot, slot, player: slot === state.position, target: slot === state.target, warning: state.warning, danger: state.danger})),
+        entities: active.slots,
         quality: {
           stage: state.stage, complexity: active.available.length, objective_progress: state.completed,
           meaningful_actions: state.meaningfulActions,
           reversible_state_key: [state.stage, state.gateIndex, state.position, state.target, state.warning, state.docked, state.completed, state.outcome].join(':')
+        }
+      };
+    }
+    function terminal(state) { return state.outcome === 'success' || state.outcome === 'failure'; }
+    return Object.freeze({create, step, observe, terminal});
+  }
+  function createThermalVentCore() {
+    function create(seed) {
+      const stages = ventPlan(seed), first = stages[1];
+      return {
+        seed, tick: 0, stage: 1, beat: 0, leftHeat: 1, rightHeat: 1, hazard: first.hazards[0],
+        warning: 0, cooled: 0, completed: 0, outcome: 'playing', score: 0, interactions: 0,
+        meaningfulActions: 0, deadline: first.deadline_ticks, danger: 1, lastVent: 'ready', stages
+      };
+    }
+    function selectedAction(state, input) {
+      const available = state.stages[state.stage]?.available || [];
+      return available.find(name => input?.actions?.[name] === true) || null;
+    }
+    function loadStage(state, stage) {
+      const next = state.stages[stage];
+      state.stage = stage; state.beat = 0; state.leftHeat = 1; state.rightHeat = 1;
+      state.hazard = next.hazards[0]; state.warning = 0; state.deadline = state.tick + next.deadline_ticks; state.danger = 1;
+    }
+    function step(state, input) {
+      if (state.outcome !== 'playing') return state;
+      state.tick++;
+      const stagePlan = state.stages[state.stage];
+      state.danger = Math.max(0, Math.min(1, (state.deadline - state.tick) / stagePlan.deadline_ticks));
+      if (state.tick >= state.deadline) { state.outcome = 'failure'; state.lastVent = 'thermal_timeout'; return state; }
+      const action = selectedAction(state, input);
+      if (!action) return state;
+      state.interactions++; state.meaningfulActions++;
+      const direct = action === 'vent_left' || action === 'vent_right';
+      const correct = action === (state.hazard === 0 ? 'vent_left' : 'vent_right');
+      const stageMarker = state.stage === 1 ? 'ready' : 'chamber_stable';
+      if (state.warning) {
+        if (direct && !correct) { state.warning = 2; state.outcome = 'failure'; state.lastVent = 'chamber_overload'; return state; }
+        state.leftHeat = 1; state.rightHeat = 1; state.warning = 0; state.lastVent = stageMarker; return state;
+      }
+      if (direct && !correct) {
+        state.leftHeat = state.hazard === 0 ? 4 : 2; state.rightHeat = state.hazard === 1 ? 4 : 2;
+        state.warning = 1; state.lastVent = 'thermal_warning'; state.deadline = Math.max(state.tick + 90, state.deadline - 45); return state;
+      }
+      if (!direct) {
+        state.leftHeat = 1; state.rightHeat = 1; state.lastVent = state.lastVent === action ? stageMarker : action; return state;
+      }
+      state.leftHeat = 1; state.rightHeat = 1;
+      state.warning = 0; state.lastVent = action; state.beat++; state.cooled++;
+      state.score += correct ? 70 * state.stage : 35 * state.stage;
+      if (state.beat >= stagePlan.hazards.length) {
+        state.completed++;
+        if (state.stage === 3) { state.stage = 4; state.outcome = 'success'; state.danger = 0; state.lastVent = 'thermal_complete'; return state; }
+        loadStage(state, state.stage + 1); state.lastVent = 'chamber_stable'; return state;
+      }
+      state.hazard = stagePlan.hazards[state.beat]; state.deadline = state.tick + stagePlan.deadline_ticks; state.danger = 1;
+      return state;
+    }
+    function observe(state) {
+      const active = state.outcome === 'playing' ? state.stages[state.stage] : {available: []};
+      return {
+        tick: state.tick, score: state.score, progress: state.completed, interactions: state.interactions,
+        entities: state.outcome === 'playing' ? 4 : 0,
+        quality: {
+          stage: state.stage, complexity: active.available.length, objective_progress: state.completed,
+          meaningful_actions: state.meaningfulActions,
+          reversible_state_key: [state.stage, state.beat, state.leftHeat, state.rightHeat, state.hazard, state.warning, state.lastVent, state.completed, state.outcome].join(':')
         }
       };
     }
@@ -305,9 +385,10 @@
     if (config.id === 'rift-thread-v1') return createRiftThreadCore();
     if (config.id === 'constellation-weave-v1') return createConstellationWeaveCore();
     if (config.id === 'orbit-dock-v1') return createOrbitDockCore();
+    if (config.id === 'thermal-vent-v1') return createThermalVentCore();
     throw Error('unsupported_reflex_core');
   }
-  const api = Object.freeze({create: createCore, plan, riftPlan, weavePlan, dockPlan, actions: ACTIONS, riftActions: RIFT_ACTIONS, weaveActions: WEAVE_ACTIONS, dockActions: DOCK_ACTIONS, version: 'reflexkit-3'});
+  const api = Object.freeze({create: createCore, plan, riftPlan, weavePlan, dockPlan, ventPlan, actions: ACTIONS, riftActions: RIFT_ACTIONS, weaveActions: WEAVE_ACTIONS, dockActions: DOCK_ACTIONS, ventActions: VENT_ACTIONS, version: 'reflexkit-4'});
   root.PlayJoltReflexKit = api;
   if (typeof module !== 'undefined') module.exports = api;
 })(globalThis);
