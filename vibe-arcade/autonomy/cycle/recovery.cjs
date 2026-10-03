@@ -5,7 +5,7 @@ const {readJSON}=require('../orchestrator/files.cjs');
 const GAME=/^GAME-[0-9]{8}-[0-9]{3,6}$/;
 const RETRYABLE=new Set(['provider_timeout','provider_network_error','provider_rate_limited']);
 const TERMINAL=new Set(['REJECTED','RC_READY','READY_TO_SHIP','ARCHIVED']);
-const MAX_RECOVERY_ATTEMPTS=3;
+const MAX_RECOVERY_ATTEMPTS=6;
 
 function load(root,name){const file=path.join(root,name);if(!fs.existsSync(file))throw Error('recovery_file_missing:'+name);return readJSON(file);}
 function integer(value,min,max){return Number.isInteger(value)&&value>=min&&value<=max;}
