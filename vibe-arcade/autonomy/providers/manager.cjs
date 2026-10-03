@@ -72,9 +72,9 @@ class ProviderManager {
       const controller=new AbortController();
       const abort=()=>controller.abort(signal.reason||new ProviderPause('worker_stopped',undefined,'PAUSED_SHUTDOWN'));
       signal.addEventListener('abort',abort,{once:true});
-      // A durable response-ID recovery is retrieval-only. Give it one bounded
-      // minute even when the original submission deadline has elapsed.
-      const remaining=fresh?Math.max(1,o.deadline_at-this.now()):Math.min(60000,this.config.request.timeout_ms);
+      // A durable response-ID recovery is retrieval-only. Reuse the reviewed
+      // request timeout without ever issuing another generation POST.
+      const remaining=fresh?Math.max(1,o.deadline_at-this.now()):this.config.request.timeout_ms;
       const timer=setTimeout(()=>controller.abort(new ProviderPause('provider_timeout')),remaining);
       const onResponseId=id=>{o.response_id=id;o.state='POLLING';this.save(d);};
       try {
