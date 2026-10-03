@@ -11,6 +11,8 @@
   const DOCK_ACTIONS = Object.freeze(['orbit_left', 'orbit_right', 'charge_pulse', 'slingshot', 'dock']);
   const VENT_ACTIONS = Object.freeze(['vent_left', 'vent_right', 'crossfeed', 'coolant_burst']);
   const VENT_DEADLINES = Object.freeze([0, 360, 300, 240]);
+  const SURF_ACTIONS = Object.freeze(['bank_left', 'bank_right', 'pulse_jump', 'undertow']);
+  const SURF_DEADLINES = Object.freeze([0, 300, 240, 180]);
 
   function directions(stage) { return ACTIONS.slice(0, stage + 1); }
   function plan(seed) {
@@ -88,6 +90,30 @@
         hazards: Object.freeze(hazards),
         available: Object.freeze(VENT_ACTIONS.slice(0, stage + 1)),
         deadline_ticks: VENT_DEADLINES[stage]
+      });
+    }
+    return Object.freeze(stages);
+  }
+  function surfPlan(seed) {
+    if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff) throw Error('invalid_seed');
+    const stages = {};
+    for (let stage = 1; stage <= 3; stage++) {
+      const bands = stage + 2, gateCount = stage + 2, targets = [2];
+      for (let gate = 1; gate < gateCount; gate++) {
+        const previous = targets[gate - 1], options = [];
+        if (previous > 0) options.push(previous - 1);
+        if (previous < bands - 1) options.push(previous + 1);
+        if (stage >= 2 && previous + 2 < bands) options.push(previous + 2);
+        if (stage >= 3 && previous !== 0) options.push(0);
+        const target = options[(seed + stage * 7 + gate * 3) % options.length];
+        targets.push(target);
+      }
+      stages[stage] = Object.freeze({
+        bands,
+        gate_count: gateCount,
+        targets: Object.freeze(targets),
+        available: Object.freeze(SURF_ACTIONS.slice(0, stage + 1)),
+        deadline_ticks: SURF_DEADLINES[stage]
       });
     }
     return Object.freeze(stages);
@@ -380,15 +406,87 @@
     function terminal(state) { return state.outcome === 'success' || state.outcome === 'failure'; }
     return Object.freeze({create, step, observe, terminal});
   }
+  function createCurrentSurfCore() {
+    function create(seed) {
+      const stages = surfPlan(seed), first = stages[1];
+      return {
+        seed, tick: 0, stage: 1, gateIndex: 0, band: 1, target: first.targets[0], warning: 0,
+        cleared: 0, completed: 0, outcome: 'playing', score: 0, interactions: 0,
+        meaningfulActions: 0, deadline: first.deadline_ticks, danger: 1, lastRide: 'ready', stages
+      };
+    }
+    function selectedAction(state, input) {
+      const available = state.stages[state.stage]?.available || [];
+      return available.find(name => input?.actions?.[name] === true) || null;
+    }
+    function destination(state, action) {
+      const bands = state.stages[state.stage].bands;
+      if (action === 'bank_left') return Math.max(0, state.band - 1);
+      if (action === 'bank_right') return Math.min(bands - 1, state.band + 1);
+      if (action === 'pulse_jump') return Math.min(bands - 1, state.band + 2);
+      return 0;
+    }
+    function loadStage(state, stage) {
+      const next = state.stages[stage];
+      state.stage = stage; state.gateIndex = 0; state.band = 1; state.target = next.targets[0];
+      state.warning = 0; state.deadline = state.tick + next.deadline_ticks; state.danger = 1;
+    }
+    function step(state, input) {
+      if (state.outcome !== 'playing') return state;
+      state.tick++;
+      const stagePlan = state.stages[state.stage];
+      state.danger = Math.max(0, Math.min(1, (state.deadline - state.tick) / stagePlan.deadline_ticks));
+      if (state.tick >= state.deadline) { state.outcome = 'failure'; state.lastRide = 'break_collision'; return state; }
+      const action = selectedAction(state, input);
+      if (!action) return state;
+      state.interactions++; state.meaningfulActions++;
+      const warningCode = SURF_ACTIONS.indexOf(action) + 1;
+      if (state.warning) {
+        if (state.warning === warningCode) { state.outcome = 'failure'; state.lastRide = 'second_missed_gate'; return state; }
+        state.warning = 0; state.lastRide = 'wake_recovered'; return state;
+      }
+      const previousBand = state.band, nextBand = destination(state, action), moved = nextBand !== state.band;
+      state.lastRide = moved ? action : 'rail_scrape';
+      if (nextBand !== state.target) {
+        state.band = previousBand;
+        state.warning = warningCode; state.deadline = Math.max(state.tick + 60, state.deadline - 30); state.lastRide = 'wake_warning'; return state;
+      }
+      state.band = nextBand;
+      state.gateIndex++; state.cleared++; state.lastRide = 'gate_carved';
+      state.score += 120 * state.stage + Math.max(0, state.deadline - state.tick);
+      if (state.gateIndex >= stagePlan.gate_count) {
+        state.completed++;
+        if (state.stage === 3) { state.stage = 4; state.outcome = 'success'; state.danger = 0; state.lastRide = 'current_mastered'; return state; }
+        loadStage(state, state.stage + 1); state.lastRide = 'current_cleared'; return state;
+      }
+      state.target = stagePlan.targets[state.gateIndex]; state.deadline = state.tick + stagePlan.deadline_ticks; state.danger = 1;
+      return state;
+    }
+    function observe(state) {
+      const active = state.outcome === 'playing' ? state.stages[state.stage] : {bands: 0, available: []};
+      return {
+        tick: state.tick, score: state.score, progress: state.completed, interactions: state.interactions,
+        entities: state.outcome === 'playing' ? active.bands + 2 : 0,
+        quality: {
+          stage: state.stage, complexity: active.available.length, objective_progress: state.completed,
+          meaningful_actions: state.meaningfulActions,
+          reversible_state_key: [state.stage, state.gateIndex, state.band, state.target, state.warning, state.cleared, state.completed, state.outcome].join(':')
+        }
+      };
+    }
+    function terminal(state) { return state.outcome === 'success' || state.outcome === 'failure'; }
+    return Object.freeze({create, step, observe, terminal});
+  }
   function createCore(config = {}) {
     if (config.id === 'threat-parry-v1') return createThreatParryCore();
     if (config.id === 'rift-thread-v1') return createRiftThreadCore();
     if (config.id === 'constellation-weave-v1') return createConstellationWeaveCore();
     if (config.id === 'orbit-dock-v1') return createOrbitDockCore();
     if (config.id === 'thermal-vent-v1') return createThermalVentCore();
+    if (config.id === 'current-surf-v1') return createCurrentSurfCore();
     throw Error('unsupported_reflex_core');
   }
-  const api = Object.freeze({create: createCore, plan, riftPlan, weavePlan, dockPlan, ventPlan, actions: ACTIONS, riftActions: RIFT_ACTIONS, weaveActions: WEAVE_ACTIONS, dockActions: DOCK_ACTIONS, ventActions: VENT_ACTIONS, version: 'reflexkit-4'});
+  const api = Object.freeze({create: createCore, plan, riftPlan, weavePlan, dockPlan, ventPlan, surfPlan, actions: ACTIONS, riftActions: RIFT_ACTIONS, weaveActions: WEAVE_ACTIONS, dockActions: DOCK_ACTIONS, ventActions: VENT_ACTIONS, surfActions: SURF_ACTIONS, version: 'reflexkit-4'});
   root.PlayJoltReflexKit = api;
   if (typeof module !== 'undefined') module.exports = api;
 })(globalThis);
