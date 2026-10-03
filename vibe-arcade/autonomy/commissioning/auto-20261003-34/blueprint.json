@@ -1,0 +1,78 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261003-334",
+  "title": "Ember Relay",
+  "slug": "ember-relay",
+  "family_id": "thermal-venting",
+  "design_id": "thermal-venting-market-01",
+  "lane": "market-benchmark",
+  "runner": "foundry/vent-runner.cjs",
+  "seeds": [
+    3465,
+    3466,
+    3467,
+    3468,
+    3469,
+    3470
+  ],
+  "theme": {
+    "singular": "Chamber",
+    "plural": "Chambers",
+    "arena": "Heatworks",
+    "progress": "STAGES",
+    "success": "HEAT STABILIZED",
+    "failure": "CHAMBER OVERLOAD"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "market-benchmark",
+    "family_id": "thermal-venting",
+    "design_id": "thermal-venting-market-01",
+    "runner": "foundry/vent-runner.cjs",
+    "learning_focus": [
+      "input-parity",
+      "lifecycle-integrity",
+      "action-feedback",
+      "difficulty-progression"
+    ],
+    "benchmark_id": "google-play-color-sort-en-20261003",
+    "benchmark_url": "https://play.google.com/store/apps/details?id=com.ichime.colorsort"
+  },
+  "learning_focus": [
+    "input-parity",
+    "lifecycle-integrity",
+    "action-feedback",
+    "difficulty-progression"
+  ],
+  "benchmark": {
+    "id": "google-play-color-sort-en-20261003",
+    "publisher": "Google Play",
+    "url": "https://play.google.com/store/apps/details?id=com.ichime.colorsort",
+    "surface": "Color Sort Puzzle product page: direct tap interaction, gradual 3-to-7 element complexity, verified solvability and recoverable undo",
+    "transferable_principles": [
+      "make the first direct action readable without a tutorial wall",
+      "increase visible decision width gradually while keeping every stage deterministically solvable",
+      "warn before an avoidable failure and preserve a clear recovery action",
+      "reward efficient completion with an explicit result and replay target"
+    ]
+  },
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Transfer first-action clarity, gradual decision width, deterministic solvability and recoverable planning into an original real-time two-chamber thermal stabilization game without tubes, color sorting, container layouts or copied level rules."
+}
