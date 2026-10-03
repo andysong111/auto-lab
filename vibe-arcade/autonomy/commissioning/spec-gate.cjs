@@ -56,6 +56,10 @@ function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.
   if(!Number.isInteger(terminal)||terminal<policy.session.terminal_ms_min||terminal>policy.session.terminal_ms_max)errors.push({code:'terminal_window',min:policy.session.terminal_ms_min,max:policy.session.terminal_ms_max});
   if(!proposal.qa?.keyboard?.key||!/^state\.[a-zA-Z0-9_.]+$/.test(proposal.qa?.keyboard?.observation||''))errors.push({code:'keyboard_probe'});
   if(!/^state\.[a-zA-Z0-9_.]+$/.test(proposal.qa?.pointer?.observation||''))errors.push({code:'pointer_probe'});
+  if(proposal.product_contract?.actions){
+    const action=Object.values(proposal.product_contract.actions).find(value=>value?.key===proposal.qa?.keyboard?.key);
+    if(!action||!Number.isFinite(action.touch?.x)||!Number.isFinite(action.touch?.y))errors.push({code:'technical_input_probe_unmapped'});
+  }
   const family=norm(proposal.mechanic_family);
   const blocked=new Set(policy.blocked_mechanic_families.map(norm));
   const rejected=new Set((policy.rejected_mechanic_families||[]).map(x=>norm(x.mechanic_family)));

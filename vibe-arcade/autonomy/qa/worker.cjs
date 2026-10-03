@@ -2,6 +2,7 @@
 const fs = require('node:fs'), path = require('node:path'), assert = require('node:assert/strict');
 const {chromium} = require('playwright');
 const {serve} = require('./server.cjs'), {installGuard} = require('./guard.cjs');
+const {reviewedTouchProbe} = require('./input-probe.cjs');
 const {atomicJSON,readJSON,hashTree,hash} = require('../orchestrator/files.cjs');
 const {validate} = require('../orchestrator/manifest.cjs');
 const sleep = ms => new Promise(r => setTimeout(r,ms));
@@ -51,7 +52,7 @@ async function execute(config) {
         // Keep real-clock liveness as a separate hard gate; accelerate only the subsequent full lifecycle.
         await p.clock.pauseAt(new Date(await p.evaluate(()=>Date.now())+100));
         await check('keyboard',async()=>{ const before=await snap(p), value=at(before,manifest.qa.keyboard.observation); assert(value!==undefined,'observation missing'); await p.keyboard.down(manifest.qa.keyboard.key); await p.clock.runFor(200); await p.keyboard.up(manifest.qa.keyboard.key); const after=await snap(p); assert(after.accepted_inputs.keyboard>before.accepted_inputs.keyboard,'keyboard not accepted'); assert.notDeepEqual(at(after,manifest.qa.keyboard.observation),value,'keyboard had no core effect'); });
-        await check('touch',async()=>{ const before=await snap(p), value=at(before,manifest.qa.pointer.observation); assert(value!==undefined,'pointer observation missing'); const box=await p.locator('[data-game-canvas]').boundingBox(); const cdp=await ctx.newCDPSession(p); await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:box.x+box.width*.72,y:box.y+box.height*.55}]}); await p.clock.runFor(80); await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]}); await cdp.detach(); const after=await snap(p); assert(after.accepted_inputs.pointer>before.accepted_inputs.pointer,'touch not accepted'); assert.notDeepEqual(at(after,manifest.qa.pointer.observation),value,'touch had no core effect'); });
+        await check('touch',async()=>{ const before=await snap(p), value=at(before,manifest.qa.pointer.observation); assert(value!==undefined,'pointer observation missing'); const box=await p.locator('[data-game-canvas]').boundingBox(), probe=reviewedTouchProbe(manifest); const cdp=await ctx.newCDPSession(p); await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:box.x+box.width*probe.point.x,y:box.y+box.height*probe.point.y}]}); await p.clock.runFor(80); await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]}); await cdp.detach(); const after=await snap(p); assert(after.accepted_inputs.pointer>before.accepted_inputs.pointer,'touch not accepted'); assert.notDeepEqual(at(after,manifest.qa.pointer.observation),value,'touch had no core effect for '+(probe.action||probe.source)); });
         await check('progress',async()=>{ const before=await snap(p); await p.clock.runFor(200); const after=await snap(p); assert(after.score!==before.score||after.progress!==before.progress,'no score/progress change'); });
         await check('interaction',async()=>{ assert((await snap(p)).interactions>0,'no damage/collision/interaction'); });
         await capture('playing');
