@@ -14,7 +14,7 @@ for(const [i,variant] of variants.entries())if(i%shards===shard)test('isolated C
  assert(fs.existsSync(path.join(root,'feelaudio.js')),'commercial fixture receives the factory audio runtime');
  const fixtureHtml=fs.readFileSync(path.join(root,'index.html'),'utf8');
  assert(fixtureHtml.indexOf('feelaudio.js')<fixtureHtml.indexOf('gamekit.js'),'audio runtime loads before GameKit');
- const spec={game_id:'GAME-00000000-'+(950+i),title:'Commercial infrastructure '+variant,slug:'commercial-fixture',genre:'fixture',mechanic_family:'fixture-only',controls:['Arrow switches'],mobile_controls:['Tap a switch'],qa:{seed:7,keyboard:{key:'ArrowRight',observation:'state.interactions'},pointer:{observation:'state.pointerActions'},terminal_ms:16000},product_contract:product,commercial_contract:contract()};
+ const spec={game_id:'GAME-00000000-'+(950+i),title:'Commercial infrastructure '+variant,slug:'commercial-fixture',genre:'fixture',mechanic_family:'fixture-only',controls:['Arrow switches'],mobile_controls:['Tap a switch'],qa:{seed:7,keyboard:{key:'ArrowRight',observation:'state.interactions'},pointer:{observation:'state.interactions'},terminal_ms:16000},product_contract:product,commercial_contract:contract()};
  const m=create(spec);atomicJSON(path.join(root,'manifest.json'),m);m.source_hash=hashTree(root);const out=path.join(dir,variant);
  const q=await qa.run({manifest:m,gameRoot:root,outDir:out,policy,suite:'commercial'}),codes=[...new Set(q.hard_failures.map(f=>f.code))];
  rows.push({variant,passed:q.passed,codes,duration_ms:q.duration_ms,source_hash:q.source_hash});atomicJSON(path.join(dir,'fixture-results.json'),rows);

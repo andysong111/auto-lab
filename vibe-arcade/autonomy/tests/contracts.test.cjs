@@ -80,8 +80,8 @@ test('GameKit owns bounded gesture-gated audio, mute, pause and pagehide cleanup
   const product={progress:{state_path:'progress'},completion:{state_path:'state.outcome',success_value:'success',failure_value:'failure'}};
   const game=kit.create({core,renderer:{render(){},resize(){},dispose(){}},canvas,seed:7,metadata:{game_id:'GAME-20261002-999',version:'v1',product_contract:product,commercial_contract:{audio:{mode:'required',mute_selector:'[data-mute]'}}}});
   assert.equal(createdAudio,0,'audio runtime must stay uninitialized before a player gesture');
-  get('[data-game-start]').dispatchEvent(new Event('click'));assert.deepEqual(audio.at(-1),['enable',true]);
-  assert.equal(createdAudio,1);
+  get('[data-game-start]').dispatchEvent(new Event('click'));assert.equal(createdAudio,0,'Start must not create AudioContext before gameplay input');
+  const key=new Event('keydown');Object.defineProperties(key,{code:{value:'ArrowLeft'},repeat:{value:false}});win.dispatchEvent(key);assert.deepEqual(audio.at(-1),['enable',true]);assert.equal(createdAudio,1);
   get('[data-mute]').dispatchEvent(new Event('click'));assert.deepEqual(audio.at(-1),['enable',false]);
   get('[data-mute]').dispatchEvent(new Event('click'));assert.deepEqual(audio.at(-1),['enable',true]);
   get('[data-game-pause]').dispatchEvent(new Event('click'));assert.deepEqual(audio.at(-1),['enable',false]);

@@ -4,7 +4,7 @@ const {chromium}=require('playwright');
 const {serve}=require('./server.cjs'),{installGuard}=require('./guard.cjs'),{settle}=require('./media-settlement.cjs');
 const {atomicJSON,hashTree,hash,readJSON}=require('../orchestrator/files.cjs');
 const {validate:validateManifest}=require('../orchestrator/manifest.cjs');
-const {validate,review,at,identify,shortest,stageMetrics}=require('./product-contract.cjs');
+const {validate,review,at,identify,shortest,stageMetrics,alternateEntryEdges}=require('./product-contract.cjs');
 const {canvasAudit,geometry,collisions,terminalTimeline}=require('./product-browser.cjs');
 const VERSION='product-quality-1';
 const REQUIRED=['objective','progress','score_best','completion','score_integrity','replay','mobile_readability','reduced_motion','feedback','failure_result','practice_best','capture_no_writes','difficulty'];
@@ -87,7 +87,9 @@ async function execute(config){
   for(const step of plan){
    s=await snap(p);const n=g.nodes[step.from];
    if(!perStage.has(n.stage)){const metrics=stageMetrics(g,step.from);expect(at(s,contract.difficulty.stage_path)===metrics.stage,'stage cross-check',{metric:at(s,contract.difficulty.stage_path),oracle:metrics.stage});expect(at(s,contract.difficulty.complexity_path)===metrics.complexity,'complexity agrees with reviewed consequential transition width',{declared:at(s,contract.difficulty.complexity_path),derived:metrics.complexity});perStage.set(n.stage,{...metrics,actual_actions:0,observed_choices:[]});
-    if(exerciseBranches)for(const edge of n.edges){
+    // The planned edge is exercised immediately below and may intentionally advance
+    // to the next stage. Only alternative choices must return to this stage entry.
+    if(exerciseBranches)for(const edge of alternateEntryEdges(n,step)){
      const returnPath=shortest(g,edge.to,node=>node===n);expect(returnPath!==null,'reviewed bounded return path for each consequential choice',{stage:n.stage,action:edge.action});
      for(const probe of [edge,...returnPath]){expect(++executed<=contract.difficulty.max_actions,'bounded total normal-input probes',executed);const prior=await snap(p),next=await input(p,ctx,probe.action,mode);expect(identify(model,g,next)===probe.to,'observed alternative matches reviewed edge', {action:probe.action,expected:probe.to,actual:identify(model,g,next)});expect(at(next,contract.difficulty.meaningful_actions_path)-at(prior,contract.difficulty.meaningful_actions_path)===1,'one meaningful action per alternative edge',next.quality);}
      expect(identify(model,g,await snap(p))===step.from,'choice probe returns to stage entry',await snap(p));perStage.get(n.stage).observed_choices.push(edge.action);

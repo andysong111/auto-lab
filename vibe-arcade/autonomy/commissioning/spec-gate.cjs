@@ -64,6 +64,7 @@ function validateProposal(proposal,{policy=readJSON(path.join(__dirname,'policy.
   if(proposal.product_contract?.actions){
     const action=Object.values(proposal.product_contract.actions).find(value=>value?.key===proposal.qa?.keyboard?.key);
     if(!action||!Number.isFinite(action.touch?.x)||!Number.isFinite(action.touch?.y))errors.push({code:'technical_input_probe_unmapped'});
+    if(!policy.product_quality?.allow_fixture_oracles&&proposal.qa?.keyboard?.observation!==proposal.qa?.pointer?.observation)errors.push({code:'technical_input_probe_observation_mismatch'});
   }
   const family=norm(proposal.mechanic_family);
   const blocked=new Set(policy.blocked_mechanic_families.map(norm));

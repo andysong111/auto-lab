@@ -45,6 +45,9 @@ function branchRecovery(g,entry,edge){
   if(!back&&!forward)return null;
   return Math.min(back?.length??Infinity,forward?.length??Infinity);
 }
+function alternateEntryEdges(node,plannedStep){
+  return node.edges.filter(edge=>edge.action!==plannedStep.action||edge.to!==plannedStep.to);
+}
 function validateModel(m){
   if(m.schema_version!==1||!Array.isArray(m.projection)||m.projection.length<2||m.projection.length>12||!m.seeds||Object.keys(m.seeds).length>24)throw Error('invalid bounded oracle');
   for(const g of Object.values(m.seeds)){
@@ -71,4 +74,4 @@ function stageMetrics(g,start){
   const width=new Set(node.edges.filter(e=>e.to!==start).map(e=>e.to)).size;
   return {stage:node.stage,complexity:width,required_actions:plan?.length??null,plan};
 }
-module.exports={validate,review,at,shortest,identify,stageMetrics,validateModel,branchRecovery};
+module.exports={validate,review,at,shortest,identify,stageMetrics,validateModel,branchRecovery,alternateEntryEdges};
