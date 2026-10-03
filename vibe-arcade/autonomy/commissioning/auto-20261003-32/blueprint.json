@@ -1,0 +1,77 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261003-332",
+  "title": "Nova Lattice",
+  "slug": "nova-lattice",
+  "family_id": "constellation-weaving",
+  "design_id": "constellation-weaving-market-01",
+  "lane": "market-benchmark",
+  "runner": "foundry/weave-runner.cjs",
+  "seeds": [
+    3263,
+    3264,
+    3265,
+    3266,
+    3267,
+    3268
+  ],
+  "theme": {
+    "singular": "Thread",
+    "plural": "Threads",
+    "arena": "Lattice",
+    "progress": "CONSTELLATIONS",
+    "success": "LATTICE COMPLETE",
+    "failure": "THREAD FRACTURED"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "market-benchmark",
+    "family_id": "constellation-weaving",
+    "design_id": "constellation-weaving-market-01",
+    "runner": "foundry/weave-runner.cjs",
+    "learning_focus": [
+      "input-parity",
+      "lifecycle-integrity",
+      "action-feedback",
+      "difficulty-progression"
+    ],
+    "benchmark_id": "google-play-block-puzzle-en-20261003",
+    "benchmark_url": "https://play.google.com/store/apps/details?id=com.block.juggle"
+  },
+  "learning_focus": [
+    "input-parity",
+    "lifecycle-integrity",
+    "action-feedback",
+    "difficulty-progression"
+  ],
+  "benchmark": {
+    "id": "google-play-block-puzzle-en-20261003",
+    "publisher": "Google Play",
+    "url": "https://play.google.com/store/apps/details?id=com.block.juggle",
+    "surface": "Block Blast! product page: 1B+ downloads and #2 top free puzzle on the 2026-10-03 review",
+    "transferable_principles": [
+      "make the first direct manipulation understandable before explanatory text is needed",
+      "make every action visibly change the remaining spatial capacity",
+      "support both a complete short session and personal-best replay motivation"
+    ]
+  },
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Transfer immediate manipulation clarity, visible remaining spatial capacity and personal-best replay motivation into an original radial thread lattice whose protected core requires each seed-owned socket exactly once, without a block board, drag placement or line clearing."
+}
