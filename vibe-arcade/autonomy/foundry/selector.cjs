@@ -40,7 +40,7 @@ function select({sequence,date,designCatalog,benchmarkCatalog,learningProfile}){
   const newRunnerRequired=Number.isInteger(legacyMax)&&sequence>legacyMax;
   const eligible=baseEligible.filter(x=>!Number.isInteger(legacyMax)||sequence<=legacyMax||(x.runner||LEGACY_FAMILY_RUNNER)!==LEGACY_FAMILY_RUNNER).filter(x=>{
     if(lane!=='market-benchmark')return !x.benchmark_id;
-    const source=benchmarks.get(x.benchmark_id);return source&&ageDays(benchmarkCatalog.captured_at,date)>=0&&ageDays(benchmarkCatalog.captured_at,date)<=maxAge;
+    const source=benchmarks.get(x.benchmark_id),captured=source?.captured_at||benchmarkCatalog.captured_at;return source&&ageDays(captured,date)>=0&&ageDays(captured,date)<=maxAge;
   });
   if(!eligible.length)return {schema:'playjolt-foundry-selection/1',status:'IDLE',sequence,lane,reason:newRunnerRequired?'new_interaction_runner_required':lane==='market-benchmark'?'no_fresh_reviewed_market_design':'no_reviewed_original_design'};
   eligible.sort((a,b)=>{

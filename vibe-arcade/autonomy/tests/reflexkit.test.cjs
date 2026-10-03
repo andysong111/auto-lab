@@ -55,3 +55,29 @@ test('Rift Thread wrong surge fails instead of granting hidden progress',()=>{
   assert.notEqual(state.lane,state.opening);press(core,state,'surge');
   assert.equal(state.outcome,'failure');assert.equal(state.completed,0);assert.equal(state.score,0);assert.equal(state.lastMove,'wrong_surge');
 });
+
+test('Constellation Weave completes 2, 3 and 4 socket lattices through the protected plan',()=>{
+  for(const seed of [3263,3264,3265,3266,3267,3268]){
+    const core=kit.create({id:'constellation-weave-v1'}),state=core.create(seed),plans=kit.weavePlan(seed);
+    assert.deepEqual([1,2,3].map(stage=>plans[stage].sockets),[2,3,4]);
+    let weaves=0;
+    for(let stage=1;stage<=3;stage++)for(const socket of plans[stage].order){
+      press(core,state,kit.weaveActions[socket]);weaves++;
+      if(weaves<9)assert.equal(state.outcome,'playing');
+    }
+    assert.equal(weaves,9);assert.equal(state.woven,9);assert.equal(state.completed,3);
+    assert.equal(state.outcome,'success');assert.equal(core.terminal(state),true);
+  }
+});
+
+test('Constellation Weave fails honestly when a thread crosses the same socket',()=>{
+  const core=kit.create({id:'constellation-weave-v1'}),state=core.create(3263);
+  press(core,state,'weave_left');press(core,state,'weave_left');
+  assert.equal(state.outcome,'failure');assert.equal(state.completed,0);assert.equal(state.lastWeave,'lattice_overload');
+});
+
+test('Constellation Weave rejects later-stage sockets before they unlock',()=>{
+  const core=kit.create({id:'constellation-weave-v1'}),state=core.create(3263);
+  press(core,state,'weave_up');
+  assert.equal(state.outcome,'failure');assert.equal(state.score,0);assert.equal(state.lastWeave,'locked_socket');
+});

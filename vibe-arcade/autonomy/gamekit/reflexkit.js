@@ -7,6 +7,7 @@
   const DEADLINES = Object.freeze([0, 420, 330, 270]);
   const RIFT_ACTIONS = Object.freeze(['shift_left', 'shift_right', 'dash_left', 'dash_right', 'surge']);
   const RIFT_DEADLINES = Object.freeze([0, 360, 270, 210]);
+  const WEAVE_ACTIONS = Object.freeze(['weave_left', 'weave_right', 'weave_up', 'weave_down']);
 
   function directions(stage) { return ACTIONS.slice(0, stage + 1); }
   function plan(seed) {
@@ -31,6 +32,27 @@
         openings.push(opening); previous = opening;
       }
       stages[stage] = Object.freeze({lanes, openings: Object.freeze(openings), deadline_ticks: RIFT_DEADLINES[stage]});
+    }
+    return Object.freeze(stages);
+  }
+  function weavePlan(seed) {
+    if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff) throw Error('invalid_seed');
+    const stages = {};
+    for (let stage = 1; stage <= 3; stage++) {
+      const sockets = stage + 1, tail = Array.from({length: sockets - 1}, (_, index) => index + 1);
+      const rotation = tail.length ? (seed + stage * 3) % tail.length : 0;
+      const order = [0, ...tail.slice(rotation), ...tail.slice(0, rotation)], operations = {};
+      for (let index = 0; index < order.length; index++) {
+        const socket = order[index], next = order[index + 1];
+        operations[socket] = (1 << socket) | (next === undefined ? 0 : (1 << next));
+      }
+      stages[stage] = Object.freeze({
+        sockets,
+        order: Object.freeze(order),
+        operations: Object.freeze(operations),
+        start_mask: 1 << order[0],
+        move_limit: sockets
+      });
     }
     return Object.freeze(stages);
   }
@@ -142,12 +164,69 @@
     function terminal(state) { return state.outcome === 'success' || state.outcome === 'failure'; }
     return Object.freeze({create, step, observe, terminal});
   }
+  function createConstellationWeaveCore() {
+    function create(seed) {
+      const stages = weavePlan(seed), first = stages[1];
+      return {
+        seed, tick: 0, stage: 1, moves: 0, litMask: first.start_mask, usedMask: 0,
+        woven: 0, completed: 0, outcome: 'playing', score: 0, interactions: 0,
+        meaningfulActions: 0, lastWeave: 'ready', stages
+      };
+    }
+    function selectedAction(input) { return WEAVE_ACTIONS.find(name => input?.actions?.[name] === true) || null; }
+    function loadStage(state, stage) {
+      const next = state.stages[stage];
+      state.stage = stage; state.moves = 0; state.litMask = next.start_mask; state.usedMask = 0;
+    }
+    function step(state, input) {
+      if (state.outcome !== 'playing') return state;
+      state.tick++;
+      const action = selectedAction(input);
+      if (!action) return state;
+      state.interactions++; state.meaningfulActions++;
+      const socket = WEAVE_ACTIONS.indexOf(action), stagePlan = state.stages[state.stage];
+      if (socket < 0 || socket >= stagePlan.sockets) {
+        state.outcome = 'failure'; state.lastWeave = 'locked_socket'; return state;
+      }
+      const wasLit = (state.litMask & (1 << socket)) !== 0, wasUsed = (state.usedMask & (1 << socket)) !== 0;
+      state.moves++; state.litMask ^= stagePlan.operations[socket]; state.usedMask ^= 1 << socket;
+      if (!wasUsed) state.woven++;
+      state.lastWeave = wasUsed ? 'crossed_thread' : wasLit ? 'chain_weave' : 'open_weave';
+      if (!wasUsed) state.score += 80 * state.stage + (wasLit ? 70 : 20);
+      if (state.moves < stagePlan.move_limit) return state;
+      if (state.litMask !== 0 || state.usedMask !== (1 << stagePlan.sockets) - 1) {
+        state.outcome = 'failure'; state.lastWeave = 'lattice_overload'; return state;
+      }
+      state.completed++;
+      if (state.stage === 3) { state.stage = 4; state.outcome = 'success'; state.lastWeave = 'lattice_complete'; return state; }
+      loadStage(state, state.stage + 1); state.lastWeave = 'constellation_complete';
+      return state;
+    }
+    function observe(state) {
+      const active = state.outcome === 'playing' ? state.stages[state.stage] : {sockets: 0, operations: {}};
+      return {
+        tick: state.tick, score: state.score, progress: state.completed, interactions: state.interactions,
+        entities: Array.from({length: active.sockets}, (_, socket) => ({
+          id: WEAVE_ACTIONS[socket], socket, lit: (state.litMask & (1 << socket)) !== 0,
+          used: (state.usedMask & (1 << socket)) !== 0, operation: active.operations[socket]
+        })),
+        quality: {
+          stage: state.stage, complexity: state.outcome === 'playing' ? active.sockets : 0,
+          objective_progress: state.completed, meaningful_actions: state.meaningfulActions,
+          reversible_state_key: [state.stage, state.moves, state.litMask, state.usedMask, state.woven, state.completed, state.outcome].join(':')
+        }
+      };
+    }
+    function terminal(state) { return state.outcome === 'success' || state.outcome === 'failure'; }
+    return Object.freeze({create, step, observe, terminal});
+  }
   function createCore(config = {}) {
     if (config.id === 'threat-parry-v1') return createThreatParryCore();
     if (config.id === 'rift-thread-v1') return createRiftThreadCore();
+    if (config.id === 'constellation-weave-v1') return createConstellationWeaveCore();
     throw Error('unsupported_reflex_core');
   }
-  const api = Object.freeze({create: createCore, plan, riftPlan, actions: ACTIONS, riftActions: RIFT_ACTIONS, version: 'reflexkit-2'});
+  const api = Object.freeze({create: createCore, plan, riftPlan, weavePlan, actions: ACTIONS, riftActions: RIFT_ACTIONS, weaveActions: WEAVE_ACTIONS, version: 'reflexkit-2'});
   root.PlayJoltReflexKit = api;
   if (typeof module !== 'undefined') module.exports = api;
 })(globalThis);

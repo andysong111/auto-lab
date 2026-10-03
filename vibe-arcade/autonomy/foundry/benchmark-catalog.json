@@ -68,6 +68,19 @@
         "show progress and pressure in the playfield rather than only in text",
         "make a short session produce a visually complete result"
       ]
+    },
+    {
+      "id": "google-play-block-puzzle-en-20261003",
+      "captured_at": "2026-10-03",
+      "publisher": "Google Play",
+      "url": "https://play.google.com/store/apps/details?id=com.block.juggle",
+      "surface": "Block Blast! product page: 1B+ downloads and #2 top free puzzle on the 2026-10-03 review",
+      "observed_titles": ["Block Blast!"],
+      "transferable_principles": [
+        "make the first direct manipulation understandable before explanatory text is needed",
+        "make every action visibly change the remaining spatial capacity",
+        "support both a complete short session and personal-best replay motivation"
+      ]
     }
   ]
 }

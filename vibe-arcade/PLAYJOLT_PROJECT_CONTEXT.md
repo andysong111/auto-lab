@@ -221,6 +221,13 @@ Durable provider continuation from 2026-10-01:
 - recovery is limited to three retrieval attempts and preserves the original operation reservation, provider-call count, elapsed wall clock and repair budget. Missing IDs, mismatched artifacts, terminal candidates and exhausted limits fail closed without another generation POST;
 - Production remains disabled throughout recovery.
 
+Protected mechanic continuation from 2026-10-03:
+- sequence 31 `Rift Skimmer` reached browser QA and ended terminal `REJECTED v6` with six provider calls, USD 0.64874601 estimated cost, repair 5/5 and Production disabled. Real replay, action-feedback, mobile-hierarchy and result-presentation failures remain, so no quality improvement is claimed;
+- its fixed-coordinate Technical touch failure was partly a QA contradiction: the probe selected a reviewed but stage-locked action. PR #112 changed Technical QA to derive the pointer coordinate from the exact keyboard-equivalent reviewed action and made zero-paid preflight reject unmapped keyboard/touch probes. The candidate remains terminal and was not revived;
+- sequence 32 `Nova Lattice` is a fresh reviewed market-benchmark design using the separate `weave-runner.cjs` path and a protected `constellation-weave-v1` core. Fresh Google Play evidence from Block Blast! transfers only immediate manipulation clarity, visible remaining capacity and personal-best replay motivation. Its 8x8 board, blocks, drag placement, row/column clearing, shapes, layouts, artwork, audio, code and scoring are explicitly forbidden;
+- the new original mechanic uses seed-owned radial operation links, two then three then four socket choices, exact move budgets, visible lit/used masks, a chain-order score bonus, honest locked/crossed-thread failure and same-step completion after nine unique weaves. The six-seed Oracle and runtime must agree action by action before any paid build;
+- all prior serial, six-call, USD 2, five-repair and Production-off boundaries remain unchanged.
+
 Do **not** lower quality requirements merely to create an RC_READY.
 
 ### Phase 6 — Automated distribution — NEXT AFTER PHASE 5 PROOF
