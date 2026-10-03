@@ -102,6 +102,12 @@
       "status": "reviewed",
       "hypothesis": "A protected circular courier core, reversible route choices, nine visible beacon deliveries and a warned recoverable failure create readable mastery without a solved-state calibration loop.",
       "copy_boundary": "No orbit-game character, track, map, control layout, artwork, audio, code, scoring system or distinctive docking ruleset may be copied."
+    },
+    {
+      "id": "thermal-venting",
+      "status": "reviewed",
+      "hypothesis": "A protected two-chamber pressure core, visible next-side hazard, recoverable heat warning and twelve escalating direct vents create readable real-time planning and replay mastery.",
+      "copy_boundary": "No sorting tube, color stack, container layout, level content, artwork, audio, code, scoring system or distinctive sorting ruleset may be copied."
     }
   ],
   "designs": [
@@ -296,6 +302,18 @@
       "title_seed": "Halo courier",
       "novelty_contract": "Guide an original light courier around three widening orbital rings, deliver nine seed-owned beacons with reversible one-, two- and three-dock moves, and recover from one visible alignment warning before collision.",
       "candidate": {"title":"Halo Courier","slug":"halo-courier","theme":{"singular":"Beacon","plural":"Beacons","arena":"Relay","progress":"RINGS","success":"BEACONS LINKED","failure":"ORBIT FRACTURED"}}
+    },
+    {
+      "id": "thermal-venting-market-01",
+      "lane": "market-benchmark",
+      "family_id": "thermal-venting",
+      "status": "reviewed",
+      "min_sequence": 34,
+      "runner": "foundry/vent-runner.cjs",
+      "benchmark_id": "google-play-color-sort-en-20261003",
+      "title_seed": "Ember relay",
+      "novelty_contract": "Transfer first-action clarity, gradual decision width, deterministic solvability and recoverable planning into an original real-time two-chamber thermal stabilization game without tubes, color sorting, container layouts or copied level rules.",
+      "candidate": {"title":"Ember Relay","slug":"ember-relay","theme":{"singular":"Chamber","plural":"Chambers","arena":"Heatworks","progress":"STAGES","success":"HEAT STABILIZED","failure":"CHAMBER OVERLOAD"}}
     }
   ]
 }

@@ -10,11 +10,12 @@ const {continuePreview,writeReleasePacket}=require('../commissioning/rc-continua
 const reflexKit=require('../gamekit/reflexkit.js');
 const ID=/^GAME-[0-9]{8}-[0-9]{3,6}$/,SLUG=/^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const LEARNING_FOCUS=new Set(['input-parity','lifecycle-integrity','difficulty-progression','progress-readability','result-presentation','action-feedback','reduced-motion','mobile-hierarchy','state-distinction']);
-const FAMILY_IDS=new Set(['kinetic-balance','pressure-allocation','signal-composition','trajectory-interception','echo-routing','cadence-buffering','flux-harvesting','aperture-shaping','phase-coupling','gradient-compression','comet-catching','threat-parry','rift-threading','constellation-weaving','orbit-docking']);
+const FAMILY_IDS=new Set(['kinetic-balance','pressure-allocation','signal-composition','trajectory-interception','echo-routing','cadence-buffering','flux-harvesting','aperture-shaping','phase-coupling','gradient-compression','comet-catching','threat-parry','rift-threading','constellation-weaving','orbit-docking','thermal-venting']);
 const THREAT_PARRY_CORE_SOURCE="globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'threat-parry-v1'});\n";
 const RIFT_THREAD_CORE_SOURCE="globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'rift-thread-v1'});\n";
 const CONSTELLATION_WEAVE_CORE_SOURCE="globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'constellation-weave-v1'});\n";
 const ORBIT_DOCK_CORE_SOURCE="globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'orbit-dock-v1'});\n";
+const THERMAL_VENT_CORE_SOURCE="globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'thermal-vent-v1'});\n";
 function fail(code){const e=new Error(code);e.code='foundry_blueprint_invalid';throw e;}
 function key(values){return values.join(':');}
 function region(x,y,width,height){return {selector:'[data-game-canvas]',x,y,width,height};}
@@ -324,8 +325,38 @@ function orbitDockAdapter(bp,seed){
   return {projection:['state.stage','state.gateIndex','state.position','state.target','state.warning','state.docked','state.completed','state.outcome'],initial,edges,
     firstAction:'orbit_right',commitAction:'dock',reversibleProbe:[],failureActions:['dock','dock'],failureWaitMs:1000,statePath:'state.position',objectiveProgress:'state.completed',complexity:'quality.complexity',direct:true,factoryCore:true,docking:true};
 }
+function thermalVentAdapter(bp,seed){
+  const plans=reflexKit.ventPlan(seed),first=plans[1];
+  const initial=[1,0,1,1,first.hazards[0],0,'ready',0,'playing'];
+  function edges(v){
+    const [stage,beat,leftHeat,rightHeat,hazard,warning,lastVent,completed,outcome]=v;if(outcome!=='playing')return [];
+    const plan=plans[stage],out=[];
+    for(const action of plan.available){
+      const direct=action==='vent_left'||action==='vent_right',correct=action===(hazard===0?'vent_left':'vent_right');
+      const stageMarker=stage===1?'ready':'chamber_stable';
+      if(warning){
+        if(direct&&!correct)out.push({action,values:[stage,beat,leftHeat,rightHeat,hazard,2,'chamber_overload',completed,'failure']});
+        else out.push({action,values:[stage,beat,1,1,hazard,0,stageMarker,completed,outcome]});
+        continue;
+      }
+      if(direct&&!correct){
+        const left=hazard===0?4:2,right=hazard===1?4:2;
+        out.push({action,values:[stage,beat,left,right,hazard,1,'thermal_warning',completed,outcome]});continue;
+      }
+      if(!direct){out.push({action,values:[stage,beat,1,1,hazard,0,lastVent===action?stageMarker:action,completed,outcome]});continue;}
+      const left=1,right=1,nextBeat=beat+1,nextWarning=0;
+      if(nextBeat>=plan.hazards.length){
+        if(stage===3)out.push({action,values:[4,nextBeat,left,right,hazard,nextWarning,'thermal_complete',3,'success']});
+        else{const next=plans[stage+1];out.push({action,values:[stage+1,0,1,1,next.hazards[0],0,'chamber_stable',completed+1,'playing']});}
+      }else out.push({action,values:[stage,nextBeat,left,right,plan.hazards[nextBeat],nextWarning,action,completed,outcome]});
+    }
+    return out;
+  }
+  return {projection:['state.stage','state.beat','state.leftHeat','state.rightHeat','state.hazard','state.warning','state.lastVent','state.completed','state.outcome'],initial,edges,
+    firstAction:'vent_left',commitAction:null,reversibleProbe:[],failureActions:[],failureWaitMs:7000,statePath:'state.beat',objectiveProgress:'state.completed',complexity:'quality.complexity',direct:true,factoryCore:true,venting:true};
+}
 function adapter(bp,seed){
-  const adapters={'kinetic-balance':balanceAdapter,'pressure-allocation':allocationAdapter,'signal-composition':signalAdapter,'trajectory-interception':interceptionAdapter,'echo-routing':routingAdapter,'cadence-buffering':cadenceAdapter,'flux-harvesting':fluxAdapter,'aperture-shaping':apertureAdapter,'phase-coupling':phaseAdapter,'gradient-compression':gradientAdapter,'comet-catching':cometAdapter,'threat-parry':threatParryAdapter,'rift-threading':riftThreadAdapter,'constellation-weaving':constellationWeaveAdapter,'orbit-docking':orbitDockAdapter};
+  const adapters={'kinetic-balance':balanceAdapter,'pressure-allocation':allocationAdapter,'signal-composition':signalAdapter,'trajectory-interception':interceptionAdapter,'echo-routing':routingAdapter,'cadence-buffering':cadenceAdapter,'flux-harvesting':fluxAdapter,'aperture-shaping':apertureAdapter,'phase-coupling':phaseAdapter,'gradient-compression':gradientAdapter,'comet-catching':cometAdapter,'threat-parry':threatParryAdapter,'rift-threading':riftThreadAdapter,'constellation-weaving':constellationWeaveAdapter,'orbit-docking':orbitDockAdapter,'thermal-venting':thermalVentAdapter};
   return adapters[bp.family_id](bp,seed);
 }
 function graph(bp,seed){
@@ -360,6 +391,7 @@ function actionMap(bp){
   if(bp.family_id==='rift-threading')return {shift_left:{key:'ArrowLeft',touch:{x:.10,y:.70},hold_ms:35,settle_ms:35},shift_right:{key:'ArrowRight',touch:{x:.30,y:.70},hold_ms:35,settle_ms:35},dash_left:{key:'ArrowDown',touch:{x:.50,y:.70},hold_ms:35,settle_ms:35},dash_right:{key:'ArrowUp',touch:{x:.70,y:.70},hold_ms:35,settle_ms:35},surge:{key:'Space',touch:{x:.90,y:.70},hold_ms:35,settle_ms:35}};
   if(bp.family_id==='constellation-weaving')return {weave_left:{key:'ArrowLeft',touch:{x:.125,y:.70},hold_ms:35,settle_ms:35},weave_right:{key:'ArrowRight',touch:{x:.375,y:.70},hold_ms:35,settle_ms:35},weave_up:{key:'ArrowUp',touch:{x:.625,y:.70},hold_ms:35,settle_ms:35},weave_down:{key:'ArrowDown',touch:{x:.875,y:.70},hold_ms:35,settle_ms:35}};
   if(bp.family_id==='orbit-docking')return {orbit_left:{key:'ArrowLeft',touch:{x:.10,y:.70},hold_ms:35,settle_ms:35},orbit_right:{key:'ArrowRight',touch:{x:.30,y:.70},hold_ms:35,settle_ms:35},charge_pulse:{key:'ArrowUp',touch:{x:.50,y:.70},hold_ms:35,settle_ms:35},slingshot:{key:'ArrowDown',touch:{x:.70,y:.70},hold_ms:35,settle_ms:35},dock:{key:'Space',touch:{x:.90,y:.70},hold_ms:35,settle_ms:35}};
+  if(bp.family_id==='thermal-venting')return {vent_left:{key:'ArrowLeft',touch:{x:.125,y:.70},hold_ms:35,settle_ms:35},vent_right:{key:'ArrowRight',touch:{x:.375,y:.70},hold_ms:35,settle_ms:35},crossfeed:{key:'ArrowUp',touch:{x:.625,y:.70},hold_ms:35,settle_ms:35},coolant_burst:{key:'ArrowDown',touch:{x:.875,y:.70},hold_ms:35,settle_ms:35}};
   return {press_inward:{key:'ArrowLeft',touch:{x:.18,y:.68},hold_ms:35,settle_ms:35},carry_right:{key:'ArrowRight',touch:{x:.42,y:.68},hold_ms:35,settle_ms:35},release_left:{key:'ArrowDown',touch:{x:.66,y:.68},hold_ms:35,settle_ms:35},seal_gradient:{key:'Space',touch:{x:.88,y:.68},hold_ms:35,settle_ms:35}};
 }
 function contracts(input,model){
@@ -382,14 +414,15 @@ function contracts(input,model){
     'threat-parry':'Read and parry twelve closing signals before they breach the four-sided defense ring.',
     'rift-threading':'Steer through nine shifting rift gates and surge only through each visible opening before impact.',
     'constellation-weaving':'Weave each lit pulse through two, three and four visible sockets without crossing a socket twice.',
-    'orbit-docking':'Orbit through nine beacon gates, align with each visible dock and survive the warned recovery before a second bad docking attempt.'
+    'orbit-docking':'Orbit through nine beacon gates, align with each visible dock and survive the warned recovery before a second bad docking attempt.',
+    'thermal-venting':'Stabilize three rising thermal chambers by venting the visibly threatened side before each deterministic pressure beat.'
   };
   const objective=objectives[bp.family_id];
   const controls=['rift-threading','orbit-docking'].includes(bp.family_id)?Array.from({length:5},(_,i)=>({x:i*.20,y:.50,width:.20,height:.40})):Array.from({length:4},(_,i)=>({x:i*.25,y:.50,width:.25,height:.40}));
   const productContract={schema_version:1,objective:{visible_selector:'[data-objective]',expected_text:objective},progress:{selector:'[data-product-progress]',state_path:a.objectiveProgress,format:bp.theme.progress+' {value} / 3',milestones:[1,2,3]},score:{selector:'[data-game-score]',label_selector:'[data-score-label]',expected_label:'CURRENT SCORE',reversible_probes:a.direct?[]:[a.reversibleProbe],no_progress_probes:a.direct?[]:[[a.commitAction]]},best:{selector:'[data-best]',label_selector:'[data-best-label]',expected_label:'DEVICE BEST',source:'GameKit.best'},completion:{state_path:'state.outcome',success_value:'success',failure_value:'failure',result_selector:'[data-result]',success_text:bp.theme.success,failure_text:bp.theme.failure,max_terminal_latency_ms:100,failure_wait_ms:a.failureWaitMs??(a.weave?1000:45000),failure_actions:a.failureActions??(a.weave?['weave_left','weave_left']:[])},replay:{selector:'[data-game-restart]',must_be_in_initial_mobile_viewport:true},difficulty:{deterministic_seeds:bp.seeds,oracle_id:bp.slug+'-oracle-v1',oracle_sha256:hash(model),projection:model.projection,stage_path:'quality.stage',complexity_path:a.complexity,meaningful_actions_path:'quality.meaningful_actions',reversible_state_path:'quality.reversible_state_key',required_monotonicity:'later_strictly_greater',max_actions:64},mobile:{critical_selectors:['[data-objective]','[data-product-progress]','[data-score-label]','[data-game-score]','[data-best-label]','[data-best]','[data-result]'],control_selectors:['[data-game-start]','[data-game-pause]','[data-game-resume]','[data-game-restart]'],canvas_selector:'[data-game-canvas]',canvas_control_regions:controls,min_font_px:14,min_hit_target_px:44},reduced_motion:{presentation_probe_path:'presentation.reduced_motion',dynamic_change_required:true},feedback:{action:a.firstAction,state_change_path:'quality.reversible_state_key',visual_probe:'[data-game-canvas]',active_probe_path:'presentation.feedback_active',static_probe_path:'presentation.static_feedback',settle_ms:420},actions:actionMap(bp)};
-  const directSecondary=bp.family_id==='threat-parry'?'parry_up':bp.family_id==='rift-threading'?'surge':bp.family_id==='constellation-weaving'?'weave_down':bp.family_id==='orbit-docking'?'slingshot':'burst_shift';
-  const choiceMarker=bp.family_id==='threat-parry'?'The incoming direction and matching parry gate dominate the playfield; locked later-wave directions remain visibly secondary.':bp.family_id==='rift-threading'?'The player lane, next rift opening and SURGE action dominate the playfield while later gates remain visibly ahead.':bp.family_id==='constellation-weaving'?'The active lit thread and two unlocked sockets dominate the playfield while the third and fourth sockets remain visibly locked until later constellations.':bp.family_id==='orbit-docking'?'The courier, current beacon dock and orbit direction dominate the playfield while later pulse and slingshot moves remain visibly locked.':a.direct?'The unlocked DRIFT control is a bright full-size lane arrow while the future BURST control is a dark broken boost gate until wave two.':'The immediately useful choice is visibly active while the commit control is visibly conditional.';
-  const replayReason=bp.family_id==='rift-threading'?'Replay the same rift route and clear all nine gates with fewer steering moves and later surges.':bp.family_id==='constellation-weaving'?'Replay the same lattice and follow each glowing chain in order for a higher device best.':bp.family_id==='orbit-docking'?'Replay the same beacon route, use fewer orbit moves and dock all nine gates without a second alignment warning.':'Replay the same seed and finish all three rounds with fewer misses and faster parries.';
+  const directSecondary=bp.family_id==='threat-parry'?'parry_up':bp.family_id==='rift-threading'?'surge':bp.family_id==='constellation-weaving'?'weave_down':bp.family_id==='orbit-docking'?'slingshot':bp.family_id==='thermal-venting'?'coolant_burst':'burst_shift';
+  const choiceMarker=bp.family_id==='threat-parry'?'The incoming direction and matching parry gate dominate the playfield; locked later-wave directions remain visibly secondary.':bp.family_id==='rift-threading'?'The player lane, next rift opening and SURGE action dominate the playfield while later gates remain visibly ahead.':bp.family_id==='constellation-weaving'?'The active lit thread and two unlocked sockets dominate the playfield while the third and fourth sockets remain visibly locked until later constellations.':bp.family_id==='orbit-docking'?'The courier, current beacon dock and orbit direction dominate the playfield while later pulse and slingshot moves remain visibly locked.':bp.family_id==='thermal-venting'?'The threatened chamber and two direct vents dominate the playfield while crossfeed and coolant remain visibly locked until later stages.':a.direct?'The unlocked DRIFT control is a bright full-size lane arrow while the future BURST control is a dark broken boost gate until wave two.':'The immediately useful choice is visibly active while the commit control is visibly conditional.';
+  const replayReason=bp.family_id==='rift-threading'?'Replay the same rift route and clear all nine gates with fewer steering moves and later surges.':bp.family_id==='constellation-weaving'?'Replay the same lattice and follow each glowing chain in order for a higher device best.':bp.family_id==='orbit-docking'?'Replay the same beacon route, use fewer orbit moves and dock all nine gates without a second alignment warning.':bp.family_id==='thermal-venting'?'Replay the same pressure sequence, avoid every warning and stabilize all twelve beats with a higher device best.':'Replay the same seed and finish all three rounds with fewer misses and faster parries.';
   const visualPair=bp.family_id==='rift-threading'?{id:'primary-choice',kind:'state',a:anchor(g.initial,region(.08,.24,.28,.28)),b:anchor(afterFirst,region(.64,.24,.28,.28)),state_path:a.statePath,marker:choiceMarker}:{id:'primary-choice',kind:'action_availability',a:anchor(g.initial,region(.08,.24,.28,.28)),b:anchor(g.initial,region(.64,.24,.28,.28)),action_a:a.firstAction,action_b:a.direct?directSecondary:a.commitAction,marker:choiceMarker};
   const commercialContract={schema_version:1,review_id:bp.slug+'-commercial-v1',seed,visual_legibility:{pairs:[visualPair]},state_distinction:{pairs:[{id:'first-decision-state',kind:'state',a:anchor(g.initial,region(.06,.16,.88,.48)),b:anchor(afterFirst,region(.06,.16,.88,.48)),state_path:a.statePath,marker:'The first decision changes large playfield geometry, not only text, score or color.'}]},action_feedback:{probes:[{id:'first-decision',node:g.initial,action:first.action,kind:'movement',region:region(.05,.14,.90,.55)},{id:'commit-round',node:beforeCommit,action:progressAction,kind:'unlock',region:region(0,.03,1,.58)}]},motion:{intermediate_ms:[70,150],settle_ms:450},progression_spectacle:{checkpoints,marker:'Each completed round changes the whole playfield structure and leaves a persistent visible completion mark.'},result_presentation:{region:region(0,.80,1,.20),success_title:bp.theme.success,failure_title:bp.theme.failure},audio:{mode:'required',mute_selector:'[data-mute]',primary_probe:'first-decision',progress_probe:'commit-round'},mobile_hierarchy:{gameplay_selector:'[data-game-canvas]',roles:[{role:'active',foreground:region(.08,.24,.28,.28),background:region(.08,.58,.28,.05)},{role:'goal',foreground:region(.38,.08,.24,.12),background:region(.38,.22,.24,.05)}]},replay_motivation:{selector:'[data-replay-reason]',reason:replayReason},performance:{sample_ms:1200}};
   return {productContract,commercialContract,objective,successRoute:success};
@@ -411,8 +444,26 @@ function reviewedRuleData(bp,model){
     if(bp.family_id==='rift-threading')perSeed[String(seed)].rift_plan=Object.fromEntries([1,2,3].map(stage=>[String(stage),reflexKit.riftPlan(seed)[stage].openings]));
     if(bp.family_id==='constellation-weaving')perSeed[String(seed)].weave_plan=Object.fromEntries([1,2,3].map(stage=>{const plan=reflexKit.weavePlan(seed)[stage];return [String(stage),{sockets:plan.sockets,order:plan.order,operations:plan.operations,start_mask:plan.start_mask,move_limit:plan.move_limit}];}));
     if(bp.family_id==='orbit-docking')perSeed[String(seed)].dock_plan=Object.fromEntries([1,2,3].map(stage=>{const plan=reflexKit.dockPlan(seed)[stage];return [String(stage),{slots:plan.slots,gate_count:plan.gate_count,targets:plan.targets,available:plan.available}];}));
+    if(bp.family_id==='thermal-venting')perSeed[String(seed)].vent_plan=Object.fromEntries([1,2,3].map(stage=>{const plan=reflexKit.ventPlan(seed)[stage];return [String(stage),{hazards:plan.hazards,available:plan.available,deadline_ticks:plan.deadline_ticks}];}));
   }
   return perSeed;
+}
+function protectedCoreId(family){return {'threat-parry':'threat-parry-v1','rift-threading':'rift-thread-v1','constellation-weaving':'constellation-weave-v1','orbit-docking':'orbit-dock-v1','thermal-venting':'thermal-vent-v1'}[family]||null;}
+function verifyProtectedCore(bp,model,seeds){
+  const id=protectedCoreId(bp.family_id);if(!id)return null;
+  for(const seed of bp.seeds){
+    const invariant=seeds[String(seed)],core=reflexKit.create({id}),state=core.create(seed),project=()=>model.projection.map(pathName=>product.at({state},pathName));
+    if(JSON.stringify(project())!==JSON.stringify(invariant.initial_state))fail('protected_core_initial');
+    for(let index=0;index<invariant.success_actions.length;index++){
+      core.step(state,{actions:{[invariant.success_actions[index]]:true}});
+      if(JSON.stringify(project())!==JSON.stringify(invariant.success_states[index+1]))fail('protected_core_oracle');
+      const observed=core.observe(state);
+      if(!['tick','score','progress','interactions','entities'].every(key=>Number.isFinite(observed[key]))||observed.entities<0||observed.entities>64)fail('protected_core_diagnostics');
+    }
+    if(!core.terminal(state)||state.outcome!=='success')fail('protected_core_terminal');
+    const replay=core.create(seed);if(JSON.stringify(model.projection.map(pathName=>product.at({state:replay},pathName)))!==JSON.stringify(invariant.initial_state))fail('protected_core_replay');
+  }
+  return {runtime:reflexKit.version,seeds:bp.seeds.length,oracle_sha256:hash(model),diagnostics:'finite_numeric',replay:'exact_initial_state'};
 }
 function buildInvariants(bp,model,productContract,commercialContract){
   const seeds={};
@@ -435,6 +486,7 @@ function buildInvariants(bp,model,productContract,commercialContract){
       terminal_state:graph.nodes[success.nodes.at(-1)].values
     };
   }
+  const protectedProof=verifyProtectedCore(bp,model,seeds);
   return {
     schema_version:1,
     source:'reviewed-foundry-oracle',
@@ -472,18 +524,20 @@ function buildInvariants(bp,model,productContract,commercialContract){
       terminal_owner:'GameCore',
       terminal_rule:'terminal(state) is true exactly when outcome_state_path equals success_value or failure_value; the terminal action changes outcome in the same step.',
       replay_owner:'PlayJoltGameKit',
-      replay_rule:'Do not implement a second restart handler. GameKit invokes core.create(seed) and restores the seed initial_state.'
+      replay_rule:'Do not implement a second restart handler. GameKit invokes core.create(seed) and restores the seed initial_state.',
+      ...(protectedProof?{prepaid_core_proof:protectedProof}:{}),
     },
     commercial_probes:commercialContract.action_feedback.probes.map(probe=>({id:probe.id,node:probe.node,action:probe.action,kind:probe.kind})),
     seeds,
-    ...(bp.family_id==='threat-parry'?{factory_core:{runtime:'reflexkit-3',required_script:'./reflexkit.js',core_source:THREAT_PARRY_CORE_SOURCE,time_authority:'state.deadline and state.danger are advanced by the same factory core that decides parry, score, progress, success and failure.',stage_action_counts:[2,4,6]}}:{}),
-    ...(bp.family_id==='rift-threading'?{factory_core:{runtime:'reflexkit-3',required_script:'./reflexkit.js',core_source:RIFT_THREAD_CORE_SOURCE,time_authority:'state.deadline and state.danger are advanced by the same factory core that decides lane movement, surge collision, score, progress, success and failure.',stage_action_counts:[2,3,4]}}:{}),
-    ...(bp.family_id==='constellation-weaving'?{factory_core:{runtime:'reflexkit-3',required_script:'./reflexkit.js',core_source:CONSTELLATION_WEAVE_CORE_SOURCE,time_authority:'state.litMask, state.usedMask and state.moves are advanced by the same factory core that decides thread legality, score, progress, success and overload failure.',stage_action_counts:[2,3,4]}}:{}),
-    ...(bp.family_id==='orbit-docking'?{factory_core:{runtime:'reflexkit-3',required_script:'./reflexkit.js',core_source:ORBIT_DOCK_CORE_SOURCE,time_authority:'state.position, state.target, state.warning, state.deadline and state.danger are advanced by the same factory core that decides orbit movement, warned recovery, timeout, score, progress, success and second-bad-dock failure.',stage_action_counts:[3,4,5]}}:{})
+    ...(bp.family_id==='threat-parry'?{factory_core:{runtime:'reflexkit-4',required_script:'./reflexkit.js',core_source:THREAT_PARRY_CORE_SOURCE,time_authority:'state.deadline and state.danger are advanced by the same factory core that decides parry, score, progress, success and failure.',stage_action_counts:[2,4,6]}}:{}),
+    ...(bp.family_id==='rift-threading'?{factory_core:{runtime:'reflexkit-4',required_script:'./reflexkit.js',core_source:RIFT_THREAD_CORE_SOURCE,time_authority:'state.deadline and state.danger are advanced by the same factory core that decides lane movement, surge collision, score, progress, success and failure.',stage_action_counts:[2,3,4]}}:{}),
+    ...(bp.family_id==='constellation-weaving'?{factory_core:{runtime:'reflexkit-4',required_script:'./reflexkit.js',core_source:CONSTELLATION_WEAVE_CORE_SOURCE,time_authority:'state.litMask, state.usedMask and state.moves are advanced by the same factory core that decides thread legality, score, progress, success and overload failure.',stage_action_counts:[2,3,4]}}:{}),
+    ...(bp.family_id==='orbit-docking'?{factory_core:{runtime:'reflexkit-4',required_script:'./reflexkit.js',core_source:ORBIT_DOCK_CORE_SOURCE,time_authority:'state.position, state.target, state.warning, state.deadline and state.danger are advanced by the same factory core that decides orbit movement, warned recovery, timeout, score, progress, success and second-bad-dock failure.',stage_action_counts:[3,4,5]}}:{}),
+    ...(bp.family_id==='thermal-venting'?{factory_core:{runtime:'reflexkit-4',required_script:'./reflexkit.js',core_source:THERMAL_VENT_CORE_SOURCE,time_authority:'state.deadline, state.danger, both chamber temperatures and each hazard beat are advanced by the same factory core that decides vent effects, score, warning, progress, success and overload failure.',stage_action_counts:[2,3,4],diagnostic_entities:'finite numeric count'}}:{})
   };
 }
 function proposalFor(input,model){
-  const bp=validateBlueprint(input),pair=contracts(bp,model),market=bp.lane==='market-benchmark',a=adapter(bp,bp.seeds[0]),direct=a.direct===true,reflex=a.factoryCore===true,rift=bp.family_id==='rift-threading',weave=bp.family_id==='constellation-weaving',docking=bp.family_id==='orbit-docking';
+  const bp=validateBlueprint(input),pair=contracts(bp,model),market=bp.lane==='market-benchmark',a=adapter(bp,bp.seeds[0]),direct=a.direct===true,reflex=a.factoryCore===true,rift=bp.family_id==='rift-threading',weave=bp.family_id==='constellation-weaving',docking=bp.family_id==='orbit-docking',venting=bp.family_id==='thermal-venting';
   const familyConfig={
     'kinetic-balance':{genre:'kinetic decision puzzle',key:'ArrowRight',rules:'A counterweight shifts one visible balance unit left or right within -2..2. HOLD is legal only at the reviewed seed-and-stage target; a successful hold changes leverage, resets balance to zero and advances the canopy.'},
     'pressure-allocation':{genre:'resource pressure strategy puzzle',key:'ArrowUp',rules:'NORTH and SOUTH each add one unit up to 3, EQUALIZE subtracts one unit from both when both are positive, and SEAL advances only when both visible reviewed demands are met; a successful seal resets both capacities to zero.'},
@@ -499,12 +553,37 @@ function proposalFor(input,model){
     'threat-parry':{genre:'four-direction reflex defense action',key:'ArrowRight',rules:'PARRY LEFT and PARRY RIGHT defend wave one, PARRY UP joins wave two, and PARRY DOWN joins wave three. Match the visibly incoming direction before the factory-owned danger ring closes. The three waves require exactly 2, 4 and 6 successful direct parries; a wrong direction creates one visible recovery beat and shortens the deadline.'},
     'rift-threading':{genre:'timed lane-threading action',key:'ArrowRight',rules:'SHIFT LEFT and SHIFT RIGHT steer a skimmer across 3, then 4, then 5 lanes. SURGE crosses only the visible opening; surging into a wall or waiting for impact fails immediately. The three stages contain 2, 3 and 4 gates with shrinking factory-owned deadlines.'},
     'constellation-weaving':{genre:'direct spatial chain puzzle',key:'ArrowLeft',rules:'WEAVE LEFT and WEAVE RIGHT form the first two-socket constellation; WEAVE UP unlocks in stage two and WEAVE DOWN in stage three. Each press flips the selected socket and the next visible socket in the seed-owned thread. Use every unlocked socket exactly once before the move budget closes; crossing a thread or choosing a locked socket causes an immediate overload.'},
-    'orbit-docking':{genre:'orbital courier alignment action',key:'ArrowRight',rules:'ORBIT LEFT and ORBIT RIGHT move one dock around the live ring. CHARGE PULSE unlocks in stage two and jumps two docks; SLINGSHOT unlocks in stage three and jumps three. DOCK scores only at the visible beacon. One bad dock creates a recoverable warning; repeating DOCK without moving causes a real collision failure.'}
+    'orbit-docking':{genre:'orbital courier alignment action',key:'ArrowRight',rules:'ORBIT LEFT and ORBIT RIGHT move one dock around the live ring. CHARGE PULSE unlocks in stage two and jumps two docks; SLINGSHOT unlocks in stage three and jumps three. DOCK scores only at the visible beacon. One bad dock creates a recoverable warning; repeating DOCK without moving causes a real collision failure.'},
+    'thermal-venting':{genre:'real-time thermal stabilization action',key:'ArrowLeft',rules:'VENT LEFT and VENT RIGHT accept the next visible pressure beat only when they match the threatened chamber. A wrong vent raises that chamber to a recoverable warning; repeating the wrong vent overloads it. CROSSFEED unlocks in stage two and COOLANT BURST in stage three; each toggles a visible preparation mode and can clear a warning without advancing the beat. An expired protected deadline also fails.'}
   }[bp.family_id];
   const rules=reviewedRuleData(bp,model),familyText=familyConfig.rules;
   const lineage=market?'Market benchmark lineage: '+bp.benchmark.publisher+' '+bp.benchmark.surface+' at '+bp.benchmark.url+'. Transfer only these abstract principles: '+bp.benchmark.transferable_principles.join('; ')+'. Forbidden copying: '+bp.copy_policy.forbidden.join('; ')+'.':'Original exploration lane with no external game used as a mechanic, art or layout template.';
   const focus=new Set(bp.learning_focus),lesson=(id,text)=>focus.has(id)?' Prior Factory outcomes require this correction: '+text:'';
   const build_invariants=buildInvariants(bp,model,pair.productContract,pair.commercialContract);
+  if(venting)return {
+    game_id:bp.game_id,generation:1,title:bp.title,slug:bp.slug,genre:familyConfig.genre,mechanic_family:bp.family_id+'-'+bp.design_id,
+    controls:['Left and Right vent the matching chamber before the next pressure beat.','Crossfeed and coolant unlock as the chamber sequence grows.'],
+    mobile_controls:['Tap the threatened chamber vent before its deadline.','Use crossfeed or coolant to recover a visible high-heat warning.'],
+    max_repair_attempts:5,qa:{seed:bp.seeds[0],keyboard:{key:familyConfig.key,observation:a.statePath},pointer:{observation:a.statePath},terminal_ms:50000},
+    implementation_contract:{
+      first_ten_seconds:'Start immediately reveals two large thermal chambers, the next pressure side and a shrinking protected beat timer. The first LEFT input visibly vents the left chamber, accepts the first deterministic pressure beat and changes score and heat within one second.',
+      tension_curve:'Stage one contains three pressure beats with two direct vents, stage two contains four faster beats and unlocks CROSSFEED, and stage three contains five faster beats and unlocks COOLANT BURST. Four heat is a visible recoverable warning; repeating the wrong vent or waiting past the protected deadline fails.',
+      mastery_hook:'Players improve by reading the next pressure side, venting before injection, using the unlocked preparation modes to clear warnings and completing all twelve beats without an overload.',
+      replay_hook:'Replay preserves the exact seed-owned pressure sequence so fewer warnings, lower peak heat and a higher device-local best are honest mastery goals.',
+      sensory_payoff:'Every vent visibly contracts one chamber before the pressure wave lands, then the receiving chamber expands with protected intermediate motion. Stable stages lock a persistent cooling fin; warnings flare across the threatened chamber and terminal outcomes transform the full plant.',
+      goal:'Show the exact objective "'+pair.objective+'" before Start and keep it visible. Stabilize all twelve deterministic pressure beats across three original thermal stages.'+lesson('lifecycle-integrity','prove the twelfth accepted beat succeeds in the same step and the protected timeout reaches failure through ordinary waiting.'),
+      progression:familyText+' Implement this complete reviewed rule table exactly: '+JSON.stringify(rules)+'. The protected Factory core owns temperatures, hazards, deadlines, score, warnings, stage transitions and outcomes. Candidate code may only present its snapshots.'+lesson('progress-readability','show every accepted beat and completed stage through numeric progress plus persistent playfield structure.'),
+      presentation:'Use Phaser 4 Game Objects for two large contrasting chambers, a central pressure conduit, an obvious next-side hazard marker, a shrinking deadline ring and three persistent cooling fins. The protected PhaserKit overlay owns bounded feedback, stage rail and terminal result emphasis; candidate art stays presentation-only and cannot cover lifecycle controls.',
+      originality:lineage+' Transfer only immediate direct manipulation, gradual complexity, deterministic solvability and recoverable planning. Do not copy tubes, sorted colors, container layouts, level content, names, branding, art, audio, code, scoring or any distinctive ruleset.',
+      difficulty:'Implement the reviewed finite-state rules and expose '+model.projection.join(', ')+'. The six seed routes are validation examples, not autoplay. quality.stage is the chamber stage, quality.complexity is exactly 2, 3 and 4 legal action choices, quality.objective_progress is completed and every reviewed seed has a bounded success route.'+lesson('difficulty-progression','preserve all six action-by-action Oracle routes and the recoverable four-heat warning.'),
+      mobile_readability:'At 390x844 keep objective, progress, current score, device best, both chambers, hazard marker, result, Replay and replay reason in the first viewport. Four control regions remain at least44px; the threatened chamber and heat level dominate explanatory text.'+lesson('mobile-hierarchy','use high-contrast geometry and size, not labels alone, for active chamber, warning and next pressure.'),
+      result:'Success text is exactly '+bp.theme.success+' and failure text exactly '+bp.theme.failure+'. Success freezes both chambers cool with three visible fins; failure visibly overloads the affected side. The protected result band, CURRENT SCORE, DEVICE BEST and Replay remain visible on mobile.',
+      reduced_motion:'Honor initial and live prefers-reduced-motion changes. Normal mode shows protected before/intermediate/settled chamber motion at70ms and150ms; reduced mode changes geometry immediately and preserves a strong static state cue for at least450ms.',
+      scoring:'The protected core awards finite stage-scaled score once per accepted pressure beat. Preparation, waiting and unavailable future actions award zero. Diagnostics expose finite numeric tick, score, progress, interactions and bounded entity count.',
+      completion_timing:'The Factory core owns all twelve beats and 360, 300 and 240 tick deadlines. The twelfth accepted beat succeeds immediately. Four heat warns and remains recoverable; a second wrong vent during that warning or an expired deadline fails. Do not add another timer, heat, warning or terminal authority.',
+      action_feedback:'Every canonical vent changes chamber geometry immediately, differs at70ms and150ms and settles by450ms. Pressure injection visibly follows the vent, stage completion leaves a persistent fin and warnings produce an unmistakable static flare in reduced motion.'
+    },build_invariants,product_contract:pair.productContract,commercial_contract:pair.commercialContract
+  };
   if(docking)return {
     game_id:bp.game_id,generation:1,title:bp.title,slug:bp.slug,genre:familyConfig.genre,mechanic_family:bp.family_id+'-'+bp.design_id,
     controls:['Arrow keys orbit the courier; Space docks at the visible beacon.','Pulse and slingshot moves unlock as the rings widen.'],
