@@ -15,6 +15,8 @@
   const SURF_DEADLINES = Object.freeze([0, 300, 240, 180]);
   const CASCADE_ACTIONS = Object.freeze(['link_left', 'link_right', 'arc_bridge', 'ground_pulse']);
   const CASCADE_DEADLINES = Object.freeze([0, 420, 330, 270]);
+  const TILT_ACTIONS = Object.freeze(['tilt_left', 'tilt_right', 'tilt_up', 'tilt_down']);
+  const TILT_DEADLINES = Object.freeze([0, 420, 330, 270]);
 
   function directions(stage) { return ACTIONS.slice(0, stage + 1); }
   function plan(seed) {
@@ -127,6 +129,31 @@
       const available = CASCADE_ACTIONS.slice(0, stage + 1), nodeCount = stage + 2, sequence = ['link_right'];
       for (let node = 1; node < nodeCount; node++) sequence.push(available[(seed + stage * 11 + node * 5) % available.length]);
       stages[stage] = Object.freeze({available: Object.freeze(available), sequence: Object.freeze(sequence), node_count: nodeCount, deadline_ticks: CASCADE_DEADLINES[stage]});
+    }
+    return Object.freeze(stages);
+  }
+  function tiltPlan(seed) {
+    if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff) throw Error('invalid_seed');
+    const stages = {};
+    for (let stage = 1; stage <= 3; stage++) {
+      const grid = stage + 2, checkpointCount = stage + 2, available = TILT_ACTIONS.slice(0, stage + 1);
+      let x = Math.floor(grid / 2), y = Math.floor(grid / 2);
+      const sequence = [], targets = [];
+      for (let checkpoint = 0; checkpoint < checkpointCount; checkpoint++) {
+        const valid = available.filter(action => {
+          if (action === 'tilt_left') return x > 0;
+          if (action === 'tilt_right') return x < grid - 1;
+          if (action === 'tilt_up') return y > 0;
+          return y < grid - 1;
+        });
+        const action = checkpoint === 0 && valid.includes('tilt_right') ? 'tilt_right' : valid[(seed + stage * 7 + checkpoint * 5) % valid.length];
+        if (action === 'tilt_left') x--;
+        else if (action === 'tilt_right') x++;
+        else if (action === 'tilt_up') y--;
+        else y++;
+        sequence.push(action); targets.push(Object.freeze([x, y]));
+      }
+      stages[stage] = Object.freeze({grid, checkpoint_count: checkpointCount, available: Object.freeze(available), sequence: Object.freeze(sequence), targets: Object.freeze(targets), deadline_ticks: TILT_DEADLINES[stage]});
     }
     return Object.freeze(stages);
   }
@@ -542,6 +569,74 @@
     function terminal(state) { return state.outcome === 'success' || state.outcome === 'failure'; }
     return Object.freeze({create, step, observe, terminal});
   }
+  function createGravityTiltCore() {
+    function startPosition(stagePlan) { const center = Math.floor(stagePlan.grid / 2); return [center, center]; }
+    function create(seed) {
+      const stages = tiltPlan(seed), first = stages[1], [x, y] = startPosition(first), target = first.targets[0];
+      return {
+        seed, tick: 0, stage: 1, checkpointIndex: 0, x, y, targetX: target[0], targetY: target[1], warning: null,
+        aligned: 0, completed: 0, outcome: 'playing', score: 0, interactions: 0, meaningfulActions: 0,
+        deadline: first.deadline_ticks, danger: 1, lastTilt: 'ready', stages
+      };
+    }
+    function selectedAction(state, input) {
+      const available = state.stages[state.stage]?.available || [];
+      return available.find(name => input?.actions?.[name] === true) || null;
+    }
+    function destination(state, action) {
+      const grid = state.stages[state.stage].grid;
+      if (action === 'tilt_left') return [Math.max(0, state.x - 1), state.y];
+      if (action === 'tilt_right') return [Math.min(grid - 1, state.x + 1), state.y];
+      if (action === 'tilt_up') return [state.x, Math.max(0, state.y - 1)];
+      return [state.x, Math.min(grid - 1, state.y + 1)];
+    }
+    function loadStage(state, stage) {
+      const next = state.stages[stage], [x, y] = startPosition(next), target = next.targets[0];
+      state.stage = stage; state.checkpointIndex = 0; state.x = x; state.y = y; state.targetX = target[0]; state.targetY = target[1];
+      state.warning = null; state.deadline = state.tick + next.deadline_ticks; state.danger = 1;
+    }
+    function step(state, input) {
+      if (state.outcome !== 'playing') return state;
+      state.tick++;
+      const stagePlan = state.stages[state.stage];
+      state.danger = Math.max(0, Math.min(1, (state.deadline - state.tick) / stagePlan.deadline_ticks));
+      if (state.tick >= state.deadline) { state.outcome = 'failure'; state.lastTilt = 'channel_timeout'; return state; }
+      const action = selectedAction(state, input);
+      if (!action) return state;
+      state.interactions++; state.meaningfulActions++;
+      if (state.warning) {
+        if (state.warning === action) { state.outcome = 'failure'; state.lastTilt = 'repeated_bad_tilt'; return state; }
+        state.warning = null; state.lastTilt = 'tilt_recovered'; state.deadline = state.tick + stagePlan.deadline_ticks; state.danger = 1; return state;
+      }
+      const [nextX, nextY] = destination(state, action);
+      if (nextX !== state.targetX || nextY !== state.targetY) {
+        state.warning = action; state.lastTilt = 'channel_warning'; state.deadline = Math.max(state.tick + 90, state.deadline - 45); return state;
+      }
+      state.x = nextX; state.y = nextY; state.checkpointIndex++; state.aligned++; state.lastTilt = 'checkpoint_aligned'; state.score += 100 * state.stage;
+      if (state.checkpointIndex >= stagePlan.checkpoint_count) {
+        state.completed++;
+        if (state.stage === 3) { state.stage = 4; state.outcome = 'success'; state.danger = 0; state.lastTilt = 'tide_aligned'; return state; }
+        loadStage(state, state.stage + 1); state.lastTilt = 'chamber_aligned'; return state;
+      }
+      const target = stagePlan.targets[state.checkpointIndex]; state.targetX = target[0]; state.targetY = target[1];
+      state.deadline = state.tick + stagePlan.deadline_ticks; state.danger = 1;
+      return state;
+    }
+    function observe(state) {
+      const active = state.outcome === 'playing' ? state.stages[state.stage] : {grid: 0, available: []};
+      return {
+        tick: state.tick, score: state.score, progress: state.completed, interactions: state.interactions,
+        entities: state.outcome === 'playing' ? active.grid + 3 : 0,
+        quality: {
+          stage: state.stage, complexity: active.available.length, objective_progress: state.completed,
+          meaningful_actions: state.meaningfulActions,
+          reversible_state_key: [state.stage, state.checkpointIndex, state.x, state.y, state.targetX, state.targetY, state.warning, state.aligned, state.completed, state.outcome].join(':')
+        }
+      };
+    }
+    function terminal(state) { return state.outcome === 'success' || state.outcome === 'failure'; }
+    return Object.freeze({create, step, observe, terminal});
+  }
   function createCore(config = {}) {
     if (config.id === 'threat-parry-v1') return createThreatParryCore();
     if (config.id === 'rift-thread-v1') return createRiftThreadCore();
@@ -550,9 +645,10 @@
     if (config.id === 'thermal-vent-v1') return createThermalVentCore();
     if (config.id === 'current-surf-v1') return createCurrentSurfCore();
     if (config.id === 'pulse-cascade-v1') return createPulseCascadeCore();
+    if (config.id === 'gravity-tilt-v1') return createGravityTiltCore();
     throw Error('unsupported_reflex_core');
   }
-  const api = Object.freeze({create: createCore, plan, riftPlan, weavePlan, dockPlan, ventPlan, surfPlan, cascadePlan, actions: ACTIONS, riftActions: RIFT_ACTIONS, weaveActions: WEAVE_ACTIONS, dockActions: DOCK_ACTIONS, ventActions: VENT_ACTIONS, surfActions: SURF_ACTIONS, cascadeActions: CASCADE_ACTIONS, version: 'reflexkit-5'});
+  const api = Object.freeze({create: createCore, plan, riftPlan, weavePlan, dockPlan, ventPlan, surfPlan, cascadePlan, tiltPlan, actions: ACTIONS, riftActions: RIFT_ACTIONS, weaveActions: WEAVE_ACTIONS, dockActions: DOCK_ACTIONS, ventActions: VENT_ACTIONS, surfActions: SURF_ACTIONS, cascadeActions: CASCADE_ACTIONS, tiltActions: TILT_ACTIONS, version: 'reflexkit-5'});
   root.PlayJoltReflexKit = api;
   if (typeof module !== 'undefined') module.exports = api;
 })(globalThis);

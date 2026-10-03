@@ -72,6 +72,12 @@ test('candidate construction cannot create a second audio context',()=>{
   assert.throws(()=>validateConstructionFiles([{path:'view/art.js',content:'const audio = new AudioContext();'}],request),/gesture-gated audio/);
   assert.doesNotThrow(()=>validateConstructionFiles([{path:'view/art.js',content:'scene.playjoltFeel.pulse(target);'}],request));
 });
+test('reviewed contrast palette must be present in generated Phaser presentation',()=>{
+  const contrast_palette={background:'#06131f',active:'#ffffff',goal:'#00e5ff',warning:'#ff3b6b'};
+  const request={immutable_spec:{build_invariants:{construction:{presentation_floor:{contrast_palette}}}}};
+  assert.throws(()=>validateConstructionFiles([{path:'view/art.js',content:'const colors={background:0x06131f,active:0xffffff};'}],request),/goal contrast color/);
+  assert.doesNotThrow(()=>validateConstructionFiles([{path:'view/art.js',content:'const colors={background:0x06131f,active:"#ffffff",goal:0x00e5ff,warning:"#ff3b6b"};'}],request));
+});
 test('all paths are validated before any file write; existing workspace symlinks are blocked',async t=>{
   const e=setup(t),r=await request(e),m=e.store.get(e.spec.game_id),dir=path.join(e.root,`autonomy/.work/${m.game_id}/v1`);
   const outside=path.join(e.root,'protected.txt');fs.writeFileSync(outside,'unchanged');fs.symlinkSync(outside,path.join(dir,'app.js'));

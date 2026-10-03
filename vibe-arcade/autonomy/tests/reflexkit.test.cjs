@@ -188,3 +188,16 @@ test('Pulse Cascade links 3, 4 and 5 nodes with widening choices and honest fail
   press(core,state,'link_left');assert.equal(state.warning,'link_left');assert.equal(state.outcome,'playing');
   press(core,state,'link_left');assert.equal(state.outcome,'failure');assert.equal(state.lastLink,'repeated_unstable_link');
 });
+
+test('Gravity Tilt aligns 3, 4 and 5 checkpoints with widening compass choices',()=>{
+  for(const seed of [3762,3763,3764,3765,3766,3767]){
+    const core=kit.create({id:'gravity-tilt-v1'}),state=core.create(seed),plans=kit.tiltPlan(seed);
+    assert.deepEqual([1,2,3].map(stage=>plans[stage].checkpoint_count),[3,4,5]);
+    assert.deepEqual([1,2,3].map(stage=>plans[stage].available.length),[2,3,4]);
+    for(let stage=1;stage<=3;stage++)for(const action of plans[stage].sequence)press(core,state,action);
+    assert.equal(state.aligned,12);assert.equal(state.completed,3);assert.equal(state.outcome,'success');assertDiagnostics(core,state);
+  }
+  const core=kit.create({id:'gravity-tilt-v1'}),state=core.create(3762);
+  press(core,state,'tilt_left');assert.equal(state.warning,'tilt_left');assert.equal(state.outcome,'playing');
+  press(core,state,'tilt_left');assert.equal(state.outcome,'failure');assert.equal(state.lastTilt,'repeated_bad_tilt');
+});

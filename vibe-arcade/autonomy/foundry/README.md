@@ -56,6 +56,8 @@ The Factory now owns a minimum construction floor before paid generation: review
 
 Sequence 36 introduces the separate `cascade-runner.cjs` market-benchmark path and `pulse-cascading` family. Fresh Google Play evidence contributes only abstract immediate-action clarity, limited consequential choices, visible chain payoff and short-stage escalation. Names, branding, art, audio, layouts, assets, code and distinctive rulesets are excluded. Protected `pulse-cascade-v1` owns three, four and five pulse nodes, 2/3/4 action width, 420/330/270-tick deadlines, canonical cumulative score/progress, one recoverable wrong-link warning, repeated-link or timeout failure and exact replay. It is a new mechanic, not a current-surf retry or a new-ID budget reset.
 
+Sequence 37 introduces the separate `tilt-runner.cjs` original path and `gravity-tilting` family. Protected `gravity-tilt-v1` owns a spatial droplet, 3/4/5 seed-owned checkpoints, 2/3/4 compass choices, 420/330/270-tick deadlines, timing-independent score/progress, one recoverable wrong-tilt warning, repeated-tilt or timeout failure and exact replay. The reviewed presentation floor now includes an executable high-contrast palette; generated `view/art.js` must contain every exact role color before files are applied, while unchanged Commercial browser QA still verifies actual rendered luminance, shape and position.
+
 ## Reviewed supply batches
 
 - Sequences 19 and 20 exercised the first pair: original `kinetic-balance` and market-informed `pressure-allocation`. Both reached a clean terminal `REJECTED` state after the bounded repair budget and uploaded learning artifacts.

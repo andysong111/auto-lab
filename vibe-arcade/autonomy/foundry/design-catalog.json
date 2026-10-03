@@ -120,6 +120,12 @@
       "status": "reviewed",
       "hypothesis": "A protected charged-chain core, limited widening choices, twelve persistent links and whole-array cascade payoffs create immediate action clarity with visible mastery.",
       "copy_boundary": "No launcher, target structure, tower, projectile layout, physics puzzle, level content, artwork, audio, code, scoring system or distinctive observed ruleset may be copied."
+    },
+    {
+      "id": "gravity-tilting",
+      "status": "reviewed",
+      "hypothesis": "A protected spatial tilt core, visible droplet and checkpoint geometry, widening compass choices and one recoverable channel warning create direct grid movement with readable mastery.",
+      "copy_boundary": "No maze layout, marble character, observed tilt physics, level map, artwork, audio, code, scoring system or distinctive gravity ruleset may be copied."
     }
   ],
   "designs": [
@@ -349,6 +355,17 @@
       "title_seed": "Pulse canopy",
       "novelty_contract": "Route original charged pulses through twelve seed-owned conductor nodes with limited widening link choices, one recoverable instability and a whole-network cascade payoff, without launchers, towers, projectiles or copied physics layouts.",
       "candidate": {"title":"Pulse Canopy","slug":"pulse-canopy","theme":{"singular":"Node","plural":"Nodes","arena":"Canopy","progress":"ARRAYS","success":"CASCADE IGNITED","failure":"CONDUCTOR FRACTURED"}}
+    },
+    {
+      "id": "gravity-tilting-original-01",
+      "lane": "original",
+      "family_id": "gravity-tilting",
+      "status": "reviewed",
+      "min_sequence": 37,
+      "runner": "foundry/tilt-runner.cjs",
+      "title_seed": "Tide compass",
+      "novelty_contract": "Roll an original bright droplet through twelve seed-owned compass checkpoints with widening directional choices, shrinking windows, persistent wake geometry and one recoverable wrong-tilt warning.",
+      "candidate": {"title":"Tide Compass","slug":"tide-compass","theme":{"singular":"Checkpoint","plural":"Checkpoints","arena":"Compass","progress":"CHAMBERS","success":"TIDE ALIGNED","failure":"CHANNEL FRACTURED"}}
     }
   ]
 }

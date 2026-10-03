@@ -38,6 +38,12 @@ function validateConstructionFiles(files,request){
     const leaf=String(pathName).split('.').at(-1),escaped=leaf.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
     if(!new RegExp('(?:^|[^A-Za-z0-9_])'+escaped+'(?:[^A-Za-z0-9_]|$)').test(presentation))throw constructionError('view/art.js is missing reviewed diagnostic '+leaf);
   }
+  const palette=invariants.construction?.presentation_floor?.contrast_palette;
+  if(presentation!==undefined&&palette)for(const [role,color] of Object.entries(palette)){
+    if(typeof color!=='string'||!/^#[0-9a-f]{6}$/i.test(color))throw constructionError('invalid reviewed contrast color '+role);
+    const hex=color.slice(1).toLowerCase();
+    if(!new RegExp('(?:#|0x)'+hex+'(?:[^0-9a-f]|$)','i').test(presentation))throw constructionError('view/art.js is missing reviewed '+role+' contrast color '+color);
+  }
   const html=byPath.get('index.html');
   if(html!==undefined&&invariants.factory_core){
     const script=invariants.factory_core.required_script,scriptIndex=html.indexOf(script),coreIndex=html.indexOf('./core.js');
