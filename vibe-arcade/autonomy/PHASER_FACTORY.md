@@ -7,6 +7,7 @@ Phase 1 adds Phaser **4.2.1** as a pinned, factory-owned local visual runtime. T
 - `core.js`: deterministic gameplay state only.
 - `PlayJoltGameKit`: input, lifecycle, simulation clock, diagnostics, score/best/result bindings.
 - `PlayJoltPhaserKit`: owns the single `Phaser.Game` instance.
+- Phaser audio is disabled. `PlayJoltGameKit` and `LoopJoltFeelAudio` exclusively own the bounded, player-gesture audio lifecycle.
 - `view/art.js`: candidate-owned Phaser scene visuals only.
 - `phaser.js`, `phaserkit.js`, `gamekit.js`, `manifest.json`: factory-owned and protected.
 

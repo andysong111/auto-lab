@@ -21,6 +21,9 @@
       width:initialWidth,
       height:initialHeight,
       transparent:true,
+      // GameKit/FeelAudio exclusively owns gesture-gated audio. Phaser must stay silent
+      // so loading the visual bridge cannot create an AudioContext before player input.
+      audio:{noAudio:true},
       render:{antialias:true,roundPixels:false},
       physics:{default:'arcade',arcade:{debug:false}},
       scene:{
@@ -108,6 +111,6 @@
     function presentation(){return {feedback_active:feedbackActive,static_feedback:staticFeedback,protected_motion:feedbackActive,protected_progress:Number(latest?.progress)||0,protected_result:latest?.state?.outcome==='success'||latest?.state?.outcome==='failure'};}
     return Object.freeze({render,resize,dispose,presentation,kind:'phaser4',version:PHASER_VERSION});
   }
-  root.PlayJoltPhaserKit=Object.freeze({create,version:'phaserkit-4',phaser:PHASER_VERSION});
+  root.PlayJoltPhaserKit=Object.freeze({create,version:'phaserkit-5',phaser:PHASER_VERSION});
   if(typeof module!=='undefined')module.exports=root.PlayJoltPhaserKit;
 })(globalThis);
