@@ -27,6 +27,10 @@ test('direct progress may move forward only when success remains bounded',()=>{
  assert.equal(branchRecovery(graph,start,start.edges[1]),null);
  assert.deepEqual(alternateEntryEdges(start,{action:'advance',to:'forward'}),[start.edges[1]],'the planned forward edge is exercised once by the main route, not misclassified as a return probe');
 });
+test('failure reachability runs from a fresh browser session after reduced-motion feedback',()=>{
+ const source=fs.readFileSync(path.resolve(__dirname,'../product-worker.cjs'),'utf8'),feedback=source.indexOf("phase:'static_reduce'"),close=source.indexOf('await other.close();other=null;',feedback),fresh=source.indexOf('other=await session(width,height',close),failure=source.indexOf("check('failure_result'",fresh);
+ assert(feedback>=0&&close>feedback&&fresh>close&&failure>fresh);
+});
 test('repair preserves every independent exact failure and evidence',()=>{
  const m={game_id:'GAME-00000000-901',version:'v1',repair_attempt:0,max_repair_attempts:5,product_contract:fixture};const failures=['score_integrity','replay','reduced_motion','feedback'].map(check=>({code:'product_'+check,message:check,check,selector:'[data-test]',state_path:'state.mask',expected:0,actual:1,evidence:['product/shot.png']}));const request=requestFor(m,{hard_failures:failures});assert.deepEqual(request.qa_failures,failures);assert.deepEqual(request.product_contract,fixture);assert(request.protected_paths.includes('gamekit.js'));assert(request.product_evidence_index);assert.equal(request.attempt,1);
 });

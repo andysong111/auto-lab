@@ -67,6 +67,11 @@ test('factory core construction accepts only the exact wrapper and required scri
   assert.throws(()=>validateConstructionFiles([{path:'core.js',content:core_source},{path:'index.html',content:'<script src="./core.js"></script><script src="./reflexkit.js"></script>'}],request),/before core\.js/);
   assert.doesNotThrow(()=>validateConstructionFiles([{path:'core.js',content:core_source},{path:'index.html',content:'<script src="./reflexkit.js"></script><script src="./core.js"></script>'}],request));
 });
+test('candidate construction cannot create a second audio context',()=>{
+  const request={immutable_spec:{build_invariants:{}}};
+  assert.throws(()=>validateConstructionFiles([{path:'view/art.js',content:'const audio = new AudioContext();'}],request),/gesture-gated audio/);
+  assert.doesNotThrow(()=>validateConstructionFiles([{path:'view/art.js',content:'scene.playjoltFeel.pulse(target);'}],request));
+});
 test('all paths are validated before any file write; existing workspace symlinks are blocked',async t=>{
   const e=setup(t),r=await request(e),m=e.store.get(e.spec.game_id),dir=path.join(e.root,`autonomy/.work/${m.game_id}/v1`);
   const outside=path.join(e.root,'protected.txt');fs.writeFileSync(outside,'unchanged');fs.symlinkSync(outside,path.join(dir,'app.js'));

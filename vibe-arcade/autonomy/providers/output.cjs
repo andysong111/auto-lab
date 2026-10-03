@@ -15,6 +15,7 @@ function constructionError(detail){const error=modelError('foundry_construction_
 function validateConstructionFiles(files,request){
   const invariants=request.immutable_spec?.build_invariants;if(!invariants)return;
   const byPath=new Map(files.map(file=>[file.path,file.content]));
+  for(const [name,content] of byPath)if(name!=='README.md'&&/\b(?:AudioContext|webkitAudioContext)\b/.test(content))throw constructionError('candidate files must use GameKit gesture-gated audio instead of creating AudioContext');
   const core=byPath.get('core.js');
   if(core!==undefined){
     if(invariants.factory_core){

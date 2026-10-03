@@ -11,6 +11,7 @@ const weaveRunner=require('../../foundry/weave-runner.cjs');
 const dockRunner=require('../../foundry/dock-runner.cjs');
 const ventRunner=require('../../foundry/vent-runner.cjs');
 const surfRunner=require('../../foundry/surf-runner.cjs');
+const cascadeRunner=require('../../foundry/cascade-runner.cjs');
 const reflexKit=require('../../gamekit/reflexkit.js');
 const {validateProposal}=require('../spec-gate.cjs');
 const designCatalog=require('../../foundry/design-catalog.json'),benchmarkCatalog=require('../../foundry/benchmark-catalog.json');
@@ -48,6 +49,7 @@ function assertBuildInvariants(model,proposal){
   assert.deepEqual(data.construction.action_expressions,Object.keys(contract.actions).map(name=>'input.actions.'+name));
   assert.equal(data.construction.complexity_source,'quality_checkpoints.complexity');
   assert.equal(data.construction.replay_owner,'PlayJoltGameKit');
+  assert.deepEqual(data.construction.presentation_floor,{mobile_owner:'PlayJoltGameKit',critical_label_min_px:14,lifecycle_control_min_px:44,active_goal_distinctions:['luminance','shape','position'],intermediate_motion_ms:[70,150],settle_ms:450,audio_owner:'PlayJoltGameKit',audio_activation:'accepted_player_input'});
   for(const seed of contract.difficulty.deterministic_seeds){
     const graph=model.seeds[String(seed)],row=data.seeds[String(seed)];
     let node=graph.initial;assert.deepEqual(row.initial_state,graph.nodes[node].values);assert.deepEqual(row.success_states[0],row.initial_state);
@@ -135,7 +137,7 @@ test('sequence 30 selects the protected timed reflex runner with honest action d
   const bp=foundryBlueprintFor(selected,30,'20261002'),model=reflexRunner.buildModel(bp),proposal=foundryRunner.proposalFor(bp,model);
   assert.equal(bp.game_id,'GAME-20261002-330');assert.equal(bp.title,'Signal Bastion');assert.match(proposal.genre,/reflex defense/);
   assert.deepEqual(Object.keys(proposal.product_contract.actions),['parry_left','parry_right','parry_up','parry_down']);
-  assert.equal(proposal.build_invariants.factory_core.runtime,'reflexkit-4');assert.equal(proposal.build_invariants.factory_core.required_script,'./reflexkit.js');
+  assert.equal(proposal.build_invariants.factory_core.runtime,'reflexkit-5');assert.equal(proposal.build_invariants.factory_core.required_script,'./reflexkit.js');
   assert.equal(proposal.build_invariants.factory_core.core_source,"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'threat-parry-v1'});\n");
   product.validateModel(model);product.validate(proposal.product_contract);commercial.validate(proposal.commercial_contract);commercial.semantics(proposal.commercial_contract,proposal.product_contract,model);assertBuildInvariants(model,proposal);
   assert.equal(validateReviewedProposal(bp,model,proposal).passed,true);
@@ -157,7 +159,7 @@ test('sequence 31 selects a distinct protected rift-threading action design',()=
   const bp=foundryBlueprintFor(selected,31,'20261003'),model=reflexRunner.buildModel(bp),proposal=foundryRunner.proposalFor(bp,model);
   assert.equal(bp.game_id,'GAME-20261003-331');assert.equal(bp.title,'Rift Skimmer');assert.match(proposal.genre,/lane-threading action/);
   assert.deepEqual(Object.keys(proposal.product_contract.actions),['shift_left','shift_right','dash_left','dash_right','surge']);
-  assert.equal(proposal.build_invariants.factory_core.runtime,'reflexkit-4');assert.equal(proposal.build_invariants.factory_core.required_script,'./reflexkit.js');
+  assert.equal(proposal.build_invariants.factory_core.runtime,'reflexkit-5');assert.equal(proposal.build_invariants.factory_core.required_script,'./reflexkit.js');
   assert.equal(proposal.build_invariants.factory_core.core_source,"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'rift-thread-v1'});\n");
   product.validateModel(model);product.validate(proposal.product_contract);commercial.validate(proposal.commercial_contract);commercial.semantics(proposal.commercial_contract,proposal.product_contract,model);assertBuildInvariants(model,proposal);
   assert.equal(validateReviewedProposal(bp,model,proposal).passed,true);
@@ -181,7 +183,7 @@ test('sequence 32 selects a fresh protected market-benchmark spatial chain desig
   assert.equal(bp.game_id,'GAME-20261003-332');assert.equal(bp.title,'Nova Lattice');assert.match(proposal.genre,/spatial chain puzzle/);
   assert.deepEqual(Object.keys(proposal.product_contract.actions),['weave_left','weave_right','weave_up','weave_down']);
   assert.deepEqual(proposal.product_contract.completion.failure_actions,['weave_left','weave_left']);
-  assert.equal(proposal.build_invariants.factory_core.runtime,'reflexkit-4');assert.equal(proposal.build_invariants.factory_core.required_script,'./reflexkit.js');
+  assert.equal(proposal.build_invariants.factory_core.runtime,'reflexkit-5');assert.equal(proposal.build_invariants.factory_core.required_script,'./reflexkit.js');
   assert.equal(proposal.build_invariants.factory_core.core_source,"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'constellation-weave-v1'});\n");
   assert.match(proposal.implementation_contract.originality,/Do not use an 8x8 board/);
   product.validateModel(model);product.validate(proposal.product_contract);commercial.validate(proposal.commercial_contract);commercial.semantics(proposal.commercial_contract,proposal.product_contract,model);assertBuildInvariants(model,proposal);
@@ -205,7 +207,7 @@ test('sequence 33 selects a protected original orbit-docking design with recover
   assert.equal(bp.game_id,'GAME-20261003-333');assert.equal(bp.title,'Halo Courier');assert.match(proposal.genre,/orbital courier/);
   assert.deepEqual(Object.keys(proposal.product_contract.actions),['orbit_left','orbit_right','charge_pulse','slingshot','dock']);
   assert.deepEqual(proposal.product_contract.completion.failure_actions,['dock','dock']);
-  assert.equal(proposal.build_invariants.factory_core.runtime,'reflexkit-4');
+  assert.equal(proposal.build_invariants.factory_core.runtime,'reflexkit-5');
   assert.equal(proposal.build_invariants.factory_core.core_source,"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'orbit-dock-v1'});\n");
   product.validateModel(model);product.validate(proposal.product_contract);commercial.validate(proposal.commercial_contract);commercial.semantics(proposal.commercial_contract,proposal.product_contract,model);assertBuildInvariants(model,proposal);
   assert.equal(validateReviewedProposal(bp,model,proposal).passed,true);
@@ -228,7 +230,7 @@ test('sequence 34 selects a fresh protected market thermal design with pre-paid 
   assert.equal(bp.game_id,'GAME-20261003-334');assert.equal(bp.title,'Ember Relay');assert.match(proposal.genre,/thermal stabilization/);
   assert.deepEqual(Object.keys(proposal.product_contract.actions),['vent_left','vent_right','crossfeed','coolant_burst']);
   assert.equal(proposal.product_contract.completion.failure_wait_ms,7000);
-  assert.equal(proposal.build_invariants.factory_core.runtime,'reflexkit-4');
+  assert.equal(proposal.build_invariants.factory_core.runtime,'reflexkit-5');
   assert.equal(proposal.build_invariants.factory_core.core_source,"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'thermal-vent-v1'});\n");
   assert.equal(proposal.build_invariants.construction.prepaid_core_proof.diagnostics,'finite_numeric');
   assert.match(proposal.implementation_contract.originality,/Do not copy tubes, sorted colors/);
@@ -263,6 +265,29 @@ test('sequence 35 selects protected original current surfing with kinetic constr
     assert.equal(state.outcome,'success');assert.equal(core.terminal(state),true);
   }
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-surf-intake-'));try{const meta=materialize(root,35,'20261003',selected),commission=fs.readFileSync(path.join(root,'candidate','commission.cjs'),'utf8');assert.equal(meta.family_id,'current-surfing');assert.match(commission,/foundry\/surf-runner/);}finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+
+test('sequence 36 selects a fresh protected market pulse cascade with timing parity proof',()=>{
+  const used=designCatalog.designs.filter(design=>design.id!=='pulse-cascading-market-01').map(design=>design.id);
+  const learning={retired_families:['permutation-ordering-v1'],used_design_ids:used,families:{'current-surfing':{attempts:1,rejected:1,rc_ready:0}},top_failure_codes:[{code:'input_parity',count:12},{code:'commercial_mobile_hierarchy',count:10},{code:'commercial_action_feedback',count:9},{code:'commercial_audio',count:8}]};
+  const selected=select({sequence:36,date:'2026-10-03',designCatalog,benchmarkCatalog,learningProfile:learning});
+  assert.equal(selected.status,'SELECTED');assert.equal(selected.lane,'market-benchmark');assert.equal(selected.design.family_id,'pulse-cascading');assert.equal(selected.design.runner,'foundry/cascade-runner.cjs');
+  const bp=foundryBlueprintFor(selected,36,'20261003'),model=cascadeRunner.buildModel(bp),proposal=foundryRunner.proposalFor(bp,model);
+  assert.equal(bp.game_id,'GAME-20261003-336');assert.equal(bp.title,'Pulse Canopy');assert.match(proposal.genre,/chain-routing/);
+  assert.deepEqual(Object.keys(proposal.product_contract.actions),['link_left','link_right','arc_bridge','ground_pulse']);
+  assert.deepEqual(proposal.product_contract.completion.failure_actions,['link_left','link_left']);
+  assert.equal(proposal.build_invariants.factory_core.core_source,"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'pulse-cascade-v1'});\n");
+  assert.equal(proposal.build_invariants.construction.prepaid_core_proof.input_timing_parity,'score_progress_projection');
+  assert.match(proposal.implementation_contract.originality,/Do not copy launchers, targets, towers/);
+  product.validateModel(model);product.validate(proposal.product_contract);commercial.validate(proposal.commercial_contract);commercial.semantics(proposal.commercial_contract,proposal.product_contract,model);assertBuildInvariants(model,proposal);
+  assert.equal(validateReviewedProposal(bp,model,proposal).passed,true);
+  for(const seed of bp.seeds){
+    const invariant=proposal.build_invariants.seeds[String(seed)],core=reflexKit.create({id:'pulse-cascade-v1'}),fast=core.create(seed),timed=core.create(seed),project=state=>model.projection.map(key=>product.at({state},key));
+    assert.deepEqual(invariant.quality_checkpoints.map(row=>row.complexity),[2,3,4]);assert.equal(invariant.success_actions.length,12);
+    invariant.success_actions.forEach((action,index)=>{core.step(fast,{actions:{[action]:true}});core.step(timed,{actions:{}});core.step(timed,{actions:{}});core.step(timed,{actions:{[action]:true}});assert.deepEqual(project(fast),invariant.success_states[index+1]);assert.deepEqual(project(timed),invariant.success_states[index+1]);assert.equal(core.observe(fast).score,core.observe(timed).score);});
+    assert.equal(fast.outcome,'success');assert.equal(timed.outcome,'success');
+  }
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-cascade-intake-'));try{const meta=materialize(root,36,'20261003',selected),commission=fs.readFileSync(path.join(root,'candidate','commission.cjs'),'utf8');assert.equal(meta.family_id,'pulse-cascading');assert.match(commission,/foundry\/cascade-runner/);}finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 
 test('candidate summary becomes bounded learning data with immutable lineage',()=>{

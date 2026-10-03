@@ -95,6 +95,20 @@
         "warn before an avoidable failure and preserve a clear recovery action",
         "reward efficient completion with an explicit result and replay target"
       ]
+    },
+    {
+      "id": "google-play-royal-smash-en-20261003",
+      "captured_at": "2026-10-03",
+      "publisher": "Google Play",
+      "url": "https://play.google.com/store/apps/details?id=com.cyphergames.royalsmash",
+      "surface": "Royal Smash product page: simple first-minute aim and fire, limited shots, visible chain reactions and progressively trickier short puzzles",
+      "observed_titles": ["Royal Smash"],
+      "transferable_principles": [
+        "make the first meaningful action readable in the first minute",
+        "make a small action budget create consequential choices",
+        "turn successful sequences into a large visible chain payoff",
+        "increase short-stage complexity without adding a tutorial wall"
+      ]
     }
   ]
 }

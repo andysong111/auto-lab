@@ -23,6 +23,15 @@
     let reducedMotion = !!motionQuery?.matches;
     const q = name => document.querySelector('[data-game-' + name + ']');
     for (const id of ['start', 'pause', 'resume', 'restart', 'status', 'score', 'progress', 'error']) if (!q(id)) throw Error('missing_game_ui:' + id);
+    const criticalSelectors = productContract?.mobile?.critical_selectors || [];
+    for (const selector of criticalSelectors) {
+      const node = document.querySelector(selector);
+      if (node?.style) node.style.fontSize = 'max(14px, var(--playjolt-critical-label-size, 14px))';
+    }
+    for (const selector of productContract?.mobile?.control_selectors || []) {
+      const node = document.querySelector(selector);
+      if (node?.style) { node.style.minWidth = '44px'; node.style.minHeight = '44px'; }
+    }
     const audioContract = commercialContract?.audio?.mode === 'required' ? commercialContract.audio : null;
     if (audioContract && !productContract?.completion) throw Error('audio_product_contract_missing');
     const mute = audioContract ? document.querySelector(audioContract.mute_selector) : null;
