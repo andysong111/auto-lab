@@ -81,3 +81,35 @@ test('Constellation Weave rejects later-stage sockets before they unlock',()=>{
   press(core,state,'weave_up');
   assert.equal(state.outcome,'failure');assert.equal(state.score,0);assert.equal(state.lastWeave,'locked_socket');
 });
+
+test('Orbit Dock completes 2, 3 and 4 beacon deliveries through reversible rings',()=>{
+  for(const seed of [3361,3362,3363,3364,3365,3366]){
+    const core=kit.create({id:'orbit-dock-v1'}),state=core.create(seed),plans=kit.dockPlan(seed);
+    assert.deepEqual([1,2,3].map(stage=>plans[stage].gate_count),[2,3,4]);
+    assert.deepEqual([1,2,3].map(stage=>plans[stage].available.length),[3,4,5]);
+    let docks=0;
+    for(let stage=1;stage<=3;stage++)for(const target of plans[stage].targets){
+      while(state.position!==target)press(core,state,'orbit_right');
+      press(core,state,'dock');docks++;
+      if(docks<9)assert.equal(state.outcome,'playing');
+    }
+    assert.equal(docks,9);assert.equal(state.docked,9);assert.equal(state.completed,3);
+    assert.equal(state.outcome,'success');assert.equal(core.terminal(state),true);
+  }
+});
+
+test('Orbit Dock warns once, allows movement recovery and fails a repeated bad dock',()=>{
+  const core=kit.create({id:'orbit-dock-v1'}),state=core.create(3361);
+  assert.notEqual(state.position,state.target);press(core,state,'dock');
+  assert.equal(state.warning,1);assert.equal(state.outcome,'playing');assert.equal(state.score,0);
+  press(core,state,'orbit_right');assert.equal(state.warning,0);assert(state.score>0);
+  while(state.position===state.target)press(core,state,'orbit_right');
+  press(core,state,'dock');assert.equal(state.warning,1);press(core,state,'dock');
+  assert.equal(state.outcome,'failure');assert.equal(state.lastDock,'second_bad_dock');
+});
+
+test('Orbit Dock exposes and enforces one authoritative idle deadline',()=>{
+  const core=kit.create({id:'orbit-dock-v1'}),state=core.create(3361),initial=state.danger;
+  for(let index=0;index<2700;index++)core.step(state,{actions:{}});
+  assert(state.danger<initial);assert.equal(state.danger,0);assert.equal(state.outcome,'failure');assert.equal(state.lastDock,'relay_timeout');
+});
