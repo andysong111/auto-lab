@@ -41,6 +41,7 @@
       if (!feelAudio) feelAudio = root.LoopJoltFeelAudio.create({volume:.12,maxVoices:8});
       return feelAudio;
     }
+    function armAudioFromGameplay() { if (soundOn) audioRuntime()?.enable(true); }
     function setAudio(value) { soundOn = !!value; updateMute(); return soundOn ? audioRuntime()?.enable(true) : feelAudio?.enable(false); }
     function suspendAudio() { return feelAudio?.enable(false); }
     function cue(kind) {
@@ -119,13 +120,13 @@
     }
     function start() {
       if (disposed || phase === 'playing' || document.hidden) return;
-      if (soundOn) audioRuntime()?.enable(true);
+      if (soundOn) feelAudio?.enable(true);
       epoch++; state = core.create(seed); phase = 'playing'; paused = false; error = null;
       q('error').hidden = true; accepted = {keyboard: 0, pointer: 0}; resetInput(); acc = 0; last = performance.now();
       core.begin?.(state); canvas.focus({preventScroll: true}); render();
     }
     function pause() { if (phase === 'playing') { paused = true; resetInput(); acc = 0; suspendAudio(); render(); } }
-    function resume() { if (phase === 'playing' && !document.hidden && !disposed) { paused = false; resetInput(); last = performance.now(); acc = 0; if(soundOn)audioRuntime()?.enable(true); render(); } }
+    function resume() { if (phase === 'playing' && !document.hidden && !disposed) { paused = false; resetInput(); last = performance.now(); acc = 0; if(soundOn)feelAudio?.enable(true); render(); } }
     function restart() { if (phase === 'playing' || disposed) return; phase = 'idle'; start(); }
     function loop(now) {
       if (disposed) return;
@@ -153,13 +154,13 @@
       if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName) || e.target.isContentEditable) return;
       if (e.code === 'Escape' || e.code === 'KeyP') { e.preventDefault(); paused ? resume() : pause(); return; }
       if (phase !== 'playing' || paused || !['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','KeyA','KeyD','KeyW','KeyS','Space'].includes(e.code)) return;
-      e.preventDefault(); keys.add(e.code); if (!e.repeat) { accepted.keyboard++; mapKeyToNamedAction(e.code); }
+      e.preventDefault(); armAudioFromGameplay(); keys.add(e.code); if (!e.repeat) { accepted.keyboard++; mapKeyToNamedAction(e.code); }
       if (e.code === 'Space' && !e.repeat) inputs.action = true;
     }));
     on(window, 'keyup', e => keys.delete(e.code));
     const pointer = safe(e => {
       if (phase !== 'playing' || paused) return;
-      e.preventDefault(); const b = canvas.getBoundingClientRect();
+      e.preventDefault(); armAudioFromGameplay(); const b = canvas.getBoundingClientRect();
       inputs.pointer = {x: Math.max(0,Math.min(1,(e.clientX-b.x)/b.width)), y: Math.max(0,Math.min(1,(e.clientY-b.y)/b.height))};
       mapPointerToNamedAction(inputs.pointer); inputs.action = true; accepted.pointer++;
       if (e.type === 'pointerdown') canvas.setPointerCapture?.(e.pointerId);

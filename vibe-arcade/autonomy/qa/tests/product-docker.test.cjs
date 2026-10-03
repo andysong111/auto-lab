@@ -12,7 +12,7 @@ const cases={GOOD:[],BAD_GOAL_OPACITY:['product_objective'],BAD_DEADTIME:['produ
 const shard=Number(process.env.PRODUCT_TEST_SHARD||0),shards=Number(process.env.PRODUCT_TEST_SHARDS||1);assert(Number.isInteger(shards)&&shards>=1&&shards<=3&&Number.isInteger(shard)&&shard>=0&&shard<shards);const results=[];
 for(const [caseIndex,[variant,expected]] of Object.entries(cases).entries())if(caseIndex%shards===shard)test('Docker Chromium product fixture '+variant,{timeout:200000},async t=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'product-source-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));write(root,variant);
- const spec={game_id:'GAME-00000000-'+(901+caseIndex),generation:1,title:'Infrastructure fixture '+variant,slug:'product-fixture',genre:'fixture',mechanic_family:'fixture-only',controls:['Arrows or Space toggle'],mobile_controls:['Tap a square'],qa:{seed:7,keyboard:{key:'ArrowRight',observation:'state.interactions'},pointer:{observation:'state.pointerActions'},terminal_ms:16000},product_contract:contract()};
+ const spec={game_id:'GAME-00000000-'+(901+caseIndex),generation:1,title:'Infrastructure fixture '+variant,slug:'product-fixture',genre:'fixture',mechanic_family:'fixture-only',controls:['Arrows or Space toggle'],mobile_controls:['Tap a square'],qa:{seed:7,keyboard:{key:'ArrowRight',observation:'state.interactions'},pointer:{observation:variant==='MULTI_BAD'?'state.interactions':'state.pointerActions'},terminal_ms:16000},product_contract:contract()};
  const manifest=create(spec);atomicJSON(path.join(root,'manifest.json'),manifest);manifest.source_hash=hashTree(root);
  const out=path.join(dir,variant);let result,factory,store,current;
  if(variant==='MULTI_BAD'){
