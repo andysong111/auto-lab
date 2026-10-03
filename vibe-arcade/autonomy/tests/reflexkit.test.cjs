@@ -163,3 +163,28 @@ test('Current Surf warns once, recovers on the next gate and fails a second miss
   press(core,state,wrong);assert(state.warning>0);press(core,state,wrong);
   assert.equal(state.outcome,'failure');assert.equal(state.lastRide,'second_missed_gate');
 });
+
+test('protected timed cores keep score and progress identical across realistic input timing',()=>{
+  for(const [id,seed,plan] of [
+    ['threat-parry-v1',3061,kit.plan(3061)[1].sequence],
+    ['rift-thread-v1',3161,(()=>{const p=kit.riftPlan(3161)[1],a=[];let lane=Math.floor(p.lanes/2);for(const target of p.openings){while(lane<target){a.push('shift_right');lane++;}while(lane>target){a.push('shift_left');lane--;}a.push('surge');}return a;})()],
+    ['current-surf-v1',3566,(()=>{const p=kit.surfPlan(3566)[1],a=[],state={band:1};for(const target of p.targets){const action=p.available.find(name=>{const next=name==='bank_left'?Math.max(0,state.band-1):name==='bank_right'?Math.min(p.bands-1,state.band+1):name==='pulse_jump'?Math.min(p.bands-1,state.band+2):0;if(next===target){state.band=next;return true;}return false;});a.push(action);}return a;})()]
+  ]){
+    const core=kit.create({id}),fast=core.create(seed),timed=core.create(seed);
+    for(const action of plan){core.step(fast,{actions:{[action]:true}});core.step(timed,{actions:{}});core.step(timed,{actions:{}});core.step(timed,{actions:{[action]:true}});}
+    assert.equal(core.observe(fast).score,core.observe(timed).score,id+' score');assert.equal(core.observe(fast).progress,core.observe(timed).progress,id+' progress');
+  }
+});
+
+test('Pulse Cascade links 3, 4 and 5 nodes with widening choices and honest failure',()=>{
+  for(const seed of [3661,3662,3663,3664,3665,3666]){
+    const core=kit.create({id:'pulse-cascade-v1'}),state=core.create(seed),plans=kit.cascadePlan(seed);
+    assert.deepEqual([1,2,3].map(stage=>plans[stage].sequence.length),[3,4,5]);
+    assert.deepEqual([1,2,3].map(stage=>plans[stage].available.length),[2,3,4]);
+    for(let stage=1;stage<=3;stage++)for(const action of plans[stage].sequence)press(core,state,action);
+    assert.equal(state.linked,12);assert.equal(state.completed,3);assert.equal(state.outcome,'success');assertDiagnostics(core,state);
+  }
+  const core=kit.create({id:'pulse-cascade-v1'}),state=core.create(3661);
+  press(core,state,'link_left');assert.equal(state.warning,'link_left');assert.equal(state.outcome,'playing');
+  press(core,state,'link_left');assert.equal(state.outcome,'failure');assert.equal(state.lastLink,'repeated_unstable_link');
+});

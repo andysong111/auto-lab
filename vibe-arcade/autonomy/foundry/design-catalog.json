@@ -114,6 +114,12 @@
       "status": "reviewed",
       "hypothesis": "A protected kinetic carving core, large moving rider, twelve visible flow gates and one recoverable wake warning create direct movement mastery instead of another dashboard-like solved-state puzzle.",
       "copy_boundary": "No surfer character, wave course, lane layout, obstacle pattern, artwork, audio, code, scoring system or distinctive board or movement ruleset may be copied."
+    },
+    {
+      "id": "pulse-cascading",
+      "status": "reviewed",
+      "hypothesis": "A protected charged-chain core, limited widening choices, twelve persistent links and whole-array cascade payoffs create immediate action clarity with visible mastery.",
+      "copy_boundary": "No launcher, target structure, tower, projectile layout, physics puzzle, level content, artwork, audio, code, scoring system or distinctive observed ruleset may be copied."
     }
   ],
   "designs": [
@@ -331,6 +337,18 @@
       "title_seed": "Prism wake",
       "novelty_contract": "Carve an original light rider through twelve seed-owned current gates using one-band banks, a two-band pulse jump and an inner-band undertow, with moving geometry, shrinking deadlines and one recoverable wake warning.",
       "candidate": {"title":"Prism Wake","slug":"prism-wake","theme":{"singular":"Gate","plural":"Gates","arena":"Breakline","progress":"CURRENTS","success":"CURRENT MASTERED","failure":"BREAK COLLISION"}}
+    },
+    {
+      "id": "pulse-cascading-market-01",
+      "lane": "market-benchmark",
+      "family_id": "pulse-cascading",
+      "status": "reviewed",
+      "min_sequence": 36,
+      "runner": "foundry/cascade-runner.cjs",
+      "benchmark_id": "google-play-royal-smash-en-20261003",
+      "title_seed": "Pulse canopy",
+      "novelty_contract": "Route original charged pulses through twelve seed-owned conductor nodes with limited widening link choices, one recoverable instability and a whole-network cascade payoff, without launchers, towers, projectiles or copied physics layouts.",
+      "candidate": {"title":"Pulse Canopy","slug":"pulse-canopy","theme":{"singular":"Node","plural":"Nodes","arena":"Canopy","progress":"ARRAYS","success":"CASCADE IGNITED","failure":"CONDUCTOR FRACTURED"}}
     }
   ]
 }

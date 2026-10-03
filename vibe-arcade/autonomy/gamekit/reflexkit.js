@@ -13,6 +13,8 @@
   const VENT_DEADLINES = Object.freeze([0, 360, 300, 240]);
   const SURF_ACTIONS = Object.freeze(['bank_left', 'bank_right', 'pulse_jump', 'undertow']);
   const SURF_DEADLINES = Object.freeze([0, 300, 240, 180]);
+  const CASCADE_ACTIONS = Object.freeze(['link_left', 'link_right', 'arc_bridge', 'ground_pulse']);
+  const CASCADE_DEADLINES = Object.freeze([0, 420, 330, 270]);
 
   function directions(stage) { return ACTIONS.slice(0, stage + 1); }
   function plan(seed) {
@@ -118,6 +120,16 @@
     }
     return Object.freeze(stages);
   }
+  function cascadePlan(seed) {
+    if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff) throw Error('invalid_seed');
+    const stages = {};
+    for (let stage = 1; stage <= 3; stage++) {
+      const available = CASCADE_ACTIONS.slice(0, stage + 1), nodeCount = stage + 2, sequence = ['link_right'];
+      for (let node = 1; node < nodeCount; node++) sequence.push(available[(seed + stage * 11 + node * 5) % available.length]);
+      stages[stage] = Object.freeze({available: Object.freeze(available), sequence: Object.freeze(sequence), node_count: nodeCount, deadline_ticks: CASCADE_DEADLINES[stage]});
+    }
+    return Object.freeze(stages);
+  }
   function createThreatParryCore() {
     function create(seed) {
       const stages = plan(seed), first = stages[1];
@@ -147,7 +159,7 @@
         return state;
       }
       const stage = state.stage, stagePlan = state.stages[stage];
-      state.threatIndex++; state.lastParry = action; state.score += 100 * stage + Math.max(0, state.deadline - state.tick);
+      state.threatIndex++; state.lastParry = action; state.score += 100 * stage;
       if (state.threatIndex >= stagePlan.sequence.length) {
         state.completed++;
         if (stage === 3) { state.stage = 4; state.outcome = 'success'; state.danger = 0; return state; }
@@ -201,7 +213,7 @@
       }
       state.meaningfulActions++;
       if (state.lane !== state.opening) { state.outcome = 'failure'; state.lastMove = 'wrong_surge'; return state; }
-      state.cleared++; state.score += 150 * state.stage + Math.max(0, state.deadline - state.tick); state.gateIndex++; state.lastMove = 'gate_cleared';
+      state.cleared++; state.score += 150 * state.stage; state.gateIndex++; state.lastMove = 'gate_cleared';
       if (state.gateIndex >= stagePlan.openings.length) {
         state.completed++;
         if (state.stage === 3) { state.stage = 4; state.outcome = 'success'; state.danger = 0; return state; }
@@ -453,7 +465,7 @@
       }
       state.band = nextBand;
       state.gateIndex++; state.cleared++; state.lastRide = 'gate_carved';
-      state.score += 120 * state.stage + Math.max(0, state.deadline - state.tick);
+      state.score += 120 * state.stage;
       if (state.gateIndex >= stagePlan.gate_count) {
         state.completed++;
         if (state.stage === 3) { state.stage = 4; state.outcome = 'success'; state.danger = 0; state.lastRide = 'current_mastered'; return state; }
@@ -477,6 +489,59 @@
     function terminal(state) { return state.outcome === 'success' || state.outcome === 'failure'; }
     return Object.freeze({create, step, observe, terminal});
   }
+  function createPulseCascadeCore() {
+    function create(seed) {
+      const stages = cascadePlan(seed), first = stages[1];
+      return {
+        seed, tick: 0, stage: 1, nodeIndex: 0, cue: first.sequence[0], warning: null,
+        linked: 0, completed: 0, outcome: 'playing', score: 0, interactions: 0,
+        meaningfulActions: 0, deadline: first.deadline_ticks, danger: 1, lastLink: 'ready', stages
+      };
+    }
+    function selectedAction(state, input) {
+      const available = state.stages[state.stage]?.available || [];
+      return available.find(name => input?.actions?.[name] === true) || null;
+    }
+    function step(state, input) {
+      if (state.outcome !== 'playing') return state;
+      state.tick++;
+      const stagePlan = state.stages[state.stage];
+      state.danger = Math.max(0, Math.min(1, (state.deadline - state.tick) / stagePlan.deadline_ticks));
+      if (state.tick >= state.deadline) { state.outcome = 'failure'; state.lastLink = 'cascade_timeout'; return state; }
+      const action = selectedAction(state, input);
+      if (!action) return state;
+      state.interactions++; state.meaningfulActions++;
+      if (state.warning) {
+        if (state.warning === action) { state.outcome = 'failure'; state.lastLink = 'repeated_unstable_link'; return state; }
+        state.warning = null; state.lastLink = 'link_recovered'; state.deadline = state.tick + stagePlan.deadline_ticks; state.danger = 1; return state;
+      }
+      if (action !== state.cue) {
+        state.warning = action; state.lastLink = 'unstable_link'; state.deadline = Math.max(state.tick + 90, state.deadline - 45); return state;
+      }
+      state.warning = null; state.nodeIndex++; state.linked++; state.lastLink = 'chain_linked'; state.score += 90 * state.stage;
+      if (state.nodeIndex >= stagePlan.node_count) {
+        state.completed++;
+        if (state.stage === 3) { state.stage = 4; state.outcome = 'success'; state.danger = 0; state.lastLink = 'cascade_complete'; return state; }
+        state.stage++; state.nodeIndex = 0; state.lastLink = 'array_ignited';
+      }
+      const next = state.stages[state.stage]; state.cue = next.sequence[state.nodeIndex]; state.deadline = state.tick + next.deadline_ticks; state.danger = 1;
+      return state;
+    }
+    function observe(state) {
+      const active = state.outcome === 'playing' ? state.stages[state.stage] : {available: [], node_count: 0};
+      return {
+        tick: state.tick, score: state.score, progress: state.completed, interactions: state.interactions,
+        entities: state.outcome === 'playing' ? active.node_count + 2 : 0,
+        quality: {
+          stage: state.stage, complexity: active.available.length, objective_progress: state.completed,
+          meaningful_actions: state.meaningfulActions,
+          reversible_state_key: [state.stage, state.nodeIndex, state.cue, state.warning, state.linked, state.completed, state.outcome].join(':')
+        }
+      };
+    }
+    function terminal(state) { return state.outcome === 'success' || state.outcome === 'failure'; }
+    return Object.freeze({create, step, observe, terminal});
+  }
   function createCore(config = {}) {
     if (config.id === 'threat-parry-v1') return createThreatParryCore();
     if (config.id === 'rift-thread-v1') return createRiftThreadCore();
@@ -484,9 +549,10 @@
     if (config.id === 'orbit-dock-v1') return createOrbitDockCore();
     if (config.id === 'thermal-vent-v1') return createThermalVentCore();
     if (config.id === 'current-surf-v1') return createCurrentSurfCore();
+    if (config.id === 'pulse-cascade-v1') return createPulseCascadeCore();
     throw Error('unsupported_reflex_core');
   }
-  const api = Object.freeze({create: createCore, plan, riftPlan, weavePlan, dockPlan, ventPlan, surfPlan, actions: ACTIONS, riftActions: RIFT_ACTIONS, weaveActions: WEAVE_ACTIONS, dockActions: DOCK_ACTIONS, ventActions: VENT_ACTIONS, surfActions: SURF_ACTIONS, version: 'reflexkit-4'});
+  const api = Object.freeze({create: createCore, plan, riftPlan, weavePlan, dockPlan, ventPlan, surfPlan, cascadePlan, actions: ACTIONS, riftActions: RIFT_ACTIONS, weaveActions: WEAVE_ACTIONS, dockActions: DOCK_ACTIONS, ventActions: VENT_ACTIONS, surfActions: SURF_ACTIONS, cascadeActions: CASCADE_ACTIONS, version: 'reflexkit-5'});
   root.PlayJoltReflexKit = api;
   if (typeof module !== 'undefined') module.exports = api;
 })(globalThis);

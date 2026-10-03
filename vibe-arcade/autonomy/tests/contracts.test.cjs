@@ -68,7 +68,7 @@ test('GameKit owns bounded gesture-gated audio, mute, pause and pagehide cleanup
   const saved=new Map(),names=['window','document','location','matchMedia','localStorage','performance','devicePixelRatio','requestAnimationFrame','cancelAnimationFrame','ResizeObserver','LoopJoltFeelAudio','PlayJoltGameKit','GameDiagnostics'];
   for(const name of names)saved.set(name,Object.getOwnPropertyDescriptor(globalThis,name));
   t.after(()=>{for(const [name,descriptor] of saved){delete globalThis[name];if(descriptor)Object.defineProperty(globalThis,name,descriptor);}delete require.cache[require.resolve('../gamekit/gamekit.js')];});
-  class Node extends EventTarget{constructor(){super();this.hidden=false;this.textContent='';this.attrs={};}setAttribute(k,v){this.attrs[k]=v;}getBoundingClientRect(){return {x:0,y:0,width:390,height:520};}focus(){}setPointerCapture(){}}
+  class Node extends EventTarget{constructor(){super();this.hidden=false;this.textContent='';this.attrs={};this.style={};}setAttribute(k,v){this.attrs[k]=v;}getBoundingClientRect(){return {x:0,y:0,width:390,height:520};}focus(){}setPointerCapture(){}}
   const nodes=new Map(),get=selector=>{if(!nodes.has(selector))nodes.set(selector,new Node());return nodes.get(selector);};
   const doc=new EventTarget();doc.hidden=false;doc.querySelector=get;
   const win=new EventTarget(),media=new EventTarget();media.matches=false;
@@ -77,8 +77,9 @@ test('GameKit owns bounded gesture-gated audio, mute, pause and pagehide cleanup
   delete require.cache[require.resolve('../gamekit/gamekit.js')];
   const kit=require('../gamekit/gamekit.js'),canvas=get('[data-game-canvas]');
   const core={create:()=>({outcome:'playing'}),step:()=>{},observe:s=>({tick:0,score:0,progress:0,interactions:0,entities:0,quality:{meaningful_actions:0}}),terminal:()=>false};
-  const product={progress:{state_path:'progress'},completion:{state_path:'state.outcome',success_value:'success',failure_value:'failure'}};
+  const product={progress:{state_path:'progress'},completion:{state_path:'state.outcome',success_value:'success',failure_value:'failure'},mobile:{critical_selectors:['[data-score-label]'],control_selectors:['[data-game-start]']}};
   const game=kit.create({core,renderer:{render(){},resize(){},dispose(){}},canvas,seed:7,metadata:{game_id:'GAME-20261002-999',version:'v1',product_contract:product,commercial_contract:{audio:{mode:'required',mute_selector:'[data-mute]'}}}});
+  assert.match(get('[data-score-label]').style.fontSize,/14px/);assert.equal(get('[data-game-start]').style.minWidth,'44px');assert.equal(get('[data-game-start]').style.minHeight,'44px');
   assert.equal(createdAudio,0,'audio runtime must stay uninitialized before a player gesture');
   get('[data-game-start]').dispatchEvent(new Event('click'));assert.equal(createdAudio,0,'Start must not create AudioContext before gameplay input');
   const key=new Event('keydown');Object.defineProperties(key,{code:{value:'ArrowLeft'},repeat:{value:false}});win.dispatchEvent(key);assert.deepEqual(audio.at(-1),['enable',true]);assert.equal(createdAudio,1);

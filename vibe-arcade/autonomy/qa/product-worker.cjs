@@ -140,11 +140,13 @@ async function execute(config){
     await check('capture_no_writes',{},async()=>{await ses.p.waitForTimeout(30);expect(!ses.effects.length,'zero capture writes',ses.effects);return {writes:ses.effects.length};});
    }catch(e){await check('lifecycle',{blocked:true},()=>{throw e;});}
    finally{if(ses)await ses.close();}
-   // Independent initial-reduce / static-feedback / failure path still run.
+   // Reduced-motion feedback and failure reachability must not share mutated state.
    let other;
    try{other=await session(width,height,contract.difficulty.deterministic_seeds[0],{reducedMotion:'reduce'});
     await check('reduced_motion',{phase:'initial_reduce',state_path:contract.reduced_motion.presentation_probe_path},async()=>{const s=await snap(other.p);expect(at(s,contract.reduced_motion.presentation_probe_path)===true,'initial reduce honored',s.presentation);return s.presentation;});await start(other.p);
     await check('feedback',{phase:'static_reduce',state_path:contract.feedback.static_probe_path,selector:contract.feedback.visual_probe},()=>feedback(other.p,other.ctx,mode,true));
+    await other.close();other=null;
+    other=await session(width,height,contract.difficulty.deterministic_seeds[0]);await start(other.p);
     await check('failure_result',{state_path:contract.completion.state_path,selector:contract.completion.result_selector},async()=>{for(const id of contract.completion.failure_actions)await input(other.p,other.ctx,id,mode);for(let ms=0;ms<contract.completion.failure_wait_ms&&(await snap(other.p)).phase==='playing';ms+=250)await other.p.clock.runFor(250);const s=await snap(other.p);expect(s.phase==='finished'&&at(s,contract.completion.state_path)===contract.completion.failure_value,'failure terminal through normal actions / idle',s.state);expect((await visible(other.p,contract.completion.result_selector)).includes(contract.completion.failure_text),contract.completion.failure_text,await other.p.locator(contract.completion.result_selector).innerText());await capture(other.p,'failure');await visible(other.p,contract.replay.selector,{initial:width===390});return {phase:s.phase,outcome:at(s,contract.completion.state_path)};});
    }catch(e){await check('failure_path',{blocked:true},()=>{throw e;});}finally{if(other)await other.close();}
    r.browser_cases.push({viewport:currentViewport,passed:r.hard_failures.length===count,checks:r.checks.filter(c=>c.viewport?.width===width)});save();
