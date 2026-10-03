@@ -1,0 +1,64 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261003-335",
+  "title": "Prism Wake",
+  "slug": "prism-wake",
+  "family_id": "current-surfing",
+  "design_id": "current-surfing-original-01",
+  "lane": "original",
+  "runner": "foundry/surf-runner.cjs",
+  "seeds": [
+    3566,
+    3567,
+    3568,
+    3569,
+    3570,
+    3571
+  ],
+  "theme": {
+    "singular": "Gate",
+    "plural": "Gates",
+    "arena": "Breakline",
+    "progress": "CURRENTS",
+    "success": "CURRENT MASTERED",
+    "failure": "BREAK COLLISION"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "original",
+    "family_id": "current-surfing",
+    "design_id": "current-surfing-original-01",
+    "runner": "foundry/surf-runner.cjs",
+    "learning_focus": [
+      "input-parity",
+      "lifecycle-integrity",
+      "action-feedback",
+      "difficulty-progression"
+    ]
+  },
+  "learning_focus": [
+    "input-parity",
+    "lifecycle-integrity",
+    "action-feedback",
+    "difficulty-progression"
+  ],
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Carve an original light rider through twelve seed-owned current gates using one-band banks, a two-band pulse jump and an inner-band undertow, with moving geometry, shrinking deadlines and one recoverable wake warning."
+}
