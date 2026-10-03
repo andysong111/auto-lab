@@ -8,6 +8,7 @@ const {validate} = require('../orchestrator/manifest.cjs');
 const sleep = ms => new Promise(r => setTimeout(r,ms));
 const at = (obj,key) => key.split('.').reduce((o,k) => o?.[k], obj);
 const snap = page => page.evaluate(() => GameDiagnostics.snapshot());
+const progressChanged = (baseline,after) => after?.score!==baseline?.score||after?.progress!==baseline?.progress;
 async function execute(config) {
   const {manifest, gameRoot, outDir, policy} = config; validate(manifest);
   fs.mkdirSync(outDir,{recursive:true}); const began=Date.now(), sourceHash=hashTree(gameRoot);
@@ -51,9 +52,10 @@ async function execute(config) {
         await check('real_clock',async()=>{ const s=await snap(p); await p.waitForFunction(t=>GameDiagnostics.snapshot().tick>t,s.tick,{timeout:policy.limits.freeze_ms}); });
         // Keep real-clock liveness as a separate hard gate; accelerate only the subsequent full lifecycle.
         await p.clock.pauseAt(new Date(await p.evaluate(()=>Date.now())+100));
+        const progressBaseline=await snap(p);
         await check('keyboard',async()=>{ const before=await snap(p), value=at(before,manifest.qa.keyboard.observation); assert(value!==undefined,'observation missing'); await p.keyboard.down(manifest.qa.keyboard.key); await p.clock.runFor(200); await p.keyboard.up(manifest.qa.keyboard.key); const after=await snap(p); assert(after.accepted_inputs.keyboard>before.accepted_inputs.keyboard,'keyboard not accepted'); assert.notDeepEqual(at(after,manifest.qa.keyboard.observation),value,'keyboard had no core effect'); });
         await check('touch',async()=>{ const before=await snap(p), value=at(before,manifest.qa.pointer.observation); assert(value!==undefined,'pointer observation missing'); const box=await p.locator('[data-game-canvas]').boundingBox(), probe=reviewedTouchProbe(manifest); const cdp=await ctx.newCDPSession(p); await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:box.x+box.width*probe.point.x,y:box.y+box.height*probe.point.y}]}); await p.clock.runFor(80); await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]}); await cdp.detach(); const after=await snap(p); assert(after.accepted_inputs.pointer>before.accepted_inputs.pointer,'touch not accepted'); assert.notDeepEqual(at(after,manifest.qa.pointer.observation),value,'touch had no core effect for '+(probe.action||probe.source)); });
-        await check('progress',async()=>{ const before=await snap(p); await p.clock.runFor(200); const after=await snap(p); assert(after.score!==before.score||after.progress!==before.progress,'no score/progress change'); });
+        await check('progress',async()=>{ await p.clock.runFor(200); const after=await snap(p); assert(progressChanged(progressBaseline,after),'reviewed keyboard/touch actions produced no score/progress change'); });
         await check('interaction',async()=>{ assert((await snap(p)).interactions>0,'no damage/collision/interaction'); });
         await capture('playing');
         await check('pause',async()=>{ await p.locator('[data-game-pause]').click(); const before=await snap(p); assert(before.paused); await p.clock.runFor(300); assert.deepEqual((await snap(p)).state,before.state,'paused simulation changed'); });
@@ -94,4 +96,4 @@ async function execute(config) {
   return report;
 }
 if(require.main===module) execute(readJSON(process.argv[2])).then(r=>{process.exitCode=r.passed?0:1;}).catch(e=>{console.error(e.message);process.exitCode=1;});
-module.exports={execute};
+module.exports={execute,progressChanged};

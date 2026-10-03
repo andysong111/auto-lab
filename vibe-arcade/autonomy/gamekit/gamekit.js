@@ -27,17 +27,21 @@
     if (audioContract && !productContract?.completion) throw Error('audio_product_contract_missing');
     const mute = audioContract ? document.querySelector(audioContract.mute_selector) : null;
     if (audioContract && !mute) throw Error('missing_game_ui:mute');
-    const feelAudio = audioContract && root.LoopJoltFeelAudio?.create ? root.LoopJoltFeelAudio.create({volume:.12,maxVoices:8}) : null;
-    if (audioContract && !feelAudio) throw Error('feel_audio_runtime_missing');
+    if (audioContract && !root.LoopJoltFeelAudio?.create) throw Error('feel_audio_runtime_missing');
     const storageKey = 'playjolt_practice_' + metadata.game_id + '_' + metadata.version;
     let state = core.create(seed), phase = 'idle', paused = false, disposed = false, frame = 0, last = 0, acc = 0, epoch = 0;
     let inputs = {x: 0, y: 0, action: false, pointer: null, actions: {}}, accepted = {keyboard: 0, pointer: 0}, error = null, best = 0;
     const keys = new Set(), removers = [], effects = {frames: 0, discarded_ms: 0};
-    let soundOn = !!audioContract, previousAudioSnapshot = null;
+    let soundOn = !!audioContract, feelAudio = null, previousAudioSnapshot = null;
     try { if (!isolated) best = Number(localStorage.getItem(storageKey)) || 0; } catch { /* Practice works without storage. */ }
     function on(target, type, handler, options) { target.addEventListener(type, handler, options); removers.push(() => target.removeEventListener(type, handler, options)); }
     function updateMute() { if (mute) { mute.textContent = soundOn ? 'Sound on' : 'Sound off'; mute.setAttribute('aria-pressed', String(soundOn)); } }
-    function setAudio(value) { soundOn = !!value; updateMute(); return feelAudio?.enable(soundOn); }
+    function audioRuntime() {
+      if (!audioContract) return null;
+      if (!feelAudio) feelAudio = root.LoopJoltFeelAudio.create({volume:.12,maxVoices:8});
+      return feelAudio;
+    }
+    function setAudio(value) { soundOn = !!value; updateMute(); return soundOn ? audioRuntime()?.enable(true) : feelAudio?.enable(false); }
     function suspendAudio() { return feelAudio?.enable(false); }
     function cue(kind) {
       if (!feelAudio?.enabled) return;
@@ -75,7 +79,7 @@
       return clone({schema_version: 1, metadata, seed, phase, paused, disposed, capture, qa, ranked: false,
         state, tick: o.tick, progress: o.progress, score: o.score, interactions: o.interactions,
         entities: o.entities, accepted_inputs: accepted, error, best, effects,
-        quality: o.quality || null, presentation: {...(presentation() || {}), platform_reduced_motion: reducedMotion}});
+        quality: o.quality || null, presentation: {...(presentation() || {}), ...(renderer?.presentation?.() || {}), platform_reduced_motion: reducedMotion}});
     }
     function render() {
       const s = snapshot(); if (renderer) renderer.render(s,{width:canvas.width,height:canvas.height}); else draw(canvas.getContext('2d'), s, {width: canvas.width, height: canvas.height});
@@ -115,13 +119,13 @@
     }
     function start() {
       if (disposed || phase === 'playing' || document.hidden) return;
-      if (soundOn) feelAudio?.enable(true);
+      if (soundOn) audioRuntime()?.enable(true);
       epoch++; state = core.create(seed); phase = 'playing'; paused = false; error = null;
       q('error').hidden = true; accepted = {keyboard: 0, pointer: 0}; resetInput(); acc = 0; last = performance.now();
       core.begin?.(state); canvas.focus({preventScroll: true}); render();
     }
     function pause() { if (phase === 'playing') { paused = true; resetInput(); acc = 0; suspendAudio(); render(); } }
-    function resume() { if (phase === 'playing' && !document.hidden && !disposed) { paused = false; resetInput(); last = performance.now(); acc = 0; if(soundOn)feelAudio?.enable(true); render(); } }
+    function resume() { if (phase === 'playing' && !document.hidden && !disposed) { paused = false; resetInput(); last = performance.now(); acc = 0; if(soundOn)audioRuntime()?.enable(true); render(); } }
     function restart() { if (phase === 'playing' || disposed) return; phase = 'idle'; start(); }
     function loop(now) {
       if (disposed) return;

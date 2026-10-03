@@ -53,7 +53,7 @@ test('published build descriptor satisfies the shared manifest schema',async t=>
   for(const name of ['phaser.js','feelfx.js','feelaudio.js','phaserkit.js','reflexkit.js','gamekit.js'])assert(fs.existsSync(path.join(dir,name)),'factory runtime missing '+name);
   assert(fs.statSync(path.join(dir,'phaser.js')).size>1000000,'pinned Phaser runtime should be local, not a CDN stub');
   assert.match(fs.readFileSync(path.join(dir,'phaserkit.js'),'utf8'),/4\.2\.1/);
-  assert.match(fs.readFileSync(path.join(dir,'reflexkit.js'),'utf8'),/reflexkit-2/);
+  assert.match(fs.readFileSync(path.join(dir,'reflexkit.js'),'utf8'),/reflexkit-3/);
   assert.match(fs.readFileSync(path.join(dir,'gamekit.js'),'utf8'),/gamekit-3/);
 });
 

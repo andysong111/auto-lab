@@ -8,6 +8,7 @@
   const RIFT_ACTIONS = Object.freeze(['shift_left', 'shift_right', 'dash_left', 'dash_right', 'surge']);
   const RIFT_DEADLINES = Object.freeze([0, 360, 270, 210]);
   const WEAVE_ACTIONS = Object.freeze(['weave_left', 'weave_right', 'weave_up', 'weave_down']);
+  const DOCK_ACTIONS = Object.freeze(['orbit_left', 'orbit_right', 'charge_pulse', 'slingshot', 'dock']);
 
   function directions(stage) { return ACTIONS.slice(0, stage + 1); }
   function plan(seed) {
@@ -53,6 +54,25 @@
         start_mask: 1 << order[0],
         move_limit: sockets
       });
+    }
+    return Object.freeze(stages);
+  }
+  function dockPlan(seed) {
+    if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff) throw Error('invalid_seed');
+    const stages = {};
+    for (let stage = 1; stage <= 3; stage++) {
+      const slots = stage + 3, gateCount = stage + 1, targets = [];
+      let previous = 0;
+      for (let gate = 0; gate < gateCount; gate++) {
+        let target = 1 + ((seed + stage * 5 + gate * 3) % (slots - 1));
+        if (target === previous) target = 1 + (target % (slots - 1));
+        targets.push(target); previous = target;
+      }
+      const available = ['orbit_left', 'orbit_right'];
+      if (stage >= 2) available.push('charge_pulse');
+      if (stage >= 3) available.push('slingshot');
+      available.push('dock');
+      stages[stage] = Object.freeze({slots, gate_count: gateCount, targets: Object.freeze(targets), available: Object.freeze(available)});
     }
     return Object.freeze(stages);
   }
@@ -220,13 +240,74 @@
     function terminal(state) { return state.outcome === 'success' || state.outcome === 'failure'; }
     return Object.freeze({create, step, observe, terminal});
   }
+  function createOrbitDockCore() {
+    function create(seed) {
+      const stages = dockPlan(seed), first = stages[1];
+      return {
+        seed, tick: 0, stage: 1, gateIndex: 0, position: 0, target: first.targets[0], warning: 0,
+        docked: 0, completed: 0, outcome: 'playing', score: 0, interactions: 0,
+        meaningfulActions: 0, deadline: 2700, danger: 1, lastDock: 'ready', stages
+      };
+    }
+    function selectedAction(state, input) {
+      const available = state.stages[state.stage]?.available || [];
+      return available.find(name => input?.actions?.[name] === true) || null;
+    }
+    function move(state, delta, action, reward) {
+      const slots = state.stages[state.stage].slots;
+      state.position = (state.position + delta + slots) % slots;
+      state.warning = 0; state.lastDock = action; state.score += reward * state.stage;
+    }
+    function step(state, input) {
+      if (state.outcome !== 'playing') return state;
+      state.tick++;
+      state.danger = Math.max(0, (state.deadline - state.tick) / state.deadline);
+      if (state.tick >= state.deadline) { state.outcome = 'failure'; state.lastDock = 'relay_timeout'; return state; }
+      const action = selectedAction(state, input);
+      if (!action) return state;
+      state.interactions++; state.meaningfulActions++;
+      if (action === 'orbit_left') { move(state, -1, action, 4); return state; }
+      if (action === 'orbit_right') { move(state, 1, action, 4); return state; }
+      if (action === 'charge_pulse') { move(state, 2, action, 7); return state; }
+      if (action === 'slingshot') { move(state, 3, action, 10); return state; }
+      if (state.position !== state.target) {
+        if (!state.warning) { state.warning = 1; state.lastDock = 'alignment_warning'; return state; }
+        state.outcome = 'failure'; state.lastDock = 'second_bad_dock'; return state;
+      }
+      const stagePlan = state.stages[state.stage];
+      state.docked++; state.gateIndex++; state.warning = 0; state.lastDock = 'gate_docked';
+      state.score += 120 * state.stage;
+      if (state.gateIndex >= stagePlan.gate_count) {
+        state.completed++;
+        if (state.stage === 3) { state.stage = 4; state.outcome = 'success'; state.lastDock = 'relay_complete'; return state; }
+        state.stage++; state.gateIndex = 0; state.position = 0; state.lastDock = 'ring_complete';
+      }
+      const next = state.stages[state.stage]; state.target = next.targets[state.gateIndex];
+      return state;
+    }
+    function observe(state) {
+      const active = state.outcome === 'playing' ? state.stages[state.stage] : {slots: 0, available: []};
+      return {
+        tick: state.tick, score: state.score, progress: state.completed, interactions: state.interactions,
+        entities: Array.from({length: active.slots}, (_, slot) => ({id: 'dock-' + slot, slot, player: slot === state.position, target: slot === state.target, warning: state.warning, danger: state.danger})),
+        quality: {
+          stage: state.stage, complexity: active.available.length, objective_progress: state.completed,
+          meaningful_actions: state.meaningfulActions,
+          reversible_state_key: [state.stage, state.gateIndex, state.position, state.target, state.warning, state.docked, state.completed, state.outcome].join(':')
+        }
+      };
+    }
+    function terminal(state) { return state.outcome === 'success' || state.outcome === 'failure'; }
+    return Object.freeze({create, step, observe, terminal});
+  }
   function createCore(config = {}) {
     if (config.id === 'threat-parry-v1') return createThreatParryCore();
     if (config.id === 'rift-thread-v1') return createRiftThreadCore();
     if (config.id === 'constellation-weave-v1') return createConstellationWeaveCore();
+    if (config.id === 'orbit-dock-v1') return createOrbitDockCore();
     throw Error('unsupported_reflex_core');
   }
-  const api = Object.freeze({create: createCore, plan, riftPlan, weavePlan, actions: ACTIONS, riftActions: RIFT_ACTIONS, weaveActions: WEAVE_ACTIONS, version: 'reflexkit-2'});
+  const api = Object.freeze({create: createCore, plan, riftPlan, weavePlan, dockPlan, actions: ACTIONS, riftActions: RIFT_ACTIONS, weaveActions: WEAVE_ACTIONS, dockActions: DOCK_ACTIONS, version: 'reflexkit-3'});
   root.PlayJoltReflexKit = api;
   if (typeof module !== 'undefined') module.exports = api;
 })(globalThis);
