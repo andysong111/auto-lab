@@ -90,6 +90,12 @@
       "status": "reviewed",
       "hypothesis": "A protected closing-gate core, visible lane openings, deliberate steering and a risky surge action create a readable action loop with real collision stakes and route mastery.",
       "copy_boundary": "No endless-runner character, branded vehicle, observed tunnel layout, obstacle sequence, artwork, audio, code, scoring system or distinctive lane ruleset may be copied."
+    },
+    {
+      "id": "constellation-weaving",
+      "status": "reviewed",
+      "hypothesis": "A protected spatial chain core, direct socket choices and visible remaining capacity create a short puzzle with immediate manipulation, honest failure and score mastery.",
+      "copy_boundary": "No benchmark board, draggable block, row or column clear, observed shape, layout, artwork, audio, code, scoring system or distinctive packing ruleset may be copied."
     }
   ],
   "designs": [
@@ -261,6 +267,18 @@
       "title_seed": "Rift skimmer",
       "novelty_contract": "Steer an original light skimmer across widening tunnel lanes, then choose the moment to surge through nine visible closing openings governed by one protected collision and countdown authority.",
       "candidate": {"title":"Rift Skimmer","slug":"rift-skimmer","theme":{"singular":"Gate","plural":"Gates","arena":"Riftway","progress":"STAGES","success":"RIFT THREADED","failure":"GATE COLLISION"}}
+    },
+    {
+      "id": "constellation-weaving-market-01",
+      "lane": "market-benchmark",
+      "family_id": "constellation-weaving",
+      "status": "reviewed",
+      "min_sequence": 32,
+      "runner": "foundry/weave-runner.cjs",
+      "benchmark_id": "google-play-block-puzzle-en-20261003",
+      "title_seed": "Nova lattice",
+      "novelty_contract": "Transfer immediate manipulation clarity, visible remaining spatial capacity and personal-best replay motivation into an original radial thread lattice whose protected core requires each seed-owned socket exactly once, without a block board, drag placement or line clearing.",
+      "candidate": {"title":"Nova Lattice","slug":"nova-lattice","theme":{"singular":"Thread","plural":"Threads","arena":"Lattice","progress":"CONSTELLATIONS","success":"LATTICE COMPLETE","failure":"THREAD FRACTURED"}}
     }
   ]
 }

@@ -18,7 +18,8 @@ function validBuildInvariants(data,product,commercial,model){
     const core=data.factory_core;
     const approved=[
       {runtime:'reflexkit-2',required_script:'./reflexkit.js',core_source:"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'threat-parry-v1'});\n",time_authority:'state.deadline and state.danger are advanced by the same factory core that decides parry, score, progress, success and failure.',stage_action_counts:[2,4,6]},
-      {runtime:'reflexkit-2',required_script:'./reflexkit.js',core_source:"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'rift-thread-v1'});\n",time_authority:'state.deadline and state.danger are advanced by the same factory core that decides lane movement, surge collision, score, progress, success and failure.',stage_action_counts:[2,3,4]}
+      {runtime:'reflexkit-2',required_script:'./reflexkit.js',core_source:"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'rift-thread-v1'});\n",time_authority:'state.deadline and state.danger are advanced by the same factory core that decides lane movement, surge collision, score, progress, success and failure.',stage_action_counts:[2,3,4]},
+      {runtime:'reflexkit-2',required_script:'./reflexkit.js',core_source:"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'constellation-weave-v1'});\n",time_authority:'state.litMask, state.usedMask and state.moves are advanced by the same factory core that decides thread legality, score, progress, success and overload failure.',stage_action_counts:[2,3,4]}
     ];
     if(!core||!approved.some(item=>JSON.stringify(core)===JSON.stringify(item)))return false;
   }

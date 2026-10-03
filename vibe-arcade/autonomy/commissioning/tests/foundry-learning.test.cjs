@@ -7,6 +7,7 @@ const {foundryBlueprintFor,materialize}=require('../../cycle/intake-generator.cj
 const foundryRunner=require('../../foundry/family-runner.cjs');
 const arcadeRunner=require('../../foundry/arcade-runner.cjs');
 const reflexRunner=require('../../foundry/reflex-runner.cjs');
+const weaveRunner=require('../../foundry/weave-runner.cjs');
 const reflexKit=require('../../gamekit/reflexkit.js');
 const {validateProposal}=require('../spec-gate.cjs');
 const designCatalog=require('../../foundry/design-catalog.json'),benchmarkCatalog=require('../../foundry/benchmark-catalog.json');
@@ -165,6 +166,31 @@ test('sequence 31 selects a distinct protected rift-threading action design',()=
     assert.equal(state.outcome,'success');assert.equal(core.terminal(state),true);
   }
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-rift-intake-'));try{const meta=materialize(root,31,'20261003',selected),commission=fs.readFileSync(path.join(root,'candidate','commission.cjs'),'utf8');assert.equal(meta.family_id,'rift-threading');assert.match(commission,/foundry\/reflex-runner/);}finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+
+test('sequence 32 selects a fresh protected market-benchmark spatial chain design',()=>{
+  const used=designCatalog.designs.filter(design=>design.id!=='constellation-weaving-market-01').map(design=>design.id);
+  const learning={retired_families:['permutation-ordering-v1'],used_design_ids:used,families:{'rift-threading':{attempts:1,rejected:1,rc_ready:0}},top_failure_codes:[{code:'product_replay',count:24},{code:'commercial_mobile_hierarchy',count:45},{code:'commercial_action_feedback',count:55}]};
+  const selected=select({sequence:32,date:'2026-10-03',designCatalog,benchmarkCatalog,learningProfile:learning});
+  assert.equal(selected.status,'SELECTED');assert.equal(selected.design.family_id,'constellation-weaving');assert.equal(selected.design.runner,'foundry/weave-runner.cjs');assert.equal(selected.lane,'market-benchmark');
+  assert.equal(selected.benchmark.url,'https://play.google.com/store/apps/details?id=com.block.juggle');
+  const bp=foundryBlueprintFor(selected,32,'20261003'),model=weaveRunner.buildModel(bp),proposal=foundryRunner.proposalFor(bp,model);
+  assert.equal(bp.game_id,'GAME-20261003-332');assert.equal(bp.title,'Nova Lattice');assert.match(proposal.genre,/spatial chain puzzle/);
+  assert.deepEqual(Object.keys(proposal.product_contract.actions),['weave_left','weave_right','weave_up','weave_down']);
+  assert.deepEqual(proposal.product_contract.completion.failure_actions,['weave_left','weave_left']);
+  assert.equal(proposal.build_invariants.factory_core.runtime,'reflexkit-2');assert.equal(proposal.build_invariants.factory_core.required_script,'./reflexkit.js');
+  assert.equal(proposal.build_invariants.factory_core.core_source,"globalThis.GameCore = globalThis.PlayJoltReflexKit.create({id:'constellation-weave-v1'});\n");
+  assert.match(proposal.implementation_contract.originality,/Do not use an 8x8 board/);
+  product.validateModel(model);product.validate(proposal.product_contract);commercial.validate(proposal.commercial_contract);commercial.semantics(proposal.commercial_contract,proposal.product_contract,model);assertBuildInvariants(model,proposal);
+  assert.equal(validateReviewedProposal(bp,model,proposal).passed,true);
+  for(const seed of bp.seeds){
+    const invariant=proposal.build_invariants.seeds[String(seed)],rows=invariant.quality_checkpoints,core=reflexKit.create({id:'constellation-weave-v1'}),state=core.create(seed),project=()=>model.projection.map(key=>product.at({state},key));
+    assert.deepEqual(rows.map(row=>row.complexity),[2,3,4]);assert.deepEqual(rows.map(row=>row.required_actions),[2,3,4]);assert.equal(invariant.success_actions.length,9);
+    assert.deepEqual(project(),invariant.success_states[0]);
+    invariant.success_actions.forEach((action,index)=>{core.step(state,{actions:{[action]:true}});assert.deepEqual(project(),invariant.success_states[index+1]);});
+    assert.equal(state.outcome,'success');assert.equal(core.terminal(state),true);
+  }
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-weave-intake-'));try{const meta=materialize(root,32,'20261003',selected),commission=fs.readFileSync(path.join(root,'candidate','commission.cjs'),'utf8');assert.equal(meta.family_id,'constellation-weaving');assert.match(commission,/foundry\/weave-runner/);}finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 
 test('candidate summary becomes bounded learning data with immutable lineage',()=>{
