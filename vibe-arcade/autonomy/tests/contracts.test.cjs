@@ -41,11 +41,12 @@ test('fixture core is DOM independent and deterministic for the same seed/input 
   assert.deepEqual(a,b);assert(core.terminal(a));assert(a.interactions>0&&a.score>0);assert.equal(a.tick,600);
 });
 
-test('factory Phaser bridge owns cloned snapshots and canonical feedback/result presentation',t=>{
-  const priorPhaser=globalThis.Phaser,priorKit=globalThis.PlayJoltPhaserKit,priorFeel=globalThis.LoopJoltFeelFX;let created=0,updated=[],resized=null,destroyed=false,feelDestroyed=false;
+test('factory Phaser bridge owns cloned snapshots, canonical presentation and no audio context',t=>{
+  const priorPhaser=globalThis.Phaser,priorKit=globalThis.PlayJoltPhaserKit,priorFeel=globalThis.LoopJoltFeelFX;let created=0,updated=[],resized=null,destroyed=false,feelDestroyed=false,gameConfig=null;
   let updateScene=null;
   class FakeGame{
     constructor(config){
+      gameConfig=config;
       this.scale={width:320,height:180,resize:(w,h)=>{resized=[w,h];this.scale.width=w;this.scale.height=h;}};
       this.destroy=remove=>{destroyed=remove===true;};
       const chain={setDepth(){return this;},setOrigin(){return this;},setText(){return this;},setPosition(){return this;},setFontSize(){return this;},setVisible(){return this;},clear(){return this;},lineStyle(){return this;},strokeCircle(){return this;},fillStyle(){return this;},fillCircle(){return this;},fillRoundedRect(){return this;},fillRect(){return this;},strokeRect(){return this;}};
@@ -60,6 +61,7 @@ test('factory Phaser bridge owns cloned snapshots and canonical feedback/result 
   const original={state:{x:1,outcome:'playing'},quality:{reversible_state_key:'a'},progress:0,presentation:{}};renderer.render(original);assert.equal(original.state.x,1);assert.equal(updated.at(-1).state.x,999);assert.equal(renderer.presentation().feedback_active,false);
   renderer.render({...original,state:{x:2,outcome:'playing'},quality:{reversible_state_key:'b'}});assert.equal(renderer.presentation().feedback_active,true);for(let index=0;index<5;index++)updateScene(100);assert.equal(renderer.presentation().feedback_active,false);assert.equal(renderer.presentation().static_feedback,true);
   renderer.render({...original,state:{x:3,outcome:'success'},quality:{reversible_state_key:'c'}});assert.equal(renderer.presentation().protected_result,true);
+  assert.deepEqual(gameConfig.audio,{noAudio:true},'Phaser must not create audio outside GameKit player gestures');
   renderer.resize(640,360);assert.deepEqual(resized,[640,360]);renderer.dispose();assert(destroyed);assert(feelDestroyed);assert.equal(created,1);assert.equal(renderer.kind,'phaser4');assert.equal(renderer.version,'4.2.1');
   t.after(()=>{if(priorPhaser===undefined)delete globalThis.Phaser;else globalThis.Phaser=priorPhaser;if(priorKit===undefined)delete globalThis.PlayJoltPhaserKit;else globalThis.PlayJoltPhaserKit=priorKit;if(priorFeel===undefined)delete globalThis.LoopJoltFeelFX;else globalThis.LoopJoltFeelFX=priorFeel;delete require.cache[require.resolve('../gamekit/phaserkit.js')];});
 });
