@@ -432,16 +432,16 @@ test('workflows learn before generation and preserve serial production-off limit
   assert.match(cycle,/production=false/);
 });
 
-test('sequence 38 selects one reviewed market world-kit around the exact Halo Guard golden baseline',()=>{
-  const result=select({sequence:38,date:'2026-10-05',designCatalog,benchmarkCatalog,learningProfile:{recent_outcomes:[]},calibrationPolicy:tasteCalibration});
+test('sequence 38 selects one reviewed market world-kit before the Korea/UTC date boundary',()=>{
+  const result=select({sequence:38,date:'2026-10-04',designCatalog,benchmarkCatalog,learningProfile:{recent_outcomes:[]},calibrationPolicy:tasteCalibration});
   assert.equal(result.status,'SELECTED');assert.equal(result.lane,'market-benchmark');assert.equal(result.design.id,'radial-guarding-market-01');assert.equal(result.design.golden_baseline_id,'halo-guard-v9');
   assert.equal(result.design.variation.axis,'world-kit');assert.deepEqual(result.design.variation.changed_components,['cloud-caravan-world-kit-v1']);assert.match(result.benchmark.url,/^https:\/\/play\.google\.com\//);
-  const bp=foundryBlueprintFor(result,38,'20261005');assert.equal(bp.golden_baseline_id,'halo-guard-v9');assert.equal(bp.foundry.golden_baseline_id,'halo-guard-v9');assert.deepEqual(bp.seeds,radialRunner.SEEDS);assert.deepEqual(bp.variation,result.design.variation);
+  const bp=foundryBlueprintFor(result,38,'20261004');assert.equal(bp.golden_baseline_id,'halo-guard-v9');assert.equal(bp.foundry.golden_baseline_id,'halo-guard-v9');assert.deepEqual(bp.seeds,radialRunner.SEEDS);assert.deepEqual(bp.variation,result.design.variation);
   const model=radialRunner.buildModel(bp),proposal=radialRunner.proposalFor(bp,model);
   product.validateModel(model);product.validate(proposal.product_contract);commercial.validate(proposal.commercial_contract);commercial.semantics(proposal.commercial_contract,proposal.product_contract,model);
   assert.equal(proposal.build_invariants.factory_core.runtime,'radialkit-1');assert.equal(proposal.build_invariants.factory_core.golden_baseline_id,'halo-guard-v9');assert.equal(proposal.build_invariants.factory_core.core_source,"globalThis.GameCore = globalThis.PlayJoltRadialKit.create({id:'halo-guard-v1'});\n");
   assert.equal(validateReviewedProposal(bp,model,proposal,radialRunner).passed,true);
   const corrupted=structuredClone(bp);corrupted.variation.changed_components=['toy-sky-environment-v1'];assert.throws(()=>radialRunner.validateBlueprint(corrupted),/reviewed_world_kit_required/);
   const changedSeeds=structuredClone(bp);changedSeeds.seeds[0]=8;assert.throws(()=>radialRunner.validateBlueprint(changedSeeds),/golden_seed_set_required/);
-  const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-radial-intake-'));try{const meta=materialize(root,38,'20261005',result),stored=JSON.parse(fs.readFileSync(path.join(root,'candidate','blueprint.json')));assert.equal(meta.family_id,'radial-guarding');assert.equal(stored.runner,'foundry/radial-runner.cjs');assert.deepEqual(stored.seeds,radialRunner.SEEDS);assert.equal(JSON.parse(fs.readFileSync(path.join(root,'candidate','queued-request.json'))).production_authorized,false);}finally{fs.rmSync(root,{recursive:true,force:true});}
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-radial-intake-'));try{const meta=materialize(root,38,'20261004',result),stored=JSON.parse(fs.readFileSync(path.join(root,'candidate','blueprint.json')));assert.equal(meta.family_id,'radial-guarding');assert.equal(stored.runner,'foundry/radial-runner.cjs');assert.deepEqual(stored.seeds,radialRunner.SEEDS);assert.equal(JSON.parse(fs.readFileSync(path.join(root,'candidate','queued-request.json'))).production_authorized,false);}finally{fs.rmSync(root,{recursive:true,force:true});}
 });
