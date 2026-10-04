@@ -1,10 +1,15 @@
 {
   "schema": "playjolt-owner-taste-calibration/1",
-  "state": "SELECTED_FOR_POLISH",
+  "state": "SELECTED_FOR_INTEGRATION",
   "required_from_sequence": 38,
   "selected_prototype_id": "radial-guard-c",
   "owner_selected_at": "2026-10-05",
-  "owner_note": "Halo Guard is the only viable baseline. Arc Relay and Bloom Circuit are rejected. Keep paid generation stopped until Halo Guard graphics and dynamics are polished and owner-approved.",
+  "owner_note": "The owner approved Halo Guard V9 as the completed taste baseline. Arc Relay and Bloom Circuit remain rejected. Keep paid intake stopped until the approved baseline is materialized as a golden play contract and reviewed component system. Production remains unauthorized.",
+  "owner_approved_at": "2026-10-05",
+  "approved_build": {
+    "name": "Halo Guard V9",
+    "commit": "78ec96c655b6e73ee1012d0f570d9d082161f881"
+  },
   "prototype_lab_path": "/lab/taste-calibration/",
   "prototypes": [
     {
@@ -26,7 +31,7 @@
       "title": "Halo Guard",
       "interaction": "continuous radial pointer defense",
       "lane": "original",
-      "owner_disposition": "SELECTED_FOR_POLISH"
+      "owner_disposition": "SELECTED_FOR_INTEGRATION"
     }
   ],
   "benchmark": {

@@ -431,7 +431,7 @@ test('workflows learn before generation and preserve serial production-off limit
   assert.match(cycle,/production=false/);
 });
 
-test('owner-selected Halo Guard polish blocks paid sequence 38 before final approval',()=>{
+test('owner-approved Halo Guard blocks paid sequence 38 until golden baseline integration',()=>{
   const result=select({sequence:38,date:'2026-10-05',designCatalog,benchmarkCatalog,learningProfile:{recent_outcomes:[]},calibrationPolicy:tasteCalibration});
-  assert.equal(result.status,'IDLE');assert.equal(result.reason,'owner_taste_polish_pending');assert.equal(result.lane,'market-benchmark');
+  assert.equal(result.status,'IDLE');assert.equal(result.reason,'owner_taste_integration_pending');assert.equal(result.lane,'market-benchmark');
 });

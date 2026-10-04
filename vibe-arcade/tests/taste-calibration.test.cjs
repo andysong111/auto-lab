@@ -3,12 +3,13 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const root=path.resolve(__dirname,'..'),lab=path.join(root,'lab/taste-calibration'),policyFile=path.join(root,'autonomy/foundry/taste-calibration.json');
 const {validatePolicy,effectiveDailyCap,gate,consecutiveRegressions}=require('../autonomy/foundry/taste-calibration.cjs');
 
-test('owner-selected Halo Guard polish remains zero-paid, private and blocks sequence 38',()=>{
+test('owner-approved Halo Guard V9 remains zero-paid until baseline integration',()=>{
   const policy=validatePolicy(JSON.parse(fs.readFileSync(policyFile,'utf8')));
-  assert.equal(policy.state,'SELECTED_FOR_POLISH');assert.equal(policy.required_from_sequence,38);assert.equal(policy.selected_prototype_id,'radial-guard-c');
-  assert.equal(policy.prototypes.find(x=>x.id==='kinetic-launch-a').owner_disposition,'REJECTED');assert.equal(policy.prototypes.find(x=>x.id==='chain-reaction-b').owner_disposition,'REJECTED');assert.equal(policy.prototypes.find(x=>x.id==='radial-guard-c').owner_disposition,'SELECTED_FOR_POLISH');
+  assert.equal(policy.state,'SELECTED_FOR_INTEGRATION');assert.equal(policy.required_from_sequence,38);assert.equal(policy.selected_prototype_id,'radial-guard-c');
+  assert.equal(policy.owner_approved_at,'2026-10-05');assert.equal(policy.approved_build.name,'Halo Guard V9');assert.equal(policy.approved_build.commit,'78ec96c655b6e73ee1012d0f570d9d082161f881');
+  assert.equal(policy.prototypes.find(x=>x.id==='kinetic-launch-a').owner_disposition,'REJECTED');assert.equal(policy.prototypes.find(x=>x.id==='chain-reaction-b').owner_disposition,'REJECTED');assert.equal(policy.prototypes.find(x=>x.id==='radial-guard-c').owner_disposition,'SELECTED_FOR_INTEGRATION');
   assert.equal(policy.post_selection_policy.max_candidates_per_utc_day,1);assert.equal(policy.post_selection_policy.pause_after_consecutive_measured_regressions,2);assert.equal(policy.post_selection_policy.production_authorized,false);
-  assert.equal(effectiveDailyCap(6,policy),0);assert.deepEqual(gate({sequence:38,policy,learningProfile:{}}),{allowed:false,reason:'owner_taste_polish_pending'});
+  assert.equal(effectiveDailyCap(6,policy),0);assert.deepEqual(gate({sequence:38,policy,learningProfile:{}}),{allowed:false,reason:'owner_taste_integration_pending'});
   const html=fs.readFileSync(path.join(lab,'index.html'),'utf8'),js=fs.readFileSync(path.join(lab,'game.js'),'utf8');
   assert.match(html,/noindex,nofollow/);assert.match(html,/Arc Relay와 Bloom Circuit은 탈락/);assert.match(html,/Halo Guard 보강판/);
   assert.doesNotMatch(js,/kinetic-launch-a/);assert.doesNotMatch(js,/chain-reaction-b/);assert.match(js,/radial-guard-c/);assert.match(js,/OVERDRIVE/);assert.match(js,/THREE\.WebGLRenderer/);assert.match(js,/THREE\.TextureLoader/);assert.match(js,/THREE\.PlaneGeometry/);assert.match(js,/createGuardian/);assert.match(js,/createWisp/);assert.match(js,/createRaider/);assert.match(js,/createEnvironment/);assert.match(js,/createCloud/);assert.match(js,/halo-sky-citadel-bg-v2\.png/);assert.match(js,/three-webgl/);assert.doesNotMatch(html+js,/https?:\/\//);
