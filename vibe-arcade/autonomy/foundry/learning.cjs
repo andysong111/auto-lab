@@ -16,8 +16,10 @@ function outcomeFromSummary(summary){
   const reasons=Array.isArray(summary.factory.failure_reasons)?summary.factory.failure_reasons:[],failure_codes={};
   for(const row of reasons){const code=String(row?.code||'unknown');failure_codes[code]=(failure_codes[code]||0)+1;}
   const lineage=summary.foundry||{};
+  const match=String(summary.game_id).match(/-(\d+)$/),slot=match?Number(match[1]):null;
   return {
     game_id:summary.game_id,title:summary.title||summary.game_id,
+    sequence:Number.isInteger(slot)&&slot>=301?slot-300:null,
     family_id:lineage.family_id||'permutation-ordering-v1',lane:lineage.lane||'legacy',design_id:lineage.design_id||null,
     state:summary.factory.state,technical:summary.factory.technical_qa_status,product:summary.factory.product_qa_status,
     commercial:summary.factory.commercial_qa_status,repairs:summary.factory.repair_attempt,
@@ -52,7 +54,11 @@ function compile({seed,outcomeRoot,maxFamilyRejections=3}){
   }
   const used_design_ids=[...byGame.values()].map(x=>x.design_id).filter(Boolean);
   const top_failure_codes=Object.entries(failures).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,24).map(([code,count])=>({code,count}));
-  return {schema:'playjolt-learning-profile/1',outcome_count:byGame.size,families,retired_families:retired_families.sort(),used_design_ids:[...new Set(used_design_ids)].sort(),top_failure_codes};
+  const recent_outcomes=[...byGame.values()].map(row=>{
+    const match=String(row.game_id||'').match(/-(\d+)$/),slot=match?Number(match[1]):null,sequence=Number.isInteger(row.sequence)?row.sequence:Number.isInteger(slot)&&slot>=301?slot-300:null;
+    return {game_id:row.game_id,sequence,state:row.state,design_id:row.design_id||null,quality_failure_count:Object.values(row.failure_codes||{}).reduce((sum,count)=>sum+(Number(count)||0),0)};
+  }).filter(row=>Number.isInteger(row.sequence)).sort((a,b)=>a.sequence-b.sequence).slice(-12);
+  return {schema:'playjolt-learning-profile/1',outcome_count:byGame.size,families,retired_families:retired_families.sort(),used_design_ids:[...new Set(used_design_ids)].sort(),top_failure_codes,recent_outcomes};
 }
 function main(){
   const [cmd,seedFile,outcomeRoot,outFile]=process.argv.slice(2);

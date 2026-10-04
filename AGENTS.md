@@ -86,6 +86,13 @@ The autonomous factory uses an adaptive daily ramp:
 
 Execution stays serial. The purpose of the ramp is to increase experiment velocity only after end-to-end autonomy is proven.
 
+Owner taste-calibration override (2026-10-05):
+
+- candidate sequence 38 and later stays at zero-paid `IDLE` until the owner plays all three private taste-calibration prototypes and selects one protected interaction baseline;
+- after that selection, the effective cap is temporarily **1 candidate / UTC day**, even if the older adaptive ramp would allow more;
+- two consecutive measured quality regressions pause further paid candidates for owner review;
+- this override does not authorize Production or weaken any QA gate.
+
 ## Source-of-truth precedence
 
 When sources disagree:

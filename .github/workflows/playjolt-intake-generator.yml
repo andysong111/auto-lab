@@ -38,7 +38,8 @@ jobs:
           SINCE="$(date -u +%Y-%m-%dT00:00:00Z)"
           HISTORY="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/playjolt-autonomous-cycle.yml/runs?per_page=100")"
           PROVEN="$(printf '%s' "$HISTORY" | jq '[.workflow_runs[] | select(.conclusion == "success" and .event == "workflow_dispatch" and (.head_branch | startswith("commissioning/auto-")))] | unique_by(.head_branch) | length')"
-          CAP="$(node vibe-arcade/autonomy/cycle/ramp-policy.cjs cap "$PROVEN")"
+          RAMP_CAP="$(node vibe-arcade/autonomy/cycle/ramp-policy.cjs cap "$PROVEN")"
+          CAP="$(node vibe-arcade/autonomy/foundry/taste-calibration.cjs cap vibe-arcade/autonomy/foundry/taste-calibration.json "$RAMP_CAP")"
           COUNT="$(printf '%s' "$HISTORY" | jq --arg since "$SINCE" '[.workflow_runs[] | select(.created_at >= $since and (.head_branch | startswith("commissioning/auto-")))] | unique_by(.head_branch) | length')"
           ACTIVE="$(printf '%s' "$HISTORY" | jq '[.workflow_runs[] | select(.status != "completed")] | length')"
           echo "cap=$CAP" >> "$GITHUB_OUTPUT"
@@ -48,7 +49,7 @@ jobs:
             echo "An autonomous candidate is already active; intake remains idle."
           elif [ "$COUNT" -ge "$CAP" ]; then
             echo "allowed=false" >> "$GITHUB_OUTPUT"
-            echo "Adaptive daily cap reached: $COUNT/$CAP after $PROVEN fully autonomous completions."
+            echo "Effective daily cap reached: $COUNT/$CAP after safety and owner-calibration policy."
           else
             echo "allowed=true" >> "$GITHUB_OUTPUT"
           fi
@@ -72,7 +73,8 @@ jobs:
           DATE_ISO="$(date -u +%Y-%m-%d)"
           node vibe-arcade/autonomy/foundry/selector.cjs select "$SEQUENCE" "$DATE_ISO" \
             vibe-arcade/autonomy/foundry/design-catalog.json \
-            vibe-arcade/autonomy/foundry/benchmark-catalog.json "$PROFILE" > "$PLAN"
+            vibe-arcade/autonomy/foundry/benchmark-catalog.json "$PROFILE" \
+            vibe-arcade/autonomy/foundry/taste-calibration.json > "$PLAN"
           echo "sequence=$SEQUENCE" >> "$GITHUB_OUTPUT"
           echo "lane=$(jq -r '.lane' "$PLAN")" >> "$GITHUB_OUTPUT"
           if [ "$(jq -r '.status' "$PLAN")" = "SELECTED" ]; then

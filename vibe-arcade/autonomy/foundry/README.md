@@ -26,6 +26,14 @@ Every reviewed Foundry proposal also carries a validated `build_invariants` pack
 
 When no eligible reviewed design exists, the Foundry returns `IDLE` before a provider call. New mechanics enter the catalog as `incubating` and require deterministic multi-seed Oracle, Product and Commercial contracts plus a reviewed runner before their status can become `reviewed`.
 
+## Owner taste calibration
+
+After sequence 37, automated construction reliability had improved but owner-visible fun still had no dependable upward trend. The Factory therefore pauses paid sequence 38+ intake at `owner_taste_calibration_required` while the owner compares three zero-provider-call, private 60-second interaction prototypes at `/lab/taste-calibration/`.
+
+The prototypes deliberately test different interaction material: hold-drag-release launch physics, single-placement chain reaction, and continuous radial pointer defense. Their purpose is to select a protected interaction baseline, not to qualify an RC or bypass QA. One prototype transfers only abstract Google Play principles such as immediate one-thumb control, short replay and visible combo payoff; no protected expression is copied.
+
+`taste-calibration.json` is the durable owner-decision record. Until it records `SELECTED`, the effective autonomous daily cap is zero. After selection the cap is one candidate per UTC day, and two consecutive increases in terminal measured failure count stop selection again with `owner_taste_regression_guard`. Production remains false and all existing Technical, Product and Commercial gates remain authoritative.
+
 The shared finite-state calibration runner used through sequence 28 is retired for later candidates. A new title or theme may not disguise the same choose-values-then-commit loop as a new experiment. Sequence 29 or later stays `IDLE` with `new_interaction_runner_required` until a genuinely different reviewed interaction runner, deterministic Oracle and evidence contracts exist.
 
 Sequence 29 introduced the separately reviewed `arcade-runner.cjs` path and original `comet-catching` family. Owner playtesting then exposed a construction failure: the generated presentation showed descent pressure while the generated core reduced play to hidden lane lookup and immediate teleportation. The visual motion was not the collision authority, and one input could finish each wave. That family remains terminal and is not reused.

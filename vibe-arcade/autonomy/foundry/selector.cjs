@@ -1,5 +1,6 @@
 'use strict';
 const fs=require('node:fs');
+const {gate:calibrationGate}=require('./taste-calibration.cjs');
 const FOCUS_RULES=[
   [/^(touch|keyboard)$|input_parity/,'input-parity'],
   [/product_(completion|replay|practice_best|failure_result)|^(terminal|restart)$/,'lifecycle-integrity'],
@@ -29,9 +30,14 @@ function learningFocus(profile){
   for(const [name] of remaining){if(focus.length===4)break;focus.push(name);}
   return focus;
 }
-function select({sequence,date,designCatalog,benchmarkCatalog,learningProfile}){
+function select({sequence,date,designCatalog,benchmarkCatalog,learningProfile,calibrationPolicy=null}){
   if(!/^\d{4}-\d{2}-\d{2}$/.test(date||''))throw Error('invalid_date');
-  const lane=laneFor(sequence),retired=new Set(learningProfile?.retired_families||[]),used=new Set(learningProfile?.used_design_ids||[]);
+  const lane=laneFor(sequence);
+  if(calibrationPolicy){
+    const calibration=calibrationGate({sequence,policy:calibrationPolicy,learningProfile});
+    if(!calibration.allowed)return {schema:'playjolt-foundry-selection/1',status:'IDLE',sequence,lane,reason:calibration.reason,consecutive_regressions:calibration.consecutive_regressions||0};
+  }
+  const retired=new Set(learningProfile?.retired_families||[]),used=new Set(learningProfile?.used_design_ids||[]);
   const familyStatus=new Map((designCatalog?.families||[]).map(x=>[x.id,x.status]));
   const benchmarks=new Map((benchmarkCatalog?.sources||[]).map(x=>[x.id,x]));
   const maxAge=Number(benchmarkCatalog?.max_age_days)||45;
@@ -52,10 +58,10 @@ function select({sequence,date,designCatalog,benchmarkCatalog,learningProfile}){
   return {schema:'playjolt-foundry-selection/1',status:'SELECTED',sequence,lane,design,benchmark:benchmark?{id:benchmark.id,publisher:benchmark.publisher,url:benchmark.url,surface:benchmark.surface,transferable_principles:benchmark.transferable_principles}:null,copy_policy:benchmarkCatalog.policy,learning_focus:learningFocus(learningProfile)};
 }
 function main(){
-  const [cmd,sequence,date,designFile,benchmarkFile,learningFile]=process.argv.slice(2);
+  const [cmd,sequence,date,designFile,benchmarkFile,learningFile,calibrationFile]=process.argv.slice(2);
   if(cmd!=='select'||!learningFile)throw Error('usage: selector.cjs select SEQUENCE YYYY-MM-DD DESIGNS BENCHMARKS LEARNING');
   const read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
-  process.stdout.write(JSON.stringify(select({sequence:Number(sequence),date,designCatalog:read(designFile),benchmarkCatalog:read(benchmarkFile),learningProfile:read(learningFile)}))+'\n');
+  process.stdout.write(JSON.stringify(select({sequence:Number(sequence),date,designCatalog:read(designFile),benchmarkCatalog:read(benchmarkFile),learningProfile:read(learningFile),calibrationPolicy:calibrationFile?read(calibrationFile):null}))+'\n');
 }
 if(require.main===module){try{main();}catch(e){console.error(e.stack||e);process.exit(2);}}
 module.exports={laneFor,ageDays,learningFocus,select};

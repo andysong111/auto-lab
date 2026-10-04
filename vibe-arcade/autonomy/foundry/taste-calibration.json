@@ -1,0 +1,47 @@
+{
+  "schema": "playjolt-owner-taste-calibration/1",
+  "state": "AWAITING_OWNER_SELECTION",
+  "required_from_sequence": 38,
+  "selected_prototype_id": null,
+  "owner_selected_at": null,
+  "prototype_lab_path": "/lab/taste-calibration/",
+  "prototypes": [
+    {
+      "id": "kinetic-launch-a",
+      "title": "Arc Relay",
+      "interaction": "hold-drag-release physics launch",
+      "lane": "original"
+    },
+    {
+      "id": "chain-reaction-b",
+      "title": "Bloom Circuit",
+      "interaction": "single-placement chain reaction",
+      "lane": "market-principle"
+    },
+    {
+      "id": "radial-guard-c",
+      "title": "Halo Guard",
+      "interaction": "continuous radial pointer defense",
+      "lane": "original"
+    }
+  ],
+  "benchmark": {
+    "captured_at": "2026-10-05",
+    "sources": [
+      "https://play.google.com/store/apps/details?id=com.hxo.minx",
+      "https://play.google.com/store/apps/details?id=com.wetpalm.get10"
+    ],
+    "transferred_principles": [
+      "one-thumb first-action clarity",
+      "short sessions with immediate replay",
+      "visible score and combo payoff",
+      "simple input with increasing mastery depth"
+    ],
+    "copy_boundary": "Names, branding, art, audio, layouts, assets, code, level content, scoring systems and distinctive rulesets are forbidden inputs."
+  },
+  "post_selection_policy": {
+    "max_candidates_per_utc_day": 1,
+    "pause_after_consecutive_measured_regressions": 2,
+    "production_authorized": false
+  }
+}

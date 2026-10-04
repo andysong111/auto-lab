@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>PlayJolt Taste Lab</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="calibration-shell">
+    <header class="lab-header">
+      <div>
+        <p class="eyebrow">PLAYJOLT / OWNER CALIBRATION</p>
+        <h1>재미 기준점 선택</h1>
+      </div>
+      <div class="test-progress" aria-live="polite"><strong id="testedCount">0</strong><span>/ 3 완료</span></div>
+    </header>
+
+    <nav class="prototype-tabs" aria-label="프로토타입 선택">
+      <button class="prototype-tab is-active" data-game="launch" type="button"><span>A</span> Arc Relay</button>
+      <button class="prototype-tab" data-game="chain" type="button"><span>B</span> Bloom Circuit</button>
+      <button class="prototype-tab" data-game="guard" type="button"><span>C</span> Halo Guard</button>
+    </nav>
+
+    <section class="play-layout">
+      <div class="play-surface">
+        <canvas id="gameCanvas" width="960" height="600" aria-label="게임 플레이 화면"></canvas>
+        <div class="start-layer" id="startLayer">
+          <p class="mode-label" id="modeLabel">KINETIC LAUNCH</p>
+          <h2 id="gameTitle">Arc Relay</h2>
+          <p id="gameObjective">당기고 놓아 움직이는 관문을 연속으로 통과시키세요.</p>
+          <button class="primary-command" id="startButton" type="button">플레이</button>
+        </div>
+        <div class="result-layer" id="resultLayer" hidden>
+          <p class="mode-label">RUN COMPLETE</p>
+          <h2 id="resultTitle">기록 완료</h2>
+          <p class="result-score" id="resultScore">0</p>
+          <button class="primary-command" id="replayButton" type="button">다시 플레이</button>
+        </div>
+      </div>
+
+      <aside class="control-panel">
+        <div class="scoreboard">
+          <div><span>점수</span><strong id="score">0</strong></div>
+          <div><span>남은 시간</span><strong id="time">60</strong></div>
+          <div><span>콤보</span><strong id="combo">0</strong></div>
+        </div>
+        <div class="control-copy">
+          <span id="controlIcon" aria-hidden="true">↕</span>
+          <p id="controlText">화면을 당긴 뒤 놓기</p>
+        </div>
+        <div class="rating-block">
+          <span class="field-label">재미 점수</span>
+          <div class="rating" id="rating" role="group" aria-label="재미 점수">
+            <button type="button" data-rating="1">1</button>
+            <button type="button" data-rating="2">2</button>
+            <button type="button" data-rating="3">3</button>
+            <button type="button" data-rating="4">4</button>
+            <button type="button" data-rating="5">5</button>
+          </div>
+        </div>
+        <div class="tag-block">
+          <span class="field-label">느낌</span>
+          <div class="tags" id="tags">
+            <button type="button" data-tag="손맛">손맛</button>
+            <button type="button" data-tag="명확함">명확함</button>
+            <button type="button" data-tag="긴장감">긴장감</button>
+            <button type="button" data-tag="다시하고싶음">다시 하고 싶음</button>
+            <button type="button" data-tag="반복적">반복적</button>
+            <button type="button" data-tag="헷갈림">헷갈림</button>
+            <button type="button" data-tag="느림">느림</button>
+            <button type="button" data-tag="손맛없음">손맛 없음</button>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="owner-decision" id="ownerDecision" hidden>
+      <div>
+        <p class="eyebrow">OWNER DECISION</p>
+        <h2>기준 게임 선택</h2>
+        <p>선택한 조작감은 다음 공장의 보호 부품이 됩니다.</p>
+      </div>
+      <div class="winner-options" id="winnerOptions">
+        <button type="button" data-winner="launch">A</button>
+        <button type="button" data-winner="chain">B</button>
+        <button type="button" data-winner="guard">C</button>
+      </div>
+      <p class="decision-status" id="decisionStatus" aria-live="polite"></p>
+    </section>
+  </main>
+  <script src="/analytics.js"></script>
+  <script src="./game.js"></script>
+</body>
+</html>

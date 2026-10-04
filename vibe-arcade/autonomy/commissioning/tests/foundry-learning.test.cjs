@@ -13,6 +13,7 @@ const ventRunner=require('../../foundry/vent-runner.cjs');
 const surfRunner=require('../../foundry/surf-runner.cjs');
 const cascadeRunner=require('../../foundry/cascade-runner.cjs');
 const tiltRunner=require('../../foundry/tilt-runner.cjs');
+const tasteCalibration=require('../../foundry/taste-calibration.json');
 const reflexKit=require('../../gamekit/reflexkit.js');
 const {validateProposal}=require('../spec-gate.cjs');
 const designCatalog=require('../../foundry/design-catalog.json'),benchmarkCatalog=require('../../foundry/benchmark-catalog.json');
@@ -423,8 +424,14 @@ test('workflows learn before generation and preserve serial production-off limit
   assert.match(intake,/No provider call will be made/);
   assert.match(intake,/steps\.foundry\.outputs\.ready == 'true'/);
   assert.match(intake,/An autonomous candidate is already active; intake remains idle/);
+  assert.match(intake,/taste-calibration\.json/);
   assert.match(cycle,/playjolt-learning-outcome-/);
   assert.match(cycle,/AUTO_PRODUCTION_SHIP=false/);
   assert.match(cycle,/provider_calls<=/);
   assert.match(cycle,/production=false/);
+});
+
+test('owner taste calibration blocks paid sequence 38 before design selection',()=>{
+  const result=select({sequence:38,date:'2026-10-05',designCatalog,benchmarkCatalog,learningProfile:{recent_outcomes:[]},calibrationPolicy:tasteCalibration});
+  assert.equal(result.status,'IDLE');assert.equal(result.reason,'owner_taste_calibration_required');assert.equal(result.lane,'market-benchmark');
 });

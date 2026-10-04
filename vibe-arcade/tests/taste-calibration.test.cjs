@@ -1,0 +1,26 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const root=path.resolve(__dirname,'..'),lab=path.join(root,'lab/taste-calibration'),policyFile=path.join(root,'autonomy/foundry/taste-calibration.json');
+const {validatePolicy,effectiveDailyCap,gate,consecutiveRegressions}=require('../autonomy/foundry/taste-calibration.cjs');
+
+test('owner taste calibration is zero-paid, private and blocks sequence 38',()=>{
+  const policy=validatePolicy(JSON.parse(fs.readFileSync(policyFile,'utf8')));
+  assert.equal(policy.state,'AWAITING_OWNER_SELECTION');assert.equal(policy.required_from_sequence,38);assert.equal(policy.selected_prototype_id,null);
+  assert.equal(policy.post_selection_policy.max_candidates_per_utc_day,1);assert.equal(policy.post_selection_policy.pause_after_consecutive_measured_regressions,2);assert.equal(policy.post_selection_policy.production_authorized,false);
+  assert.equal(effectiveDailyCap(6,policy),0);assert.deepEqual(gate({sequence:38,policy,learningProfile:{}}),{allowed:false,reason:'owner_taste_calibration_required'});
+  const html=fs.readFileSync(path.join(lab,'index.html'),'utf8'),js=fs.readFileSync(path.join(lab,'game.js'),'utf8');
+  assert.match(html,/noindex,nofollow/);assert.match(html,/Arc Relay/);assert.match(html,/Bloom Circuit/);assert.match(html,/Halo Guard/);
+  assert.match(js,/kinetic-launch-a/);assert.match(js,/chain-reaction-b/);assert.match(js,/radial-guard-c/);assert.doesNotMatch(html+js,/https?:\/\//);
+});
+
+test('selected calibration clamps throughput to one and pauses after two measured regressions',()=>{
+  const policy={...JSON.parse(fs.readFileSync(policyFile,'utf8')),state:'SELECTED',selected_prototype_id:'kinetic-launch-a',owner_selected_at:'2026-10-05T00:00:00Z'};
+  assert.equal(effectiveDailyCap(6,policy),1);assert.equal(effectiveDailyCap(1,policy),1);
+  const profile={recent_outcomes:[
+    {sequence:38,quality_failure_count:8},{sequence:39,quality_failure_count:11},{sequence:40,quality_failure_count:14}
+  ]};
+  assert.equal(consecutiveRegressions(profile,38),2);
+  assert.equal(gate({sequence:41,policy,learningProfile:profile}).reason,'owner_taste_regression_guard');
+  profile.recent_outcomes.push({sequence:41,quality_failure_count:10});
+  assert.equal(gate({sequence:42,policy,learningProfile:profile}).allowed,true);
+});

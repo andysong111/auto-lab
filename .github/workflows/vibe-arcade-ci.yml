@@ -22,6 +22,7 @@ jobs:
         run: |
           node --check vibe-arcade/analytics.js
           node --check vibe-arcade/game-utils.js
+          node --check vibe-arcade/lab/taste-calibration/game.js
           node --check vibe-arcade/api/event.js
           for file in vibe-arcade/league/*.js vibe-arcade/community/*.js; do node --check "$file"; done
       - name: Validate inline game scripts
@@ -56,6 +57,7 @@ jobs:
           curl --fail http://127.0.0.1:8765/games/perfect-timing/ | grep 'Perfect Timing'
           curl --fail http://127.0.0.1:8765/games/reaction-rush/ | grep 'Reaction Rush'
           curl --fail http://127.0.0.1:8765/lab/ | grep 'Unlisted prototypes'
+          curl --fail http://127.0.0.1:8765/lab/taste-calibration/ | grep 'PlayJolt Taste Lab'
           curl --fail http://127.0.0.1:8765/games/color-trap/ | grep 'noindex,nofollow'
           curl --fail http://127.0.0.1:8765/games/memory-grid/ | grep 'noindex,nofollow'
           curl --fail http://127.0.0.1:8765/games/odd-one-out/ | grep 'noindex,nofollow'
@@ -66,3 +68,5 @@ jobs:
           test -s vibe-arcade/EXPERIMENTS.md
           grep 'Kill rule' vibe-arcade/GOALS.md
           grep 'Prebuilt batch B' vibe-arcade/EXPERIMENTS.md
+      - name: Validate owner taste calibration
+        run: node --test vibe-arcade/tests/taste-calibration.test.cjs

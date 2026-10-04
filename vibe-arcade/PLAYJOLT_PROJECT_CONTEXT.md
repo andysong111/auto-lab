@@ -777,6 +777,13 @@ Do not manually force an RC_READY.
 - Sequence 37 `Tide Compass` is the next genuinely distinct reviewed original family. Its separate `tilt-runner.cjs` and protected `gravity-tilt-v1` own a white droplet moving through three widening compass chambers, 3/4/5 deterministic checkpoints, 2/3/4 direct tilt choices, 420/330/270-tick deadlines, canonical score/progress, one recoverable wrong-tilt warning, repeated-tilt and timeout failure and exact six-seed replay. It is not a pulse-cascade retry and can start only through the normal guarded Supervisor and Trusted Intake path after the daily cap resets.
 - Production remains unauthorized. Serial execution, six provider calls, USD 2 estimated cost and five repairs remain unchanged.
 
+2026-10-05 owner taste-calibration pivot:
+- Sequence 37 `Tide Compass` reached terminal `REJECTED v6` with six provider calls, USD 1.04878602 estimated cost, repair 5/5 and `Production=false`. Technical and Product QA passed, but Commercial QA failed and its final measured hard-failure surface rose to 20 from sequence 36's 11. The prior Phaser audio defect stayed fixed, while mobile hierarchy, active/goal contrast, state distinction and progression spectacle remained weak. This is a measured regression, not progress.
+- The owner explicitly decided to stop relying on repeated paid generation to discover fun. Sequence 38 and later now remains cost-free `IDLE` until the owner compares three private, hand-authored 60-second interaction prototypes and selects a fun baseline.
+- The calibration set tests hold-drag-release launch physics (`Arc Relay`), single-placement chain reaction (`Bloom Circuit`) and continuous radial pointer defense (`Halo Guard`). It is unlisted, uses no provider call and cannot produce an RC or Production release.
+- Fresh Google Play evidence contributes only abstract principles: immediate one-thumb control, short sessions, fast replay, visible score/combo feedback and increasing mastery depth. Names, branding, art, audio, layouts, assets, code, level content, scoring systems and distinctive rulesets remain forbidden inputs.
+- The durable `taste-calibration.json` record blocks paid intake until a current owner selection is recorded. After selection, effective throughput is one candidate per UTC day. Two consecutive increases in measured terminal failure count pause paid intake again for owner review. Existing serial execution, USD 2/candidate, six calls, five repairs, QA gates and Production-off boundary remain unchanged.
+
 ---
 
 ## 18. Long-term definition of success

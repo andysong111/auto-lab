@@ -46,6 +46,10 @@ jobs:
       - run: npm run test:browser --prefix vibe-arcade/autonomy
         env:
           FACTORY_EVIDENCE_DIR: ${{ runner.temp }}/factory-evidence
+      - name: Verify owner taste-calibration prototypes
+        run: node vibe-arcade/tests/taste-calibration-browser.cjs
+        env:
+          FACTORY_EVIDENCE_DIR: ${{ runner.temp }}/factory-evidence/taste-calibration
       - uses: actions/upload-artifact@v4
         if: always()
         with:
