@@ -1,0 +1,66 @@
+{
+  "schema": "playjolt-owner-taste-calibration/1",
+  "state": "SELECTED",
+  "required_from_sequence": 38,
+  "selected_prototype_id": "radial-guard-c",
+  "owner_selected_at": "2026-10-05",
+  "owner_note": "The owner approved Halo Guard V9 as the completed taste baseline. Arc Relay and Bloom Circuit remain rejected. The approved play authority is now protected by a golden six-seed contract and reviewed component preflight. Production remains unauthorized.",
+  "owner_approved_at": "2026-10-05",
+  "approved_build": {
+    "name": "Halo Guard V9",
+    "commit": "78ec96c655b6e73ee1012d0f570d9d082161f881"
+  },
+  "prototype_lab_path": "/lab/taste-calibration/",
+  "prototypes": [
+    {
+      "id": "kinetic-launch-a",
+      "title": "Arc Relay",
+      "interaction": "hold-drag-release physics launch",
+      "lane": "original",
+      "owner_disposition": "REJECTED"
+    },
+    {
+      "id": "chain-reaction-b",
+      "title": "Bloom Circuit",
+      "interaction": "single-placement chain reaction",
+      "lane": "market-principle",
+      "owner_disposition": "REJECTED"
+    },
+    {
+      "id": "radial-guard-c",
+      "title": "Halo Guard",
+      "interaction": "continuous radial pointer defense",
+      "lane": "original",
+      "owner_disposition": "SELECTED"
+    }
+  ],
+  "integration": {
+    "status": "VERIFIED",
+    "verified_at": "2026-10-05",
+    "golden_id": "halo-guard-v9",
+    "golden_contract": "autonomy/foundry/golden/halo-guard-v9/identity.json",
+    "component_registry": "autonomy/foundry/component-registry.json",
+    "compiler": "autonomy/foundry/game-compiler.cjs",
+    "runtime": "halo-guard-core-v1",
+    "runtime_sha256": "04a8cf42f6e1b476798ef041aa7e7277ece98314114e8ff55e9ba79f8d2ef7b6"
+  },
+  "benchmark": {
+    "captured_at": "2026-10-05",
+    "sources": [
+      "https://play.google.com/store/apps/details?id=com.hxo.minx",
+      "https://play.google.com/store/apps/details?id=com.wetpalm.get10"
+    ],
+    "transferred_principles": [
+      "one-thumb first-action clarity",
+      "short sessions with immediate replay",
+      "visible score and combo payoff",
+      "simple input with increasing mastery depth"
+    ],
+    "copy_boundary": "Names, branding, art, audio, layouts, assets, code, level content, scoring systems and distinctive rulesets are forbidden inputs."
+  },
+  "post_selection_policy": {
+    "max_candidates_per_utc_day": 1,
+    "pause_after_consecutive_measured_regressions": 2,
+    "production_authorized": false
+  }
+}

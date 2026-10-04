@@ -30,6 +30,8 @@ Engineering Phase 5 (owner-gated RC Preview / release / rollback) is implemented
 
 The candidate supply is now a Learning Foundry rather than one repeated permutation template. Odd candidate sequences use an original exploration lane and even sequences use a reviewed Google Play market-benchmark lane. Benchmarking may transfer abstract product principles only; copying names, branding, art, audio, layouts, assets, code or a distinctive ruleset is forbidden. Terminal outcomes feed family-level learning, and a family with three rejections and no RC_READY is retired before another paid build.
 
+After the owner approved Halo Guard V9 on 2026-10-05, sequence 38 and later entered a golden-variation phase. The exact `halo-guard-v9` identity, six-seed play Oracle and reviewed component combination are the construction baseline. A later design is eligible only when it explicitly inherits that golden ID and uses a reviewed continuous radial-input runner; unrelated catalog designs remain cost-free `IDLE`. Change one major axis at a time and do not approximate the approved continuous pointer mechanic with a discrete action runner merely to restore throughput.
+
 Do not lower quality gates merely to manufacture an `RC_READY` candidate.
 
 ## Non-negotiable safety rules
@@ -85,6 +87,14 @@ The autonomous factory uses an adaptive daily ramp:
 - after 3 proven completions -> max 6 / UTC day
 
 Execution stays serial. The purpose of the ramp is to increase experiment velocity only after end-to-end autonomy is proven.
+
+Owner taste-calibration override (2026-10-05):
+
+- the owner rejected `Arc Relay` and `Bloom Circuit` and selected `Halo Guard` only as a baseline for further graphics and dynamics polish;
+- candidate sequence 38 and later stays at zero-paid `IDLE` while the durable state is `SELECTED_FOR_POLISH`; it may move to `SELECTED` only after the owner plays the polished Halo Guard and explicitly approves it for Factory use;
+- after that approval, the effective cap is temporarily **1 candidate / UTC day**, even if the older adaptive ramp would allow more;
+- two consecutive measured quality regressions pause further paid candidates for owner review;
+- this override does not authorize Production or weaken any QA gate.
 
 ## Source-of-truth precedence
 

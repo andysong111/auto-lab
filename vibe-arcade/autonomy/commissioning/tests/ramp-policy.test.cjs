@@ -30,11 +30,12 @@ test('workflows use the shared adaptive ramp and preserve serial execution',()=>
   const relay=fs.readFileSync(path.join(root,'.github/workflows/playjolt-factory-wake-relay.yml'),'utf8');
   for(const yml of [supervisor,intake]){
     assert.match(yml,/ramp-policy\.cjs cap/);
+    assert.match(yml,/taste-calibration\.cjs cap/);
     assert.match(yml,/commissioning\/auto-/);
     assert.match(yml,/status != "completed"/);
     assert.match(yml,/unique_by\(\.head_branch\)/);
   }
-  assert.match(supervisor,/Adaptive daily cap reached/);
+  assert.match(supervisor,/Effective daily cap reached/);
   assert.match(supervisor,/MAIN_SHA="\$\(git rev-parse HEAD\)"/);
   assert.match(supervisor,/\.head_sha == \\"\$MAIN_SHA\\"/);
   assert.match(supervisor,/Trusted intake attempt cap reached for main/);

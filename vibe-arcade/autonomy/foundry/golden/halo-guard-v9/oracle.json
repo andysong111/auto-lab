@@ -1,0 +1,14 @@
+{
+  "schema": "playjolt-golden-oracle/1",
+  "runtime": "halo-guard-core-v1",
+  "step_seconds": 0.016666666666666666,
+  "reduced_motion": true,
+  "seeds": {
+    "7": {"success":{"outcome":"success","reason":"defense_complete","tick":2401,"phase":3,"score":9786,"progress":35,"best_combo":17,"lives":3,"barrier":0},"failure":{"outcome":"failure","reason":"defense_collapsed","tick":1732,"phase":1,"score":246,"progress":3,"best_combo":1,"lives":0,"barrier":0}},
+    "19": {"success":{"outcome":"success","reason":"defense_complete","tick":2401,"phase":3,"score":16312,"progress":48,"best_combo":23,"lives":3,"barrier":0},"failure":{"outcome":"failure","reason":"defense_collapsed","tick":1733,"phase":1,"score":504,"progress":6,"best_combo":2,"lives":0,"barrier":0}},
+    "42": {"success":{"outcome":"success","reason":"defense_complete","tick":2401,"phase":3,"score":11118,"progress":35,"best_combo":17,"lives":4,"barrier":1},"failure":{"outcome":"failure","reason":"defense_collapsed","tick":1248,"phase":1,"score":246,"progress":3,"best_combo":1,"lives":0,"barrier":0}},
+    "77": {"success":{"outcome":"success","reason":"defense_complete","tick":2401,"phase":3,"score":8236,"progress":40,"best_combo":13,"lives":3,"barrier":0},"failure":{"outcome":"failure","reason":"defense_collapsed","tick":2068,"phase":1,"score":492,"progress":6,"best_combo":1,"lives":0,"barrier":0}},
+    "998": {"success":{"outcome":"success","reason":"defense_complete","tick":2401,"phase":3,"score":37104,"progress":52,"best_combo":50,"lives":4,"barrier":1},"failure":{"outcome":"failure","reason":"defense_collapsed","tick":1873,"phase":1,"score":410,"progress":5,"best_combo":1,"lives":0,"barrier":0}},
+    "74021": {"success":{"outcome":"success","reason":"defense_complete","tick":2401,"phase":3,"score":25302,"progress":50,"best_combo":37,"lives":4,"barrier":1},"failure":{"outcome":"failure","reason":"defense_collapsed","tick":1483,"phase":1,"score":328,"progress":4,"best_combo":1,"lives":0,"barrier":0}}
+  }
+}

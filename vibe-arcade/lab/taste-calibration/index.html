@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>PlayJolt Halo Guard Lab</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="calibration-shell">
+    <header class="lab-header">
+      <div>
+        <p class="eyebrow">PLAYJOLT / OWNER POLISH LAB</p>
+        <h1>Halo Guard 보강판</h1>
+      </div>
+      <div class="build-status"><strong>V9</strong><span>토이 3D 월드 검증 중</span></div>
+    </header>
+
+    <section class="selection-band" aria-label="선정 결과">
+      <div><span class="selection-mark">선정 기준</span><strong>Halo Guard</strong><small>원형 포인터 방어</small></div>
+      <p>Arc Relay와 Bloom Circuit은 탈락했습니다. 현재는 Halo Guard의 그래픽과 역동성만 보강합니다.</p>
+    </section>
+
+    <section class="play-layout">
+      <div class="play-surface">
+        <canvas id="gameCanvas" width="960" height="600" aria-label="실시간 3D 게임 플레이 화면"></canvas>
+        <div class="scene-hud" aria-hidden="true">
+          <div class="scene-hud-top"><span id="sceneVersion">HALO GUARD / V9</span><strong id="scenePhase">PHASE 1</strong><span id="sceneCore">코어 4 / 4 · 수호막 2</span></div>
+          <div class="scene-hud-bottom"><span>OVERDRIVE</span><i><b id="overdriveFill"></b></i></div>
+        </div>
+        <div class="start-layer" id="startLayer">
+          <p class="mode-label" id="modeLabel">RADIAL DEFENSE / TOY SKY WORLD 3D V9</p>
+          <h2 id="gameTitle">Halo Guard</h2>
+          <p id="gameObjective">보호막으로 구조 요정을 받고 붉은 드론을 막으세요. 처음 두 번의 실수는 수호 로봇이 흡수합니다.</p>
+          <button class="primary-command" id="startButton" type="button">플레이</button>
+        </div>
+        <div class="result-layer" id="resultLayer" hidden>
+          <p class="mode-label">RUN COMPLETE</p>
+          <h2 id="resultTitle">기록 완료</h2>
+          <p class="result-score" id="resultScore">0</p>
+          <button class="primary-command" id="replayButton" type="button">다시 플레이</button>
+        </div>
+      </div>
+
+      <aside class="control-panel">
+        <div class="scoreboard">
+          <div><span>점수</span><strong id="score">0</strong></div>
+          <div><span>남은 시간</span><strong id="time">60</strong></div>
+          <div><span>콤보</span><strong id="combo">0</strong></div>
+        </div>
+        <div class="control-copy">
+          <span id="controlIcon" aria-hidden="true">↔</span>
+          <p id="controlText">화면을 좌우로 밀어 보호막 회전</p>
+        </div>
+        <div class="rating-block">
+          <span class="field-label">재미 점수</span>
+          <div class="rating" id="rating" role="group" aria-label="재미 점수">
+            <button type="button" data-rating="1">1</button>
+            <button type="button" data-rating="2">2</button>
+            <button type="button" data-rating="3">3</button>
+            <button type="button" data-rating="4">4</button>
+            <button type="button" data-rating="5">5</button>
+          </div>
+        </div>
+        <div class="tag-block">
+          <span class="field-label">느낌</span>
+          <div class="tags" id="tags">
+            <button type="button" data-tag="손맛">손맛</button>
+            <button type="button" data-tag="명확함">명확함</button>
+            <button type="button" data-tag="긴장감">긴장감</button>
+            <button type="button" data-tag="다시하고싶음">다시 하고 싶음</button>
+            <button type="button" data-tag="반복적">반복적</button>
+            <button type="button" data-tag="헷갈림">헷갈림</button>
+            <button type="button" data-tag="느림">느림</button>
+            <button type="button" data-tag="손맛없음">손맛 없음</button>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="owner-decision" id="ownerDecision" hidden>
+      <div>
+        <p class="eyebrow">OWNER DECISION</p>
+        <h2>보강 방향 확인</h2>
+        <p>이 보강판이 사용할 만한 수준인지 기록합니다. 공장은 아직 재시작되지 않습니다.</p>
+      </div>
+      <div class="winner-options" id="winnerOptions">
+        <button type="button" data-winner="guard">이 기준으로 사용</button>
+      </div>
+      <p class="decision-status" id="decisionStatus" aria-live="polite"></p>
+    </section>
+  </main>
+  <script src="/analytics.js"></script>
+  <script src="./halo-guard-core.js"></script>
+  <script type="module" src="./game.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+{
+  "schema": "playjolt-owner-loop-policy/1",
+  "owner_actions": [
+    "submit_idea_or_popular_game_reference",
+    "approve_reject_or_advise_from_review_packet"
+  ],
+  "system_actions": [
+    "normalize_input_and_enforce_copy_boundary",
+    "design_and_build_with_reviewed_components",
+    "run_technical_product_commercial_qa",
+    "repair_within_lifetime_budget",
+    "prepare_exact_source_preview_release_and_marketing_evidence",
+    "produce_and_verify_marketing_assets",
+    "release_schedule_publish_measure_and_learn_after_scoped_approval"
+  ],
+  "approval_packet": {
+    "decisions": ["APPROVE", "REJECT", "ENGINE_ADVICE"],
+    "required_evidence": [
+      "playable_preview",
+      "measured_qa_comparison",
+      "provider_cost_and_repair_ledger",
+      "release_packet_status",
+      "marketing_preview"
+    ],
+    "approval_scopes": [
+      "taste_baseline",
+      "marketing_asset_production",
+      "production_release",
+      "organic_marketing_publication"
+    ]
+  },
+  "popular_game_reference_policy": {
+    "allowed": [
+      "first_action_clarity",
+      "session_structure",
+      "difficulty_rhythm",
+      "feedback_cadence",
+      "progress_readability",
+      "replay_motivation",
+      "commercial_presentation_principles"
+    ],
+    "forbidden": [
+      "names_or_branding",
+      "characters_or_narrative",
+      "art_audio_or_assets",
+      "layouts_or_level_content",
+      "source_code",
+      "store_copy_or_screenshots",
+      "distinctive_ruleset_as_a_whole"
+    ]
+  },
+  "automatic_stop_conditions": [
+    "missing_reviewed_component_or_oracle",
+    "provider_or_cost_budget_exhausted",
+    "quality_gate_failure_after_repair_budget",
+    "two_consecutive_measured_regressions",
+    "missing_exact_source_release_evidence",
+    "missing_live_game_url_or_marketing_asset_qa",
+    "missing_or_expired_social_account_authorization"
+  ],
+  "production_auto_publish": false,
+  "paid_ads_auto_start": false
+}
