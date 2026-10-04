@@ -36,7 +36,7 @@ function catchItem(state,item){
   const points=(70+state.combo*12)*(state.overdrive>0?2:1);state.score+=points;
   emit(state,'catch_good',{id:item.id,points,combo:state.combo,angle:item.currentAngle,overdrive:state.overdrive>0});
 }
-function step(state,seconds,{reducedMotion=false}={}){
+function step(state,seconds){
   state.events=[];if(state.status!=='playing')return state;
   const dt=clamp(Number(seconds)||0,0,.05);state.tick++;state.left=Math.max(0,state.left-dt);state.elapsed+=dt;state.guardianKick=Math.max(0,state.guardianKick-dt*2.4);state.overdrive=Math.max(0,state.overdrive-dt);
   if(state.left<=0){terminal(state,'success','defense_complete');return state;}
@@ -45,7 +45,7 @@ function step(state,seconds,{reducedMotion=false}={}){
   const delta=((state.targetAngle-state.angle+Math.PI*3)%TAU)-Math.PI;state.angle+=delta*Math.min(1,dt*(10+state.phase));
   state.spawn-=dt;if(state.spawn<=0){spawnItem(state);state.spawn=Math.max(.34,.92-state.phase*.12-(state.overdrive>0?.05:0));}
   for(const item of state.items){
-    item.pulse+=dt*(item.bad?9:6);item.currentAngle=item.angle+(reducedMotion?0:Math.sin(item.pulse*.7)*item.wobble);item.r-=item.speed*(item.bad&&item.r<5.7?1.16:1)*dt;
+    item.pulse+=dt*(item.bad?9:6);item.currentAngle=item.angle+Math.sin(item.pulse*.7)*item.wobble;item.r-=item.speed*(item.bad&&item.r<5.7?1.16:1)*dt;
     if(item.r<4.45&&item.r>3.45&&!item.done&&angleDistance(item.currentAngle,state.angle)<(state.overdrive>0?.6:.42))catchItem(state,item);
     if(item.r<1.75&&!item.done){item.done=true;if(!item.bad){state.combo=0;state.energy=Math.max(0,state.energy-10);}emit(state,'miss',{id:item.id,bad:item.bad});}
     if(state.outcome)break;

@@ -50,10 +50,11 @@ test('published build descriptor satisfies the shared manifest schema',async t=>
   const {factory,spec}=setup(t,{qa:mockQA});await factory.create(spec);const m=await factory.run(spec.game_id);
   const dir=factory.source(m),descriptor=JSON.parse(fs.readFileSync(path.join(dir,'manifest.json')));
   require('../orchestrator/manifest.cjs').validate(descriptor);assert.equal(descriptor.version,m.version);assert(!descriptor.source_hash);
-  for(const name of ['phaser.js','feelfx.js','feelaudio.js','phaserkit.js','reflexkit.js','gamekit.js'])assert(fs.existsSync(path.join(dir,name)),'factory runtime missing '+name);
+  for(const name of ['phaser.js','feelfx.js','feelaudio.js','phaserkit.js','reflexkit.js','halo-guard-core.js','radialkit.js','gamekit.js'])assert(fs.existsSync(path.join(dir,name)),'factory runtime missing '+name);
   assert(fs.statSync(path.join(dir,'phaser.js')).size>1000000,'pinned Phaser runtime should be local, not a CDN stub');
   assert.match(fs.readFileSync(path.join(dir,'phaserkit.js'),'utf8'),/4\.2\.1/);
   assert.match(fs.readFileSync(path.join(dir,'reflexkit.js'),'utf8'),/reflexkit-5/);
+  assert.match(fs.readFileSync(path.join(dir,'radialkit.js'),'utf8'),/radialkit-1/);
   assert.match(fs.readFileSync(path.join(dir,'gamekit.js'),'utf8'),/gamekit-3/);
 });
 

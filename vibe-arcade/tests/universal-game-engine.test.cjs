@@ -3,7 +3,7 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const root=path.resolve(__dirname,'..'),compiler=require('../autonomy/foundry/game-compiler.cjs');
 
 test('owner-approved Halo Guard compiles from reviewed components and six deterministic seeds',()=>{
-  const result=compiler.verify();assert.equal(result.status,'PASS');assert.equal(result.golden,'halo-guard-v9');assert.equal(result.runtime,'halo-guard-core-v1');assert.equal(result.components,8);assert.equal(result.rules,4);assert.equal(result.seeds,6);assert(result.max_entities<=24);assert.equal(result.production,false);
+  const result=compiler.verify();assert.equal(result.status,'PASS');assert.equal(result.golden,'halo-guard-v9');assert.equal(result.runtime,'halo-guard-core-v1');assert.equal(result.components,8);assert.equal(result.rules,4);assert.equal(result.seeds,6);assert(result.max_entities<=24);assert.equal(result.reduced_motion_equivalence,'score-progress-terminal');assert.equal(result.production,false);
 });
 
 test('golden runtime owns gameplay and presentation loads it before the 3D view',()=>{

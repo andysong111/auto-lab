@@ -62,6 +62,8 @@ class Factory {
         [path.join(__dirname,'../../feel/audio.js'),'feelaudio.js'],
         [path.join(__dirname,'../gamekit/phaserkit.js'),'phaserkit.js'],
         [path.join(__dirname,'../gamekit/reflexkit.js'),'reflexkit.js'],
+        [path.join(__dirname,'../../lab/taste-calibration/halo-guard-core.js'),'halo-guard-core.js'],
+        [path.join(__dirname,'../gamekit/radialkit.js'),'radialkit.js'],
         [path.join(__dirname,'../gamekit/gamekit.js'),'gamekit.js']
       ];
       for(const [source,name] of runtimeFiles){

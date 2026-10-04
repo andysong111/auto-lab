@@ -2,7 +2,7 @@
   "schema": "playjolt-reviewed-components/1",
   "components": [
     {"id":"radial-defense-core-v1","category":"mechanic-runtime","status":"reviewed","source":"lab/taste-calibration/halo-guard-core.js","provides":["collision","score","progress","success","failure","diagnostics"],"compatible_with":["radial-pointer-input-v1","short-session-lifecycle-v1","halo-difficulty-v1"],"max_entities":24},
-    {"id":"radial-pointer-input-v1","category":"input-adapter","status":"reviewed","source":"lab/taste-calibration/game.js","provides":["pointer-angle","keyboard-angle","input-parity"],"compatible_with":["radial-defense-core-v1"]},
+    {"id":"radial-pointer-input-v1","category":"input-adapter","status":"reviewed","source":"autonomy/gamekit/radialkit.js","provides":["continuous-pointer-angle","keyboard-nudge","input-parity","gamekit-diagnostics"],"compatible_with":["radial-defense-core-v1"]},
     {"id":"short-session-lifecycle-v1","category":"lifecycle","status":"reviewed","source":"lab/taste-calibration/halo-guard-core.js","provides":["ready","playing","success","failure","replay"],"compatible_with":["radial-defense-core-v1","mobile-owner-shell-v1"]},
     {"id":"halo-difficulty-v1","category":"difficulty","status":"reviewed","source":"lab/taste-calibration/halo-guard-core.js","provides":["three-phases","forgiving-entry","pressure-ramp"],"compatible_with":["radial-defense-core-v1"]},
     {"id":"toy-3d-character-roles-v1","category":"character-roles","status":"reviewed","source":"lab/taste-calibration/game.js","provides":["guardian","friendly-wisp","enemy-raider","shape-readability"],"compatible_with":["toy-sky-environment-v1","halo-feedback-v1"]},

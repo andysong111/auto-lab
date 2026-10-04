@@ -7,7 +7,7 @@
   "runtime": {
     "id": "halo-guard-core-v1",
     "path": "lab/taste-calibration/halo-guard-core.js",
-    "sha256": "04a8cf42f6e1b476798ef041aa7e7277ece98314114e8ff55e9ba79f8d2ef7b6"
+    "sha256": "22cc6f7ae246f53b00a3db4e1de94c423367c95466e2eef389be73ed5648de87"
   },
   "identity": {
     "mechanic_family": "radial-guarding",
