@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs');
 
-const STATES=new Set(['AWAITING_OWNER_SELECTION','SELECTED','PAUSED_REGRESSION']);
+const STATES=new Set(['AWAITING_OWNER_SELECTION','SELECTED_FOR_POLISH','SELECTED','PAUSED_REGRESSION']);
 
 function validatePolicy(policy){
   if(!policy||policy.schema!=='playjolt-owner-taste-calibration/1')throw Error('invalid_taste_calibration_schema');
@@ -10,7 +10,7 @@ function validatePolicy(policy){
   if(!Number.isInteger(policy.post_selection_policy?.max_candidates_per_utc_day)||policy.post_selection_policy.max_candidates_per_utc_day<1)throw Error('invalid_taste_calibration_daily_cap');
   if(!Number.isInteger(policy.post_selection_policy?.pause_after_consecutive_measured_regressions)||policy.post_selection_policy.pause_after_consecutive_measured_regressions<1)throw Error('invalid_taste_calibration_regression_limit');
   if(policy.post_selection_policy.production_authorized!==false)throw Error('taste_calibration_production_must_remain_false');
-  if(policy.state==='SELECTED'&&!policy.selected_prototype_id)throw Error('taste_calibration_selection_missing');
+  if(['SELECTED_FOR_POLISH','SELECTED'].includes(policy.state)&&!policy.selected_prototype_id)throw Error('taste_calibration_selection_missing');
   return policy;
 }
 
@@ -28,6 +28,7 @@ function gate({sequence,policy,learningProfile}){
   validatePolicy(policy);
   if(sequence<policy.required_from_sequence)return {allowed:true,reason:'pre_calibration_history'};
   if(policy.state==='AWAITING_OWNER_SELECTION')return {allowed:false,reason:'owner_taste_calibration_required'};
+  if(policy.state==='SELECTED_FOR_POLISH')return {allowed:false,reason:'owner_taste_polish_pending'};
   if(policy.state==='PAUSED_REGRESSION')return {allowed:false,reason:'owner_taste_regression_guard'};
   const regressions=consecutiveRegressions(learningProfile,policy.required_from_sequence);
   if(regressions>=policy.post_selection_policy.pause_after_consecutive_measured_regressions){

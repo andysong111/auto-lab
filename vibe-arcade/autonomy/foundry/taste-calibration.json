@@ -1,28 +1,32 @@
 {
   "schema": "playjolt-owner-taste-calibration/1",
-  "state": "AWAITING_OWNER_SELECTION",
+  "state": "SELECTED_FOR_POLISH",
   "required_from_sequence": 38,
-  "selected_prototype_id": null,
-  "owner_selected_at": null,
+  "selected_prototype_id": "radial-guard-c",
+  "owner_selected_at": "2026-10-05",
+  "owner_note": "Halo Guard is the only viable baseline. Arc Relay and Bloom Circuit are rejected. Keep paid generation stopped until Halo Guard graphics and dynamics are polished and owner-approved.",
   "prototype_lab_path": "/lab/taste-calibration/",
   "prototypes": [
     {
       "id": "kinetic-launch-a",
       "title": "Arc Relay",
       "interaction": "hold-drag-release physics launch",
-      "lane": "original"
+      "lane": "original",
+      "owner_disposition": "REJECTED"
     },
     {
       "id": "chain-reaction-b",
       "title": "Bloom Circuit",
       "interaction": "single-placement chain reaction",
-      "lane": "market-principle"
+      "lane": "market-principle",
+      "owner_disposition": "REJECTED"
     },
     {
       "id": "radial-guard-c",
       "title": "Halo Guard",
       "interaction": "continuous radial pointer defense",
-      "lane": "original"
+      "lane": "original",
+      "owner_disposition": "SELECTED_FOR_POLISH"
     }
   ],
   "benchmark": {

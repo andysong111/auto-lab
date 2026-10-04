@@ -783,6 +783,7 @@ Do not manually force an RC_READY.
 - The calibration set tests hold-drag-release launch physics (`Arc Relay`), single-placement chain reaction (`Bloom Circuit`) and continuous radial pointer defense (`Halo Guard`). It is unlisted, uses no provider call and cannot produce an RC or Production release.
 - Fresh Google Play evidence contributes only abstract principles: immediate one-thumb control, short sessions, fast replay, visible score/combo feedback and increasing mastery depth. Names, branding, art, audio, layouts, assets, code, level content, scoring systems and distinctive rulesets remain forbidden inputs.
 - The durable `taste-calibration.json` record blocks paid intake until a current owner selection is recorded. After selection, effective throughput is one candidate per UTC day. Two consecutive increases in measured terminal failure count pause paid intake again for owner review. Existing serial execution, USD 2/candidate, six calls, five repairs, QA gates and Production-off boundary remain unchanged.
+- Owner playtesting rejected `Arc Relay` and `Bloom Circuit` as unfun or unreliable. `Halo Guard` is the only viable baseline, conditional on stronger graphics and dynamics. The durable state is therefore `SELECTED_FOR_POLISH`, not `SELECTED`: sequence 38+ paid intake remains at zero while a private Halo Guard V2 adds phase escalation, faster pressure, trails, collision response and combo overdrive. Only fresh owner approval after playing that build may restart the Factory at one candidate per UTC day.
 
 ---
 

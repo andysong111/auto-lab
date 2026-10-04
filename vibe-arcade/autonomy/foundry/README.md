@@ -28,11 +28,11 @@ When no eligible reviewed design exists, the Foundry returns `IDLE` before a pro
 
 ## Owner taste calibration
 
-After sequence 37, automated construction reliability had improved but owner-visible fun still had no dependable upward trend. The Factory therefore pauses paid sequence 38+ intake at `owner_taste_calibration_required` while the owner compares three zero-provider-call, private 60-second interaction prototypes at `/lab/taste-calibration/`.
+After sequence 37, automated construction reliability had improved but owner-visible fun still had no dependable upward trend. The Factory therefore paused paid sequence 38+ intake while the owner compared three zero-provider-call private interaction prototypes at `/lab/taste-calibration/`.
 
-The prototypes deliberately test different interaction material: hold-drag-release launch physics, single-placement chain reaction, and continuous radial pointer defense. Their purpose is to select a protected interaction baseline, not to qualify an RC or bypass QA. One prototype transfers only abstract Google Play principles such as immediate one-thumb control, short replay and visible combo payoff; no protected expression is copied.
+The owner rejected hold-drag-release `Arc Relay` and single-placement `Bloom Circuit` as unfun or unreliable. Continuous radial pointer defense `Halo Guard` is the only viable baseline, contingent on stronger graphics and dynamics. The lab now exposes only its V2 polish surface with phase escalation, motion trails, collision response and combo overdrive. This still does not qualify an RC or bypass QA.
 
-`taste-calibration.json` is the durable owner-decision record. Until it records `SELECTED`, the effective autonomous daily cap is zero. After selection the cap is one candidate per UTC day, and two consecutive increases in terminal measured failure count stop selection again with `owner_taste_regression_guard`. Production remains false and all existing Technical, Product and Commercial gates remain authoritative.
+`taste-calibration.json` is the durable owner-decision record. `SELECTED_FOR_POLISH` records the conditional Halo Guard choice while keeping the effective autonomous daily cap at zero. It can become `SELECTED` only after fresh owner approval of the polished build. After approval the cap is one candidate per UTC day, and two consecutive increases in terminal measured failure count stop selection again with `owner_taste_regression_guard`. Production remains false and all existing Technical, Product and Commercial gates remain authoritative.
 
 The shared finite-state calibration runner used through sequence 28 is retired for later candidates. A new title or theme may not disguise the same choose-values-then-commit loop as a new experiment. Sequence 29 or later stays `IDLE` with `new_interaction_runner_required` until a genuinely different reviewed interaction runner, deterministic Oracle and evidence contracts exist.
 
