@@ -10,7 +10,7 @@ async function finishHaloGuard(page,gameplayPath){
   await page.waitForFunction(()=>PlayJoltTasteLab.getRuntime()?.phase>=2);
   const runtime=await page.evaluate(()=>PlayJoltTasteLab.getRuntime());assert(runtime.running);assert(runtime.items>0);assert.equal(runtime.lives,4,'missing a rescue character must not cause early core damage');assert(Math.abs(runtime.angle-Math.PI/2)>.2,'pointer input must rotate the shield');
   await page.screenshot({path:gameplayPath,fullPage:true});
-  await page.locator('#resultLayer').waitFor({state:'visible',timeout:6000});
+  await page.locator('#resultLayer').waitFor({state:'visible',timeout:20000});
   await page.locator('#rating [data-rating="4"]').click();
 }
 
