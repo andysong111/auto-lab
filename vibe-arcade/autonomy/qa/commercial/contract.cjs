@@ -2,6 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),Ajv=require('ajv');
 const {hash}=require('../../orchestrator/files.cjs');
 const product=require('../product-contract.cjs');
+const radial=require('../radial-model.cjs');
 const check=new Ajv({allErrors:true,strict:false}).compile(require('../../schema/commercial-polish-contract.schema.json'));
 const LIMITS=Object.freeze({delta:.035,changed:.08,structure:.012,contrast:1.8,max_text_area:.24,max_text_chars:650,min_gameplay_area:.22,max_frame_gap_ms:400,max_dom_growth:100,max_dom:2000,max_contexts:2,max_voices:8,max_entities:512});
 function validate(c){
@@ -15,6 +16,18 @@ function validate(c){
  return c;
 }
 function semantics(c,p,model){
+ if(model.interaction_mode===radial.MODE){
+  const node=id=>{const value=model.anchors?.[id];if(!value)throw Error('commercial_unreachable_node '+id);return value;};
+  for(const pair of [...c.visual_legibility.pairs,...c.state_distinction.pairs]){
+   const a=node(pair.a.node),b=node(pair.b.node);
+   if(pair.kind==='action_availability')throw Error('commercial_radial_action_availability_unsupported');
+   if(pair.a.node===pair.b.node||a.tick===b.tick)throw Error('commercial_pair_states_equal');
+  }
+  for(const probe of c.action_feedback.probes)if(!p.actions[probe.action]||!node(probe.node))throw Error('commercial_feedback_not_meaningful');
+  const ticks=c.progression_spectacle.checkpoints.map(anchor=>node(anchor.node).tick);if(ticks.some((tick,index)=>index&&tick<=ticks[index-1]))throw Error('commercial_progression_not_increasing');
+  if(c.audio.mode==='required'&&[c.audio.primary_probe,c.audio.progress_probe].some(id=>!c.action_feedback.probes.some(probe=>probe.id===id)))throw Error('commercial_audio_probe_absent');
+  return null;
+ }
  const g=model.seeds[String(c.seed)];if(!g)throw Error('commercial_seed_absent');
  const node=id=>{if(!g.nodes[id]||product.shortest(g,g.initial,n=>n===g.nodes[id])===null)throw Error('commercial_unreachable_node '+id);return g.nodes[id];};
  for(const pair of [...c.visual_legibility.pairs,...c.state_distinction.pairs]){

@@ -74,10 +74,12 @@ function blueprintFor(sequence,date){
 function foundryBlueprintFor(selection,sequence,date){
   if(!selection||selection.schema!=='playjolt-foundry-selection/1'||selection.status!=='SELECTED'||selection.sequence!==sequence)throw Error('invalid_foundry_selection');
   const design=selection.design||{},candidate=design.candidate||{},slot=300+sequence;
-  const runner=reviewedRunner(design),foundry={schema:'playjolt-foundry-lineage/1',lane:selection.lane,family_id:design.family_id,design_id:design.id,runner:runner.relative,learning_focus:selection.learning_focus||[]};
+  const runner=reviewedRunner(design),foundry={schema:'playjolt-foundry-lineage/1',lane:selection.lane,family_id:design.family_id,design_id:design.id,runner:runner.relative,learning_focus:selection.learning_focus||[],...(design.golden_baseline_id?{golden_baseline_id:design.golden_baseline_id}:{})};
   if(selection.lane==='market-benchmark')Object.assign(foundry,{benchmark_id:selection.benchmark.id,benchmark_url:selection.benchmark.url});
-  const bp={schema:'playjolt-foundry-blueprint/1',game_id:'GAME-'+date+'-'+slot,title:candidate.title,slug:candidate.slug,family_id:design.family_id,design_id:design.id,lane:selection.lane,runner:runner.relative,seeds:Array.from({length:6},(_,i)=>sequence*101+i+31),theme:candidate.theme,foundry,learning_focus:selection.learning_focus||[],
-    ...(selection.benchmark?{benchmark:selection.benchmark}:{}),copy_policy:selection.copy_policy,novelty_contract:design.novelty_contract};
+  const seeds=Array.isArray(design.seeds)?design.seeds:Array.from({length:6},(_,i)=>sequence*101+i+31);
+  const bp={schema:'playjolt-foundry-blueprint/1',game_id:'GAME-'+date+'-'+slot,title:candidate.title,slug:candidate.slug,family_id:design.family_id,design_id:design.id,lane:selection.lane,runner:runner.relative,theme:candidate.theme,foundry,learning_focus:selection.learning_focus||[],
+    ...(selection.benchmark?{benchmark:selection.benchmark}:{}),copy_policy:selection.copy_policy,novelty_contract:design.novelty_contract,
+    ...(design.golden_baseline_id?{golden_baseline_id:design.golden_baseline_id}:{}),...(design.variation?{variation:design.variation}:{}),seeds};
   runner.module.validateBlueprint(bp);runner.module.buildModel(bp);return bp;
 }
 function materialize(outRoot,sequence,date,selectionFile=null){

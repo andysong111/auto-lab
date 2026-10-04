@@ -68,6 +68,10 @@ test('factory core construction accepts only the exact wrapper and required scri
   assert.throws(()=>validateConstructionFiles([{path:'core.js',content:core_source+'// override'}],request),/exactly match/);
   assert.throws(()=>validateConstructionFiles([{path:'core.js',content:core_source},{path:'index.html',content:'<script src="./core.js"></script><script src="./reflexkit.js"></script>'}],request),/before core\.js/);
   assert.doesNotThrow(()=>validateConstructionFiles([{path:'core.js',content:core_source},{path:'index.html',content:'<script src="./reflexkit.js"></script><script src="./core.js"></script>'}],request));
+  const radial_source="globalThis.GameCore = globalThis.PlayJoltRadialKit.create({id:'halo-guard-v1'});\n",radialRequest={immutable_spec:{build_invariants:{factory_core:{core_source:radial_source,required_script:'./radialkit.js'}}}};
+  assert.throws(()=>validateConstructionFiles([{path:'core.js',content:radial_source.replace('halo-guard-v1','halo-guard-v2')},{path:'index.html',content:'<script src="./radialkit.js"></script><script src="./core.js"></script>'}],radialRequest),/exactly match/);
+  assert.throws(()=>validateConstructionFiles([{path:'core.js',content:radial_source},{path:'index.html',content:'<script src="./core.js"></script><script src="./radialkit.js"></script>'}],radialRequest),/before core\.js/);
+  assert.doesNotThrow(()=>validateConstructionFiles([{path:'core.js',content:radial_source},{path:'index.html',content:'<script src="./radialkit.js"></script><script src="./core.js"></script>'}],radialRequest));
 });
 test('candidate construction cannot create a second audio context',()=>{
   const request={immutable_spec:{build_invariants:{}}};

@@ -131,14 +131,14 @@ The owner should not repair candidates, tune prompts, schedule posts or repeated
 
 ## Immediate implementation sequence
 
-1. The zero-paid continuous radial-input foundation is complete: `radialkit.js` loads the exact Factory-owned Halo Guard core, and `radial-runner.cjs` rejects baseline drift, multi-axis changes, input mismatch, Oracle mismatch, replay drift and entity overflow before a provider call. Paid candidate preparation remains disabled until Product and Commercial browser contracts consume the continuous pointer evidence.
-2. Make sequence 38 change only one reviewed axis around the golden baseline; unrelated reviewed designs remain ineligible with `golden_variation_required`.
+1. The continuous radial-input foundation is complete: `radialkit.js` loads the exact Factory-owned Halo Guard core, and `radial-runner.cjs` rejects baseline drift, multi-axis changes, input mismatch, Oracle mismatch, replay drift and entity overflow before a provider call. Product and Commercial browser contracts consume real continuous pointer and keyboard evidence rather than approximating the game as a finite action graph.
+2. Sequence 38 changes only one reviewed axis around the golden baseline: `cloud-caravan-world-kit-v1`. Unrelated reviewed designs remain ineligible with `golden_variation_required`.
 3. Prove pointer/keyboard parity, 40-second success, ordinary-play failure, replay, entity bounds and the six golden traces before any provider call.
 4. Add component-level failure attribution and trend reporting.
 5. Run at most one paid candidate per UTC day; pause after two measured regressions.
 6. Promote only a measured improvement through the existing RC Preview and release-packet path.
 7. After scoped approval, hand the exact released source to `marketing/rail`, produce honest real-gameplay assets, publish through connected channels and feed measured acquisition/replay evidence back into learning.
 
-Until the remaining browser contracts and sequence 38 one-axis packet are complete, Trusted Intake must remain cost-free `IDLE`. The approved continuous pointer mechanic must not be approximated by the existing discrete `ReflexKit` action runners merely to resume throughput.
+Trusted Intake may select sequence 38 only after its exact six-seed preflight and one-axis world-kit validation pass. The approved continuous pointer mechanic must never be approximated by the discrete `ReflexKit` action runners merely to increase throughput. A failed preflight remains cost-free, and a terminal rejection is never revived or cloned.
 
 Production remains unauthorized until a fresh explicit owner decision.

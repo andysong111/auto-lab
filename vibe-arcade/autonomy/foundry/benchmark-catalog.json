@@ -109,6 +109,20 @@
         "turn successful sequences into a large visible chain payoff",
         "increase short-stage complexity without adding a tutorial wall"
       ]
+    },
+    {
+      "id": "google-play-cute-3d-arcade-en-20261005",
+      "captured_at": "2026-10-05",
+      "publisher": "Google Play",
+      "url": "https://play.google.com/store/apps/details?id=com.supercell.clashroyale",
+      "surface": "Official Google Play product evidence reviewed alongside Squad Busters and Fluffy Fall for abstract compact-character readability, immediate short-session action and coherent stylized worlds.",
+      "observed_titles": ["Clash Royale", "Squad Busters", "Fluffy Fall"],
+      "transferable_principles": [
+        "use compact stylized character silhouettes whose friendly and hostile roles read at mobile size",
+        "make the first one-thumb action immediately affect the main playfield",
+        "keep short sessions replayable through visible score, combo and survival payoff",
+        "use one coherent toy-like world whose background supports rather than competes with play"
+      ]
     }
   ]
 }
