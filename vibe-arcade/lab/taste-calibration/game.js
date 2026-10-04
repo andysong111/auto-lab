@@ -25,7 +25,7 @@ const MAT={
   coral:new THREE.MeshStandardMaterial({color:0xff706f,roughness:.2,metalness:.24,emissive:0xb51a22,emissiveIntensity:1.5}),
   stone:new THREE.MeshStandardMaterial({color:0x536b82,roughness:.76,metalness:.08}),
   stoneDark:new THREE.MeshStandardMaterial({color:0x253b54,roughness:.8,metalness:.08}),
-  grass:new THREE.MeshStandardMaterial({color:0x4ac58f,roughness:.62,metalness:.04,emissive:0x0a3929,emissiveIntensity:.28}),
+  grass:new THREE.MeshStandardMaterial({color:0x2d7277,roughness:.68,metalness:.04,emissive:0x092c32,emissiveIntensity:.22}),
   violet:new THREE.MeshStandardMaterial({color:0x806de6,roughness:.34,metalness:.28,emissive:0x241c70,emissiveIntensity:.55}),
   cloud:new THREE.MeshStandardMaterial({color:0xdff8ff,roughness:.82,metalness:0,transparent:true,opacity:.72})
 };
@@ -77,27 +77,27 @@ function createCloud(x,y,z,scale=1){
 const sceneryMotion=[];
 function createEnvironment(){
   const environment=new THREE.Group();
-  const halo=new THREE.Mesh(new THREE.CircleGeometry(8.8,64),new THREE.MeshBasicMaterial({color:0x213b5b,transparent:true,opacity:.5}));halo.position.z=-5.8;environment.add(halo);
-  const courtyard=addMesh(environment,new THREE.CylinderGeometry(4.65,5.05,.48,18),MAT.stoneDark,[0,0,-1.75]);courtyard.rotation.x=Math.PI/2;
-  const lawn=addMesh(environment,new THREE.CylinderGeometry(4.45,4.45,.12,18),MAT.grass,[0,0,-1.42]);lawn.rotation.x=Math.PI/2;
-  addMesh(environment,new THREE.TorusGeometry(4.52,.12,10,72),MAT.gold,[0,0,-1.25]);
-  for(let i=0;i<10;i++){
-    const angle=i/10*Math.PI*2+.16,rock=addMesh(environment,new THREE.ConeGeometry(.42+Math.random()*.18,1.35+Math.random()*.7,6),MAT.stone,[Math.cos(angle)*4.25,-4.65+Math.sin(angle)*.2,-2.35]);
-    rock.rotation.z=Math.PI+(Math.random()-.5)*.2;rock.scale.x=.8+Math.random()*.45;
+  const moon=new THREE.Mesh(new THREE.CircleGeometry(2.15,48),new THREE.MeshBasicMaterial({color:0x7b9bc1,transparent:true,opacity:.18}));moon.position.set(6.1,3.5,-5.8);environment.add(moon);
+  const courtyard=addMesh(environment,new THREE.CylinderGeometry(4.35,4.58,.42,18),MAT.stoneDark,[0,0,-1.75]);courtyard.rotation.x=Math.PI/2;
+  const lawn=addMesh(environment,new THREE.CylinderGeometry(3.48,3.48,.1,18),MAT.grass,[0,0,-1.4]);lawn.rotation.x=Math.PI/2;
+  addMesh(environment,new THREE.TorusGeometry(4.28,.065,8,72),MAT.gold,[0,0,-1.25]);
+  for(let i=0;i<7;i++){
+    const rock=addMesh(environment,new THREE.ConeGeometry(.32+(i%3)*.06,1.2+(i%2)*.36,6),MAT.stone,[-3.25+i*1.08,-4.72+(i%2)*.08,-2.55]);
+    rock.rotation.z=Math.PI+(i-3)*.025;rock.scale.x=.82+(i%3)*.12;
   }
-  environment.add(createTower(-5.6,-1.6,.84),createTower(5.6,-1.6,.84),createTower(-4.85,3.2,.52),createTower(4.85,3.2,.52));
-  const clouds=[createCloud(-6.4,3.9,-4.4,1.15),createCloud(6.2,4.1,-4.7,.95),createCloud(-6.8,-3.8,-4.1,.72),createCloud(6.8,-3.5,-4.5,.82)];
+  environment.add(createTower(-6.75,-2.55,.78),createTower(6.8,-2.35,.72),createTower(-7.05,3.35,.38),createTower(7.15,3.15,.36));
+  const clouds=[createCloud(-7.45,2.55,-4.6,1.02),createCloud(7.55,2.35,-4.8,.86),createCloud(-7.7,-3.45,-4.3,.58)];
   for(const [index,cloud] of clouds.entries()){environment.add(cloud);sceneryMotion.push({kind:'cloud',object:cloud,origin:cloud.position.x,speed:.00012+index*.000025,range:.28+index*.04})}
   for(const side of [-1,1]){
-    const crystal=addMesh(environment,new THREE.OctahedronGeometry(.36,0),MAT.violet,[side*6.2,.35,-1.7],[.8,1.5,.8]);sceneryMotion.push({kind:'crystal',object:crystal,offset:side});
-    const beacon=new THREE.PointLight(side<0?0x8c7cff:0x54efc0,7,6);beacon.position.set(side*5.55,-.5,-.4);environment.add(beacon);sceneryMotion.push({kind:'beacon',object:beacon,offset:side});
+    const crystal=addMesh(environment,new THREE.OctahedronGeometry(.24,0),MAT.violet,[side*7.15,side<0?.3:1.05,-1.9],[.72,1.45,.72]);sceneryMotion.push({kind:'crystal',object:crystal,offset:side});
+    const beacon=new THREE.PointLight(side<0?0x8c7cff:0x54efc0,5,5);beacon.position.set(side*6.7,-2.1,-.4);environment.add(beacon);sceneryMotion.push({kind:'beacon',object:beacon,offset:side});
   }
   return environment;
 }
 
 const world=new THREE.Group();scene.add(world);
 const environment=createEnvironment();world.add(environment);
-const grid=new THREE.GridHelper(20,16,0x446d7c,0x28485b);grid.rotation.x=Math.PI/2;grid.position.z=-1.15;grid.material.transparent=true;grid.material.opacity=.23;world.add(grid);
+const grid=new THREE.GridHelper(20,16,0x446d7c,0x28485b);grid.rotation.x=Math.PI/2;grid.position.z=-1.15;grid.material.transparent=true;grid.material.opacity=.14;world.add(grid);
 const ringMat=new THREE.MeshStandardMaterial({color:0x1b4c5c,emissive:0x0b2934,emissiveIntensity:.8,roughness:.45});
 const baseRing=new THREE.Mesh(new THREE.TorusGeometry(3.92,.055,8,96),ringMat);world.add(baseRing);
 const innerRing=new THREE.Mesh(new THREE.TorusGeometry(2.25,.035,8,72),ringMat);innerRing.position.z=-.4;world.add(innerRing);
