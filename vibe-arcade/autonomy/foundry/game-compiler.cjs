@@ -5,7 +5,7 @@ const GOLDEN=path.join(__dirname,'golden/halo-guard-v9/identity.json');
 const REGISTRY=path.join(__dirname,'component-registry.json');
 const RULES=path.join(__dirname,'rule-modules.json');
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8'));
-const hash=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const hash=file=>crypto.createHash('sha256').update(fs.readFileSync(file,'utf8').replace(/\r\n/g,'\n')).digest('hex');
 const fail=code=>{throw Error('golden_preflight:'+code);};
 const fields=['outcome','reason','tick','phase','score','progress','best_combo','lives','barrier'];
 

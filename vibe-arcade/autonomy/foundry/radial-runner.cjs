@@ -3,7 +3,7 @@ const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypt
 const ROOT=path.resolve(__dirname,'../..'),GOLDEN_ID='halo-guard-v9',SEEDS=[7,19,42,77,998,74021];
 const GOLDEN=path.join(__dirname,'golden',GOLDEN_ID),core=require('../../lab/taste-calibration/halo-guard-core.js'),radial=require('../gamekit/radialkit.js');
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8'));
-const digest=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const digest=file=>crypto.createHash('sha256').update(fs.readFileSync(file,'utf8').replace(/\r\n/g,'\n')).digest('hex');
 const fail=code=>{const error=Error(code);error.code='radial_runner_invalid';throw error;};
 
 function validateBlueprint(bp){
