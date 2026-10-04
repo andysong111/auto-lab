@@ -57,7 +57,7 @@ jobs:
           curl --fail http://127.0.0.1:8765/games/perfect-timing/ | grep 'Perfect Timing'
           curl --fail http://127.0.0.1:8765/games/reaction-rush/ | grep 'Reaction Rush'
           curl --fail http://127.0.0.1:8765/lab/ | grep 'Unlisted prototypes'
-          curl --fail http://127.0.0.1:8765/lab/taste-calibration/ | grep 'PlayJolt Taste Lab'
+          curl --fail http://127.0.0.1:8765/lab/taste-calibration/ | grep 'PlayJolt Halo Guard Lab'
           curl --fail http://127.0.0.1:8765/games/color-trap/ | grep 'noindex,nofollow'
           curl --fail http://127.0.0.1:8765/games/memory-grid/ | grep 'noindex,nofollow'
           curl --fail http://127.0.0.1:8765/games/odd-one-out/ | grep 'noindex,nofollow'
