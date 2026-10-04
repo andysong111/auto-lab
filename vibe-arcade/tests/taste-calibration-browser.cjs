@@ -26,7 +26,7 @@ async function finishHaloGuard(page){
       const context=await browser.newContext({viewport,isMobile,hasTouch:isMobile}),page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
       await page.route('**/api/event',route=>route.fulfill({status:204,body:''}));
       await page.goto(`http://127.0.0.1:${port}/lab/taste-calibration/?qa=1`);
-      await page.waitForFunction(()=>window.PlayJoltTasteLab?.prototypeIds?.length===1&&window.PlayJoltTasteLab?.version===4);
+      await page.waitForFunction(()=>window.PlayJoltTasteLab?.prototypeIds?.length===1&&window.PlayJoltTasteLab?.version===5);
       assert.equal(await page.locator('.prototype-tab').count(),0);assert(await page.locator('#gameCanvas').isVisible());
       const pixels=await page.locator('#gameCanvas').evaluate(canvas=>{const data=canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data;let lit=0;for(let i=0;i<data.length;i+=160)if(data[i]+data[i+1]+data[i+2]>30)lit++;return lit});assert(pixels>100,'canvas must render nonblank gameplay');
       await finishHaloGuard(page);assert(await page.locator('#ownerDecision').isVisible());

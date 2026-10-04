@@ -11,8 +11,8 @@ test('owner-selected Halo Guard polish remains zero-paid, private and blocks seq
   assert.equal(effectiveDailyCap(6,policy),0);assert.deepEqual(gate({sequence:38,policy,learningProfile:{}}),{allowed:false,reason:'owner_taste_polish_pending'});
   const html=fs.readFileSync(path.join(lab,'index.html'),'utf8'),js=fs.readFileSync(path.join(lab,'game.js'),'utf8');
   assert.match(html,/noindex,nofollow/);assert.match(html,/Arc Relay와 Bloom Circuit은 탈락/);assert.match(html,/Halo Guard 보강판/);
-  assert.doesNotMatch(js,/kinetic-launch-a/);assert.doesNotMatch(js,/chain-reaction-b/);assert.match(js,/radial-guard-c/);assert.match(js,/OVERDRIVE/);assert.match(js,/halo-guardian-v1\.png/);assert.match(js,/rescue-wisp-v1\.png/);assert.match(js,/shard-raider-v1\.png/);assert.doesNotMatch(html+js,/https?:\/\//);
-  for(const file of ['halo-guardian-v1.png','rescue-wisp-v1.png','shard-raider-v1.png']){const asset=path.join(lab,'assets',file);assert(fs.existsSync(asset));assert(fs.statSync(asset).size<1_500_000)}
+  assert.doesNotMatch(js,/kinetic-launch-a/);assert.doesNotMatch(js,/chain-reaction-b/);assert.match(js,/radial-guard-c/);assert.match(js,/OVERDRIVE/);assert.match(js,/halo-guardian-v2\.png/);assert.match(js,/rescue-wisp-v2\.png/);assert.match(js,/shard-raider-v2\.png/);assert.doesNotMatch(html+js,/https?:\/\//);
+  for(const file of ['halo-guardian-v2.png','rescue-wisp-v2.png','shard-raider-v2.png']){const asset=path.join(lab,'assets',file);assert(fs.existsSync(asset));assert(fs.statSync(asset).size<1_500_000)}
 });
 
 test('selected calibration clamps throughput to one and pauses after two measured regressions',()=>{

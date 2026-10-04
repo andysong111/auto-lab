@@ -4,9 +4,9 @@
   const ui={score:document.querySelector('#score'),time:document.querySelector('#time'),combo:document.querySelector('#combo'),start:document.querySelector('#startLayer'),result:document.querySelector('#resultLayer'),startButton:document.querySelector('#startButton'),replay:document.querySelector('#replayButton'),resultTitle:document.querySelector('#resultTitle'),resultScore:document.querySelector('#resultScore'),decision:document.querySelector('#ownerDecision'),decisionStatus:document.querySelector('#decisionStatus')};
   const A=window.VibeAnalytics||{track:()=>{}},qa=new URLSearchParams(location.search).get('qa')==='1';
   const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const STORE='playjolt_taste_calibration_halo_v4',prototype={id:'radial-guard-c',title:'Halo Guard'};
+  const STORE='playjolt_taste_calibration_halo_v5',prototype={id:'radial-guard-c',title:'Halo Guard'};
   const guardian=new Image(),rescueWisp=new Image(),shardRaider=new Image();
-  for(const [image,src] of [[guardian,'./assets/halo-guardian-v1.png'],[rescueWisp,'./assets/rescue-wisp-v1.png'],[shardRaider,'./assets/shard-raider-v1.png']]){image.src=src;image.onload=()=>game?.draw()}
+  for(const [image,src] of [[guardian,'./assets/halo-guardian-v2.png'],[rescueWisp,'./assets/rescue-wisp-v2.png'],[shardRaider,'./assets/shard-raider-v2.png']]){image.src=src;image.onload=()=>game?.draw()}
   const state=loadState();let game=null,raf=0,last=0,audioCtx=null;
 
   function loadState(){
@@ -80,13 +80,13 @@
     drawReactor(){
       circle(480,310,104,'#0d1d29');circle(480,310,82,this.overdrive>0?'#423814':'#102b34');
       for(let i=0;i<6;i++){const a=this.reactor+i*Math.PI/3,x=480+Math.cos(a)*72,y=310+Math.sin(a)*72;circle(x,y,6,this.overdrive>0?'#ffd166':'#24d7e5')}
-      if(guardian.complete&&guardian.naturalWidth){const bob=reducedMotion?0:Math.sin(this.reactor*2.2)*4,scale=1+this.guardianKick*.16;ctx.save();ctx.translate(480,310+bob+this.guardianKick*9);ctx.scale(scale,scale);if(this.flash>0)ctx.globalAlpha=.72;ctx.drawImage(guardian,-76,-76,152,152);ctx.restore()}else{circle(480,310,34,'#24d7e5');circle(480,310,14,'#071019')}
+      if(guardian.complete&&guardian.naturalWidth){const bob=reducedMotion?0:Math.sin(this.reactor*2.2)*4,scale=1+this.guardianKick*.16;ctx.save();ctx.translate(480,310+bob+this.guardianKick*9);ctx.scale(scale,scale);ctx.shadowColor=this.overdrive>0?'#ffd166':'#24d7e5';ctx.shadowBlur=this.overdrive>0?22:12;if(this.flash>0)ctx.globalAlpha=.72;ctx.drawImage(guardian,-88,-88,176,176);ctx.restore()}else{circle(480,310,34,'#24d7e5');circle(480,310,14,'#071019')}
     }
     drawItem(item){
       for(let i=item.tail.length-1;i>=0;i--){const t=item.tail[i],x=480+Math.cos(t.angle)*t.r,y=310+Math.sin(t.angle)*t.r;circle(x,y,Math.max(2,item.size*(i+1)/item.tail.length*.48),item.bad?'#7a2630':'#27765d')}
-      const a=item.currentAngle??item.angle,x=480+Math.cos(a)*item.r,y=310+Math.sin(a)*item.r,image=item.bad?shardRaider:rescueWisp,size=item.bad?72:60+(reducedMotion?0:Math.sin(item.pulse)*4);
+      const a=item.currentAngle??item.angle,x=480+Math.cos(a)*item.r,y=310+Math.sin(a)*item.r,image=item.bad?shardRaider:rescueWisp,size=item.bad?86:74+(reducedMotion?0:Math.sin(item.pulse)*4);
       if(item.bad&&item.r<320){ctx.beginPath();ctx.arc(x,y,size*.55+Math.sin(item.pulse)*5,0,Math.PI*2);ctx.strokeStyle='#ff5e6c';ctx.lineWidth=3;ctx.stroke()}
-      if(image.complete&&image.naturalWidth){ctx.save();ctx.translate(x,y);ctx.rotate(a+Math.PI);ctx.drawImage(image,-size/2,-size/2,size,size);ctx.restore()}
+      if(image.complete&&image.naturalWidth){const squash=reducedMotion?0:Math.sin(item.pulse)*.045;ctx.save();ctx.translate(x,y);ctx.rotate(a+Math.PI);ctx.scale(1+squash,1-squash);ctx.shadowColor=item.bad?'#ff5e6c':'#5ce0a1';ctx.shadowBlur=item.bad&&item.r<320?18:10;ctx.drawImage(image,-size/2,-size/2,size,size);ctx.restore()}
       else if(item.bad){circle(x,y,20,'#ff5e6c')}else{circle(x,y,18,'#ffffff')}
     }
     drawShield(){
@@ -97,7 +97,7 @@
     draw(){
       const sx=this.shake?rand(-this.shake,this.shake):0,sy=this.shake?rand(-this.shake,this.shake):0;ctx.save();ctx.translate(sx,sy);this.drawBackground();this.drawReactor();for(const item of this.items)this.drawItem(item);this.drawShield();
       for(const p of this.particles)circle(p.x,p.y,Math.max(1,p.life*8),p.color);for(const p of this.popups)text(p.label,p.x,p.y,18,p.color,'center',900);
-      text('HALO GUARD / V4',40,45,17,'#93a9b9');text(`PHASE ${this.phase}`,480,45,17,this.overdrive>0?'#ffd166':'#5ce0a1','center',900);text(`코어 ${this.lives} / 4 · 수호막 ${this.barrier}`,920,45,17,this.lives===1?'#ff7783':'#fff','right');
+      text('HALO GUARD / V5',40,45,17,'#93a9b9');text(`PHASE ${this.phase}`,480,45,17,this.overdrive>0?'#ffd166':'#5ce0a1','center',900);text(`코어 ${this.lives} / 4 · 수호막 ${this.barrier}`,920,45,17,this.lives===1?'#ff7783':'#fff','right');
       text('OVERDRIVE',40,566,12,'#8fa4b6');ctx.fillStyle='#172b38';ctx.fillRect(142,555,230,14);ctx.fillStyle=this.overdrive>0?'#ffd166':'#5ce0a1';ctx.fillRect(142,555,230*(this.overdrive>0?this.overdrive/5.5:this.energy/100),14);ctx.strokeStyle='#365264';ctx.strokeRect(142,555,230,14);
       if(this.announce>0){ctx.fillStyle='#071019dd';ctx.fillRect(330,262,300,96);text(this.overdrive>0?'OVERDRIVE':`PHASE ${this.phase}`,480,303,28,this.overdrive>0?'#ffd166':'#ffffff','center',900);text(this.overdrive>0?'보호막 확장 · 점수 2배':'신호 속도 상승',480,333,14,'#9fb3c3','center',700)}
       if(this.flash>0){ctx.fillStyle=`rgba(255,255,255,${Math.min(.28,this.flash)})`;ctx.fillRect(0,0,960,600)}ctx.restore();
@@ -105,9 +105,9 @@
   }
 
   function syncHud(){if(!game)return;ui.score.textContent=Math.round(game.score);ui.time.textContent=Math.ceil(game.left);ui.combo.textContent=game.combo}
-  function start(){cancelAnimationFrame(raf);game=new HaloGuard();game.start();ui.start.hidden=true;ui.result.hidden=true;last=performance.now();A.track('calibration_game_start',{prototype:prototype.id,version:4});raf=requestAnimationFrame(loop)}
+  function start(){cancelAnimationFrame(raf);game=new HaloGuard();game.start();ui.start.hidden=true;ui.result.hidden=true;last=performance.now();A.track('calibration_game_start',{prototype:prototype.id,version:5});raf=requestAnimationFrame(loop)}
   function loop(now){const dt=Math.min(.034,(now-last)/1000||0);last=now;if(game?.running){game.tick(dt);game.draw();raf=requestAnimationFrame(loop)}}
-  function finish(reason='기록 완료'){if(!game?.running)return;game.running=false;cancelAnimationFrame(raf);const score=Math.round(game.score);state.runs.guard=(state.runs.guard||0)+1;saveState();ui.resultTitle.textContent=reason;ui.resultScore.textContent=score.toLocaleString()+'점 · 최고 콤보 '+game.bestCombo;ui.result.hidden=false;tone(score>500?880:520,.16,'triangle',.04);A.track('calibration_game_finish',{prototype:prototype.id,score,best_combo:game.bestCombo,version:4})}
+  function finish(reason='기록 완료'){if(!game?.running)return;game.running=false;cancelAnimationFrame(raf);const score=Math.round(game.score);state.runs.guard=(state.runs.guard||0)+1;saveState();ui.resultTitle.textContent=reason;ui.resultScore.textContent=score.toLocaleString()+'점 · 최고 콤보 '+game.bestCombo;ui.result.hidden=false;tone(score>500?880:520,.16,'triangle',.04);A.track('calibration_game_finish',{prototype:prototype.id,score,best_combo:game.bestCombo,version:5})}
   function renderReview(){
     const completed=(state.runs.guard||0)>0,rated=Number.isInteger(state.ratings.guard);ui.decision.hidden=!(completed&&rated);
     document.querySelectorAll('#rating button').forEach(b=>b.classList.toggle('is-selected',Number(b.dataset.rating)===state.ratings.guard));
@@ -120,7 +120,7 @@
   ui.startButton.addEventListener('click',start);ui.replay.addEventListener('click',start);
   document.querySelectorAll('#rating button').forEach(b=>b.addEventListener('click',()=>{if(!state.runs.guard)return;state.ratings.guard=Number(b.dataset.rating);saveState()}));
   document.querySelectorAll('#tags button').forEach(b=>b.addEventListener('click',()=>{if(!state.runs.guard)return;const set=new Set(state.tags.guard||[]);set.has(b.dataset.tag)?set.delete(b.dataset.tag):set.add(b.dataset.tag);state.tags.guard=[...set];saveState()}));
-  document.querySelector('#winnerOptions [data-winner="guard"]').addEventListener('click',()=>{state.winner='guard';saveState();A.track('calibration_owner_selection',{prototype:prototype.id,ratings:state.ratings,tags:state.tags,version:4})});
-  window.PlayJoltTasteLab={getState:()=>structuredClone(state),getRuntime:()=>game?{running:game.running,phase:game.phase,angle:game.angle,items:game.items.length,score:game.score,lives:game.lives,barrier:game.barrier}:null,prototypeIds:[prototype.id],version:4};
-  game=new HaloGuard();game.setup();syncHud();game.draw();renderReview();A.track('calibration_lab_open',{state:state.winner?'selected_for_polish':'polish_pending',version:4});
+  document.querySelector('#winnerOptions [data-winner="guard"]').addEventListener('click',()=>{state.winner='guard';saveState();A.track('calibration_owner_selection',{prototype:prototype.id,ratings:state.ratings,tags:state.tags,version:5})});
+  window.PlayJoltTasteLab={getState:()=>structuredClone(state),getRuntime:()=>game?{running:game.running,phase:game.phase,angle:game.angle,items:game.items.length,score:game.score,lives:game.lives,barrier:game.barrier}:null,prototypeIds:[prototype.id],version:5};
+  game=new HaloGuard();game.setup();syncHud();game.draw();renderReview();A.track('calibration_lab_open',{state:state.winner?'selected_for_polish':'polish_pending',version:5});
 })();
