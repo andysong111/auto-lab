@@ -6,6 +6,7 @@ function build(root=path.resolve(__dirname,'..')){
  fs.mkdirSync(dest,{recursive:true});
  const read=f=>fs.readFileSync(path.join(source,f),'utf8'),put=(f,s)=>fs.writeFileSync(path.join(dest,f),s);
  function change(s,old,next){const at=s.indexOf(old);if(at<0||s.indexOf(old,at+old.length)>=0)throw Error('candidate_base_changed:'+old.slice(0,75));return s.slice(0,at)+next+s.slice(at+old.length);}
+ function changePattern(s,pattern,next,label){const matches=[...s.matchAll(new RegExp(pattern.source,pattern.flags.includes('g')?pattern.flags:pattern.flags+'g'))];if(matches.length!==1)throw Error('candidate_base_changed:'+label);return s.replace(pattern,next);}
  let core=read('core.js');
  core=change(core,"const VERSION='astra-v1'","const Motion=root.AstraMotion||(typeof require==='function'?require('./motion.js'):null);\nconst VERSION='astra-polish-preview1'");
  core=change(core,'player:{x:360,y:540,','player:{vx:0,vy:0,x:360,y:540,');
@@ -25,7 +26,7 @@ function build(root=path.resolve(__dirname,'..')){
  art=change(art,'for(const h of s.pickups){glow', 'polish.telegraphs(c,s);for(const h of s.pickups){glow');
  art=change(art,'hero(c,p.x,p.y,s.tier,at,p.aim||-Math.PI/2,1,opts.moving);','hero(c,p.x,p.y,s.tier,at,p.aim??-Math.PI/2,1,opts.moving,polish.pose());');
  art=change(art,'else enemy(c,it.e,at,t);','else {c.save();polish.enemyPose(c,it.e);enemy(c,it.e,at,t);c.restore();}');
- art=change(art,"c.restore();}\nfunction portrait", "polish.finish(c,s);c.restore();}\nfunction portrait");
+ art=changePattern(art,/c\.restore\(\);\}\r?\nfunction portrait/, "polish.finish(c,s);c.restore();}\nfunction portrait",'draw_portrait_boundary');
  art=change(art,'rings=[];shake=0;},resources:', 'rings=[];shake=0;polish.reset();},resources:');
  art=change(art,'rays:rays.length,rings:rings.length,frames})','rays:rays.length,rings:rings.length,frames,...polish.resources()})');
  put('art.js',art);
