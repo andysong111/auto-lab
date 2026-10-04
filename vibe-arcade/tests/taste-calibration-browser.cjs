@@ -27,7 +27,7 @@ async function finishHaloGuard(page,gameplayPath){
       const context=await browser.newContext({viewport,isMobile,hasTouch:isMobile}),page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
       await page.route('**/api/event',route=>route.fulfill({status:204,body:''}));
       await page.goto(`http://127.0.0.1:${port}/lab/taste-calibration/?qa=1`);
-      await page.waitForFunction(()=>window.PlayJoltTasteLab?.prototypeIds?.length===1&&window.PlayJoltTasteLab?.version===8&&window.PlayJoltTasteLab?.renderer==='three-webgl'&&window.PlayJoltTasteLab?.isBackgroundReady());
+      await page.waitForFunction(()=>window.PlayJoltTasteLab?.prototypeIds?.length===1&&window.PlayJoltTasteLab?.version===9&&window.PlayJoltTasteLab?.renderer==='three-webgl'&&window.PlayJoltTasteLab?.isBackgroundReady());
       assert.equal(await page.locator('.prototype-tab').count(),0);assert(await page.locator('#gameCanvas').isVisible());
       const visual=await page.evaluate(()=>PlayJoltTasteLab.getVisualProbe());assert(visual.litPixels>100,'WebGL canvas must render nonblank 3D gameplay');assert.equal(visual.backgroundReady,true,'illustrated sky background must load');assert.equal(visual.width,960);assert.equal(visual.height,600);
       await finishHaloGuard(page,path.join(out,`taste-calibration-${name}-gameplay.png`));assert(await page.locator('#ownerDecision').isVisible());
