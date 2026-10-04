@@ -5,7 +5,7 @@ const GOLDEN=path.join(__dirname,'golden/halo-guard-v9/identity.json');
 const REGISTRY=path.join(__dirname,'component-registry.json');
 const RULES=path.join(__dirname,'rule-modules.json');
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8'));
-const hash=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const hash=file=>crypto.createHash('sha256').update(fs.readFileSync(file,'utf8').replace(/\r\n/g,'\n')).digest('hex');
 const fail=code=>{throw Error('golden_preflight:'+code);};
 const fields=['outcome','reason','tick','phase','score','progress','best_combo','lives','barrier'];
 
@@ -54,12 +54,13 @@ function verify({identityFile=GOLDEN,registryFile=REGISTRY,rulesFile=RULES}={}){
   const oracle=read(path.join(ROOT,identity.oracle));if(oracle.schema!=='playjolt-golden-oracle/1'||oracle.runtime!==core.VERSION||Object.keys(oracle.seeds).length!==6)fail('oracle_schema');
   let maxEntities=0;
   for(const [seedText,expected] of Object.entries(oracle.seeds))for(const mode of ['success','failure']){
-    const first=simulate(core,Number(seedText),mode,oracle),second=simulate(core,Number(seedText),mode,oracle);maxEntities=Math.max(maxEntities,first.maxEntities,second.maxEntities);
+    const first=simulate(core,Number(seedText),mode,oracle),second=simulate(core,Number(seedText),mode,oracle),motion=simulate(core,Number(seedText),mode,{...oracle,reduced_motion:!oracle.reduced_motion});maxEntities=Math.max(maxEntities,first.maxEntities,second.maxEntities,motion.maxEntities);
     if(JSON.stringify(first.snapshot)!==JSON.stringify(expected[mode]))fail('oracle_'+seedText+'_'+mode);
     if(JSON.stringify(first.snapshot)!==JSON.stringify(second.snapshot))fail('replay_'+seedText+'_'+mode);
+    if(JSON.stringify(first.snapshot)!==JSON.stringify(motion.snapshot))fail('reduced_motion_outcome_'+seedText+'_'+mode);
   }
   if(maxEntities>identity.performance.max_active_entities)fail('entity_bound');
-  return {schema:'playjolt-golden-preflight/1',status:'PASS',golden:identity.id,runtime:core.VERSION,components:identity.components.length,rules:identity.rule_modules.length,seeds:Object.keys(oracle.seeds).length,max_entities:maxEntities,production:false};
+  return {schema:'playjolt-golden-preflight/1',status:'PASS',golden:identity.id,runtime:core.VERSION,components:identity.components.length,rules:identity.rule_modules.length,seeds:Object.keys(oracle.seeds).length,max_entities:maxEntities,reduced_motion_equivalence:'score-progress-terminal',production:false};
 }
 function main(){if(process.argv[2]!=='verify')throw Error('usage: game-compiler.cjs verify');process.stdout.write(JSON.stringify(verify())+'\n');}
 if(require.main===module){try{main();}catch(error){console.error(error.stack||error);process.exit(2);}}

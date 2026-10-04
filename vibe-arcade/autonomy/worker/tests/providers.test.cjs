@@ -25,6 +25,8 @@ for(const [name,value,code] of [
   ['factory-owned gamekit',{...output(),files:[{path:'gamekit.js',content:'bad'}]},'path_isolation'],
   ['factory-owned phaser bridge',{...output(),files:[{path:'phaserkit.js',content:'bad'}]},'path_isolation'],
   ['factory-owned reflex core',{...output(),files:[{path:'reflexkit.js',content:'bad'}]},'path_isolation'],
+  ['factory-owned halo guard core',{...output(),files:[{path:'halo-guard-core.js',content:'bad'}]},'path_isolation'],
+  ['factory-owned radial adapter',{...output(),files:[{path:'radialkit.js',content:'bad'}]},'path_isolation'],
   ['factory-owned Phaser runtime',{...output(),files:[{path:'phaser.js',content:'bad'}]},'path_isolation'],
   ['factory-owned feel effects',{...output(),files:[{path:'feelfx.js',content:'bad'}]},'path_isolation'],
   ['factory-owned feel audio',{...output(),files:[{path:'feelaudio.js',content:'bad'}]},'path_isolation'],

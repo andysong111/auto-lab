@@ -131,7 +131,7 @@ The owner should not repair candidates, tune prompts, schedule posts or repeated
 
 ## Immediate implementation sequence
 
-1. Complete a dedicated continuous radial-input variation runner that loads the exact Factory-owned Halo Guard core before candidate presentation code.
+1. The zero-paid continuous radial-input foundation is complete: `radialkit.js` loads the exact Factory-owned Halo Guard core, and `radial-runner.cjs` rejects baseline drift, multi-axis changes, input mismatch, Oracle mismatch, replay drift and entity overflow before a provider call. Paid candidate preparation remains disabled until Product and Commercial browser contracts consume the continuous pointer evidence.
 2. Make sequence 38 change only one reviewed axis around the golden baseline; unrelated reviewed designs remain ineligible with `golden_variation_required`.
 3. Prove pointer/keyboard parity, 40-second success, ordinary-play failure, replay, entity bounds and the six golden traces before any provider call.
 4. Add component-level failure attribution and trend reporting.
@@ -139,6 +139,6 @@ The owner should not repair candidates, tune prompts, schedule posts or repeated
 6. Promote only a measured improvement through the existing RC Preview and release-packet path.
 7. After scoped approval, hand the exact released source to `marketing/rail`, produce honest real-gameplay assets, publish through connected channels and feed measured acquisition/replay evidence back into learning.
 
-Until step 1 is complete, Trusted Intake must remain cost-free `IDLE`. The approved continuous pointer mechanic must not be approximated by the existing discrete `ReflexKit` action runners merely to resume throughput.
+Until the remaining browser contracts and sequence 38 one-axis packet are complete, Trusted Intake must remain cost-free `IDLE`. The approved continuous pointer mechanic must not be approximated by the existing discrete `ReflexKit` action runners merely to resume throughput.
 
 Production remains unauthorized until a fresh explicit owner decision.

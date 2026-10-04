@@ -91,7 +91,8 @@ Execution stays serial. The purpose of the ramp is to increase experiment veloci
 Owner taste-calibration override (2026-10-05):
 
 - the owner rejected `Arc Relay` and `Bloom Circuit` and selected `Halo Guard` only as a baseline for further graphics and dynamics polish;
-- candidate sequence 38 and later stays at zero-paid `IDLE` while the durable state is `SELECTED_FOR_POLISH`; it may move to `SELECTED` only after the owner plays the polished Halo Guard and explicitly approves it for Factory use;
+- the owner later approved the polished Halo Guard V9, and its golden integration moved the durable state to `SELECTED`;
+- candidate sequence 38 and later still stays at zero-paid `IDLE` until the dedicated continuous radial-input runner, exact six-seed proof and one-axis variation contract are complete;
 - after that approval, the effective cap is temporarily **1 candidate / UTC day**, even if the older adaptive ramp would allow more;
 - two consecutive measured quality regressions pause further paid candidates for owner review;
 - this override does not authorize Production or weaken any QA gate.
