@@ -1,0 +1,9 @@
+{
+  "schema": "playjolt-rule-modules/1",
+  "modules": [
+    {"id":"one-thumb-radial-defense-v1","status":"reviewed","requires":["radial-defense-core-v1","radial-pointer-input-v1"],"checks":["pointer and keyboard drive one target-angle authority","first input visibly rotates the shield"]},
+    {"id":"short-session-replay-v1","status":"reviewed","requires":["short-session-lifecycle-v1"],"checks":["success and failure are both terminal","replay recreates the exact seeded initial state"]},
+    {"id":"character-role-readability-v1","status":"reviewed","requires":["toy-3d-character-roles-v1"],"checks":["friendly and enemy differ by shape, luminance and color","player and goal remain visible at mobile width"]},
+    {"id":"reduced-motion-equivalence-v1","status":"reviewed","requires":["radial-defense-core-v1","mobile-owner-shell-v1"],"checks":["reduced motion preserves score, progress and terminal outcomes","motion preference changes presentation only"]}
+  ]
+}

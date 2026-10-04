@@ -1,0 +1,71 @@
+{
+  "schema": "playjolt-golden-play/1",
+  "id": "halo-guard-v9",
+  "status": "reviewed",
+  "owner_approved_at": "2026-10-05",
+  "source_commit": "78ec96c655b6e73ee1012d0f570d9d082161f881",
+  "runtime": {
+    "id": "halo-guard-core-v1",
+    "path": "lab/taste-calibration/halo-guard-core.js",
+    "sha256": "04a8cf42f6e1b476798ef041aa7e7277ece98314114e8ff55e9ba79f8d2ef7b6"
+  },
+  "identity": {
+    "mechanic_family": "radial-guarding",
+    "primary_gesture": "continuous radial pointer defense",
+    "session_seconds": 40,
+    "success": "survive the complete defense window",
+    "failure": "catch six raiders after two recoverable guardian barriers",
+    "replay": "fresh exact initial state on the same seed",
+    "invariants": [
+      "visible shield movement is the collision authority",
+      "rescue wisps and shard raiders are readable before interception",
+      "early pressure is forgiving through two barriers and four core lives",
+      "only rescued wisps score and advance mastery",
+      "success and failure are reachable through ordinary play",
+      "terminal result exposes immediate replay"
+    ]
+  },
+  "input_map": {
+    "pointer": "set the shield target angle from the playfield pointer",
+    "ArrowLeft": "nudge the same target angle counter-clockwise by 0.36 radians",
+    "ArrowRight": "nudge the same target angle clockwise by 0.36 radians"
+  },
+  "roles": {
+    "player": "compact 3D halo guardian",
+    "friendly": "bright rescue wisp",
+    "enemy": "red horned shard raider",
+    "goal": "rotating luminous shield on the visible interception ring"
+  },
+  "components": [
+    "radial-defense-core-v1",
+    "radial-pointer-input-v1",
+    "short-session-lifecycle-v1",
+    "halo-difficulty-v1",
+    "toy-3d-character-roles-v1",
+    "toy-sky-environment-v1",
+    "halo-feedback-v1",
+    "mobile-owner-shell-v1"
+  ],
+  "rule_modules": [
+    "one-thumb-radial-defense-v1",
+    "short-session-replay-v1",
+    "character-role-readability-v1",
+    "reduced-motion-equivalence-v1"
+  ],
+  "oracle": "autonomy/foundry/golden/halo-guard-v9/oracle.json",
+  "performance": {
+    "max_active_entities": 24,
+    "max_event_batch": 96,
+    "desktop_viewport": [1440, 1000],
+    "mobile_viewport": [390, 844],
+    "min_lit_pixel_samples": 100
+  },
+  "visual_evidence": {
+    "browser_test": "tests/taste-calibration-browser.cjs",
+    "screenshots": [
+      "autonomy/foundry/golden/halo-guard-v9/evidence/taste-calibration-desktop-gameplay.png",
+      "autonomy/foundry/golden/halo-guard-v9/evidence/taste-calibration-mobile-gameplay.png"
+    ]
+  },
+  "production_authorized": false
+}

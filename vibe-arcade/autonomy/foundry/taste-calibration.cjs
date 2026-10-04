@@ -11,6 +11,7 @@ function validatePolicy(policy){
   if(!Number.isInteger(policy.post_selection_policy?.pause_after_consecutive_measured_regressions)||policy.post_selection_policy.pause_after_consecutive_measured_regressions<1)throw Error('invalid_taste_calibration_regression_limit');
   if(policy.post_selection_policy.production_authorized!==false)throw Error('taste_calibration_production_must_remain_false');
   if(['SELECTED_FOR_POLISH','SELECTED_FOR_INTEGRATION','SELECTED'].includes(policy.state)&&!policy.selected_prototype_id)throw Error('taste_calibration_selection_missing');
+  if(policy.state==='SELECTED'&&(policy.integration?.status!=='VERIFIED'||!policy.integration?.golden_id||!policy.integration?.golden_contract||!policy.integration?.component_registry))throw Error('taste_calibration_integration_missing');
   return policy;
 }
 

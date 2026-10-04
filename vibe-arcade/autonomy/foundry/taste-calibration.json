@@ -1,10 +1,10 @@
 {
   "schema": "playjolt-owner-taste-calibration/1",
-  "state": "SELECTED_FOR_INTEGRATION",
+  "state": "SELECTED",
   "required_from_sequence": 38,
   "selected_prototype_id": "radial-guard-c",
   "owner_selected_at": "2026-10-05",
-  "owner_note": "The owner approved Halo Guard V9 as the completed taste baseline. Arc Relay and Bloom Circuit remain rejected. Keep paid intake stopped until the approved baseline is materialized as a golden play contract and reviewed component system. Production remains unauthorized.",
+  "owner_note": "The owner approved Halo Guard V9 as the completed taste baseline. Arc Relay and Bloom Circuit remain rejected. The approved play authority is now protected by a golden six-seed contract and reviewed component preflight. Production remains unauthorized.",
   "owner_approved_at": "2026-10-05",
   "approved_build": {
     "name": "Halo Guard V9",
@@ -31,9 +31,19 @@
       "title": "Halo Guard",
       "interaction": "continuous radial pointer defense",
       "lane": "original",
-      "owner_disposition": "SELECTED_FOR_INTEGRATION"
+      "owner_disposition": "SELECTED"
     }
   ],
+  "integration": {
+    "status": "VERIFIED",
+    "verified_at": "2026-10-05",
+    "golden_id": "halo-guard-v9",
+    "golden_contract": "autonomy/foundry/golden/halo-guard-v9/identity.json",
+    "component_registry": "autonomy/foundry/component-registry.json",
+    "compiler": "autonomy/foundry/game-compiler.cjs",
+    "runtime": "halo-guard-core-v1",
+    "runtime_sha256": "04a8cf42f6e1b476798ef041aa7e7277ece98314114e8ff55e9ba79f8d2ef7b6"
+  },
   "benchmark": {
     "captured_at": "2026-10-05",
     "sources": [

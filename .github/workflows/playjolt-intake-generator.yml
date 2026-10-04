@@ -29,6 +29,8 @@ jobs:
         with:
           node-version: '22'
       - run: npm ci --prefix vibe-arcade/autonomy --ignore-scripts --no-audit --no-fund
+      - name: Verify owner-approved golden component baseline
+        run: node vibe-arcade/autonomy/foundry/game-compiler.cjs verify
       - name: Enforce adaptive autonomous candidate quota
         if: ${{ inputs.dry_run != true }}
         id: quota
