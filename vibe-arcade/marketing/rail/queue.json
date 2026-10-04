@@ -1,0 +1,77 @@
+{
+  "schema": "playjolt-marketing-rail/1",
+  "updated_at": "2026-10-05",
+  "timezone": "Asia/Seoul",
+  "games": [
+    {
+      "rail_id": "halo-guard-v9-organic-launch",
+      "game_id": "halo-guard-v9",
+      "title": "Halo Guard",
+      "state": "QUEUED_ASSET_PRODUCTION",
+      "source": {
+        "commit": "78ec96c655b6e73ee1012d0f570d9d082161f881",
+        "path": "/lab/taste-calibration/",
+        "version": 9,
+        "renderer": "three-webgl",
+        "capture_policy": "real_gameplay_only"
+      },
+      "owner_decision": {
+        "decision": "APPROVE",
+        "decided_at": "2026-10-05",
+        "scopes": ["taste_baseline", "marketing_asset_production"],
+        "note": "Halo Guard V9 is the approved baseline and may enter the marketing asset rail. Public game release and SNS publication still require the later evidence packet."
+      },
+      "creative": {
+        "positioning": "Protect a tiny sky citadel by guiding one living shield: rescue the wisps, stop the raiders and survive the rising pressure.",
+        "real_gameplay_percent_min": 70,
+        "ai_hook_percent_max": 30,
+        "higgsfield_allowed_roles": ["one_to_two_second_intro", "transition", "atmosphere"],
+        "higgsfield_forbidden_roles": ["fake_gameplay", "exact_brand_text", "exact_url", "exact_score_claim"],
+        "hook_tests": [
+          "Can you guard the halo without catching a raider?",
+          "Save the wisps. Block the raiders. One shield.",
+          "It starts calm. Then the sky breaks."
+        ]
+      },
+      "assets": {
+        "state": "BRIEF_READY",
+        "qa_passed": false,
+        "required": [
+          "verified_real_gameplay_capture",
+          "1080x1920_vertical_master",
+          "platform_safe_cover",
+          "deterministic_brand_and_cta_overlay",
+          "full_decode_and_freeze_scan",
+          "channel_specific_copy"
+        ]
+      },
+      "channels": ["instagram", "youtube", "tiktok", "threads"],
+      "tracking": {
+        "campaign": "halo_guard_launch_v1",
+        "content_prefix": "hg_v9",
+        "medium": "organic_social",
+        "planned_route": "/games/halo-guard/",
+        "live_route_verified": false
+      },
+      "release": {
+        "rc_ready": false,
+        "exact_source_preview": false,
+        "release_packet_sha256": null,
+        "production_released": false,
+        "live_url": null
+      },
+      "scheduler": {
+        "provider": "Metricool",
+        "accounts_connected": false,
+        "hosted_copy_verified": false,
+        "scheduled_posts": 0,
+        "published_posts": 0
+      },
+      "publication": {
+        "authorized": false,
+        "paid_ads_authorized": false,
+        "state": "BLOCKED_RELEASE_NOT_LIVE"
+      }
+    }
+  ]
+}

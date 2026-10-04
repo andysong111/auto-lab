@@ -69,4 +69,4 @@ jobs:
           grep 'Kill rule' vibe-arcade/GOALS.md
           grep 'Prebuilt batch B' vibe-arcade/EXPERIMENTS.md
       - name: Validate owner taste calibration
-        run: node --test vibe-arcade/tests/taste-calibration.test.cjs
+        run: node --test vibe-arcade/tests/taste-calibration.test.cjs vibe-arcade/tests/owner-loop.test.cjs

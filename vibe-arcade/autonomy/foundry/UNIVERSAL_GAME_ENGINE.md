@@ -120,13 +120,14 @@ This makes outcomes attributable. If mechanic, art, controls, progression and ec
 
 ## Owner involvement
 
-Owner input is required at three narrow boundaries:
+The owner has only two operating responsibilities:
 
-- approve a new taste baseline after zero-paid prototypes;
-- review the best measured weekly candidate when evidence suggests a real improvement;
-- explicitly approve Production after an RC release packet is complete.
+1. submit an original idea or a popular game reference;
+2. decide `APPROVE`, `REJECT` or `ENGINE_ADVICE` from one evidence packet.
 
-The owner should not repair candidates, tune prompts or repeatedly judge obviously weak outputs. The Factory should stop before spending when reviewed components or evidence are missing.
+PlayJolt prepares the playable Preview, measured QA comparison, cost/repair ledger, release status and marketing preview before requesting the decision. A mature approval packet may explicitly bundle game acceptance, Production release and organic marketing publication so the owner makes one informed decision instead of operating each stage. An early taste approval, such as Halo Guard V9, cannot bundle evidence that does not exist yet and therefore authorizes asset preparation only.
+
+The owner should not repair candidates, tune prompts, schedule posts or repeatedly judge obviously weak outputs. The Factory stops before spending or publishing when reviewed components, evidence, credentials or scoped approval are missing.
 
 ## Immediate implementation sequence
 
@@ -137,5 +138,6 @@ The owner should not repair candidates, tune prompts or repeatedly judge obvious
 5. Add component-level failure attribution and trend reporting.
 6. Run at most one paid candidate per UTC day; pause after two measured regressions.
 7. Promote only a measured improvement through the existing RC Preview and release-packet path.
+8. After scoped approval, hand the exact released source to `marketing/rail`, produce honest real-gameplay assets, publish through connected channels and feed measured acquisition/replay evidence back into learning.
 
 Production remains unauthorized until a fresh explicit owner decision.

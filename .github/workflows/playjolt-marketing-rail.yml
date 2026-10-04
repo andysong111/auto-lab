@@ -1,0 +1,57 @@
+name: PlayJolt Owner and Marketing Rail
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'vibe-arcade/autonomy/owner-loop/**'
+      - 'vibe-arcade/marketing/rail/**'
+      - 'vibe-arcade/tests/owner-loop.test.cjs'
+      - '.github/workflows/playjolt-marketing-rail.yml'
+  pull_request:
+    paths:
+      - 'vibe-arcade/autonomy/owner-loop/**'
+      - 'vibe-arcade/marketing/rail/**'
+      - 'vibe-arcade/tests/owner-loop.test.cjs'
+      - '.github/workflows/playjolt-marketing-rail.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: playjolt-marketing-rail-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-and-stage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate owner loop and marketing gates
+        run: node --test vibe-arcade/tests/owner-loop.test.cjs
+      - name: Materialize rail status without external writes
+        run: |
+          mkdir -p "$RUNNER_TEMP/playjolt-marketing-rail"
+          node vibe-arcade/autonomy/owner-loop/contract.cjs \
+            vibe-arcade/autonomy/owner-loop/policy.json \
+            vibe-arcade/marketing/rail/queue.json \
+            > "$RUNNER_TEMP/playjolt-marketing-rail/status.json"
+          cp vibe-arcade/marketing/rail/queue.json "$RUNNER_TEMP/playjolt-marketing-rail/queue.json"
+          git rev-parse HEAD > "$RUNNER_TEMP/playjolt-marketing-rail/SOURCE_COMMIT.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: playjolt-marketing-rail-status
+          path: ${{ runner.temp }}/playjolt-marketing-rail
+          retention-days: 14
+
+  external-publication:
+    if: ${{ false }}
+    needs: validate-and-stage
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'External publication remains fail-closed until release, asset QA, account and scoped owner approval gates pass.'
