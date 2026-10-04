@@ -2,7 +2,7 @@
 
 ## Decision
 
-Halo Guard V9 is the owner-approved taste baseline. Its durable state is `SELECTED_FOR_INTEGRATION`, so paid intake stays stopped while PlayJolt evolves from whole-game generation into a constrained game compiler whose trusted components improve after every measured attempt.
+Halo Guard V9 is the owner-approved taste baseline. Its durable state is `SELECTED`: the play authority is now protected by `halo-guard-core-v1`, six deterministic success/failure traces, reviewed component and rule registries, desktop/mobile browser evidence and a zero-paid compiler preflight. This enables guarded development but does not authorize a paid candidate by itself.
 
 This document adapts the proven architecture of AI-Saurus without copying its commerce-specific implementation. AI-Saurus succeeds across unlike products because it separates variable source facts from stable production machinery: source normalization, a universal identity contract, conditional rule modules, fixed output roles, golden cases, staged promotion, bounded retry, quality gates, accepted-cost measurement and permanent regression learning. PlayJolt needs the same separation for games.
 
@@ -131,13 +131,14 @@ The owner should not repair candidates, tune prompts, schedule posts or repeated
 
 ## Immediate implementation sequence
 
-1. Materialize Halo Guard V9 as a golden play contract with deterministic traces and visual evidence.
-2. Extract its mechanic, character-role, environment, camera, feedback and mobile-shell components into versioned registries.
-3. Add a compatibility compiler and fail-closed preflight for component combinations.
-4. Change sequence 38 construction to vary one reviewed axis while inheriting the golden invariants, then move the policy to `SELECTED`.
-5. Add component-level failure attribution and trend reporting.
-6. Run at most one paid candidate per UTC day; pause after two measured regressions.
-7. Promote only a measured improvement through the existing RC Preview and release-packet path.
-8. After scoped approval, hand the exact released source to `marketing/rail`, produce honest real-gameplay assets, publish through connected channels and feed measured acquisition/replay evidence back into learning.
+1. Complete a dedicated continuous radial-input variation runner that loads the exact Factory-owned Halo Guard core before candidate presentation code.
+2. Make sequence 38 change only one reviewed axis around the golden baseline; unrelated reviewed designs remain ineligible with `golden_variation_required`.
+3. Prove pointer/keyboard parity, 40-second success, ordinary-play failure, replay, entity bounds and the six golden traces before any provider call.
+4. Add component-level failure attribution and trend reporting.
+5. Run at most one paid candidate per UTC day; pause after two measured regressions.
+6. Promote only a measured improvement through the existing RC Preview and release-packet path.
+7. After scoped approval, hand the exact released source to `marketing/rail`, produce honest real-gameplay assets, publish through connected channels and feed measured acquisition/replay evidence back into learning.
+
+Until step 1 is complete, Trusted Intake must remain cost-free `IDLE`. The approved continuous pointer mechanic must not be approximated by the existing discrete `ReflexKit` action runners merely to resume throughput.
 
 Production remains unauthorized until a fresh explicit owner decision.

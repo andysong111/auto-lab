@@ -30,6 +30,8 @@ Engineering Phase 5 (owner-gated RC Preview / release / rollback) is implemented
 
 The candidate supply is now a Learning Foundry rather than one repeated permutation template. Odd candidate sequences use an original exploration lane and even sequences use a reviewed Google Play market-benchmark lane. Benchmarking may transfer abstract product principles only; copying names, branding, art, audio, layouts, assets, code or a distinctive ruleset is forbidden. Terminal outcomes feed family-level learning, and a family with three rejections and no RC_READY is retired before another paid build.
 
+After the owner approved Halo Guard V9 on 2026-10-05, sequence 38 and later entered a golden-variation phase. The exact `halo-guard-v9` identity, six-seed play Oracle and reviewed component combination are the construction baseline. A later design is eligible only when it explicitly inherits that golden ID and uses a reviewed continuous radial-input runner; unrelated catalog designs remain cost-free `IDLE`. Change one major axis at a time and do not approximate the approved continuous pointer mechanic with a discrete action runner merely to restore throughput.
+
 Do not lower quality gates merely to manufacture an `RC_READY` candidate.
 
 ## Non-negotiable safety rules
