@@ -2,6 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),os=require('node:os');
 const product=require('../../qa/product-contract.cjs'),commercial=require('../../qa/commercial/contract.cjs');
 const {SIGNATURES,THEMES,blueprintFor,materialize}=require('../../cycle/intake-generator.cjs');
+const {authorize:authorizeOneTimeCapOverride}=require('../../cycle/one-time-cap-override.cjs');
 const {buildModel,proposalFor,stageSpace,targetFor}=require('../../cycle/template-runner.cjs');
 
 test('all trusted intake signatures produce bounded reachable reviewed contracts',()=>{
@@ -58,4 +59,21 @@ test('intake workflow treats draft PR creation as best effort and still dispatch
   const dispatch=yml.indexOf('Dispatch bounded autonomous cycle');
   assert(pr>=0&&dispatch>pr,'bounded autonomous cycle must follow best-effort PR creation');
   assert.match(yml,/gh workflow run playjolt-autonomous-cycle\.yml/);
+});
+
+test('owner daily-cap exception is self-expiring and limited to sequence 38',()=>{
+  assert.deepEqual(authorizeOneTimeCapOverride('andysong111','andysong111','38','38'),{
+    allowed:true,
+    reason:'owner_one_time_sequence_38'
+  });
+  assert.equal(authorizeOneTimeCapOverride('another-user','andysong111','38','38').allowed,false);
+  assert.equal(authorizeOneTimeCapOverride('andysong111','andysong111','39','39').allowed,false);
+  assert.equal(authorizeOneTimeCapOverride('andysong111','andysong111','38','39').allowed,false);
+  assert.equal(authorizeOneTimeCapOverride('andysong111','andysong111','','38').allowed,false);
+
+  const file=path.resolve(__dirname,'../../../../.github/workflows/playjolt-intake-generator.yml');
+  const yml=fs.readFileSync(file,'utf8');
+  assert.match(yml,/owner_one_time_sequence:/);
+  assert.match(yml,/github\.repository_owner/);
+  assert.match(yml,/one-time-cap-override\.cjs/);
 });

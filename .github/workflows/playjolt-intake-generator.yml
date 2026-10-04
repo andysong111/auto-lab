@@ -7,6 +7,11 @@ on:
         required: false
         default: false
         type: boolean
+      owner_one_time_sequence:
+        description: 'Repository-owner one-time daily-cap exception; currently only sequence 38 is authorized'
+        required: false
+        default: ''
+        type: string
 
 permissions:
   contents: write
@@ -36,6 +41,8 @@ jobs:
         id: quota
         env:
           GH_TOKEN: ${{ github.token }}
+          REQUESTED_OWNER_SEQUENCE: ${{ inputs.owner_one_time_sequence }}
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
         run: |
           SINCE="$(date -u +%Y-%m-%dT00:00:00Z)"
           HISTORY="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/playjolt-autonomous-cycle.yml/runs?per_page=100")"
@@ -44,14 +51,23 @@ jobs:
           CAP="$(node vibe-arcade/autonomy/foundry/taste-calibration.cjs cap vibe-arcade/autonomy/foundry/taste-calibration.json "$RAMP_CAP")"
           COUNT="$(printf '%s' "$HISTORY" | jq --arg since "$SINCE" '[.workflow_runs[] | select(.created_at >= $since and (.head_branch | startswith("commissioning/auto-")))] | unique_by(.head_branch) | length')"
           ACTIVE="$(printf '%s' "$HISTORY" | jq '[.workflow_runs[] | select(.status != "completed")] | length')"
+          EXISTING="$(git ls-remote --heads origin 'refs/heads/commissioning/auto-*' | wc -l | tr -d ' ')"
+          NEXT_SEQUENCE="$((EXISTING + 1))"
+          OWNER_OVERRIDE="$(node vibe-arcade/autonomy/cycle/one-time-cap-override.cjs "$GITHUB_ACTOR" "$REPOSITORY_OWNER" "$REQUESTED_OWNER_SEQUENCE" "$NEXT_SEQUENCE")"
           echo "cap=$CAP" >> "$GITHUB_OUTPUT"
           echo "proven=$PROVEN" >> "$GITHUB_OUTPUT"
           if [ "$ACTIVE" -gt 0 ]; then
             echo "allowed=false" >> "$GITHUB_OUTPUT"
             echo "An autonomous candidate is already active; intake remains idle."
           elif [ "$COUNT" -ge "$CAP" ]; then
-            echo "allowed=false" >> "$GITHUB_OUTPUT"
-            echo "Effective daily cap reached: $COUNT/$CAP after safety and owner-calibration policy."
+            if [ "$(printf '%s' "$OWNER_OVERRIDE" | jq -r '.allowed')" = "true" ]; then
+              echo "allowed=true" >> "$GITHUB_OUTPUT"
+              echo "owner_override=true" >> "$GITHUB_OUTPUT"
+              echo "Repository owner authorized the self-expiring sequence $NEXT_SEQUENCE daily-cap exception."
+            else
+              echo "allowed=false" >> "$GITHUB_OUTPUT"
+              echo "Effective daily cap reached: $COUNT/$CAP after safety and owner-calibration policy. Override: $(printf '%s' "$OWNER_OVERRIDE" | jq -r '.reason')."
+            fi
           else
             echo "allowed=true" >> "$GITHUB_OUTPUT"
           fi

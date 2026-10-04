@@ -93,3 +93,5 @@ The factory starts conservatively and increases experiment throughput only after
 - after 3 successful fully autonomous completions: max 6 / UTC day.
 
 "Successful" here means the autonomous workflow reached a clean terminal checkpoint; the game itself may validly end RC_READY or REJECTED. Candidates remain serial: one active autonomous cycle at a time. Provider calls stay capped at 6 per candidate, estimated provider cost stays capped at USD 2 per candidate, and Production remains off.
+
+The repository owner explicitly authorized one immediate exception for sequence 38 after the UTC daily slot had already been consumed. Trusted Intake accepts `owner_one_time_sequence=38` only when the dispatch actor is the repository owner and 38 is still the next unused sequence. The exception bypasses only the daily count, never the active-run lock, provider/cost/repair limits, QA gates or Production boundary. It becomes unusable as soon as sequence 38 is materialized.
