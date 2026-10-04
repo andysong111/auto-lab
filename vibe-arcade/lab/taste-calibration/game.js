@@ -4,12 +4,12 @@ const canvas=document.querySelector('#gameCanvas');
 const ui={score:document.querySelector('#score'),time:document.querySelector('#time'),combo:document.querySelector('#combo'),start:document.querySelector('#startLayer'),result:document.querySelector('#resultLayer'),startButton:document.querySelector('#startButton'),replay:document.querySelector('#replayButton'),resultTitle:document.querySelector('#resultTitle'),resultScore:document.querySelector('#resultScore'),decision:document.querySelector('#ownerDecision'),decisionStatus:document.querySelector('#decisionStatus'),phase:document.querySelector('#scenePhase'),core:document.querySelector('#sceneCore'),overdrive:document.querySelector('#overdriveFill')};
 const A=window.VibeAnalytics||{track:()=>{}},qa=new URLSearchParams(location.search).get('qa')==='1';
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const STORE='playjolt_taste_calibration_halo_v6',prototype={id:'radial-guard-c',title:'Halo Guard'};
+const STORE='playjolt_taste_calibration_halo_v7',prototype={id:'radial-guard-c',title:'Halo Guard'};
 let game=null,raf=0,last=0,audioCtx=null;
 
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
 renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));renderer.setSize(960,600,false);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x071019);scene.fog=new THREE.Fog(0x071019,16,26);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x101a31);scene.fog=new THREE.Fog(0x101a31,18,30);
 const camera=new THREE.PerspectiveCamera(42,1.6,.1,100);camera.position.set(0,0,16);camera.lookAt(0,0,0);
 scene.add(new THREE.HemisphereLight(0xc8fbff,0x071019,2.2));
 const keyLight=new THREE.DirectionalLight(0xffffff,3.4);keyLight.position.set(-5,7,10);keyLight.castShadow=true;scene.add(keyLight);
@@ -22,7 +22,12 @@ const MAT={
   gold:new THREE.MeshStandardMaterial({color:0xffcf54,roughness:.26,metalness:.55,emissive:0x8b5900,emissiveIntensity:.55}),
   dark:new THREE.MeshStandardMaterial({color:0x101a25,roughness:.32,metalness:.55}),
   red:new THREE.MeshStandardMaterial({color:0xef3950,roughness:.28,metalness:.5,emissive:0x65000d,emissiveIntensity:.65}),
-  coral:new THREE.MeshStandardMaterial({color:0xff706f,roughness:.2,metalness:.24,emissive:0xb51a22,emissiveIntensity:1.5})
+  coral:new THREE.MeshStandardMaterial({color:0xff706f,roughness:.2,metalness:.24,emissive:0xb51a22,emissiveIntensity:1.5}),
+  stone:new THREE.MeshStandardMaterial({color:0x536b82,roughness:.76,metalness:.08}),
+  stoneDark:new THREE.MeshStandardMaterial({color:0x253b54,roughness:.8,metalness:.08}),
+  grass:new THREE.MeshStandardMaterial({color:0x4ac58f,roughness:.62,metalness:.04,emissive:0x0a3929,emissiveIntensity:.28}),
+  violet:new THREE.MeshStandardMaterial({color:0x806de6,roughness:.34,metalness:.28,emissive:0x241c70,emissiveIntensity:.55}),
+  cloud:new THREE.MeshStandardMaterial({color:0xdff8ff,roughness:.82,metalness:0,transparent:true,opacity:.72})
 };
 function addMesh(parent,geometry,material,position=[0,0,0],scale=[1,1,1]){const value=new THREE.Mesh(geometry,material);value.position.set(...position);value.scale.set(...scale);value.castShadow=true;value.receiveShadow=true;parent.add(value);return value}
 function sphere(parent,r,material,position,scale){return addMesh(parent,new THREE.SphereGeometry(r,24,16),material,position,scale)}
@@ -56,8 +61,43 @@ function createRaider(){
   group.scale.set(.68,.68,.68);return group;
 }
 
+function createTower(x,y,scale=1){
+  const tower=new THREE.Group();
+  addMesh(tower,new THREE.CylinderGeometry(.62,.78,1.75,8),MAT.stone,[0,0,0]);
+  addMesh(tower,new THREE.CylinderGeometry(.82,.82,.25,8),MAT.stoneDark,[0,.95,0]);
+  cone(tower,.92,1.15,MAT.violet,[0,1.55,0]);
+  for(const side of [-1,1])sphere(tower,.11,MAT.gold,[side*.28,.2,.66],[.8,1.3,.35]);
+  tower.position.set(x,y,-2.1);tower.scale.setScalar(scale);return tower;
+}
+function createCloud(x,y,z,scale=1){
+  const cloud=new THREE.Group();
+  sphere(cloud,.72,MAT.cloud,[-.7,0,0],[1.25,.72,.7]);sphere(cloud,.9,MAT.cloud,[0,.18,0],[1.35,.78,.72]);sphere(cloud,.62,MAT.cloud,[.82,-.02,0],[1.25,.68,.65]);
+  cloud.position.set(x,y,z);cloud.scale.setScalar(scale);return cloud;
+}
+const sceneryMotion=[];
+function createEnvironment(){
+  const environment=new THREE.Group();
+  const halo=new THREE.Mesh(new THREE.CircleGeometry(8.8,64),new THREE.MeshBasicMaterial({color:0x213b5b,transparent:true,opacity:.5}));halo.position.z=-5.8;environment.add(halo);
+  const courtyard=addMesh(environment,new THREE.CylinderGeometry(4.65,5.05,.48,18),MAT.stoneDark,[0,0,-1.75]);courtyard.rotation.x=Math.PI/2;
+  const lawn=addMesh(environment,new THREE.CylinderGeometry(4.45,4.45,.12,18),MAT.grass,[0,0,-1.42]);lawn.rotation.x=Math.PI/2;
+  addMesh(environment,new THREE.TorusGeometry(4.52,.12,10,72),MAT.gold,[0,0,-1.25]);
+  for(let i=0;i<10;i++){
+    const angle=i/10*Math.PI*2+.16,rock=addMesh(environment,new THREE.ConeGeometry(.42+Math.random()*.18,1.35+Math.random()*.7,6),MAT.stone,[Math.cos(angle)*4.25,-4.65+Math.sin(angle)*.2,-2.35]);
+    rock.rotation.z=Math.PI+(Math.random()-.5)*.2;rock.scale.x=.8+Math.random()*.45;
+  }
+  environment.add(createTower(-5.6,-1.6,.84),createTower(5.6,-1.6,.84),createTower(-4.85,3.2,.52),createTower(4.85,3.2,.52));
+  const clouds=[createCloud(-6.4,3.9,-4.4,1.15),createCloud(6.2,4.1,-4.7,.95),createCloud(-6.8,-3.8,-4.1,.72),createCloud(6.8,-3.5,-4.5,.82)];
+  for(const [index,cloud] of clouds.entries()){environment.add(cloud);sceneryMotion.push({kind:'cloud',object:cloud,origin:cloud.position.x,speed:.00012+index*.000025,range:.28+index*.04})}
+  for(const side of [-1,1]){
+    const crystal=addMesh(environment,new THREE.OctahedronGeometry(.36,0),MAT.violet,[side*6.2,.35,-1.7],[.8,1.5,.8]);sceneryMotion.push({kind:'crystal',object:crystal,offset:side});
+    const beacon=new THREE.PointLight(side<0?0x8c7cff:0x54efc0,7,6);beacon.position.set(side*5.55,-.5,-.4);environment.add(beacon);sceneryMotion.push({kind:'beacon',object:beacon,offset:side});
+  }
+  return environment;
+}
+
 const world=new THREE.Group();scene.add(world);
-const grid=new THREE.GridHelper(22,18,0x24445a,0x142737);grid.rotation.x=Math.PI/2;grid.position.z=-2.5;world.add(grid);
+const environment=createEnvironment();world.add(environment);
+const grid=new THREE.GridHelper(20,16,0x446d7c,0x28485b);grid.rotation.x=Math.PI/2;grid.position.z=-1.15;grid.material.transparent=true;grid.material.opacity=.23;world.add(grid);
 const ringMat=new THREE.MeshStandardMaterial({color:0x1b4c5c,emissive:0x0b2934,emissiveIntensity:.8,roughness:.45});
 const baseRing=new THREE.Mesh(new THREE.TorusGeometry(3.92,.055,8,96),ringMat);world.add(baseRing);
 const innerRing=new THREE.Mesh(new THREE.TorusGeometry(2.25,.035,8,72),ringMat);innerRing.position.z=-.4;world.add(innerRing);
@@ -94,14 +134,15 @@ class HaloGuard3D{
     this.items=this.items.filter(item=>!item.done);for(const effect of this.effects){effect.life-=dt;effect.mesh.scale.addScalar(dt*4);effect.mesh.material.opacity=Math.max(0,effect.life*1.7)}this.effects=this.effects.filter(effect=>{if(effect.life>0)return true;world.remove(effect.mesh);effect.mesh.geometry.dispose();effect.mesh.material.dispose();return false});syncHud()
   }
   animate(now){innerRing.rotation.z=-now*.00018;baseRing.rotation.z=now*.0001;guardian.position.y=(reducedMotion?0:Math.sin(now*.0022)*.08)-this.guardianKick*.18;guardian.rotation.y=(reducedMotion?0:Math.sin(now*.0014)*.12);guardian.scale.setScalar(.85+this.guardianKick*.1);shield.rotation.z=this.angle-.525;shieldMaterial.color.setHex(this.overdrive>0?0xffd166:0xffffff);shieldMaterial.emissive.setHex(this.overdrive>0?0xc67900:0x35dca8);shield.scale.setScalar(this.overdrive>0?1.08:1);
+    for(const motion of sceneryMotion){if(motion.kind==='cloud')motion.object.position.x=motion.origin+Math.sin(now*motion.speed)*motion.range;else if(motion.kind==='crystal'){motion.object.rotation.y=now*.0012*motion.offset;motion.object.position.y=.35+(reducedMotion?0:Math.sin(now*.002+motion.offset)*.12)}else motion.object.intensity=6.2+(reducedMotion?0:Math.sin(now*.003+motion.offset)*1.4)}
     for(const item of this.items){const a=item.currentAngle;item.model.position.set(Math.cos(a)*item.r,Math.sin(a)*item.r,.4+Math.sin(item.pulse)*.28);item.model.rotation.z=a-Math.PI/2;item.model.rotation.y+=item.bad?.045:.028;const pulse=1+(reducedMotion?0:Math.sin(item.pulse)*.06);item.model.scale.setScalar(pulse)}
   }
 }
 
 function syncHud(){if(!game)return;ui.score.textContent=Math.round(game.score);ui.time.textContent=Math.ceil(game.left);ui.combo.textContent=game.combo;ui.phase.textContent=game.overdrive>0?'OVERDRIVE':`PHASE ${game.phase}`;ui.phase.style.color=game.overdrive>0?'#ffd166':'#5ce0a1';ui.core.textContent=`코어 ${game.lives} / 4 · 수호막 ${game.barrier}`;ui.overdrive.style.width=`${game.overdrive>0?game.overdrive/5.5*100:game.energy}%`;ui.overdrive.style.background=game.overdrive>0?'#ffd166':'#5ce0a1'}
-function start(){cancelAnimationFrame(raf);game?.dispose();game=new HaloGuard3D();game.start();ui.start.hidden=true;ui.result.hidden=true;last=performance.now();A.track('calibration_game_start',{prototype:prototype.id,version:6,renderer:'three-webgl'});raf=requestAnimationFrame(loop)}
+function start(){cancelAnimationFrame(raf);game?.dispose();game=new HaloGuard3D();game.start();ui.start.hidden=true;ui.result.hidden=true;last=performance.now();A.track('calibration_game_start',{prototype:prototype.id,version:7,renderer:'three-webgl'});raf=requestAnimationFrame(loop)}
 function loop(now){const dt=Math.min(.034,(now-last)/1000||0);last=now;if(game?.running)game.tick(dt);game?.animate(now);renderer.render(scene,camera);if(game?.running)raf=requestAnimationFrame(loop)}
-function finish(reason='기록 완료'){if(!game?.running)return;game.running=false;cancelAnimationFrame(raf);const score=Math.round(game.score);state.runs.guard=(state.runs.guard||0)+1;saveState();ui.resultTitle.textContent=reason;ui.resultScore.textContent=score.toLocaleString()+'점 · 최고 콤보 '+game.bestCombo;ui.result.hidden=false;tone(score>500?880:520,.16,'triangle',.04);A.track('calibration_game_finish',{prototype:prototype.id,score,best_combo:game.bestCombo,version:6})}
+function finish(reason='기록 완료'){if(!game?.running)return;game.running=false;cancelAnimationFrame(raf);const score=Math.round(game.score);state.runs.guard=(state.runs.guard||0)+1;saveState();ui.resultTitle.textContent=reason;ui.resultScore.textContent=score.toLocaleString()+'점 · 최고 콤보 '+game.bestCombo;ui.result.hidden=false;tone(score>500?880:520,.16,'triangle',.04);A.track('calibration_game_finish',{prototype:prototype.id,score,best_combo:game.bestCombo,version:7})}
 function renderReview(){const completed=(state.runs.guard||0)>0,rated=Number.isInteger(state.ratings.guard);ui.decision.hidden=!(completed&&rated);document.querySelectorAll('#rating button').forEach(button=>button.classList.toggle('is-selected',Number(button.dataset.rating)===state.ratings.guard));document.querySelectorAll('#tags button').forEach(button=>button.classList.toggle('is-selected',(state.tags.guard||[]).includes(button.dataset.tag)));document.querySelectorAll('#winnerOptions button').forEach(button=>button.classList.toggle('is-selected',state.winner==='guard'));ui.decisionStatus.textContent=state.winner==='guard'?'Halo Guard 보강판이 이 브라우저의 기준으로 저장되었습니다. 공장 재시작은 별도 승인 전까지 보류됩니다.':''}
 function visualProbe(){renderer.render(scene,camera);const gl=renderer.getContext(),pixels=new Uint8Array(canvas.width*canvas.height*4);gl.readPixels(0,0,canvas.width,canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,pixels);let lit=0;for(let i=0;i<pixels.length;i+=256)if(pixels[i]+pixels[i+1]+pixels[i+2]>32)lit++;return {litPixels:lit,width:canvas.width,height:canvas.height}}
 
@@ -110,7 +151,7 @@ window.addEventListener('keydown',event=>{if(game?.running&&['ArrowLeft','ArrowR
 ui.startButton.addEventListener('click',start);ui.replay.addEventListener('click',start);
 document.querySelectorAll('#rating button').forEach(button=>button.addEventListener('click',()=>{if(!state.runs.guard)return;state.ratings.guard=Number(button.dataset.rating);saveState()}));
 document.querySelectorAll('#tags button').forEach(button=>button.addEventListener('click',()=>{if(!state.runs.guard)return;const set=new Set(state.tags.guard||[]);set.has(button.dataset.tag)?set.delete(button.dataset.tag):set.add(button.dataset.tag);state.tags.guard=[...set];saveState()}));
-document.querySelector('#winnerOptions [data-winner="guard"]').addEventListener('click',()=>{state.winner='guard';saveState();A.track('calibration_owner_selection',{prototype:prototype.id,ratings:state.ratings,tags:state.tags,version:6})});
+document.querySelector('#winnerOptions [data-winner="guard"]').addEventListener('click',()=>{state.winner='guard';saveState();A.track('calibration_owner_selection',{prototype:prototype.id,ratings:state.ratings,tags:state.tags,version:7})});
 game=new HaloGuard3D();game.animate(performance.now());renderer.render(scene,camera);syncHud();renderReview();
-window.PlayJoltTasteLab={getState:()=>structuredClone(state),getRuntime:()=>game?{running:game.running,phase:game.phase,angle:game.angle,items:game.items.length,score:game.score,lives:game.lives,barrier:game.barrier}:null,getVisualProbe:visualProbe,prototypeIds:[prototype.id],version:6,renderer:'three-webgl'};
-A.track('calibration_lab_open',{state:state.winner?'selected_for_polish':'polish_pending',version:6,renderer:'three-webgl'});
+window.PlayJoltTasteLab={getState:()=>structuredClone(state),getRuntime:()=>game?{running:game.running,phase:game.phase,angle:game.angle,items:game.items.length,score:game.score,lives:game.lives,barrier:game.barrier}:null,getVisualProbe:visualProbe,prototypeIds:[prototype.id],version:7,renderer:'three-webgl'};
+A.track('calibration_lab_open',{state:state.winner?'selected_for_polish':'polish_pending',version:7,renderer:'three-webgl'});

@@ -11,7 +11,7 @@ test('owner-selected Halo Guard polish remains zero-paid, private and blocks seq
   assert.equal(effectiveDailyCap(6,policy),0);assert.deepEqual(gate({sequence:38,policy,learningProfile:{}}),{allowed:false,reason:'owner_taste_polish_pending'});
   const html=fs.readFileSync(path.join(lab,'index.html'),'utf8'),js=fs.readFileSync(path.join(lab,'game.js'),'utf8');
   assert.match(html,/noindex,nofollow/);assert.match(html,/Arc Relay와 Bloom Circuit은 탈락/);assert.match(html,/Halo Guard 보강판/);
-  assert.doesNotMatch(js,/kinetic-launch-a/);assert.doesNotMatch(js,/chain-reaction-b/);assert.match(js,/radial-guard-c/);assert.match(js,/OVERDRIVE/);assert.match(js,/THREE\.WebGLRenderer/);assert.match(js,/createGuardian/);assert.match(js,/createWisp/);assert.match(js,/createRaider/);assert.match(js,/three-webgl/);assert.doesNotMatch(html+js,/https?:\/\//);
+  assert.doesNotMatch(js,/kinetic-launch-a/);assert.doesNotMatch(js,/chain-reaction-b/);assert.match(js,/radial-guard-c/);assert.match(js,/OVERDRIVE/);assert.match(js,/THREE\.WebGLRenderer/);assert.match(js,/createGuardian/);assert.match(js,/createWisp/);assert.match(js,/createRaider/);assert.match(js,/createEnvironment/);assert.match(js,/createTower/);assert.match(js,/createCloud/);assert.match(js,/three-webgl/);assert.doesNotMatch(html+js,/https?:\/\//);
   for(const file of ['three.module.min.js','three.core.min.js']){const three=path.join(lab,'vendor',file);assert(fs.existsSync(three));assert(fs.statSync(three).size<500_000)}
 });
 
