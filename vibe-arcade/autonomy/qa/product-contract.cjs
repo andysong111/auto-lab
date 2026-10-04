@@ -2,6 +2,7 @@
 const Ajv=require('ajv'), fs=require('node:fs'), path=require('node:path');
 const {hash}=require('../orchestrator/files.cjs');
 const schema=require('../schema/product-quality-contract.schema.json');
+const radial=require('./radial-model.cjs');
 const check=new Ajv({allErrors:true,strict:false}).compile(schema);
 const forbidden=new Set(['__proto__','prototype','constructor']);
 function at(value,key){for(const part of key.split('.')){if(forbidden.has(part))throw Error('unsafe diagnostic path');value=value?.[part];}return value;}
@@ -13,6 +14,7 @@ function validate(contract){
   const serialized=JSON.stringify(contract);
   if(/__proto__|constructor|prototype/.test(serialized))throw Error('product_contract: unsafe path');
   if(contract.score.selector===contract.best.selector)throw Error('product_contract: score and best must be separate');
+  if(contract.interaction&&contract.interaction.mode!==radial.MODE)throw Error('product_contract: unsupported interaction mode');
   return contract;
 }
 // A trusted, reviewed DATA adapter. There is no candidate module loading, eval,
@@ -28,6 +30,13 @@ function review(contract,{allowFixture=false}={}){
   const model=JSON.parse(fs.readFileSync(path.join(__dirname,'reviewed',entry.file),'utf8'));
   if(hash(model)!==entry.sha256)throw Error('product_difficulty_unreviewed: oracle digest mismatch');
   if(JSON.stringify(model.projection)!==JSON.stringify(contract.difficulty.projection))throw Error('oracle projection mismatch');
+  if(model.interaction_mode===radial.MODE){
+    if(contract.interaction?.mode!==radial.MODE)throw Error('product_difficulty_unreviewed: continuous radial contract missing');
+    radial.validate(model);
+    for(const seed of contract.difficulty.deterministic_seeds)if(!model.seeds[String(seed)])throw Error('oracle seed missing: '+seed);
+    return {model,approval:entry};
+  }
+  if(contract.interaction)throw Error('product_difficulty_unreviewed: interaction/model mismatch');
   validateModel(model);
   for(const g of Object.values(model.seeds))for(const n of Object.values(g.nodes))for(const e of n.edges)if(!contract.actions[e.action])throw Error('oracle action absent from contract');
   for(const seed of contract.difficulty.deterministic_seeds){
@@ -49,6 +58,7 @@ function alternateEntryEdges(node,plannedStep){
   return node.edges.filter(edge=>edge.action!==plannedStep.action||edge.to!==plannedStep.to);
 }
 function validateModel(m){
+  if(m?.interaction_mode===radial.MODE)return radial.validate(m);
   if(m.schema_version!==1||!Array.isArray(m.projection)||m.projection.length<2||m.projection.length>12||!m.seeds||Object.keys(m.seeds).length>24)throw Error('invalid bounded oracle');
   for(const g of Object.values(m.seeds)){
     const ids=Object.keys(g.nodes||{});if(ids.length<3||ids.length>128||!g.nodes[g.initial])throw Error('invalid oracle nodes');

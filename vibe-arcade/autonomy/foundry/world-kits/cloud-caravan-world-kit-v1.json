@@ -1,0 +1,34 @@
+{
+  "schema": "playjolt-reviewed-world-kit/1",
+  "id": "cloud-caravan-world-kit-v1",
+  "status": "reviewed",
+  "golden_baseline_id": "halo-guard-v9",
+  "variation_axis": "world-kit",
+  "mechanic_changes": "forbidden",
+  "composition": {
+    "foreground": "Keep the guardian, halo, wisps, raiders and contact ring unobstructed and visually dominant.",
+    "midground": "Use at most five rounded floating caravan homes distributed around the outer thirds, never across the interception ring.",
+    "background": "Use a sparse soft sky corridor with two depth bands, distant travel lights and broad cloud silhouettes.",
+    "density_limit": 12,
+    "maximum_simultaneous_moving_background_objects": 4
+  },
+  "style": {
+    "forms": ["rounded compact toy volumes", "soft bevels", "small readable silhouettes"],
+    "palette": {
+      "sky": "#071c2a",
+      "cloud": "#b8dbea",
+      "travel_light": "#ffd166",
+      "friendly": "#5ce0a1",
+      "danger": "#ff4e65"
+    },
+    "lighting": "One soft upper-left key light and restrained rim light; no image-like backdrop or photoreal texture.",
+    "camera": "Preserve the golden camera, arena framing and mobile safe area exactly."
+  },
+  "invariants": [
+    "No world object changes collision, spawning, score, progress, lives, barriers, timing or outcomes.",
+    "No world object captures input or covers lifecycle controls.",
+    "The world kit may not change the golden character silhouettes or the halo contact ring.",
+    "Reduced motion freezes background travel and keeps all state cues readable."
+  ],
+  "copy_boundary": "New PlayJolt-authored environment only. Do not copy names, characters, arenas, layouts, art, audio, assets, code, economies or distinctive rulesets from benchmark titles."
+}

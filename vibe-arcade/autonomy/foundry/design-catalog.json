@@ -126,6 +126,12 @@
       "status": "reviewed",
       "hypothesis": "A protected spatial tilt core, visible droplet and checkpoint geometry, widening compass choices and one recoverable channel warning create direct grid movement with readable mastery.",
       "copy_boundary": "No maze layout, marble character, observed tilt physics, level map, artwork, audio, code, scoring system or distinctive gravity ruleset may be copied."
+    },
+    {
+      "id": "radial-guarding",
+      "status": "reviewed",
+      "hypothesis": "The owner-approved continuous radial defense remains fun when its exact golden play authority is preserved and one restrained toy-world presentation axis improves character readability and atmosphere.",
+      "copy_boundary": "No benchmark name, character, arena, layout, art, audio, asset, code, economy, scoring system or distinctive ruleset may be copied."
     }
   ],
   "designs": [
@@ -366,6 +372,25 @@
       "title_seed": "Tide compass",
       "novelty_contract": "Roll an original bright droplet through twelve seed-owned compass checkpoints with widening directional choices, shrinking windows, persistent wake geometry and one recoverable wrong-tilt warning.",
       "candidate": {"title":"Tide Compass","slug":"tide-compass","theme":{"singular":"Checkpoint","plural":"Checkpoints","arena":"Compass","progress":"CHAMBERS","success":"TIDE ALIGNED","failure":"CHANNEL FRACTURED"}}
+    },
+    {
+      "id": "radial-guarding-market-01",
+      "lane": "market-benchmark",
+      "family_id": "radial-guarding",
+      "status": "reviewed",
+      "min_sequence": 38,
+      "runner": "foundry/radial-runner.cjs",
+      "benchmark_id": "google-play-cute-3d-arcade-en-20261005",
+      "golden_baseline_id": "halo-guard-v9",
+      "seeds": [7, 19, 42, 77, 998, 74021],
+      "variation": {
+        "id": "cloud-caravan-world-kit-01",
+        "axis": "world-kit",
+        "changed_components": ["cloud-caravan-world-kit-v1"]
+      },
+      "title_seed": "Halo guard cloud caravan",
+      "novelty_contract": "Preserve the exact owner-approved Halo Guard mechanic while changing only one reviewed world-kit axis into a sparse original cloud caravan that improves compact character readability without adding gameplay geometry.",
+      "candidate": {"title":"Halo Guard Cloud Caravan","slug":"halo-guard-cloud-caravan","theme":{"singular":"Wisp","plural":"Wisps","arena":"Skyway","progress":"RESCUED","success":"SKYWAY SECURED","failure":"CORE OVERRUN"}}
     }
   ]
 }

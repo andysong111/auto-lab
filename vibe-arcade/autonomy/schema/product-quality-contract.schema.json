@@ -491,6 +491,78 @@
         }
       }
     },
+    "interaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "target_collection_path",
+        "target_angle_path",
+        "target_radius_path",
+        "hazard_path",
+        "acquire_radius",
+        "avoid_radius",
+        "pointer_radius",
+        "input_interval_ms",
+        "max_ticks",
+        "min_success_progress"
+      ],
+      "properties": {
+        "mode": {
+          "const": "continuous-radial-v1"
+        },
+        "target_collection_path": {
+          "type": "string",
+          "pattern": "^state\\.[a-zA-Z][a-zA-Z0-9_.]*$",
+          "maxLength": 100
+        },
+        "target_angle_path": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_.]*$",
+          "maxLength": 100
+        },
+        "target_radius_path": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_.]*$",
+          "maxLength": 100
+        },
+        "hazard_path": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_.]*$",
+          "maxLength": 100
+        },
+        "acquire_radius": {
+          "type": "number",
+          "minimum": 4.5,
+          "maximum": 8
+        },
+        "avoid_radius": {
+          "type": "number",
+          "minimum": 3,
+          "maximum": 6
+        },
+        "pointer_radius": {
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 0.48
+        },
+        "input_interval_ms": {
+          "type": "integer",
+          "minimum": 30,
+          "maximum": 80
+        },
+        "max_ticks": {
+          "type": "integer",
+          "minimum": 1800,
+          "maximum": 6000
+        },
+        "min_success_progress": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 100
+        }
+      }
+    },
     "actions": {
       "type": "object",
       "minProperties": 1,

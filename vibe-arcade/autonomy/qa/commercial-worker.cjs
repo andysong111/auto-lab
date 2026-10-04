@@ -6,6 +6,7 @@ const {hash,hashTree,atomicJSON,readJSON}=require('../orchestrator/files.cjs');
 const {review,LIMITS}=require('./commercial/contract.cjs'),{at,identify,shortest}=require('./product-contract.cjs');
 const raster=require('./commercial/raster.cjs'),{audioAudit,frameAudit,boxes}=require('./commercial/browser.cjs');
 const visual=require('./commercial/visual-review.cjs');
+const {createDriver:createRadialDriver}=require('./radial-browser.cjs');
 const VERSION='commercial-polish-1';
 const REQUIRED=['visual_legibility','state_distinction','action_feedback','motion','reduced_motion','progression_spectacle','mobile_hierarchy','mobile_density','result_presentation','replay_motivation','audio','performance','capture_no_writes','visual_evidence','visual_review'];
 const digest=b=>crypto.createHash('sha256').update(b).digest('hex');
@@ -13,7 +14,7 @@ function expect(ok,expected,actual){if(!ok){const e=Error(expected);e.expected=e
 async function execute({manifest,gameRoot,outDir,policy},reviewer=new visual.MachineCorroboration()){
  const source=hashTree(gameRoot),c=manifest.commercial_contract,p=manifest.product_contract,began=Date.now();fs.mkdirSync(outDir,{recursive:true});
  const r={schema_version:1,runner_version:VERSION,suite:'commercial',game_id:manifest.game_id,version:manifest.version,source_hash:source,policy_hash:hash(policy),contract_hash:hash(c||null),product_contract_hash:hash(p||null),passed:false,hard_failures:[],checks:[],browser_cases:[],artifacts:[],screenshots:[],side_effects:[],console_errors:[],page_errors:[],duration_ms:0,scope:'Reviewed normal-input visual guards; aesthetic equivalence, fun, retention and real-phone FPS remain unverified.'};
- let browser,server,oracle,vp={width:390,height:844},evidence=[],seq=0;
+ let browser,server,oracle,radialDriver=null,vp={width:390,height:844},evidence=[],seq=0;
  const save=()=>{r.duration_ms=Date.now()-began;atomicJSON(path.join(outDir,'qa.json'),r);atomicJSON(path.join(outDir,'artifact-index.json'),{source_hash:source,contract_hash:r.contract_hash,artifacts:r.artifacts});};
  async function check(name,details,fn){evidence=[];const row={check:name,viewport:vp,...details};try{row.actual=await fn();row.status='PASS';}catch(e){row.status='FAIL';row.expected=e.expected||details.expected||'commercial contract';row.actual=e.actual??e.message;row.message=String(e.message).slice(0,1200);const code=name==='visual_legibility'?'product_route_topology_not_visible':'commercial_'+name;r.hard_failures.push({code,message:row.message,check:name,viewport:vp,...details,expected:row.expected,actual:row.actual,evidence:[...evidence]});}row.evidence=[...evidence];r.checks.push(row);save();return row;}
  const snap=page=>page.evaluate(()=>GameDiagnostics.snapshot());
@@ -36,7 +37,7 @@ async function execute({manifest,gameRoot,outDir,policy},reviewer=new visual.Mac
   else{await s.page.keyboard.down(a.key);await s.advance(a.hold_ms);await s.page.keyboard.up(a.key);}
   await s.advance(Math.max(20,settle));const after=await snap(s.page),kind=vp.width===390?'pointer':'keyboard';expect(after.accepted_inputs[kind]>before.accepted_inputs[kind],'real input accepted',{before:before.accepted_inputs,after:after.accepted_inputs});return after;
  }
- async function reach(s,node){await start(s);const g=oracle.graph,plan=shortest(g,g.initial,n=>n===g.nodes[node]);expect(plan&&plan.length<=p.difficulty.max_actions,'reviewed bounded normal-input path',node);
+ async function reach(s,node){await start(s);if(radialDriver)return radialDriver.reach(s,node,vp.width===390?'touch':'keyboard');const g=oracle.graph,plan=shortest(g,g.initial,n=>n===g.nodes[node]);expect(plan&&plan.length<=p.difficulty.max_actions,'reviewed bounded normal-input path',node);
   expect(identify(oracle.model,g,await snap(s.page))===g.initial,'actual initial state agrees with reviewed oracle',node);
   for(const edge of plan){const next=await input(s,edge.action,{settle:c.motion.settle_ms});expect(identify(oracle.model,g,next)===edge.to,'actual player transition agrees with oracle',{expected:edge.to,actual:identify(oracle.model,g,next)});}await s.advance(c.motion.settle_ms);
  }
@@ -48,7 +49,7 @@ async function execute({manifest,gameRoot,outDir,policy},reviewer=new visual.Mac
  async function anchor(a,phase){return withSession({},async s=>{await reach(s,a.node);return capture(s,phase,[a.region]);});}
  async function visible(page,selector){const e=page.locator(selector);expect(await e.count()===1&&await e.isVisible(),'one visible '+selector,false);const b=await e.boundingBox();expect(b&&b.x>=0&&b.y>=0&&b.x+b.width<=vp.width+1&&b.y+b.height<=vp.height+1,'first-viewport control/text '+selector,b);return (await e.innerText()).trim();}
  try{
-  oracle=review(c,p,{allowFixture:policy.product?.allow_fixture_oracles===true});r.oracle_approval=oracle.approval;
+   oracle=review(c,p,{allowFixture:policy.product?.allow_fixture_oracles===true});r.oracle_approval=oracle.approval;if(oracle.model.interaction_mode)radialDriver=createRadialDriver(p,oracle.model,expect);
   server=await serve(gameRoot);try{browser=await chromium.launch({headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});}catch(e){r.hard_failures.push({code:'qa_infrastructure',message:e.message});throw e;}
   for(const [width,height] of policy.required_viewports){vp={width,height};const initialFailures=r.hard_failures.length;
    await check('entry',{},()=>withSession({},s=>capture(s,'entry')));
@@ -56,9 +57,9 @@ async function execute({manifest,gameRoot,outDir,policy},reviewer=new visual.Mac
     const a=await anchor(pair.a,'pair-before'),b=await anchor(pair.b,'pair-after'),m=raster.compare(a.samples[0],b.samples[0]);expect(raster.distinct(m,LIMITS),'decision-relevant states have visible non-text pixel distinction',m);return m;
    });
    for(const probe of c.action_feedback.probes){
-    for(const reduced of [false,true])await check(reduced?'reduced_motion':'action_feedback',{category:'feedback',probe:probe.id,stage:oracle.graph.nodes[probe.node].stage,selector:probe.region.selector,visual_region:probe.region,state_path:p.difficulty.reversible_state_path},()=>withSession({reduced},async s=>{
-     await reach(s,probe.node);const before=await capture(s,'before',[probe.region]),old=await snap(s.page),next=await input(s,probe.action),expected=oracle.graph.nodes[probe.node].edges.find(e=>e.action===probe.action).to;
-     expect(identify(oracle.model,oracle.graph,next)===expected,'feedback action matches reviewed state change',{expected,actual:identify(oracle.model,oracle.graph,next)});
+     for(const reduced of [false,true])await check(reduced?'reduced_motion':'action_feedback',{category:'feedback',probe:probe.id,stage:radialDriver?oracle.model.anchors[probe.node].stage:oracle.graph.nodes[probe.node].stage,selector:probe.region.selector,visual_region:probe.region,state_path:p.difficulty.reversible_state_path},()=>withSession({reduced},async s=>{
+      await reach(s,probe.node);const before=await capture(s,'before',[probe.region]),old=await snap(s.page),next=await input(s,probe.action),expected=radialDriver?null:oracle.graph.nodes[probe.node].edges.find(e=>e.action===probe.action).to;
+      if(!radialDriver)expect(identify(oracle.model,oracle.graph,next)===expected,'feedback action matches reviewed state change',{expected,actual:identify(oracle.model,oracle.graph,next)});
      expect(at(old,p.difficulty.reversible_state_path)!==at(next,p.difficulty.reversible_state_path),'meaningful feedback action',next.quality);
      const frames=[];let elapsed=0;for(const ms of [...c.motion.intermediate_ms,c.motion.settle_ms]){await s.advance(ms-elapsed);elapsed=ms;frames.push(await capture(s,ms===c.motion.settle_ms?'settled':'intermediate',[probe.region]));}
      const settled=frames.at(-1).samples[0],d=raster.compare(before.samples[0],frames[0].samples[0]);expect(raster.distinct(d,LIMITS),'action visibly changes its local region',d);
@@ -73,7 +74,7 @@ async function execute({manifest,gameRoot,outDir,policy},reviewer=new visual.Mac
     const frames=[];for(const [i,a] of c.progression_spectacle.checkpoints.entries())frames.push(await anchor(a,['early','mid','late'][i]));
     const deltas=[raster.compare(frames[0].samples[0],frames[1].samples[0]),raster.compare(frames[1].samples[0],frames[2].samples[0])];expect(deltas.every(m=>raster.distinct(m,LIMITS)),'early/mid/late visibly progress after masking all text',deltas);return deltas;
    });
-   await withSession({},async s=>{await reach(s,oracle.graph.initial);
+    await withSession({},async s=>{await reach(s,radialDriver?'initial':oracle.graph.initial);
     await check('mobile_hierarchy',{category:'hierarchy',selector:c.mobile_hierarchy.gameplay_selector},async()=>{
      const roles=c.mobile_hierarchy.roles,im=await capture(s,'hierarchy',roles.flatMap(x=>[x.foreground,x.background])),b=await s.page.locator(c.mobile_hierarchy.gameplay_selector).boundingBox(),ratio=b.width*b.height/(width*height);
      const contrast=roles.map((x,i)=>({role:x.role,contrast:raster.contrast(im.samples[2*i],im.samples[2*i+1])}));expect(contrast.every(x=>x.contrast>=LIMITS.contrast),'important objects contrast against their local background',contrast);expect(width!==390||ratio>=LIMITS.min_gameplay_area,'gameplay occupies a clear mobile focal area',{ratio,min:LIMITS.min_gameplay_area});return {contrast,gameplay_area_ratio:ratio};
@@ -82,13 +83,14 @@ async function execute({manifest,gameRoot,outDir,policy},reviewer=new visual.Mac
    });
    for(const success of [true,false])await check('result_presentation',{category:'result',outcome:success?'success':'failure',selector:p.completion.result_selector,visual_region:c.result_presentation.region},()=>withSession({video:width===390&&success},async s=>{
     await start(s);await s.advance(c.motion.settle_ms);const before=await capture(s,'result-before',[c.result_presentation.region]);
-    if(success){for(const edge of shortest(oracle.graph,oracle.graph.initial,n=>n.success)){const next=await input(s,edge.action,{settle:c.motion.settle_ms});expect(identify(oracle.model,oracle.graph,next)===edge.to,'result route conforms to oracle',edge.to);}}
-    else{for(const id of p.completion.failure_actions)await input(s,id);await s.advance(p.completion.failure_wait_ms);}
+     if(radialDriver)await radialDriver.drive(s,{outcome:success?'success':'failure',inputMode:vp.width===390?'touch':'keyboard'});
+     else if(success){for(const edge of shortest(oracle.graph,oracle.graph.initial,n=>n.success)){const next=await input(s,edge.action,{settle:c.motion.settle_ms});expect(identify(oracle.model,oracle.graph,next)===edge.to,'result route conforms to oracle',edge.to);}}
+     else{for(const id of p.completion.failure_actions)await input(s,id);await s.advance(p.completion.failure_wait_ms);}
     const state=await snap(s.page);expect(state.phase==='finished'&&at(state,p.completion.state_path)===(success?p.completion.success_value:p.completion.failure_value),'real terminal outcome',state.phase);
     await s.advance(c.motion.settle_ms);const after=await capture(s,success?'success':'failure',[c.result_presentation.region]),m=raster.compare(before.samples[0],after.samples[0]);expect(raster.distinct(m,LIMITS),'non-text completion/failure visual response',m);
     const title=await visible(s.page,p.completion.result_selector);expect(title.includes(success?c.result_presentation.success_title:c.result_presentation.failure_title),'explicit outcome title',title);
     for(const [selector,value] of [[p.score.selector,state.score],[p.best.selector,state.best]])expect(Number(await visible(s.page,selector))===value,'visible result score / best agrees with GameKit',selector);
-    await visible(s.page,p.replay.selector);await s.page.locator(p.replay.selector).click();expect(identify(oracle.model,oracle.graph,await snap(s.page))===oracle.graph.initial,'result replay resets actual state',await snap(s.page));return m;
+     await visible(s.page,p.replay.selector);await s.page.locator(p.replay.selector).click();const replay=await snap(s.page);expect(radialDriver?replay.state?.outcome===null&&replay.tick<state.tick:identify(oracle.model,oracle.graph,replay)===oracle.graph.initial,'result replay resets actual state',replay);return m;
    }));
    await check('replay_motivation',{selector:c.replay_motivation.selector},()=>withSession({},async s=>{await start(s);const text=await visible(s.page,c.replay_motivation.selector);expect(text.length>=12,'visible route/skill replay motivation',text);return {text,reviewed_reason:c.replay_motivation.reason};}));
    await check('performance',{state_path:'entities'},()=>withSession({real:true},async s=>{
@@ -103,11 +105,11 @@ async function execute({manifest,gameRoot,outDir,policy},reviewer=new visual.Mac
     await capture(s,'audio-'+event);
     const pre=await s.page.evaluate(()=>__CommercialAudioAudit());expect(!pre.events.some(e=>['start','resume'].includes(e.kind))&&pre.contexts===0,'no AudioContext/autoplay before player gesture',pre);
     await start(s);
-    const probe=c.action_feedback.probes.find(p=>p.id===c.audio[event==='progress'?'progress_probe':'primary_probe']);
-    const failureActions=event==='failure'?(p.completion.failure_actions||[]):[];
-    const pathTo=event==='failure'&&failureActions.length?[]:shortest(oracle.graph,oracle.graph.initial,n=>n===oracle.graph.nodes[probe.node]);for(const e of pathTo)await input(s,e.action,{settle:150});
-    let terminalAction=null;
-    if(event==='success'){const current=identify(oracle.model,oracle.graph,await snap(s.page)),route=shortest(oracle.graph,current,n=>n.success);expect(route?.length>0,'normal-input success audio route',current);for(const e of route.slice(0,-1))await input(s,e.action,{settle:240});terminalAction=route.at(-1).action;}
+     const probe=c.action_feedback.probes.find(p=>p.id===c.audio[event==='progress'?'progress_probe':'primary_probe']);
+     const failureActions=event==='failure'?(p.completion.failure_actions||[]):[];
+     const pathTo=radialDriver||event==='failure'&&failureActions.length?[]:shortest(oracle.graph,oracle.graph.initial,n=>n===oracle.graph.nodes[probe.node]);for(const e of pathTo)await input(s,e.action,{settle:150});
+     let terminalAction=null;
+     if(event==='success'&&!radialDriver){const current=identify(oracle.model,oracle.graph,await snap(s.page)),route=shortest(oracle.graph,current,n=>n.success);expect(route?.length>0,'normal-input success audio route',current);for(const e of route.slice(0,-1))await input(s,e.action,{settle:240});terminalAction=route.at(-1).action;}
     if(event==='failure'){
      if(failureActions.length){for(const action of failureActions.slice(0,-1))await input(s,action,{settle:150});terminalAction=failureActions.at(-1);}
      else await input(s,probe.action,{settle:150});
@@ -115,12 +117,13 @@ async function execute({manifest,gameRoot,outDir,policy},reviewer=new visual.Mac
     if(event==='mute'){await input(s,probe.action);await visible(s.page,c.audio.mute_selector);await s.page.locator(c.audio.mute_selector).click();await s.advance(180);}
     // Isolate the final success input: earlier route SFX cannot satisfy this event.
     const before=await s.page.evaluate(()=>__CommercialAudioAudit()),time=await s.page.evaluate(()=>performance.now());
-    if(event==='success'){await input(s,terminalAction);expect(at(await snap(s.page),p.completion.state_path)===p.completion.success_value,'success SFX follows real completion',await snap(s.page));}
-    else if(event==='failure'){
-     if(terminalAction)await input(s,terminalAction);else await s.advance(p.completion.failure_wait_ms);
-     expect(at(await snap(s.page),p.completion.state_path)===p.completion.failure_value,'failure SFX follows real failure',await snap(s.page));
-    }
-    else await input(s,probe.action);
+     if(event==='success'){if(radialDriver)await radialDriver.drive(s,{outcome:'success',inputMode:'touch'});else await input(s,terminalAction);expect(at(await snap(s.page),p.completion.state_path)===p.completion.success_value,'success SFX follows real completion',await snap(s.page));}
+     else if(event==='failure'){
+      if(radialDriver)await radialDriver.drive(s,{outcome:'failure',inputMode:'touch'});else if(terminalAction)await input(s,terminalAction);else await s.advance(p.completion.failure_wait_ms);
+      expect(at(await snap(s.page),p.completion.state_path)===p.completion.failure_value,'failure SFX follows real failure',await snap(s.page));
+     }
+     else if(event==='progress'&&radialDriver)await radialDriver.reach(s,'early','touch');
+     else await input(s,probe.action);
     if(event==='pause')await s.page.locator('[data-game-pause]').click();
     if(event==='pagehide'){await s.page.goto('about:blank');await s.page.waitForTimeout(80);}
     else await s.advance(50);

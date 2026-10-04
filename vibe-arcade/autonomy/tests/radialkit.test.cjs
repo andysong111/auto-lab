@@ -1,8 +1,9 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict');
 const halo=require('../../lab/taste-calibration/halo-guard-core.js'),radial=require('../gamekit/radialkit.js'),runner=require('../foundry/radial-runner.cjs');
+const product=require('../qa/product-contract.cjs'),commercial=require('../qa/commercial/contract.cjs');
 
-function blueprint(){return {schema:'playjolt-foundry-blueprint/1',runner:'foundry/radial-runner.cjs',family_id:'radial-guarding',golden_baseline_id:'halo-guard-v9',seeds:[...runner.SEEDS],foundry:{golden_baseline_id:'halo-guard-v9'},variation:{id:'halo-world-kit-01',axis:'world-kit',changed_components:['toy-sky-environment-v1']}};}
+function blueprint(){return {schema:'playjolt-foundry-blueprint/1',game_id:'GAME-20261005-338',title:'Halo Guard Cloud Caravan',slug:'halo-guard-cloud-caravan',runner:'foundry/radial-runner.cjs',family_id:'radial-guarding',design_id:'radial-guarding-market-01',lane:'market-benchmark',golden_baseline_id:'halo-guard-v9',seeds:[...runner.SEEDS],learning_focus:[],foundry:{schema:'playjolt-foundry-lineage/1',lane:'market-benchmark',family_id:'radial-guarding',design_id:'radial-guarding-market-01',runner:'foundry/radial-runner.cjs',learning_focus:[],golden_baseline_id:'halo-guard-v9'},benchmark:{id:'google-play-cute-3d-arcade-en-20261005',url:'https://play.google.com/store/apps/details?id=com.supercell.clashroyale',transferable_principles:['compact role readability','immediate one-thumb action']},copy_policy:{forbidden:['names','branding','art','rules']},novelty_contract:'Preserve the exact golden radial defense and change only one newly reviewed PlayJolt cloud caravan world kit.',theme:{singular:'Wisp',plural:'Wisps',arena:'Skyway',progress:'RESCUED',success:'SKYWAY SECURED',failure:'CORE OVERRUN'},variation:{id:'cloud-caravan-world-kit-01',axis:'world-kit',changed_components:['cloud-caravan-world-kit-v1']}};}
 
 test('RadialKit preserves exact continuous pointer and keyboard nudge authority',()=>{
   const core=radial.create({id:'halo-guard-v1'}),keyboard=core.create(7),pointer=core.create(7);core.begin(keyboard);core.begin(pointer);
@@ -16,7 +17,15 @@ test('Halo Guard reduced-motion preference cannot change canonical outcomes',()=
 });
 
 test('radial variation runner proves six golden success/failure traces without Production authority',()=>{
-  const proof=runner.buildModel(blueprint());assert.equal(proof.schema,'playjolt-radial-variation-proof/1');assert.equal(Object.keys(proof.seeds).length,6);assert(proof.max_entities<=24);assert.equal(proof.input_parity,'continuous-pointer-and-keyboard-nudge');assert.equal(proof.production_authorized,false);
+  const proof=runner.buildModel(blueprint());assert.equal(proof.interaction_mode,'continuous-radial-v1');assert.equal(Object.keys(proof.seeds).length,6);assert(proof.max_entities<=24);assert.equal(proof.input_parity,'continuous-pointer-and-keyboard-nudge');assert.equal(proof.production_authorized,false);
+  for(const seed of runner.SEEDS)for(const control of ['pointer','keyboard']){assert.equal(proof.seeds[seed][control].success.outcome,'success');assert.equal(proof.seeds[seed][control].failure.outcome,'failure');assert(proof.seeds[seed][control].success.progress>=6);}
+});
+
+test('radial Product and Commercial contracts review the continuous golden interaction',()=>{
+  const bp=blueprint(),model=runner.buildModel(bp),proposal=runner.proposalFor(bp,model);
+  assert.equal(product.validateModel(model).interaction_mode,'continuous-radial-v1');assert.equal(product.validate(proposal.product_contract).interaction.mode,'continuous-radial-v1');
+  assert.equal(commercial.validate(proposal.commercial_contract).review_id,'halo-guard-cloud-caravan-commercial-v1');assert.doesNotThrow(()=>commercial.semantics(proposal.commercial_contract,proposal.product_contract,model));
+  assert.equal(proposal.build_invariants.factory_core.golden_baseline_id,'halo-guard-v9');assert.equal(proposal.build_invariants.construction.prepaid_core_proof.input_timing_parity,'continuous_pointer_and_keyboard_nudge');
 });
 
 test('radial runner rejects baseline drift and multi-axis variation',()=>{
