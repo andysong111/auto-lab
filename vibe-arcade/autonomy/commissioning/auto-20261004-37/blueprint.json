@@ -1,0 +1,64 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261004-337",
+  "title": "Tide Compass",
+  "slug": "tide-compass",
+  "family_id": "gravity-tilting",
+  "design_id": "gravity-tilting-original-01",
+  "lane": "original",
+  "runner": "foundry/tilt-runner.cjs",
+  "seeds": [
+    3768,
+    3769,
+    3770,
+    3771,
+    3772,
+    3773
+  ],
+  "theme": {
+    "singular": "Checkpoint",
+    "plural": "Checkpoints",
+    "arena": "Compass",
+    "progress": "CHAMBERS",
+    "success": "TIDE ALIGNED",
+    "failure": "CHANNEL FRACTURED"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "original",
+    "family_id": "gravity-tilting",
+    "design_id": "gravity-tilting-original-01",
+    "runner": "foundry/tilt-runner.cjs",
+    "learning_focus": [
+      "input-parity",
+      "lifecycle-integrity",
+      "action-feedback",
+      "difficulty-progression"
+    ]
+  },
+  "learning_focus": [
+    "input-parity",
+    "lifecycle-integrity",
+    "action-feedback",
+    "difficulty-progression"
+  ],
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Roll an original bright droplet through twelve seed-owned compass checkpoints with widening directional choices, shrinking windows, persistent wake geometry and one recoverable wrong-tilt warning."
+}
