@@ -2,7 +2,7 @@
 // Instrument platform resources, never game state or controls.
 function audioAudit(){
  const contexts=[],events=[],voices=new Set();let gesture=false,peakVoices=0,unloading=false;const shutdown=new Set();
- const publish=()=>{if(unloading)globalThis.__commercialAudioFinal?.(snapshot()).catch(()=>{});};
+ const publish=()=>{if(unloading){const value=snapshot();try{globalThis.name='__PLAYJOLT_AUDIO__'+JSON.stringify(value);}catch{}globalThis.__commercialAudioFinal?.(value).catch(()=>{});}};
  const record=e=>{events.push({...e,time:performance.now()});if(events.length>512)events.shift();};
  for(const type of ['pointerdown','keydown','touchstart','click'])addEventListener(type,e=>{if(e.isTrusted)gesture=true;},true);
  const Native=globalThis.AudioContext||globalThis.webkitAudioContext;

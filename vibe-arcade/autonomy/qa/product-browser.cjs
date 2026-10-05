@@ -29,10 +29,11 @@ function overlap(a,b){return Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x)
 function collisions(rows){const out=[];for(let i=0;i<rows.length;i++)for(let j=i+1;j<rows.length;j++)if(overlap(rows[i],rows[j]))out.push([rows[i],rows[j]]);return out;}
 function terminalTimeline({statePath}){
  const initial=GameDiagnostics.snapshot(),rows=[{time:performance.now(),phase:initial.phase,value:statePath.split('.').reduce((a,k)=>a?.[k],initial)}],raf=globalThis.requestAnimationFrame;
+ const record=time=>{if(globalThis.GameDiagnostics){const s=GameDiagnostics.snapshot(),value=statePath.split('.').reduce((a,k)=>a?.[k],s);if(rows.length===0||rows.at(-1).phase!==s.phase||rows.at(-1).value!==value){rows.push({time,phase:s.phase,value});if(rows.length>128)rows.shift();}}};
  globalThis.requestAnimationFrame=function(callback){return raf.call(this,time=>{
-  callback(time);
-  if(globalThis.GameDiagnostics){const s=GameDiagnostics.snapshot(),value=statePath.split('.').reduce((a,k)=>a?.[k],s);if(rows.length===0||rows.at(-1).phase!==s.phase||rows.at(-1).value!==value){rows.push({time,phase:s.phase,value});if(rows.length>128)rows.shift();}}
+  callback(time);record(time);
  });};
+ globalThis.addEventListener('playjolt:qa-step',()=>record(performance.now()));
  Object.defineProperty(globalThis,'__ProductTerminalTimeline',{value:()=>JSON.parse(JSON.stringify(rows))});
 }
 module.exports={canvasAudit,geometry,collisions,terminalTimeline};

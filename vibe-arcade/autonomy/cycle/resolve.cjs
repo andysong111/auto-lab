@@ -12,8 +12,9 @@ function resolveRequest(root,requestPath){
   for(const key of ['game_id','candidate','runtime'])if(typeof request[key]!=='string'||!request[key].trim())fail('missing_'+key);
   if(request.auto_commission!==true)fail('auto_commission_not_authorized');
   if(request.production_authorized!==false)fail('production_must_remain_off');
-  if(!Number.isInteger(request.authorized_provider_calls)||request.authorized_provider_calls<1||request.authorized_provider_calls>6)fail('provider_call_bound');
-  if(typeof request.estimated_usd_ceiling!=='number'||request.estimated_usd_ceiling<=0||request.estimated_usd_ceiling>2)fail('cost_bound');
+  const noPaidCalls=request.paid_calls===false;
+  if(!Number.isInteger(request.authorized_provider_calls)||request.authorized_provider_calls<0||request.authorized_provider_calls>6||(!noPaidCalls&&request.authorized_provider_calls<1)||(noPaidCalls&&request.authorized_provider_calls!==0))fail('provider_call_bound');
+  if(typeof request.estimated_usd_ceiling!=='number'||request.estimated_usd_ceiling<0||request.estimated_usd_ceiling>2||(!noPaidCalls&&request.estimated_usd_ceiling<=0)||(noPaidCalls&&request.estimated_usd_ceiling!==0))fail('cost_bound');
   const dir=path.dirname(full),script=path.join(dir,'commission.cjs');
   if(!fs.existsSync(script))fail('commission_script_missing');
   return {
@@ -24,6 +25,7 @@ function resolveRequest(root,requestPath){
     game_id:request.game_id,
     candidate:request.candidate,
     runtime:request.runtime,
+    paid_calls:!noPaidCalls,
     authorized_provider_calls:request.authorized_provider_calls,
     estimated_usd_ceiling:request.estimated_usd_ceiling,
     production_authorized:false

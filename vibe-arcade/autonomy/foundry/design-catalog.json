@@ -374,6 +374,24 @@
       "candidate": {"title":"Tide Compass","slug":"tide-compass","theme":{"singular":"Checkpoint","plural":"Checkpoints","arena":"Compass","progress":"CHAMBERS","success":"TIDE ALIGNED","failure":"CHANNEL FRACTURED"}}
     },
     {
+      "id": "radial-guarding-original-02",
+      "lane": "original",
+      "family_id": "radial-guarding",
+      "status": "reviewed",
+      "min_sequence": 39,
+      "runner": "foundry/radial-runner.cjs",
+      "golden_baseline_id": "halo-guard-v9",
+      "seeds": [7, 19, 42, 77, 998, 74021],
+      "variation": {
+        "id": "exact-v9-product-shell-01",
+        "axis": "product-shell",
+        "changed_components": ["halo-guard-v9-product-v1"]
+      },
+      "title_seed": "Halo Guard exact V9 product",
+      "novelty_contract": "Productize the exact owner-approved PlayJolt Halo Guard V9 mechanic and Three.js presentation as a Factory-owned immutable product shell, with no generated gameplay or visual substitution.",
+      "candidate": {"title":"Halo Guard","slug":"halo-guard","theme":{"singular":"Wisp","plural":"Wisps","arena":"Sky Citadel","progress":"RESCUED","success":"SKY CITADEL SECURED","failure":"CORE OVERRUN"}}
+    },
+    {
       "id": "radial-guarding-market-01",
       "lane": "market-benchmark",
       "family_id": "radial-guarding",

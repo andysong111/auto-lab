@@ -27,8 +27,11 @@ function create({id='halo-guard-v1',duration=40,fast_phases=false}={}){
       return state;
     },
     observe(state){
-      const observed=halo.observe(state),angle=Math.round(normalize(state.angle)*1000)/1000;
-      return {...observed,quality:{stage:observed.phase,complexity:observed.phase+1,objective_progress:observed.progress,meaningful_actions:state.meaningfulActions,reversible_state_key:[observed.phase,observed.progress,observed.lives,observed.barrier,angle].join(':')}};
+      const observed=halo.observe(state),target=Math.round(normalize(state.targetAngle)*1000)/1000;
+      // The reversible key represents accepted player intent, not per-frame easing.
+      // Using the current shield angle continuously retriggered feedback and made a
+      // real transition look permanently active to Product QA.
+      return {...observed,quality:{stage:observed.phase,complexity:observed.phase+1,objective_progress:observed.progress,meaningful_actions:state.meaningfulActions,reversible_state_key:[observed.phase,observed.progress,observed.lives,observed.barrier,target].join(':')}};
     },
     terminal:halo.terminal
   });

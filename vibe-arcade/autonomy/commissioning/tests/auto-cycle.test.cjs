@@ -13,7 +13,7 @@ function fixture(t,request){
 }
 function good(){return {
   game_id:'GAME-20260926-201',candidate:'Test Candidate',runtime:'Phaser 4.2.1 + GameKit v2',
-  auto_commission:true,authorized_provider_calls:6,estimated_usd_ceiling:2,production_authorized:false
+  paid_calls:true,auto_commission:true,authorized_provider_calls:6,estimated_usd_ceiling:2,production_authorized:false
 };}
 
 test('autonomous cycle accepts only explicitly authorized bounded commissioning requests',t=>{
@@ -34,6 +34,19 @@ test('autonomous cycle enforces provider, cost and production ceilings',t=>{
   let f=fixture(t,{...good(),authorized_provider_calls:7});assert.throws(()=>resolveRequest(f.root,f.rel),/provider_call_bound/);
   f=fixture(t,{...good(),estimated_usd_ceiling:2.01});assert.throws(()=>resolveRequest(f.root,f.rel),/cost_bound/);
   f=fixture(t,{...good(),production_authorized:true});assert.throws(()=>resolveRequest(f.root,f.rel),/production_must_remain_off/);
+});
+
+test('autonomous cycle accepts an explicitly zero-provider Factory product',t=>{
+  const {root,rel}=fixture(t,{...good(),runtime:'Three.js + GameKit v3 + RadialKit v1 + FeelAudio',paid_calls:false,authorized_provider_calls:0,estimated_usd_ceiling:0}),meta=resolveRequest(root,rel);
+  assert.equal(meta.paid_calls,false);
+  assert.equal(meta.authorized_provider_calls,0);
+  assert.equal(meta.estimated_usd_ceiling,0);
+});
+
+test('zero-provider authorization cannot be mixed with paid generation',t=>{
+  let f=fixture(t,{...good(),authorized_provider_calls:0});assert.throws(()=>resolveRequest(f.root,f.rel),/provider_call_bound/);
+  f=fixture(t,{...good(),paid_calls:false,authorized_provider_calls:1,estimated_usd_ceiling:0});assert.throws(()=>resolveRequest(f.root,f.rel),/provider_call_bound/);
+  f=fixture(t,{...good(),paid_calls:false,authorized_provider_calls:0,estimated_usd_ceiling:1});assert.throws(()=>resolveRequest(f.root,f.rel),/cost_bound/);
 });
 
 test('autonomous cycle rejects arbitrary request paths and missing trusted commission scripts',t=>{

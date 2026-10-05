@@ -137,6 +137,17 @@
     function pause() { if (phase === 'playing') { paused = true; resetInput(); acc = 0; suspendAudio(); render(); } }
     function resume() { if (phase === 'playing' && !document.hidden && !disposed) { paused = false; resetInput(); last = performance.now(); acc = 0; if(soundOn)feelAudio?.enable(true); render(); } }
     function restart() { if (phase === 'playing' || disposed) return; phase = 'idle'; start(); }
+    function stepCore() {
+      inputs.x = (keys.has('ArrowRight') || keys.has('KeyD') ? 1 : 0) - (keys.has('ArrowLeft') || keys.has('KeyA') ? 1 : 0);
+      inputs.y = (keys.has('ArrowDown') || keys.has('KeyS') ? 1 : 0) - (keys.has('ArrowUp') || keys.has('KeyW') ? 1 : 0);
+      core.step(state, clone(inputs)); inputs.action = false; inputs.actions = {};
+      if (core.terminal(state)) finish();
+    }
+    function advanceTicksForQA(count) {
+      if (!qa || phase !== 'playing' || paused || !Number.isInteger(count) || count < 1 || count > 6) throw Error('qa_tick_advance_forbidden');
+      for (let index = 0; index < count && phase === 'playing'; index++) stepCore();
+      render(); root.dispatchEvent(new CustomEvent('playjolt:qa-step')); return snapshot();
+    }
     function loop(now) {
       if (disposed) return;
       try {
@@ -146,10 +157,7 @@
           acc += Math.min(dt, 100);
           let steps = 0;
           while (acc >= 1000 / 60 && steps++ < 6 && phase === 'playing') {
-            inputs.x = (keys.has('ArrowRight') || keys.has('KeyD') ? 1 : 0) - (keys.has('ArrowLeft') || keys.has('KeyA') ? 1 : 0);
-            inputs.y = (keys.has('ArrowDown') || keys.has('KeyS') ? 1 : 0) - (keys.has('ArrowUp') || keys.has('KeyW') ? 1 : 0);
-            core.step(state, clone(inputs)); inputs.action = false; inputs.actions = {}; acc -= 1000 / 60;
-            if (core.terminal(state)) finish();
+            stepCore(); acc -= 1000 / 60;
           }
         }
         effects.frames++; render();
@@ -187,7 +195,7 @@
     // Reserved adapter slot, intentionally no start/finish/ranking traffic in Phase 1.
     // Existing LoopJoltRuntime remains the future server-verified ranked boundary.
     void rankedAdapter; void epoch;
-    const diagnostics = Object.freeze({snapshot});
+    const diagnostics = Object.freeze({snapshot, advanceTicks: advanceTicksForQA});
     Object.defineProperty(root, 'GameDiagnostics', {value: diagnostics, configurable: true});
     updateMute(); resize(); last = performance.now(); frame = requestAnimationFrame(loop);
     return Object.freeze({start: safe(start), pause: safe(pause), resume: safe(resume), finish: safe(finish), restart: safe(restart), dispose, diagnostics});

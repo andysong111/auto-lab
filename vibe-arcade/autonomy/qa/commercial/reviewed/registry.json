@@ -8,6 +8,14 @@
       "product_contract_sha256": "2437fb3dbd7e8e7027c53b62d00767e282d6faea4093075ae3c4a3cf21583bed",
       "reviewed_by": "Work trusted fixture review",
       "rationale": "Authored switch oracle: legal a0 vs disabled a4; mask state pair; three increasing stages; local non-text regions and movement/progress probes. All core fixture decisions covered; fixture-only, never candidate approval."
+    },
+    {
+      "id": "halo-guard-commercial-v1",
+      "scope": "candidate",
+      "contract_sha256": "42622ca74d4c26fdd2a9b446b6d8ccfd1988a3db44867d11dd6ba8847774c38a",
+      "product_contract_sha256": "84a38f0e60e0dd4bc4000c9255e852ad711dfdd22baaa3156aa5eb10b8703816",
+      "reviewed_by": "PlayJolt golden radial reviewer",
+      "rationale": "Reviewed continuous-radial visual anchors, shield motion, character readability, progression, result, mobile hierarchy, gesture audio and performance evidence."
     }
   ]
 }
