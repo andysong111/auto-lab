@@ -26,8 +26,9 @@ function validateReviewedProposal(bp,model,proposal,runner=foundryRunner){
   const productBefore=fs.readFileSync(productRegistry),commercialBefore=fs.readFileSync(commercialRegistry),oracleBefore=fs.existsSync(oracle)?fs.readFileSync(oracle):null;
   try{runner.installReviewData(bp,model,proposal.product_contract,proposal.commercial_contract);return validateProposal(proposal);}
   finally{
+    fs.chmodSync(productRegistry,0o666);fs.chmodSync(commercialRegistry,0o666);
     fs.writeFileSync(productRegistry,productBefore);fs.writeFileSync(commercialRegistry,commercialBefore);
-    if(oracleBefore)fs.writeFileSync(oracle,oracleBefore);else fs.rmSync(oracle,{force:true});
+    if(oracleBefore){fs.chmodSync(oracle,0o666);fs.writeFileSync(oracle,oracleBefore);}else fs.rmSync(oracle,{force:true});
   }
 }
 
@@ -444,4 +445,19 @@ test('sequence 38 selects one reviewed market world-kit before the Korea/UTC dat
   const corrupted=structuredClone(bp);corrupted.variation.changed_components=['toy-sky-environment-v1'];assert.throws(()=>radialRunner.validateBlueprint(corrupted),/reviewed_world_kit_required/);
   const changedSeeds=structuredClone(bp);changedSeeds.seeds[0]=8;assert.throws(()=>radialRunner.validateBlueprint(changedSeeds),/golden_seed_set_required/);
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-radial-intake-'));try{const meta=materialize(root,38,'20261004',result),stored=JSON.parse(fs.readFileSync(path.join(root,'candidate','blueprint.json')));assert.equal(meta.family_id,'radial-guarding');assert.equal(stored.runner,'foundry/radial-runner.cjs');assert.deepEqual(stored.seeds,radialRunner.SEEDS);assert.equal(JSON.parse(fs.readFileSync(path.join(root,'candidate','queued-request.json'))).production_authorized,false);}finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+
+test('sequence 39 materializes the exact owner-approved V9 product without paid generation',()=>{
+  const result=select({sequence:39,date:'2026-10-06',designCatalog,benchmarkCatalog,learningProfile:{recent_outcomes:[],used_design_ids:['radial-guarding-market-01']},calibrationPolicy:tasteCalibration});
+  assert.equal(result.status,'SELECTED');assert.equal(result.lane,'original');assert.equal(result.design.id,'radial-guarding-original-02');
+  const bp=foundryBlueprintFor(result,39,'20261006'),model=radialRunner.buildModel(bp),proposal=radialRunner.proposalFor(bp,model);
+  assert.equal(bp.variation.axis,'product-shell');assert.equal(proposal.max_repair_attempts,0);assert.equal(proposal.build_invariants.factory_product.provider_calls,0);
+  assert.equal(validateReviewedProposal(bp,model,proposal,radialRunner).passed,true);
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'playjolt-radial-product-intake-'));
+  try{
+    materialize(root,39,'20261006',result);
+    const request=JSON.parse(fs.readFileSync(path.join(root,'candidate','queued-request.json')));
+    assert.deepEqual({paid_calls:request.paid_calls,calls:request.authorized_provider_calls,cost:request.estimated_usd_ceiling,production:request.production_authorized},{paid_calls:false,calls:0,cost:0,production:false});
+    assert.match(request.runtime,/Three\.js/);
+  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });

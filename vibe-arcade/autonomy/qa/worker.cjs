@@ -3,12 +3,38 @@ const fs = require('node:fs'), path = require('node:path'), assert = require('no
 const {chromium} = require('playwright');
 const {serve} = require('./server.cjs'), {installGuard} = require('./guard.cjs');
 const {reviewedTouchProbe} = require('./input-probe.cjs');
+const radial = require('./radial-model.cjs');
 const {atomicJSON,readJSON,hashTree,hash} = require('../orchestrator/files.cjs');
 const {validate} = require('../orchestrator/manifest.cjs');
 const sleep = ms => new Promise(r => setTimeout(r,ms));
 const at = (obj,key) => key.split('.').reduce((o,k) => o?.[k], obj);
 const snap = page => page.evaluate(() => GameDiagnostics.snapshot());
 const progressChanged = (baseline,after) => after?.score!==baseline?.score||after?.progress!==baseline?.progress;
+async function driveContinuousProgress(page,ctx,baseline,contract) {
+  const interaction=contract?.interaction;
+  if(interaction?.mode!==radial.MODE)throw Error('continuous_progress_contract');
+  const box=await page.locator(contract.mobile.canvas_selector).boundingBox();
+  assert(box,'visible radial playfield');
+  const cdp=await ctx.newCDPSession(page);let touching=false;
+  try{
+    const limit=Math.min(Number(interaction.max_ticks)||2600,1200);
+    for(let index=0;index<limit;index++){
+      const snapshot=await snap(page);
+      if(progressChanged(baseline,snapshot))return snapshot;
+      if(snapshot.phase!=='playing')break;
+      const target=radial.chooseTarget(snapshot,'success',contract);
+      if(target!==null){
+        const point=radial.pointFor(target,interaction.pointer_radius),touch={x:box.x+box.width*point.x,y:box.y+box.height*point.y};
+        await cdp.send('Input.dispatchTouchEvent',{type:touching?'touchMove':'touchStart',touchPoints:[touch]});touching=true;
+      }
+      await page.clock.runFor(interaction.input_interval_ms);
+    }
+    return snap(page);
+  } finally {
+    if(touching)await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+    await cdp.detach();
+  }
+}
 async function execute(config) {
   const {manifest, gameRoot, outDir, policy} = config; validate(manifest);
   fs.mkdirSync(outDir,{recursive:true}); const began=Date.now(), sourceHash=hashTree(gameRoot);
@@ -64,7 +90,11 @@ async function execute(config) {
           try{await fresh.clock.install({time:new Date(0)});await fresh.clock.pauseAt(new Date(86400000));await fresh.goto(server.origin+'/?qa=1&capture=1&seed='+manifest.qa.seed,{waitUntil:'load'});await fresh.waitForFunction(()=>!!window.GameDiagnostics);await fresh.clock.runFor(50);await fresh.locator('[data-game-start]').click();let aligned=await snap(fresh),syncMs=0;while(aligned.tick<keyboardBaseline.tick&&syncMs++<policy.limits.freeze_ms){await fresh.clock.runFor(1);aligned=await snap(fresh);}assert.equal(aligned.tick,keyboardBaseline.tick,'touch parity context could not reproduce keyboard tick');const result=await touch(fresh,freshCtx,probe);assert.notDeepEqual(result.effect,result.value,'touch had no core effect for '+(probe.action||probe.source));if(probe.action){assert.equal(manifest.qa.pointer.observation,manifest.qa.keyboard.observation,'reviewed keyboard/touch action must share one observation');assert.deepEqual(result.value,keyboardValue,'keyboard/touch probes did not start from the same deterministic state');if([keyboardValue,keyboardEffect,result.value,result.effect].every(Number.isFinite))assert.equal(Math.sign(result.effect-result.value),Math.sign(keyboardEffect-keyboardValue),'keyboard/touch numeric effects moved in different directions for '+probe.action);else assert.deepEqual(result.effect,keyboardEffect,'keyboard/touch effects differ for '+probe.action);}}finally{await freshCtx.close();}
           assert.equal(probeEffects.length,0,'touch parity probe attempted side effects');await touch(p,ctx,probe);
         });
-        await check('progress',async()=>{ await p.clock.runFor(200); const after=await snap(p); assert(progressChanged(progressBaseline,after),'reviewed keyboard/touch actions produced no score/progress change'); });
+        await check('progress',async()=>{
+          const radialMode=manifest.product_contract?.interaction?.mode===radial.MODE;
+          const after=radialMode?await driveContinuousProgress(p,ctx,progressBaseline,manifest.product_contract):(await p.clock.runFor(200),await snap(p));
+          assert(progressChanged(progressBaseline,after),radialMode?'reviewed continuous play produced no rescued-wisp score/progress':'reviewed keyboard/touch actions produced no score/progress change');
+        });
         await check('interaction',async()=>{ assert((await snap(p)).interactions>0,'no damage/collision/interaction'); });
         await capture('playing');
         await check('pause',async()=>{ await p.locator('[data-game-pause]').click(); const before=await snap(p); assert(before.paused); await p.clock.runFor(300); assert.deepEqual((await snap(p)).state,before.state,'paused simulation changed'); });
@@ -105,4 +135,4 @@ async function execute(config) {
   return report;
 }
 if(require.main===module) execute(readJSON(process.argv[2])).then(r=>{process.exitCode=r.passed?0:1;}).catch(e=>{console.error(e.message);process.exitCode=1;});
-module.exports={execute,progressChanged};
+module.exports={execute,progressChanged,driveContinuousProgress};

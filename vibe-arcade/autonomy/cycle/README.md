@@ -94,4 +94,6 @@ The factory starts conservatively and increases experiment throughput only after
 
 "Successful" here means the autonomous workflow reached a clean terminal checkpoint; the game itself may validly end RC_READY or REJECTED. Candidates remain serial: one active autonomous cycle at a time. Provider calls stay capped at 6 per candidate, estimated provider cost stays capped at USD 2 per candidate, and Production remains off.
 
+A reviewed Factory-owned product shell may explicitly request `paid_calls=false`, `authorized_provider_calls=0` and `estimated_usd_ceiling=0`. The resolver accepts this only when all three values agree; mixing a zero-call request with paid generation fails closed. This does not bypass candidate serialization, QA, RC identity or the Production boundary.
+
 The repository owner explicitly authorized one immediate exception for sequence 38 after the UTC daily slot had already been consumed. Trusted Intake accepts `owner_one_time_sequence=38` only when the dispatch actor is the repository owner and 38 is still the next unused sequence. The exception bypasses only the daily count, never the active-run lock, provider/cost/repair limits, QA gates or Production boundary. It becomes unusable as soon as sequence 38 is materialized.

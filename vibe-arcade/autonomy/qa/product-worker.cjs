@@ -35,7 +35,7 @@ async function execute(config){
   // Install after Playwright's clock replaces requestAnimationFrame; otherwise the observer is silently overwritten.
   await p.evaluate(terminalTimeline,{statePath:contract.completion.state_path});
   const close=async()=>{await p.waitForTimeout(30);(practice?r.practice_effects:r.side_effects).push(...effects.map(e=>({...e,practice,viewport:{width,height}})));const v=p.video();await ctx.close();if(v){const old=await v.path(),file=`product-${width}-gameplay.webm`;fs.renameSync(old,path.join(outDir,file));r.artifacts.push({path:file,kind:'video',phase:'gameplay',viewport:{width,height},sha256:digest(fs.readFileSync(path.join(outDir,file)))});}};
-  return {p,ctx,effects,navigation,close};
+  return {p,ctx,effects,navigation,close,directTicks:!practice};
  }
  async function start(p){await p.locator('[data-game-start]').click();expect((await snap(p)).phase==='playing','playing after normal start',(await snap(p)).phase);}
  async function input(p,ctx,id,mode='keyboard'){
@@ -125,7 +125,7 @@ async function execute(config){
  try{
   validate(contract);
   await check('difficulty_review',{state_path:'difficulty.oracle_sha256'},async()=>{oracle=review(contract,{allowFixture:policy.product?.allow_fixture_oracles===true});r.oracle_approval=oracle.approval;if(oracle.model.interaction_mode)radialDriver=createRadialDriver(contract,oracle.model,expect);return oracle.approval;});
-  server=await serve(gameRoot);try{browser=await chromium.launch({headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});}catch(e){r.hard_failures.push({code:'qa_infrastructure',message:'Trusted Chromium could not launch: '+e.message});throw e;}
+  server=await serve(gameRoot);try{browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH||undefined,args:['--no-sandbox','--disable-dev-shm-usage']});}catch(e){r.hard_failures.push({code:'qa_infrastructure',message:'Trusted Chromium could not launch: '+e.message});throw e;}
   for(const [width,height] of policy.required_viewports){currentViewport={width,height};evidence=[];let ses;
    const count=r.hard_failures.length,mode=width===390?'touch':'keyboard';
    try{
@@ -144,7 +144,11 @@ async function execute(config){
       if(radialDriver){expect(at(before,contract.progress.state_path)===at(after,contract.progress.state_path),'radial steering does not manufacture objective progress',{kind,actions,before:before.progress,after:after.progress});}
       else{const a=oracle?identify(oracle.model,oracle.model.seeds[before.seed],before):at(before,contract.difficulty.reversible_state_path),b=oracle?identify(oracle.model,oracle.model.seeds[after.seed],after):at(after,contract.difficulty.reversible_state_path);expect(a!==undefined&&a===b&&at(before,contract.progress.state_path)===at(after,contract.progress.state_path),'probe returns to identical reviewed objective state',{kind,actions,before:a,after:b});}
       expect(after.score<=before.score,'no score gain for no objective progress',{kind,actions,before:before.score,after:after.score});rows.push({kind,actions,before:before.score,after:after.score});}return {probes:rows,coverage:rows.length?'declared bounded cycles':'NO_PROBES_DECLARED'};});
-    await check('feedback',{state_path:contract.feedback.state_change_path,selector:contract.feedback.visual_probe},()=>feedback(p,ctx,mode,false));
+    // Feedback is an initial-state contract. The score-integrity probes above leave
+    // continuous controls at an absolute target, so replay it in a fresh session.
+    await ses.close();ses=null;
+    ses=await session(width,height,contract.difficulty.deterministic_seeds[0]);await start(ses.p);
+    await check('feedback',{state_path:contract.feedback.state_change_path,selector:contract.feedback.visual_probe},()=>feedback(ses.p,ses.ctx,mode,false));
     // Separate fresh sessions prevent a failed probe from poisoning success/replay.
     await ses.close();ses=null;
     ses=await session(width,height,contract.difficulty.deterministic_seeds[0]);await start(ses.p);

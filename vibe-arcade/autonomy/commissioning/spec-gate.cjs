@@ -31,6 +31,10 @@ function validBuildInvariants(data,product,commercial,model){
     if(!core||!approved.some(item=>JSON.stringify(core)===JSON.stringify(item)))return false;
     if(!proof||proof.runtime!==core.runtime||proof.seeds!==difficulty.deterministic_seeds.length||proof.oracle_sha256!==data.oracle_sha256||proof.diagnostics!=='finite_numeric'||proof.replay!=='exact_initial_state'||proof.input_timing_parity!==(radialMode?'continuous_pointer_and_keyboard_nudge':'score_progress_projection'))return false;
   }else if(proof!==undefined)return false;
+  if(data.factory_product!==undefined){
+    const approved={id:'halo-guard-v9-product-v1',source:'autonomy/foundry/golden/halo-guard-v9/product',renderer:'three-webgl',provider_calls:0,repair_attempts:0,production_authorized:false};
+    if(!radialMode||JSON.stringify(data.factory_product)!==JSON.stringify(approved))return false;
+  }
   const expectedProbes=commercial.action_feedback.probes.map(probe=>({id:probe.id,node:probe.node,action:probe.action,kind:probe.kind}));
   if(JSON.stringify(data.commercial_probes)!==JSON.stringify(expectedProbes))return false;
   const seeds=data.seeds||{},expectedSeeds=difficulty.deterministic_seeds.map(String);

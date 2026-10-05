@@ -37,7 +37,7 @@ async function execute({manifest,gameRoot,outDir,policy},reviewer=new visual.Mac
   else{await s.page.keyboard.down(a.key);await s.advance(a.hold_ms);await s.page.keyboard.up(a.key);}
   await s.advance(Math.max(20,settle));const after=await snap(s.page),kind=vp.width===390?'pointer':'keyboard';expect(after.accepted_inputs[kind]>before.accepted_inputs[kind],'real input accepted',{before:before.accepted_inputs,after:after.accepted_inputs});return after;
  }
- async function reach(s,node){await start(s);if(radialDriver)return radialDriver.reach(s,node,vp.width===390?'touch':'keyboard');const g=oracle.graph,plan=shortest(g,g.initial,n=>n===g.nodes[node]);expect(plan&&plan.length<=p.difficulty.max_actions,'reviewed bounded normal-input path',node);
+ async function reach(s,node){await start(s);if(radialDriver){const reached=await radialDriver.reach(s,node,vp.width===390?'touch':'keyboard');await s.advance(c.motion.settle_ms);return reached;}const g=oracle.graph,plan=shortest(g,g.initial,n=>n===g.nodes[node]);expect(plan&&plan.length<=p.difficulty.max_actions,'reviewed bounded normal-input path',node);
   expect(identify(oracle.model,g,await snap(s.page))===g.initial,'actual initial state agrees with reviewed oracle',node);
   for(const edge of plan){const next=await input(s,edge.action,{settle:c.motion.settle_ms});expect(identify(oracle.model,g,next)===edge.to,'actual player transition agrees with oracle',{expected:edge.to,actual:identify(oracle.model,g,next)});}await s.advance(c.motion.settle_ms);
  }
@@ -50,7 +50,7 @@ async function execute({manifest,gameRoot,outDir,policy},reviewer=new visual.Mac
  async function visible(page,selector){const e=page.locator(selector);expect(await e.count()===1&&await e.isVisible(),'one visible '+selector,false);const b=await e.boundingBox();expect(b&&b.x>=0&&b.y>=0&&b.x+b.width<=vp.width+1&&b.y+b.height<=vp.height+1,'first-viewport control/text '+selector,b);return (await e.innerText()).trim();}
  try{
    oracle=review(c,p,{allowFixture:policy.product?.allow_fixture_oracles===true});r.oracle_approval=oracle.approval;if(oracle.model.interaction_mode)radialDriver=createRadialDriver(p,oracle.model,expect);
-  server=await serve(gameRoot);try{browser=await chromium.launch({headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});}catch(e){r.hard_failures.push({code:'qa_infrastructure',message:e.message});throw e;}
+  server=await serve(gameRoot);try{browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH||undefined,args:['--no-sandbox','--disable-dev-shm-usage']});}catch(e){r.hard_failures.push({code:'qa_infrastructure',message:e.message});throw e;}
   for(const [width,height] of policy.required_viewports){vp={width,height};const initialFailures=r.hard_failures.length;
    await check('entry',{},()=>withSession({},s=>capture(s,'entry')));
    for(const name of ['visual_legibility','state_distinction'])for(const pair of c[name].pairs)await check(name,{category:'visual_legibility',state_pair:pair,visual_region:[pair.a.region,pair.b.region]},async()=>{
@@ -125,9 +125,16 @@ async function execute({manifest,gameRoot,outDir,policy},reviewer=new visual.Mac
      else if(event==='progress'&&radialDriver)await radialDriver.reach(s,'early','touch');
      else await input(s,probe.action);
     if(event==='pause')await s.page.locator('[data-game-pause]').click();
-    if(event==='pagehide'){await s.page.goto('about:blank');await s.page.waitForTimeout(80);}
+    let pagehideAudio=null;
+    if(event==='pagehide'){
+     await s.page.goto('about:blank');for(let waited=0;waited<2000&&!s.finalAudio();waited+=100)await new Promise(resolve=>setTimeout(resolve,100));
+     if(!s.finalAudio()){
+      const token=await s.page.evaluate(()=>globalThis.name);
+      if(typeof token==='string'&&token.startsWith('__PLAYJOLT_AUDIO__'))pagehideAudio=JSON.parse(token.slice('__PLAYJOLT_AUDIO__'.length));
+     }
+    }
     else await s.advance(50);
-    const after=event==='pagehide'?s.finalAudio():await s.page.evaluate(()=>__CommercialAudioAudit());expect(!!after,'pagehide audio cleanup report observed',after);
+    const after=event==='pagehide'?(s.finalAudio()||pagehideAudio):await s.page.evaluate(()=>__CommercialAudioAudit());expect(!!after,'pagehide audio cleanup report observed',after);
     const events=after.events.filter(e=>e.time>=time),starts=events.filter(e=>e.kind==='start'),energy=events.filter(e=>e.kind==='energy').map(e=>e.rms),audible=energy.some(n=>n>.0001);
     if(['primary','progress','success','failure'].includes(event))expect(starts.length>0&&audible,'audible user-gesture SFX for '+event,{starts:starts.length,energy});
     if(event==='mute')expect(starts.length===0&&!audible,'mute prevents core SFX',{starts:starts.length,energy});

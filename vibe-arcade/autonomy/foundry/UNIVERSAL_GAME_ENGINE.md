@@ -13,14 +13,14 @@ owner taste + market evidence + prior learning
   -> normalized game brief
   -> Play Identity Contract
   -> reviewed component selection
-  -> protected mechanic runtime + generated presentation
+  -> protected mechanic runtime + reviewed product shell or bounded generated presentation
   -> deterministic assembly and zero-paid preflight
   -> browser play QA + commercial QA
   -> RC or terminal rejection
   -> component-level learning and regression coverage
 ```
 
-AI may propose and compose. It must not silently redefine the mechanic authority, score, progression, lifecycle, budget, safety boundary or release source.
+AI may propose and compose when a reviewed variable surface exists. When the owner approves an exact complete presentation, the Factory materializes that reviewed product shell without a model call. AI must not silently redefine the mechanic authority, score, progression, lifecycle, approved product source, budget, safety boundary or release source.
 
 ## Seven layers
 
@@ -131,14 +131,14 @@ The owner should not repair candidates, tune prompts, schedule posts or repeated
 
 ## Immediate implementation sequence
 
-1. The continuous radial-input foundation is complete: `radialkit.js` loads the exact Factory-owned Halo Guard core, and `radial-runner.cjs` rejects baseline drift, multi-axis changes, input mismatch, Oracle mismatch, replay drift and entity overflow before a provider call. Product and Commercial browser contracts consume real continuous pointer and keyboard evidence rather than approximating the game as a finite action graph.
-2. Sequence 38 changes only one reviewed axis around the golden baseline: `cloud-caravan-world-kit-v1`. Unrelated reviewed designs remain ineligible with `golden_variation_required`.
-3. Prove pointer/keyboard parity, 40-second success, ordinary-play failure, replay, entity bounds and the six golden traces before any provider call.
-4. Add component-level failure attribution and trend reporting.
-5. Run at most one paid candidate per UTC day; pause after two measured regressions.
-6. Promote only a measured improvement through the existing RC Preview and release-packet path.
-7. After scoped approval, hand the exact released source to `marketing/rail`, produce honest real-gameplay assets, publish through connected channels and feed measured acquisition/replay evidence back into learning.
+1. Preserve sequence 38 as terminal `REJECTED`; do not revive, reset or clone its generation budget.
+2. Materialize sequence 39 from reviewed `halo-guard-v9-product-v1` through `GoldenProductBuilder`. The exact owner-approved Three.js product source is immutable input, not a prompt target.
+3. Authorize zero provider calls, USD 0 provider cost and zero repairs for this trusted product shell. Any source defect requires a reviewed repository change and a new candidate, never an in-place terminal revival.
+4. Prove real WebGL rendering, pointer/keyboard parity, rescue-driven canonical score/progress, 40-second success, ordinary-play failure, feedback settlement, replay, entity bounds and the six golden traces.
+5. Run unchanged Technical, Product and Commercial gates. A checked-in product shell receives no gate exemption.
+6. Promote only an actual `RC_READY` result through immutable-source RC Preview, Factory CI, exact-source Vercel Preview, byte identity and the SHA-256 release packet.
+7. Stop at the Production boundary. After a fresh scoped owner approval, hand the exact released source to `marketing/rail`, produce honest real-gameplay assets, publish through connected channels and feed measured acquisition/replay evidence back into learning.
 
-Trusted Intake may select sequence 38 only after its exact six-seed preflight and one-axis world-kit validation pass. The approved continuous pointer mechanic must never be approximated by the discrete `ReflexKit` action runners merely to increase throughput. A failed preflight remains cost-free, and a terminal rejection is never revived or cloned.
+The approved continuous pointer mechanic must never be approximated by the discrete `ReflexKit` action runners merely to increase throughput. A failed preflight remains cost-free, and a terminal rejection is never revived or cloned.
 
 Production remains unauthorized until a fresh explicit owner decision.

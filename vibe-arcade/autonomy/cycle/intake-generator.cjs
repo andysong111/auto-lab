@@ -91,7 +91,8 @@ function materialize(outRoot,sequence,date,selectionFile=null){
   const dir=path.join(path.resolve(outRoot),'candidate');fs.rmSync(path.resolve(outRoot),{recursive:true,force:true});fs.mkdirSync(dir,{recursive:true});
   const runner=legacy?'../../cycle/template-runner.cjs':'../../'+bp.runner;
   const commission="'use strict';\nconst {main}=require('"+runner+"');\nmain(__dirname,process.argv[2]).catch(e=>{console.error(e.stack||e);process.exitCode=1;});\n";
-    const request={game_id:bp.game_id,candidate:bp.title,runtime:'Phaser 4.2.1 + GameKit v3 + Feel Kit',paid_calls:true,auto_commission:true,authorized_provider_calls:6,estimated_usd_ceiling:2,production_authorized:false,request_revision:1};
+  const trustedProduct=bp.variation?.axis==='product-shell';
+  const request={game_id:bp.game_id,candidate:bp.title,runtime:trustedProduct?'Three.js + GameKit v3 + RadialKit v1 + FeelAudio':'Phaser 4.2.1 + GameKit v3 + Feel Kit',paid_calls:!trustedProduct,auto_commission:true,authorized_provider_calls:trustedProduct?0:6,estimated_usd_ceiling:trustedProduct?0:2,production_authorized:false,request_revision:1};
   fs.writeFileSync(path.join(dir,'commission.cjs'),commission);
   fs.writeFileSync(path.join(dir,'blueprint.json'),JSON.stringify(bp,null,2)+'\n');
   fs.writeFileSync(path.join(dir,'queued-request.json'),JSON.stringify(request,null,2)+'\n');

@@ -7,7 +7,8 @@ const {hash,atomicJSON,readJSON}=require('../orchestrator/files.cjs');
 const {validateProposal}=require('../commissioning/spec-gate.cjs');
 const product=require('../qa/product-contract.cjs'),commercial=require('../qa/commercial/contract.cjs');
 const {Factory}=require('../orchestrator/engine.cjs'),{FileStore}=require('../orchestrator/store.cjs');
-const {AutonomousWorker}=require('../worker/runtime.cjs'),{DockerQA}=require('../isolation/docker-qa.cjs'),{OpenAIProvider}=require('../providers/openai.cjs');
+const {AutonomousWorker,policyAt,gate}=require('../worker/runtime.cjs'),{DockerQA}=require('../isolation/docker-qa.cjs'),{OpenAIProvider}=require('../providers/openai.cjs');
+const {GoldenProductBuilder}=require('../adapters/golden-product.cjs');
 const {continuePreview,writeReleasePacket}=require('../commissioning/rc-continuation.cjs');
 const proposal=require('./radial-proposal.cjs');
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8'));
@@ -20,18 +21,22 @@ function text(value,min=2,max=80){if(typeof value!=='string'||value.length<min||
 function validateBlueprint(bp){
   if(!bp||bp.schema!=='playjolt-foundry-blueprint/1'||!ID.test(bp.game_id||'')||!SLUG.test(bp.slug||'')||bp.runner!=='foundry/radial-runner.cjs'||bp.family_id!=='radial-guarding'||!SLUG.test(bp.design_id||''))fail('radial_blueprint_identity');
   text(bp.title,3,64);
-  if(bp.lane!=='market-benchmark'||!bp.foundry||bp.foundry.schema!=='playjolt-foundry-lineage/1'||bp.foundry.lane!==bp.lane||bp.foundry.family_id!==bp.family_id||bp.foundry.design_id!==bp.design_id||bp.foundry.runner!==bp.runner)fail('radial_lineage');
+  if(!['original','market-benchmark'].includes(bp.lane)||!bp.foundry||bp.foundry.schema!=='playjolt-foundry-lineage/1'||bp.foundry.lane!==bp.lane||bp.foundry.family_id!==bp.family_id||bp.foundry.design_id!==bp.design_id||bp.foundry.runner!==bp.runner)fail('radial_lineage');
   if(!Array.isArray(bp.learning_focus)||bp.learning_focus.length>4||new Set(bp.learning_focus).size!==bp.learning_focus.length||bp.learning_focus.some(value=>!LEARNING_FOCUS.has(value))||JSON.stringify(bp.foundry.learning_focus)!==JSON.stringify(bp.learning_focus))fail('radial_learning_focus');
-  if(!SLUG.test(bp.benchmark?.id||'')||typeof bp.benchmark?.url!=='string'||!bp.benchmark.url.startsWith('https://play.google.com/')||!Array.isArray(bp.benchmark.transferable_principles)||bp.benchmark.transferable_principles.length<2||!Array.isArray(bp.copy_policy?.forbidden)||bp.copy_policy.forbidden.length<4)fail('radial_benchmark');
+  if(bp.lane==='market-benchmark'&&(!SLUG.test(bp.benchmark?.id||'')||typeof bp.benchmark?.url!=='string'||!bp.benchmark.url.startsWith('https://play.google.com/')||!Array.isArray(bp.benchmark.transferable_principles)||bp.benchmark.transferable_principles.length<2||!Array.isArray(bp.copy_policy?.forbidden)||bp.copy_policy.forbidden.length<4))fail('radial_benchmark');
+  if(bp.lane==='original'&&(bp.benchmark||bp.foundry.benchmark_id||bp.foundry.benchmark_url))fail('radial_original_lineage');
   if(typeof bp.novelty_contract!=='string'||bp.novelty_contract.length<40||bp.novelty_contract.length>500)fail('radial_novelty_contract');
   for(const key of ['singular','plural','arena','progress','success','failure'])text(bp.theme?.[key],key==='progress'?4:2,48);
   if(bp.golden_baseline_id!==GOLDEN_ID||bp.foundry?.golden_baseline_id!==GOLDEN_ID)fail('golden_baseline_required');
   if(!Array.isArray(bp.seeds)||JSON.stringify(bp.seeds)!==JSON.stringify(SEEDS))fail('golden_seed_set_required');
   const variation=bp.variation;
-  if(!variation||!['difficulty','world-kit','progression'].includes(variation.axis)||!Array.isArray(variation.changed_components)||variation.changed_components.length!==1)fail('single_axis_variation_required');
+  if(!variation||!['difficulty','world-kit','progression','product-shell'].includes(variation.axis)||!Array.isArray(variation.changed_components)||variation.changed_components.length!==1)fail('single_axis_variation_required');
   if(typeof variation.id!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(variation.id))fail('variation_id');
   const components=read(path.join(__dirname,'component-registry.json')).components||[],component=components.find(row=>row.id===variation.changed_components[0]);
-  if(!component||component.status!=='reviewed'||component.category!=='world-kit')fail('reviewed_world_kit_required');
+  const expectedCategory=variation.axis==='product-shell'?'product-shell':'world-kit';
+  if(!component||component.status!=='reviewed'||component.category!==expectedCategory)fail(variation.axis==='product-shell'?'reviewed_product_shell_required':'reviewed_world_kit_required');
+  if(bp.lane==='original'&&variation.axis!=='product-shell')fail('original_product_shell_required');
+  if(bp.lane==='market-benchmark'&&variation.axis!=='world-kit')fail('market_world_kit_required');
   return bp;
 }
 function chooseTarget(state,mode){
@@ -121,10 +126,11 @@ async function prepare(dir){
   if(!gate.passed)throw Error('spec_gate_failed '+JSON.stringify(gate.errors));
   const settings={commissioning:true,release_candidates:false,base_ref:'main',pricing:{input_per_million:4,output_per_million:18,as_of:'2026-09-26'},per_game:{max_provider_calls:6,max_input_tokens:500000,max_output_tokens:120000,max_estimated_cost:2,max_wall_clock_minutes:60},global:{daily_provider_call_limit:6,daily_cost_limit:2,max_concurrent_builds:1},request:{max_input_tokens:100000,max_output_tokens:20000,timeout_ms:300000,max_response_bytes:1048576,max_file_bytes:131072,max_files:24},isolation:{cpus:1,memory_mb:1024,pids:128,timeout_ms:300000},polling:{interval_ms:2000,max_backoff_ms:30000,max_polls:20,max_jobs:1}};
   const control=JSON.parse(JSON.stringify(readJSON(path.join(ROOT,'autonomy/control-plane/policy.json'))));Object.assign(control,{mode:'autonomous-foundry-v2',intake_enabled:true,auto_rc_enabled:false,max_active_jobs:1,max_daily_new_jobs:1});Object.assign(control.kill_switches,{release_candidates:true,production_shipping:true,marketing_promotion:true});
-  const authorization={schema:'playjolt-foundry-authorization/1',game_id:bp.game_id,model:'gpt-5.6-terra',user_authorized:true,authorization_basis:'Owner approved Halo Guard V9 as the golden gameplay baseline and authorized one reviewed market-benchmark variation axis. This candidate preserves the exact golden mechanic and changes only the reviewed cloud-caravan world kit. Build1 + repair5, provider calls <=6, estimated cost <=USD2, Production unauthorized.',max_generations:6,max_repairs:5,estimated_usd_ceiling:2,production_authorized:false,base_commit:process.env.GITHUB_SHA||'main'};
+  const productized=bp.variation.axis==='product-shell';
+  const authorization={schema:'playjolt-foundry-authorization/1',game_id:bp.game_id,model:productized?'factory-owned/halo-guard-v9-product-v1':'gpt-5.6-terra',user_authorized:true,authorization_basis:productized?'Owner explicitly approved exact Halo Guard V9 productization and RC verification. This candidate uses the reviewed Factory-owned product shell with zero provider calls, zero repair reset and Production unauthorized.':'Owner approved Halo Guard V9 as the golden gameplay baseline and authorized one reviewed market-benchmark variation axis. This candidate preserves the exact golden mechanic and changes only the reviewed cloud-caravan world kit. Build1 + repair5, provider calls <=6, estimated cost <=USD2, Production unauthorized.',max_generations:productized?0:6,max_repairs:productized?0:5,estimated_usd_ceiling:productized?0:2,production_authorized:false,base_commit:process.env.GITHUB_SHA||'main'};
   for(const [name,data] of Object.entries({'proposal.json':candidate,'spec-gate.json':gate,'worker-config.json':settings,'control-policy.json':control,'authorization.json':authorization,'oracle.json':model}))atomicJSON(path.join(root,name),data);
   await new Factory({store:new FileStore(root)}).create(gate.factory_spec);
-  console.log(JSON.stringify({preflight:'PASS',game_id:bp.game_id,title:bp.title,golden_baseline_id:bp.golden_baseline_id,variation:bp.variation,foundry:bp.foundry,runtime:'Phaser 4.2.1 + GameKit v3 + RadialKit v1 + Feel Kit',oracle_hash:hash(model),product_hash:hash(candidate.product_contract),commercial_hash:hash(candidate.commercial_contract),warnings:gate.warnings,production_authorized:false},null,2));
+  console.log(JSON.stringify({preflight:'PASS',game_id:bp.game_id,title:bp.title,golden_baseline_id:bp.golden_baseline_id,variation:bp.variation,foundry:bp.foundry,runtime:productized?'Three.js + GameKit v3 + RadialKit v1 + FeelAudio':'Phaser 4.2.1 + GameKit v3 + RadialKit v1 + Feel Kit',provider_calls:productized?0:6,oracle_hash:hash(model),product_hash:hash(candidate.product_contract),commercial_hash:hash(candidate.commercial_contract),warnings:gate.warnings,production_authorized:false},null,2));
 }
 function reviews(dir){
   const bp=load(dir),root=path.resolve(process.env.FACTORY_WORKER_ROOT||'');if(!fs.existsSync(path.join(root,'proposal.json')))throw Error('recovered_worker_root_required');
@@ -132,13 +138,24 @@ function reviews(dir){
   if(stored.game_id!==bp.game_id||hash(readJSON(path.join(root,'oracle.json')))!==hash(model)||hash(stored.product_contract)!==hash(candidate.product_contract)||hash(stored.commercial_contract)!==hash(candidate.commercial_contract))throw Error('recovery_contract_mismatch');
   installReviewData(bp,model,candidate.product_contract,candidate.commercial_contract);console.log(JSON.stringify({reviews:'PASS',game_id:bp.game_id,family:bp.family_id,lane:bp.lane,golden_baseline_id:bp.golden_baseline_id,variation:bp.variation,runtime:'Phaser 4.2.1 + RadialKit v1',permissions:'0644',production_authorized:false},null,2));
 }
-async function run(dir){const bp=load(dir),root=process.env.FACTORY_WORKER_ROOT,settings=readJSON(path.join(root,'worker-config.json'));const result=await new AutonomousWorker({root,settings,policyFile:path.join(root,'control-policy.json'),provider:new OpenAIProvider(),qa:new DockerQA({limits:settings.isolation})}).runOnce();atomicJSON(path.join(root,'worker-result.json'),result);console.log(JSON.stringify(result,null,2));if(!['RC_READY','REJECTED'].includes(result.status))process.exitCode=2;}
+async function run(dir){
+  const bp=load(dir),root=process.env.FACTORY_WORKER_ROOT,settings=readJSON(path.join(root,'worker-config.json')),policyFile=path.join(root,'control-policy.json');let result;
+  if(bp.variation.axis==='product-shell'){
+    const control=policyAt(policyFile);gate(control);
+    const qa=new DockerQA({limits:settings.isolation});qa.assertAvailable();
+    const store=new FileStore(root),factory=new Factory({store,builder:new GoldenProductBuilder('halo-guard-v9-product-v1'),qa:c=>qa.run(c),beforeStep:async()=>gate(policyAt(policyFile))});
+    const final=await factory.run(bp.game_id);
+    result={schema:'playjolt-worker/1',status:final.state==='REJECTED'?'REJECTED':final.state==='RC_READY'?'RC_READY':'WAITING_RC',code:null,game_id:bp.game_id,version:final.version,factory_state:final.state,recorded_at:new Date().toISOString(),owner_action:false,auto_production_ship:false,budget:{calls:0,input_tokens:0,output_tokens:0,estimated_cost:0},cost_basis:'estimated',provider:'factory-owned/halo-guard-v9-product-v1'};
+    atomicJSON(path.join(root,'autonomy/artifacts/worker/jobs',bp.game_id+'.json'),result);atomicJSON(path.join(root,'autonomy/artifacts/worker/status.json'),result);
+  }else result=await new AutonomousWorker({root,settings,policyFile,provider:new OpenAIProvider(),qa:new DockerQA({limits:settings.isolation})}).runOnce();
+  atomicJSON(path.join(root,'worker-result.json'),result);console.log(JSON.stringify(result,null,2));if(!['RC_READY','REJECTED'].includes(result.status))process.exitCode=2;
+}
 async function preview(dir){const bp=load(dir),result=await continuePreview(process.env.FACTORY_WORKER_ROOT,bp.game_id);console.log(JSON.stringify({schema:'playjolt-preview-continuation/1',game_id:bp.game_id,state:result.state,preview_url:result.preview_url||null,rc_commit:result.rc_commit||null,base_commit:result.base_commit||null,production_authorized:false},null,2));}
 function releasePacket(dir){const bp=load(dir);console.log(JSON.stringify(writeReleasePacket(process.env.FACTORY_WORKER_ROOT,bp.game_id),null,2));}
 function summarize(dir){
   const bp=load(dir),root=process.env.FACTORY_WORKER_ROOT,ledgerFile=path.join(root,'autonomy/.provider/ledger.json'),ledger=fs.existsSync(ledgerFile)?readJSON(ledgerFile):{operations:{}};
   const operations=Object.values(ledger.operations).filter(row=>row.game_id===bp.game_id).sort((a,b)=>a.started_at-b.started_at).map(row=>({operation_id:row.operation_id,version:row.version,state:row.state,response_id:row.response_id,input_tokens:row.accounted?.input_tokens??null,output_tokens:row.accounted?.output_tokens??null,estimated_cost:(row.accounted||row.reserved)?.estimated_cost??null,error_code:row.error_code||null}));
-  const manifestFile=path.join(root,'autonomy/jobs',bp.game_id,'manifest.json'),total=operations.reduce((sum,row)=>sum+(row.estimated_cost||0),0),base={schema:'playjolt-auto-template/1',game_id:bp.game_id,title:bp.title,signature:bp.design_id,foundry:bp.foundry,golden_baseline_id:bp.golden_baseline_id,variation:bp.variation,runtime:'phaser-4.2.1-radialkit-1',runner_commit:process.env.GITHUB_SHA,run_id:process.env.GITHUB_RUN_ID,operations,total_calls:operations.length,total_estimated_cost:Number(total.toFixed(8)),production_authorized:false};
+  const manifestFile=path.join(root,'autonomy/jobs',bp.game_id,'manifest.json'),total=operations.reduce((sum,row)=>sum+(row.estimated_cost||0),0),base={schema:'playjolt-auto-template/1',game_id:bp.game_id,title:bp.title,signature:bp.design_id,foundry:bp.foundry,golden_baseline_id:bp.golden_baseline_id,variation:bp.variation,runtime:bp.variation.axis==='product-shell'?'three-webgl-gamekit-3-radialkit-1':'phaser-4.2.1-radialkit-1',runner_commit:process.env.GITHUB_SHA,run_id:process.env.GITHUB_RUN_ID,operations,total_calls:operations.length,total_estimated_cost:Number(total.toFixed(8)),production_authorized:false};
   if(!fs.existsSync(manifestFile)){console.log(JSON.stringify({...base,factory:null},null,2));return;}
   const manifest=readJSON(manifestFile),summary={...base,factory:{state:manifest.state,version:manifest.version,repair_attempt:manifest.repair_attempt,technical_qa_status:manifest.technical_qa_status,product_qa_status:manifest.product_qa_status,commercial_qa_status:manifest.commercial_qa_status,quality_status:manifest.quality_status,source_hash:manifest.source_hash,preview_url:manifest.preview_url||null,rc_commit:manifest.rc_commit||null,base_commit:manifest.base_commit||null,failure_reasons:manifest.failure_reasons}};atomicJSON(path.join(root,'commissioning-summary.json'),summary);console.log(JSON.stringify(summary,null,2));
 }

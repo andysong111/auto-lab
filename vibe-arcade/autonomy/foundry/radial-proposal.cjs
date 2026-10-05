@@ -26,7 +26,8 @@ function contracts(bp,model){
     feedback:{state_change_path:'quality.reversible_state_key',visual_probe:'[data-game-canvas]',active_probe_path:'presentation.feedback_active',static_probe_path:'presentation.static_feedback',settle_ms:450,action:'guard_left'},
     interaction:{mode:'continuous-radial-v1',target_collection_path:'state.items',target_angle_path:'currentAngle',target_radius_path:'r',hazard_path:'bad',acquire_radius:6,avoid_radius:5,pointer_radius:.42,input_interval_ms:34,max_ticks:2600,min_success_progress:6},
     actions};
-  const full=region(.05,.05,.9,.9),shield=region(.08,.08,.84,.84),core=region(.31,.31,.38,.38),upper=region(.08,.05,.84,.42),lower=region(.08,.53,.84,.4);
+  const full=region(.05,.05,.9,.9),shield=region(.08,.08,.84,.84),upper=region(.08,.05,.84,.42);
+  const quiet=region(.23,.02,.08,.08),core=region(.46,.43,.08,.12),shieldTop=region(.46,.15,.08,.06),dangerBeacon=region(.70,.18,.07,.11);
   const commercialContract={schema_version:1,review_id:bp.slug+'-commercial-v1',seed:bp.seeds[0],
     visual_legibility:{pairs:[{id:'early-late-world-depth',kind:'state',a:anchor('early',full),b:anchor('late',full),state_path:'state.phase',marker:'The same arena must visibly deepen from forgiving early defense to the final pressure phase.'}]},
     state_distinction:{pairs:[{id:'early-mid-threat-density',kind:'state',a:anchor('early',upper),b:anchor('mid',upper),state_path:'state.phase',marker:'Enemy and rescue traffic must make the middle phase visibly distinct without relying on labels.'}]},
@@ -35,7 +36,7 @@ function contracts(bp,model){
     progression_spectacle:{checkpoints:[anchor('early',full),anchor('mid',full),anchor('late',full)],marker:'Increasing pressure must add readable traffic, phase staging and persistent rescued-wisp payoff.'},
     result_presentation:{region:full,success_title:bp.theme.success,failure_title:bp.theme.failure},
     audio:{mode:'required',mute_selector:'[data-game-mute]',primary_probe:'shield-turn',progress_probe:'rescue-progress'},
-    mobile_hierarchy:{gameplay_selector:'[data-game-canvas]',roles:[{role:'player',foreground:core,background:lower},{role:'goal',foreground:shield,background:upper},{role:'danger',foreground:upper,background:lower}]},
+    mobile_hierarchy:{gameplay_selector:'[data-game-canvas]',roles:[{role:'player',foreground:core,background:quiet},{role:'goal',foreground:shieldTop,background:quiet},{role:'danger',foreground:dangerBeacon,background:quiet}]},
     replay_motivation:{selector:'[data-replay-reason]',reason:'Replay the same defense seed to rescue more wisps, preserve barriers and improve the device best.'},
     performance:{sample_ms:2000}};
   return {productContract,commercialContract};
@@ -43,19 +44,22 @@ function contracts(bp,model){
 
 function buildInvariants(bp,model,productContract,commercialContract){
   const difficulty=productContract.difficulty;
+  const productized=bp.variation?.axis==='product-shell';
   return {schema_version:1,source:'reviewed-foundry-oracle',oracle_id:difficulty.oracle_id,oracle_sha256:difficulty.oracle_sha256,projection:model.projection,actions:productContract.actions,
     lifecycle:{objective_selector:productContract.objective.visible_selector,progress_selector:productContract.progress.selector,progress_state_path:productContract.progress.state_path,score_selector:productContract.score.selector,best_selector:productContract.best.selector,outcome_state_path:productContract.completion.state_path,success_value:productContract.completion.success_value,failure_value:productContract.completion.failure_value,result_selector:productContract.completion.result_selector,replay_selector:productContract.replay.selector},
     diagnostics:{stage_path:difficulty.stage_path,complexity_path:difficulty.complexity_path,objective_progress_path:'quality.objective_progress',meaningful_actions_path:difficulty.meaningful_actions_path,reversible_state_path:difficulty.reversible_state_path,feedback_active_path:productContract.feedback.active_probe_path,static_feedback_path:productContract.feedback.static_probe_path,reduced_motion_path:productContract.reduced_motion.presentation_probe_path},
     construction:{input_owner:'PlayJoltGameKit',input_source:'input.pointer + input.actions',action_expressions:['input.pointer','input.actions.guard_left','input.actions.guard_right'],complexity_source:'quality.stage + quality.complexity',terminal_owner:'GameCore',terminal_rule:'terminal(state) is true exactly when the protected Halo Guard outcome becomes success or failure; GameKit observes it in the same frame.',replay_owner:'PlayJoltGameKit',replay_rule:'Do not implement a second restart handler. GameKit invokes the protected core create(seed) path.',presentation_rule:'The golden guardian, wisp, raider and shield roles stay readable. Shield motion must appear at 70ms and 150ms before settling by 450ms; the one reviewed world-kit change may not alter mechanics.',presentation_floor:{mobile_owner:'PlayJoltGameKit',critical_label_min_px:14,lifecycle_control_min_px:44,active_goal_distinctions:['luminance','shape','position'],intermediate_motion_ms:[70,150],settle_ms:450,audio_owner:'PlayJoltGameKit',audio_activation:'accepted_player_input',contrast_palette:{background:'#071c2a',active:'#ffffff',goal:'#5ce0a1',warning:'#ff4e65'}},prepaid_core_proof:{runtime:'radialkit-1',seeds:bp.seeds.length,oracle_sha256:difficulty.oracle_sha256,diagnostics:'finite_numeric',replay:'exact_initial_state',input_timing_parity:'continuous_pointer_and_keyboard_nudge'}},
     factory_core:{runtime:'radialkit-1',required_script:'./radialkit.js',core_source:CORE_SOURCE,time_authority:'The factory-owned Halo Guard core advances spawn timing, collision, score, progress, phase, barriers, lives, success and failure. Candidate code is presentation-only.',interaction_mode:'continuous-radial-v1',golden_baseline_id:bp.golden_baseline_id,max_active_entities:model.max_entities},
+    ...(productized?{factory_product:{id:'halo-guard-v9-product-v1',source:'autonomy/foundry/golden/halo-guard-v9/product',renderer:'three-webgl',provider_calls:0,repair_attempts:0,production_authorized:false}}:{}),
     commercial_probes:commercialContract.action_feedback.probes.map(probe=>({id:probe.id,node:probe.node,action:probe.action,kind:probe.kind})),seeds:model.seeds};
 }
 
 function proposalFor(bp,model){
   const {productContract,commercialContract}=contracts(bp,model),build_invariants=buildInvariants(bp,model,productContract,commercialContract),market=bp.lane==='market-benchmark';
+  const productized=bp.variation?.axis==='product-shell';
   const lineage=market?'Market evidence transfers only compact 3D role readability, immediate one-thumb action and a coherent themed world. Do not copy any observed name, character, art, layout, asset, audio, code, economy or distinctive ruleset.':'This is an original PlayJolt golden-baseline variation.';
   return {game_id:bp.game_id,generation:1,title:bp.title,slug:bp.slug,genre:'continuous radial arcade defense',mechanic_family:bp.family_id+'-'+bp.design_id,
-    controls:['Move the pointer around the arena to rotate the shield.','Arrow Left and Arrow Right nudge the same shield target.'],mobile_controls:['Drag anywhere on the arena to rotate the shield with one thumb.'],max_repair_attempts:5,
+    controls:['Move the pointer around the arena to rotate the shield.','Arrow Left and Arrow Right nudge the same shield target.'],mobile_controls:['Drag anywhere on the arena to rotate the shield with one thumb.'],max_repair_attempts:productized?0:5,
     qa:{seed:bp.seeds[0],keyboard:{key:'ArrowLeft',observation:'state.targetAngle'},pointer:{observation:'state.targetAngle'},terminal_ms:45000},
     implementation_contract:{
       first_ten_seconds:'Start immediately reveals the guardian, shield, rescue wisps and shard raiders. The first drag rotates the shield and produces visible, gesture-gated feedback within one second.',
@@ -65,15 +69,15 @@ function proposalFor(bp,model){
       sensory_payoff:'Shield movement has readable intermediate motion; rescues, blocked raiders, barrier loss, phase escalation, success and failure each receive distinct bounded visual and gesture-audio feedback.',
       goal:'Keep the visible objective exact: rotate the halo to rescue wisps and keep shard raiders outside the core for the complete defense window.',
       progression:'Use the protected Halo Guard runtime without reimplementing it. Show exact rescued-wisp progress, score, phase, lives, barriers and increasingly dense traffic across the full playfield.',
-      presentation:'Preserve the approved compact toy-3D guardian, wisp, raider and shield roles. Change only the reviewed cloud-caravan world kit: sparse rounded floating homes and soft travel lights in the distant background, with no new gameplay geometry or UI layout.',
-      originality:lineage+' The cloud-caravan environment is newly authored for PlayJolt and remains subordinate to the readable characters and interception ring.',
+      presentation:productized?'Use the exact Factory-owned Halo Guard V9 Three.js product shell: approved compact 3D guardian, rescue wisp, shard raider, luminous shield and sparse rounded toy-sky background. Generated presentation replacement is forbidden.':'Preserve the approved compact toy-3D guardian, wisp, raider and shield roles. Change only the reviewed cloud-caravan world kit: sparse rounded floating homes and soft travel lights in the distant background, with no new gameplay geometry or UI layout.',
+      originality:productized?'This is the exact owner-approved PlayJolt Halo Guard V9 product shell, not a renamed retry or a copied market game. No generated gameplay or presentation substitution is allowed.':lineage+' The cloud-caravan environment is newly authored for PlayJolt and remains subordinate to the readable characters and interception ring.',
       difficulty:'The exact halo-guard-v9 golden core, six seeds, forty-second timing, collision authority, score, progress, barriers, lives, success and failure are immutable.',
       mobile_readability:'At 390x844 keep the full circular arena, objective, rescued count, current score, device best, result and Replay in the initial viewport. Critical labels are at least 14px and lifecycle controls at least 44px.',
       result:'Success and failure must transform the whole arena, show exact titles '+bp.theme.success+' or '+bp.theme.failure+', preserve score and device best, and expose Replay immediately.',
       reduced_motion:'Honor initial and live reduced-motion changes without changing canonical score, progress, collision or terminal outcomes. Replace movement effects with strong static spatial cues.',
       scoring:'Only the protected core may award score. Steering alone scores zero; rescued wisps, combo and overdrive retain the exact golden authority.',
       completion_timing:'The protected core finishes success at the complete defense window and failure when the final life is lost. GameKit owns the lifecycle transition and replay.',
-      action_feedback:'Every accepted drag or keyboard nudge visibly moves the shield through intermediate positions. Rescue and raider contacts are spatially obvious and remain readable over the new background.'},
+      action_feedback:'Every accepted drag or keyboard nudge visibly moves the shield through intermediate positions. Rescue and raider contacts are spatially obvious and remain readable over the background.'},
     build_invariants,product_contract:productContract,commercial_contract:commercialContract};
 }
 

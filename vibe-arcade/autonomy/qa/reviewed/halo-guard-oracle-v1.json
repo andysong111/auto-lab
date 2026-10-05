@@ -1,0 +1,489 @@
+{
+  "schema_version": 1,
+  "interaction_mode": "continuous-radial-v1",
+  "golden_baseline_id": "halo-guard-v9",
+  "runtime": "radialkit-1",
+  "variation": {
+    "id": "exact-v9-product-shell-01",
+    "axis": "product-shell",
+    "changed_components": [
+      "halo-guard-v9-product-v1"
+    ]
+  },
+  "projection": [
+    "state.phase",
+    "state.caught",
+    "state.lives",
+    "state.barrier",
+    "state.outcome"
+  ],
+  "anchors": {
+    "initial": {
+      "tick": 0,
+      "stage": 1
+    },
+    "early": {
+      "tick": 360,
+      "stage": 1
+    },
+    "mid": {
+      "tick": 1200,
+      "stage": 2
+    },
+    "late": {
+      "tick": 2040,
+      "stage": 3
+    }
+  },
+  "seeds": {
+    "7": {
+      "pointer": {
+        "success": {
+          "outcome": "success",
+          "reason": "defense_complete",
+          "tick": 2401,
+          "phase": 3,
+          "score": 9786,
+          "progress": 35,
+          "best_combo": 17,
+          "lives": 3,
+          "barrier": 0
+        },
+        "failure": {
+          "outcome": "failure",
+          "reason": "defense_collapsed",
+          "tick": 1732,
+          "phase": 1,
+          "score": 246,
+          "progress": 3,
+          "best_combo": 1,
+          "lives": 0,
+          "barrier": 0
+        }
+      },
+      "keyboard": {
+        "success": {
+          "outcome": "success",
+          "reason": "defense_complete",
+          "tick": 2401,
+          "phase": 3,
+          "score": 5204,
+          "progress": 27,
+          "best_combo": 11,
+          "lives": 1,
+          "barrier": 0
+        },
+        "failure": {
+          "outcome": "failure",
+          "reason": "defense_collapsed",
+          "tick": 1732,
+          "phase": 1,
+          "score": 246,
+          "progress": 3,
+          "best_combo": 1,
+          "lives": 0,
+          "barrier": 0
+        }
+      }
+    },
+    "19": {
+      "pointer": {
+        "success": {
+          "outcome": "success",
+          "reason": "defense_complete",
+          "tick": 2401,
+          "phase": 3,
+          "score": 16312,
+          "progress": 48,
+          "best_combo": 23,
+          "lives": 3,
+          "barrier": 0
+        },
+        "failure": {
+          "outcome": "failure",
+          "reason": "defense_collapsed",
+          "tick": 1733,
+          "phase": 1,
+          "score": 586,
+          "progress": 7,
+          "best_combo": 2,
+          "lives": 0,
+          "barrier": 0
+        }
+      },
+      "keyboard": {
+        "success": {
+          "outcome": "success",
+          "reason": "defense_complete",
+          "tick": 2401,
+          "phase": 3,
+          "score": 15032,
+          "progress": 48,
+          "best_combo": 21,
+          "lives": 2,
+          "barrier": 0
+        },
+        "failure": {
+          "outcome": "failure",
+          "reason": "defense_collapsed",
+          "tick": 1733,
+          "phase": 1,
+          "score": 422,
+          "progress": 5,
+          "best_combo": 2,
+          "lives": 0,
+          "barrier": 0
+        }
+      }
+    },
+    "42": {
+      "pointer": {
+        "success": {
+          "outcome": "success",
+          "reason": "defense_complete",
+          "tick": 2401,
+          "phase": 3,
+          "score": 11118,
+          "progress": 35,
+          "best_combo": 17,
+          "lives": 4,
+          "barrier": 1
+        },
+        "failure": {
+          "outcome": "failure",
+          "reason": "defense_collapsed",
+          "tick": 1248,
+          "phase": 1,
+          "score": 246,
+          "progress": 3,
+          "best_combo": 1,
+          "lives": 0,
+          "barrier": 0
+        }
+      },
+      "keyboard": {
+        "success": {
+          "outcome": "success",
+          "reason": "defense_complete",
+          "tick": 2401,
+          "phase": 3,
+          "score": 11118,
+          "progress": 35,
+          "best_combo": 17,
+          "lives": 4,
+          "barrier": 1
+        },
+        "failure": {
+          "outcome": "failure",
+          "reason": "defense_collapsed",
+          "tick": 1248,
+          "phase": 1,
+          "score": 246,
+          "progress": 3,
+          "best_combo": 1,
+          "lives": 0,
+          "barrier": 0
+        }
+      }
+    },
+    "77": {
+      "pointer": {
+        "success": {
+          "outcome": "success",
+          "reason": "defense_complete",
+          "tick": 2401,
+          "phase": 3,
+          "score": 20360,
+          "progress": 48,
+          "best_combo": 33,
+          "lives": 3,
+          "barrier": 0
+        },
+        "failure": {
+          "outcome": "failure",
+          "reason": "defense_collapsed",
+          "tick": 2068,
+          "phase": 1,
+          "score": 586,
+          "progress": 7,
+          "best_combo": 2,
+          "lives": 0,
+          "barrier": 0
+        }
+      },
+      "keyboard": {
+        "success": {
+          "outcome": "success",
+          "reason": "defense_complete",
+          "tick": 2401,
+          "phase": 3,
+          "score": 18200,
+          "progress": 48,
+          "best_combo": 30,
+          "lives": 2,
+          "barrier": 0
+        },
+        "failure": {
+          "outcome": "failure",
+          "reason": "defense_collapsed",
+          "tick": 2068,
+          "phase": 1,
+          "score": 668,
+          "progress": 8,
+          "best_combo": 2,
+          "lives": 0,
+          "barrier": 0
+        }
+      }
+    },
+    "998": {
+      "pointer": {
+        "success": {
+          "outcome": "success",
+          "reason": "defense_complete",
+          "tick": 2401,
+          "phase": 3,
+          "score": 37104,
+          "progress": 52,
+          "best_combo": 50,
+          "lives": 4,
+          "barrier": 1
+        },
+        "failure": {
+          "outcome": "failure",
+          "reason": "defense_collapsed",
+          "tick": 1873,
+          "phase": 1,
+          "score": 410,
+          "progress": 5,
+          "best_combo": 1,
+          "lives": 0,
+          "barrier": 0
+        }
+      },
+      "keyboard": {
+        "success": {
+          "outcome": "success",
+          "reason": "defense_complete",
+          "tick": 2401,
+          "phase": 3,
+          "score": 37104,
+          "progress": 52,
+          "best_combo": 50,
+          "lives": 4,
+          "barrier": 1
+        },
+        "failure": {
+          "outcome": "failure",
+          "reason": "defense_collapsed",
+          "tick": 1873,
+          "phase": 1,
+          "score": 410,
+          "progress": 5,
+          "best_combo": 1,
+          "lives": 0,
+          "barrier": 0
+        }
+      }
+    },
+    "74021": {
+      "pointer": {
+        "success": {
+          "outcome": "success",
+          "reason": "defense_complete",
+          "tick": 2401,
+          "phase": 3,
+          "score": 25302,
+          "progress": 50,
+          "best_combo": 37,
+          "lives": 4,
+          "barrier": 1
+        },
+        "failure": {
+          "outcome": "failure",
+          "reason": "defense_collapsed",
+          "tick": 1483,
+          "phase": 1,
+          "score": 328,
+          "progress": 4,
+          "best_combo": 1,
+          "lives": 0,
+          "barrier": 0
+        }
+      },
+      "keyboard": {
+        "success": {
+          "outcome": "success",
+          "reason": "defense_complete",
+          "tick": 2401,
+          "phase": 3,
+          "score": 22854,
+          "progress": 50,
+          "best_combo": 34,
+          "lives": 4,
+          "barrier": 0
+        },
+        "failure": {
+          "outcome": "failure",
+          "reason": "defense_collapsed",
+          "tick": 1483,
+          "phase": 1,
+          "score": 410,
+          "progress": 5,
+          "best_combo": 1,
+          "lives": 0,
+          "barrier": 0
+        }
+      }
+    }
+  },
+  "golden_traces": {
+    "7": {
+      "success": {
+        "outcome": "success",
+        "reason": "defense_complete",
+        "tick": 2401,
+        "phase": 3,
+        "score": 9786,
+        "progress": 35,
+        "best_combo": 17,
+        "lives": 3,
+        "barrier": 0
+      },
+      "failure": {
+        "outcome": "failure",
+        "reason": "defense_collapsed",
+        "tick": 1732,
+        "phase": 1,
+        "score": 246,
+        "progress": 3,
+        "best_combo": 1,
+        "lives": 0,
+        "barrier": 0
+      }
+    },
+    "19": {
+      "success": {
+        "outcome": "success",
+        "reason": "defense_complete",
+        "tick": 2401,
+        "phase": 3,
+        "score": 16312,
+        "progress": 48,
+        "best_combo": 23,
+        "lives": 3,
+        "barrier": 0
+      },
+      "failure": {
+        "outcome": "failure",
+        "reason": "defense_collapsed",
+        "tick": 1733,
+        "phase": 1,
+        "score": 586,
+        "progress": 7,
+        "best_combo": 2,
+        "lives": 0,
+        "barrier": 0
+      }
+    },
+    "42": {
+      "success": {
+        "outcome": "success",
+        "reason": "defense_complete",
+        "tick": 2401,
+        "phase": 3,
+        "score": 11118,
+        "progress": 35,
+        "best_combo": 17,
+        "lives": 4,
+        "barrier": 1
+      },
+      "failure": {
+        "outcome": "failure",
+        "reason": "defense_collapsed",
+        "tick": 1248,
+        "phase": 1,
+        "score": 246,
+        "progress": 3,
+        "best_combo": 1,
+        "lives": 0,
+        "barrier": 0
+      }
+    },
+    "77": {
+      "success": {
+        "outcome": "success",
+        "reason": "defense_complete",
+        "tick": 2401,
+        "phase": 3,
+        "score": 20360,
+        "progress": 48,
+        "best_combo": 33,
+        "lives": 3,
+        "barrier": 0
+      },
+      "failure": {
+        "outcome": "failure",
+        "reason": "defense_collapsed",
+        "tick": 2068,
+        "phase": 1,
+        "score": 492,
+        "progress": 6,
+        "best_combo": 1,
+        "lives": 0,
+        "barrier": 0
+      }
+    },
+    "998": {
+      "success": {
+        "outcome": "success",
+        "reason": "defense_complete",
+        "tick": 2401,
+        "phase": 3,
+        "score": 37104,
+        "progress": 52,
+        "best_combo": 50,
+        "lives": 4,
+        "barrier": 1
+      },
+      "failure": {
+        "outcome": "failure",
+        "reason": "defense_collapsed",
+        "tick": 1873,
+        "phase": 1,
+        "score": 410,
+        "progress": 5,
+        "best_combo": 1,
+        "lives": 0,
+        "barrier": 0
+      }
+    },
+    "74021": {
+      "success": {
+        "outcome": "success",
+        "reason": "defense_complete",
+        "tick": 2401,
+        "phase": 3,
+        "score": 25302,
+        "progress": 50,
+        "best_combo": 37,
+        "lives": 4,
+        "barrier": 1
+      },
+      "failure": {
+        "outcome": "failure",
+        "reason": "defense_collapsed",
+        "tick": 1483,
+        "phase": 1,
+        "score": 328,
+        "progress": 4,
+        "best_combo": 1,
+        "lives": 0,
+        "barrier": 0
+      }
+    }
+  },
+  "max_entities": 9,
+  "input_parity": "continuous-pointer-and-keyboard-nudge",
+  "production_authorized": false
+}
