@@ -1,0 +1,87 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261005-338",
+  "title": "Halo Guard Cloud Caravan",
+  "slug": "halo-guard-cloud-caravan",
+  "family_id": "radial-guarding",
+  "design_id": "radial-guarding-market-01",
+  "lane": "market-benchmark",
+  "runner": "foundry/radial-runner.cjs",
+  "theme": {
+    "singular": "Wisp",
+    "plural": "Wisps",
+    "arena": "Skyway",
+    "progress": "RESCUED",
+    "success": "SKYWAY SECURED",
+    "failure": "CORE OVERRUN"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "market-benchmark",
+    "family_id": "radial-guarding",
+    "design_id": "radial-guarding-market-01",
+    "runner": "foundry/radial-runner.cjs",
+    "learning_focus": [
+      "input-parity",
+      "lifecycle-integrity",
+      "action-feedback",
+      "difficulty-progression"
+    ],
+    "golden_baseline_id": "halo-guard-v9",
+    "benchmark_id": "google-play-cute-3d-arcade-en-20261005",
+    "benchmark_url": "https://play.google.com/store/apps/details?id=com.supercell.clashroyale"
+  },
+  "learning_focus": [
+    "input-parity",
+    "lifecycle-integrity",
+    "action-feedback",
+    "difficulty-progression"
+  ],
+  "benchmark": {
+    "id": "google-play-cute-3d-arcade-en-20261005",
+    "publisher": "Google Play",
+    "url": "https://play.google.com/store/apps/details?id=com.supercell.clashroyale",
+    "surface": "Official Google Play product evidence reviewed alongside Squad Busters and Fluffy Fall for abstract compact-character readability, immediate short-session action and coherent stylized worlds.",
+    "transferable_principles": [
+      "use compact stylized character silhouettes whose friendly and hostile roles read at mobile size",
+      "make the first one-thumb action immediately affect the main playfield",
+      "keep short sessions replayable through visible score, combo and survival payoff",
+      "use one coherent toy-like world whose background supports rather than competes with play"
+    ]
+  },
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Preserve the exact owner-approved Halo Guard mechanic while changing only one reviewed world-kit axis into a sparse original cloud caravan that improves compact character readability without adding gameplay geometry.",
+  "golden_baseline_id": "halo-guard-v9",
+  "variation": {
+    "id": "cloud-caravan-world-kit-01",
+    "axis": "world-kit",
+    "changed_components": [
+      "cloud-caravan-world-kit-v1"
+    ]
+  },
+  "seeds": [
+    7,
+    19,
+    42,
+    77,
+    998,
+    74021
+  ]
+}
