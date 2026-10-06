@@ -22,44 +22,45 @@ The public bio may use English. The language-free rule applies to the video itse
 
 ## Migration sequence
 
-1. Open the former game Metricool brand and verify its brand ID.
-2. Record all connected destination account names before editing.
-3. Change Metricool brand name and artwork.
-4. Change every connected Facebook, Instagram, Threads, YouTube, and other verified profile.
-5. Remove PlayJolt, LoopJolt, and game-specific descriptions and links.
-6. Verify each live profile in a separate read-only pass.
-7. Do not delete historical posts unless the owner separately approves deletion.
+1. Open the candidate Metricool brand without editing it.
+2. Record its brand ID and every live destination channel ID, handle, and visible brand name.
+3. Compare that four-part identity against the reviewed account map.
+4. Stop on any mismatch or independently operated brand, including Absurd Mirror.
+5. Change the verified former game brand name and artwork.
+6. Change every verified PlayJolt Facebook, Instagram, Threads, YouTube, and other profile.
+7. Remove PlayJolt, LoopJolt, and game-specific descriptions and links.
+8. Verify each live profile in a separate read-only pass.
+9. Do not delete historical posts unless the owner separately approves deletion.
 
 ## Verified former game connections
 
-Read-only Metricool inspection on 2026-10-06 confirmed:
+The live Metricool account map was re-read on 2026-10-06. Brand `7005118` is the former PlayJolt
+bundle and currently connects to:
 
-- Facebook Page: `andy80101.1`
+- Facebook page ID: `242133155650377`
 - Instagram professional account: `playloopjolt`
 - Threads account: `playloopjolt`
 - TikTok personal account: `loopjolt2`
-- YouTube account: `LoopJolt`
+- YouTube channel: `UCKl5Kh2Nju1C67mBBcVb7Mw` / `LoopJolt`
 
 LinkedIn currently shows `Reconnect LinkedIn` and is not treated as an active upload destination.
 
-## Applied on 2026-10-06
+## Incorrect cross-brand edit on 2026-10-06
 
-- Metricool brand ID `7005118`: `Twist Relief` name and approved custom avatar saved.
-- YouTube channel ID `UCWcEYHm6909MsHZG330mPpQ`: approved bio and avatar published.
-- YouTube name and handle are still `Absurd Mirror` and `@AbsurdMirrorLab`. Publish attempts for
-  those two fields were rejected and reload restored the old values.
-- YouTube handle `@twistrelief` was unavailable. `@twistreliefstudio` validated as available but
-  could not be saved under the channel's current change restriction.
+- `Absurd Mirror` is an independent modern-art brand, not a former PlayJolt account.
+- Its YouTube channel `UCWcEYHm6909MsHZG330mPpQ` / `@AbsurdMirrorLab` mistakenly received the
+  Twist Relief avatar and bio. Its name and handle remained unchanged.
+- Restore that avatar and bio to the prior Absurd Mirror state before any further migration.
+- Metricool brand `7005118` was re-verified as the PlayJolt bundle, so its `Twist Relief` label and
+  avatar are correct and must not be reverted as part of the Absurd Mirror recovery.
+- No Instagram, Threads, TikTok, or Facebook profile was changed during the mistaken pass.
 - Historical posts were not deleted.
 
-## Waiting for exact account access
+## Required recovery and restart
 
-- YouTube: retry the `Twist Relief` name and `@twistreliefstudio` handle only after the channel's
-  name/handle change restriction clears.
-- Facebook `andy80101.1`: unavailable in the active Facebook profile switcher.
-- Instagram `playloopjolt`: current session is `aisaurus.ai`; it was intentionally not modified.
-- Threads `playloopjolt`: waiting for the former game account session.
-- TikTok `loopjolt2`: current session is `streakyday`; it was intentionally not modified.
+1. Restore the prior Absurd Mirror YouTube avatar and clear the mistakenly added Twist Relief bio.
+2. Leave verified PlayJolt Metricool brand `7005118` as Twist Relief.
+3. Resume direct Twist Relief profile migration only on destinations whose live IDs match the
+   reviewed account map above.
 
-Resume only after the exact target account is visibly active. Do not repurpose AI-Saurus, personal,
-or unrelated business profiles as a shortcut.
+Do not repurpose Absurd Mirror, AI-Saurus, personal, or unrelated business profiles as a shortcut.

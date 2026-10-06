@@ -66,23 +66,32 @@ Approved brand package for migration preparation:
 - Bio: `Everyday frustration. Unexpected relief. Stories anyone can feel.`
 - Avatar: `assets/twist-relief-avatar-v1.png`
 
-The owner explicitly approved saving the public brand package on 2026-10-06.
+The owner approved this package for the verified former PlayJolt accounts only. It does not approve
+changes to any similarly themed or currently logged-in account.
 
-Applied:
+## Brand-isolation correction
 
-- Metricool brand `7005118`: renamed to `Twist Relief` with the approved custom avatar.
-- YouTube channel `UCWcEYHm6909MsHZG330mPpQ`: approved bio and avatar saved. The public name
-  and handle remain `Absurd Mirror` and `@AbsurdMirrorLab`; YouTube rejected those two changes
-  after publish and reload. `@twistrelief` was unavailable, while `@twistreliefstudio` validated
-  as available but could not be saved under the channel's current change restriction.
+`Absurd Mirror` is a separate existing modern-art brand. Its channel
+`UCWcEYHm6909MsHZG330mPpQ` / `@AbsurdMirrorLab` is not a PlayJolt or Twist Relief destination.
+Recent instructions about unpredictable content in another Codex chat did not change that
+ownership boundary.
 
-Pending verified-account access:
+On 2026-10-06 the Twist Relief avatar and bio were mistakenly saved to that Absurd Mirror YouTube
+channel. Its name and handle were not changed. The incorrect avatar and bio must be restored before
+any further migration work.
 
-- Instagram `playloopjolt`: the active browser session is `aisaurus.ai`, so no edit was made.
-- Threads `playloopjolt`: requires the former game account session before editing.
-- TikTok `loopjolt2`: the active browser session is `streakyday`, so no edit was made.
-- Facebook Page `andy80101.1`: the target page is not available in the current Facebook profile
-  switcher, so no edit was made.
+The live Metricool account map was re-read on 2026-10-06. Brand `7005118` is the former PlayJolt
+bundle, not Absurd Mirror: its connected destinations are Instagram/Threads `playloopjolt`, TikTok
+`loopjolt2`, YouTube `UCKl5Kh2Nju1C67mBBcVb7Mw`, and Facebook page ID `242133155650377`. Its
+Metricool label and avatar change to Twist Relief is therefore valid and should not be reverted.
+
+Verified former PlayJolt destinations:
+
+- Instagram `playloopjolt`
+- Threads `playloopjolt`
+- TikTok `loopjolt2`
+- YouTube `UCKl5Kh2Nju1C67mBBcVb7Mw`
+- Facebook page ID `242133155650377`
 
 Existing historical posts remain untouched by owner direction.
 
@@ -92,6 +101,7 @@ Existing historical posts remain untouched by owner direction.
 - Core PlayJolt autonomous generation, provider, marketing, RC, and Production workflows: disabled.
 - Repository replacement: in progress; former code remains preserved until destructive removal is
   separately and explicitly approved.
-- External channel rebrand: Metricool complete; YouTube avatar and bio complete but name and handle
-  pending; Facebook, Instagram, Threads, and TikTok are waiting for exact former-account sessions.
+- External channel rebrand: Metricool brand `7005118` is correctly migrated. Direct destination
+  profile edits remain pending, and the mistaken Absurd Mirror YouTube avatar and bio must first be
+  restored.
 - No public video posting is authorized by this migration alone.
