@@ -33,6 +33,23 @@ Owner feedback during approval becomes durable improvement material for the engi
 10. Record retention, replay, sharing, saves, comments, and channel-specific performance.
 11. Feed measured winners and owner feedback into the next story specification.
 
+## Operating cadence
+
+- `Twist Relief Daily Story Intake` runs every day at 09:00 Asia/Seoul in the owner chat. It asks
+  for the day's relatable situation or emotional story and waits for the owner to answer before any
+  generation work begins.
+- Intake uses at most three questions. If the first answer already supplies enough story detail,
+  the system skips the remaining questions and proceeds directly to specification and generation.
+- The daily ceiling is one exact final video. The rendered pixels and proposed post metadata return
+  to the owner for approval before any upload, schedule, or publication.
+- After exact-render approval, publishing uses only verified destinations connected to Metricool
+  brand `7005118`, with channel-specific AI disclosure and visibility checks and no blind retry after
+  an uncertain submission.
+- `Twist Relief Weekly Performance` runs every Monday at 19:00 Asia/Seoul. It reads the verified
+  Metricool channels, compares the last 7 days with the preceding period, and turns measured
+  retention, completion, replay, engagement, follower, and click evidence into three next-week
+  content experiments. The weekly run is read-only and cannot publish or edit profiles.
+
 ## Content thesis
 
 The repeatable unit is not a topic. It is an emotional shape:

@@ -3,8 +3,11 @@
 ## Before generation
 
 - The owner provides an idea or reference.
+- Daily intake starts with the owner's story and asks no more than three questions total. If the
+  first answer is sufficient, do not ask questions merely to fill a quota.
 - The story spec passes `FORMAT_CONTRACT.json` and originality/safety review.
 - Any paid generation stays within the documented retry budget.
+- Produce at most one exact final video per calendar day in Asia/Seoul.
 
 ## Before owner review
 
@@ -34,3 +37,7 @@ Inspect the exact render for:
 Record the platform and post ID, exact render hash, publish time, retention, completion, rewatches,
 shares, saves, comments, profile actions, owner notes, and reusable format lessons.
 
+Every Monday at 19:00 Asia/Seoul, compare the latest seven days with the preceding seven days and,
+where available, the 28-day baseline. Keep reporting read-only. Separate unavailable metrics from
+zero values, isolate Twist Relief brand `7005118` from all other brands, and use measured results to
+recommend three bounded content experiments for the next week.
