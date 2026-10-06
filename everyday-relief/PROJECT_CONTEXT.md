@@ -63,8 +63,9 @@ The owner approved the global channel name `Twist Relief` on 2026-10-06.
 Approved brand package for migration preparation:
 
 - Name: `Twist Relief`
-- Bio: `Everyday frustration. Unexpected relief. Stories anyone can feel.`
+- Bio: `Everyday frustration. Unexpected relief. Wordless visual stories with satisfying twists.`
 - Avatar: `assets/twist-relief-avatar-v1.png`
+- Cover: `assets/twist-relief-cover-v1.png`
 
 The owner approved this package for the verified former PlayJolt accounts only. It does not approve
 changes to any similarly themed or currently logged-in account.
@@ -102,7 +103,13 @@ Existing historical posts remain untouched by owner direction.
 - Core PlayJolt autonomous generation, provider, marketing, RC, and Production workflows: disabled.
 - Repository replacement: in progress; former code remains preserved until destructive removal is
   separately and explicitly approved.
-- External channel rebrand: Metricool brand `7005118` is correctly migrated. Direct destination
-  profile edits remain pending, and the mistaken Absurd Mirror YouTube avatar must first be
-  restored from the prior asset or an owner-approved exact replacement.
+- External channel rebrand: Metricool brand `7005118` is correctly migrated. The verified Facebook
+  destination now has the approved avatar, cover, English bio, and `Digital creator` category. Its
+  public name remains `Loopjolt` until the owner completes Facebook's password-protected name-change
+  submission for `Twist Relief`; a username could not yet be saved. Instagram/Threads
+  `playloopjolt`, TikTok `loopjolt2`, and YouTube `UCKl5Kh2Nju1C67mBBcVb7Mw` remain unchanged until
+  the browser is authenticated as those exact accounts. AI-Saurus, Absurd Mirror, and unrelated
+  profiles must never be edited as substitutes.
+- The mistaken Absurd Mirror YouTube avatar still requires the prior asset or an owner-approved exact
+  replacement. This recovery is independent of the verified Twist Relief migration.
 - No public video posting is authorized by this migration alone.
