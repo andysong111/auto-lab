@@ -50,7 +50,10 @@ LinkedIn currently shows `Reconnect LinkedIn` and is not treated as an active up
 - `Absurd Mirror` is an independent modern-art brand, not a former PlayJolt account.
 - Its YouTube channel `UCWcEYHm6909MsHZG330mPpQ` / `@AbsurdMirrorLab` mistakenly received the
   Twist Relief avatar and bio. Its name and handle remained unchanged.
-- Restore that avatar and bio to the prior Absurd Mirror state before any further migration.
+- The incorrect bio was cleared and published on 2026-10-06.
+- Restore the avatar to the prior Absurd Mirror state before any further direct profile migration.
+  The original asset was not found in the repository, recent temporary images, or the user's common
+  image folders; do not substitute an unapproved approximation.
 - Metricool brand `7005118` was re-verified as the PlayJolt bundle, so its `Twist Relief` label and
   avatar are correct and must not be reverted as part of the Absurd Mirror recovery.
 - No Instagram, Threads, TikTok, or Facebook profile was changed during the mistaken pass.
@@ -58,7 +61,8 @@ LinkedIn currently shows `Reconnect LinkedIn` and is not treated as an active up
 
 ## Required recovery and restart
 
-1. Restore the prior Absurd Mirror YouTube avatar and clear the mistakenly added Twist Relief bio.
+1. Restore the prior Absurd Mirror YouTube avatar from the original file or an owner-approved exact
+   replacement. The mistakenly added Twist Relief bio is already cleared.
 2. Leave verified PlayJolt Metricool brand `7005118` as Twist Relief.
 3. Resume direct Twist Relief profile migration only on destinations whose live IDs match the
    reviewed account map above.
