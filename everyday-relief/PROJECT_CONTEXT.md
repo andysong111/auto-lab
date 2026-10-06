@@ -77,8 +77,9 @@ Recent instructions about unpredictable content in another Codex chat did not ch
 ownership boundary.
 
 On 2026-10-06 the Twist Relief avatar and bio were mistakenly saved to that Absurd Mirror YouTube
-channel. Its name and handle were not changed. The incorrect avatar and bio must be restored before
-any further migration work.
+channel. Its name and handle were not changed. The incorrect bio was cleared and published the same
+day. The prior avatar source file has not yet been recovered, so the incorrect avatar remains the
+only outstanding cross-brand repair and must not be replaced with an unapproved approximation.
 
 The live Metricool account map was re-read on 2026-10-06. Brand `7005118` is the former PlayJolt
 bundle, not Absurd Mirror: its connected destinations are Instagram/Threads `playloopjolt`, TikTok
@@ -102,6 +103,6 @@ Existing historical posts remain untouched by owner direction.
 - Repository replacement: in progress; former code remains preserved until destructive removal is
   separately and explicitly approved.
 - External channel rebrand: Metricool brand `7005118` is correctly migrated. Direct destination
-  profile edits remain pending, and the mistaken Absurd Mirror YouTube avatar and bio must first be
-  restored.
+  profile edits remain pending, and the mistaken Absurd Mirror YouTube avatar must first be
+  restored from the prior asset or an owner-approved exact replacement.
 - No public video posting is authorized by this migration alone.
