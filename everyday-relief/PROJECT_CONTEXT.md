@@ -71,8 +71,10 @@ The owner explicitly approved saving the public brand package on 2026-10-06.
 Applied:
 
 - Metricool brand `7005118`: renamed to `Twist Relief` with the approved custom avatar.
-- YouTube channel `UCWcEYHm6909MsHZG330mPpQ`: renamed to `Twist Relief`, bio and avatar
-  applied, and handle set to `@twistreliefstudio` because `@twistrelief` was unavailable.
+- YouTube channel `UCWcEYHm6909MsHZG330mPpQ`: approved bio and avatar saved. The public name
+  and handle remain `Absurd Mirror` and `@AbsurdMirrorLab`; YouTube rejected those two changes
+  after publish and reload. `@twistrelief` was unavailable, while `@twistreliefstudio` validated
+  as available but could not be saved under the channel's current change restriction.
 
 Pending verified-account access:
 
@@ -90,6 +92,6 @@ Existing historical posts remain untouched by owner direction.
 - Core PlayJolt autonomous generation, provider, marketing, RC, and Production workflows: disabled.
 - Repository replacement: in progress; former code remains preserved until destructive removal is
   separately and explicitly approved.
-- External channel rebrand: Metricool and YouTube complete; Facebook, Instagram, Threads, and
-  TikTok are waiting for the exact former-account sessions.
+- External channel rebrand: Metricool complete; YouTube avatar and bio complete but name and handle
+  pending; Facebook, Instagram, Threads, and TikTok are waiting for exact former-account sessions.
 - No public video posting is authorized by this migration alone.

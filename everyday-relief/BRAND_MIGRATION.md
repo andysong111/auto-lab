@@ -45,13 +45,17 @@ LinkedIn currently shows `Reconnect LinkedIn` and is not treated as an active up
 ## Applied on 2026-10-06
 
 - Metricool brand ID `7005118`: `Twist Relief` name and approved custom avatar saved.
-- YouTube channel ID `UCWcEYHm6909MsHZG330mPpQ`: `Twist Relief` name, approved bio, and
-  approved avatar published.
-- YouTube handle: `@twistrelief` was unavailable; `@twistreliefstudio` was available and saved.
+- YouTube channel ID `UCWcEYHm6909MsHZG330mPpQ`: approved bio and avatar published.
+- YouTube name and handle are still `Absurd Mirror` and `@AbsurdMirrorLab`. Publish attempts for
+  those two fields were rejected and reload restored the old values.
+- YouTube handle `@twistrelief` was unavailable. `@twistreliefstudio` validated as available but
+  could not be saved under the channel's current change restriction.
 - Historical posts were not deleted.
 
 ## Waiting for exact account access
 
+- YouTube: retry the `Twist Relief` name and `@twistreliefstudio` handle only after the channel's
+  name/handle change restriction clears.
 - Facebook `andy80101.1`: unavailable in the active Facebook profile switcher.
 - Instagram `playloopjolt`: current session is `aisaurus.ai`; it was intentionally not modified.
 - Threads `playloopjolt`: waiting for the former game account session.
