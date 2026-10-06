@@ -105,8 +105,9 @@ Existing historical posts remain untouched by owner direction.
   separately and explicitly approved.
 - External channel rebrand: Metricool brand `7005118` is correctly migrated. The verified Facebook
   destination now has the approved avatar, cover, English bio, and `Digital creator` category. Its
-  public name remains `Loopjolt` until the owner completes Facebook's password-protected name-change
-  submission for `Twist Relief`; a username could not yet be saved. Instagram/Threads
+  page name is now `Twist Relief`; Facebook's settings confirmed that as the current page name after
+  the owner completed the password-protected submission. A username could not yet be saved.
+  Instagram/Threads
   `playloopjolt`, TikTok `loopjolt2`, and YouTube `UCKl5Kh2Nju1C67mBBcVb7Mw` remain unchanged until
   the browser is authenticated as those exact accounts. AI-Saurus, Absurd Mirror, and unrelated
   profiles must never be edited as substitutes.

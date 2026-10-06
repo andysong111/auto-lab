@@ -80,9 +80,9 @@ Do not repurpose Absurd Mirror, AI-Saurus, personal, or unrelated business profi
 - Saved publicly: approved avatar, approved cover, exact approved English bio, and `Digital creator`
   category.
 - No old PlayJolt/LoopJolt website link was present in the profile link section.
-- Name change from `Loopjolt` to `Twist Relief` is prepared but not submitted because Facebook
-  requires the owner's password at the final step. The owner must enter it directly; credentials are
-  never requested or handled by automation.
+- Name change from `Loopjolt` to `Twist Relief` is complete. After the owner handled Facebook's
+  password-protected step directly, Facebook settings reported `Twist Relief` as the current page
+  name. Credentials were never requested or handled by automation.
 - Username remains unset. `twistrelief` and `twistreliefstudio` did not produce an enabled save
   action, consistent with a current eligibility or availability restriction.
 
