@@ -1,0 +1,35 @@
+{
+  "id": "ER-EXAMPLE-001",
+  "title": "The Patient Cart",
+  "emotion": "frustration turning into relief",
+  "setting": "a generic grocery checkout with no signs or labels",
+  "owner_input": "Someone repeatedly cuts in line and the situation resolves unexpectedly.",
+  "aspect_ratio": "9:16",
+  "duration_seconds": 12,
+  "characters": ["patient shopper", "pushy shopper", "silent cashier"],
+  "beats": [
+    {"name": "recognition", "visual": "A patient shopper waits with one item while a pushy shopper slides a full cart ahead."},
+    {"name": "pressure", "visual": "The pushy shopper keeps adding loose items while the waiting shopper visibly deflates."},
+    {"name": "expectation", "visual": "The cashier reaches for the first item as the pushy shopper smirks."},
+    {"name": "surprising_reversal", "visual": "The overloaded cart gently rolls backward into a self-return lane while the patient shopper's single item glides forward."},
+    {"name": "visible_relief", "visual": "The patient shopper and cashier exchange a relieved look while the pushy shopper calmly retrieves the cart."},
+    {"name": "loopable_finish", "visual": "The empty space in front matches the opening composition as another tiny item enters frame."}
+  ],
+  "language": {
+    "speech": false,
+    "narration": false,
+    "subtitles": false,
+    "readable_text": false,
+    "logos": false,
+    "watermarks": false,
+    "works_muted": true
+  },
+  "safety": {
+    "safe_catharsis": true,
+    "notes": "No collision, injury, public humiliation, or identifiable store."
+  },
+  "originality": {
+    "distinctive_expression_copied": false,
+    "notes": "Generic situation and original visual resolution."
+  }
+}

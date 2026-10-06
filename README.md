@@ -1,18 +1,26 @@
-﻿# auto-lab
+# Everyday Relief Studio
 
-AI 자동개발실험실
-- base_repo: 기준 코드
-- sandbox_runs: 실험 후보 작업공간
-- eval_inputs: 테스트 입력
-- eval_outputs: 테스트 출력
-- reports: 평가 리포트
-- approved_candidates: 채택 후보
-- prompts: 에이전트 지시문
-- scripts: 실행 스크립트
-- logs: 로그
-- snapshots: 상태 스냅샷
+`일상시원공감프로젝트` is a global, language-free short-video studio.
 
+It turns familiar everyday anger, sadness, inconvenience, and awkwardness into short visual stories
+with an unpredictable but satisfying resolution.
 
-## PlayJolt Codex continuation
+## Core promise
 
-For ongoing PlayJolt Autonomous Publishing OS development, Codex should read `AGENTS.md` and `vibe-arcade/PLAYJOLT_PROJECT_CONTEXT.md` before substantial work.
+- universally recognizable setup
+- no spoken or written language in the video
+- a clear emotional problem in the first two seconds
+- a safe, unexpected release
+- owner approval before public posting
+- one learning record for every result
+
+Start with [the project context](everyday-relief/PROJECT_CONTEXT.md) and
+[the format contract](everyday-relief/FORMAT_CONTRACT.json).
+
+## Local validation
+
+```powershell
+cd everyday-relief
+npm test
+npm run validate:example
+```

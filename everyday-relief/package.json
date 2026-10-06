@@ -1,0 +1,11 @@
+{
+  "name": "everyday-relief-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Language-free global cathartic short-video contracts",
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "validate:example": "node src/validate-story.cjs examples/queue-cutting.json"
+  }
+}
+
