@@ -85,30 +85,39 @@ Do not repurpose Absurd Mirror, AI-Saurus, personal, or unrelated business profi
   name. Credentials were never requested or handled by automation.
 - Username remains unset. `twistrelief` and `twistreliefstudio` did not produce an enabled save
   action, consistent with a current eligibility or availability restriction.
+- Added and publicly verified profile links for:
+  - YouTube `https://www.youtube.com/channel/UCKl5Kh2Nju1C67mBBcVb7Mw`
+  - Instagram `https://www.instagram.com/twistrelief/`
+  - Threads `https://www.threads.com/@twistrelief`
 
 ### Instagram
 
 - Verified destination: Instagram professional account `playloopjolt` in Metricool brand `7005118`.
 - Saved and verified publicly: approved avatar, exact approved English bio, and `Digital creator`
   category.
-- Instagram Accounts Center accepted `Twist Relief` as the display name and `twistrelief` as the
-  username. The settings pages show those values, but the public profile still showed `Loopjolt` /
-  `playloopjolt` and `instagram.com/twistrelief/` was unavailable at the last verification. Recheck
-  propagation before marking either field complete.
+- Instagram Accounts Center saved `twistrelief` as the username, and the public
+  `instagram.com/twistrelief/` profile was verified. The display name remains `Loopjolt`: Meta
+  rejected another display-name save because both allowed name changes had already been used within
+  the current 14-day window.
 - The legacy `vibe-arcade-dun.vercel.app` profile link remains. Instagram web explicitly restricts
   link editing to the mobile app, so the owner must remove it there.
 - Historical posts were left intact.
 
+### Threads
+
+- Verified destination is now public at `https://www.threads.com/@twistrelief`.
+- Saved and publicly verified: `Twist Relief` display name, `twistrelief` username, approved avatar,
+  exact approved English bio, and the YouTube channel link.
+- Historical game posts were left intact.
+
 ### Login-gated destinations
 
-- Threads `playloopjolt`: publicly unchanged. The active Threads browser account is AI-Saurus, not
-  the verified target, and the Instagram username change has not synchronized publicly.
 - TikTok `loopjolt2`: unchanged; the active browser account was AI-Saurus, not the verified target.
 - YouTube `UCKl5Kh2Nju1C67mBBcVb7Mw`: unchanged; the active Google account had no management access to
   the target channel.
 
-The next direct-migration pass must first recheck Instagram name/username propagation and remove its
-legacy website link in the Instagram mobile app. Threads, TikTok, and YouTube work starts only after
-the owner signs into each exact target account. Every pass must re-verify the handle/channel ID
-before saving the approved name, bio, avatar, cover where supported, and removal of old
+The next direct-migration pass must remove Instagram's legacy website link in the mobile app and
+retry its display name only after Meta's 14-day window reopens. TikTok and YouTube work starts only
+after the owner signs into each exact target account. Every pass must re-verify the handle/channel
+ID before saving the approved name, bio, avatar, cover where supported, and removal of old
 PlayJolt/LoopJolt links. No historical posts are deleted.
