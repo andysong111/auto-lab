@@ -1,0 +1,47 @@
+{
+  "schema": "everyday-relief-format/1",
+  "project_name": "일상시원공감프로젝트",
+  "channel_name": "Twist Relief",
+  "audience": "global",
+  "frame": {
+    "aspect_ratio": "9:16",
+    "min_duration_seconds": 8,
+    "max_duration_seconds": 18,
+    "problem_visible_by_seconds": 2,
+    "max_primary_characters": 3
+  },
+  "language": {
+    "speech": false,
+    "narration": false,
+    "subtitles": false,
+    "readable_text_in_frame": false,
+    "logos_or_watermarks": false,
+    "allowed_audio": ["music", "sound_effects", "wordless_vocal_reactions"],
+    "must_work_muted": true
+  },
+  "story": {
+    "required_beats": ["recognition", "pressure", "expectation", "surprising_reversal", "visible_relief", "loopable_finish"],
+    "single_emotional_arc": true,
+    "safe_catharsis": true,
+    "copy_distinctive_expression": false
+  },
+  "safety": {
+    "realistic_injury": false,
+    "dangerous_imitation": false,
+    "humiliation_or_cruelty": false,
+    "harassment": false,
+    "protected_class_targeting": false,
+    "sexual_content": false,
+    "graphic_content": false
+  },
+  "approval": {
+    "owner_idea_or_reference_required": true,
+    "exact_render_owner_approval_before_publish": true,
+    "paid_plan_change_requires_owner": true,
+    "paid_ads_require_owner": true
+  },
+  "generation": {
+    "max_render_attempts_per_approved_idea": 3,
+    "preserve_failed_attempt_evidence": true
+  }
+}
