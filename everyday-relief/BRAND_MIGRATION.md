@@ -14,9 +14,11 @@ The old game identity must not remain on the former PlayJolt / LoopJolt social a
 
 Name: `Twist Relief` (owner approved 2026-10-06)
 
-Bio: `Everyday frustration. Unexpected relief. Stories anyone can feel.`
+Bio: `Everyday frustration. Unexpected relief. Wordless visual stories with satisfying twists.`
 
 Avatar: `assets/twist-relief-avatar-v1.png`
+
+Cover: `assets/twist-relief-cover-v1.png`
 
 The public bio may use English. The language-free rule applies to the video itself.
 
@@ -68,3 +70,32 @@ LinkedIn currently shows `Reconnect LinkedIn` and is not treated as an active up
    reviewed account map above.
 
 Do not repurpose Absurd Mirror, AI-Saurus, personal, or unrelated business profiles as a shortcut.
+
+## Direct destination status on 2026-10-06
+
+### Facebook
+
+- Verified destination: Metricool page ID `242133155650377`, manageable Facebook profile ID
+  `61594675221979`.
+- Saved publicly: approved avatar, approved cover, exact approved English bio, and `Digital creator`
+  category.
+- No old PlayJolt/LoopJolt website link was present in the profile link section.
+- Name change from `Loopjolt` to `Twist Relief` is prepared but not submitted because Facebook
+  requires the owner's password at the final step. The owner must enter it directly; credentials are
+  never requested or handled by automation.
+- Username remains unset. `twistrelief` and `twistreliefstudio` did not produce an enabled save
+  action, consistent with a current eligibility or availability restriction.
+
+### Login-gated destinations
+
+- Instagram `playloopjolt`: unchanged; the active browser account was AI-Saurus, not the verified
+  target.
+- Threads `playloopjolt`: unchanged; the active browser account was AI-Saurus, not the verified
+  target.
+- TikTok `loopjolt2`: unchanged; the active browser account was AI-Saurus, not the verified target.
+- YouTube `UCKl5Kh2Nju1C67mBBcVb7Mw`: unchanged; the active Google account had no management access to
+  the target channel.
+
+The next direct-migration pass starts only after the owner signs into each exact target account. It
+must re-verify the handle/channel ID before saving the approved name, bio, avatar, cover where
+supported, and removal of old PlayJolt/LoopJolt links. No historical posts are deleted.
