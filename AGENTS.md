@@ -49,6 +49,12 @@ learning.
   package before saving them.
 - Existing connected accounts must be verified before any edit. Never guess which Metricool brand or
   social account is the former game account.
+- `Absurd Mirror` is an independent modern-art brand. Never treat its recent content direction as
+  evidence that it belongs to PlayJolt, Twist Relief, or this project, and never edit its Metricool
+  brand or social profiles as part of this migration.
+- Before changing a public profile, match the live Metricool brand ID, destination channel ID,
+  handle, and visible brand name against a reviewed account map. A matching topic, login, or recent
+  browser tab is not sufficient evidence.
 
 ## Engineering style
 
