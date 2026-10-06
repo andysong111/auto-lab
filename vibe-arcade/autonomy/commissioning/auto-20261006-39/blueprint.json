@@ -1,0 +1,73 @@
+{
+  "schema": "playjolt-foundry-blueprint/1",
+  "game_id": "GAME-20261006-339",
+  "title": "Halo Guard",
+  "slug": "halo-guard",
+  "family_id": "radial-guarding",
+  "design_id": "radial-guarding-original-02",
+  "lane": "original",
+  "runner": "foundry/radial-runner.cjs",
+  "theme": {
+    "singular": "Wisp",
+    "plural": "Wisps",
+    "arena": "Sky Citadel",
+    "progress": "RESCUED",
+    "success": "SKY CITADEL SECURED",
+    "failure": "CORE OVERRUN"
+  },
+  "foundry": {
+    "schema": "playjolt-foundry-lineage/1",
+    "lane": "original",
+    "family_id": "radial-guarding",
+    "design_id": "radial-guarding-original-02",
+    "runner": "foundry/radial-runner.cjs",
+    "learning_focus": [
+      "input-parity",
+      "lifecycle-integrity",
+      "action-feedback",
+      "difficulty-progression"
+    ],
+    "golden_baseline_id": "halo-guard-v9"
+  },
+  "learning_focus": [
+    "input-parity",
+    "lifecycle-integrity",
+    "action-feedback",
+    "difficulty-progression"
+  ],
+  "copy_policy": {
+    "allowed": [
+      "high-level session structure",
+      "first-turn clarity",
+      "progress readability",
+      "feedback cadence",
+      "replay motivation",
+      "commercial presentation patterns"
+    ],
+    "forbidden": [
+      "names or branding",
+      "characters or narrative",
+      "art, audio or level layouts",
+      "source code or extracted assets",
+      "distinctive rules copied as a whole",
+      "store copy or screenshots"
+    ]
+  },
+  "novelty_contract": "Productize the exact owner-approved PlayJolt Halo Guard V9 mechanic and Three.js presentation as a Factory-owned immutable product shell, with no generated gameplay or visual substitution.",
+  "golden_baseline_id": "halo-guard-v9",
+  "variation": {
+    "id": "exact-v9-product-shell-01",
+    "axis": "product-shell",
+    "changed_components": [
+      "halo-guard-v9-product-v1"
+    ]
+  },
+  "seeds": [
+    7,
+    19,
+    42,
+    77,
+    998,
+    74021
+  ]
+}

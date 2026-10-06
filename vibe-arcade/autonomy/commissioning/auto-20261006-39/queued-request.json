@@ -1,0 +1,11 @@
+{
+  "game_id": "GAME-20261006-339",
+  "candidate": "Halo Guard",
+  "runtime": "Three.js + GameKit v3 + RadialKit v1 + FeelAudio",
+  "paid_calls": false,
+  "auto_commission": true,
+  "authorized_provider_calls": 0,
+  "estimated_usd_ceiling": 0,
+  "production_authorized": false,
+  "request_revision": 1
+}
