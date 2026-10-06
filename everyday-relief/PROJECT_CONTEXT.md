@@ -106,11 +106,17 @@ Existing historical posts remain untouched by owner direction.
 - External channel rebrand: Metricool brand `7005118` is correctly migrated. The verified Facebook
   destination now has the approved avatar, cover, English bio, and `Digital creator` category. Its
   page name is now `Twist Relief`; Facebook's settings confirmed that as the current page name after
-  the owner completed the password-protected submission. A username could not yet be saved.
-  Instagram/Threads
-  `playloopjolt`, TikTok `loopjolt2`, and YouTube `UCKl5Kh2Nju1C67mBBcVb7Mw` remain unchanged until
-  the browser is authenticated as those exact accounts. AI-Saurus, Absurd Mirror, and unrelated
-  profiles must never be edited as substitutes.
+  the owner completed the password-protected submission. A username could not yet be saved. The
+  verified Instagram destination accepted the approved avatar, exact English bio, and `Digital
+  creator` category, and those three changes are visible on the public `playloopjolt` profile.
+  Instagram Accounts Center also accepted `Twist Relief` as the name and `twistrelief` as the
+  username, but the public profile still showed `Loopjolt` / `playloopjolt` and the new profile URL
+  was unavailable at the last verification. Treat those two fields as pending propagation, not as
+  complete. The old `vibe-arcade-dun.vercel.app` link remains because Instagram web only permits
+  link editing in the mobile app. Threads still publicly shows `Loopjolt` / `playloopjolt` and the
+  active Threads browser session belongs to AI-Saurus, so no direct Threads edit was attempted.
+  TikTok `loopjolt2` and YouTube `UCKl5Kh2Nju1C67mBBcVb7Mw` remain login-gated. AI-Saurus, Absurd
+  Mirror, and unrelated profiles must never be edited as substitutes.
 - The mistaken Absurd Mirror YouTube avatar still requires the prior asset or an owner-approved exact
   replacement. This recovery is independent of the verified Twist Relief migration.
 - No public video posting is authorized by this migration alone.
